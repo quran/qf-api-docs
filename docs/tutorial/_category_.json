@@ -1,0 +1,8 @@
+{
+  "label": "Oauth2",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "A set of tutorials on how to integrate your app with QuranFoundation's Oauth2 capabilities."
+  }
+}
