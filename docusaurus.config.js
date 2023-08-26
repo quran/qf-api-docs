@@ -69,6 +69,25 @@ const config = {
               },
             },
           },
+          'quran.com_versioned': {
+            specPath: "openAPI/quran.com/v4.json",
+            outputDir: "docs/quran.com_versioned", // No trailing slash
+            sidebarOptions: {
+              groupPathsBy: "tag",
+              categoryLinkSource: "tag",
+            },
+            version: "4.0.0", // Current version
+            label: "v4.0.0", // Current version label
+            baseUrl: "/docs/quran.com_versioned/4.0.0", // Leading slash is important
+            versions: {
+              "4.0.0": {
+                specPath: "openAPI/quran.com/v4.json",
+                outputDir: "docs/quran.com_versioned/4.0.0", // No trailing slash
+                label: "v4.0.0",
+                baseUrl: "/docs/quran.com_versioned/4.0.0/quran-com-api", // Leading slash is important
+              },
+            },
+          },
         },
       },
     ],
@@ -104,6 +123,10 @@ const config = {
             label: "APIs",
             position: "left",
             items: [
+              {
+                label: "Quran.com",
+                to: "docs/category/quran.com-api",
+              },
               {
                 label: "QuranReflect",
                 to: "docs/category/quranreflect-api",

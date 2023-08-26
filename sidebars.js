@@ -9,6 +9,7 @@
  Create as many sidebars as you want.
  */
  const quranReflectVersions = require("./docs/quranreflect_versioned/versions.json");
+ const quranDotComVersions = require("./docs/quran.com_versioned/versions.json");
  const {
    versionSelector,
    versionCrumb,
@@ -50,7 +51,6 @@ const sidebars = {
       items: require("./docs/quranreflect_versioned/sidebar.js"),
     },
   ],
-
   "quranreflect-1.0.0": [
     {
       type: "html",
@@ -73,6 +73,54 @@ const sidebars = {
         slug: "/category/quranreflect-api-1.0.0",
       },
       items: require("./docs/quranreflect_versioned/1.0.0/sidebar.js"),
+    },
+  ],
+  "quran.com": [
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionSelector(quranDotComVersions),
+      className: "version-button",
+    },
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionCrumb(`v4.0.0`),
+    },
+    {
+      type: "category",
+      label: "quran.com",
+      link: {
+        type: "generated-index",
+        title: "quran.com API (latest)",
+        description:"quran.com's APIs",
+        slug: "/category/quran.com-api",
+      },
+      items: require("./docs/quran.com_versioned/sidebar.js"),
+    },
+  ],
+  "quran.com-4.0.0": [
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionSelector(quranDotComVersions),
+      className: "version-button",
+    },
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionCrumb(`v4.0.0`),
+    },
+    {
+      type: "category",
+      label: "quran.com",
+      link: {
+        type: "generated-index",
+        title: "quran.com API (v4.0.0)",
+        description:"quran.com's APIs",
+        slug: "/category/quran.com-api-4.0.0",
+      },
+      items: require("./docs/quran.com_versioned/4.0.0/sidebar.js"),
     },
   ],
 };
