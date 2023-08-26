@@ -32,13 +32,49 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          docLayoutComponent: "@theme/DocPage",
+          docItemComponent: "@theme/ApiItem", // Derived from docusaurus-theme-openapi
         },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
       }),
     ],
   ],
+
+  plugins: [
+    [
+      "docusaurus-plugin-openapi-docs",
+      {
+        id: "openapi",
+        docsPluginId: "classic",
+        config: {
+          quranreflect_versioned: {
+            specPath: "openAPI/quranreflect/v1.json",
+            outputDir: "docs/quranreflect_versioned", // No trailing slash
+            sidebarOptions: {
+              groupPathsBy: "tag",
+              categoryLinkSource: "tag",
+            },
+            version: "1.0.0", // Current version
+            label: "v1.0.0", // Current version label
+            baseUrl: "/docs/quranreflect_versioned/1.0.0", // Leading slash is important
+            versions: {
+              "1.0.0": {
+                specPath: "openAPI/quranreflect/v1.json",
+                outputDir: "docs/quranreflect_versioned/1.0.0", // No trailing slash
+                label: "v1.0.0",
+                baseUrl: "/docs/quranreflect_versioned/1.0.0/quranreflect-v-1-api", // Leading slash is important
+              },
+            },
+          },
+        },
+      },
+    ],
+  ],
+
+  themes: ["docusaurus-theme-openapi-docs"],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -60,7 +96,19 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Tutorials',
+          },
+          {
+            sidebarId: 'APIsSidebar',
+            type: "dropdown",
+            label: "APIs",
+            position: "left",
+            items: [
+              {
+                label: "QuranReflect",
+                to: "docs/category/quranreflect-api",
+              },
+            ],
           },
           {
             href: 'https://github.com/quran',
@@ -108,6 +156,59 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        // TODO: here
+        // additionalLanguages: ["ruby", "csharp", "php", "java", "powershell"],
+        // languageTabs: [
+        //   {
+        //     highlight: "bash",
+        //     language: "curl",
+        //     logoClass: "bash",
+        //   },
+        //   {
+        //     highlight: "python",
+        //     language: "python",
+        //     logoClass: "python",
+        //     variant: "requests",
+        //   },
+        //   {
+        //     highlight: "go",
+        //     language: "go",
+        //     logoClass: "go",
+        //   },
+        //   {
+        //     highlight: "javascript",
+        //     language: "nodejs",
+        //     logoClass: "nodejs",
+        //     variant: "axios",
+        //   },
+        //   {
+        //     highlight: "ruby",
+        //     language: "ruby",
+        //     logoClass: "ruby",
+        //   },
+        //   {
+        //     highlight: "csharp",
+        //     language: "csharp",
+        //     logoClass: "csharp",
+        //     variant: "httpclient",
+        //   },
+        //   {
+        //     highlight: "php",
+        //     language: "php",
+        //     logoClass: "php",
+        //   },
+        //   {
+        //     highlight: "java",
+        //     language: "java",
+        //     logoClass: "java",
+        //     variant: "unirest",
+        //   },
+        //   {
+        //     highlight: "powershell",
+        //     language: "powershell",
+        //     logoClass: "powershell",
+        //   },
+        // ],
       },
     }),
 };
