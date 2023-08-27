@@ -6,17 +6,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Quran Foundation API Docs',
-  tagline: 'Documentation Portal for QuranFoundation',
+  title: "Quran Foundation's Documentation Portal",
+  tagline: 'Build Quran-related apps in no time!',
   // Set the production url of your site here
   url: 'https://api-docs.quran.com',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
-
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
@@ -24,7 +20,6 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
   presets: [
     [
       'classic',
@@ -118,11 +113,15 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       metadata: [
-        {name: 'keywords', content: 'quran API, quran foundation APIs'}
+        {
+          name: 'keywords',
+          content: 'quran API, quran foundation APIs, Muslim developer, Muslim Apps, Quran app'
+        }
       ],
       docs: {
         sidebar: {
           hideable: true,
+          autoCollapseCategories: true
         },
       },
       // Replace with your project's social card
@@ -167,11 +166,19 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'API Docs',
             items: [
               {
-                label: 'Tutorials',
-                to: '/docs/intro',
+                label: 'Quran.com',
+                to: '/docs/category/quran.com-api',
+              },
+              {
+                label: 'Auth',
+                to: 'docs/category/auth-api',
+              },
+              {
+                label: 'QuranReflect',
+                to: 'docs/category/quranreflect-api',
               },
             ],
           },
