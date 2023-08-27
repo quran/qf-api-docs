@@ -143,14 +143,19 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "auth",
+      label: "Auth APIs",
       link: {
         type: "generated-index",
         title: "auth API (latest)",
-        description: "auth's APIs",
+        description: "Auth APIs",
         slug: "/category/auth-api",
       },
       items: require("./docs/auth_versioned/sidebar.js"),
+    },
+    {
+      type: "doc",
+      label: "Scopes",
+      id: "auth_versioned/scopes",
     },
   ],
   "auth-1.0.0": [
@@ -167,14 +172,19 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "auth",
+      label: "Auth APIs",
       link: {
         type: "generated-index",
         title: "auth API (v1.0.0)",
-        description: "auth's APIs",
+        description: "Auth APIs",
         slug: "/category/auth-api-1.0.0",
       },
       items: require("./docs/auth_versioned/1.0.0/sidebar.js"),
+    },
+    {
+      type: "doc",
+      label: "Scopes",
+      id: "auth_versioned/scopes",
     },
   ],
 };
