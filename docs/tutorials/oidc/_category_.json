@@ -1,5 +1,5 @@
 {
-  "label": "Oauth2",
+  "label": "Oauth2/Open ID Connect",
   "position": 1,
   "link": {
     "type": "generated-index",
