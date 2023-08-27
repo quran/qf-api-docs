@@ -1,6 +1,6 @@
 {
-  "name": "qf-docs",
-  "version": "0.0.0",
+  "name": "qf-api-docs",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
