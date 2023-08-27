@@ -69,6 +69,25 @@ const config = {
               },
             },
           },
+          auth_versioned: {
+            specPath: "openAPI/auth/v1.json",
+            outputDir: "docs/auth_versioned", // No trailing slash
+            sidebarOptions: {
+              groupPathsBy: "tag",
+              categoryLinkSource: "tag",
+            },
+            version: "1.0.0", // Current version
+            label: "v1.0.0", // Current version label
+            baseUrl: "/docs/auth_versioned/1.0.0", // Leading slash is important
+            versions: {
+              "1.0.0": {
+                specPath: "openAPI/auth/v1.json",
+                outputDir: "docs/auth_versioned/1.0.0", // No trailing slash
+                label: "v1.0.0",
+                baseUrl: "/docs/auth_versioned/1.0.0/quran-com-auth-v-1-api", // Leading slash is important
+              },
+            },
+          },
           'quran.com_versioned': {
             specPath: "openAPI/quran.com/v4.json",
             outputDir: "docs/quran.com_versioned", // No trailing slash
@@ -128,6 +147,10 @@ const config = {
                 to: "docs/category/quran.com-api",
               },
               {
+                label: "Auth",
+                to: "docs/category/auth-api",
+              },
+              {
                 label: "QuranReflect",
                 to: "docs/category/quranreflect-api",
               },
@@ -179,59 +202,6 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        // TODO: here
-        // additionalLanguages: ["ruby", "csharp", "php", "java", "powershell"],
-        // languageTabs: [
-        //   {
-        //     highlight: "bash",
-        //     language: "curl",
-        //     logoClass: "bash",
-        //   },
-        //   {
-        //     highlight: "python",
-        //     language: "python",
-        //     logoClass: "python",
-        //     variant: "requests",
-        //   },
-        //   {
-        //     highlight: "go",
-        //     language: "go",
-        //     logoClass: "go",
-        //   },
-        //   {
-        //     highlight: "javascript",
-        //     language: "nodejs",
-        //     logoClass: "nodejs",
-        //     variant: "axios",
-        //   },
-        //   {
-        //     highlight: "ruby",
-        //     language: "ruby",
-        //     logoClass: "ruby",
-        //   },
-        //   {
-        //     highlight: "csharp",
-        //     language: "csharp",
-        //     logoClass: "csharp",
-        //     variant: "httpclient",
-        //   },
-        //   {
-        //     highlight: "php",
-        //     language: "php",
-        //     logoClass: "php",
-        //   },
-        //   {
-        //     highlight: "java",
-        //     language: "java",
-        //     logoClass: "java",
-        //     variant: "unirest",
-        //   },
-        //   {
-        //     highlight: "powershell",
-        //     language: "powershell",
-        //     logoClass: "powershell",
-        //   },
-        // ],
       },
     }),
 };

@@ -10,6 +10,7 @@
  */
  const quranReflectVersions = require("./docs/quranreflect_versioned/versions.json");
  const quranDotComVersions = require("./docs/quran.com_versioned/versions.json");
+ const authVersions = require("./docs/auth_versioned/versions.json");
  const {
    versionSelector,
    versionCrumb,
@@ -121,6 +122,54 @@ const sidebars = {
         slug: "/category/quran.com-api-4.0.0",
       },
       items: require("./docs/quran.com_versioned/4.0.0/sidebar.js"),
+    },
+  ],
+  "auth": [
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionSelector(authVersions),
+      className: "version-button",
+    },
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionCrumb(`v1.0.0`),
+    },
+    {
+      type: "category",
+      label: "auth",
+      link: {
+        type: "generated-index",
+        title: "auth API (latest)",
+        description:"auth's APIs",
+        slug: "/category/auth-api",
+      },
+      items: require("./docs/auth_versioned/sidebar.js"),
+    },
+  ],
+  "auth-1.0.0": [
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionSelector(authVersions),
+      className: "version-button",
+    },
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionCrumb(`v1.0.0`),
+    },
+    {
+      type: "category",
+      label: "auth",
+      link: {
+        type: "generated-index",
+        title: "auth API (v1.0.0)",
+        description:"auth's APIs",
+        slug: "/category/auth-api-1.0.0",
+      },
+      items: require("./docs/auth_versioned/1.0.0/sidebar.js"),
     },
   ],
 };
