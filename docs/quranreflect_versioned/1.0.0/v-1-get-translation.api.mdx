@@ -1,0 +1,42 @@
+---
+id: v-1-get-translation
+title: "Get translation"
+description: "Get translations text of specifc surah, and range of ayah."
+sidebar_label: "Get translation"
+hide_title: true
+hide_table_of_contents: true
+api: {"responses":{"200":{"description":"OK","headers":{},"content":{"application/json":{"schema":{"type":"object"},"example":{"citation_texts":[{"id":22037,"text":"But seek, through that which Allah has given you, the home of the Hereafter; and [yet], do not forget your share of the world. And do good as Allah has done good to you. And desire not corruption in the land. Indeed, Allah does not like corrupters.\"","number":77}]}}}}},"tags":["Misc"],"parameters":[{"name":"client_auth_token","in":"query","required":true,"schema":{"type":"string"},"description":"Client API token"},{"schema":{"type":"string"},"in":"query","name":"citation_id","description":"citation/surah number","required":true},{"schema":{"type":"string"},"in":"query","name":"translation_id","description":"translation","required":true},{"schema":{"type":"string"},"in":"query","name":"from","description":"from ayah"},{"schema":{"type":"string"},"in":"query","name":"to","description":"to ayah"}],"operationId":"v1-get-translation","description":"Get translations text of specifc surah, and range of ayah.","deprecated":true,"method":"get","path":"/citation_texts/citation_texts_from_filter","servers":[{"url":"https://quranreflect.com","description":"Production"}],"securitySchemes":{"apikey":{"name":"client_auth_token","type":"apiKey","in":"query"}},"info":{"title":"QuranReflect V1 API","description":"QuranReflect V1 APIs allows your app to interact with https://quranreflect.com resources. \n\n ## Getting started \n\n Our APIs are not public and require an API key. Please contact us via email `amer@qreflect.com` to get yours. \n\n ## User-specific APIs  \n\n All user-specific APIs (For example [Creating a post](/operations/post-create)) require the following headers:  \n\n - `access-token` the user access token, this token can be changed with every request. \n\n - `token-type`  value should always be `Bearer`. \n\n - `client` the client token, this too can be changed with every request. \n\n - `expiry` unix timestamp (in seconds) to indicate when access token will expire. \n\n - `uid` user's unique identifier. \n\n - `Authorization`: complete authorization header. Sample value `Bearer eyJhY2Nlc3MtdG9rZW4iOiJ4cjBrb3g1eXdVM3JrelVMZjhVUzlBIiwidG9rZW4tdHlwZSI6IkJlYXJlciIsImNsaWVudCI6IkpQeFJCRTloVmRBbDlTX1BVdEhJN2ciLCJleHBpcnkiOiIxNzA1OTQwNTQ3IiwidWlkIjoiYW1lci5hYmJhc0BtYWlsaW5hdG9yLmNvbSJ9`. \n\n The values of `access-token`, `client`, `expiry`, and `uid` headers will be returned in the response of [User Sign in API](/operations/user-signin).","version":"1.0.0"},"postman":{"name":"Get translation","description":{"content":"Get translations text of specifc surah, and range of ayah.","type":"text/plain"},"url":{"path":["citation_texts","citation_texts_from_filter"],"host":["{{baseUrl}}"],"query":[{"disabled":false,"description":{"content":"(Required) Client API token","type":"text/plain"},"key":"client_auth_token","value":""},{"disabled":false,"description":{"content":"(Required) citation/surah number","type":"text/plain"},"key":"citation_id","value":""},{"disabled":false,"description":{"content":"(Required) translation","type":"text/plain"},"key":"translation_id","value":""},{"disabled":false,"description":{"content":"from ayah","type":"text/plain"},"key":"from","value":""},{"disabled":false,"description":{"content":"to ayah","type":"text/plain"},"key":"to","value":""}],"variable":[]},"header":[{"key":"Accept","value":"application/json"}],"method":"GET"}}
+sidebar_class_name: "get api-method"
+info_path: docs/quranreflect_versioned/1.0.0/quranreflect-v-1-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## Get translation
+
+:::caution deprecated
+
+This endpoint has been deprecated and may be removed in future versions of the API.
+
+:::
+
+Get translations text of specifc surah, and range of ayah.
+
+<details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Query Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"client_auth_token","in":"query","required":true,"schema":{"type":"string"},"description":"Client API token"}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"schema":{"type":"string"},"in":"query","name":"citation_id","description":"citation/surah number","required":true}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"schema":{"type":"string"},"in":"query","name":"translation_id","description":"translation","required":true}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"schema":{"type":"string"},"in":"query","name":"from","description":"from ayah"}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"schema":{"type":"string"},"in":"query","name":"to","description":"to ayah"}}></ParamsItem></ul></div></details><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+OK
+
+</div><details style={{"textAlign":"left","marginBottom":"1rem"}} data-collaposed={true} open={false}><summary style={{}}><strong>Response Headers</strong></summary><ul style={{"marginLeft":"1rem"}}></ul></details><div><MimeTabs schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs><TabItem label={"Schema"} value={"Schema"}><details style={{}} data-collapsed={false} open={true}><summary style={{"textAlign":"left"}}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><div style={{"marginTop":".5rem","marginBottom":".5rem","marginLeft":"1rem"}}>
+
+object
+
+</div></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{}"} language={"json"}></ResponseSamples></TabItem><TabItem label={"Example"} value={"Example"}><ResponseSamples responseExample={"{\n  \"citation_texts\": [\n    {\n      \"id\": 22037,\n      \"text\": \"But seek, through that which Allah has given you, the home of the Hereafter; and [yet], do not forget your share of the world. And do good as Allah has done good to you. And desire not corruption in the land. Indeed, Allah does not like corrupters.\\\"\",\n      \"number\": 77\n    }\n  ]\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div>
+      

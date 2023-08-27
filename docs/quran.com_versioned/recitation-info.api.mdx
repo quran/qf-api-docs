@@ -1,0 +1,30 @@
+---
+id: recitation-info
+title: "Recitation Info"
+description: "Get information of a specific recitation. Could include detail about the reciter, recitation style. When and who recorded it etc."
+sidebar_label: "Recitation Info"
+hide_title: true
+hide_table_of_contents: true
+api: {"operationId":"recitation-info","tags":["Resources"],"description":"Get information of a specific recitation. Could include detail about the reciter, recitation style. When and who recorded it etc.","responses":{"200":{"description":"","content":{"application/json":{"schema":{"type":"object","properties":{"info":{"type":"object","properties":{"id":{"type":"integer"},"info":{"nullable":true,"type":"string"}}}}},"examples":{"response":{"value":{"info":{"id":1,"info":null}}}}}}}},"parameters":[{"name":"recitation_id","in":"path","required":true,"schema":{"type":"string"}}],"method":"get","path":"/resources/recitations/{recitation_id}/info","servers":[{"url":"https://api.quran.com/api/v4"}],"info":{"version":"v4","title":"Quran.com API","description":" Documentation of Quran.com v4 API"},"postman":{"name":"Recitation Info","description":{"content":"Get information of a specific recitation. Could include detail about the reciter, recitation style. When and who recorded it etc.","type":"text/plain"},"url":{"path":["resources","recitations",":recitation_id","info"],"host":["{{baseUrl}}"],"query":[],"variable":[{"disabled":false,"description":{"content":"(Required) ","type":"text/plain"},"type":"any","value":"","key":"recitation_id"}]},"header":[{"key":"Accept","value":"application/json"}],"method":"GET"}}
+sidebar_class_name: "get api-method"
+info_path: docs/quran.com_versioned/quran-com-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## Recitation Info
+
+
+
+Get information of a specific recitation. Could include detail about the reciter, recitation style. When and who recorded it etc.
+
+<details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Path Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"recitation_id","in":"path","required":true,"schema":{"type":"string"}}}></ParamsItem></ul></div></details><div><ApiTabs><TabItem label={"200"} value={"200"}><div></div><div><MimeTabs schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs><TabItem label={"Schema"} value={"Schema"}><details style={{}} data-collapsed={false} open={true}><summary style={{"textAlign":"left"}}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={true} className={"schemaItem"}><details style={{}}><summary style={{}}><strong>info</strong><span style={{"opacity":"0.6"}}> object</span></summary><div style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"id"} required={false} schemaName={"integer"} qualifierMessage={undefined} schema={{"type":"integer"}}></SchemaItem><SchemaItem collapsible={false} name={"info"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"nullable":true,"type":"string"}}></SchemaItem></div></details></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"info\": {\n    \"id\": 0,\n    \"info\": \"string\"\n  }\n}"} language={"json"}></ResponseSamples></TabItem><TabItem label={"response"} value={"response"}><ResponseSamples responseExample={"{\n  \"info\": {\n    \"id\": 1,\n    \"info\": null\n  }\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div>
+      
