@@ -121,6 +121,13 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      algolia: {
+        appId: '9C4DXYS7OF',
+        apiKey: '261759ead04074b931793780067f2c24',
+        indexName: 'api-quran',
+        contextualSearch: true,
+        searchPagePath: 'search',
+      },
       metadata: [
         {
           name: 'keywords',
