@@ -38,7 +38,11 @@ const config = {
           changefreq: 'monthly',
           priority: 0.5,
           filename: 'sitemap.xml',
-        }
+        },
+        gtag: {
+          trackingID: 'G-8986R74P88',
+          anonymizeIP: true,
+        },
       }),
     ],
   ],
