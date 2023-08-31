@@ -27,7 +27,7 @@ QuranReflect V1 APIs allows your app to interact with https://quranreflect.com r
 
  ## User-specific APIs  
 
- All user-specific APIs (For example [Creating a post](/operations/post-create)) require the following headers:  
+ All user-specific APIs (For example [Creating a post](/docs/quranreflect_versioned/quranreflect-v-1-api)) require the following headers:  
 
  - `access-token` the user access token, this token can be changed with every request. 
 
@@ -41,7 +41,7 @@ QuranReflect V1 APIs allows your app to interact with https://quranreflect.com r
 
  - `Authorization`: complete authorization header. Sample value `Bearer eyJhY2Nlc3MtdG9rZW4iOiJ4cjBrb3g1eXdVM3JrelVMZjhVUzlBIiwidG9rZW4tdHlwZSI6IkJlYXJlciIsImNsaWVudCI6IkpQeFJCRTloVmRBbDlTX1BVdEhJN2ciLCJleHBpcnkiOiIxNzA1OTQwNTQ3IiwidWlkIjoiYW1lci5hYmJhc0BtYWlsaW5hdG9yLmNvbSJ9`. 
 
- The values of `access-token`, `client`, `expiry`, and `uid` headers will be returned in the response of [User Sign in API](/operations/user-signin).
+ The values of `access-token`, `client`, `expiry`, and `uid` headers will be returned in the response of [User Sign in API](/docs/quranreflect_versioned/user-signin).
 
 <div style={{"marginBottom":"2rem"}}><h2 id={"authentication"} style={{"marginBottom":"1rem"}}>Authentication</h2><SchemaTabs className={"openapi-tabs__security-schemes"}><TabItem label={"API Key: apikey"} value={"apikey"}><div><table><tbody><tr><th>Security Scheme Type:</th><td>apiKey</td></tr><tr><th>Header parameter name:</th><td>client_auth_token</td></tr></tbody></table></div></TabItem></SchemaTabs></div>
       

@@ -8,7 +8,7 @@ Quran.com APIs use the [OAuth 2.0 protocol](https://www.rfc-editor.org/rfc/rfc67
 
 To begin, [obtain OAuth 2.0 client credentials](#obtaining-oauth-20-client-credentials) from Quran.com. Then your client application requests an access token from Quran.com Authorization Server, extracts a token from the response, and sends the token to the Quran.com API that you want to access.
 
-This page gives an overview of the OAuth 2.0 authorization scenarios that Quran.com supports, and provides links to more detailed content. For details about using OAuth 2.0 for authentication, see [OpenID Connect](/auth/guides/openid-connect).
+This page gives an overview of the OAuth 2.0 authorization scenarios that Quran.com supports, and provides links to more detailed content. For details about using OAuth 2.0 for authentication, see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
 # Overview
 
@@ -69,4 +69,4 @@ Access tokens have limited lifetimes. If your application needs access to a Qura
 
 ## Example
 
-We have created an [Example OAuth2 client](https://github.com/quran/quran-oauth2-example) that executes step 2 (authorzation request) and receives a callback with tokens required to perform steps 4 and 5 upon successful authorization request. We have used the Example client to connect to Quran.com Authorization server which can be found [here](https://oauth2-client-example.quran.com/). The generated accessToken resulting from the callback can be used to access V1 resource server APIs listed [here](/auth/v1).
+We have created an [Example OAuth2 client](https://github.com/quran/quran-oauth2-example) that executes step 2 (authorzation request) and receives a callback with tokens required to perform steps 4 and 5 upon successful authorization request. We have used the Example client to connect to Quran.com Authorization server which can be found [here](https://oauth2-client-example.quran.com/). The generated accessToken resulting from the callback can be used to access V1 resource server APIs listed [here](/docs/category/auth-api).
