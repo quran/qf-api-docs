@@ -33,13 +33,13 @@
           "type": "number",
           "minimum": 1,
           "maximum": 114,
-          "description": "The number of the chapter (surah)"
+          "description": "The number of the chapter (Surah)"
         }
       ],
       "get": {
         "operationId": "chapter-reciter-audio-file",
         "summary": "Get chapter's audio file of a reciter",
-        "description": "Get the audio file of a chapter (surah) recited by a specific reciter, in MP3 format ",
+        "description": "Get the audio file of a chapter (Surah) recited by a specific reciter, in MP3 format ",
         "responses": {
           "200": {
             "description": "",
@@ -87,7 +87,7 @@
         "tags": [
           "Audio"
         ],
-        "description": "Get a complete list of recitations by a reciter, per chapter (surah)",
+        "description": "Get a complete list of recitations by a reciter, per chapter (Surah)",
         "parameters": [
           {
             "name": "language",
@@ -146,7 +146,7 @@
         "tags": [
           "Chapters"
         ],
-        "description": "Get a complete list of chapters (surah) in the Qur'an, along with the place and order of revelation, the name in Arabic and transliteration of the name using Romanized characters, the amount of verses contained and the pages that it occupies",
+        "description": "Get a complete list of chapters (Surah) in the Qur'an, along with the place and order of revelation, the name in Arabic and transliteration of the name using Romanized characters, the amount of verses contained and the pages that it occupies",
         "parameters": [
           {
             "name": "language",
@@ -200,7 +200,7 @@
         {
           "name": "id",
           "in": "path",
-          "description": "Chapter (surah) ID (1-114)",
+          "description": "Chapter (Surah) ID (1-114)",
           "required": true,
           "type": "integer",
           "minimum": 1,
@@ -213,7 +213,7 @@
         "tags": [
           "Chapters"
         ],
-        "description": "Get details of a single chapter (surah) in the Qur'an, along with the place and order of revelation, the name in Arabic and transliteration of the name using Romanized characters, the amount of verses contained and the pages that it occupies",
+        "description": "Get details of a single chapter (Surah) in the Qur'an, along with the place and order of revelation, the name in Arabic and transliteration of the name using Romanized characters, the amount of verses contained and the pages that it occupies",
         "parameters": [
           {
             "name": "language",
@@ -277,7 +277,7 @@
         "tags": [
           "Chapters"
         ],
-        "description": "Get a description of a chapter (surah) in the Qur'an, defaults to `English`",
+        "description": "Get a description of a chapter (Surah) in the Qur'an, defaults to `English`",
         "parameters": [
           {
             "name": "language",
@@ -331,7 +331,7 @@
         "tags": [
           "Verses"
         ],
-        "description": "Get list of information for a chapter (surah), along with verse by verse information such as the Juz, Hizb and Rub el Hizb that the verse is contained within, as well as the key of the verse in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1)",
+        "description": "Get list of information for a chapter (Surah), along with verse by verse information such as the Juz, Hizb and Rub el Hizb that the verse is contained within, as well as the key of the verse in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1)",
         "parameters": [
           {
             "name": "language",
@@ -343,7 +343,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each Ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
             "type": "string",
             "default": true,
             "enum": [
@@ -354,19 +354,19 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "IDs of translations to load for each verse (ayah), separated by commas (`,`).",
+            "description": "IDs of translations to load for each verse (Ayah), separated by commas (`,`).",
             "type": "string"
           },
           {
             "name": "audio",
             "in": "query",
-            "description": "ID of recitation if you want to load audio of each verse (ayah).",
+            "description": "ID of recitation if you want to load audio of each verse (Ayah).",
             "type": "integer"
           },
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "IDs of tafisrs to load for each verse (ayah) if you want to load tafisrs, separated by commas (`,`).",
+            "description": "IDs of Tafsirs to load for each verse (Ayah) if you want to load tafisrs, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -384,7 +384,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "List of verse (ayah) fields, separated by commas (`,`).",
+            "description": "List of verse (Ayah) fields, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -502,7 +502,7 @@
         "tags": [
           "Verses"
         ],
-        "description": "Get all verses (ayah) of a specific Madani Mushaf page (1 to 604)",
+        "description": "Get all verses (Ayah) of a specific Madani Mushaf page (1 to 604)",
         "parameters": [
           {
             "name": "language",
@@ -514,7 +514,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each Ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
             "type": "string",
             "default": true,
             "enum": [
@@ -525,19 +525,19 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "IDs of translations to load for each verse (ayah), separated by commas (`,`).",
+            "description": "IDs of translations to load for each verse (Ayah), separated by commas (`,`).",
             "type": "string"
           },
           {
             "name": "audio",
             "in": "query",
-            "description": "ID of recitation if you want to load audio of each verse (ayah).",
+            "description": "ID of recitation if you want to load audio of each verse (Ayah).",
             "type": "integer"
           },
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "IDs of tafisrs to load for each verse (ayah) if you want to load tafisrs, separated by commas (`,`).",
+            "description": "IDs of Tafsirs to load for each verse (Ayah) if you want to load tafisrs, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -555,7 +555,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "List of verse (ayah) fields, separated by commas (`,`).",
+            "description": "List of verse (Ayah) fields, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -682,7 +682,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each Ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
             "type": "string",
             "default": true,
             "enum": [
@@ -693,19 +693,19 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "IDs of translations to load for each verse (ayah), separated by commas (`,`).",
+            "description": "IDs of translations to load for each verse (Ayah), separated by commas (`,`).",
             "type": "string"
           },
           {
             "name": "audio",
             "in": "query",
-            "description": "ID of recitation if you want to load audio of each verse (ayah).",
+            "description": "ID of recitation if you want to load audio of each verse (Ayah).",
             "type": "integer"
           },
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "IDs of tafisrs to load for each verse (ayah) if you want to load tafisrs, separated by commas (`,`).",
+            "description": "IDs of Tafsirs to load for each verse (Ayah) if you want to load tafisrs, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -723,7 +723,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "List of verse (ayah) fields, separated by commas (`,`).",
+            "description": "List of verse (Ayah) fields, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -851,7 +851,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each Ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
             "type": "string",
             "default": true,
             "enum": [
@@ -862,19 +862,19 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "IDs of translations to load for each verse (ayah), separated by commas (`,`).",
+            "description": "IDs of translations to load for each verse (Ayah), separated by commas (`,`).",
             "type": "string"
           },
           {
             "name": "audio",
             "in": "query",
-            "description": "ID of recitation if you want to load audio of each verse (ayah).",
+            "description": "ID of recitation if you want to load audio of each verse (Ayah).",
             "type": "integer"
           },
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "IDs of tafisrs to load for each verse (ayah) if you want to load tafisrs, separated by commas (`,`).",
+            "description": "IDs of Tafsirs to load for each verse (Ayah) if you want to load tafisrs, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -892,7 +892,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "List of verse (ayah) fields, separated by commas (`,`).",
+            "description": "List of verse (Ayah) fields, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -1020,7 +1020,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each Ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
             "type": "string",
             "default": true,
             "enum": [
@@ -1031,19 +1031,19 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "IDs of translations to load for each verse (ayah), separated by commas (`,`).",
+            "description": "IDs of translations to load for each verse (Ayah), separated by commas (`,`).",
             "type": "string"
           },
           {
             "name": "audio",
             "in": "query",
-            "description": "ID of recitation if you want to load audio of each verse (ayah).",
+            "description": "ID of recitation if you want to load audio of each verse (Ayah).",
             "type": "integer"
           },
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "IDs of tafisrs to load for each verse (ayah) if you want to load tafisrs, separated by commas (`,`).",
+            "description": "IDs of Tafsirs to load for each verse (Ayah) if you want to load tafisrs, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -1061,7 +1061,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "List of verse (ayah) fields, separated by commas (`,`).",
+            "description": "List of verse (Ayah) fields, separated by commas (`,`).",
             "type": "string"
           }
         ],
@@ -1159,7 +1159,7 @@
         "tags": [
           "Verses"
         ],
-        "description": "Get a specific verse (ayah) by it's key, in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1)",
+        "description": "Get a specific verse (Ayah) by its key, in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1)",
         "parameters": [
           {
             "name": "language",
@@ -1171,7 +1171,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each Ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
             "type": "string",
             "default": true,
             "enum": [
@@ -1182,19 +1182,19 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "IDs of translations to load for each verse (ayah), separated by commas (`,`).",
+            "description": "IDs of translations to load for each verse (Ayah), separated by commas (`,`).",
             "type": "string"
           },
           {
             "name": "audio",
             "in": "query",
-            "description": "ID of recitation if you want to load audio of each verse (ayah).",
+            "description": "ID of recitation if you want to load audio of each verse (Ayah).",
             "type": "integer"
           },
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "IDs of tafisrs to load for each verse (ayah) if you want to load tafisrs, separated by commas (`,`).",
+            "description": "IDs of Tafsirs to load for each verse (Ayah) if you want to load tafisrs, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -1212,7 +1212,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "List of verse (ayah) fields, separated by commas (`,`).",
+            "description": "List of verse (Ayah) fields, separated by commas (`,`).",
             "type": "string"
           }
         ],
@@ -1301,7 +1301,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each Ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
             "type": "string",
             "default": true,
             "enum": [
@@ -1312,19 +1312,19 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "IDs of translations to load for each verse (ayah), separated by commas (`,`).",
+            "description": "IDs of translations to load for each verse (Ayah), separated by commas (`,`).",
             "type": "string"
           },
           {
             "name": "audio",
             "in": "query",
-            "description": "ID of recitation if you want to load audio of each verse (ayah).",
+            "description": "ID of recitation if you want to load audio of each verse (Ayah).",
             "type": "integer"
           },
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "IDs of tafisrs to load for each verse (ayah) if you want to load tafisrs, separated by commas (`,`).",
+            "description": "IDs of Tafsirs to load for each verse (Ayah) if you want to load tafisrs, separated by commas (`,`).",
             "type": "string"
           },
           {
@@ -1342,7 +1342,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "List of verse (ayah) fields, separated by commas (`,`).",
+            "description": "List of verse (Ayah) fields, separated by commas (`,`).",
             "type": "string"
           }
         ],
@@ -1431,16 +1431,16 @@
     "/quran/verses/indopak": {
       "get": {
         "operationId": "QURAN-verses-indopak",
-        "summary": "Get Indopak Script of ayah",
+        "summary": "Get Indopak Script of Ayah",
         "tags": [
           "Quran"
         ],
-        "description": "Get Indopak script of ayah. Use query strings to filter results, leave all query string blank if you want to fetch Indopak script of whole Quran.",
+        "description": "Get Indopak script of Ayah. Use query strings to filter results, leave all query string blank if you want to fetch Indopak script of whole Quran.",
         "parameters": [
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get indopak script of a specific surah.",
+            "description": "If you want to get indopak script of a specific Surah.",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -1448,7 +1448,7 @@
           {
             "name": "juz_number",
             "in": "query",
-            "description": "If you want to get indopak script of a specific juz.",
+            "description": "If you want to get Indopak script of a specific Juz.",
             "type": "integer",
             "minimum": 1,
             "maximum": 30
@@ -1456,7 +1456,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get indopak script of a Madani Muhsaf page",
+            "description": "If you want to get Indopak script of a Madani Muhsaf page",
             "type": "integer",
             "minimum": 1,
             "maximum": 604
@@ -1464,7 +1464,7 @@
           {
             "name": "hizb_number",
             "in": "query",
-            "description": "If you want to get indopak script of a specific hizb.",
+            "description": "If you want to get Indopak script of a specific Hizb.",
             "type": "integer",
             "minimum": 1,
             "maximum": 60
@@ -1472,7 +1472,7 @@
           {
             "name": "rub_el_hizb_number",
             "in": "query",
-            "description": "If you want to get indopak script of a specific Rub el Hizb.",
+            "description": "If you want to get Indopak script of a specific Rub el Hizb.",
             "type": "integer",
             "minimum": 1,
             "maximum": 240
@@ -1480,7 +1480,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get indopak script of a specific ayah.",
+            "description": "If you want to get Indopak script of a specific Ayah.",
             "type": "string"
           }
         ],
@@ -1527,16 +1527,16 @@
     "/quran/verses/uthmani_tajweed": {
       "get": {
         "operationId": "QURAN-verses-uthmani-tajweed",
-        "summary": "Get Uthmani Tajweed Script of ayah",
+        "summary": "Get Uthmani Tajweed Script of Ayah",
         "tags": [
           "Quran"
         ],
-        "description": "Get Uthmani color coded tajweed text of ayah. Tajweed rules are embeded in text as `tajweed` html tags.",
+        "description": "Get Uthmani color coded tajweed text of Ayah. Tajweed rules are embeded in text as `tajweed` html tags.",
         "parameters": [
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get text of a specific surah.",
+            "description": "If you want to get text of a specific Surah.",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -1544,7 +1544,7 @@
           {
             "name": "juz_number",
             "in": "query",
-            "description": "If you want to get text of a specific juz.",
+            "description": "If you want to get text of a specific Juz.",
             "type": "integer",
             "minimum": 1,
             "maximum": 30
@@ -1560,7 +1560,7 @@
           {
             "name": "hizb_number",
             "in": "query",
-            "description": "If you want to get text of a specific hizb.",
+            "description": "If you want to get text of a specific Hizb.",
             "type": "integer",
             "minimum": 1,
             "maximum": 60
@@ -1576,7 +1576,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get text of a specific ayah.",
+            "description": "If you want to get text of a specific Ayah.",
             "type": "string"
           }
         ],
@@ -1623,16 +1623,16 @@
     "/quran/verses/uthmani": {
       "get": {
         "operationId": "QURAN-verses-uthmani",
-        "summary": "Get Uthmani Script of ayah",
+        "summary": "Get Uthmani Script of Ayah",
         "tags": [
           "Quran"
         ],
-        "description": "Get Uthmani script of ayah. Use query strings to filter results, leave all query string blank if you want to fetch Uthmani script of whole Quran.",
+        "description": "Get Uthmani script of Ayah. Use query strings to filter results, leave all query string blank if you want to fetch Uthmani script of whole Quran.",
         "parameters": [
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a specific surah.",
+            "description": "If you want to get Uthmani script of a specific Surah.",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -1640,7 +1640,7 @@
           {
             "name": "juz_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a specific juz.",
+            "description": "If you want to get Uthmani script of a specific Juz.",
             "type": "integer",
             "minimum": 1,
             "maximum": 30
@@ -1656,7 +1656,7 @@
           {
             "name": "hizb_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a specific hizb.",
+            "description": "If you want to get Uthmani script of a specific Hizb.",
             "type": "integer",
             "minimum": 1,
             "maximum": 60
@@ -1672,7 +1672,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get Uthmani script of a specific ayah.",
+            "description": "If you want to get Uthmani script of a specific Ayah.",
             "type": "string"
           }
         ],
@@ -1719,16 +1719,16 @@
     "/quran/verses/uthmani_simple": {
       "get": {
         "operationId": "QURAN-verses-uthmani_simple",
-        "summary": "Get Uthmani simple script of ayah",
+        "summary": "Get Uthmani simple script of Ayah",
         "tags": [
           "Quran"
         ],
-        "description": "Get Uthmani simple script(without tashkiq/diacritical marks) of ayah. Use query strings to filter results, leave all query string blank if you want to fetch script of whole Quran.",
+        "description": "Get Uthmani simple script(without tashkiq/diacritical marks) of Ayah. Use query strings to filter results, leave all query string blank if you want to fetch script of whole Quran.",
         "parameters": [
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a specific surah.",
+            "description": "If you want to get Uthmani script of a specific Surah.",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -1736,7 +1736,7 @@
           {
             "name": "juz_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a specific juz.",
+            "description": "If you want to get Uthmani script of a specific Juz.",
             "type": "integer",
             "minimum": 1,
             "maximum": 30
@@ -1752,7 +1752,7 @@
           {
             "name": "hizb_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a specific hizb.",
+            "description": "If you want to get Uthmani script of a specific Hizb.",
             "type": "integer",
             "minimum": 1,
             "maximum": 60
@@ -1768,7 +1768,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get Uthmani script of a specific ayah.",
+            "description": "If you want to get Uthmani script of a specific Ayah.",
             "type": "string"
           }
         ],
@@ -1815,16 +1815,16 @@
     "/quran/verses/imlaei": {
       "get": {
         "operationId": "QURAN-verses-Imlaei",
-        "summary": "Get Imlaei Simple text of ayah",
+        "summary": "Get Imlaei Simple text of Ayah",
         "tags": [
           "Quran"
         ],
-        "description": "Get Imlaei simple script(without tashkiq/diacritical marks) of ayah.",
+        "description": "Get Imlaei simple script(without tashkiq/diacritical marks) of Ayah.",
         "parameters": [
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get text of a specific surah.",
+            "description": "If you want to get text of a specific Surah.",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -1832,7 +1832,7 @@
           {
             "name": "juz_number",
             "in": "query",
-            "description": "If you want to get text of a specific juz.",
+            "description": "If you want to get text of a specific Juz.",
             "type": "integer",
             "minimum": 1,
             "maximum": 30
@@ -1848,7 +1848,7 @@
           {
             "name": "hizb_number",
             "in": "query",
-            "description": "If you want to get text of a specific hizb.",
+            "description": "If you want to get text of a specific Hizb.",
             "type": "integer",
             "minimum": 1,
             "maximum": 60
@@ -1864,7 +1864,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get text of a specific ayah.",
+            "description": "If you want to get text of a specific Ayah.",
             "type": "string"
           }
         ],
@@ -1977,7 +1977,7 @@
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get audio file of a specific chapter (surah).",
+            "description": "If you want to get audio file of a specific chapter (Surah).",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -2017,7 +2017,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get audio file of a specific verse (ayah), in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1).",
+            "description": "If you want to get audio file of a specific verse (Ayah), in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1).",
             "type": "string"
           }
         ],
@@ -2113,7 +2113,7 @@
         "tags": [
           "Quran"
         ],
-        "description": "Get a single translation of the Qur'an\n\nUse https://api-docs.quran.com/docs/quran.com_versioned/translations to get the ID a desired translation",
+        "description": "Get a single translation of the Qur'an\n\nLook [here](./translations) to get the ID of a desired translation",
         "parameters": [
           {
             "name": "fields",
@@ -2124,7 +2124,7 @@
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get translation of a specific surah.",
+            "description": "If you want to get translation of a specific Surah.",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -2164,7 +2164,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get translation of a specific verse (ayah), in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1).",
+            "description": "If you want to get translation of a specific verse (Ayah), in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1).",
             "type": "string"
           }
         ],
@@ -2298,18 +2298,18 @@
         "tags": [
           "Quran"
         ],
-        "description": "Get a single tafsir\n\nSee https://api-docs.quran.com/docs/quran.com_versioned/tafsirs to fetch available tafsirs.",
+        "description": "Get a single Tafsir\n\nLook [here](./tafsirs) to fetch available tafsirs.",
         "parameters": [
           {
             "name": "fields",
             "in": "query",
-            "description": "List of tafsir fields, separated by commas (`,`).",
+            "description": "List of Tafsir fields, separated by commas (`,`).",
             "type": "string"
           },
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get tafsir of a specific chapter (surah).",
+            "description": "If you want to get Tafsir of a specific chapter (Surah).",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -2317,7 +2317,7 @@
           {
             "name": "juz_number",
             "in": "query",
-            "description": "If you want to get tafsir of a specific Juz.",
+            "description": "If you want to get Tafsir of a specific Juz.",
             "type": "integer",
             "minimum": 1,
             "maximum": 30
@@ -2325,7 +2325,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get tafsir of a Madani Muhsaf page",
+            "description": "If you want to get Tafsir of a Madani Muhsaf page",
             "type": "integer",
             "minimum": 1,
             "maximum": 604
@@ -2333,7 +2333,7 @@
           {
             "name": "hizb_number",
             "in": "query",
-            "description": "If you want to get tafsir of a specific Hizb.",
+            "description": "If you want to get Tafsir of a specific Hizb.",
             "type": "integer",
             "minimum": 1,
             "maximum": 60
@@ -2341,7 +2341,7 @@
           {
             "name": "rub_el_hizb_number",
             "in": "query",
-            "description": "If you want to get tafsir of a specific Rub el Hizb.",
+            "description": "If you want to get Tafsir of a specific Rub el Hizb.",
             "type": "integer",
             "minimum": 1,
             "maximum": 240
@@ -2349,7 +2349,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get tafsir of a specific verse (ayah), in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1).",
+            "description": "If you want to get Tafsir of a specific verse (Ayah), in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1).",
             "type": "string"
           }
         ],
@@ -2362,7 +2362,7 @@
                 "tafsirs": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/tafsir"
+                    "$ref": "#/definitions/Tafsir"
                   }
                 },
                 "meta": {
@@ -2405,16 +2405,16 @@
     "/quran/verses/code_v1": {
       "get": {
         "operationId": "QURAN-verses-code_v1",
-        "summary": "Get V1 Glyph codes of ayah",
+        "summary": "Get V1 Glyph codes of Ayah",
         "tags": [
           "Quran"
         ],
-        "description": "Get glyph codes of a verse (ayah) for QCF v1 font",
+        "description": "Get glyph codes of a verse (Ayah) for QCF v1 font",
         "parameters": [
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get text of a specific chapter (surah).",
+            "description": "If you want to get text of a specific chapter (Surah).",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -2454,7 +2454,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get text of a specific verse (ayah).",
+            "description": "If you want to get text of a specific verse (Ayah), in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1).",
             "type": "string"
           }
         ],
@@ -2509,16 +2509,16 @@
     "/quran/verses/code_v2": {
       "get": {
         "operationId": "QURAN-verses-code_v2",
-        "summary": "Get V2 Glyph codes of ayah",
+        "summary": "Get V2 Glyph codes of Ayah",
         "tags": [
           "Quran"
         ],
-        "description": "Get glyph codes of verse (ayah) for QCF v2 font",
+        "description": "Get glyph codes of verse (Ayah) for QCF v2 font",
         "parameters": [
           {
             "name": "chapter_number",
             "in": "query",
-            "description": "If you want to get text of a specific chapter (surah).",
+            "description": "If you want to get text of a specific chapter (Surah).",
             "type": "integer",
             "minimum": 1,
             "maximum": 114
@@ -2558,7 +2558,7 @@
           {
             "name": "verse_key",
             "in": "query",
-            "description": "If you want to get text of a specific verse (ayah).",
+            "description": "If you want to get text of a specific verse (Ayah), in the format chapter:verse (e.g. 1:1 -> Chapter 1, Verse 1).",
             "type": "string"
           }
         ],
@@ -2619,7 +2619,7 @@
         {
           "name": "recitation_id",
           "in": "path",
-          "description": "Recitation ID, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+          "description": "Recitation ID, you can get list of all Ayah by Ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
           "required": true,
           "type": "number"
         },
@@ -2638,7 +2638,7 @@
         "tags": [
           "Audio"
         ],
-        "description": "Get list of audio files for a chapter (surah) from a reciter, specified by their Reciter ID (see https://api-docs.quran.com/docs/quran.com_versioned/chapter-reciters).",
+        "description": "Get list of audio files for a chapter (Surah) from a reciter, specified by their Reciter ID (Look [here](./chapter-reciters)).",
         "responses": {
           "200": {
             "description": "",
@@ -2705,11 +2705,11 @@
       ],
       "get": {
         "operationId": "list-juz-recitaiton",
-        "summary": "Get verse (ayah) recitations for specific Juz",
+        "summary": "Get verse (Ayah) recitations for specific Juz",
         "tags": [
           "Audio"
         ],
-        "description": "Get list of audio files for a Juz by verse (ayah) from a reciter, specified by their Reciter ID (see https://api-docs.quran.com/docs/quran.com_versioned/chapter-reciters).",
+        "description": "Get list of audio files for a Juz by verse (Ayah) from a reciter, specified by their Reciter ID (Look [here](./chapter-reciters)).",
         "responses": {
           "200": {
             "description": "",
@@ -2780,11 +2780,11 @@
       ],
       "get": {
         "operationId": "list-page-recitaiton",
-        "summary": "Get verse (ayah) recitations for specific Madani Mushaf page",
+        "summary": "Get verse (Ayah) recitations for specific Madani Mushaf page",
         "tags": [
           "Audio"
         ],
-        "description": "Get list of audio files for a Madani Mushaf page by verse (ayah) from a reciter, specified by their Reciter ID (see https://api-docs.quran.com/docs/quran.com_versioned/chapter-reciters).",
+        "description": "Get list of audio files for a Madani Mushaf page by verse (Ayah) from a reciter, specified by their Reciter ID (Look [here](./chapter-reciters)).",
         "responses": {
           "200": {
             "description": "",
@@ -2855,11 +2855,11 @@
       ],
       "get": {
         "operationId": "list-rub-el-hizb-recitaiton",
-        "summary": "Get verse (ayah) recitations for specific Rub el Hizb",
+        "summary": "Get verse (Ayah) recitations for specific Rub el Hizb",
         "tags": [
           "Audio"
         ],
-        "description": "Get list of audio files for a Rub el Hizb by verse (ayah) from a reciter, specified by their Reciter ID (see https://api-docs.quran.com/docs/quran.com_versioned/chapter-reciters).",
+        "description": "Get list of audio files for a Rub el Hizb by verse (Ayah) from a reciter, specified by their Reciter ID (Look [here](./chapter-reciters)).",
         "responses": {
           "200": {
             "description": "",
@@ -2930,11 +2930,11 @@
       ],
       "get": {
         "operationId": "list-hizb-recitaiton",
-        "summary": "Get verse (ayah) recitations for specific Hizb",
+        "summary": "Get verse (Ayah) recitations for specific Hizb",
         "tags": [
           "Audio"
         ],
-        "description": "Get list of audio files for a Hizb by verse (ayah) from a reciter, specified by their Reciter ID (see https://api-docs.quran.com/docs/quran.com_versioned/chapter-reciters).",
+        "description": "Get list of audio files for a Hizb by verse (Ayah) from a reciter, specified by their Reciter ID (Look [here](./chapter-reciters)).",
         "responses": {
           "200": {
             "description": "",
@@ -2997,7 +2997,7 @@
         {
           "name": "ayah_key",
           "in": "path",
-          "description": "Ayah key is combination of chapter (surah) number and verse (ayah) number (e.g 1:1 -> Chapter 1, Verse 1).",
+          "description": "Ayah key is combination of chapter (Surah) number and verse (Ayah) number (e.g 1:1 -> Chapter 1, Verse 1).",
           "required": true,
           "type": "string",
           "minimum": 1,
@@ -3010,7 +3010,7 @@
         "tags": [
           "Audio"
         ],
-        "description": "Get list of audio files for a verse (ayah) from a reciter, specified by their Reciter ID (see https://api-docs.quran.com/docs/quran.com_versioned/chapter-reciters)..",
+        "description": "Get list of audio files for a verse (Ayah) from a reciter, specified by their Reciter ID (Look [here](./chapter-reciters)).",
         "responses": {
           "200": {
             "description": "",
@@ -3076,7 +3076,7 @@
         "tags": [
           "Resources"
         ],
-        "description": "Get information of a specific recitation. Could include detail about the reciter, recitation style, when and who recorded it, etc.",
+        "description": "Get information of a specific recitation. Could include details about the reciter, recitation style, when and who recorded it, etc.",
         "responses": {
           "200": {
             "description": "",
@@ -3126,7 +3126,7 @@
         "tags": [
           "Resources"
         ],
-        "description": "Get information of a specific translation. Could include detail about the author, publishing date and publisher, etc.",
+        "description": "Get information of a specific translation. Could include details about the author, publishing date and publisher, etc.",
         "responses": {
           "200": {
             "description": "",
@@ -3946,7 +3946,7 @@
         },
         "verse_key": {
           "type": "string",
-          "description": "Key of the verse, generated using chapter (surah) number and verse (ayah) number (e.g 1:1 -> Chapter 1, Verse 1)."
+          "description": "Key of the verse, generated using chapter (Surah) number and verse (Ayah) number (e.g 1:1 -> Chapter 1, Verse 1)."
         },
         "verse_index": {
           "type": "integer"
