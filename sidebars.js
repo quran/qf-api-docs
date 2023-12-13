@@ -146,8 +146,8 @@ const sidebars = {
       label: "Auth APIs",
       link: {
         type: "generated-index",
-        title: "auth API (latest)",
-        description: "Auth APIs",
+        title: "Auth APIs (latest)",
+        description: "User-account related APIs",
         slug: "/category/auth-api",
       },
       items: require("./docs/auth_versioned/sidebar.js"),

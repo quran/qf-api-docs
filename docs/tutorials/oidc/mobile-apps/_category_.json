@@ -1,0 +1,8 @@
+{
+  "label": "Mobile Apps",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Integrate your mobile app with QuranFoundation's Oauth2 capabilities."
+  }
+}

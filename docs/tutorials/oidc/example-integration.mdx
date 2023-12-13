@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Quran.com’s OAuth2 Integration Tutorial
+# Quran.com’s OAuth2 Example Web Integration
 
 ## Setup
 
@@ -51,7 +51,7 @@ sidebar_position: 4
   - `refresh_token` will be used to re-generate a new `access_token` when it expires. Make sure to save it in a long term storage.
   - `scope` object the scopes that have already been granted to the example app to access.
 
-## Accessing resources from Quran.com’s  Resources Server
+## Accessing resources from QuranFoundation’s  Resources Server
 
 - You can explore the list of all available APIs [here](/docs/category/auth-api).
 - For example, to add a collection to your profile, you can use our interactive [collection API](/docs/auth_versioned/add-collection)
@@ -84,7 +84,7 @@ If you open index.js, you will see that we have 3 endpoints
 | ----------- | ----------------------------------------------------------- |
 | `/`         | Renders the view of http://localhost:3000                   |
 | `/auth`     | Initiates the Oauth2 process                                |
-| `/callback` | Receives the callback from Quran.com’s authorization server |
+| `/callback` | Receives the callback from QuranFoundation’s authorization server |
 
 # Index.js
 
