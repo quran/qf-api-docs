@@ -212,7 +212,7 @@ const config = {
             items: [
               {
                 label: 'Donate',
-                to: 'https://donate.quran.com',
+                to: 'https://donate.quran.foundation',
               },
               {
                 label: 'GitHub',
