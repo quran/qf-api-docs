@@ -95,12 +95,12 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "quran.com",
+      label: "Quran.Foundation Content APIs",
       link: {
         type: "generated-index",
-        title: "quran.com API (latest)",
-        description: "quran.com's APIs",
-        slug: "/category/quran.com-api",
+        title: "Quran.Foundation Content API (latest)",
+        description: "Quran.Foundation Content APIs",
+        slug: "/category/quran.foundation-content-api",
       },
       items: require("./docs/quran.com_versioned/sidebar.js"),
     },
@@ -119,12 +119,12 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "quran.com",
+      label: "Quran.Foundation Content APIs",
       link: {
         type: "generated-index",
-        title: "quran.com API (v4.0.0)",
-        description: "quran.com's APIs",
-        slug: "/category/quran.com-api-4.0.0",
+        title: "Quran.Foundation Content API (v4.0.0)",
+        description: "Quran.Foundation Content APIs",
+        slug: "/category/quran.foundation-content-api-4.0.0",
       },
       items: require("./docs/quran.com_versioned/4.0.0/sidebar.js"),
     },

@@ -23,7 +23,7 @@ export default function Home(): JSX.Element {
   return (
     <Layout
       title={siteConfig.title}
-      description="Quran Foundation's Docs portal that will help Muslim developers get the Ummah closer to the Quran by seamlessly develop apps on top of Quran.com's APIs.">
+      description="Quran Foundation's Docs portal that will help Muslim developers get the Ummah closer to the Quran by seamlessly develop apps on top of Quran.Foundation's APIs.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

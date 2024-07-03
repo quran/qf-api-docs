@@ -9,7 +9,7 @@ const config = {
   title: "Quran Foundation's Documentation Portal",
   tagline: 'Build Quran-related apps in no time!',
   // Set the production url of your site here
-  url: 'https://api-docs.quran.com',
+  url: 'https://api-docs.quran.foundation',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -158,15 +158,15 @@ const config = {
             position: "left",
             items: [
               {
-                label: "Quran.com",
-                to: "docs/category/quran.com-api",
+                label: "Quran.Foundation Content APIs",
+                to: "docs/category/quran.foundation-content-api",
               },
               {
-                label: "Auth",
+                label: "User-context APIs",
                 to: "docs/category/auth-api",
               },
               {
-                label: "QuranReflect",
+                label: "QuranReflect APIs",
                 to: "docs/category/quranreflect-api",
               },
             ],
@@ -185,8 +185,8 @@ const config = {
             title: 'API Docs',
             items: [
               {
-                label: 'Quran.com',
-                to: '/docs/category/quran.com-api',
+                label: 'Quran.foundation',
+                to: '/docs/category/quran.foundation-content-api',
               },
               {
                 label: 'Auth',

@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Quran.com’s OAuth2 Example Web Integration
+# Quran.Foundation’s OAuth2 Example Web Integration
 
 ## Setup
 
@@ -15,7 +15,7 @@ sidebar_position: 4
   ```
   BASE_PATH = 'http://localhost:3000'
   PORT = 3000
-  TOKEN_HOST = 'https://oauth2.quran.com'
+  TOKEN_HOST = 'https://oauth2.quran.foundation'
   CLIENT_ID = 'quran-demo'
   CLIENT_SECRET = 'secret'
   SCOPES = 'openid offline collection bookmark reading_session preference user'
@@ -35,7 +35,7 @@ sidebar_position: 4
 ## Quick Start
 
 - Go to http://localhost:3000.
-- Click “Continue with Quran.com”.
+- Click “Continue with Quran.Foundation”.
 - If you are not logged in already, you will be asked to login, make sure you do.
 - You might be asked to consent to the example app accessing your data, make sure you consent to all of them.
 - Once logging in and consenting steps are done, You will be redirected to http://localhost:3000/callback.
@@ -47,7 +47,7 @@ sidebar_position: 4
     - `scope`
     - `token_type`
     - `expires_at`
-  - `access_token` will be used to access your resources stored on Quran.com’s resources server.
+  - `access_token` will be used to access your resources stored on Quran.Foundation’s resources server.
   - `refresh_token` will be used to re-generate a new `access_token` when it expires. Make sure to save it in a long term storage.
   - `scope` object the scopes that have already been granted to the example app to access.
 
@@ -152,7 +152,7 @@ const authorizationUri = client.authorizeURL({
 })
 ```
 
-- `redirect_uri` is where Quran.com's authorization server will redirect the user back to once a user successfully authorizes the example app and it should be set to our example app's url `[http://localhost:3000](http://localhost:3000)`.
+- `redirect_uri` is where Quran.Foundation's authorization server will redirect the user back to once a user successfully authorizes the example app and it should be set to our example app's url `[http://localhost:3000](http://localhost:3000)`.
 - `scope` value will come from `.env` file. You can read more about all the available scopes [here](/docs/auth_versioned/scopes).
 - `state` is an optional randomly generated value whose purpose is to prevent CSRF (Cross-Site Request Forgery) attacks. The client app that initiates the OAuth2 flow sends it to the authorization server. The authorization server returns this state parameter to the client as part of the redirect URI. The client should validate it upon receiving it.
 
@@ -179,7 +179,7 @@ app.get('/auth', (req, res) => {
 
 ### Defining `/callback` endpoint.
 
-- Once a user successfully authorizes the example app, Quran.com’s authorization server will redirect the user back to `http://localhost:3000/callback` with `code` ,`state` and `scope` query params.
+- Once a user successfully authorizes the example app, Quran.Foundation’s authorization server will redirect the user back to `http://localhost:3000/callback` with `code` ,`state` and `scope` query params.
 - We’re going to exchange the `code` with an access token by calling the `tokenPath` endpoint defined above.
 
 ```jsx
