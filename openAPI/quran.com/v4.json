@@ -5,10 +5,10 @@
   },
   "info": {
     "version": "v4",
-    "title": "Quran.com API",
-    "description": " Documentation of Quran.com v4 API"
+    "title": "Quran.Foundation Content API",
+    "description": " Documentation of Quran.Foundation Content v4 API"
   },
-  "host": "api.quran.com",
+  "host": "content-api.quran.foundation",
   "basePath": "/api/v4",
   "schemes": [
     "https"
@@ -3571,7 +3571,7 @@
         }
       },
       "example": {
-        "url": "https://verses.quran.com/AbdulBaset/Mujawwad/mp3/001001.mp3",
+        "url": "https://verses.quran.foundation/AbdulBaset/Mujawwad/mp3/001001.mp3",
         "duration": 6,
         "format": "mp3",
         "segments": [
