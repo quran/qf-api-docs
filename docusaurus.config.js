@@ -54,60 +54,41 @@ const config = {
         id: "openapi",
         docsPluginId: "classic",
         config: {
-          quranreflect_versioned: {
-            specPath: "openAPI/quranreflect/v1.json",
-            outputDir: "docs/quranreflect_versioned", // No trailing slash
-            sidebarOptions: {
-              groupPathsBy: "tag",
-              categoryLinkSource: "tag",
-            },
-            version: "1.0.0", // Current version
-            label: "v1.0.0", // Current version label
-            baseUrl: "/docs/quranreflect_versioned/1.0.0", // Leading slash is important
-            versions: {
-              "1.0.0": {
-                specPath: "openAPI/quranreflect/v1.json",
-                outputDir: "docs/quranreflect_versioned/1.0.0", // No trailing slash
-                label: "v1.0.0",
-                baseUrl: "/docs/quranreflect_versioned/1.0.0/quranreflect-v-1-api", // Leading slash is important
-              },
-            },
-          },
-          auth_versioned: {
+          user_related_apis_versioned: {
             specPath: "openAPI/auth/v1.json",
-            outputDir: "docs/auth_versioned", // No trailing slash
+            outputDir: "docs/user_related_apis_versioned", // No trailing slash
             sidebarOptions: {
               groupPathsBy: "tag",
               categoryLinkSource: "tag",
             },
             version: "1.0.0", // Current version
             label: "v1.0.0", // Current version label
-            baseUrl: "/docs/auth_versioned/1.0.0", // Leading slash is important
+            baseUrl: "/docs/user_related_apis_versioned/1.0.0", // Leading slash is important
             versions: {
               "1.0.0": {
                 specPath: "openAPI/auth/v1.json",
-                outputDir: "docs/auth_versioned/1.0.0", // No trailing slash
+                outputDir: "docs/user_related_apis_versioned/1.0.0", // No trailing slash
                 label: "v1.0.0",
-                baseUrl: "/docs/auth_versioned/1.0.0/quran-com-auth-v-1-api", // Leading slash is important
+                baseUrl: "/docs/user_related_apis_versioned/1.0.0/user-related-apis", // Leading slash is important
               },
             },
           },
-          'quran.com_versioned': {
-            specPath: "openAPI/quran.com/v4.json",
-            outputDir: "docs/quran.com_versioned", // No trailing slash
+          'content_apis_versioned': {
+            specPath: "openAPI/content/v4.json",
+            outputDir: "docs/content_apis_versioned", // No trailing slash
             sidebarOptions: {
               groupPathsBy: "tag",
               categoryLinkSource: "tag",
             },
             version: "4.0.0", // Current version
             label: "v4.0.0", // Current version label
-            baseUrl: "/docs/quran.com_versioned/4.0.0", // Leading slash is important
+            baseUrl: "/docs/content_apis_versioned/4.0.0", // Leading slash is important
             versions: {
               "4.0.0": {
-                specPath: "openAPI/quran.com/v4.json",
-                outputDir: "docs/quran.com_versioned/4.0.0", // No trailing slash
+                specPath: "openAPI/content/v4.json",
+                outputDir: "docs/content_apis_versioned/4.0.0", // No trailing slash
                 label: "v4.0.0",
-                baseUrl: "/docs/quran.com_versioned/4.0.0/quran-com-api", // Leading slash is important
+                baseUrl: "/docs/content_apis_versioned/4.0.0/content-apis", // Leading slash is important
               },
             },
           },
@@ -143,7 +124,7 @@ const config = {
       // Replace with your project's social card
       // image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'Quran Foundation API Docs',
+        title: 'Quran Foundation Docs Portal',
         items: [
           {
             type: 'docSidebar',
@@ -158,16 +139,12 @@ const config = {
             position: "left",
             items: [
               {
-                label: "Quran.Foundation Content APIs",
-                to: "docs/category/quran.foundation-content-api",
+                label: "Content APIs",
+                to: "docs/category/content-apis",
               },
               {
-                label: "User-context APIs",
-                to: "docs/category/auth-api",
-              },
-              {
-                label: "QuranReflect APIs",
-                to: "docs/category/quranreflect-api",
+                label: "User-related APIs",
+                to: "docs/category/user-related-apis",
               },
             ],
           },
@@ -185,16 +162,12 @@ const config = {
             title: 'API Docs',
             items: [
               {
-                label: 'Quran.foundation',
-                to: '/docs/category/quran.foundation-content-api',
+                label: 'Content APIs',
+                to: '/docs/category/content-apis',
               },
               {
-                label: 'Auth',
-                to: 'docs/category/auth-api',
-              },
-              {
-                label: 'QuranReflect',
-                to: 'docs/category/quranreflect-api',
+                label: 'User-related APIs',
+                to: 'docs/category/user-related-apis',
               },
             ],
           },

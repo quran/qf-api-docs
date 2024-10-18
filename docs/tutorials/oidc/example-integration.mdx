@@ -51,16 +51,16 @@ sidebar_position: 4
   - `refresh_token` will be used to re-generate a new `access_token` when it expires. Make sure to save it in a long term storage.
   - `scope` object the scopes that have already been granted to the example app to access.
 
-## Accessing resources from QuranFoundation’s  Resources Server
+## Accessing resources from Quran.Foundation’s  Resources Server
 
-- You can explore the list of all available APIs [here](/docs/category/auth-api).
-- For example, to add a collection to your profile, you can use our interactive [collection API](/docs/auth_versioned/add-collection)
-  - Put the `access_token` value in `o_t_h` header.
+- You can explore the list of all available APIs [here](/docs/category/user-related-apis).
+- For example, to add a collection to your profile, you can use our interactive [collection API](/docs/user_related_apis_versioned/add-collection)
+  - Put the `access_token` value in `x-auth-token` header.
   - And add the name of the collection’s inside `name` JSON parameter.
   - Click `Send API Request` button.
     ![Untitled](/img/send_api_request.png)
-- Now, to make sure it was added, you can make a call to [get all collections API](/docs/auth_versioned/get-all-collections):
-  - Put the `access_token` value in `o_t_h` header.
+- Now, to make sure it was added, you can make a call to [get all collections API](/docs/user_related_apis_versioned/get-all-collections):
+  - Put the `access_token` value in `x-auth-token` header.
   - Set the value of `first` parameter to `10` for example.
   - Click `Send API Request` button.
     ![Untitled](/img/send_api_request_button.png)
@@ -84,7 +84,7 @@ If you open index.js, you will see that we have 3 endpoints
 | ----------- | ----------------------------------------------------------- |
 | `/`         | Renders the view of http://localhost:3000                   |
 | `/auth`     | Initiates the Oauth2 process                                |
-| `/callback` | Receives the callback from QuranFoundation’s authorization server |
+| `/callback` | Receives the callback from Quran.Foundation’s authorization server |
 
 # Index.js
 
@@ -153,7 +153,7 @@ const authorizationUri = client.authorizeURL({
 ```
 
 - `redirect_uri` is where Quran.Foundation's authorization server will redirect the user back to once a user successfully authorizes the example app and it should be set to our example app's url `[http://localhost:3000](http://localhost:3000)`.
-- `scope` value will come from `.env` file. You can read more about all the available scopes [here](/docs/auth_versioned/scopes).
+- `scope` value will come from `.env` file. You can read more about all the available scopes [here](/docs/user_related_apis_versioned/scopes).
 - `state` is an optional randomly generated value whose purpose is to prevent CSRF (Cross-Site Request Forgery) attacks. The client app that initiates the OAuth2 flow sends it to the authorization server. The authorization server returns this state parameter to the client as part of the redirect URI. The client should validate it upon receiving it.
 
 ### Defining `/` endpoint.

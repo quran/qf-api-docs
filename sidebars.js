@@ -8,9 +8,8 @@
 
  Create as many sidebars as you want.
  */
-const quranReflectVersions = require("./docs/quranreflect_versioned/versions.json");
-const quranDotComVersions = require("./docs/quran.com_versioned/versions.json");
-const authVersions = require("./docs/auth_versioned/versions.json");
+const quranDotComVersions = require("./docs/content_apis_versioned/versions.json");
+const authVersions = require("./docs/user_related_apis_versioned/versions.json");
 const {
   versionSelector,
   versionCrumb,
@@ -33,55 +32,7 @@ const sidebars = {
       defaultStyle: true, // Use the default menu item styling
     },
   ],
-  "quranreflect": [
-    {
-      type: "html",
-      defaultStyle: true,
-      value: versionSelector(quranReflectVersions),
-      className: "version-button",
-    },
-    {
-      type: "html",
-      defaultStyle: true,
-      value: versionCrumb(`v1.0.0`),
-    },
-    {
-      type: "category",
-      label: "Quranreflect",
-      link: {
-        type: "generated-index",
-        title: "Quranreflect API (latest)",
-        description: "QuranReflect's APIs",
-        slug: "/category/quranreflect-api",
-      },
-      items: require("./docs/quranreflect_versioned/sidebar.js"),
-    },
-  ],
-  "quranreflect-1.0.0": [
-    {
-      type: "html",
-      defaultStyle: true,
-      value: versionSelector(quranReflectVersions),
-      className: "version-button",
-    },
-    {
-      type: "html",
-      defaultStyle: true,
-      value: versionCrumb(`v1.0.0`),
-    },
-    {
-      type: "category",
-      label: "Quranreflect",
-      link: {
-        type: "generated-index",
-        title: "Quranreflect API (v1.0.0)",
-        description: "QuranReflect's APIs",
-        slug: "/category/quranreflect-api-1.0.0",
-      },
-      items: require("./docs/quranreflect_versioned/1.0.0/sidebar.js"),
-    },
-  ],
-  "quran.com": [
+  "content-apis": [
     {
       type: "html",
       defaultStyle: true,
@@ -95,17 +46,17 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Quran.Foundation Content APIs",
+      label: "Content APIs",
       link: {
         type: "generated-index",
-        title: "Quran.Foundation Content API (latest)",
-        description: "Quran.Foundation Content APIs",
-        slug: "/category/quran.foundation-content-api",
+        title: "Content APIs (latest)",
+        description: "Content APIs",
+        slug: "/category/content-apis",
       },
-      items: require("./docs/quran.com_versioned/sidebar.js"),
+      items: require("./docs/content_apis_versioned/sidebar.js"),
     },
   ],
-  "quran.com-4.0.0": [
+  "content-apis-4.0.0": [
     {
       type: "html",
       defaultStyle: true,
@@ -119,17 +70,17 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Quran.Foundation Content APIs",
+      label: "Content APIs",
       link: {
         type: "generated-index",
         title: "Quran.Foundation Content API (v4.0.0)",
-        description: "Quran.Foundation Content APIs",
-        slug: "/category/quran.foundation-content-api-4.0.0",
+        description: "Content APIs",
+        slug: "/category/content-apis-4.0.0",
       },
-      items: require("./docs/quran.com_versioned/4.0.0/sidebar.js"),
+      items: require("./docs/content_apis_versioned/4.0.0/sidebar.js"),
     },
   ],
-  "auth": [
+  "user-related-apis": [
     {
       type: "html",
       defaultStyle: true,
@@ -143,22 +94,22 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Auth APIs",
+      label: "User-related APIs",
       link: {
         type: "generated-index",
-        title: "Auth APIs (latest)",
-        description: "User-account related APIs",
-        slug: "/category/auth-api",
+        title: "User-related (latest)",
+        description: "User-related APIs",
+        slug: "/category/user-related-apis",
       },
-      items: require("./docs/auth_versioned/sidebar.js"),
+      items: require("./docs/user_related_apis_versioned/sidebar.js"),
     },
     {
       type: "doc",
       label: "Scopes",
-      id: "auth_versioned/scopes",
+      id: "user_related_apis_versioned/scopes",
     },
   ],
-  "auth-1.0.0": [
+  "user-related-apis-1.0.0": [
     {
       type: "html",
       defaultStyle: true,
@@ -172,19 +123,19 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Auth APIs",
+      label: "User-related APIs",
       link: {
         type: "generated-index",
-        title: "auth API (v1.0.0)",
-        description: "Auth APIs",
-        slug: "/category/auth-api-1.0.0",
+        title: "User-related APIs (v1.0.0)",
+        description: "User-related APIs",
+        slug: "/category/user-related-apis-1.0.0",
       },
-      items: require("./docs/auth_versioned/1.0.0/sidebar.js"),
+      items: require("./docs/user_related_apis_versioned/1.0.0/sidebar.js"),
     },
     {
       type: "doc",
       label: "Scopes",
-      id: "auth_versioned/scopes",
+      id: "user_related_apis_versioned/scopes",
     },
   ],
 };
