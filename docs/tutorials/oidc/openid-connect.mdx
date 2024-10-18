@@ -8,7 +8,7 @@ Quran.Foundation's OAuth 2.0 APIs can be used for both authentication and author
 
 In this [guide](/docs/tutorials/oidc/getting-started-with-oauth2), we have breifly explained what OAuth2 is and how to integrate with Quran.Foundation's OAuth2 server.
 
-Besides OAuth2, Quran.Foundation also supports [OpenId Connect](https://openid.net/connect) standards by providing the [UserInfo Endpoint](/docs/user_related_apis_versioned/get-oidc-user-info) to get more information about the user.
+Besides OAuth2, Quran.Foundation also supports [OpenId Connect](https://openid.net/connect) standards by providing the [UserInfo Endpoint](/docs/oauth2_apis_versioned/get-oidc-user-info) to get more information about the user.
 
 To be able to access OpenId Connect's endpoints, make sure to include `openid` in the list of requested [scopes](/docs/user_related_apis_versioned/scopes). Once this is done, besides `access_token`, the authorization callback will also contain a [JWT](https://www.rfc-editor.org/rfc/rfc7519) `id_token` parameter.
 
