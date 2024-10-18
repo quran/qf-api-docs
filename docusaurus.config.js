@@ -55,7 +55,7 @@ const config = {
         docsPluginId: "classic",
         config: {
           user_related_apis_versioned: {
-            specPath: "openAPI/auth/v1.json",
+            specPath: "openAPI/user-related-apis/v1.json",
             outputDir: "docs/user_related_apis_versioned", // No trailing slash
             sidebarOptions: {
               groupPathsBy: "tag",
@@ -66,7 +66,7 @@ const config = {
             baseUrl: "/docs/user_related_apis_versioned/1.0.0", // Leading slash is important
             versions: {
               "1.0.0": {
-                specPath: "openAPI/auth/v1.json",
+                specPath: "openAPI/user-related-apis/v1.json",
                 outputDir: "docs/user_related_apis_versioned/1.0.0", // No trailing slash
                 label: "v1.0.0",
                 baseUrl: "/docs/user_related_apis_versioned/1.0.0/user-related-apis", // Leading slash is important
