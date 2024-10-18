@@ -1,0 +1,120 @@
+---
+id: scopes
+---
+
+# OAuth2 Scopes
+
+Quran.Foundations's OAuth 2.0 scopes provide a way to limit the amount of access that is granted to an access token. When requesting an accessing token, clients should also request the scopes they are interested in getting access to. If the APIs are user-related, the user will need to consent to granting access to the scopes your app is requesting first.
+
+## Content
+
+| Scope           | Description                    |
+| --------------- | ------------------------------ |
+| content         | Read Quran.Foundation's non user-related content e.g. Tafsirs, Translations, etc |
+
+## Bookmarks
+
+| Scope           | Description                    |
+| --------------- | ------------------------------ |
+| bookmark        | Manage your bookmarks          |
+| bookmark.read   | Read your existing bookmarks   |
+| bookmark.create | Create a new bookmark          |
+| bookmark.update | Update your existing bookmark  |
+| bookmark.delete | Delete your existing bookmarks |
+
+## Collections
+
+| Scope             | Description                           |
+| ----------------- | ------------------------------------- |
+| collection        | Manage your collections list          |
+| collection.read   | Read your existing collections list   |
+| collection.create | Create a new collection               |
+| collection.update | Update your existing collections list |
+| collection.delete | Delete your existing collections list |
+
+## Reading Sessions
+
+| Scope                  | Description                           |
+| ---------------------- | ------------------------------------- |
+| reading_session        | Manage your reading sessions          |
+| reading_session.read   | See your latest reading sessions      |
+| reading_session.create | Create a new reading session          |
+| reading_session.update | Update your existing reading sessions |
+| reading_session.delete | Delete your existing reading sessions |
+
+## Preferences
+
+| Scope             | Description                                       |
+| ----------------- | ------------------------------------------------- |
+| preference        | Manage your reading and audio preferences         |
+| preference.read   | See your current reading and audio preferences    |
+| preference.update | Update your current reading and audio preferences |
+
+## Activity Days
+
+| Scope                 | Description                          |
+| --------------------- | ------------------------------------ |
+| activity_day          | Manage your activity days            |
+| activity_day.read     | See your latest activity days        |
+| activity_day.create   | Create a new activity day            |
+| activity_day.estimate | Estimate your reading speed of Ayahs |
+| activity_day.update   | Update your existing activity days   |
+| activity_day.delete   | Delete your existing activity days   |
+
+## Goals
+
+| Scope         | Description                    |
+| ------------- | ------------------------------ |
+| goal          | Manage your goal               |
+| goal.read     | See your goal                  |
+| goal.estimate | Estimate your goal's week plan |
+| goal.create   | Create a new goal              |
+| goal.update   | Update your existing goal      |
+| goal.delete   | Delete your existing goal      |
+
+## Streaks
+
+| Scope         | Description        |
+| ------------- | ------------------ |
+| streak        | Manage your streak |
+| streak.read   | See your streak    |
+| streak.update | Update your streak |
+
+## Users
+
+| Scope              | Description                   |
+| ------------------ | ----------------------------- |
+| user               | Manage your user profile data |
+| user.profile.read  | Read your user profile data   |
+| user.username.read | Read your current username    |
+
+## Posts
+
+| Scope       | Description                             |
+| ----------- | --------------------------------------- |
+| post        | Manage your QuranReflect posts          |
+| post.read   | Read your QuranReflect timeline posts   |
+| post.create | Create a new QuranReflect post          |
+| post.update | Update your QuranReflect posts          |
+| post.delete | Delete your QuranReflect posts          |
+| post.save   | Save QuranReflect posts to your profile |
+| post.like   | Like QuranReflect posts                 |
+| post.report | Report QuranReflect posts               |
+
+## Comments
+
+| Scope          | Description                            |
+| -------------- | -------------------------------------- |
+| comment        | Manage your QuranReflect post comments |
+| comment.read   | Read QuranReflect posts' comments      |
+| comment.create | Create a new QuranReflect post comment |
+| comment.update | Update your QuranReflect post comments |
+| comment.delete | Update your QuranReflect post comments |
+
+## Groups
+
+| Scope        | Description                               |
+| ------------ | ----------------------------------------- |
+| group        | Manage your QuranReflect groups           |
+| group.read   | Read your QuranReflect groups             |
+| group.update | Update your QuranReflect groups' settings |
