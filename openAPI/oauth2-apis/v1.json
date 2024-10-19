@@ -11,11 +11,24 @@
       "description": "Production Server"
     },
     {
-      "url": "staging-oauth2.quran.foundation",
+      "url": "https://staging-oauth2.quran.foundation",
       "description": "Staging Server"
     }
   ],
   "components": {
+    "securitySchemes": {
+      "bearerToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Bearer token authentication"
+      },
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "Basic authentication for client credentials"
+      }
+    },
     "schemas": {
       "oidcUserInfo": {
         "description": "OpenID Connect Userinfo",
@@ -27,12 +40,12 @@
           },
           "first_name": {
             "example": "John",
-            "description": "Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.",
+            "description": "Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.",
             "type": "string"
           },
           "last_name": {
             "example": "Doe",
-            "description": "Given name(s) or first name(s) of the End-User. Note that in some cultures, people can have multiple given names; all can be present, with the names being separated by space characters.",
+            "description": "Surname(s) or last name(s) of the End-User. Note that in some cultures, people can have multiple family names or no family name; all can be present, with the names being separated by space characters.",
             "type": "string"
           }
         },
@@ -142,8 +155,7 @@
           },
           "id_token": {
             "description": "To retrieve a refresh token request the id_token scope.",
-            "format": "int64",
-            "type": "integer"
+            "type": "string"
           },
           "refresh_token": {
             "description": "The refresh token, which can be used to obtain new\naccess tokens. To retrieve it add the scope \"offline\" to your access token request.",
@@ -156,6 +168,11 @@
           "token_type": {
             "description": "The type of the token issued",
             "type": "string"
+          },
+          "expires_at": {
+            "description": "The date and time when the access token expires, in ISO 8601 format",
+            "type": "string",
+            "format": "date-time"
           }
         },
         "type": "object"
@@ -164,7 +181,7 @@
         "description": "Error",
         "properties": {
           "error": {
-            "description": "Error",
+            "description": "Error code",
             "type": "string",
             "example": "invalid_client"
           },
@@ -173,9 +190,9 @@
             "type": "string"
           },
           "error_description": {
-            "description": "Error Description",
+            "description": "Human-readable ASCII text providing additional information about the error",
             "type": "string",
-            "example": "Client+authentication+failed+%28e.g.%2C+unknown+client%2C+no+client+authentication+included%2C+or+unsupported+authentication+method%29.+The+requested+OAuth+2.0+Client+does+not+exist."
+            "example": "Client authentication failed (e.g., unknown client, no client authentication included, or unsupported authentication method). The requested OAuth 2.0 Client does not exist."
           },
           "error_hint": {
             "description": "Error Hint\n\nHelps the user identify the error cause.",
@@ -198,11 +215,120 @@
       }
     }
   },
-  "security": [{ "x-auth-token": [], "x-client-id": [] }],
   "paths": {
+    "/oauth2/token": {
+      "post": {
+        "summary": "The OAuth 2.0 Token Endpoint",
+        "description": "This endpoint is used by your application to obtain an access token or a refresh token. It is used by all flows except for the Implicit Flow because in that case an access token is issued directly. \n\n1. In the Client Credentials Flow, the application authenticates using a set of credentials and then gets an access token.\n2. In the Authorization Code Flow, the application exchanges an authorization code for an access token.\n3. In the Refresh Token Flow, the application uses a refresh token to obtain a new access token.",
+        "operationId": "oauth2TokenExchange",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "properties": {
+                  "client_id": {
+                    "type": "string",
+                    "description": "The client identifier issued to the client during the registration process",
+                    "example": "quran-demo"
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "The authorization code received from the authorization server",
+                    "example": "180ezHATHWKTe-NoCx"
+                  },
+                  "grant_type": {
+                    "type": "string",
+                    "enum": [
+                      "client_credentials",
+                      "authorization_code",
+                      "refresh_token"
+                    ],
+                    "description": "The grant type of the token request"
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "description": "The redirect URI used in the initial authorization request",
+                    "example": "https://oauth2-client-example.quran.foundation/callback"
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "The refresh token issued to the client",
+                    "example": "ptDH6OdENVk3zY4LVxts90whTFgi6dVn9_wVekNyPmc.RZQ6JuoTlw8Zz38sJZvvJumqdNXuDxj6l3MzcK0"
+                  },
+                  "scope": {
+                    "type": "string",
+                    "description": "The scope of the access request",
+                    "example": "openid offline collection bookmark reading_session preference user"
+                  }
+                },
+                "required": ["grant_type"],
+                "type": "object"
+              },
+              "examples": {
+                "authorizationCode": {
+                  "summary": "Authorization Code Grant",
+                  "value": {
+                    "grant_type": "authorization_code",
+                    "code": "180ezHATHWKTe-NoCx",
+                    "client_id": "quran-demo",
+                    "redirect_uri": "https://oauth2-client-example.quran.foundation/callback",
+                    "scope": "openid offline collection bookmark reading_session preference user"
+                  }
+                },
+                "refreshToken": {
+                  "summary": "Refresh Token Grant",
+                  "value": {
+                    "grant_type": "refresh_token",
+                    "refresh_token": "ptDH6OdENVk3zY4LVxts90whTFgi6dVn9_wVekNyPmc.RZQ6JuoTlw8Zz38sJZvvJumqdNXuDxj6l3MzcK0",
+                    "client_id": "quran-demo",
+                    "scope": "openid offline collection bookmark reading_session preference user"
+                  }
+                },
+                "clientCredentials": {
+                  "summary": "Client Credentials Grant",
+                  "value": {
+                    "grant_type": "client_credentials",
+                    "scope": "collection bookmark reading_session preference user"
+                  },
+                  "description": "For client credentials, use Basic Authentication with client_id as username and client_secret as password"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful token exchange",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/oAuth2TokenExchange" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or invalid grant",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid client credentials",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
+              }
+            }
+          }
+        },
+        "security": [{ "basicAuth": [] }],
+        "tags": ["OAuth2"]
+      }
+    },
     "/oauth2/introspect": {
       "post": {
-        "security": [{ "basic": [] }, { "oauth2": [] }],
+        "summary": "Introspect OAuth2 Access and Refresh Tokens",
         "description": "The introspection endpoint allows to check if a token (both refresh and access) is active or not. An active token\nis neither expired nor revoked. If a token is active, additional information on the token will be included. You can\nset additional data for a token by setting `session.access_token` during the consent flow.",
         "operationId": "introspectOAuth2Token",
         "requestBody": {
@@ -210,16 +336,13 @@
             "application/x-www-form-urlencoded": {
               "schema": {
                 "properties": {
-                  "scope": {
-                    "description": "An optional, space separated list of required scopes. If the access token was not granted one of the\nscopes, the result of active will be false.",
-                    "type": "string",
-                    "x-formData-name": "scope"
-                  },
                   "token": {
                     "description": "The string value of the token. For access tokens, this\nis the \"access_token\" value returned from the token endpoint\ndefined in OAuth 2.0. For refresh tokens, this is the \"refresh_token\"\nvalue returned.",
-                    "required": ["token"],
-                    "type": "string",
-                    "x-formData-name": "token"
+                    "type": "string"
+                  },
+                  "scope": {
+                    "description": "An optional, space separated list of required scopes. If the access token was not granted one of the\nscopes, the result of active will be false.",
+                    "type": "string"
                   }
                 },
                 "required": ["token"],
@@ -230,102 +353,47 @@
         },
         "responses": {
           "200": {
+            "description": "Successful token introspection",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/introspectedOAuth2Token"
                 }
               }
-            },
-            "description": "introspectedOAuth2Token"
+            }
           },
           "400": {
+            "description": "Bad request",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/errorOAuth2" }
               }
-            },
-            "description": "errorOAuth2"
-          }
-        },
-        "summary": "Introspect OAuth2 Access and Refresh Tokens",
-        "tags": ["OAuth2"]
-      }
-    },
-    "/oauth2/token": {
-      "post": {
-        "description": "Use open source libraries to perform OAuth 2.0 and OpenID Connect\navailable for any programming language. You can find a list of libraries here https://oauth.net/code/\n\n",
-        "operationId": "oauth2TokenExchange",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "properties": {
-                  "client_id": {
-                    "type": "string",
-                    "x-formData-name": "client_id",
-                    "example": "quran-demo"
-                  },
-                  "code": {
-                    "type": "string",
-                    "x-formData-name": "code",
-                    "example": "180ezHATHWKTe-NoCx"
-                  },
-                  "grant_type": {
-                    "required": ["grant_type"],
-                    "type": "string",
-                    "enum": ["authorization_code", "refresh_token"],
-                    "x-formData-name": "grant_type"
-                  },
-                  "redirect_uri": {
-                    "type": "string",
-                    "x-formData-name": "redirect_uri",
-                    "example": "https://oauth2-client-example.quran.foundation/callback"
-                  },
-                  "refresh_token": {
-                    "type": "string",
-                    "x-formData-name": "refresh_token",
-                    "example": "ptDH6OdENVk3zY4LVxts90whTFgi6dVn9_wVekNyPmc.RZQ6JuoTlw8Zz38sJZvvJumqdNXuDxj6l3MzcK0"
-                  }
-                },
-                "required": ["grant_type"],
-                "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid client credentials",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/oAuth2TokenExchange" }
-              }
-            },
-            "description": "oAuth2TokenExchange"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
-              }
-            },
-            "description": "errorOAuth2"
-          }
-        },
-        "security": [{ "basic": [] }, { "oauth2": [] }],
-        "summary": "The OAuth 2.0 Token Endpoint",
+        "security": [{ "basicAuth": [] }],
         "tags": ["OAuth2"]
       }
     },
     "/oauth2/auth": {
       "get": {
-        "description": "Use open source libraries to perform OAuth 2.0 and OpenID Connect\navailable for any programming language. You can find a list of libraries at https://oauth.net/code/\n\n \n\n For now, you can only use grant_type `authorization_code` and `refresh_token` in the /oauth2/token endpoint",
+        "summary": "OAuth 2.0 Authorize Endpoint",
+        "description": "This endpoint is used to start the authorization process. The client redirects the user to this endpoint to request authorization. The user will be prompted to log in and grant permission to the client application.\n\nUse open source libraries to perform OAuth 2.0 and OpenID Connect available for any programming language. You can find a list of libraries at https://oauth.net/code/\n\nFor now, you can only use grant_type `authorization_code` and `refresh_token` in the /oauth2/token endpoint",
         "operationId": "oAuth2Authorize",
         "parameters": [
           {
             "in": "query",
             "name": "response_type",
             "description": "The type of response expected from the OAuth2 server",
+            "required": true,
             "schema": {
               "type": "string",
               "enum": ["code", "token", "id_token", "code token"],
@@ -334,14 +402,16 @@
           },
           {
             "in": "query",
-            "description": "The client id that you already created.",
             "name": "client_id",
+            "description": "The client id that you already created",
+            "required": true,
             "schema": { "type": "string", "example": "quran-demo" }
           },
           {
             "in": "query",
-            "description": "Where to redirect after the oauth2 process completed",
             "name": "redirect_uri",
+            "description": "Where to redirect after the oauth2 process completed",
+            "required": true,
             "schema": {
               "type": "string",
               "example": "https://oauth2-client-example.quran.foundation/callback"
@@ -349,8 +419,9 @@
           },
           {
             "in": "query",
-            "description": "The scopes that you want to request, separated by spaces",
             "name": "scope",
+            "description": "The scopes that you want to request, separated by spaces",
+            "required": true,
             "schema": {
               "type": "string",
               "example": "bookmark.read reading_session preference"
@@ -359,7 +430,7 @@
           {
             "in": "query",
             "name": "state",
-            "description": "Form of security measure used in OAuth 2.0 to help prevent cross-site request forgery (CSRF)",
+            "description": "An opaque value used by the client to maintain state between the request and callback. The authorization server includes this value when redirecting the user-agent back to the client.",
             "schema": {
               "type": "string",
               "example": "veimvfgqexjicockrwsgcb333o3a"
@@ -368,46 +439,53 @@
         ],
         "responses": {
           "302": {
-            "description": "On Success, user will be redirected to `redirect_uri` with the query parameters `code` and `state`."
+            "description": "Redirect to the client's redirect URI",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The URL to redirect the user to, including the authorization code or error information"
+              }
+            }
           },
-          "error": {
+          "400": {
+            "description": "Bad request",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/errorOAuth2" }
               }
-            },
-            "description": "On Error, user will also be redirected to https://auth.quran.foundation/oauth-error with the query params as mentioned below"
+            }
           }
         },
         "security": [],
-        "summary": "OAuth 2.0 Authorize Endpoint",
         "tags": ["OAuth2"]
       }
     },
     "/userinfo": {
       "get": {
+        "summary": "OpenID Connect Userinfo",
         "description": "This endpoint returns the payload of the ID Token, including `session.id_token` values, of\nthe provided OAuth 2.0 Access Token's consent request.\n\nIn the case of authentication error, a WWW-Authenticate header might be set in the response\nwith more information about the error. See [the spec](https://datatracker.ietf.org/doc/html/rfc6750#section-3)\nfor more details about header format.",
         "operationId": "getOidcUserInfo",
         "responses": {
           "200": {
+            "description": "Successful retrieval of user information",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/oidcUserInfo" }
               }
-            },
-            "description": "oidcUserInfo"
+            }
           },
           "401": {
+            "description": "Unauthorized - invalid or expired access token",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/errorOAuth2" }
               }
-            },
-            "description": "errorOAuth2"
+            }
           }
         },
-        "security": [{ "bearer": [] }],
-        "summary": "OpenID Connect Userinfo",
+        "security": [{ "bearerToken": [] }],
         "tags": ["OIDC"]
       }
     }

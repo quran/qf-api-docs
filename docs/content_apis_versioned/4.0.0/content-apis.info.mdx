@@ -23,7 +23,7 @@ Quran.Foundation Content APIs offer programmatic access to the Quran's core cont
 
  ## How to get access 
 
- We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and `content` scope to get the access token. The below diagram shows the flow of getting an access token using the `client_credentials` grant type in a very simplified way.
+ We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. The below diagram shows the flow of getting an access token using the `client_credentials` grant type in a very simplified way.
 
  ![Client Credentials Flow](/img/client-credentials-flow.png) After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`.
 
