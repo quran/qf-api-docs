@@ -4,7 +4,7 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  padding: 1rem !important;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -14,4 +14,11 @@
   .heroBanner {
     padding: 0rem;
   }
+  .heroBanner :global(.hero__title) {
+    font-size: 2rem;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    max-width: 100%;
+  }
 }
+
