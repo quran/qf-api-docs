@@ -7,12 +7,12 @@
   },
   "servers": [
     {
-      "url": "https://apis.quran.foundation/content/api/v4",
-      "description": "Production Server"
+      "url": "https://apis-prelive.quran.foundation/content/api/v4",
+      "description": "Pre-production Server"
     },
     {
-      "url": "https://apis-staging.quran.foundation/content/api/v4",
-      "description": "Staging Server"
+      "url": "https://apis.quran.foundation/content/api/v4",
+      "description": "Production Server"
     }
   ],
   "security": [
