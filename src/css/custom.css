@@ -28,3 +28,44 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* Form styles */
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  margin-bottom: 0.5rem;
+}
+
+.form-input-error {
+  border-color: var(--ifm-color-danger);
+}
+
+.error-message {
+  color: var(--ifm-color-danger);
+  font-size: 0.875rem;
+  margin-top: -0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.text-muted {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.875rem;
+}
+
+.request-access-form {
+  background: var(--ifm-background-surface-color);
+  padding: 1rem;
+  border-radius: var(--ifm-global-radius);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}

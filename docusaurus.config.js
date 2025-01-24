@@ -178,7 +178,7 @@ const config = {
             label: 'OAuth2 Scopes',
           },
           {
-            href: 'https://docs.google.com/forms/d/e/1FAIpQLScok67i1L-0rFhw7I3rqkfIKJLVxmcQyE61C_FHRqc-pA5U-w/viewform',
+            to: '/request-access',
             label: 'Request Access',
             position: 'right',
           },
