@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 
 export default function RequestAccess() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
 
@@ -24,6 +24,7 @@ export default function RequestAccess() {
             }
 
             setSubmitStatus('success');
+            reset();
         } catch (error) {
             console.error('Error submitting form:', error);
             setSubmitStatus('error');
