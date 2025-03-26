@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Quran.com’s OAuth2 Example Web Integration
+# Quran.Foundation’s OAuth2 Example Web Integration
 
 ## Setup
 
@@ -15,14 +15,14 @@ sidebar_position: 4
   ```
   BASE_PATH = 'http://localhost:3000'
   PORT = 3000
-  TOKEN_HOST = 'https://oauth2.quran.com'
+  TOKEN_HOST = 'https://oauth2.quran.foundation'
   CLIENT_ID = 'quran-demo'
   CLIENT_SECRET = 'secret'
   SCOPES = 'openid offline collection bookmark reading_session preference user'
   ```
 
   - Please note that the values of client id and client secret are set to (`quran-demo` and `secret`) which are meant for testing purposes and are not meant for production use.
-  - For production use, please make sure to obtain your own client id and secret use by contacting [us](mailto:developers@quran.com).
+  - For production use, please make sure to obtain your own client id and secret use by submitting your OAuth2 [Application](/request-access).
 - Install dependencies:
   ```bash
   npm install
@@ -35,7 +35,7 @@ sidebar_position: 4
 ## Quick Start
 
 - Go to http://localhost:3000.
-- Click “Continue with Quran.com”.
+- Click “Continue with Quran.Foundation”.
 - If you are not logged in already, you will be asked to login, make sure you do.
 - You might be asked to consent to the example app accessing your data, make sure you consent to all of them.
 - Once logging in and consenting steps are done, You will be redirected to http://localhost:3000/callback.
@@ -47,20 +47,20 @@ sidebar_position: 4
     - `scope`
     - `token_type`
     - `expires_at`
-  - `access_token` will be used to access your resources stored on Quran.com’s resources server.
+  - `access_token` will be used to access your resources stored on Quran.Foundation’s resources server.
   - `refresh_token` will be used to re-generate a new `access_token` when it expires. Make sure to save it in a long term storage.
   - `scope` object the scopes that have already been granted to the example app to access.
 
-## Accessing resources from QuranFoundation’s  Resources Server
+## Accessing resources from Quran.Foundation’s  Resources Server
 
-- You can explore the list of all available APIs [here](/docs/category/auth-api).
-- For example, to add a collection to your profile, you can use our interactive [collection API](/docs/auth_versioned/add-collection)
-  - Put the `access_token` value in `o_t_h` header.
+- You can explore the list of all available APIs [here](/docs/category/user-related-apis).
+- For example, to add a collection to your profile, you can use our interactive [collection API](/docs/user_related_apis_versioned/add-collection)
+  - Put the `access_token` value in `x-auth-token` header.
   - And add the name of the collection’s inside `name` JSON parameter.
   - Click `Send API Request` button.
     ![Untitled](/img/send_api_request.png)
-- Now, to make sure it was added, you can make a call to [get all collections API](/docs/auth_versioned/get-all-collections):
-  - Put the `access_token` value in `o_t_h` header.
+- Now, to make sure it was added, you can make a call to [get all collections API](/docs/user_related_apis_versioned/get-all-collections):
+  - Put the `access_token` value in `x-auth-token` header.
   - Set the value of `first` parameter to `10` for example.
   - Click `Send API Request` button.
     ![Untitled](/img/send_api_request_button.png)
@@ -84,7 +84,7 @@ If you open index.js, you will see that we have 3 endpoints
 | ----------- | ----------------------------------------------------------- |
 | `/`         | Renders the view of http://localhost:3000                   |
 | `/auth`     | Initiates the Oauth2 process                                |
-| `/callback` | Receives the callback from QuranFoundation’s authorization server |
+| `/callback` | Receives the callback from Quran.Foundation’s authorization server |
 
 # Index.js
 
@@ -152,8 +152,8 @@ const authorizationUri = client.authorizeURL({
 })
 ```
 
-- `redirect_uri` is where Quran.com's authorization server will redirect the user back to once a user successfully authorizes the example app and it should be set to our example app's url `[http://localhost:3000](http://localhost:3000)`.
-- `scope` value will come from `.env` file. You can read more about all the available scopes [here](/docs/auth_versioned/scopes).
+- `redirect_uri` is where Quran.Foundation's authorization server will redirect the user back to once a user successfully authorizes the example app and it should be set to our example app's url `[http://localhost:3000](http://localhost:3000)`.
+- `scope` value will come from `.env` file. You can read more about all the available scopes [here](/docs/user_related_apis_versioned/scopes).
 - `state` is an optional randomly generated value whose purpose is to prevent CSRF (Cross-Site Request Forgery) attacks. The client app that initiates the OAuth2 flow sends it to the authorization server. The authorization server returns this state parameter to the client as part of the redirect URI. The client should validate it upon receiving it.
 
 ### Defining `/` endpoint.
@@ -179,7 +179,7 @@ app.get('/auth', (req, res) => {
 
 ### Defining `/callback` endpoint.
 
-- Once a user successfully authorizes the example app, Quran.com’s authorization server will redirect the user back to `http://localhost:3000/callback` with `code` ,`state` and `scope` query params.
+- Once a user successfully authorizes the example app, Quran.Foundation’s authorization server will redirect the user back to `http://localhost:3000/callback` with `code` ,`state` and `scope` query params.
 - We’re going to exchange the `code` with an access token by calling the `tokenPath` endpoint defined above.
 
 ```jsx

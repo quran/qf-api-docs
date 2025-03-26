@@ -4,13 +4,13 @@ sidebar_position: 2
 
 # OpenID Connect
 
-Quran.com's OAuth 2.0 APIs can be used for both authentication and authorization.
+Quran.Foundation's OAuth 2.0 APIs can be used for both authentication and authorization.
 
-In this [guide](/docs/tutorials/oidc/getting-started-with-oauth2), we have breifly explained what OAuth2 is and how to integrate with Quran.com's OAuth2 server.
+In this [guide](/docs/tutorials/oidc/getting-started-with-oauth2), we have breifly explained what OAuth2 is and how to integrate with Quran.Foundation's OAuth2 server.
 
-Besides OAuth2, Quran.com also supports [OpenId Connect](https://openid.net/connect) standards by providing the [UserInfo Endpoint](/docs/auth_versioned/get-oidc-user-info) to get more information about the user.
+Besides OAuth2, Quran.Foundation also supports [OpenId Connect](https://openid.net/connect) standards by providing the [UserInfo Endpoint](/docs/oauth2_apis_versioned/get-oidc-user-info) to get more information about the user.
 
-To be able to access OpenId Connect's endpoints, make sure to include `openid` in the list of requested [scopes](/docs/auth_versioned/scopes). Once this is done, besides `access_token`, the authorization callback will also contain a [JWT](https://www.rfc-editor.org/rfc/rfc7519) `id_token` parameter.
+To be able to access OpenId Connect's endpoints, make sure to include `openid` in the list of requested [scopes](/docs/user_related_apis_versioned/scopes). Once this is done, besides `access_token`, the authorization callback will also contain a [JWT](https://www.rfc-editor.org/rfc/rfc7519) `id_token` parameter.
 
 The [ID Token](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) (`id_token`) contains information about the user and can be decoded using one of the JWT [libraries](https://jwt.io/libraries) to know more about the identity of the user. Below is an example of a decoded `id_token`:
 
@@ -25,7 +25,7 @@ The [ID Token](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) (`
   "exp": 1677591803,
   "first_name": "Muhammad",
   "iat": 1677588203,
-  "iss": "https://oauth2.quran.com/",
+  "iss": "https://oauth2.quran.foundation/",
   "jti": "a144b79e-3e50-40b8-8053c462000",
   "last_name": "Muhajir",
   "rat": 1677588190,

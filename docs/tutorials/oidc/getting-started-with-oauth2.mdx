@@ -2,39 +2,39 @@
 sidebar_position: 1
 ---
 
-# Using OAuth 2.0 to Access Quran.com APIs
+# Using OAuth 2.0 to Access Quran.Foundation APIs
 
-Quran.com APIs use the [OAuth 2.0 protocol](https://www.rfc-editor.org/rfc/rfc6749) for authentication and authorization. Quran.com supports common OAuth 2.0 scenarios such as those for web server, client-side, installed, and limited-input device applications.
+Quran.Foundation APIs use the [OAuth 2.0 protocol](https://www.rfc-editor.org/rfc/rfc6749) for authentication and authorization. Quran.Foundation supports common OAuth 2.0 scenarios such as those for web server, client-side, installed, and limited-input device applications.
 
-To begin, [obtain OAuth 2.0 client credentials](#obtaining-oauth-20-client-credentials) from QuranFoundation. Then your client application requests an access token from QuranFoundation Authorization server, extracts a token from the response, and sends the token to the Quran.com API that you want to access.
+To begin, [obtain OAuth 2.0 client credentials](#obtaining-oauth-20-client-credentials) from Quran.Foundation. Then your client application requests an access token from Quran.Foundation Authorization server, extracts a token from the response, and sends the token to the Quran.Foundation API that you want to access.
 
-This page gives an overview of the OAuth 2.0 authorization scenarios that Quran.com supports, and provides links to more detailed content. For details about using OAuth 2.0 for authentication, see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
+This page gives an overview of the OAuth 2.0 authorization scenarios that Quran.Foundation supports, and provides links to more detailed content. For details about using OAuth 2.0 for authentication, see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
 # Overview
 
-Here's how the OAuth2 process works in a common scenario
+Here's how the OAuth2 process works in a common scenario where user consent is needed to access their data:
 
 ![oauth2 process](/img/oauth2-process.png)
 
 ## Obtaining OAuth 2.0 client credentials
 
-Please contact [us](mailto:developers@quran.com) to get your client credentials.
+Please submit an [Application](/request-access) to get your client credentials.
 
 # Basic steps
 
-All applications follow a basic pattern when accessing a Quran.com API using OAuth 2.0. At a high level, you follow five steps:
+All applications follow a basic pattern when accessing a Quran.Foundation API using OAuth 2.0. At a high level, you follow five steps:
 
 1. Obtain OAuth 2.0 credentials by contacting us.
 
-Contact [us](mailto:developers@quran.com) to obtain OAuth 2.0 credentials such as a client ID and client secret that are known to both Quran.com and your application. The set of values varies based on what type of application you are building. For example, a JavaScript application does not require a secret, but a web server application does.
+Submit an [Application](/request-access) to obtain OAuth 2.0 credentials such as a client ID and client secret that are known to both Quran.Foundation and your application. The set of values varies based on what type of application you are building. For example, a JavaScript application does not require a secret, but a web server application does.
 
-2. Obtain an access token from the QuranFoundation Authorization server.
+2. Obtain an access token from the Quran.Foundation Authorization server.
 
 Before your application can access private data using a quran.com API, it must obtain an access token that grants access to that API. A single access token can grant varying degrees of access to multiple APIs. A variable parameter called scope controls the set of resources and operations that an access token permits. During the access-token request, your application sends one or more values in the scope parameter.
 
-Some requests require an authentication step where the user logs in with their Quran.com account. After logging in, the user is asked whether they are willing to grant one or more permissions that your application is requesting. This process is called user consent.
+Some requests require an authentication step where the user logs in with their Quran.Foundation account. After logging in, the user is asked whether they are willing to grant one or more permissions that your application is requesting. This process is called user consent.
 
-If the user grants at least one permission, the QuranFoundation Authorization server sends your application an access token (or an authorization code that your application can use to obtain an access token) and a list of scopes of access granted by that token. If the user does not grant the permission, the server returns an error.
+If the user grants at least one permission, the Quran.Foundation Authorization server sends your application an access token (or an authorization code that your application can use to obtain an access token) and a list of scopes of access granted by that token. If the user does not grant the permission, the server returns an error.
 
 It is generally a best practice to request scopes incrementally, at the time access is required, rather than up front. For example, an app that wants to support saving a bookmark should not request Bookmark access until the user presses the "Bookmark Ayah" button.
 
@@ -50,17 +50,17 @@ To request an access token, you will need to generate an authorization URL. This
 
 3. Examine scopes of access granted by the user.
 
-Compare the scopes included in the access token response to the scopes required to access features and functionality of your application dependent upon access to a related Quran.com API. Disable any features of your app unable to function without access to the related API.
+Compare the scopes included in the access token response to the scopes required to access features and functionality of your application dependent upon access to a related Quran.Foundation API. Disable any features of your app unable to function without access to the related API.
 
 4. Send the access token to an API.
 
-After an application obtains an access token, it sends the token to a Quran.com API in HTTP o_t_h request header.
+After an application obtains an access token, it sends the token to a Quran.Foundation API in HTTP x-auth-token request header.
 
-Access tokens are valid only for the set of operations and resources described in the scope of the token request. For example, if an access token is issued for the Quran.com Bookmark API, it does not grant access to the Quran.com Collection API. You can, however, send that access token to the Quran.com Bookmark API multiple times for similar operations.
+Access tokens are valid only for the set of operations and resources described in the scope of the token request. For example, if an access token is issued for the Quran.Foundation Bookmark API, it does not grant access to the Quran.Foundation Collection API. You can, however, send that access token to the Quran.Foundation Bookmark API multiple times for similar operations.
 
 5. Refresh the access token, if necessary.
 
-Access tokens have limited lifetimes. If your application needs access to a Quran.com API beyond the lifetime of a single access token, it can obtain a refresh token. A refresh token allows your application to obtain new access tokens.
+Access tokens have limited lifetimes. If your application needs access to a Quran.Foundation API beyond the lifetime of a single access token, it can obtain a refresh token. A refresh token allows your application to obtain new access tokens.
 
 **_Note: Save refresh tokens in secure long-term storage and continue to use them as long as they remain valid._**
 {/* Limits apply to the number of refresh tokens that are issued per client-user combination, and per user across all clients, and these limits are different. If your application requests enough refresh tokens to go over one of the limits, older refresh tokens stop working. */}
@@ -69,4 +69,4 @@ Access tokens have limited lifetimes. If your application needs access to a Qura
 
 ## Example
 
-We have created an [Example OAuth2 client](https://github.com/quran/quran-oauth2-example) that executes step 2 (authorzation request) and receives a callback with tokens required to perform steps 4 and 5 upon successful authorization request. We have used the Example client to connect to QuranFoundation Authorization server which can be found [here](https://oauth2-client-example.quran.foundation/). The generated accessToken resulting from the callback can be used to access V1 resource server APIs listed [here](/docs/category/auth-api).
+We have created an [Example OAuth2 client](https://github.com/quran/quran-oauth2-example) that executes step 2 (authorzation request) and receives a callback with tokens required to perform steps 4 and 5 upon successful authorization request. We have used the Example client to connect to Quran.Foundation Authorization server which can be found [here](https://oauth2-client-example.quran.foundation/). The generated accessToken resulting from the callback can be used to access V1 resource server APIs listed [here](/docs/category/user-related-apis).

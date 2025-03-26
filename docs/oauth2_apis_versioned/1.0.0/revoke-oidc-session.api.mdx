@@ -1,0 +1,41 @@
+---
+id: revoke-oidc-session
+title: "OpenID Connect Logout"
+description: "This endpoint handles the user logout process in Quran.Foundation's OAuth2 & OpenID Connect system. When called, it:"
+sidebar_label: "OpenID Connect Logout"
+hide_title: true
+hide_table_of_contents: true
+api: {"description":"This endpoint handles the user logout process in Quran.Foundation's OAuth2 & OpenID Connect system. When called, it:\n\n1. Ends the user's current session\n2. Revokes associated access and refresh tokens\n\nThe logout process follows the OpenID Connect specifications:\n- [Front-Channel Logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html)\n- [Back-Channel Logout](https://openid.net/specs/openid-connect-backchannel-1_0.html)","operationId":"revokeOidcSession","responses":{"302":{"description":"Successful logout. The user will be redirected to complete the logout process."}},"tags":["OIDC"],"method":"get","path":"/oauth2/sessions/logout","servers":[{"url":"https://oauth2.quran.foundation","description":"Production Server"},{"url":"https://staging-oauth2.quran.foundation","description":"Staging Server"}],"securitySchemes":{"bearerToken":{"type":"http","scheme":"bearer","bearerFormat":"JWT","description":"Bearer token authentication"},"basicAuth":{"type":"http","scheme":"basic","description":"Basic authentication for client credentials"}},"info":{"title":"OAuth2 APIs","version":"1.0.0","description":"Quran.Foundation OAuth2 APIs are a set of APIs that allow you to integrate your app with Quran.Foundation's OAuth2 capabilities. This includes endpoints for OpenID Connect Userinfo, OAuth2 Token Exchange, and OAuth2 Authorize. The APIs are designed to be simple and easy to use, with a focus on security and privacy. Integrating with Quran.Foundation's OAuth2 APIs is required to access Quran.Foundation's APIs."},"postman":{"name":"OpenID Connect Logout","description":{"content":"This endpoint handles the user logout process in Quran.Foundation's OAuth2 & OpenID Connect system. When called, it:\n\n1. Ends the user's current session\n2. Revokes associated access and refresh tokens\n\nThe logout process follows the OpenID Connect specifications:\n- [Front-Channel Logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html)\n- [Back-Channel Logout](https://openid.net/specs/openid-connect-backchannel-1_0.html)","type":"text/plain"},"url":{"path":["oauth2","sessions","logout"],"host":["{{baseUrl}}"],"query":[],"variable":[]},"method":"GET"}}
+sidebar_class_name: "get api-method"
+info_path: docs/oauth2_apis_versioned/1.0.0/oauth-2-apis
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## OpenID Connect Logout
+
+
+
+This endpoint handles the user logout process in Quran.Foundation's OAuth2 & OpenID Connect system. When called, it:
+
+1. Ends the user's current session
+2. Revokes associated access and refresh tokens
+
+The logout process follows the OpenID Connect specifications:
+- [Front-Channel Logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html)
+- [Back-Channel Logout](https://openid.net/specs/openid-connect-backchannel-1_0.html)
+
+<div><ApiTabs><TabItem label={"302"} value={"302"}><div>
+
+Successful logout. The user will be redirected to complete the logout process.
+
+</div><div></div></TabItem></ApiTabs></div>
+      

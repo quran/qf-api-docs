@@ -17,8 +17,8 @@
     "clean-api-docs": "docusaurus clean-api-docs",
     "gen-api-docs:version": "docusaurus gen-api-docs:version",
     "clean-api-docs:version": "docusaurus clean-api-docs:version",
-    "gen-all": "docusaurus gen-api-docs all && docusaurus gen-api-docs:version quranreflect_versioned:all && docusaurus gen-api-docs:version quran.com_versioned:all && docusaurus gen-api-docs:version auth_versioned:all",
-    "clean-all": "docusaurus clean-api-docs all && docusaurus clean-api-docs:version quranreflect_versioned:all && docusaurus clean-api-docs:version quran.com_versioned:all && docusaurus clean-api-docs:version auth_versioned:all",
+    "gen-all": "docusaurus gen-api-docs all && docusaurus gen-api-docs:version content_apis_versioned:all && docusaurus gen-api-docs:version user_related_apis_versioned:all && docusaurus gen-api-docs:version oauth2_apis_versioned:all",
+    "clean-all": "docusaurus clean-api-docs all && docusaurus clean-api-docs:version content_apis_versioned:all && docusaurus clean-api-docs:version user_related_apis_versioned:all && docusaurus clean-api-docs:version oauth2_apis_versioned:all",
     "re-gen": "yarn clean-all && yarn gen-all"
   },
   "dependencies": {
@@ -29,9 +29,11 @@
     "clsx": "^1.2.1",
     "docusaurus-plugin-openapi-docs": "^1.7.3",
     "docusaurus-theme-openapi-docs": "^1.7.3",
+    "dotenv": "^16.4.7",
     "prism-react-renderer": "^1.3.5",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.54.2"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.4.1",
