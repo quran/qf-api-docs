@@ -4170,6 +4170,1164 @@
           }
         }
       }
+    },
+    "/recitations/{recitation_id}/by_manzil/{manzil_number}": {
+      "get": {
+        "tags": ["Audio"],
+        "summary": "Get Ayah recitations for specific Manzil",
+        "description": "Get list of ayah recitations for a Manzil.",
+        "operationId": "list-manzil-recitation",
+        "parameters": [
+          {
+            "name": "recitation_id",
+            "in": "path",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": ["audio_files", "pagination"],
+                  "type": "object",
+                  "properties": {
+                    "audio_files": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/audiofile"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                },
+                "example": {
+                  "audio_files": [
+                    {
+                      "verse_key": "1:1",
+                      "url": "AbdulBaset/Mujawwad/mp3/001001.mp3"
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 10,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 15,
+                    "total_records": 148
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/recitations/{recitation_id}/by_ruku/{ruku_number}": {
+      "get": {
+        "tags": ["Audio"],
+        "summary": "Get Ayah recitations for specific Ruku",
+        "description": "Get list of ayah recitations for a Ruku.",
+        "operationId": "list-ruku-recitation",
+        "parameters": [
+          {
+            "name": "recitation_id",
+            "in": "path",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "ruku_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 556,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": ["audio_files", "pagination"],
+                  "type": "object",
+                  "properties": {
+                    "audio_files": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/audiofile"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                },
+                "example": {
+                  "audio_files": [
+                    {
+                      "verse_key": "1:1",
+                      "url": "AbdulBaset/Mujawwad/mp3/001001.mp3"
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 10,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 15,
+                    "total_records": 148
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/translations/{resource_id}/by_chapter/{chapter_number}": {
+      "get": {
+        "tags": ["Translations"],
+        "summary": "Get translations for specific Surah",
+        "description": "Get list of translations for a specific Surah.",
+        "operationId": "list-surah-translations",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Translation resource ID, you can get list of all available translations using this endpoint #endpoint:translations",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "chapter_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 114,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/translation"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                },
+                "example": {
+                  "translations": [
+                    {
+                      "resource_id": 131,
+                      "text": "In the Name of Allah—the Most Compassionate, Most Merciful.",
+                      "verse_key": "1:1"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/translations/{resource_id}/by_page/{page_number}": {
+      "get": {
+        "tags": ["Translations"],
+        "summary": "Get translations for specific Madani Mushaf page",
+        "description": "Get list of translations for a specific Madani Mushaf page.",
+        "operationId": "list-page-translations",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Translation resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 604,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/translation"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/translations/{resource_id}/by_juz/{juz_number}": {
+      "get": {
+        "tags": ["Translations"],
+        "summary": "Get translations for specific Juz",
+        "description": "Get list of translations for a specific Juz.",
+        "operationId": "list-juz-translations",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Translation resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "juz_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/translation"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/translations/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}": {
+      "get": {
+        "tags": ["Translations"],
+        "summary": "Get translations for specific Rub el Hizb",
+        "description": "Get list of translations for a specific Rub el Hizb.",
+        "operationId": "list-rub-el-hizb-translations",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Translation resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "rub_el_hizb_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 240,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/translation"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/translations/{resource_id}/by_hizb/{hizb_number}": {
+      "get": {
+        "tags": ["Translations"],
+        "summary": "Get translations for specific Hizb",
+        "description": "Get list of translations for a specific Hizb.",
+        "operationId": "list-hizb-translations",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Translation resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "hizb_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 60,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/translation"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/translations/{resource_id}/by_manzil/{manzil_number}": {
+      "get": {
+        "tags": ["Translations"],
+        "summary": "Get translations for specific Manzil",
+        "description": "Get list of translations for a specific Manzil.",
+        "operationId": "list-manzil-translations",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Translation resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/translation"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/translations/{resource_id}/by_ruku/{ruku_number}": {
+      "get": {
+        "tags": ["Translations"],
+        "summary": "Get translations for specific Ruku",
+        "description": "Get list of translations for a specific Ruku.",
+        "operationId": "list-ruku-translations",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Translation resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "ruku_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 556,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/translation"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/translations/{resource_id}/by_ayah/{ayah_key}": {
+      "get": {
+        "tags": ["Translations"],
+        "summary": "Get translations for specific Ayah",
+        "description": "Get list of translations for a specific Ayah.",
+        "operationId": "list-ayah-translations",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Translation resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "ayah_key",
+            "in": "path",
+            "description": "Ayah key is combination of surah number and ayah number. e.g 1:1 will be first Ayah of first Surah",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/translation"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/tafsirs/{resource_id}/by_chapter/{chapter_number}": {
+      "get": {
+        "tags": ["Tafsirs"],
+        "summary": "Get tafsirs for specific Surah",
+        "description": "Get list of tafsirs for a specific Surah.",
+        "operationId": "list-surah-tafsirs",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Tafsir resource ID, you can get list of all available tafsirs using this endpoint #endpoint:tafsirs",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "chapter_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 114,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tafsirs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tafsir"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                },
+                "example": {
+                  "tafsirs": [
+                    {
+                      "resource_id": 169,
+                      "text": "Bismillah بِسْمِ اللَّـهِ is a verse of the Holy Qur'an",
+                      "verse_key": "1:1"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/tafsirs/{resource_id}/by_page/{page_number}": {
+      "get": {
+        "tags": ["Tafsirs"],
+        "summary": "Get tafsirs for specific Madani Mushaf page",
+        "description": "Get list of tafsirs for a specific Madani Mushaf page.",
+        "operationId": "list-page-tafsirs",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Tafsir resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 604,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tafsirs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tafsir"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/tafsirs/{resource_id}/by_juz/{juz_number}": {
+      "get": {
+        "tags": ["Tafsirs"],
+        "summary": "Get tafsirs for specific Juz",
+        "description": "Get list of tafsirs for a specific Juz.",
+        "operationId": "list-juz-tafsirs",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Tafsir resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "juz_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tafsirs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tafsir"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/tafsirs/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}": {
+      "get": {
+        "tags": ["Tafsirs"],
+        "summary": "Get tafsirs for specific Rub el Hizb",
+        "description": "Get list of tafsirs for a specific Rub el Hizb.",
+        "operationId": "list-rub-el-hizb-tafsirs",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Tafsir resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "rub_el_hizb_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 240,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tafsirs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tafsir"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/tafsirs/{resource_id}/by_hizb/{hizb_number}": {
+      "get": {
+        "tags": ["Tafsirs"],
+        "summary": "Get tafsirs for specific Hizb",
+        "description": "Get list of tafsirs for a specific Hizb.",
+        "operationId": "list-hizb-tafsirs",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Tafsir resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "hizb_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 60,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tafsirs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tafsir"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/tafsirs/{resource_id}/by_manzil/{manzil_number}": {
+      "get": {
+        "tags": ["Tafsirs"],
+        "summary": "Get tafsirs for specific Manzil",
+        "description": "Get list of tafsirs for a specific Manzil.",
+        "operationId": "list-manzil-tafsirs",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Tafsir resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tafsirs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tafsir"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/tafsirs/{resource_id}/by_ruku/{ruku_number}": {
+      "get": {
+        "tags": ["Tafsirs"],
+        "summary": "Get tafsirs for specific Ruku",
+        "description": "Get list of tafsirs for a specific Ruku.",
+        "operationId": "list-ruku-tafsirs",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Tafsir resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "ruku_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maximum": 556,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tafsirs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tafsir"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
+    "/tafsirs/{resource_id}/by_ayah/{ayah_key}": {
+      "get": {
+        "tags": ["Tafsirs"],
+        "summary": "Get tafsirs for specific Ayah",
+        "description": "Get list of tafsirs for a specific Ayah.",
+        "operationId": "list-ayah-tafsirs",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "Tafsir resource ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "ayah_key",
+            "in": "path",
+            "description": "Ayah key is combination of surah number and ayah number. e.g 1:1 will be first Ayah of first Surah",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tafsirs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tafsir"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
     }
   },
   "components": {
