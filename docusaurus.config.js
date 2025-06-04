@@ -161,6 +161,11 @@ const config = {
             label: "Tutorials",
           },
           {
+            to: "/docs/tutorials/faq",
+            label: "FAQ",
+            position: "left",
+          },
+          {
             sidebarId: "APIsSidebar",
             type: "dropdown",
             label: "APIs",
