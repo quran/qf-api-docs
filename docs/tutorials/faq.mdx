@@ -1,0 +1,30 @@
+---
+id: faq
+title: Frequently Asked Questions
+sidebar_label: FAQ
+sidebar_position: 0
+---
+
+# Frequently Asked Questions
+
+This FAQ answers common questions developers have when working with Quran.Foundation APIs.
+
+## How do I obtain OAuth2 credentials?
+
+Submit an [application](/request-access) to receive your `client_id` and `client_secret`. These credentials let you request authorization tokens for accessing user data.
+
+## What is the difference between Content APIs and User-related APIs?
+
+**Content APIs** provide read-only access to Quran data such as chapters, verses, recitations and translations. **User-related APIs** manage data tied to a specific Quran.Foundation account like bookmarks and notes.
+
+## How do I use `x-auth-token` and `x-client-id` headers?
+
+Include your OAuth2 access token in the `x-auth-token` header and your client ID in the `x-client-id` header when calling authenticated endpoints.
+
+## What are the best practices for refresh tokens?
+
+Store refresh tokens securely and reuse them until they expire. Refresh tokens allow you to obtain new access tokens without asking the user to re-authorize.
+
+## Can I use the demo credentials `quran-demo`/`secret` in production?
+
+No. These demo credentials are for testing only and should not be used in production applications.

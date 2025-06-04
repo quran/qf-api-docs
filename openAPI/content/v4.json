@@ -1338,7 +1338,7 @@
       "get": {
         "tags": ["Verses"],
         "summary": "By Specific Verse By Key",
-        "description": "Get a specific ayah with key. Key is combination of surah number and ayah number. 1:1 is first ayah offirst surah for exampke.\n\n10:5 is 5th ayah of 10th surah.",
+        "description": "Get a specific ayah with key. Key is combination of surah number and ayah number. 1:1 is first ayah of first surah for example.\n\n10:5 is 5th ayah of 10th surah.",
         "operationId": "verses-by_verse_key",
         "parameters": [
           {
@@ -3164,7 +3164,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Juz",
         "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a juz.",
-        "operationId": "list-juz-recitaiton",
+        "operationId": "list-juz-recitation",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3250,7 +3250,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Madani Mushaf page",
         "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Madani Mushaf page.",
-        "operationId": "list-page-recitaiton",
+        "operationId": "list-page-recitation",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3336,7 +3336,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Rub el Hizb",
         "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Rub el Hizb.",
-        "operationId": "list-rub-el-hizb-recitaiton",
+        "operationId": "list-rub-el-hizb-recitation",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3422,7 +3422,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Hizb",
         "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Hizb.",
-        "operationId": "list-hizb-recitaiton",
+        "operationId": "list-hizb-recitation",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3508,7 +3508,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Ayah",
         "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Hizb.",
-        "operationId": "list-ayah-recitaiton",
+        "operationId": "list-ayah-recitation",
         "parameters": [
           {
             "name": "recitation_id",
