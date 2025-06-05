@@ -29,6 +29,14 @@ const sidebars = {
     },
   ],
 
+  updatesSidebar: [
+    {
+      type: "doc",
+      id: "updates/index", // This points to /docs/updates/index.md
+      label: "📢 API Updates",
+    },
+  ],
+
   scopesSidebar: [
     {
       type: "doc",
