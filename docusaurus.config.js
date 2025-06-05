@@ -153,6 +153,12 @@ const config = {
             position: "left",
             label: "🚀 Quick Start",
           },
+          {
+            type: "doc",
+            docId: "updates/index",
+            position: "left",
+            label: "📢 Updates",
+          },
 
           {
             type: "docSidebar",
@@ -233,6 +239,10 @@ const config = {
               {
                 label: "Donate",
                 to: "https://donate.quran.foundation",
+              },
+              {
+                label: "Updates",
+                to: "/docs/updates",
               },
               {
                 label: "GitHub",
