@@ -5348,17 +5348,71 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "tafsirs": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/tafsir"
+                    "tafsir": {
+                      "type": "object",
+                      "required": [
+                        "verses",
+                        "resource_id",
+                        "resource_name",
+                        "language_id",
+                        "slug",
+                        "translated_name",
+                        "text"
+                      ],
+                      "properties": {
+                        "verses": {
+                          "type": "object",
+                          "description": "Hash map of ayah_key → tafsir-record",
+                          "additionalProperties": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "integer" }
+                            },
+                            "required": ["id"]
+                          }
+                        },
+                        "resource_id": { "type": "integer" },
+                        "resource_name": { "type": "string" },
+                        "language_id": { "type": "integer" },
+                        "slug": { "type": "string" },
+                        "translated_name": {
+                          "type": "object",
+                          "required": ["name", "language_name"],
+                          "properties": {
+                            "name": { "type": "string" },
+                            "language_name": { "type": "string" }
+                          }
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "HTML-formatted tafsir body"
+                        }
                       }
                     }
+                  }
+                },
+                "example": {
+                  "tafsir": {
+                    "verses": {
+                      "2:111": { "id": 118 },
+                      "2:112": { "id": 119 },
+                      "2:113": { "id": 120 }
+                    },
+                    "resource_id": 168,
+                    "resource_name": "Ma'arif al-Qur'an",
+                    "language_id": 38,
+                    "slug": "en-tafsir-maarif-ul-quran",
+                    "translated_name": {
+                      "name": "Ma'arif al-Qur'an",
+                      "language_name": "english"
+                    },
+                    "text": "<p>…HTML tafsīr…</p>"
                   }
                 }
               }
             }
           },
+
           "400": { "$ref": "#/components/responses/invalidRequest" },
           "401": { "$ref": "#/components/responses/unauthorized" },
           "403": { "$ref": "#/components/responses/forbidden" },
