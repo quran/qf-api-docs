@@ -429,7 +429,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -627,7 +627,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -822,7 +822,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1018,7 +1018,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1214,7 +1214,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1388,7 +1388,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1582,7 +1582,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1830,7 +1830,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get Uthmani Tajweed Script of ayah",
-        "description": "Get Uthmani color coded tajweed text of ayah. Tajweed rules are embeded in text as `tajweed` html tags.",
+        "description": "Get Uthmani color coded tajweed text of ayah. Tajweed rules are embedded in text as `tajweed` html tags.",
         "operationId": "QURAN-verses-uthmani-tajweed",
         "parameters": [
           {
@@ -2360,7 +2360,7 @@
         "tags": ["Audio"],
         "summary": "Get list of Audio files of single recitation",
         "description": "Get list of #model:knzdXGgyjYnAqbhGX for a single recitation. See #endpoint:HLbauN2sdGitPQPPL endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
-        "operationId": "recitation-autio-files",
+        "operationId": "recitation-audio-files",
         "parameters": [
           {
             "name": "recitation_id",
@@ -2374,7 +2374,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma seperated field of audio files.",
+            "description": "comma separated field of audio files.",
             "schema": {
               "type": "string"
             }
@@ -2534,7 +2534,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma seperated fields of translation.",
+            "description": "comma separated fields of translation.",
             "schema": {
               "type": "string"
             }
@@ -2747,7 +2747,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma seperated fields of tafsir.",
+            "description": "comma separated fields of tafsir.",
             "schema": {
               "type": "string"
             }
@@ -3845,7 +3845,7 @@
                       "id": 169,
                       "name": "Tafsir Ibn Kathir",
                       "author_name": "Hafiz Ibn Kathir",
-                      "slug": "en-tafisr-ibn-kathir",
+                      "slug": "en-tafsir-ibn-kathir",
                       "language_name": "english",
                       "translated_name": {
                         "name": "Tafsir Ibn Kathir",
@@ -4008,7 +4008,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Chapter Infos",
-        "description": "Get list of chaper info we've in different languages.",
+        "description": "Get list of chapter info we've in different languages.",
         "operationId": "chapter-info",
         "responses": {
           "200": {
@@ -5831,7 +5831,7 @@
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "page_number is deperacted, please use `v1_page` instead."
+            "description": "page_number is deprecated, please use `v1_page` instead."
           },
           "image_url": {
             "type": "string"
@@ -5947,7 +5947,7 @@
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "page_number is deperacted, please use `v1_page` instead."
+            "description": "page_number is deprecated, please use `v1_page` instead."
           },
           "line_number": {
             "type": "integer",
@@ -6114,7 +6114,7 @@
           "id": 169,
           "name": "Tafsir Ibn Kathir",
           "author_name": "Hafiz Ibn Kathir",
-          "slug": "en-tafisr-ibn-kathir",
+          "slug": "en-tafsir-ibn-kathir",
           "language_name": "english",
           "translated_name": {
             "name": "Tafsir Ibn Kathir",
