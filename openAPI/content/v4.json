@@ -1502,6 +1502,49 @@
         "operationId": "random_verse",
         "parameters": [
           {
+            "name": "chapter_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified chapter (sūrah)**.",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 114 }
+          },
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified Muṣḥaf page** (1 – 604).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 604 }
+          },
+          {
+            "name": "juz_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified juzʾ** (1 – 30).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 30 }
+          },
+          {
+            "name": "hizb_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified ḥizb** (1 – 60).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 60 }
+          },
+          {
+            "name": "rub_el_hizb_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified rubʿ al-ḥizb** (1 – 240).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 240 }
+          },
+          {
+            "name": "ruku_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified rukūʿ**.",
+            "schema": { "type": "integer", "minimum": 1 }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified manzil** (1 – 7).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 7 }
+          },
+
+          {
             "name": "language",
             "in": "query",
             "description": "Language to fetch word translation in specific language.",
