@@ -1738,7 +1738,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get indopak script of a Madani Muhsaf page",
+            "description": "If you want to get indopak script of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -1856,7 +1856,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get text of a Madani Muhsaf page",
+            "description": "If you want to get text of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -1974,7 +1974,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a Madani Muhsaf page",
+            "description": "If you want to get Uthmani script of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2092,7 +2092,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a Madani Muhsaf page",
+            "description": "If you want to get Uthmani script of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2210,7 +2210,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get text of a Madani Muhsaf page",
+            "description": "If you want to get text of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2402,7 +2402,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get audio file of a Madani Muhsaf page",
+            "description": "If you want to get audio file of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2562,7 +2562,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get translation of a Madani Muhsaf page",
+            "description": "If you want to get translation of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2775,7 +2775,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get tafsir of a Madani Muhsaf page",
+            "description": "If you want to get tafsir of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2894,7 +2894,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get text of a Madani Muhsaf page",
+            "description": "If you want to get text of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2957,7 +2957,7 @@
                             "maximum": 604,
                             "minimum": 1,
                             "type": "integer",
-                            "description": "Madani Muhsaf page number. You can use `v1_page` to generate css and font faces for QCF page font. "
+                            "description": "Madani Mushaf page number. You can use `v1_page` to generate css and font faces for QCF page font. "
                           }
                         }
                       }
@@ -3020,7 +3020,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get text of a Madani Muhsaf page",
+            "description": "If you want to get text of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -3084,7 +3084,7 @@
                             "maximum": 604,
                             "minimum": 1,
                             "type": "integer",
-                            "description": "Madani Muhsaf page number. You can use `v2_page` to generate css and font faces for QCF page font. "
+                            "description": "Madani Mushaf page number. You can use `v2_page` to generate css and font faces for QCF page font. "
                           }
                         }
                       }
@@ -5866,13 +5866,13 @@
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "Madani Muhsaf Page number for v1 font. If `v1_page` value is 2, that means you'll use page 2 font file to render this ayah using v1 glyph codes."
+            "description": "Madani Mushaf Page number for v1 font. If `v1_page` value is 2, that means you'll use page 2 font file to render this ayah using v1 glyph codes."
           },
           "v2_page": {
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "Madani Muhsaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
+            "description": "Madani Mushaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
           }
         },
         "example": {
@@ -5951,7 +5951,7 @@
           },
           "line_number": {
             "type": "integer",
-            "description": "Line number in the Muhsaf for this word"
+            "description": "Line number in the Mushaf for this word"
           },
           "audio_url": {
             "type": "string"
@@ -5996,13 +5996,13 @@
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "Madani Muhsaf Page number for v1 font. If `v1_page` value is 2, that means you'll use page 2 font file to render this word using v1 glyph codes."
+            "description": "Madani Mushaf Page number for v1 font. If `v1_page` value is 2, that means you'll use page 2 font file to render this word using v1 glyph codes."
           },
           "v2_page": {
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "Madani Muhsaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
+            "description": "Madani Mushaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
           }
         },
         "example": {
