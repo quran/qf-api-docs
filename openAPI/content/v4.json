@@ -3550,7 +3550,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Ayah",
-        "description": "Get list of ayah AudioFile for a Hizb.",
+        "description": "Get list of ayah AudioFile for a specific Ayah.",
         "operationId": "list-ayah-recitation",
         "parameters": [
           {
