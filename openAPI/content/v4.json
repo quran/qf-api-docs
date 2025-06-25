@@ -171,7 +171,7 @@
       "get": {
         "tags": ["Chapters"],
         "summary": "List Chapters",
-        "description": "Get list of #model:aC7ed7aoTAZEKLCGF.",
+        "description": "Get list of Chapter.",
         "operationId": "list-chapters",
         "parameters": [
           {
@@ -238,7 +238,7 @@
       "get": {
         "tags": ["Chapters"],
         "summary": "Get Chapter",
-        "description": "Get details of a single #model:aC7ed7aoTAZEKLCGF.",
+        "description": "Get details of a single Chapter.",
         "operationId": "GET-chapter",
         "parameters": [
           {
@@ -311,7 +311,7 @@
       "get": {
         "tags": ["Chapters"],
         "summary": "Get Chapter Info",
-        "description": "Get #model:wc8vsnXdQpa7bpWa4 in specific language. Default to `English`.",
+        "description": "Get Chapter Info in specific language. Default to `English`.",
         "operationId": "info",
         "parameters": [
           {
@@ -377,7 +377,7 @@
       "get": {
         "tags": ["Verses"],
         "summary": "By Chapter",
-        "description": "Get list of #model:J83wDRc48FrARPHBY(s) by Chapter / Surah number.",
+        "description": "Get list of Verse(s) by Chapter / Surah number.",
         "operationId": "verses-by_chapter_number",
         "parameters": [
           {
@@ -429,7 +429,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -627,7 +627,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -822,7 +822,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1018,7 +1018,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1214,7 +1214,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1388,7 +1388,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1502,6 +1502,49 @@
         "operationId": "random_verse",
         "parameters": [
           {
+            "name": "chapter_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified chapter (sūrah)**.",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 114 }
+          },
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified Muṣḥaf page** (1 – 604).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 604 }
+          },
+          {
+            "name": "juz_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified juzʾ** (1 – 30).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 30 }
+          },
+          {
+            "name": "hizb_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified ḥizb** (1 – 60).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 60 }
+          },
+          {
+            "name": "rub_el_hizb_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified rubʿ al-ḥizb** (1 – 240).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 240 }
+          },
+          {
+            "name": "ruku_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified rukūʿ**.",
+            "schema": { "type": "integer", "minimum": 1 }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "Return a random verse **only from the specified manzil** (1 – 7).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 7 }
+          },
+
+          {
             "name": "language",
             "in": "query",
             "description": "Language to fetch word translation in specific language.",
@@ -1539,7 +1582,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafisrs to load for each ayah if you want to load tafisrs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
             "schema": {
               "type": "string"
             }
@@ -1649,7 +1692,7 @@
       "get": {
         "tags": ["Juz"],
         "summary": "Get All Juzs",
-        "description": "Get list of all #model:XwogxNra8JdvchxBE",
+        "description": "Get list of all Juz",
         "operationId": "juzs",
         "responses": {
           "default": {
@@ -1695,7 +1738,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get indopak script of a Madani Muhsaf page",
+            "description": "If you want to get indopak script of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -1787,7 +1830,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get Uthmani Tajweed Script of ayah",
-        "description": "Get Uthmani color coded tajweed text of ayah. Tajweed rules are embeded in text as `tajweed` html tags.",
+        "description": "Get Uthmani color coded tajweed text of ayah. Tajweed rules are embedded in text as `tajweed` html tags.",
         "operationId": "QURAN-verses-uthmani-tajweed",
         "parameters": [
           {
@@ -1813,7 +1856,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get text of a Madani Muhsaf page",
+            "description": "If you want to get text of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -1931,7 +1974,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a Madani Muhsaf page",
+            "description": "If you want to get Uthmani script of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2049,7 +2092,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get Uthmani script of a Madani Muhsaf page",
+            "description": "If you want to get Uthmani script of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2167,7 +2210,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get text of a Madani Muhsaf page",
+            "description": "If you want to get text of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2316,8 +2359,8 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get list of Audio files of single recitation",
-        "description": "Get list of #model:knzdXGgyjYnAqbhGX for a single recitation. See #endpoint:HLbauN2sdGitPQPPL endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
-        "operationId": "recitation-autio-files",
+        "description": "Get list of AudioFile for a single recitation. See /resources/recitations endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
+        "operationId": "recitation-audio-files",
         "parameters": [
           {
             "name": "recitation_id",
@@ -2331,7 +2374,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma seperated field of audio files.",
+            "description": "comma separated field of audio files.",
             "schema": {
               "type": "string"
             }
@@ -2359,7 +2402,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get audio file of a Madani Muhsaf page",
+            "description": "If you want to get audio file of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2476,7 +2519,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get a single translation",
-        "description": "Get a single #model:XCinMTfQdCrC3D3vH of all ayah.\n\nSee #endpoint:N4JAF8phDshhyrBHs endpoint to fetch available translations.\n\nYou can also include more fields of translation using `fields` query string.",
+        "description": "Get a single Translation of all ayah.\n\nSee /resources/translations endpoint to fetch available translations.\n\nYou can also include more fields of translation using `fields` query string.",
         "operationId": "translation",
         "parameters": [
           {
@@ -2491,7 +2534,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma seperated fields of translation.",
+            "description": "comma separated fields of translation.",
             "schema": {
               "type": "string"
             }
@@ -2519,7 +2562,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get translation of a Madani Muhsaf page",
+            "description": "If you want to get translation of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2612,7 +2655,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "List of Chapter Reciters",
-        "description": "Get list of #model:Q4runBANeeCjwqfcT.",
+        "description": "Get list of Chapter Reciter.",
         "operationId": "chapter-reciters",
         "parameters": [
           {
@@ -2689,7 +2732,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get a single tafsir",
-        "description": "Get a single #model:D7oy5DF6aGMhfLwDB of all ayah.\n\nSee #endpoint:5YnxJJGPMCLnM6PNE\nendpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
+        "description": "Get a single Tafsir of all ayah.\n\nSee /resources/tafsirs\nendpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
         "operationId": "tafsir",
         "parameters": [
           {
@@ -2704,7 +2747,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma seperated fields of tafsir.",
+            "description": "comma separated fields of tafsir.",
             "schema": {
               "type": "string"
             }
@@ -2732,7 +2775,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get tafsir of a Madani Muhsaf page",
+            "description": "If you want to get tafsir of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2851,7 +2894,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get text of a Madani Muhsaf page",
+            "description": "If you want to get text of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -2914,7 +2957,7 @@
                             "maximum": 604,
                             "minimum": 1,
                             "type": "integer",
-                            "description": "Madani Muhsaf page number. You can use `v1_page` to generate css and font faces for QCF page font. "
+                            "description": "Madani Mushaf page number. You can use `v1_page` to generate css and font faces for QCF page font. "
                           }
                         }
                       }
@@ -2977,7 +3020,7 @@
           {
             "name": "page_number",
             "in": "query",
-            "description": "If you want to get text of a Madani Muhsaf page",
+            "description": "If you want to get text of a Madani Mushaf page",
             "schema": {
               "maximum": 604,
               "minimum": 1,
@@ -3041,7 +3084,7 @@
                             "maximum": 604,
                             "minimum": 1,
                             "type": "integer",
-                            "description": "Madani Muhsaf page number. You can use `v2_page` to generate css and font faces for QCF page font. "
+                            "description": "Madani Mushaf page number. You can use `v2_page` to generate css and font faces for QCF page font. "
                           }
                         }
                       }
@@ -3078,13 +3121,13 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Surah",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Surah.",
+        "description": "Get list of ayah AudioFile for a Surah.",
         "operationId": "list-surah-recitation",
         "parameters": [
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
             "required": true,
             "schema": {
               "type": "number"
@@ -3163,13 +3206,13 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Juz",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a juz.",
+        "description": "Get list of ayah AudioFile for a juz.",
         "operationId": "list-juz-recitation",
         "parameters": [
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
             "required": true,
             "schema": {
               "type": "number"
@@ -3249,13 +3292,13 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Madani Mushaf page",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Madani Mushaf page.",
+        "description": "Get list of ayah AudioFile for a Madani Mushaf page.",
         "operationId": "list-page-recitation",
         "parameters": [
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
             "required": true,
             "schema": {
               "type": "number"
@@ -3335,13 +3378,13 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Rub el Hizb",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Rub el Hizb.",
+        "description": "Get list of ayah AudioFile for a Rub el Hizb.",
         "operationId": "list-rub-el-hizb-recitation",
         "parameters": [
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
             "required": true,
             "schema": {
               "type": "number"
@@ -3421,13 +3464,13 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Hizb",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Hizb.",
+        "description": "Get list of ayah AudioFile for a Hizb.",
         "operationId": "list-hizb-recitation",
         "parameters": [
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
             "required": true,
             "schema": {
               "type": "number"
@@ -3507,13 +3550,13 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Ayah",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Hizb.",
+        "description": "Get list of ayah AudioFile for a specific Ayah.",
         "operationId": "list-ayah-recitation",
         "parameters": [
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
             "required": true,
             "schema": {
               "type": "number"
@@ -3706,7 +3749,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Translations",
-        "description": "Get list of available translations. Use `language` query to get translated names of authors in specific language(e.g language=ur will send translation names in Urdu). \n\nFor list of available language see  #endpoint:EZsWyDnekGaDKaCpt endpoint.",
+        "description": "Get list of available translations. Use `language` query to get translated names of authors in specific language(e.g language=ur will send translation names in Urdu). \n\nFor list of available language see  /resources/languages endpoint.",
         "operationId": "translations",
         "parameters": [
           {
@@ -3802,7 +3845,7 @@
                       "id": 169,
                       "name": "Tafsir Ibn Kathir",
                       "author_name": "Hafiz Ibn Kathir",
-                      "slug": "en-tafisr-ibn-kathir",
+                      "slug": "en-tafsir-ibn-kathir",
                       "language_name": "english",
                       "translated_name": {
                         "name": "Tafsir Ibn Kathir",
@@ -3965,7 +4008,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Chapter Infos",
-        "description": "Get list of chaper info we've in different languages.",
+        "description": "Get list of chapter info we've in different languages.",
         "operationId": "chapter-info",
         "responses": {
           "200": {
@@ -4150,7 +4193,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "ISO code of language, use this query params if you want to boost translations for specific language. \nFor list of available language see  #endpoint:8rjMCZEyPEZMHAKz9 endpoint.",
+            "description": "ISO code of language, use this query params if you want to boost translations for specific language. \nFor list of available language see  /resources/languages endpoint.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -4181,7 +4224,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
             "required": true,
             "schema": {
               "type": "number"
@@ -4259,7 +4302,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint #endpoint:HLbauN2sdGitPQPPL",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
             "required": true,
             "schema": {
               "type": "number"
@@ -4337,7 +4380,7 @@
           {
             "name": "resource_id",
             "in": "path",
-            "description": "Translation resource ID, you can get list of all available translations using this endpoint #endpoint:translations",
+            "description": "Translation resource ID, you can get list of all available translations using this endpoint /resources/translations",
             "required": true,
             "schema": {
               "type": "number"
@@ -4838,7 +4881,7 @@
           {
             "name": "resource_id",
             "in": "path",
-            "description": "Tafsir resource ID, you can get list of all available tafsirs using this endpoint #endpoint:tafsirs",
+            "description": "Tafsir resource ID, you can get list of all available tafsirs using this endpoint /resources/tafsirs",
             "required": true,
             "schema": {
               "type": "number"
@@ -5305,17 +5348,71 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "tafsirs": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/tafsir"
+                    "tafsir": {
+                      "type": "object",
+                      "required": [
+                        "verses",
+                        "resource_id",
+                        "resource_name",
+                        "language_id",
+                        "slug",
+                        "translated_name",
+                        "text"
+                      ],
+                      "properties": {
+                        "verses": {
+                          "type": "object",
+                          "description": "Hash map of ayah_key → tafsir-record",
+                          "additionalProperties": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "integer" }
+                            },
+                            "required": ["id"]
+                          }
+                        },
+                        "resource_id": { "type": "integer" },
+                        "resource_name": { "type": "string" },
+                        "language_id": { "type": "integer" },
+                        "slug": { "type": "string" },
+                        "translated_name": {
+                          "type": "object",
+                          "required": ["name", "language_name"],
+                          "properties": {
+                            "name": { "type": "string" },
+                            "language_name": { "type": "string" }
+                          }
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "HTML-formatted tafsir body"
+                        }
                       }
                     }
+                  }
+                },
+                "example": {
+                  "tafsir": {
+                    "verses": {
+                      "2:111": { "id": 118 },
+                      "2:112": { "id": 119 },
+                      "2:113": { "id": 120 }
+                    },
+                    "resource_id": 168,
+                    "resource_name": "Ma'arif al-Qur'an",
+                    "language_id": 38,
+                    "slug": "en-tafsir-maarif-ul-quran",
+                    "translated_name": {
+                      "name": "Ma'arif al-Qur'an",
+                      "language_name": "english"
+                    },
+                    "text": "<p>…HTML tafsīr…</p>"
                   }
                 }
               }
             }
           },
+
           "400": { "$ref": "#/components/responses/invalidRequest" },
           "401": { "$ref": "#/components/responses/unauthorized" },
           "403": { "$ref": "#/components/responses/forbidden" },
@@ -5734,7 +5831,7 @@
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "page_number is deperacted, please use `v1_page` instead."
+            "description": "page_number is deprecated, please use `v1_page` instead."
           },
           "image_url": {
             "type": "string"
@@ -5769,13 +5866,13 @@
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "Madani Muhsaf Page number for v1 font. If `v1_page` value is 2, that means you'll use page 2 font file to render this ayah using v1 glyph codes."
+            "description": "Madani Mushaf Page number for v1 font. If `v1_page` value is 2, that means you'll use page 2 font file to render this ayah using v1 glyph codes."
           },
           "v2_page": {
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "Madani Muhsaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
+            "description": "Madani Mushaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
           }
         },
         "example": {
@@ -5850,11 +5947,11 @@
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "page_number is deperacted, please use `v1_page` instead."
+            "description": "page_number is deprecated, please use `v1_page` instead."
           },
           "line_number": {
             "type": "integer",
-            "description": "Line number in the Muhsaf for this word"
+            "description": "Line number in the Mushaf for this word"
           },
           "audio_url": {
             "type": "string"
@@ -5899,13 +5996,13 @@
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "Madani Muhsaf Page number for v1 font. If `v1_page` value is 2, that means you'll use page 2 font file to render this word using v1 glyph codes."
+            "description": "Madani Mushaf Page number for v1 font. If `v1_page` value is 2, that means you'll use page 2 font file to render this word using v1 glyph codes."
           },
           "v2_page": {
             "maximum": 604,
             "minimum": 1,
             "type": "integer",
-            "description": "Madani Muhsaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
+            "description": "Madani Mushaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
           }
         },
         "example": {
@@ -6017,7 +6114,7 @@
           "id": 169,
           "name": "Tafsir Ibn Kathir",
           "author_name": "Hafiz Ibn Kathir",
-          "slug": "en-tafisr-ibn-kathir",
+          "slug": "en-tafsir-ibn-kathir",
           "language_name": "english",
           "translated_name": {
             "name": "Tafsir Ibn Kathir",
