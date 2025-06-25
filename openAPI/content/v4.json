@@ -171,7 +171,7 @@
       "get": {
         "tags": ["Chapters"],
         "summary": "List Chapters",
-        "description": "Get list of #model:aC7ed7aoTAZEKLCGF.",
+        "description": "Get list of Chapter.",
         "operationId": "list-chapters",
         "parameters": [
           {
@@ -238,7 +238,7 @@
       "get": {
         "tags": ["Chapters"],
         "summary": "Get Chapter",
-        "description": "Get details of a single #model:aC7ed7aoTAZEKLCGF.",
+        "description": "Get details of a single Chapter.",
         "operationId": "GET-chapter",
         "parameters": [
           {
@@ -311,7 +311,7 @@
       "get": {
         "tags": ["Chapters"],
         "summary": "Get Chapter Info",
-        "description": "Get #model:wc8vsnXdQpa7bpWa4 in specific language. Default to `English`.",
+        "description": "Get Chapter Info in specific language. Default to `English`.",
         "operationId": "info",
         "parameters": [
           {
@@ -377,7 +377,7 @@
       "get": {
         "tags": ["Verses"],
         "summary": "By Chapter",
-        "description": "Get list of #model:J83wDRc48FrARPHBY(s) by Chapter / Surah number.",
+        "description": "Get list of Verse(s) by Chapter / Surah number.",
         "operationId": "verses-by_chapter_number",
         "parameters": [
           {
@@ -1692,7 +1692,7 @@
       "get": {
         "tags": ["Juz"],
         "summary": "Get All Juzs",
-        "description": "Get list of all #model:XwogxNra8JdvchxBE",
+        "description": "Get list of all Juz",
         "operationId": "juzs",
         "responses": {
           "default": {
@@ -2359,7 +2359,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get list of Audio files of single recitation",
-        "description": "Get list of #model:knzdXGgyjYnAqbhGX for a single recitation. See #endpoint:HLbauN2sdGitPQPPL endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
+        "description": "Get list of AudioFile for a single recitation. See #endpoint:HLbauN2sdGitPQPPL endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
         "operationId": "recitation-audio-files",
         "parameters": [
           {
@@ -2519,7 +2519,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get a single translation",
-        "description": "Get a single #model:XCinMTfQdCrC3D3vH of all ayah.\n\nSee #endpoint:N4JAF8phDshhyrBHs endpoint to fetch available translations.\n\nYou can also include more fields of translation using `fields` query string.",
+        "description": "Get a single Translation of all ayah.\n\nSee #endpoint:N4JAF8phDshhyrBHs endpoint to fetch available translations.\n\nYou can also include more fields of translation using `fields` query string.",
         "operationId": "translation",
         "parameters": [
           {
@@ -2655,7 +2655,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "List of Chapter Reciters",
-        "description": "Get list of #model:Q4runBANeeCjwqfcT.",
+        "description": "Get list of Chapter Reciter.",
         "operationId": "chapter-reciters",
         "parameters": [
           {
@@ -2732,7 +2732,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get a single tafsir",
-        "description": "Get a single #model:D7oy5DF6aGMhfLwDB of all ayah.\n\nSee #endpoint:5YnxJJGPMCLnM6PNE\nendpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
+        "description": "Get a single Tafsir of all ayah.\n\nSee #endpoint:5YnxJJGPMCLnM6PNE\nendpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
         "operationId": "tafsir",
         "parameters": [
           {
@@ -3121,7 +3121,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Surah",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Surah.",
+        "description": "Get list of ayah AudioFile for a Surah.",
         "operationId": "list-surah-recitation",
         "parameters": [
           {
@@ -3206,7 +3206,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Juz",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a juz.",
+        "description": "Get list of ayah AudioFile for a juz.",
         "operationId": "list-juz-recitation",
         "parameters": [
           {
@@ -3292,7 +3292,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Madani Mushaf page",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Madani Mushaf page.",
+        "description": "Get list of ayah AudioFile for a Madani Mushaf page.",
         "operationId": "list-page-recitation",
         "parameters": [
           {
@@ -3378,7 +3378,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Rub el Hizb",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Rub el Hizb.",
+        "description": "Get list of ayah AudioFile for a Rub el Hizb.",
         "operationId": "list-rub-el-hizb-recitation",
         "parameters": [
           {
@@ -3464,7 +3464,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Hizb",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Hizb.",
+        "description": "Get list of ayah AudioFile for a Hizb.",
         "operationId": "list-hizb-recitation",
         "parameters": [
           {
@@ -3550,7 +3550,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Ayah",
-        "description": "Get list of ayah #model:knzdXGgyjYnAqbhGX for a Hizb.",
+        "description": "Get list of ayah AudioFile for a specific Ayah.",
         "operationId": "list-ayah-recitation",
         "parameters": [
           {
