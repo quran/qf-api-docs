@@ -437,7 +437,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -453,7 +453,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -635,7 +635,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -651,7 +651,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -830,7 +830,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -846,7 +846,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1026,7 +1026,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1042,7 +1042,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1222,7 +1222,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1238,7 +1238,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1396,7 +1396,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1412,7 +1412,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1590,7 +1590,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1606,7 +1606,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
