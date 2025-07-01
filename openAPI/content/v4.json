@@ -437,7 +437,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -453,7 +453,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -635,7 +635,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -651,7 +651,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -830,7 +830,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -846,7 +846,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1026,7 +1026,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1042,7 +1042,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1222,7 +1222,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1238,7 +1238,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1396,7 +1396,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1412,7 +1412,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1590,7 +1590,7 @@
           {
             "name": "word_fields",
             "in": "query",
-            "description": "Comma separated list of word fields if you want to add more fields for each word. ",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1606,7 +1606,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "comma separated  list of ayah fields.",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -2359,7 +2359,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get list of Audio files of single recitation",
-        "description": "Get list of AudioFile for a single recitation. See /resources/recitations endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
+        "description": "Get list of AudioFile for a single recitation. See [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
         "operationId": "recitation-audio-files",
         "parameters": [
           {
@@ -2519,7 +2519,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get a single translation",
-        "description": "Get a single Translation of all ayah.\n\nSee /resources/translations endpoint to fetch available translations.\n\nYou can also include more fields of translation using `fields` query string.",
+        "description": "Get a single Translation of all ayah.\n\nSee [/resources/translations](/docs/content_apis_versioned/translations) endpoint to fetch available translations.\n\nYou can also include more fields of translation using `fields` query string.",
         "operationId": "translation",
         "parameters": [
           {
@@ -2732,7 +2732,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get a single tafsir",
-        "description": "Get a single Tafsir of all ayah.\n\nSee /resources/tafsirs\nendpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
+        "description": "Get a single Tafsir of all ayah.\n\nSee [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) endpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
         "operationId": "tafsir",
         "parameters": [
           {
@@ -3127,7 +3127,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -3212,7 +3212,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -3298,7 +3298,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -3384,7 +3384,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -3470,7 +3470,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -3556,7 +3556,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -3749,7 +3749,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Translations",
-        "description": "Get list of available translations. Use `language` query to get translated names of authors in specific language(e.g language=ur will send translation names in Urdu). \n\nFor list of available language see  /resources/languages endpoint.",
+        "description": "Get list of available translations. Use `language` query to get translated names of authors in specific language(e.g language=ur will send translation names in Urdu). \n\nFor list of available language see [/resources/languages](/docs/content_apis_versioned/languages) endpoint.",
         "operationId": "translations",
         "parameters": [
           {
@@ -4193,7 +4193,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "ISO code of language, use this query params if you want to boost translations for specific language. \nFor list of available language see  /resources/languages endpoint.",
+            "description": "ISO code of language, use this query params if you want to boost translations for specific language. \nFor list of available language see [/resources/languages](/docs/content_apis_versioned/languages) endpoint.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -4224,7 +4224,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -4302,7 +4302,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using this endpoint /resources/recitations",
+            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -4380,7 +4380,7 @@
           {
             "name": "resource_id",
             "in": "path",
-            "description": "Translation resource ID, you can get list of all available translations using this endpoint /resources/translations",
+            "description": "Translation resource ID, you can get list of all available translations using the [/resources/translations](/docs/content_apis_versioned/translations) endpoint",
             "required": true,
             "schema": {
               "type": "number"
@@ -4881,7 +4881,7 @@
           {
             "name": "resource_id",
             "in": "path",
-            "description": "Tafsir resource ID, you can get list of all available tafsirs using this endpoint /resources/tafsirs",
+            "description": "Tafsir resource ID, you can get list of all available tafsirs using the [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) endpoint",
             "required": true,
             "schema": {
               "type": "number"
