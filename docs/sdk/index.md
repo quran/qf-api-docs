@@ -26,7 +26,7 @@ pnpm add @quranjs/api
 
 ## Basic Setup
 
-Before using the SDK, configure it with your client credentials obtained from the Quran Foundation developer portal:
+Before using the SDK, configure it with your client credentials. You can obtain a **Client ID** and **Client Secret** from the [Request Access](https://api-docs.quran.foundation/request-access) page:
 
 ```javascript
 import { configure, quran } from '@quranjs/api';

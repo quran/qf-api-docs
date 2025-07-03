@@ -8,7 +8,7 @@ The SDK uses the OAuth2 **Client Credentials** flow behind the scenes. Once you 
 
 ## How it works
 
-1. The SDK requests a token from `https://oauth2.quran.foundation/oauth2/token` using your credentials.
+1. The SDK requests a token using the [OAuth2 Token Exchange endpoint](https://api-docs.quran.foundation/docs/oauth2_apis_versioned/oauth-2-token-exchange).
 2. Tokens are cached until 30 seconds before expiry.
 3. All API calls include the `x-auth-token` and `x-client-id` headers for you.
 
@@ -25,4 +25,4 @@ configure({
 });
 ```
 
-For details on the OAuth2 endpoints themselves, see the [OAuth2 API reference](https://api-docs.quran.foundation/docs/oauth2_apis_versioned/token).
+For details on the OAuth2 endpoints themselves, see the [Token Exchange documentation](https://api-docs.quran.foundation/docs/oauth2_apis_versioned/oauth-2-token-exchange).
