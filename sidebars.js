@@ -57,17 +57,6 @@ const sidebars = {
       id: "quickstart/index", // ✅ Add here too if needed in sidebar
       label: "🚀 Quick Start Guide",
     },
-    {
-      type: "category",
-      label: "SDK",
-      link: { type: "doc", id: "sdk/index" },
-      items: [
-        "sdk/authentication",
-        "sdk/usage",
-        "sdk/endpoints",
-        "sdk/migration",
-      ],
-    },
 
     // {
     //   type: "html",
