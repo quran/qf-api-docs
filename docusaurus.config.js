@@ -155,12 +155,6 @@ const config = {
           },
           {
             type: "doc",
-            docId: "sdk/index",
-            position: "left",
-            label: "SDK",
-          },
-          {
-            type: "doc",
             docId: "updates/index",
             position: "left",
             label: "📢 Updates",
