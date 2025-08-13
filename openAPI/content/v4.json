@@ -3121,7 +3121,7 @@
       "get": {
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Surah",
-        "description": "Get list of ayah AudioFile for a Surah.",
+        "description": "Returns per-verse audio file URLs for the chapter. Response includes a `pagination` object.",
         "operationId": "list-surah-recitation",
         "parameters": [
           {
@@ -3142,6 +3142,26 @@
               "minimum": 1,
               "type": "number"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "For paginating within the result",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "records per api call, you can get maximum 50 records.",
+            "schema": {
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer",
+              "default": 10
+            }
           }
         ],
         "responses": {
@@ -3150,40 +3170,42 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "audio_files": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/audiofile"
-                      }
-                    },
-                    "pagination": {
-                      "$ref": "#/components/schemas/pagination"
-                    }
-                  }
+                  "$ref": "#/components/schemas/ListSurahRecitationResponse"
                 },
-                "example": {
-                  "audio_files": [
-                    {
-                      "verse_key": "1:1",
-                      "url": "AbdulBaset/Mujawwad/mp3/001001.mp3"
-                    },
-                    {
-                      "verse_key": "1:2",
-                      "url": "AbdulBaset/Mujawwad/mp3/001002.mp3"
-                    },
-                    {
-                      "verse_key": "1:3",
-                      "url": "AbdulBaset/Mujawwad/mp3/001003.mp3"
+                "examples": {
+                  "default_first_page": {
+                    "summary": "First page (no segments/timestamps)",
+                    "value": {
+                      "audio_files": [
+                        { "verse_key": "1:1", "url": "Alafasy/mp3/001001.mp3" },
+                        { "verse_key": "1:2", "url": "Alafasy/mp3/001002.mp3" },
+                        { "verse_key": "1:3", "url": "Alafasy/mp3/001003.mp3" },
+                        { "verse_key": "1:4", "url": "Alafasy/mp3/001004.mp3" },
+                        { "verse_key": "1:5", "url": "Alafasy/mp3/001005.mp3" },
+                        { "verse_key": "1:6", "url": "Alafasy/mp3/001006.mp3" },
+                        { "verse_key": "1:7", "url": "Alafasy/mp3/001007.mp3" }
+                      ],
+                      "pagination": {
+                        "per_page": 10,
+                        "current_page": 1,
+                        "next_page": null,
+                        "total_pages": 1,
+                        "total_records": 7
+                      }
                     }
-                  ],
-                  "pagination": {
-                    "per_page": 10,
-                    "current_page": 1,
-                    "next_page": 2,
-                    "total_pages": 2,
-                    "total_records": 20
+                  },
+                  "page_2_example": {
+                    "summary": "Second page (illustrative)",
+                    "value": {
+                      "audio_files": [],
+                      "pagination": {
+                        "per_page": 10,
+                        "current_page": 2,
+                        "next_page": null,
+                        "total_pages": 2,
+                        "total_records": 15
+                      }
+                    }
                   }
                 }
               }
@@ -6279,6 +6301,64 @@
           "relative_path": "abu_bakr_ash-shaatree/",
           "format": "mp3",
           "files_size": 1258422528
+        }
+      },
+      "ListSurahRecitationAudioFile": {
+        "type": "object",
+        "required": ["verse_key", "url"],
+        "properties": {
+          "verse_key": {
+            "type": "string",
+            "example": "1:1"
+          },
+          "url": {
+            "type": "string",
+            "description": "Relative or absolute URL to the verse audio file.",
+            "example": "Alafasy/mp3/001001.mp3"
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "required": ["per_page", "current_page", "total_pages", "total_records"],
+        "properties": {
+          "per_page": {
+            "type": "integer",
+            "example": 10
+          },
+          "current_page": {
+            "type": "integer",
+            "example": 1
+          },
+          "next_page": {
+            "type": "integer",
+            "nullable": true,
+            "example": null,
+            "description": "Next page number, or null if this is the last page."
+          },
+          "total_pages": {
+            "type": "integer",
+            "example": 1
+          },
+          "total_records": {
+            "type": "integer",
+            "example": 7
+          }
+        }
+      },
+      "ListSurahRecitationResponse": {
+        "type": "object",
+        "required": ["audio_files", "pagination"],
+        "properties": {
+          "audio_files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListSurahRecitationAudioFile"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
         }
       },
       "commonErrorResponse": {
