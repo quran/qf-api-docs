@@ -230,6 +230,10 @@ def get_chapters(access_token, client_id):
 | -------------- | --------------------------------------- | --------------------------------------- | ----------------------- |
 | Pre-Production | `https://prelive-oauth2.quran.foundation` | `https://apis-prelive.quran.foundation` | For testing and development |
 | Production     | `https://oauth2.quran.foundation`       | `https://apis.quran.foundation`         | For live applications   |
+### Disable Browser Auto-translate
+
+Set `<meta name="google" content="notranslate">`, `translate="no"` on containers, or a CSP header (`X-Content-Security-Policy: translate 'none') so users never see machine-re-translated Quranic text.
+
 
 ---
 
