@@ -160,7 +160,7 @@ const sidebars = {
       items: require("./docs/user_related_apis_versioned/1.0.0/sidebar.js"),
     },
   ],
-  oauth2_apis: [
+  "oauth2-apis": [
     {
       type: "html",
       defaultStyle: true,
@@ -179,12 +179,12 @@ const sidebars = {
         type: "generated-index",
         title: "OAuth2 APIs (latest)",
         description: "OAuth2 APIs APIs",
-        slug: "/category/oauth2_apis",
+        slug: "/category/oauth2-apis",
       },
       items: require("./docs/oauth2_apis_versioned/sidebar.js"),
     },
   ],
-  "oauth2_apis-1.0.0": [
+  "oauth2-apis-1.0.0": [
     {
       type: "html",
       defaultStyle: true,
@@ -203,7 +203,7 @@ const sidebars = {
         type: "generated-index",
         title: "OAuth2 APIs (v1.0.0)",
         description: "OAuth2 APIs",
-        slug: "/category/oauth2_apis-1.0.0",
+        slug: "/category/oauth2-apis-1.0.0",
       },
       items: require("./docs/oauth2_apis_versioned/1.0.0/sidebar.js"),
     },
