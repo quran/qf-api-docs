@@ -17247,14 +17247,14 @@
         }
       }
     },
-    "/v1/notes/by-verse/:verseKey": {
+    "/v1/notes/by-verse/{verseKey}": {
       "get": {
         "tags": ["Notes"],
         "description": "Retrieve notes by a specific verse.",
         "summary": "Get notes by verse",
         "parameters": [
           {
-            "in": "query",
+            "in": "path",
             "name": "verseKey",
             "schema": {
               "type": "string",
@@ -18495,12 +18495,23 @@
         }
       }
     },
-    "/v1/notes/:noteId": {
+    "/v1/notes/{noteId}": {
       "get": {
         "tags": ["Notes"],
         "description": "Retrieve a note by its ID.",
         "summary": "Get note by ID",
         "parameters": [
+          {
+            "in": "path",
+            "name": "noteId",
+            "schema": {
+              "type": "string",
+              "description": "The unique identifier of the note to be retrieved or manipulated.",
+              "example": "asda12312312"
+            },
+            "required": true,
+            "description": "The unique identifier of the note to be retrieved or manipulated."
+          },
           {
             "in": "query",
             "name": "withAttachedEntities",
@@ -19381,7 +19392,7 @@
         }
       }
     },
-    "/v1/notes/:noteId/publish": {
+    "/v1/notes/{noteId}/publish": {
       "post": {
         "tags": ["Notes"],
         "description": "Publish a note to QR.",
