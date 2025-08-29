@@ -220,7 +220,7 @@
       "post": {
         "summary": "The OAuth 2.0 Token Endpoint",
         "description": "This endpoint is used by your application to obtain an access token or a refresh token. It is used by all flows except for the Implicit Flow because in that case an access token is issued directly. \n\n1. In the Client Credentials Flow, the application authenticates using a set of credentials and then gets an access token.\n2. In the Authorization Code Flow, the application exchanges an authorization code for an access token.\n3. In the Refresh Token Flow, the application uses a refresh token to obtain a new access token.",
-        "operationId": "oauth2TokenExchange",
+        "operationId": "oauth2-token-exchange",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -330,7 +330,7 @@
       "post": {
         "summary": "Introspect OAuth2 Access and Refresh Tokens",
         "description": "The introspection endpoint allows to check if a token (both refresh and access) is active or not. An active token\nis neither expired nor revoked. If a token is active, additional information on the token will be included. You can\nset additional data for a token by setting `session.access_token` during the consent flow.",
-        "operationId": "introspectOAuth2Token",
+        "operationId": "introspect-oauth2-token",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -387,7 +387,7 @@
       "get": {
         "summary": "OAuth 2.0 Authorize Endpoint",
         "description": "This endpoint is used to start the authorization process. The client redirects the user to this endpoint to request authorization. The user will be prompted to log in and grant permission to the client application.\n\nUse open source libraries to perform OAuth 2.0 and OpenID Connect available for any programming language. You can find a list of libraries at https://oauth.net/code/\n\nFor now, you can only use grant_type `authorization_code` and `refresh_token` in the /oauth2/token endpoint",
-        "operationId": "oAuth2Authorize",
+        "operationId": "oauth2-authorize",
         "parameters": [
           {
             "in": "query",
@@ -466,7 +466,7 @@
       "get": {
         "summary": "OpenID Connect Userinfo",
         "description": "This endpoint returns the payload of the ID Token, including `session.id_token` values, of\nthe provided OAuth 2.0 Access Token's consent request.\n\nIn the case of authentication error, a WWW-Authenticate header might be set in the response\nwith more information about the error. See [the spec](https://datatracker.ietf.org/doc/html/rfc6750#section-3)\nfor more details about header format.",
-        "operationId": "getOidcUserInfo",
+        "operationId": "get-oidc-user-info",
         "responses": {
           "200": {
             "description": "Successful retrieval of user information",
@@ -493,7 +493,7 @@
       "get": {
         "summary": "OpenID Connect Logout",
         "description": "This endpoint handles the user logout process in Quran.Foundation's OAuth2 & OpenID Connect system. When called, it:\n\n1. Ends the user's current session\n2. Revokes associated access and refresh tokens\n\nThe logout process follows the OpenID Connect specifications:\n- [Front-Channel Logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html)\n- [Back-Channel Logout](https://openid.net/specs/openid-connect-backchannel-1_0.html)",
-        "operationId": "revokeOidcSession",
+        "operationId": "revoke-oidc-session",
         "responses": {
           "302": {
             "$ref": "#/components/responses/emptyResponse",
