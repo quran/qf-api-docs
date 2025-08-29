@@ -172,7 +172,7 @@
         "tags": ["Chapters"],
         "summary": "List Chapters",
         "description": "Get list of Chapter.",
-        "operationId": "list-chapters",
+        "operationId": "chapters",
         "parameters": [
           {
             "name": "language",
@@ -239,7 +239,7 @@
         "tags": ["Chapters"],
         "summary": "Get Chapter",
         "description": "Get details of a single Chapter.",
-        "operationId": "GET-chapter",
+        "operationId": "chapter",
         "parameters": [
           {
             "name": "id",
@@ -312,7 +312,7 @@
         "tags": ["Chapters"],
         "summary": "Get Chapter Info",
         "description": "Get Chapter Info in specific language. Default to `English`.",
-        "operationId": "info",
+        "operationId": "chapter-info",
         "parameters": [
           {
             "name": "chapter_id",
@@ -1713,7 +1713,7 @@
         "tags": ["Quran"],
         "summary": "Get Indopak Script of ayah",
         "description": "Get Indopak script of ayah. Use query strings to filter results, leave all query string blank if you want to fetch Indopak script of whole Quran.",
-        "operationId": "QURAN-verses-indopak",
+        "operationId": "quran-verses-indopak",
         "parameters": [
           {
             "name": "chapter_number",
@@ -1831,7 +1831,7 @@
         "tags": ["Quran"],
         "summary": "Get Uthmani Tajweed Script of ayah",
         "description": "Get Uthmani color coded tajweed text of ayah. Tajweed rules are embedded in text as `tajweed` html tags.",
-        "operationId": "QURAN-verses-uthmani-tajweed",
+        "operationId": "quran-verses-uthmani_tajweed",
         "parameters": [
           {
             "name": "chapter_number",
@@ -1949,7 +1949,7 @@
         "tags": ["Quran"],
         "summary": "Get Uthmani Script of ayah",
         "description": "Get Uthmani script of ayah. Use query strings to filter results, leave all query string blank if you want to fetch Uthmani script of whole Quran.",
-        "operationId": "QURAN-verses-uthmani",
+        "operationId": "quran-verses-uthmani",
         "parameters": [
           {
             "name": "chapter_number",
@@ -2067,7 +2067,7 @@
         "tags": ["Quran"],
         "summary": "Get Uthmani simple script of ayah",
         "description": "Get Uthmani simple script(without tashkiq/diacritical marks) of ayah. Use query strings to filter results, leave all query string blank if you want to fetch script of whole Quran.",
-        "operationId": "QURAN-verses-uthmani_simple",
+        "operationId": "quran-verses-uthmani_simple",
         "parameters": [
           {
             "name": "chapter_number",
@@ -2185,7 +2185,7 @@
         "tags": ["Quran"],
         "summary": "Get Imlaei Simple text of ayah",
         "description": "Get Imlaei simple script(without tashkiq/diacritical marks) of ayah.",
-        "operationId": "QURAN-verses-Imlaei",
+        "operationId": "quran-verses-imlaei",
         "parameters": [
           {
             "name": "chapter_number",
@@ -2869,7 +2869,7 @@
         "tags": ["Quran"],
         "summary": "Get V1 Glyph codes of ayah",
         "description": "Get glyph codes of ayah for QCF v1 font",
-        "operationId": "QURAN-verses-code_v1",
+        "operationId": "quran-verses-code_v1",
         "parameters": [
           {
             "name": "chapter_number",
@@ -2995,7 +2995,7 @@
         "tags": ["Quran"],
         "summary": "Get V2 Glyph codes of ayah",
         "description": "Get glyph codes of ayah for QCF v2 font",
-        "operationId": "QURAN-verses-code_v2",
+        "operationId": "quran-verses-code_v2",
         "parameters": [
           {
             "name": "chapter_number",
@@ -3122,7 +3122,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Surah",
         "description": "Get list of ayah AudioFile for a Surah.",
-        "operationId": "list-surah-recitation",
+        "operationId": "chapter-recitations",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3207,7 +3207,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Juz",
         "description": "Get list of ayah AudioFile for a juz.",
-        "operationId": "list-juz-recitation",
+        "operationId": "juz-recitations",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3293,7 +3293,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Madani Mushaf page",
         "description": "Get list of ayah AudioFile for a Madani Mushaf page.",
-        "operationId": "list-page-recitation",
+        "operationId": "page-recitations",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3379,7 +3379,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Rub el Hizb",
         "description": "Get list of ayah AudioFile for a Rub el Hizb.",
-        "operationId": "list-rub-el-hizb-recitation",
+        "operationId": "rub-el-hizb-recitations",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3465,7 +3465,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Hizb",
         "description": "Get list of ayah AudioFile for a Hizb.",
-        "operationId": "list-hizb-recitation",
+        "operationId": "hizb-recitations",
         "parameters": [
           {
             "name": "recitation_id",
@@ -3551,7 +3551,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Ayah",
         "description": "Get list of ayah AudioFile for a specific Ayah.",
-        "operationId": "list-ayah-recitation",
+        "operationId": "ayah-recitations",
         "parameters": [
           {
             "name": "recitation_id",
@@ -4009,7 +4009,7 @@
         "tags": ["Resources"],
         "summary": "Chapter Infos",
         "description": "Get list of chapter info we've in different languages.",
-        "operationId": "chapter-info",
+        "operationId": "chapter-infos",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -4219,7 +4219,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Manzil",
         "description": "Get list of ayah recitations for a Manzil.",
-        "operationId": "list-manzil-recitation",
+        "operationId": "manzil-recitations",
         "parameters": [
           {
             "name": "recitation_id",
@@ -4297,7 +4297,7 @@
         "tags": ["Audio"],
         "summary": "Get Ayah recitations for specific Ruku",
         "description": "Get list of ayah recitations for a Ruku.",
-        "operationId": "list-ruku-recitation",
+        "operationId": "ruku-recitations",
         "parameters": [
           {
             "name": "recitation_id",
@@ -4375,7 +4375,7 @@
         "tags": ["Translations"],
         "summary": "Get translations for specific Surah",
         "description": "Get list of translations for a specific Surah.",
-        "operationId": "list-surah-translations",
+        "operationId": "chapter-translations",
         "parameters": [
           {
             "name": "resource_id",
@@ -4446,7 +4446,7 @@
         "tags": ["Translations"],
         "summary": "Get translations for specific Madani Mushaf page",
         "description": "Get list of translations for a specific Madani Mushaf page.",
-        "operationId": "list-page-translations",
+        "operationId": "page-translations",
         "parameters": [
           {
             "name": "resource_id",
@@ -4508,7 +4508,7 @@
         "tags": ["Translations"],
         "summary": "Get translations for specific Juz",
         "description": "Get list of translations for a specific Juz.",
-        "operationId": "list-juz-translations",
+        "operationId": "juz-translations",
         "parameters": [
           {
             "name": "resource_id",
@@ -4570,7 +4570,7 @@
         "tags": ["Translations"],
         "summary": "Get translations for specific Rub el Hizb",
         "description": "Get list of translations for a specific Rub el Hizb.",
-        "operationId": "list-rub-el-hizb-translations",
+        "operationId": "rub-el-hizb-translations",
         "parameters": [
           {
             "name": "resource_id",
@@ -4632,7 +4632,7 @@
         "tags": ["Translations"],
         "summary": "Get translations for specific Hizb",
         "description": "Get list of translations for a specific Hizb.",
-        "operationId": "list-hizb-translations",
+        "operationId": "hizb-translations",
         "parameters": [
           {
             "name": "resource_id",
@@ -4694,7 +4694,7 @@
         "tags": ["Translations"],
         "summary": "Get translations for specific Manzil",
         "description": "Get list of translations for a specific Manzil.",
-        "operationId": "list-manzil-translations",
+        "operationId": "manzil-translations",
         "parameters": [
           {
             "name": "resource_id",
@@ -4756,7 +4756,7 @@
         "tags": ["Translations"],
         "summary": "Get translations for specific Ruku",
         "description": "Get list of translations for a specific Ruku.",
-        "operationId": "list-ruku-translations",
+        "operationId": "ruku-translations",
         "parameters": [
           {
             "name": "resource_id",
@@ -4818,7 +4818,7 @@
         "tags": ["Translations"],
         "summary": "Get translations for specific Ayah",
         "description": "Get list of translations for a specific Ayah.",
-        "operationId": "list-ayah-translations",
+        "operationId": "ayah-translations",
         "parameters": [
           {
             "name": "resource_id",
@@ -4876,7 +4876,7 @@
         "tags": ["Tafsirs"],
         "summary": "Get tafsirs for specific Surah",
         "description": "Get list of tafsirs for a specific Surah.",
-        "operationId": "list-surah-tafsirs",
+        "operationId": "chapter-tafsirs",
         "parameters": [
           {
             "name": "resource_id",
@@ -4947,7 +4947,7 @@
         "tags": ["Tafsirs"],
         "summary": "Get tafsirs for specific Madani Mushaf page",
         "description": "Get list of tafsirs for a specific Madani Mushaf page.",
-        "operationId": "list-page-tafsirs",
+        "operationId": "page-tafsirs",
         "parameters": [
           {
             "name": "resource_id",
@@ -5009,7 +5009,7 @@
         "tags": ["Tafsirs"],
         "summary": "Get tafsirs for specific Juz",
         "description": "Get list of tafsirs for a specific Juz.",
-        "operationId": "list-juz-tafsirs",
+        "operationId": "juz-tafsirs",
         "parameters": [
           {
             "name": "resource_id",
@@ -5071,7 +5071,7 @@
         "tags": ["Tafsirs"],
         "summary": "Get tafsirs for specific Rub el Hizb",
         "description": "Get list of tafsirs for a specific Rub el Hizb.",
-        "operationId": "list-rub-el-hizb-tafsirs",
+        "operationId": "rub-el-hizb-tafsirs",
         "parameters": [
           {
             "name": "resource_id",
@@ -5133,7 +5133,7 @@
         "tags": ["Tafsirs"],
         "summary": "Get tafsirs for specific Hizb",
         "description": "Get list of tafsirs for a specific Hizb.",
-        "operationId": "list-hizb-tafsirs",
+        "operationId": "hizb-tafsirs",
         "parameters": [
           {
             "name": "resource_id",
@@ -5195,7 +5195,7 @@
         "tags": ["Tafsirs"],
         "summary": "Get tafsirs for specific Manzil",
         "description": "Get list of tafsirs for a specific Manzil.",
-        "operationId": "list-manzil-tafsirs",
+        "operationId": "manzil-tafsirs",
         "parameters": [
           {
             "name": "resource_id",
@@ -5257,7 +5257,7 @@
         "tags": ["Tafsirs"],
         "summary": "Get tafsirs for specific Ruku",
         "description": "Get list of tafsirs for a specific Ruku.",
-        "operationId": "list-ruku-tafsirs",
+        "operationId": "ruku-tafsirs",
         "parameters": [
           {
             "name": "resource_id",
@@ -5319,7 +5319,7 @@
         "tags": ["Tafsirs"],
         "summary": "Get tafsirs for specific Ayah",
         "description": "Get list of tafsirs for a specific Ayah.",
-        "operationId": "list-ayah-tafsirs",
+        "operationId": "ayah-tafsirs",
         "parameters": [
           {
             "name": "resource_id",
