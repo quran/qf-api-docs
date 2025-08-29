@@ -77,7 +77,7 @@
             "type": "array"
           },
           "client_id": {
-            "description": "ID is aclient identifier for the OAuth 2.0 client that\nrequested this token.",
+            "description": "ID is a client identifier for the OAuth 2.0 client that\nrequested this token.",
             "type": "string"
           },
           "exp": {
