@@ -75,7 +75,7 @@ const config = {
             },
           },
           content_apis_versioned: {
-            specPath: "openAPI/content/v4.json",
+            specPath: "openAPI/content-apis/v4.json",
             outputDir: "docs/content_apis_versioned", // No trailing slash
             sidebarOptions: {
               groupPathsBy: "tag",
@@ -86,7 +86,7 @@ const config = {
             baseUrl: "/docs/content_apis_versioned/4.0.0", // Leading slash is important
             versions: {
               "4.0.0": {
-                specPath: "openAPI/content/v4.json",
+                specPath: "openAPI/content-apis/v4.json",
                 outputDir: "docs/content_apis_versioned/4.0.0", // No trailing slash
                 label: "v4.0.0",
                 baseUrl: "/docs/content_apis_versioned/4.0.0/content-apis", // Leading slash is important
@@ -108,7 +108,7 @@ const config = {
                 specPath: "openAPI/oauth2-apis/v1.json",
                 outputDir: "docs/oauth2_apis_versioned/1.0.0", // No trailing slash
                 label: "v1.0.0",
-                baseUrl: "/docs/oauth2_apis_versioned/1.0.0/oauth2_apis", // Leading slash is important
+                baseUrl: "/docs/oauth2_apis_versioned/1.0.0/oauth2-apis", // Leading slash is important
               },
             },
           },
@@ -187,7 +187,7 @@ const config = {
               },
               {
                 label: "OAuth2 APIs",
-                to: "docs/category/oauth2_apis",
+                to: "docs/category/oauth2-apis",
               },
             ],
           },
@@ -220,7 +220,7 @@ const config = {
               },
               {
                 label: "OAuth2 APIs",
-                to: "docs/category/oauth2_apis",
+                to: "docs/category/oauth2-apis",
               },
             ],
           },
