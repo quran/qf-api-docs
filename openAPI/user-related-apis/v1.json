@@ -1986,7 +1986,8 @@
             "schema": {
               "type": "string",
               "example": "cmeswvejx000cd2940jxl90rm"
-            }
+            },
+            "required": true
           },
           {
             "in": "query",
