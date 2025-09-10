@@ -2646,6 +2646,16 @@
             }
           },
           {
+            "name": "foot_notes",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "If true, includes a foot_notes map keyed by footnote IDs (from <sup> tags) to their text."
+          },
+          {
             "name": "chapter_number",
             "in": "query",
             "description": "If you want to get translation of a specific surah.",
@@ -2719,6 +2729,13 @@
                         "$ref": "#/components/schemas/translation"
                       }
                     },
+                    "foot_notes": {
+                      "type": "object",
+                      "description": "Map of footnote IDs (from <sup> tags) to their text. Present when foot_notes=true.",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
                     "meta": {
                       "type": "object",
                       "properties": {
@@ -2736,6 +2753,10 @@
                       "text": "In the Name of Allah—the Most Compassionate, Most Merciful."
                     }
                   ],
+                  "foot_notes": {
+                    "1": "Some editions note variant readings here.",
+                    "a": "See introduction for translator's methodology."
+                  },
                   "meta": {
                     "translation_name": "Dr. Mustafa Khattab, the Clear Quran",
                     "author_name": "Dr. Mustafa Khattab"
