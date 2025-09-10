@@ -49,23 +49,25 @@
               "type": "number"
             }
           },
-            {
-              "name": "segments",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "type": "boolean",
-                "default": false
-              },
-              "description": "If true, each verse timestamp includes a `segments` array of [word_index, start_ms, end_ms] triplets. Time values are in milliseconds."
-            }
-          ],
-          "responses": {
+          {
+            "name": "segments",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "If true, each verse timestamp includes a `segments` array of [word_index, start_ms, end_ms] triplets. Time values are in milliseconds."
+          }
+        ],
+        "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ChapterReciterAudioFileResponse" },
+                "schema": {
+                  "$ref": "#/components/schemas/ChapterReciterAudioFileResponse"
+                },
                 "examples": {
                   "default_no_segments": {
                     "summary": "segments=false (default)",
@@ -6532,7 +6534,12 @@
       },
       "Pagination": {
         "type": "object",
-        "required": ["per_page", "current_page", "total_pages", "total_records"],
+        "required": [
+          "per_page",
+          "current_page",
+          "total_pages",
+          "total_records"
+        ],
         "properties": {
           "per_page": {
             "type": "integer",
