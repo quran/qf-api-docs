@@ -519,7 +519,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -535,7 +535,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -717,7 +717,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -733,7 +733,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -912,7 +912,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -928,7 +928,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -1108,7 +1108,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -1124,7 +1124,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -1304,7 +1304,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -1320,7 +1320,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -1478,7 +1478,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -1494,7 +1494,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
             "schema": {
               "type": "string"
             }
@@ -1672,7 +1672,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah.",
+            "description": "comma separated ids of translations to load for each ayah. See /resources/translations for available ids.",
             "schema": {
               "type": "string"
             }
@@ -1688,7 +1688,7 @@
           {
             "name": "tafsirs",
             "in": "query",
-            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs.",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See /resources/tafsirs for available ids.",
             "schema": {
               "type": "string"
             }
