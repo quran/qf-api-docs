@@ -14,7 +14,7 @@ Follow these steps to make your first successful API call.
 
 ---
 
-## 📩 Step 1: Request API Access
+## 📩 Step 1: Request API Access {#step-1-request-api-access}
 
 1. Visit the **[Request Access page](https://api-docs.quran.foundation/request-access)**.
 2. Fill out the form to request your **Client ID** and **Client Secret**.
@@ -26,7 +26,7 @@ Follow these steps to make your first successful API call.
 
 ---
 
-## 🔑 Step 2: Get Your Access Token (Authentication)
+## 🔑 Step 2: Get Your Access Token (Authentication) {#step-2-get-your-access-token-authentication}
 
 The Quran Foundation API uses **OAuth2 Client Credentials flow**. Access tokens are valid for 1 hour (3600 seconds).
 
@@ -113,7 +113,7 @@ def get_access_token():
 
 ---
 
-## 🟢 Step 3: Use the Access Token
+## 🟢 Step 3: Use the Access Token {#step-3-use-the-access-token}
 
 Include the token in your API request headers:
 
