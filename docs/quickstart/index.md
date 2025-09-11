@@ -1,10 +1,10 @@
 ﻿---
 id: index
-title: Quick Start Guide
+title: 🚀 Quick Start Guide
 sidebar_label: Quick Start
 ---
 
-# Quick Start Guide
+# 🚀 Quick Start Guide
 
 Welcome to the Quran Foundation API! This Quick Start guide will help you get up and running within minutes.
 
@@ -14,19 +14,19 @@ Follow these steps to make your first successful API call.
 
 ---
 
-## Step 1: Request API Access
+## 📩 Step 1: Request API Access
 
 1. Visit the **[Request Access page](https://api-docs.quran.foundation/request-access)**.
 2. Fill out the form to request your **Client ID** and **Client Secret**.
 3. Your credentials will be emailed to you.
 
 :::warning
-Do not share your credentials. Keep your ``client_id`` and ``client_secret`` secure.
+⚠️ **Do not share your credentials.** Keep your ``client_id`` and ``client_secret`` secure.
 :::
 
 ---
 
-## Step 2: Get Your Access Token (Authentication)
+## 🔑 Step 2: Get Your Access Token (Authentication)
 
 The Quran Foundation API uses **OAuth2 Client Credentials flow**. Access tokens are valid for 1 hour (3600 seconds).
 
@@ -108,12 +108,12 @@ def get_access_token():
 ```
 
 :::tip
-Store this token securely and reuse it until expiration to avoid unnecessary token requests.
+💡 Tip: Store this token securely and reuse it until expiration to avoid unnecessary token requests.
 :::
 
 ---
 
-## Step 3: Use the Access Token
+## 🟢 Step 3: Use the Access Token
 
 Include the token in your API request headers:
 
@@ -124,7 +124,7 @@ x-client-id: YOUR_CLIENT_ID  # Always include your client ID with each request
 
 ---
 
-## Step 4: Make Your First API Call
+## 📂 Step 4: Make Your First API Call
 
 ### Example: List All Surahs (Chapters)
 
@@ -225,12 +225,12 @@ def get_chapters(access_token, client_id):
 
 ---
 
-## Important Considerations
+## ⚠️ Important Considerations
 
 ### Environment Configuration
 
 :::warning
-Do not mix tokens between environments! Access tokens are environment-specific and cannot be used across different environments.
+🚩 Do not mix tokens between environments! Access tokens are environment-specific and cannot be used across different environments.
 :::
 
 
@@ -242,7 +242,7 @@ Do not mix tokens between environments! Access tokens are environment-specific a
 
 Set `<meta name="google" content="notranslate">`, `translate="no"` on containers, or a CSP header (`X-Content-Security-Policy: translate 'none') so users never see machine-re-translated Quranic text.
 
-## Migrating from `api.quran.com`
+## 🔄 Migrating from `api.quran.com`
 
 If you previously used the unauthenticated API at:
 
@@ -276,7 +276,7 @@ That’s it — the endpoints, query parameters, and responses remain unchanged.
 
 ---
 
-## Common Issues & Troubleshooting
+## ❌ Common Issues & Troubleshooting
 
 | Error Code | Meaning                 | Solution                                        |
 | ---------- | ----------------------- | ----------------------------------------------- |
@@ -288,13 +288,13 @@ That’s it — the endpoints, query parameters, and responses remain unchanged.
 
 ---
 
-## Need Help?
+## 💼 Need Help?
 
 For any issues or questions, please contact:
-**developers@quran.com**
+📧 **developers@quran.com**
 
 ---
 
-:::info Next Steps:
+:::info 🟢 Next Steps:
 Now that you're authenticated and have successfully made your first API call, explore the [API Reference](/docs/category/content-apis) to learn about all available endpoints!
 :::
