@@ -1,4 +1,4 @@
----
+﻿---
 id: index
 title: 🚀 Quick Start Guide
 sidebar_label: Quick Start
@@ -8,21 +8,25 @@ sidebar_label: Quick Start
 
 Welcome to the Quran Foundation API! This Quick Start guide will help you get up and running within minutes.
 
-> ✅ **Recommended for first-time users** — follow these steps to make your first successful API call.
+:::tip Recommended for first-time users
+Follow these steps to make your first successful API call.
+:::
 
 ---
 
-## 📩 Step 1: Request API Access
+## 📩 Step 1: Request API Access {#step-1-request-api-access}
 
 1. Visit the **[Request Access page](https://api-docs.quran.foundation/request-access)**.
 2. Fill out the form to request your **Client ID** and **Client Secret**.
 3. Your credentials will be emailed to you.
 
-> ⚠️ **Do not share your credentials.** Keep your `client_id` and `client_secret` secure.
+:::warning
+⚠️ **Do not share your credentials.** Keep your ``client_id`` and ``client_secret`` secure.
+:::
 
 ---
 
-## 🔑 Step 2: Get Your Access Token (Authentication)
+## 🔑 Step 2: Get Your Access Token (Authentication) {#step-2-get-your-access-token-authentication}
 
 The Quran Foundation API uses **OAuth2 Client Credentials flow**. Access tokens are valid for 1 hour (3600 seconds).
 
@@ -103,11 +107,13 @@ def get_access_token():
 }
 ```
 
-> 💡 **Tip:** Store this token securely and reuse it until expiration to avoid unnecessary token requests.
+:::tip
+💡 Tip: Store this token securely and reuse it until expiration to avoid unnecessary token requests.
+:::
 
 ---
 
-## 🟢 Step 3: Use the Access Token
+## 🟢 Step 3: Use the Access Token {#step-3-use-the-access-token}
 
 Include the token in your API request headers:
 
@@ -189,7 +195,7 @@ def get_chapters(access_token, client_id):
       "bismillah_pre": false,
       "name_simple": "Al-Fatihah",
       "name_complex": "Al-Fatihah",
-      "name_arabic": "ٱلْفَاتِحَةُ",
+      "name_arabic": "الفاتحة",
       "verses_count": 7,
       "pages": [1, 1],
       "translated_name": {
@@ -204,7 +210,7 @@ def get_chapters(access_token, client_id):
       "bismillah_pre": true,
       "name_simple": "Al-Baqarah",
       "name_complex": "Al-Baqarah",
-      "name_arabic": "ٱلْبَقَرَةُ",
+      "name_arabic": "البقرة",
       "verses_count": 286,
       "pages": [2, 49],
       "translated_name": {
@@ -223,8 +229,10 @@ def get_chapters(access_token, client_id):
 
 ### Environment Configuration
 
-> 🚩 **Do not mix tokens between environments!**
-> Access tokens are environment-specific and cannot be used across different environments.
+:::warning
+🚩 Do not mix tokens between environments! Access tokens are environment-specific and cannot be used across different environments.
+:::
+
 
 | Environment    | Auth URL                                | API Base URL                            | Usage                   |
 | -------------- | --------------------------------------- | --------------------------------------- | ----------------------- |
@@ -233,6 +241,37 @@ def get_chapters(access_token, client_id):
 ### Disable Browser Auto-translate
 
 Set `<meta name="google" content="notranslate">`, `translate="no"` on containers, or a CSP header (`X-Content-Security-Policy: translate 'none') so users never see machine-re-translated Quranic text.
+
+## 🔄 Migrating from `api.quran.com`
+
+If you previously used the unauthenticated API at:
+
+```
+https://api.quran.com/api/v4/...
+```
+
+please note that the new APIs require OAuth2 authentication and use a different base URL.
+
+Steps to migrate:
+
+1. Request API access — see [instructions above](#step-1-request-api-access).
+2. Obtain your client credentials and token — follow the [Authentication section](#step-2-get-your-access-token-authentication).
+3. Update your base URL:
+   - Pre-Production:
+
+     ```
+     https://prelive-oauth2.quran.foundation/content/api/v4/...
+     ```
+
+   - Production:
+
+     ```
+     https://oauth2.quran.foundation/content/api/v4/...
+     ```
+
+4. Add authorization headers — follow [Use the Access Token](#step-3-use-the-access-token) to include your token and client ID with each request.
+
+That’s it — the endpoints, query parameters, and responses remain unchanged.
 
 
 ---
@@ -256,5 +295,6 @@ For any issues or questions, please contact:
 
 ---
 
-> 🟢 **Next Steps:**
-> Now that you're authenticated and have successfully made your first API call, explore the [API Reference](/docs/category/content-apis) to learn about all available endpoints!
+:::info 🟢 Next Steps:
+Now that you're authenticated and have successfully made your first API call, explore the [API Reference](/docs/category/content-apis) to learn about all available endpoints!
+:::
