@@ -195,7 +195,7 @@ def get_chapters(access_token, client_id):
       "bismillah_pre": false,
       "name_simple": "Al-Fatihah",
       "name_complex": "Al-Fatihah",
-      "name_arabic": "Ù±Ù„Ù’ÙÙŽØ§ØªÙØ­ÙŽØ©Ù",
+      "name_arabic": "الفاتحة",
       "verses_count": 7,
       "pages": [1, 1],
       "translated_name": {
@@ -210,7 +210,7 @@ def get_chapters(access_token, client_id):
       "bismillah_pre": true,
       "name_simple": "Al-Baqarah",
       "name_complex": "Al-Baqarah",
-      "name_arabic": "Ù±Ù„Ù’Ø¨ÙŽÙ‚ÙŽØ±ÙŽØ©Ù",
+      "name_arabic": "البقرة",
       "verses_count": 286,
       "pages": [2, 49],
       "translated_name": {
