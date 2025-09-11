@@ -1,4 +1,4 @@
-{
+﻿{
   "openapi": "3.0.1",
   "info": {
     "title": "Content APIs",
@@ -553,7 +553,7 @@
           {
             "name": "translation_fields",
             "in": "query",
-            "description": "Comma separated list of translation fields if you want to add more fields for each translation. ",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
             "schema": {
               "type": "string"
             }
@@ -751,7 +751,7 @@
           {
             "name": "translation_fields",
             "in": "query",
-            "description": "Comma separated list of translation fields if you want to add more fields for each translation. ",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
             "schema": {
               "type": "string"
             }
@@ -946,7 +946,7 @@
           {
             "name": "translation_fields",
             "in": "query",
-            "description": "Comma separated list of translation fields if you want to add more fields for each translation. ",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
             "schema": {
               "type": "string"
             }
@@ -1142,7 +1142,7 @@
           {
             "name": "translation_fields",
             "in": "query",
-            "description": "Comma separated list of translation fields if you want to add more fields for each translation. ",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
             "schema": {
               "type": "string"
             }
@@ -1338,7 +1338,7 @@
           {
             "name": "translation_fields",
             "in": "query",
-            "description": "Comma separated list of translation fields if you want to add more fields for each translation. ",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
             "schema": {
               "type": "string"
             }
@@ -1512,7 +1512,7 @@
           {
             "name": "translation_fields",
             "in": "query",
-            "description": "Comma separated list of translation fields if you want to add more fields for each translation. ",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
             "schema": {
               "type": "string"
             }
@@ -1706,7 +1706,7 @@
           {
             "name": "translation_fields",
             "in": "query",
-            "description": "Comma separated list of translation fields if you want to add more fields for each translation. ",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
             "schema": {
               "type": "string"
             }
