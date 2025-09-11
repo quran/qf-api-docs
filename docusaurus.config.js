@@ -11,6 +11,10 @@ const config = {
   // Set the production url of your site here
   url: "https://api-docs.quran.foundation",
   baseUrl: "/",
+  // Load a tiny client script to suppress noisy ResizeObserver errors in dev
+  scripts: [
+    { src: "/js/ignore-resizeobserver-error.js", async: true },
+  ],
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   // Even if you don't use internalization, you can use this field to set useful
