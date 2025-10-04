@@ -2,6 +2,7 @@
   "name": "qf-api-docs",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.19",
   "scripts": {
     "deploy:pages": "yarn run build && wrangler pages deploy build",
     "docusaurus": "docusaurus",
