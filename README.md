@@ -30,6 +30,30 @@ Run `yarn gen-all` before building to ensure the API documentation is up to date
 
 ### Deployment
 
+This site is deployed to **Cloudflare Pages** at [api-docs.quran.foundation](https://api-docs.quran.foundation).
+
+#### Cloudflare Pages
+
+Cloudflare Pages automatically builds and deploys the site when changes are pushed to the `main` branch:
+
+- **Build Command**: `yarn clean-all && yarn build`
+- **Build Output Directory**: `build`
+- **Node Version**: 18 or 20
+
+For detailed setup instructions, see [CLOUDFLARE_PAGES_SETUP.md](./CLOUDFLARE_PAGES_SETUP.md).
+
+For migration planning and context, see [MIGRATION_CLOUDFLARE_PAGES.md](./MIGRATION_CLOUDFLARE_PAGES.md).
+
+#### Branch Previews
+
+Pull requests and non-production branches automatically receive preview deployments at:
+
+```
+https://<branch-name>.<project>.pages.dev
+```
+
+#### Manual Deployment (Legacy)
+
 Using SSH:
 
 ```

@@ -1,0 +1,29 @@
+# Cloudflare Pages redirects configuration
+
+# https://developers.cloudflare.com/pages/platform/redirects/
+
+# Redirect trailing slashes to non-trailing slash URLs (optional)
+
+# Uncomment if you want to enforce no trailing slashes:
+
+# /\*/ /:splat 301
+
+# Handle SPA-style fallback for 404s (already handled by Docusaurus static build)
+
+# /docs/\* /docs/:splat 200
+
+# Example: Redirect old URLs to new ones
+
+# /old-path /new-path 301
+
+# /api-v1/\* /api/:splat 301
+
+# Example: Redirect external URLs
+
+# /github https://github.com/quran/qf-api-docs 301
+
+# Note: Docusaurus generates all pages statically, so most redirects
+
+# should be handled in docusaurus.config.js using the redirects plugin
+
+# if more complex redirect logic is needed.
