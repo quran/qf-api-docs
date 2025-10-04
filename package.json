@@ -2,23 +2,25 @@
   "name": "qf-api-docs",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.19",
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "yarn gen-all && docusaurus start",
-    "build": "yarn gen-all && docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
+    "deploy:pages": "yarn run build && wrangler pages deploy build",
+    "docusaurus": "npx docusaurus",
+    "start": "yarn gen-all && npx docusaurus start",
+    "build": "yarn gen-all && npx docusaurus build",
+    "swizzle": "npx docusaurus swizzle",
+    "deploy": "npx docusaurus deploy",
+    "clear": "npx docusaurus clear",
+    "serve": "npx docusaurus serve",
+    "write-translations": "npx docusaurus write-translations",
+    "write-heading-ids": "npx docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "gen-api-docs": "docusaurus gen-api-docs",
-    "clean-api-docs": "docusaurus clean-api-docs",
-    "gen-api-docs:version": "docusaurus gen-api-docs:version",
-    "clean-api-docs:version": "docusaurus clean-api-docs:version",
-    "gen-all": "docusaurus gen-api-docs all && docusaurus gen-api-docs:version content_apis_versioned:all && docusaurus gen-api-docs:version user_related_apis_versioned:all && docusaurus gen-api-docs:version oauth2_apis_versioned:all",
-    "clean-all": "docusaurus clean-api-docs all && docusaurus clean-api-docs:version content_apis_versioned:all && docusaurus clean-api-docs:version user_related_apis_versioned:all && docusaurus clean-api-docs:version oauth2_apis_versioned:all",
+    "gen-api-docs": "npx docusaurus gen-api-docs",
+    "clean-api-docs": "npx docusaurus clean-api-docs",
+    "gen-api-docs:version": "npx docusaurus gen-api-docs:version",
+    "clean-api-docs:version": "npx docusaurus clean-api-docs:version",
+    "gen-all": "npx docusaurus gen-api-docs all && npx docusaurus gen-api-docs:version content_apis_versioned:all && npx docusaurus gen-api-docs:version user_related_apis_versioned:all && npx docusaurus gen-api-docs:version oauth2_apis_versioned:all",
+    "clean-all": "npx docusaurus clean-api-docs all && npx docusaurus clean-api-docs:version content_apis_versioned:all && npx docusaurus clean-api-docs:version user_related_apis_versioned:all && npx docusaurus clean-api-docs:version oauth2_apis_versioned:all",
     "re-gen": "yarn clean-all && yarn gen-all"
   },
   "dependencies": {
@@ -38,7 +40,8 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.4.1",
     "@tsconfig/docusaurus": "^1.0.5",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "wrangler": "^4.42.0"
   },
   "browserslist": {
     "production": [

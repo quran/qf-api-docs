@@ -1,0 +1,49 @@
+# Cloudflare Pages headers configuration
+# https://developers.cloudflare.com/pages/platform/headers/
+
+# Default security headers for all pages
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  # HSTS: 1 year, include subdomains
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  # Cache-Control for HTML pages: no long-term cache
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Cache hashed JavaScript and CSS files for 1 year (they have content hash in filename)
+/assets/js/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache static images for 1 year
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache favicon and other icons
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+# Sitemap and OpenSearch: cache for 1 day
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+
+/opensearch.xml
+  Cache-Control: public, max-age=86400
+
+# API documentation pages: no long-term cache (content may update)
+/docs/*
+  Cache-Control: public, max-age=0, must-revalidate
