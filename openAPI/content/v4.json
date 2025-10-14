@@ -3906,6 +3906,7 @@
           {
             "name": "language",
             "in": "query",
+            "description": "ISO language code to return translated names in that language when available; defaults to English otherwise.",
             "schema": {
               "type": "string"
             }
@@ -3968,6 +3969,7 @@
           {
             "name": "language",
             "in": "query",
+            "description": "ISO language code to return translated names in that language when available; defaults to English otherwise.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -4117,6 +4119,7 @@
           {
             "name": "language",
             "in": "query",
+            "description": "ISO language code to return language names in that language when available; defaults to English otherwise.",
             "schema": {
               "type": "string"
             }
