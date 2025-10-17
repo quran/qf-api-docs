@@ -257,17 +257,17 @@ Steps to migrate:
 1. Request API access — see [instructions above](#step-1-request-api-access).
 2. Obtain your client credentials and token — follow the [Authentication section](#step-2-get-your-access-token-authentication).
 3. Update your base URL:
-   - Pre-Production:
+    - Pre-Production:
 
-     ```
-     https://prelive-oauth2.quran.foundation/content/api/v4/...
-     ```
+      ```
+     https://apis-prelive.quran.foundation/content/api/v4/...
+      ```
 
-   - Production:
+    - Production:
 
-     ```
-     https://oauth2.quran.foundation/content/api/v4/...
-     ```
+      ```
+     https://apis.quran.foundation/content/api/v4/...
+      ```
 
 4. Add authorization headers — follow [Use the Access Token](#step-3-use-the-access-token) to include your token and client ID with each request.
 
