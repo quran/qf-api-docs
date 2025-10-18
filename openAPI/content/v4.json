@@ -4046,10 +4046,25 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": ["info"],
                   "properties": {
-                    "id": {
-                      "type": "number"
+                    "info": {
+                      "type": "object",
+                      "required": ["id", "info"],
+                      "properties": {
+                        "id": { "type": "integer" },
+                        "info": {
+                          "type": "string",
+                          "description": "Markdown or HTML text describing the tafsir resource."
+                        }
+                      }
                     }
+                  }
+                },
+                "example": {
+                  "info": {
+                    "id": 169,
+                    "info": "<p>Tafsir Ibn Kathir is one of the most comprehensive classical commentaries, compiled in the 14th century by the Damascene scholar Ibn Kathir. It combines narration, legal analysis, and linguistic insights while cross-referencing Prophetic traditions.</p>"
                   }
                 }
               }
@@ -4081,16 +4096,24 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": ["recitation_styles"],
                   "properties": {
-                    "mujawwad": {
-                      "type": "string"
-                    },
-                    "murattal": {
-                      "type": "string"
-                    },
-                    "muallim": {
-                      "type": "string"
+                    "recitation_styles": {
+                      "type": "object",
+                      "required": ["mujawwad", "murattal", "muallim"],
+                      "properties": {
+                        "mujawwad": { "type": "string" },
+                        "murattal": { "type": "string" },
+                        "muallim": { "type": "string" }
+                      }
                     }
+                  }
+                },
+                "example": {
+                  "recitation_styles": {
+                    "mujawwad": "Mujawwad is a melodic style of Holy Quran recitation",
+                    "murattal": "Murattal is at a slower pace, used for study and practice",
+                    "muallim": "Muallim is teaching style recitation of Holy Quran"
                   }
                 }
               }
@@ -4282,20 +4305,46 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": ["verse_media"],
                   "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "author_name": {
-                      "type": "string"
-                    },
-                    "language_name": {
-                      "type": "string"
+                    "verse_media": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["id", "name", "author_name", "slug", "language_name", "translated_name"],
+                        "properties": {
+                          "id": { "type": "integer" },
+                          "name": { "type": "string" },
+                          "author_name": { "type": "string" },
+                          "slug": { "type": "string" },
+                          "language_name": { "type": "string" },
+                          "translated_name": {
+                            "type": "object",
+                            "required": ["name", "language_name"],
+                            "properties": {
+                              "name": { "type": "string" },
+                              "language_name": { "type": "string" }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
+                },
+                "example": {
+                  "verse_media": [
+                    {
+                      "id": 12,
+                      "name": "Quranic Audio Lessons",
+                      "author_name": "Quran Foundation",
+                      "slug": "quranic-audio-lessons",
+                      "language_name": "english",
+                      "translated_name": {
+                        "name": "Quranic Audio Lessons",
+                        "language_name": "english"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -4316,55 +4365,124 @@
     "/search": {
       "get": {
         "tags": ["Search"],
+        "summary": "Search verses and translations",
+        "description": "Full-text search across Arabic verses and authorised translations.\n\nQuery terms are analysed with language-specific stemming and tokenization. Quranic text hits are boosted over translations, and within translations we require all terms to match (`AND`) before a result scores. When you omit the `language` parameter we auto-detect likely languages from the query (CLD3) and add English as a fallback, boosting matches in those translation indexes.\n\nHighlights use `<em>` tags; strip or escape that HTML before rendering.",
         "operationId": "search",
         "parameters": [
           {
             "name": "q",
             "in": "query",
-            "description": "Search query, you can use *query* as well",
+            "description": "Full-text query string (alias: `query`). Limited to the first 250 UTF-8 characters. Any HTML fragments are stripped before searching.",
             "schema": {
               "type": "string"
-            }
+            },
+            "required": true
           },
           {
             "name": "size",
             "in": "query",
-            "description": "Results per page. *s* is also valid parameter.",
+            "description": "Results per page (aliases: `s`, `per_page`). Values above 50 are capped. Default fetches 10 results.",
             "schema": {
-              "type": "number",
-              "default": 20
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 50
             }
           },
           {
             "name": "page",
             "in": "query",
-            "description": "Page number, well for pagination. You can use *p* as well",
+            "description": "1-based page number (alias: `p`). Defaults to the first page.",
             "schema": {
-              "type": "number",
-              "default": 0
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
             }
           },
           {
             "name": "language",
             "in": "query",
-            "description": "ISO code of language, use this query params if you want to boost translations for specific language. \nFor list of available language see [/resources/languages](/docs/content_apis_versioned/languages) endpoint.",
+            "description": "ISO code of a translation language to boost (alias: `locale`). When omitted, we detect probable languages from the query string and search those translation indexes plus English.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "translations",
+            "in": "query",
+            "description": "Comma-separated translation ids or slugs. Filters scoring and results to the specified translations only.",
             "schema": {
               "type": "string",
-              "default": "en"
+              "example": "20,saheeh-international"
             }
           }
         ],
         "responses": {
-          "default": {
-            "description": "",
+          "200": {
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/SearchResponse"
+                },
+                "example": {
+                  "search": {
+                    "query": "mercy",
+                    "total_results": 1,
+                    "current_page": 1,
+                    "total_pages": 1,
+                    "results": [
+                      {
+                        "verse_key": "1:1",
+                        "verse_id": 1,
+                        "text": "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ",
+                        "highlighted": "<em>بِسْمِ</em> اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ",
+                        "words": [
+                          {
+                            "char_type": "word",
+                            "text": "بِسْمِ",
+                            "highlight": true
+                          },
+                          {
+                            "char_type": "word",
+                            "text": "اللّٰهِ"
+                          },
+                          {
+                            "char_type": "word",
+                            "text": "الرَّحْمٰنِ",
+                            "highlight": true
+                          },
+                          {
+                            "char_type": "word",
+                            "text": "الرَّحِيمِ",
+                            "highlight": true
+                          }
+                        ],
+                        "translations": [
+                          {
+                            "text": "In the Name of Allah—the Most Compassionate, Most Merciful.",
+                            "resource_id": 20,
+                            "name": "Saheeh International",
+                            "language_name": "english"
+                          }
+                        ]
+                      }
+                    ]
+                  }
                 }
               }
             }
-          }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
         }
       }
     },
@@ -4640,6 +4758,27 @@
                       "$ref": "#/components/schemas/pagination"
                     }
                   }
+                },
+                "example": {
+                  "translations": [
+                    {
+                      "id": 215001,
+                      "resource_id": 20,
+                      "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
+                    },
+                    {
+                      "id": 215002,
+                      "resource_id": 20,
+                      "text": "All praise is for Allah, Lord of all worlds."
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
+                  }
                 }
               }
             }
@@ -4701,6 +4840,27 @@
                     "pagination": {
                       "$ref": "#/components/schemas/pagination"
                     }
+                  }
+                },
+                "example": {
+                  "translations": [
+                    {
+                      "id": 215101,
+                      "resource_id": 20,
+                      "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
+                    },
+                    {
+                      "id": 215102,
+                      "resource_id": 20,
+                      "text": "All praise is for Allah, Lord of all worlds."
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
                   }
                 }
               }
@@ -4764,6 +4924,27 @@
                       "$ref": "#/components/schemas/pagination"
                     }
                   }
+                },
+                "example": {
+                  "translations": [
+                    {
+                      "id": 215201,
+                      "resource_id": 20,
+                      "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
+                    },
+                    {
+                      "id": 215202,
+                      "resource_id": 20,
+                      "text": "All praise is for Allah, Lord of all worlds."
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
+                  }
                 }
               }
             }
@@ -4825,6 +5006,27 @@
                     "pagination": {
                       "$ref": "#/components/schemas/pagination"
                     }
+                  }
+                },
+                "example": {
+                  "translations": [
+                    {
+                      "id": 215301,
+                      "resource_id": 20,
+                      "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
+                    },
+                    {
+                      "id": 215302,
+                      "resource_id": 20,
+                      "text": "All praise is for Allah, Lord of all worlds."
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
                   }
                 }
               }
@@ -4888,6 +5090,27 @@
                       "$ref": "#/components/schemas/pagination"
                     }
                   }
+                },
+                "example": {
+                  "translations": [
+                    {
+                      "id": 215401,
+                      "resource_id": 20,
+                      "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
+                    },
+                    {
+                      "id": 215402,
+                      "resource_id": 20,
+                      "text": "All praise is for Allah, Lord of all worlds."
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
+                  }
                 }
               }
             }
@@ -4950,6 +5173,27 @@
                       "$ref": "#/components/schemas/pagination"
                     }
                   }
+                },
+                "example": {
+                  "translations": [
+                    {
+                      "id": 215501,
+                      "resource_id": 20,
+                      "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
+                    },
+                    {
+                      "id": 215502,
+                      "resource_id": 20,
+                      "text": "All praise is for Allah, Lord of all worlds."
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
+                  }
                 }
               }
             }
@@ -5008,6 +5252,15 @@
                       }
                     }
                   }
+                },
+                "example": {
+                  "translations": [
+                    {
+                      "id": 215601,
+                      "resource_id": 20,
+                      "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
+                    }
+                  ]
                 }
               }
             }
@@ -5141,6 +5394,25 @@
                       "$ref": "#/components/schemas/pagination"
                     }
                   }
+                },
+                "example": {
+                  "tafsirs": [
+                    {
+                      "id": 82641,
+                      "resource_id": 169,
+                      "verse_key": "1:1",
+                      "language_id": 38,
+                      "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>",
+                      "slug": "tafsir-ibn-kathir"
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
+                  }
                 }
               }
             }
@@ -5202,6 +5474,25 @@
                     "pagination": {
                       "$ref": "#/components/schemas/pagination"
                     }
+                  }
+                },
+                "example": {
+                  "tafsirs": [
+                    {
+                      "id": 82641,
+                      "resource_id": 169,
+                      "verse_key": "1:1",
+                      "language_id": 38,
+                      "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>",
+                      "slug": "tafsir-ibn-kathir"
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
                   }
                 }
               }
@@ -5265,6 +5556,25 @@
                       "$ref": "#/components/schemas/pagination"
                     }
                   }
+                },
+                "example": {
+                  "tafsirs": [
+                    {
+                      "id": 82641,
+                      "resource_id": 169,
+                      "verse_key": "1:1",
+                      "language_id": 38,
+                      "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>",
+                      "slug": "tafsir-ibn-kathir"
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
+                  }
                 }
               }
             }
@@ -5326,6 +5636,25 @@
                     "pagination": {
                       "$ref": "#/components/schemas/pagination"
                     }
+                  }
+                },
+                "example": {
+                  "tafsirs": [
+                    {
+                      "id": 82641,
+                      "resource_id": 169,
+                      "verse_key": "1:1",
+                      "language_id": 38,
+                      "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>",
+                      "slug": "tafsir-ibn-kathir"
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
                   }
                 }
               }
@@ -5389,6 +5718,25 @@
                       "$ref": "#/components/schemas/pagination"
                     }
                   }
+                },
+                "example": {
+                  "tafsirs": [
+                    {
+                      "id": 82641,
+                      "resource_id": 169,
+                      "verse_key": "1:1",
+                      "language_id": 38,
+                      "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>",
+                      "slug": "tafsir-ibn-kathir"
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
+                  }
                 }
               }
             }
@@ -5450,6 +5798,25 @@
                     "pagination": {
                       "$ref": "#/components/schemas/pagination"
                     }
+                  }
+                },
+                "example": {
+                  "tafsirs": [
+                    {
+                      "id": 82641,
+                      "resource_id": 169,
+                      "verse_key": "1:1",
+                      "language_id": 38,
+                      "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>",
+                      "slug": "tafsir-ibn-kathir"
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 50,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 12,
+                    "total_records": 600
                   }
                 }
               }
@@ -5668,6 +6035,124 @@
         },
         "required": ["audio_file"]
       },
+      "SearchResponse": {
+        "type": "object",
+        "required": ["search"],
+        "properties": {
+          "search": {
+            "$ref": "#/components/schemas/SearchEnvelope"
+          }
+        },
+        "description": "Envelope returned by the /search endpoint."
+      },
+      "SearchEnvelope": {
+        "type": "object",
+        "required": ["query", "total_results", "current_page", "total_pages", "results"],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Sanitised query that was executed."
+          },
+          "total_results": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Total number of hits across all pages."
+          },
+          "current_page": {
+            "type": "integer",
+            "format": "int32",
+            "description": "1-based page index returned."
+          },
+          "total_pages": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Total number of available pages given the page size."
+          },
+          "results": {
+            "type": "array",
+            "description": "Verse-centric aggregation of matching results.",
+            "items": { "$ref": "#/components/schemas/SearchResult" }
+          }
+        }
+      },
+      "SearchResult": {
+        "type": "object",
+        "required": ["verse_key", "verse_id", "text", "words", "translations"],
+        "properties": {
+          "verse_key": {
+            "type": "string",
+            "example": "1:1",
+            "description": "Surah:Ayah identifier."
+          },
+          "verse_id": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1,
+            "description": "Internal numeric verse id."
+          },
+          "text": {
+            "type": "string",
+            "description": "Full verse in the canonical Uthmani script."
+          },
+          "highlighted": {
+            "type": "string",
+            "nullable": true,
+            "description": "Verse snippet with `<em>` tags around the matching terms (if highlighting information is available)."
+          },
+          "words": {
+            "type": "array",
+            "description": "Verse words with match metadata.",
+            "items": { "$ref": "#/components/schemas/SearchWord" }
+          },
+          "translations": {
+            "type": "array",
+            "description": "Highlighted authorised translations that matched the query.",
+            "items": { "$ref": "#/components/schemas/SearchTranslation" }
+          }
+        }
+      },
+      "SearchWord": {
+        "type": "object",
+        "required": ["char_type", "text"],
+        "properties": {
+          "char_type": {
+            "type": "string",
+            "description": "Word token type (e.g. word, pause)."
+          },
+          "text": {
+            "type": "string",
+            "description": "Word text in the Hafs narration script."
+          },
+          "highlight": {
+            "type": "boolean",
+            "description": "True when this word contributed to the match.",
+            "nullable": true
+          }
+        }
+      },
+      "SearchTranslation": {
+        "type": "object",
+        "required": ["text", "resource_id", "name", "language_name"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Translation text. Matching terms are wrapped in `<em>` tags."
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Numeric id of the translation resource."
+          },
+          "name": {
+            "type": "string",
+            "description": "Public name of the translation resource."
+          },
+          "language_name": {
+            "type": "string",
+            "description": "Human-readable language name."
+          }
+        }
+      },
       "audiofile": {
         "title": "AudioFile",
         "type": "object",
@@ -5857,6 +6342,9 @@
           "id": {
             "type": "integer"
           },
+          "resource_id": {
+            "type": "integer"
+          },
           "verse_id": {
             "type": "integer"
           },
@@ -5892,21 +6380,35 @@
           },
           "page_number": {
             "type": "integer"
+          },
+          "ruku_number": {
+            "type": "integer"
+          },
+          "manzil_number": {
+            "type": "integer"
+          },
+          "slug": {
+            "type": "string"
           }
         },
         "example": {
+          "id": 82641,
+          "resource_id": 169,
           "verse_id": 1,
           "language_id": 38,
-          "text": "<p>Bismillah بِسْمِ اللَّـهِ is a verse of the Holy Qur'an</p>",
+          "text": "<p>Bismillah is a verse of the Holy Qur'an.</p>",
           "language_name": "english",
-          "resource_name": "Maarif-ul-Quran",
+          "resource_name": "Tafsir Ibn Kathir",
           "verse_key": "1:1",
           "chapter_id": 1,
           "verse_number": 1,
           "juz_number": 1,
           "hizb_number": 1,
-          "rub_number": 1,
-          "page_number": 1
+          "rub_el_hizb_number": 1,
+          "page_number": 1,
+          "ruku_number": 1,
+          "manzil_number": 1,
+          "slug": "tafsir-ibn-kathir"
         }
       },
       "translated-name": {
@@ -5990,8 +6492,11 @@
           "verse_number": 1,
           "juz_number": 1,
           "hizb_number": 1,
-          "rub_number": 1,
-          "page_number": 1
+          "rub_el_hizb_number": 1,
+          "page_number": 1,
+          "ruku_number": 1,
+          "manzil_number": 1,
+          "slug": "tafsir-ibn-kathir"
         }
       },
       "transliteration": {
@@ -6128,7 +6633,7 @@
           "text_uthmani_tajweed": "بِسْمِ <tajweed class=ham_wasl>ٱ</tajweed>للَّهِ <tajweed class=ham_wasl>ٱ</tajweed><tajweed class=laam_shamsiyah>ل</tajweed>رَّحْمَ<tajweed class=madda_normal>ـٰ</tajweed>نِ <tajweed class=ham_wasl>ٱ</tajweed><tajweed class=laam_shamsiyah>ل</tajweed>رَّح<tajweed class=madda_permissible>ِي</tajweed>مِ <span class=end>١</span>",
           "juz_number": 1,
           "hizb_number": 1,
-          "rub_number": 1,
+          "rub_el_hizb_number": 1,
           "page_number": 1,
           "image_url": "//c22506.r6.cf1.rackcdn.com/1_1.png",
           "image_width": 675,
@@ -6816,3 +7321,4 @@
   },
   "x-original-swagger-version": "2.0"
 }
+
