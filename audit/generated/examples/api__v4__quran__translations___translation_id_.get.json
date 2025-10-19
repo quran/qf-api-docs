@@ -1,0 +1,10 @@
+/* TODO: unresolved $ref #/definitions/translation | TODO: unsupported schema type ['null', 'string'] */
+{
+  "translations": [
+    "TODO"
+  ],
+  "meta": {
+    "translation_name": "string",
+    "author_name": "TODO"
+  }
+}

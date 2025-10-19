@@ -1,0 +1,304 @@
+# Summary Checklist
+
+## Code Coverage
+- [ ] Add docs for `POST /graphql` (`config/routes.rb:12`)
+- [ ] Add docs for `POST /internal/sync_api_client` (`config/routes.rb:13`)
+- [ ] Add docs for `GET /kalimat/search` (`config/routes.rb:16`)
+- [ ] Add docs for `GET /kalimat/suggest` (`config/routes.rb:17`)
+- [ ] Add docs for `GET /v3/audio_files/index` (`config/routes.rb:21`)
+- [ ] Add docs for `GET /mobile/translations` (`config/routes.rb:25`)
+- [ ] Add docs for `GET /mobile/translations/{id}/download` (`config/routes.rb:27`)
+- [ ] Add docs for `GET /api/qdc/qr/reflections` (`config/routes/api/qdc.rb:3`)
+- [ ] Add docs for `GET /api/qdc/qr/reflections/{id}` (`config/routes/api/qdc.rb:4`)
+- [ ] Add docs for `GET /api/qdc/qr/reflections/{post_id}/comments` (`config/routes/api/qdc.rb:5`)
+- [ ] Add docs for `GET /api/qdc/qr/reflections/{post_id}/verses` (`config/routes/api/qdc.rb:6`)
+- [ ] Add docs for `POST /api/qdc/qr/reflections/{post_id}/report` (`config/routes/api/qdc.rb:7`)
+- [ ] Add docs for `GET /api/qdc/qr/comments/{id}` (`config/routes/api/qdc.rb:8`)
+- [ ] Add docs for `GET /api/qdc/qr/comments/{comment_id}/replies` (`config/routes/api/qdc.rb:9`)
+- [ ] Add docs for `GET /api/qdc/qr/tags` (`config/routes/api/qdc.rb:10`)
+- [ ] Add docs for `GET /api/qdc/qr/authors` (`config/routes/api/qdc.rb:11`)
+- [ ] Add docs for `GET /api/qdc/qr/authors/{id}` (`config/routes/api/qdc.rb:12`)
+- [ ] Add docs for `GET /api/qdc/qr/authors/{id}/followers` (`config/routes/api/qdc.rb:13`)
+- [ ] Add docs for `GET /api/qdc/qr/authors/{id}/followings` (`config/routes/api/qdc.rb:14`)
+- [ ] Add docs for `GET /api/qdc/qr/search` (`config/routes/api/qdc.rb:15`)
+- [ ] Add docs for `GET /api/qdc/resources/translations/filter` (`config/routes/api/qdc.rb:23`)
+- [ ] Add docs for `GET /api/qdc/resources/country_language_preference` (`config/routes/api/qdc.rb:31`)
+- [ ] Add docs for `GET /api/qdc/chapters/{id}/info` (`config/routes/api/qdc.rb:39`)
+- [ ] Add docs for `GET /api/qdc/pages` (`config/routes/api/qdc.rb:62`)
+- [ ] Add docs for `GET /api/qdc/pages/lookup` (`config/routes/api/qdc.rb:63`)
+- [ ] Add docs for `GET /api/qdc/pages/{id}` (`config/routes/api/qdc.rb:64`)
+- [ ] Add docs for `GET /api/qdc/verses/by_range` (`config/routes/api/qdc.rb:78`)
+- [ ] Add docs for `GET /api/qdc/navigate` (`config/routes/api/qdc.rb:86`)
+- [ ] Add docs for `GET /api/qdc/verses/advanced_copy` (`config/routes/api/qdc.rb:88`)
+- [ ] Add docs for `GET /api/qdc/audio/reciters` (`config/routes/api/qdc.rb:98`)
+- [ ] Add docs for `GET /api/qdc/audio/reciters/{reciter_id}` (`config/routes/api/qdc.rb:99`)
+- [ ] Add docs for `GET /api/qdc/audio/reciters/{reciter_id}/audio_files` (`config/routes/api/qdc.rb:100`)
+- [ ] Add docs for `GET /api/qdc/audio/reciters/{reciter_id}/related` (`config/routes/api/qdc.rb:101`)
+- [ ] Add docs for `GET /api/qdc/audio/reciters/{reciter_id}/timestamp` (`config/routes/api/qdc.rb:104`)
+- [ ] Add docs for `GET /api/qdc/audio/reciters/{reciter_id}/lookup` (`config/routes/api/qdc.rb:106`)
+- [ ] Add docs for `GET /api/qdc/audio/reciters/{reciter_id}/percentiles` (`config/routes/api/qdc.rb:109`)
+- [ ] Add docs for `GET /api/qdc/audio/reciters/{reciter_id}/ayah_percentiles` (`config/routes/api/qdc.rb:110`)
+- [ ] Add docs for `GET /api/qdc/audio/stations` (`config/routes/api/qdc.rb:113`)
+- [ ] Add docs for `GET /api/qdc/audio/stations/{station_id}` (`config/routes/api/qdc.rb:114`)
+- [ ] Add docs for `GET /api/qdc` (`config/routes/api/qdc.rb:162`)
+- [ ] Add docs for `GET /api/v4/chapters/{id}/info` (`config/routes/api/v4.rb:39`)
+- [ ] Add docs for `GET /api/v4/chapter_recitations/{reciter_id}` (`config/routes/api/v4.rb:134`)
+- [ ] Add docs for `GET /api/v4/chapter_recitations/{reciter_id}/{chapter_number}` (`config/routes/api/v4.rb:135`)
+- [ ] Add docs for `GET /api/v4` (`config/routes/api/v4.rb:139`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{id}` (`config/routes/api/v3.rb:4`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters` (`config/routes/api/v3.rb:6`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{id}` (`config/routes/api/v3.rb:6`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{id}/info` (`config/routes/api/v3.rb:8`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/verses` (`config/routes/api/v3.rb:11`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/verses/{id}` (`config/routes/api/v3.rb:11`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/verses/{vers_id}/audio_files` (`config/routes/api/v3.rb:12`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/verses/{vers_id}/audio_files/{id}/tafsirs/{tafsir}` (`config/routes/api/v3.rb:15`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs` (`config/routes/api/v3.rb:20`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{id}` (`config/routes/api/v3.rb:20`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/options/default` (`config/routes/api/v3.rb:23`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/options/translations` (`config/routes/api/v3.rb:24`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/options/recitations` (`config/routes/api/v3.rb:25`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/options/tafsirs` (`config/routes/api/v3.rb:26`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/options/languages` (`config/routes/api/v3.rb:27`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/options/chapter_info` (`config/routes/api/v3.rb:28`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/search` (`config/routes/api/v3.rb:31`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/suggest` (`config/routes/api/v3.rb:32`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}/ping` (`config/routes/api/v3.rb:33`)
+- [ ] Add docs for `GET /api/v3/foot_notes/{foot_note_id}/chapters/{chapter_id}/juzs/{juz_id}` (`config/routes/api/v3.rb:34`)
+- [ ] Add docs for `GET /` (`config/routes.rb:38`)
+
+## Docs Cleanup
+- [ ] Verify documented endpoint `GET /chapter_recitations/{id}/{chapter_number}` (`docs/content_apis_versioned/chapter-reciter-audio-file.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /chapter_recitations/{id}` (`docs/content_apis_versioned/chapter-reciter-audio-files.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /chapters/{chapter_id}/info` (`docs/content_apis_versioned/info.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /ping` (`docs/content_apis_versioned/4.0.0/api-ping.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /suggest` (`docs/content_apis_versioned/4.0.0/auto-complete-suggestions.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/chapter_infos` (`docs/content_apis_versioned/4.0.0/chapter-info.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /chapter_recitations/{id}/{chapter_number}` (`docs/content_apis_versioned/4.0.0/chapter-reciter-audio-file.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /chapter_recitations/{id}` (`docs/content_apis_versioned/4.0.0/chapter-reciter-audio-files.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/chapter_reciters` (`docs/content_apis_versioned/4.0.0/chapter-reciters.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/filter` (`docs/content_apis_versioned/4.0.0/filter-verses.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /audio/surahs/{id}` (`docs/content_apis_versioned/4.0.0/get-audio-surah-metadata.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /chapters/{id}` (`docs/content_apis_versioned/4.0.0/get-chapter.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /foot_notes/{id}` (`docs/content_apis_versioned/4.0.0/get-footnote.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /hizbs/{id}` (`docs/content_apis_versioned/4.0.0/get-hizb-details.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /juzs/{id}` (`docs/content_apis_versioned/4.0.0/get-juz-details.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /manzils/{id}` (`docs/content_apis_versioned/4.0.0/get-manzil-details.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /quran/verses/{script}` (`docs/content_apis_versioned/4.0.0/get-quran-glyphs-by-script.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /audio/qaris/{id}` (`docs/content_apis_versioned/4.0.0/get-reciter-details.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /audio/qaris/related/{id}` (`docs/content_apis_versioned/4.0.0/get-related-reciters.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /rub_el_hizbs/{id}` (`docs/content_apis_versioned/4.0.0/get-rub-el-hizb-details.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /rukus/{id}` (`docs/content_apis_versioned/4.0.0/get-ruku-details.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /chapters/{chapter_id}/info` (`docs/content_apis_versioned/4.0.0/info.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /juzs` (`docs/content_apis_versioned/4.0.0/juzs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/languages` (`docs/content_apis_versioned/4.0.0/languages.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /mushafs` (`docs/content_apis_versioned/4.0.0/list-approved-mushafs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /audio/sections` (`docs/content_apis_versioned/4.0.0/list-audio-sections.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /audio/surahs` (`docs/content_apis_versioned/4.0.0/list-audio-surahs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_ayah/{ayah_key}` (`docs/content_apis_versioned/4.0.0/list-ayah-recitation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_ayah/{ayah_key}` (`docs/content_apis_versioned/4.0.0/list-ayah-tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_ayah/{ayah_key}` (`docs/content_apis_versioned/4.0.0/list-ayah-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /chapters` (`docs/content_apis_versioned/4.0.0/list-chapters.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_hizb/{hizb_number}` (`docs/content_apis_versioned/4.0.0/list-hizb-recitation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_hizb/{hizb_number}` (`docs/content_apis_versioned/4.0.0/list-hizb-tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_hizb/{hizb_number}` (`docs/content_apis_versioned/4.0.0/list-hizb-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /hizbs` (`docs/content_apis_versioned/4.0.0/list-hizbs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_juz/{juz_number}` (`docs/content_apis_versioned/4.0.0/list-juz-recitation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_juz/{juz_number}` (`docs/content_apis_versioned/4.0.0/list-juz-tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_juz/{juz_number}` (`docs/content_apis_versioned/4.0.0/list-juz-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_manzil/{manzil_number}` (`docs/content_apis_versioned/4.0.0/list-manzil-recitation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_manzil/{manzil_number}` (`docs/content_apis_versioned/4.0.0/list-manzil-tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_manzil/{manzil_number}` (`docs/content_apis_versioned/4.0.0/list-manzil-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /manzils` (`docs/content_apis_versioned/4.0.0/list-manzils.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_page/{page_number}` (`docs/content_apis_versioned/4.0.0/list-page-recitation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_page/{page_number}` (`docs/content_apis_versioned/4.0.0/list-page-tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_page/{page_number}` (`docs/content_apis_versioned/4.0.0/list-page-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_rub_el_hizb/{rub_el_hizb_number}` (`docs/content_apis_versioned/4.0.0/list-recitation-audio-by-rub-el-hizb.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /audio/qaris/{id}/audio_files/{ext}` (`docs/content_apis_versioned/4.0.0/list-reciter-audio-files.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /audio/qaris` (`docs/content_apis_versioned/4.0.0/list-reciters.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/changes` (`docs/content_apis_versioned/4.0.0/list-resource-changes.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_rub/{rub_el_hizb_number}` (`docs/content_apis_versioned/4.0.0/list-rub-el-hizb-recitation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}` (`docs/content_apis_versioned/4.0.0/list-rub-el-hizb-tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}` (`docs/content_apis_versioned/4.0.0/list-rub-el-hizb-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /rub_el_hizbs` (`docs/content_apis_versioned/4.0.0/list-rub-el-hizbs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_ruku/{ruku_number}` (`docs/content_apis_versioned/4.0.0/list-ruku-recitation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_ruku/{ruku_number}` (`docs/content_apis_versioned/4.0.0/list-ruku-tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_ruku/{ruku_number}` (`docs/content_apis_versioned/4.0.0/list-ruku-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /rukus` (`docs/content_apis_versioned/4.0.0/list-rukus.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /recitations/{recitation_id}/by_chapter/{chapter_number}` (`docs/content_apis_versioned/4.0.0/list-surah-recitation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_chapter/{chapter_number}` (`docs/content_apis_versioned/4.0.0/list-surah-tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_chapter/{chapter_number}` (`docs/content_apis_versioned/4.0.0/list-surah-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /tafsirs/{resource_id}/by_rub/{rub_el_hizb_number}` (`docs/content_apis_versioned/4.0.0/list-tafsirs-by-rub-el-hizb.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /translations/{resource_id}/by_rub/{rub_el_hizb_number}` (`docs/content_apis_versioned/4.0.0/list-translations-by-rub-el-hizb.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_manzil/{manzil_number}` (`docs/content_apis_versioned/4.0.0/list-verses-by-manzil.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_rub_el_hizb/{rub_el_hizb_number}` (`docs/content_apis_versioned/4.0.0/list-verses-by-rub-el-hizb.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_ruku/{ruku_number}` (`docs/content_apis_versioned/4.0.0/list-verses-by-ruku.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/word_by_word_translations` (`docs/content_apis_versioned/4.0.0/list-word-by-word-translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/random` (`docs/content_apis_versioned/4.0.0/random-verse.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /quran/recitations/{recitation_id}` (`docs/content_apis_versioned/4.0.0/recitation-audio-files.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/recitations/{recitation_id}/info` (`docs/content_apis_versioned/4.0.0/recitation-info.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/recitation_styles` (`docs/content_apis_versioned/4.0.0/recitation-styles.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/recitations` (`docs/content_apis_versioned/4.0.0/recitations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /search` (`docs/content_apis_versioned/4.0.0/search.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/tafsirs/{tafsir_id}/info` (`docs/content_apis_versioned/4.0.0/tafsir-info.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /quran/tafsirs/{tafsir_id}` (`docs/content_apis_versioned/4.0.0/tafsir.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/tafsirs` (`docs/content_apis_versioned/4.0.0/tafsirs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/translations/{translation_id}/info` (`docs/content_apis_versioned/4.0.0/translation-info.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /quran/translations/{translation_id}` (`docs/content_apis_versioned/4.0.0/translation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/translations` (`docs/content_apis_versioned/4.0.0/translations.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /resources/verse_media` (`docs/content_apis_versioned/4.0.0/verse-media.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_chapter/{chapter_number}` (`docs/content_apis_versioned/4.0.0/verses-by-chapter-number.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_hizb/{hizb_number}` (`docs/content_apis_versioned/4.0.0/verses-by-hizb-number.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_juz/{juz_number}` (`docs/content_apis_versioned/4.0.0/verses-by-juz-number.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_page/{page_number}` (`docs/content_apis_versioned/4.0.0/verses-by-page-number.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_rub/{rub_el_hizb_number}` (`docs/content_apis_versioned/4.0.0/verses-by-rub-el-hizb-number.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /verses/by_key/{verse_key}` (`docs/content_apis_versioned/4.0.0/verses-by-verse-key.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /userinfo` (`docs/oauth2_apis_versioned/get-oidc-user-info.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /oauth2/introspect` (`docs/oauth2_apis_versioned/introspect-o-auth-2-token.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /oauth2/auth` (`docs/oauth2_apis_versioned/o-auth-2-authorize.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /oauth2/token` (`docs/oauth2_apis_versioned/oauth-2-token-exchange.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /oauth2/sessions/logout` (`docs/oauth2_apis_versioned/revoke-oidc-session.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /userinfo` (`docs/oauth2_apis_versioned/1.0.0/get-oidc-user-info.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /oauth2/introspect` (`docs/oauth2_apis_versioned/1.0.0/introspect-o-auth-2-token.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /oauth2/auth` (`docs/oauth2_apis_versioned/1.0.0/o-auth-2-authorize.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /oauth2/token` (`docs/oauth2_apis_versioned/1.0.0/oauth-2-token-exchange.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /oauth2/sessions/logout` (`docs/oauth2_apis_versioned/1.0.0/revoke-oidc-session.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/comments` (`docs/user_related_apis_versioned/add-a-comment.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts` (`docs/user_related_apis_versioned/add-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/collections/{collectionId}/bookmarks` (`docs/user_related_apis_versioned/add-collection-bookmark.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/collections` (`docs/user_related_apis_versioned/add-collection.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/notes` (`docs/user_related_apis_versioned/add-note.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/preferences` (`docs/user_related_apis_versioned/add-or-update-preference.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/reading-sessions` (`docs/user_related_apis_versioned/add-or-update-user-reading-session.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/activity-days` (`docs/user_related_apis_versioned/add-update-activity-day.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/bookmarks` (`docs/user_related_apis_versioned/add-user-bookmark.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/groups/{groupId}/assignAsAdmin` (`docs/user_related_apis_versioned/assign-user-as-a-group-admin.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/preferences/bulk` (`docs/user_related_apis_versioned/bulk-add-or-update-preferences.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/goals` (`docs/user_related_apis_versioned/create-a-goal.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/comments/{commentId}` (`docs/user_related_apis_versioned/delete-a-comment.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/goals/{id}` (`docs/user_related_apis_versioned/delete-a-goal.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/posts/{postId}` (`docs/user_related_apis_versioned/delete-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/bookmarks/{bookmarkId}` (`docs/user_related_apis_versioned/delete-bookmark.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/collections/{collectionId}/bookmarks/{bookmarkId}` (`docs/user_related_apis_versioned/delete-collection-bookmark-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/collections/{collectionId}` (`docs/user_related_apis_versioned/delete-collection.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/notes/:noteId` (`docs/user_related_apis_versioned/delete-note-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/activity-days/estimate-reading-time` (`docs/user_related_apis_versioned/estimate-reading-time.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/goals/estimate` (`docs/user_related_apis_versioned/generate-timeline-estimation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/posts/{postId}` (`docs/user_related_apis_versioned/get-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/activity-days` (`docs/user_related_apis_versioned/get-activity-days.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/collections/all` (`docs/user_related_apis_versioned/get-all-collection-items.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/collections` (`docs/user_related_apis_versioned/get-all-collections.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes` (`docs/user_related_apis_versioned/get-all-notes.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/bookmarks/collections` (`docs/user_related_apis_versioned/get-bookmark-collections.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/bookmarks/bookmark` (`docs/user_related_apis_versioned/get-bookmark.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/bookmarks/ayahs-range` (`docs/user_related_apis_versioned/get-bookmarks-within-a-range-of-ayahs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/collections/{collectionId}` (`docs/user_related_apis_versioned/get-collection-items-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/streaks/current-streak-days` (`docs/user_related_apis_versioned/get-current-streak-days.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/groups/{groupId}` (`docs/user_related_apis_versioned/get-group-settings.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/:noteId` (`docs/user_related_apis_versioned/get-note-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/by-attached-entity` (`docs/user_related_apis_versioned/get-notes-by-attached-entity.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/by-range` (`docs/user_related_apis_versioned/get-notes-by-verse-range.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/by-verse/:verseKey` (`docs/user_related_apis_versioned/get-notes-by-verse.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/count-within-range` (`docs/user_related_apis_versioned/get-notes-count-within-verse-range.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/posts/{postId}/comments` (`docs/user_related_apis_versioned/get-posts-comments.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/posts` (`docs/user_related_apis_versioned/get-posts.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/streaks` (`docs/user_related_apis_versioned/get-streaks.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/goals/get-todays-plan` (`docs/user_related_apis_versioned/get-todays-goal-plan.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/bookmarks` (`docs/user_related_apis_versioned/get-user-bookmarks.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/groups` (`docs/user_related_apis_versioned/get-user-groups.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/users/notifications` (`docs/user_related_apis_versioned/get-user-notifications.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/preferences` (`docs/user_related_apis_versioned/get-user-preferences.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/users/profile` (`docs/user_related_apis_versioned/get-user-profile.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/reading-sessions` (`docs/user_related_apis_versioned/get-user-reading-sessions.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/groups/{groupId}/inviteUser` (`docs/user_related_apis_versioned/invite-user-to-group.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts/view/{postId}` (`docs/user_related_apis_versioned/log-a-post-view.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/notes/:noteId/publish` (`docs/user_related_apis_versioned/publish-note.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/users/{username}/registerAndroidDevice` (`docs/user_related_apis_versioned/register-android-device.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/groups/{groupId}/removeUser` (`docs/user_related_apis_versioned/remove-user-from-group.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts/report/{postId}` (`docs/user_related_apis_versioned/report-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/users/confirmationEmail` (`docs/user_related_apis_versioned/send-account-confirmation-email.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/users/passwordResetEmail` (`docs/user_related_apis_versioned/send-reset-password-email.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/users/{username}/toggleFollow` (`docs/user_related_apis_versioned/toggle-following-a-user.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts/toggleLike/{postId}` (`docs/user_related_apis_versioned/toggle-like-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts/toggleSave/{postId}` (`docs/user_related_apis_versioned/toggle-save-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/comments/{commentId}` (`docs/user_related_apis_versioned/update-a-comment.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/goals/{id}` (`docs/user_related_apis_versioned/update-a-goal.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/posts/{postId}` (`docs/user_related_apis_versioned/update-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/collections/{collectionId}` (`docs/user_related_apis_versioned/update-collection.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PATCH /v1/notes/:noteId` (`docs/user_related_apis_versioned/update-note-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/users/notifications/{settingId}` (`docs/user_related_apis_versioned/update-user-notification-settings.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/users/profile` (`docs/user_related_apis_versioned/update-user-profile.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/comments` (`docs/user_related_apis_versioned/1.0.0/add-a-comment.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts` (`docs/user_related_apis_versioned/1.0.0/add-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/collections/{collectionId}/bookmarks` (`docs/user_related_apis_versioned/1.0.0/add-collection-bookmark.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/collections` (`docs/user_related_apis_versioned/1.0.0/add-collection.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/notes` (`docs/user_related_apis_versioned/1.0.0/add-note.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/preferences` (`docs/user_related_apis_versioned/1.0.0/add-or-update-preference.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/reading-sessions` (`docs/user_related_apis_versioned/1.0.0/add-or-update-user-reading-session.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/activity-days` (`docs/user_related_apis_versioned/1.0.0/add-update-activity-day.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/bookmarks` (`docs/user_related_apis_versioned/1.0.0/add-user-bookmark.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/groups/{groupId}/assignAsAdmin` (`docs/user_related_apis_versioned/1.0.0/assign-user-as-a-group-admin.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/preferences/bulk` (`docs/user_related_apis_versioned/1.0.0/bulk-add-or-update-preferences.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/goals` (`docs/user_related_apis_versioned/1.0.0/create-a-goal.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/comments/{commentId}` (`docs/user_related_apis_versioned/1.0.0/delete-a-comment.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/goals/{id}` (`docs/user_related_apis_versioned/1.0.0/delete-a-goal.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/posts/{postId}` (`docs/user_related_apis_versioned/1.0.0/delete-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/bookmarks/{bookmarkId}` (`docs/user_related_apis_versioned/1.0.0/delete-bookmark.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/collections/{collectionId}/bookmarks/{bookmarkId}` (`docs/user_related_apis_versioned/1.0.0/delete-collection-bookmark-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/collections/{collectionId}` (`docs/user_related_apis_versioned/1.0.0/delete-collection.api.mdx`) still exists.
+- [ ] Verify documented endpoint `DELETE /v1/notes/:noteId` (`docs/user_related_apis_versioned/1.0.0/delete-note-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/activity-days/estimate-reading-time` (`docs/user_related_apis_versioned/1.0.0/estimate-reading-time.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/goals/estimate` (`docs/user_related_apis_versioned/1.0.0/generate-timeline-estimation.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/posts/{postId}` (`docs/user_related_apis_versioned/1.0.0/get-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/activity-days` (`docs/user_related_apis_versioned/1.0.0/get-activity-days.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/collections/all` (`docs/user_related_apis_versioned/1.0.0/get-all-collection-items.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/collections` (`docs/user_related_apis_versioned/1.0.0/get-all-collections.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes` (`docs/user_related_apis_versioned/1.0.0/get-all-notes.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/bookmarks/collections` (`docs/user_related_apis_versioned/1.0.0/get-bookmark-collections.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/bookmarks/bookmark` (`docs/user_related_apis_versioned/1.0.0/get-bookmark.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/bookmarks/ayahs-range` (`docs/user_related_apis_versioned/1.0.0/get-bookmarks-within-a-range-of-ayahs.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/collections/{collectionId}` (`docs/user_related_apis_versioned/1.0.0/get-collection-items-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/streaks/current-streak-days` (`docs/user_related_apis_versioned/1.0.0/get-current-streak-days.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/groups/{groupId}` (`docs/user_related_apis_versioned/1.0.0/get-group-settings.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/:noteId` (`docs/user_related_apis_versioned/1.0.0/get-note-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/by-attached-entity` (`docs/user_related_apis_versioned/1.0.0/get-notes-by-attached-entity.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/by-range` (`docs/user_related_apis_versioned/1.0.0/get-notes-by-verse-range.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/by-verse/:verseKey` (`docs/user_related_apis_versioned/1.0.0/get-notes-by-verse.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/notes/count-within-range` (`docs/user_related_apis_versioned/1.0.0/get-notes-count-within-verse-range.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/posts/{postId}/comments` (`docs/user_related_apis_versioned/1.0.0/get-posts-comments.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/posts` (`docs/user_related_apis_versioned/1.0.0/get-posts.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/streaks` (`docs/user_related_apis_versioned/1.0.0/get-streaks.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/goals/get-todays-plan` (`docs/user_related_apis_versioned/1.0.0/get-todays-goal-plan.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/bookmarks` (`docs/user_related_apis_versioned/1.0.0/get-user-bookmarks.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/groups` (`docs/user_related_apis_versioned/1.0.0/get-user-groups.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/users/notifications` (`docs/user_related_apis_versioned/1.0.0/get-user-notifications.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/preferences` (`docs/user_related_apis_versioned/1.0.0/get-user-preferences.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/users/profile` (`docs/user_related_apis_versioned/1.0.0/get-user-profile.api.mdx`) still exists.
+- [ ] Verify documented endpoint `GET /v1/reading-sessions` (`docs/user_related_apis_versioned/1.0.0/get-user-reading-sessions.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/groups/{groupId}/inviteUser` (`docs/user_related_apis_versioned/1.0.0/invite-user-to-group.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts/view/{postId}` (`docs/user_related_apis_versioned/1.0.0/log-a-post-view.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/notes/:noteId/publish` (`docs/user_related_apis_versioned/1.0.0/publish-note.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/users/{username}/registerAndroidDevice` (`docs/user_related_apis_versioned/1.0.0/register-android-device.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/groups/{groupId}/removeUser` (`docs/user_related_apis_versioned/1.0.0/remove-user-from-group.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts/report/{postId}` (`docs/user_related_apis_versioned/1.0.0/report-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/users/confirmationEmail` (`docs/user_related_apis_versioned/1.0.0/send-account-confirmation-email.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/users/passwordResetEmail` (`docs/user_related_apis_versioned/1.0.0/send-reset-password-email.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/users/{username}/toggleFollow` (`docs/user_related_apis_versioned/1.0.0/toggle-following-a-user.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts/toggleLike/{postId}` (`docs/user_related_apis_versioned/1.0.0/toggle-like-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/posts/toggleSave/{postId}` (`docs/user_related_apis_versioned/1.0.0/toggle-save-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/comments/{commentId}` (`docs/user_related_apis_versioned/1.0.0/update-a-comment.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/goals/{id}` (`docs/user_related_apis_versioned/1.0.0/update-a-goal.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/posts/{postId}` (`docs/user_related_apis_versioned/1.0.0/update-a-post.api.mdx`) still exists.
+- [ ] Verify documented endpoint `POST /v1/collections/{collectionId}` (`docs/user_related_apis_versioned/1.0.0/update-collection.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PATCH /v1/notes/:noteId` (`docs/user_related_apis_versioned/1.0.0/update-note-by-id.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/users/notifications/{settingId}` (`docs/user_related_apis_versioned/1.0.0/update-user-notification-settings.api.mdx`) still exists.
+- [ ] Verify documented endpoint `PUT /v1/users/profile` (`docs/user_related_apis_versioned/1.0.0/update-user-profile.api.mdx`) still exists.
+
+## Parameters & Examples
+- [ ] Address gaps listed in `03_param_schema_example_gaps.md`.
+
+## Response Schemas
+- [ ] Align schema differences noted in `04_response_example_mismatches.md`.
+
+## Auth & Errors
+- [ ] Reconcile auth/error discrepancies in `05_auth_rate-limit_error-codes.md`.

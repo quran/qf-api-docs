@@ -1,0 +1,10 @@
+/* TODO: unresolved $ref #/definitions/tafsir | TODO: unsupported schema type ['null', 'string'] */
+{
+  "tafsirs": [
+    "TODO"
+  ],
+  "meta": {
+    "tafsir_name": "string",
+    "author_name": "TODO"
+  }
+}

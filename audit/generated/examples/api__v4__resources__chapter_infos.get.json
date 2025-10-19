@@ -1,0 +1,16 @@
+/* TODO: unsupported schema type ['null', 'string'] */
+{
+  "chapter_infos": [
+    {
+      "id": 0,
+      "name": "string",
+      "author_name": "string",
+      "slug": "TODO",
+      "language_name": "string",
+      "translated_name": {
+        "name": "string",
+        "language_name": "string"
+      }
+    }
+  ]
+}

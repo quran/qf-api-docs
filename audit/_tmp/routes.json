@@ -1,0 +1,4304 @@
+{
+  "meta": {
+    "generated_at": null,
+    "source_repo": "quran.com-api",
+    "strategies": {
+      "namespaces": true,
+      "resources": true,
+      "member_collection": true,
+      "draw_routes": true
+    }
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/graphql",
+      "controller": "graphql",
+      "action": "execute",
+      "name": null,
+      "source": "config/routes.rb:12",
+      "defaults": {},
+      "middlewares": [],
+      "scopes": [],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "POST",
+      "path": "/internal/sync_api_client",
+      "controller": "api_clients",
+      "action": "sync",
+      "name": null,
+      "source": "config/routes.rb:13",
+      "defaults": {},
+      "middlewares": [],
+      "scopes": [],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/kalimat/search",
+      "controller": "search",
+      "action": "search",
+      "name": null,
+      "source": "config/routes.rb:16",
+      "defaults": {},
+      "middlewares": [],
+      "scopes": [
+        "kalimat"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/kalimat/suggest",
+      "controller": "search",
+      "action": "suggest",
+      "name": null,
+      "source": "config/routes.rb:17",
+      "defaults": {},
+      "middlewares": [],
+      "scopes": [
+        "kalimat"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/v3/audio_files/index",
+      "controller": "v3",
+      "action": "index",
+      "name": null,
+      "source": "config/routes.rb:21",
+      "defaults": {},
+      "middlewares": [],
+      "scopes": [
+        "v3"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/mobile/translations",
+      "controller": "translations",
+      "action": "index",
+      "name": null,
+      "source": "config/routes.rb:25",
+      "defaults": {},
+      "middlewares": [],
+      "scopes": [
+        "mobile",
+        "translations"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/mobile/translations/:id/download",
+      "controller": "mobile",
+      "action": "download",
+      "name": null,
+      "source": "config/routes.rb:27",
+      "defaults": {},
+      "middlewares": [],
+      "scopes": [
+        "mobile",
+        "translations"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/reflections",
+      "controller": "api/qdc/reflections",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:3",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/reflections/:id",
+      "controller": "api/qdc/reflections",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:4",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/reflections/:post_id/comments",
+      "controller": "api/qdc/comments",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:5",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "post_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/reflections/:post_id/verses",
+      "controller": "api/qdc/reflections",
+      "action": "verses",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:6",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "post_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/qdc/qr/reflections/:post_id/report",
+      "controller": "api/qdc/reflections",
+      "action": "report",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:7",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "post_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/comments/:id",
+      "controller": "api/qdc/comments",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:8",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/comments/:comment_id/replies",
+      "controller": "api/qdc/comments",
+      "action": "replies",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:9",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "comment_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/tags",
+      "controller": "api/qdc/tags",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:10",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/authors",
+      "controller": "api/qdc/authors",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:11",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/authors/:id",
+      "controller": "api/qdc/authors",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:12",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/authors/:id/followers",
+      "controller": "api/qdc/authors",
+      "action": "followers",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:13",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/authors/:id/followings",
+      "controller": "api/qdc/authors",
+      "action": "followings",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:14",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/qr/search",
+      "controller": "api/qdc/search",
+      "action": "search",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:15",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "qr"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/translations",
+      "controller": "api/qdc/resources",
+      "action": "translations",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:20",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/translations/:translation_id/info",
+      "controller": "api/qdc/resources",
+      "action": "translation_info",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:21",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [
+        "translation_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/translations/filter",
+      "controller": "api/qdc/resources",
+      "action": "filter",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:23",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/tafsirs",
+      "controller": "api/qdc/resources",
+      "action": "tafsirs",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:24",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/tafsirs/:tafsir_id/info",
+      "controller": "api/qdc/resources",
+      "action": "tafsir_info",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:25",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [
+        "tafsir_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/recitation_styles",
+      "controller": "api/qdc/resources",
+      "action": "recitation_styles",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:26",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/languages",
+      "controller": "api/qdc/resources",
+      "action": "languages",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:27",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/chapter_infos",
+      "controller": "api/qdc/resources",
+      "action": "chapter_infos",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:28",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/verse_media",
+      "controller": "api/qdc/resources",
+      "action": "verse_media",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:29",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/word_by_word_translations",
+      "controller": "api/qdc/resources",
+      "action": "word_by_word_translations",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:30",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/resources/country_language_preference",
+      "controller": "api/qdc/resources",
+      "action": "country_language_preference",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:31",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/chapters",
+      "controller": "api/chapters",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:35",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/chapters/:id",
+      "controller": "api/chapters",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:36",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/chapters/:id/info",
+      "controller": "api/chapter_infos",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:39",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/juzs",
+      "controller": "api/juzs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:42",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/juzs/:id",
+      "controller": "api/juzs",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:43",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/hizbs",
+      "controller": "api/hizbs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:46",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/hizbs/:id",
+      "controller": "api/hizbs",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:47",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/rub_el_hizbs",
+      "controller": "api/rub_el_hizbs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:50",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/rub_el_hizbs/:id",
+      "controller": "api/rub_el_hizbs",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:51",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/manzils",
+      "controller": "api/manzils",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:54",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/manzils/:id",
+      "controller": "api/manzils",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:55",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/rukus",
+      "controller": "api/rukus",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:58",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/rukus/:id",
+      "controller": "api/rukus",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:59",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/pages",
+      "controller": "api/pages",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:62",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/pages/lookup",
+      "controller": "api/pages",
+      "action": "lookup",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:63",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/pages/:id",
+      "controller": "api/pages",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:64",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_page/:page_number",
+      "controller": "api/qdc/verses",
+      "action": "by_page",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:68",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "page_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_chapter/:chapter_number",
+      "controller": "api/qdc/verses",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:69",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_juz/:juz_number",
+      "controller": "api/qdc/verses",
+      "action": "by_juz",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:70",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "juz_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_manzil/:manzil_number",
+      "controller": "api/qdc/verses",
+      "action": "by_manzil",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:71",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "manzil_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_rub_el_hizb/:rub_el_hizb_number",
+      "controller": "api/qdc/verses",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:73",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_rub/:rub_el_hizb_number",
+      "controller": "api/qdc/verses",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:74",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_hizb/:hizb_number",
+      "controller": "api/qdc/verses",
+      "action": "by_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:75",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_ruku/:ruku_number",
+      "controller": "api/qdc/verses",
+      "action": "by_ruku",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:76",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "ruku_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_key/:verse_key",
+      "controller": "api/qdc/verses",
+      "action": "by_key",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:77",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [
+        "verse_key"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/by_range",
+      "controller": "api/qdc/verses",
+      "action": "by_range",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:78",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/filter",
+      "controller": "api/qdc/verses",
+      "action": "filter",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:80",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/random",
+      "controller": "api/qdc/verses",
+      "action": "random",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:82",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "verses"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/search",
+      "controller": "api/search",
+      "action": "search",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:85",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/navigate",
+      "controller": "api/search",
+      "action": "navigate",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:86",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/verses/advanced_copy",
+      "controller": "api/advanced_copy",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:88",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/foot_notes/:id",
+      "controller": "api/foot_notes",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:91",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/mushafs",
+      "controller": "api/mushafs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:94",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/reciters",
+      "controller": "api/qdc/recitations",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:98",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/reciters/:reciter_id",
+      "controller": "api/qdc/recitations",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:99",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [
+        "reciter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/reciters/:reciter_id/audio_files",
+      "controller": "api/qdc/recitations",
+      "action": "audio_files",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:100",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [
+        "reciter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/reciters/:reciter_id/related",
+      "controller": "api/qdc/recitations",
+      "action": "related",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:101",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [
+        "reciter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/reciters/:reciter_id/timestamp",
+      "controller": "api/qdc/recitations",
+      "action": "timestamp",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:104",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [
+        "reciter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/reciters/:reciter_id/lookup",
+      "controller": "api/qdc/recitations",
+      "action": "lookup_ayah",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:106",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [
+        "reciter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/reciters/:reciter_id/percentiles",
+      "controller": "api/qdc/recitations",
+      "action": "cumulative_percentile",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:109",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [
+        "reciter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/reciters/:reciter_id/ayah_percentiles",
+      "controller": "api/qdc/recitations",
+      "action": "ayah_duration_percentile",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:110",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [
+        "reciter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/stations",
+      "controller": "api/qdc/radio_stations",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:113",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/audio/stations/:station_id",
+      "controller": "api/qdc/radio_stations",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:114",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "audio"
+      ],
+      "path_params": [
+        "station_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/quran/translations/:translation_id",
+      "controller": "api/qdc/quran",
+      "action": "translation",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:120",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "quran"
+      ],
+      "path_params": [
+        "translation_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/quran/tafsirs/:tafsir_id",
+      "controller": "api/qdc/quran",
+      "action": "tafsir",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:121",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "quran"
+      ],
+      "path_params": [
+        "tafsir_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/quran/recitations/:recitation_id",
+      "controller": "api/qdc/quran",
+      "action": "recitation",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:122",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "quran"
+      ],
+      "path_params": [
+        "recitation_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/quran/verses/:script",
+      "controller": "api/qdc/quran",
+      "action": "verses_text",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:123",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "quran"
+      ],
+      "path_params": [
+        "script"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/translations/:resource_id/by_chapter/:chapter_number",
+      "controller": "api/translations",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:128",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/translations/:resource_id/by_page/:page_number",
+      "controller": "api/translations",
+      "action": "by_page",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:129",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "page_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/translations/:resource_id/by_juz/:juz_number",
+      "controller": "api/translations",
+      "action": "by_juz",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:130",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "juz_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/translations/:resource_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "controller": "api/translations",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:131",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/translations/:resource_id/by_hizb/:hizb_number",
+      "controller": "api/translations",
+      "action": "by_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:132",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/translations/:resource_id/by_manzil/:manzil_number",
+      "controller": "api/translations",
+      "action": "by_manzil",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:133",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "manzil_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/translations/:resource_id/by_ruku/:ruku_number",
+      "controller": "api/translations",
+      "action": "by_ruku",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:134",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "ruku_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/translations/:resource_id/by_ayah/:ayah_key",
+      "controller": "api/translations",
+      "action": "by_ayah",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:135",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "ayah_key"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/tafsirs/:resource_id/by_chapter/:chapter_number",
+      "controller": "api/tafsirs",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:140",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/tafsirs/:resource_id/by_page/:page_number",
+      "controller": "api/tafsirs",
+      "action": "by_page",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:141",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "page_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/tafsirs/:resource_id/by_juz/:juz_number",
+      "controller": "api/tafsirs",
+      "action": "by_juz",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:142",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "juz_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/tafsirs/:resource_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "controller": "api/tafsirs",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:143",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/tafsirs/:resource_id/by_hizb/:hizb_number",
+      "controller": "api/tafsirs",
+      "action": "by_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:144",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/tafsirs/:resource_id/by_manzil/:manzil_number",
+      "controller": "api/tafsirs",
+      "action": "by_manzil",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:145",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "manzil_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/tafsirs/:resource_id/by_ruku/:ruku_number",
+      "controller": "api/tafsirs",
+      "action": "by_ruku",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:146",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "ruku_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/tafsirs/:resource_id/by_ayah/:ayah_key",
+      "controller": "api/tafsirs",
+      "action": "by_ayah",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:147",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "ayah_key"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/recitations/:recitation_id/by_chapter/:chapter_number",
+      "controller": "api/recitations",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:151",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/recitations/:recitation_id/by_page/:page_number",
+      "controller": "api/recitations",
+      "action": "by_page",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:152",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "page_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/recitations/:recitation_id/by_juz/:juz_number",
+      "controller": "api/recitations",
+      "action": "by_juz",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:153",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "juz_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/recitations/:recitation_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "controller": "api/recitations",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:154",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/recitations/:recitation_id/by_hizb/:hizb_number",
+      "controller": "api/recitations",
+      "action": "by_hizb",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:155",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/recitations/:recitation_id/by_manzil/:manzil_number",
+      "controller": "api/recitations",
+      "action": "by_manzil",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:156",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "manzil_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/recitations/:recitation_id/by_ruku/:ruku_number",
+      "controller": "api/recitations",
+      "action": "by_ruku",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:157",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "ruku_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/recitations/:recitation_id/by_ayah/:ayah_key",
+      "controller": "api/recitations",
+      "action": "by_ayah",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:158",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "ayah_key"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc/ping",
+      "controller": "api/ping",
+      "action": "ping",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:161",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/qdc",
+      "controller": "api/ping",
+      "action": "ping",
+      "name": null,
+      "source": "config/routes/api/qdc.rb:162",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "qdc"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_page/:page_number",
+      "controller": "api/v4/verses",
+      "action": "by_page",
+      "name": null,
+      "source": "config/routes/api/v4.rb:4",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "page_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_juz/:juz_number",
+      "controller": "api/v4/verses",
+      "action": "by_juz",
+      "name": null,
+      "source": "config/routes/api/v4.rb:5",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "juz_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_chapter/:chapter_number",
+      "controller": "api/v4/verses",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/v4.rb:6",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_rub_el_hizb/:rub_el_hizb_number",
+      "controller": "api/v4/verses",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:7",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_rub/:rub_el_hizb_number",
+      "controller": "api/v4/verses",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:8",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_hizb/:hizb_number",
+      "controller": "api/v4/verses",
+      "action": "by_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:9",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_manzil/:manzil_number",
+      "controller": "api/v4/verses",
+      "action": "by_manzil",
+      "name": null,
+      "source": "config/routes/api/v4.rb:10",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "manzil_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_ruku/:ruku_number",
+      "controller": "api/v4/verses",
+      "action": "by_ruku",
+      "name": null,
+      "source": "config/routes/api/v4.rb:11",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "ruku_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/by_key/:verse_key",
+      "controller": "api/v4/verses",
+      "action": "by_key",
+      "name": null,
+      "source": "config/routes/api/v4.rb:12",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [
+        "verse_key"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/filter",
+      "controller": "api/v4/verses",
+      "action": "filter",
+      "name": null,
+      "source": "config/routes/api/v4.rb:13",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/verses/random",
+      "controller": "api/v4/verses",
+      "action": "random",
+      "name": null,
+      "source": "config/routes/api/v4.rb:15",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "verses"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/audio/qaris",
+      "controller": "api/v4/recitations",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:23",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "audio"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/audio/qaris/:id",
+      "controller": "api/v4/recitations",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:24",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "audio"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/audio/qaris/related/:id",
+      "controller": "api/v4/recitations",
+      "action": "related",
+      "name": null,
+      "source": "config/routes/api/v4.rb:25",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "audio"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/audio/qaris/:id/audio_files/:ext",
+      "controller": "api/v4/recitations",
+      "action": "audio_files",
+      "name": null,
+      "source": "config/routes/api/v4.rb:26",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "audio"
+      ],
+      "path_params": [
+        "id",
+        "ext"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/audio/sections",
+      "controller": "api/v4/sections",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:27",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "audio"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/audio/surahs",
+      "controller": "api/v4/chapters",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:28",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "audio"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/audio/surahs/:id",
+      "controller": "api/v4/chapters",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:29",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "audio"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/search",
+      "controller": "api/search",
+      "action": "search",
+      "name": null,
+      "source": "config/routes/api/v4.rb:32",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/suggest",
+      "controller": "api/suggest",
+      "action": "suggest",
+      "name": null,
+      "source": "config/routes/api/v4.rb:33",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/chapters",
+      "controller": "api/chapters",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:35",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/chapters/:id",
+      "controller": "api/chapters",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:36",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/chapters/:id/info",
+      "controller": "api/chapter_infos",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:39",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/mushafs",
+      "controller": "api/mushafs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:42",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/juzs",
+      "controller": "api/juzs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:45",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/juzs/:id",
+      "controller": "api/juzs",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:46",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/hizbs",
+      "controller": "api/hizbs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:49",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/hizbs/:id",
+      "controller": "api/hizbs",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:50",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/rub_el_hizbs",
+      "controller": "api/rub_el_hizbs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:53",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/rub_el_hizbs/:id",
+      "controller": "api/rub_el_hizbs",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:54",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/manzils",
+      "controller": "api/manzils",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:57",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/manzils/:id",
+      "controller": "api/manzils",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:58",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/rukus",
+      "controller": "api/rukus",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:61",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/rukus/:id",
+      "controller": "api/rukus",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:62",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/foot_notes/:id",
+      "controller": "api/foot_notes",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v4.rb:65",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/translations",
+      "controller": "api/v4/resources",
+      "action": "translations",
+      "name": null,
+      "source": "config/routes/api/v4.rb:69",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/translations/:translation_id/info",
+      "controller": "api/v4/resources",
+      "action": "translation_info",
+      "name": null,
+      "source": "config/routes/api/v4.rb:70",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [
+        "translation_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/tafsirs",
+      "controller": "api/v4/resources",
+      "action": "tafsirs",
+      "name": null,
+      "source": "config/routes/api/v4.rb:71",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/tafsirs/:tafsir_id/info",
+      "controller": "api/v4/resources",
+      "action": "tafsir_info",
+      "name": null,
+      "source": "config/routes/api/v4.rb:72",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [
+        "tafsir_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/recitations",
+      "controller": "api/v4/resources",
+      "action": "recitations",
+      "name": null,
+      "source": "config/routes/api/v4.rb:73",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/recitations/:recitation_id/info",
+      "controller": "api/v4/resources",
+      "action": "recitation_info",
+      "name": null,
+      "source": "config/routes/api/v4.rb:74",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [
+        "recitation_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/recitation_styles",
+      "controller": "api/v4/resources",
+      "action": "recitation_styles",
+      "name": null,
+      "source": "config/routes/api/v4.rb:75",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/languages",
+      "controller": "api/v4/resources",
+      "action": "languages",
+      "name": null,
+      "source": "config/routes/api/v4.rb:76",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/chapter_infos",
+      "controller": "api/v4/resources",
+      "action": "chapter_infos",
+      "name": null,
+      "source": "config/routes/api/v4.rb:77",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/verse_media",
+      "controller": "api/v4/resources",
+      "action": "verse_media",
+      "name": null,
+      "source": "config/routes/api/v4.rb:78",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/chapter_reciters",
+      "controller": "api/v4/resources",
+      "action": "chapter_reciters",
+      "name": null,
+      "source": "config/routes/api/v4.rb:79",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/changes",
+      "controller": "api/v4/resources",
+      "action": "changes",
+      "name": null,
+      "source": "config/routes/api/v4.rb:80",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/resources/word_by_word_translations",
+      "controller": "api/v4/resources",
+      "action": "word_by_word_translations",
+      "name": null,
+      "source": "config/routes/api/v4.rb:81",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "resources"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/quran/translations/:translation_id",
+      "controller": "api/v4/quran",
+      "action": "translation",
+      "name": null,
+      "source": "config/routes/api/v4.rb:87",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "quran"
+      ],
+      "path_params": [
+        "translation_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/quran/tafsirs/:tafsir_id",
+      "controller": "api/v4/quran",
+      "action": "tafsir",
+      "name": null,
+      "source": "config/routes/api/v4.rb:88",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "quran"
+      ],
+      "path_params": [
+        "tafsir_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/quran/recitations/:recitation_id",
+      "controller": "api/v4/quran",
+      "action": "recitation",
+      "name": null,
+      "source": "config/routes/api/v4.rb:89",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "quran"
+      ],
+      "path_params": [
+        "recitation_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/quran/verses/:script",
+      "controller": "api/v4/quran",
+      "action": "verses_text",
+      "name": null,
+      "source": "config/routes/api/v4.rb:90",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "quran"
+      ],
+      "path_params": [
+        "script"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_chapter/:chapter_number",
+      "controller": "api/translations",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/v4.rb:95",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_page/:page_number",
+      "controller": "api/translations",
+      "action": "by_page",
+      "name": null,
+      "source": "config/routes/api/v4.rb:96",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "page_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_juz/:juz_number",
+      "controller": "api/translations",
+      "action": "by_juz",
+      "name": null,
+      "source": "config/routes/api/v4.rb:97",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "juz_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "controller": "api/translations",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:98",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_rub/:rub_el_hizb_number",
+      "controller": "api/translations",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:99",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_hizb/:hizb_number",
+      "controller": "api/translations",
+      "action": "by_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:100",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_manzil/:manzil_number",
+      "controller": "api/translations",
+      "action": "by_manzil",
+      "name": null,
+      "source": "config/routes/api/v4.rb:101",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "manzil_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_ruku/:ruku_number",
+      "controller": "api/translations",
+      "action": "by_ruku",
+      "name": null,
+      "source": "config/routes/api/v4.rb:102",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "ruku_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/translations/:resource_id/by_ayah/:ayah_key",
+      "controller": "api/translations",
+      "action": "by_ayah",
+      "name": null,
+      "source": "config/routes/api/v4.rb:103",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "translations/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "ayah_key"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_chapter/:chapter_number",
+      "controller": "api/tafsirs",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/v4.rb:108",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_page/:page_number",
+      "controller": "api/tafsirs",
+      "action": "by_page",
+      "name": null,
+      "source": "config/routes/api/v4.rb:109",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "page_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_juz/:juz_number",
+      "controller": "api/tafsirs",
+      "action": "by_juz",
+      "name": null,
+      "source": "config/routes/api/v4.rb:110",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "juz_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "controller": "api/tafsirs",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:111",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_rub/:rub_el_hizb_number",
+      "controller": "api/tafsirs",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:112",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_hizb/:hizb_number",
+      "controller": "api/tafsirs",
+      "action": "by_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:113",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_manzil/:manzil_number",
+      "controller": "api/tafsirs",
+      "action": "by_manzil",
+      "name": null,
+      "source": "config/routes/api/v4.rb:114",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "manzil_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_ruku/:ruku_number",
+      "controller": "api/tafsirs",
+      "action": "by_ruku",
+      "name": null,
+      "source": "config/routes/api/v4.rb:115",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "ruku_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/tafsirs/:resource_id/by_ayah/:ayah_key",
+      "controller": "api/tafsirs",
+      "action": "by_ayah",
+      "name": null,
+      "source": "config/routes/api/v4.rb:116",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "tafsirs/:resource_id"
+      ],
+      "path_params": [
+        "resource_id",
+        "ayah_key"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_chapter/:chapter_number",
+      "controller": "api/recitations",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/v4.rb:121",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_page/:page_number",
+      "controller": "api/recitations",
+      "action": "by_page",
+      "name": null,
+      "source": "config/routes/api/v4.rb:122",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "page_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_juz/:juz_number",
+      "controller": "api/recitations",
+      "action": "by_juz",
+      "name": null,
+      "source": "config/routes/api/v4.rb:123",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "juz_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "controller": "api/recitations",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:124",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_rub/:rub_el_hizb_number",
+      "controller": "api/recitations",
+      "action": "by_rub_el_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:125",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "rub_el_hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_hizb/:hizb_number",
+      "controller": "api/recitations",
+      "action": "by_hizb",
+      "name": null,
+      "source": "config/routes/api/v4.rb:126",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "hizb_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_manzil/:manzil_number",
+      "controller": "api/recitations",
+      "action": "by_manzil",
+      "name": null,
+      "source": "config/routes/api/v4.rb:127",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "manzil_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_ruku/:ruku_number",
+      "controller": "api/recitations",
+      "action": "by_ruku",
+      "name": null,
+      "source": "config/routes/api/v4.rb:128",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "ruku_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/recitations/:recitation_id/by_ayah/:ayah_key",
+      "controller": "api/recitations",
+      "action": "by_ayah",
+      "name": null,
+      "source": "config/routes/api/v4.rb:129",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "recitations/:recitation_id"
+      ],
+      "path_params": [
+        "recitation_id",
+        "ayah_key"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/chapter_recitations/:reciter_id",
+      "controller": "api/chapter_recitations",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v4.rb:134",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "chapter_recitations/:reciter_id"
+      ],
+      "path_params": [
+        "reciter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/chapter_recitations/:reciter_id/:chapter_number",
+      "controller": "api/chapter_recitations",
+      "action": "by_chapter",
+      "name": null,
+      "source": "config/routes/api/v4.rb:135",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4",
+        "chapter_recitations/:reciter_id"
+      ],
+      "path_params": [
+        "reciter_id",
+        "chapter_number"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4/ping",
+      "controller": "api/ping",
+      "action": "ping",
+      "name": null,
+      "source": "config/routes/api/v4.rb:138",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v4",
+      "controller": "api/ping",
+      "action": "ping",
+      "name": null,
+      "source": "config/routes/api/v4.rb:139",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v4"
+      ],
+      "path_params": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:id",
+      "controller": "api/foot_notes",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v3.rb:4",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters",
+      "controller": "api/chapters",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v3.rb:6",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters"
+      ],
+      "path_params": [
+        "foot_note_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:id",
+      "controller": "api/chapters",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v3.rb:6",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:id/info",
+      "controller": "api/chapter_infos",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v3.rb:8",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/verses",
+      "controller": "api/verses",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v3.rb:11",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "verses"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/verses/:id",
+      "controller": "api/verses",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v3.rb:11",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "verses"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/verses/:vers_id/audio_files",
+      "controller": "api/audio_files",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v3.rb:12",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "verses",
+        "audio_files"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "vers_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/verses/:vers_id/audio_files/:id/tafsirs/:tafsir",
+      "controller": "api/tafsirs",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v3.rb:15",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "verses",
+        "audio_files"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "vers_id",
+        "id",
+        "tafsir"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs",
+      "controller": "api/juzs",
+      "action": "index",
+      "name": null,
+      "source": "config/routes/api/v3.rb:20",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:id",
+      "controller": "api/juzs",
+      "action": "show",
+      "name": null,
+      "source": "config/routes/api/v3.rb:20",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/options/default",
+      "controller": "api/v3/options",
+      "action": "default",
+      "name": null,
+      "source": "config/routes/api/v3.rb:23",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs",
+        "options"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/options/translations",
+      "controller": "api/v3/options",
+      "action": "translations",
+      "name": null,
+      "source": "config/routes/api/v3.rb:24",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs",
+        "options"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/options/recitations",
+      "controller": "api/v3/options",
+      "action": "recitations",
+      "name": null,
+      "source": "config/routes/api/v3.rb:25",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs",
+        "options"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/options/tafsirs",
+      "controller": "api/v3/options",
+      "action": "tafsirs",
+      "name": null,
+      "source": "config/routes/api/v3.rb:26",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs",
+        "options"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/options/languages",
+      "controller": "api/v3/options",
+      "action": "languages",
+      "name": null,
+      "source": "config/routes/api/v3.rb:27",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs",
+        "options"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/options/chapter_info",
+      "controller": "api/v3/options",
+      "action": "chapter_info",
+      "name": null,
+      "source": "config/routes/api/v3.rb:28",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs",
+        "options"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/search",
+      "controller": "api/search",
+      "action": "search",
+      "name": null,
+      "source": "config/routes/api/v3.rb:31",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/suggest",
+      "controller": "api/search",
+      "action": "suggest",
+      "name": null,
+      "source": "config/routes/api/v3.rb:32",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id/ping",
+      "controller": "api/ping",
+      "action": "ping",
+      "name": null,
+      "source": "config/routes/api/v3.rb:33",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/v3/foot_notes/:foot_note_id/chapters/:chapter_id/juzs/:juz_id",
+      "controller": "api/ping",
+      "action": "ping",
+      "name": null,
+      "source": "config/routes/api/v3.rb:34",
+      "defaults": {
+        "format": "json"
+      },
+      "middlewares": [],
+      "scopes": [
+        "api",
+        "v3",
+        "foot_notes",
+        "chapters",
+        "juzs"
+      ],
+      "path_params": [
+        "foot_note_id",
+        "chapter_id",
+        "juz_id"
+      ],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "controller": "api/v4/ping",
+      "action": "ping",
+      "name": "root",
+      "source": "config/routes.rb:38",
+      "defaults": {},
+      "middlewares": [],
+      "scopes": [],
+      "path_params": [],
+      "notes": []
+    }
+  ]
+}

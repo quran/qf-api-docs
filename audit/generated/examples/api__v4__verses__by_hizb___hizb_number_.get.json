@@ -1,0 +1,7 @@
+/* TODO: unresolved $ref #/definitions/verse | TODO: unresolved $ref #/definitions/pagination */
+{
+  "verses": [
+    "TODO"
+  ],
+  "pagination": "TODO"
+}
