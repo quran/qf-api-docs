@@ -1,0 +1,34 @@
+---
+id: list-reciters
+title: "List reciters"
+description: "Returns metadata for all supported audio reciters (qaris), including style and available resources."
+sidebar_label: "List reciters"
+hide_title: true
+hide_table_of_contents: true
+api: {"responses":{"200":{"description":"Successful response."}},"description":"Returns metadata for all supported audio reciters (qaris), including style and available resources.","tags":["Audio"],"parameters":[],"method":"get","path":"/audio/qaris","servers":[{"url":"https://apis-prelive.quran.foundation/content/api/v4","description":"Pre-production Server"},{"url":"https://apis.quran.foundation/content/api/v4","description":"Production Server"}],"security":[{"x-auth-token":[],"x-client-id":[]}],"securitySchemes":{"x-auth-token":{"type":"apiKey","description":"The JWT access token required for accessing the endpoints.","name":"x-auth-token","in":"header"},"x-client-id":{"type":"apiKey","description":"Your client Id","name":"x-client-id","in":"header"}},"info":{"title":"Content APIs","description":"Quran.Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. The below diagram shows the flow of getting an access token using the `client_credentials` grant type in a very simplified way.\n\n ![Client Credentials Flow](/img/client-credentials-flow.png) After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`.","version":"v4"},"postman":{"name":"List reciters","description":{"content":"Returns metadata for all supported audio reciters (qaris), including style and available resources.","type":"text/plain"},"url":{"path":["audio","qaris"],"host":["{{baseUrl}}"],"query":[],"variable":[]},"method":"GET"}}
+sidebar_class_name: "get api-method"
+info_path: docs/content_apis_versioned/content-apis
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## List reciters
+
+
+
+Returns metadata for all supported audio reciters (qaris), including style and available resources.
+
+<div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+Successful response.
+
+</div><div></div></TabItem></ApiTabs></div>
+      
