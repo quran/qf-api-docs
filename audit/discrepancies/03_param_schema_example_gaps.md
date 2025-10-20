@@ -212,97 +212,12 @@ Detected doc/code mismatches for matched endpoints.
 - Route defaults: `{'format': 'json'}`
 - Parameters documented but not inferred from code: `query:audio`, `query:fields`, `query:language`, `query:tafsirs`, `query:translation_fields`, `query:translations`, `query:word_fields`, `query:words`
 
-## GET /api/v4/quran/verses/{script}
-- Docs: `docs/content_apis_versioned/get-quran-glyphs-by-script.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:script`
+## API v4 presenter-driven routes
+The comparison script flags these endpoints because their parameters are consumed inside presenters/finders rather than directly in controllers. Manual review shows the documentation already matches production behaviour.
 
-## GET /api/v4/recitations/{recitation_id}/by_manzil/{manzil_number}
-- Docs: `docs/content_apis_versioned/list-manzil-recitation.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:manzil_number`, `path:recitation_id`
+- `GET /api/v4/quran/verses/{script}` uses `params[:script]` when selecting the verse script inside `app/controllers/api/v4/quran_controller.rb:79`, so the `{script}` path parameter remains valid.
+- `GET /api/v4/recitations/{recitation_id}/by_*` normalises `params[:recitation_id]` in `app/presenters/recitations_presenter.rb:50` before `V4::RecitationFinder` reads the range selectors (e.g. `{chapter_number}`, `{manzil_number}`, `{ayah_key}`) in `app/finders/v4/recitation_finder.rb:24-63`, relying on the shared helpers in `app/finders/finder.rb:79`, `:86`, `:92`, `:98`, `:104`, `:109`, `:121`. Docs should continue to list these path parameters.
+- `GET /api/v4/tafsirs/{resource_id}/by_*` resolves `{resource_id}` via `app/presenters/tafsirs_presenter.rb:71` and delegates to `app/finders/v4/tafsir_finder.rb:30-73`, which consumes the same range parameters through `Finder`, so the documented params are accurate.
+- `GET /api/v4/translations/{resource_id}/by_*` follows the same pattern: `app/presenters/translations_presenter.rb:49` sanitises `{resource_id}` and `app/finders/v4/translation_finder.rb:25-73` reads the range arguments supplied by the shared `Finder` helpers. No documentation change is required.
 
-## GET /api/v4/recitations/{recitation_id}/by_ruku/{ruku_number}
-- Docs: `docs/content_apis_versioned/list-ruku-recitation.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:recitation_id`, `path:ruku_number`
-
-## GET /api/v4/tafsirs/{resource_id}/by_ayah/{ayah_key}
-- Docs: `docs/content_apis_versioned/list-ayah-tafsirs.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:ayah_key`, `path:resource_id`
-
-## GET /api/v4/tafsirs/{resource_id}/by_chapter/{chapter_number}
-- Docs: `docs/content_apis_versioned/list-surah-tafsirs.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:chapter_number`, `path:resource_id`
-
-## GET /api/v4/tafsirs/{resource_id}/by_hizb/{hizb_number}
-- Docs: `docs/content_apis_versioned/list-hizb-tafsirs.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:hizb_number`, `path:resource_id`
-
-## GET /api/v4/tafsirs/{resource_id}/by_juz/{juz_number}
-- Docs: `docs/content_apis_versioned/list-juz-tafsirs.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:juz_number`, `path:resource_id`
-
-## GET /api/v4/tafsirs/{resource_id}/by_manzil/{manzil_number}
-- Docs: `docs/content_apis_versioned/list-manzil-tafsirs.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:manzil_number`, `path:resource_id`
-
-## GET /api/v4/tafsirs/{resource_id}/by_page/{page_number}
-- Docs: `docs/content_apis_versioned/list-page-tafsirs.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:page_number`, `path:resource_id`
-
-## GET /api/v4/tafsirs/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}
-- Docs: `docs/content_apis_versioned/list-rub-el-hizb-tafsirs.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:resource_id`, `path:rub_el_hizb_number`
-
-## GET /api/v4/tafsirs/{resource_id}/by_ruku/{ruku_number}
-- Docs: `docs/content_apis_versioned/list-ruku-tafsirs.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:resource_id`, `path:ruku_number`
-
-## GET /api/v4/translations/{resource_id}/by_ayah/{ayah_key}
-- Docs: `docs/content_apis_versioned/list-ayah-translations.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:ayah_key`, `path:resource_id`
-
-## GET /api/v4/translations/{resource_id}/by_chapter/{chapter_number}
-- Docs: `docs/content_apis_versioned/list-surah-translations.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:chapter_number`, `path:resource_id`
-
-## GET /api/v4/translations/{resource_id}/by_hizb/{hizb_number}
-- Docs: `docs/content_apis_versioned/list-hizb-translations.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:hizb_number`, `path:resource_id`
-
-## GET /api/v4/translations/{resource_id}/by_juz/{juz_number}
-- Docs: `docs/content_apis_versioned/list-juz-translations.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:juz_number`, `path:resource_id`
-
-## GET /api/v4/translations/{resource_id}/by_manzil/{manzil_number}
-- Docs: `docs/content_apis_versioned/list-manzil-translations.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:manzil_number`, `path:resource_id`
-
-## GET /api/v4/translations/{resource_id}/by_page/{page_number}
-- Docs: `docs/content_apis_versioned/list-page-translations.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:page_number`, `path:resource_id`
-
-## GET /api/v4/translations/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}
-- Docs: `docs/content_apis_versioned/list-rub-el-hizb-translations.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:resource_id`, `path:rub_el_hizb_number`
-
-## GET /api/v4/translations/{resource_id}/by_ruku/{ruku_number}
-- Docs: `docs/content_apis_versioned/list-ruku-translations.api.mdx`
-- Route defaults: `{'format': 'json'}`
-- Parameters documented but not inferred from code: `path:resource_id`, `path:ruku_number`
+Mark these entries as false positives until the analyser learns to follow the presenter layer.
