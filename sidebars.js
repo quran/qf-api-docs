@@ -54,10 +54,32 @@ const sidebars = {
   APIsSidebar: [
     {
       type: "doc",
-      id: "quickstart/index", // ✅ Add here too if needed in sidebar
+      id: "quickstart/index", // Add here too if needed in sidebar
       label: "🚀 Quick Start Guide",
     },
-
+    {
+      type: "category",
+      label: "SDK",
+      link: {
+        type: "doc",
+        id: "sdk/index",
+      },
+      items: [
+        {
+          type: "category",
+          label: "API Modules",
+          items: [
+            "sdk/chapters",
+            "sdk/verses",
+            "sdk/audio",
+            "sdk/resources",
+            "sdk/juzs",
+            "sdk/search",
+          ],
+        },
+        "sdk/v1-migration-guide",
+      ],
+    },
     // {
     //   type: "html",
     //   value: `<p style="color: var(--ifm-color-secondary-darkest)">DOCUMENTATION</p>`, // The HTML to be rendered
@@ -211,3 +233,4 @@ const sidebars = {
 };
 
 module.exports = sidebars;
+
