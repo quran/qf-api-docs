@@ -14,7 +14,7 @@ The Resources API provides metadata about translations, tafsirs, reciters, and o
 const recitations = await client.resources.findAllRecitations();
 
 recitations.forEach((r) => {
-  console.log(`${r.id}. ${r.reciterName} (${r.style})`);
+  console.log(`${r.id}. ${r.reciterName ?? "Unknown"} (${r.style ?? "N/A"})`);
 });
 ```
 
@@ -34,9 +34,7 @@ recitations.forEach((r) => {
 ```ts
 const info = await client.resources.findRecitationInfo("2");
 
-console.log(info.reciterName);
-console.log(info.bio);
-console.log(info.photo);
+console.log(info.info); // Rich text/HTML describing the recitation
 ```
 
 ### RecitationInfoResource Type
@@ -73,10 +71,7 @@ const urdu = translations.filter((t) => t.languageName === "urdu");
 ```ts
 const info = await client.resources.findTranslationInfo("131");
 
-console.log(info.name);
-console.log(info.authorName);
-console.log(info.languageName);
-console.log(info.bio);
+console.log(info.info); // Information about the translation (HTML/string)
 ```
 
 ### TranslationInfoResource Type
@@ -132,7 +127,7 @@ console.log(info.bio);
 const languages = await client.resources.findAllLanguages();
 
 languages.forEach((lang) => {
-  console.log(`${lang.name} (${lang.iso}): ${lang.translationsCount} translations`);
+  console.log(`${lang.name} (${lang.isoCode}) - native: ${lang.nativeName}`);
 });
 ```
 
@@ -176,7 +171,7 @@ chapterInfos.forEach((info) => {
 const reciters = await client.resources.findAllChapterReciters();
 
 reciters.forEach((r) => {
-  console.log(`${r.name} (${r.arabicName})`);
+  console.log(`${r.name} (${r.arabicName ?? "n/a"})`);
 });
 ```
 
@@ -213,9 +208,8 @@ console.log(styles.mujawwad);  // Mujawwad reciters
 ```ts
 const media = await client.resources.findVerseMedia();
 
-console.log(media.unicode); // Font URL
-console.log(media.image);   // Images base URL
-console.log(media.audio);   // Audio base URL
+console.log(media.name);        // Resource name
+console.log(media.languageName); // Language associated with the resource
 ```
 
 ### VerseMediaResource Type

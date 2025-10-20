@@ -47,9 +47,9 @@ const verse = await client.verses.findByKey("2:255", {
   translations: [20, 131], // English and Urdu
   words: true,
   translationFields: {
-    text: true,
     languageName: true,
     resourceName: true,
+    verseKey: true,
   },
 });
 ```
@@ -125,9 +125,8 @@ const verse = await client.verses.findByKey("1:1", {
   words: true,
   wordFields: {
     textUthmani: true,
-    transliteration: true,
-    translation: true,
-    audio: true,
+    verseKey: true,
+    location: true,
   },
 });
 ```
@@ -138,9 +137,9 @@ const verse = await client.verses.findByKey("1:1", {
 const verse = await client.verses.findByKey("2:255", {
   translations: [20, 131],
   translationFields: {
-    text: true,
     languageName: true,
     resourceName: true,
+    verseKey: true,
   },
 });
 ```
@@ -152,8 +151,8 @@ const verse = await client.verses.findByKey("1:1", {
   fields: {
     textUthmani: true,
     textUthmaniTajweed: true,
-    pageNumber: true,
-    juzNumber: true,
+    codeV1: true,
+    v1Page: true,
   },
 });
 ```
