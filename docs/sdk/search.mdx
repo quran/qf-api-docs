@@ -1,0 +1,72 @@
+---
+title: Search API
+description: Search Quran content with language support and pagination.
+slug: /sdk/search
+---
+
+The Search API enables searching through Quranic content with multi-language support.
+
+## Basic Search
+
+```ts
+const results = await client.search.search("light");
+
+console.log(`Found ${results.totalResults} results`);
+
+(results.results ?? []).forEach((result) => {
+  console.log(`${result.verseKey}: ${result.highlighted ?? result.text}`);
+});
+```
+
+### SearchResult Type
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `verseKey` | `string` | Verse identifier such as `24:35`. |
+| `verseId` | `number` | Internal verse identifier. |
+| `text` | `string` | Matched verse text without highlighting applied. |
+| `highlighted` | `string` | HTML string with emphasized query matches. |
+| `words` | `Word[]` | Word-level metadata for the verse. |
+| `translations` | `Translation[]` | Translations returned with the result set. |
+
+### With Language
+
+```ts
+import { Language } from "@quranjs/api";
+
+const results = await client.search.search("O�O-U.Oc", {
+  language: Language.ARABIC,
+  size: 10,
+  page: 1,
+});
+```
+
+## Options
+
+### Pagination
+
+```ts
+const results = await client.search.search("mercy", {
+  size: 10,    // Results per page (default: 30)
+  page: 1,     // Page number
+  language: Language.ENGLISH,
+});
+
+console.log(`Page ${results.currentPage} of ${results.totalPages}`);
+```
+
+### Language-Specific
+
+```ts
+const english = await client.search.search("mercy", {
+  language: Language.ENGLISH,
+});
+
+const arabic = await client.search.search("O�O-U.Oc", {
+  language: Language.ARABIC,
+});
+
+const urdu = await client.search.search("رحمت", {
+  language: Language.URDU,
+});
+```
