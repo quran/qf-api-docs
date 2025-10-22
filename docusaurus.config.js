@@ -176,6 +176,12 @@ const config = {
             position: "left",
           },
           {
+            type: "doc",
+            docId: "sdk/index",
+            position: "left",
+            label: "SDK",
+          },
+          {
             sidebarId: "APIsSidebar",
             type: "dropdown",
             label: "APIs",
@@ -184,6 +190,10 @@ const config = {
               {
                 label: "Content APIs",
                 to: "docs/category/content-apis",
+              },
+              {
+                label: "SDK Docs",
+                to: "docs/sdk",
               },
               {
                 label: "User-related APIs",
@@ -217,6 +227,10 @@ const config = {
               {
                 label: "Content APIs",
                 to: "/docs/category/content-apis",
+              },
+              {
+                label: "SDK Docs",
+                to: "/docs/sdk",
               },
               {
                 label: "User-related APIs",
@@ -264,3 +278,4 @@ const config = {
 };
 
 module.exports = config;
+
