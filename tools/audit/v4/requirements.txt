@@ -1,0 +1,6 @@
+pyyaml
+markdown-it-py
+beautifulsoup4
+openapi-spec-validator
+jsonschema
+tabulate

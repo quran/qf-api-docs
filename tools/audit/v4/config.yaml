@@ -1,0 +1,37 @@
+# Absolute or relative paths (relative to this config file)
+code_repo_path: "\\\\wsl.localhost\\Ubuntu\\home\\basit3407\\quran.com-api"
+docs_repo_path: "../../"
+
+# Only audit v4 (exclude qdc, v3)
+api_version:
+  prefix: "/api/v4/"
+  exclude_path_contains: ["qdc", "/api/v3/"]
+
+# Code scanning
+code:
+  # Add or adjust based on stack/framework used
+  route_file_globs: ["**/routes/**/*.rb", "**/config/routes.rb", "**/*.go", "**/*.ts", "**/*.js", "**/*.py"]
+  controller_file_globs: ["**/controllers/**/*", "**/*.ts", "**/*.rb", "**/*.go", "**/*.py"]
+  serializer_file_globs: ["**/serializers/**/*", "**/*.rb", "**/*.ts", "**/*.py"]
+  # Heuristics to detect params (framework-agnostic fallbacks)
+  param_parse_hints:
+    - "params\\[\"([A-Za-z0-9_]+)\"\\]"
+    - "query\\.get\\(['\"]([A-Za-z0-9_]+)['\"]\\)"
+    - "request\\.args\\.get\\(['\"]([A-Za-z0-9_]+)['\"]"
+    - "req\\.query\\.([A-Za-z0-9_]+)"
+    - "request\\.query_params\\[['\"]([A-Za-z0-9_]+)['\"]\\]"
+
+# Docs scanning
+docs:
+  # If you have OpenAPI files, list them here; otherwise fall back to Markdown extraction.
+  openapi_globs: ["openAPI/**/*.{yml,yaml,json}", "openapi/**/*.{yml,yaml,json}"]
+  markdown_globs: ["docs/**/*.md", "content/**/*.md", "**/*.md"]
+  endpoint_heading_patterns:
+    - "^###?\\s+(GET|POST|PUT|PATCH|DELETE)\\s+(/api/v4/[^\\s]+)"
+    - "^##\\s+(/api/v4/[^\\s]+)\\s+\\((GET|POST|PUT|PATCH|DELETE)\\)"
+  param_table_header_keywords: ["Parameter", "Type", "Required", "Default", "Description"]
+
+# Reporting options
+report:
+  output_dir: "outputs"
+  fail_on_any_issue: false  # change to true for CI gating
