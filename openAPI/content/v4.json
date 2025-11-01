@@ -24,7 +24,9 @@
   "paths": {
     "/chapter_recitations/{id}/{chapter_number}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get chapter's audio file of a reciter",
         "description": "Get chapter's audio file of a reciter. Supports `segments` (boolean query param; default `false`). When `segments=true`, verse-level timestamp entries include `segments` ([word_index, start_ms, end_ms]). All time values are milliseconds.",
         "operationId": "chapter-reciter-audio-file",
@@ -97,10 +99,26 @@
                             "timestamp_to": 6493,
                             "duration": -6493,
                             "segments": [
-                              [1, 0, 630],
-                              [2, 650, 1570],
-                              [3, 1570, 3110],
-                              [4, 3110, 5590]
+                              [
+                                1,
+                                0,
+                                630
+                              ],
+                              [
+                                2,
+                                650,
+                                1570
+                              ],
+                              [
+                                3,
+                                1570,
+                                3110
+                              ],
+                              [
+                                4,
+                                3110,
+                                5590
+                              ]
                             ]
                           },
                           {
@@ -109,10 +127,26 @@
                             "timestamp_to": 11546,
                             "duration": -5053,
                             "segments": [
-                              [1, 6493, 7243],
-                              [2, 7243, 8123],
-                              [3, 8143, 8723],
-                              [4, 8723, 11193]
+                              [
+                                1,
+                                6493,
+                                7243
+                              ],
+                              [
+                                2,
+                                7243,
+                                8123
+                              ],
+                              [
+                                3,
+                                8143,
+                                8723
+                              ],
+                              [
+                                4,
+                                8723,
+                                11193
+                              ]
                             ]
                           },
                           {
@@ -121,8 +155,16 @@
                             "timestamp_to": 15985,
                             "duration": -4439,
                             "segments": [
-                              [1, 11546, 12806],
-                              [2, 12916, 15366]
+                              [
+                                1,
+                                11546,
+                                12806
+                              ],
+                              [
+                                2,
+                                12916,
+                                15366
+                              ]
                             ]
                           },
                           {
@@ -131,9 +173,21 @@
                             "timestamp_to": 21521,
                             "duration": -5536,
                             "segments": [
-                              [1, 15985, 16505],
-                              [2, 16705, 17235],
-                              [3, 17265, 19155]
+                              [
+                                1,
+                                15985,
+                                16505
+                              ],
+                              [
+                                2,
+                                16705,
+                                17235
+                              ],
+                              [
+                                3,
+                                17265,
+                                19155
+                              ]
                             ]
                           },
                           {
@@ -142,10 +196,26 @@
                             "timestamp_to": 27835,
                             "duration": -6314,
                             "segments": [
-                              [1, 21521, 22591],
-                              [2, 22591, 23471],
-                              [3, 23631, 25001],
-                              [4, 25001, 27391]
+                              [
+                                1,
+                                21521,
+                                22591
+                              ],
+                              [
+                                2,
+                                22591,
+                                23471
+                              ],
+                              [
+                                3,
+                                23631,
+                                25001
+                              ],
+                              [
+                                4,
+                                25001,
+                                27391
+                              ]
                             ]
                           },
                           {
@@ -154,9 +224,21 @@
                             "timestamp_to": 33388,
                             "duration": -5553,
                             "segments": [
-                              [1, 27835, 28265],
-                              [2, 28265, 29405],
-                              [3, 29405, 32545]
+                              [
+                                1,
+                                27835,
+                                28265
+                              ],
+                              [
+                                2,
+                                28265,
+                                29405
+                              ],
+                              [
+                                3,
+                                29405,
+                                32545
+                              ]
                             ]
                           },
                           {
@@ -165,15 +247,51 @@
                             "timestamp_to": 53092,
                             "duration": -19704,
                             "segments": [
-                              [1, 33388, 34338],
-                              [2, 34338, 35448],
-                              [3, 35518, 36698],
-                              [4, 36718, 38678],
-                              [5, 38678, 39608],
-                              [6, 39628, 41638],
-                              [7, 41638, 43778],
-                              [8, 43778, 44218],
-                              [9, 44338, 51818]
+                              [
+                                1,
+                                33388,
+                                34338
+                              ],
+                              [
+                                2,
+                                34338,
+                                35448
+                              ],
+                              [
+                                3,
+                                35518,
+                                36698
+                              ],
+                              [
+                                4,
+                                36718,
+                                38678
+                              ],
+                              [
+                                5,
+                                38678,
+                                39608
+                              ],
+                              [
+                                6,
+                                39628,
+                                41638
+                              ],
+                              [
+                                7,
+                                41638,
+                                43778
+                              ],
+                              [
+                                8,
+                                43778,
+                                44218
+                              ],
+                              [
+                                9,
+                                44338,
+                                51818
+                              ]
                             ]
                           }
                         ]
@@ -184,22 +302,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/chapter_recitations/{id}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "List of all chapter audio files of a reciter",
         "description": "Get list of chapters' audio files of a reciter",
         "operationId": "chapter-reciter-audio-files",
@@ -228,7 +368,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files"],
+                  "required": [
+                    "audio_files"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -262,22 +404,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/chapters": {
       "get": {
-        "tags": ["Chapters"],
+        "tags": [
+          "Chapters"
+        ],
         "summary": "List Chapters",
         "description": "Get list of Chapter.",
         "operationId": "list-chapters",
@@ -298,11 +462,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "chapters"
+                  ],
                   "properties": {
                     "chapters": {
                       "type": "array",
                       "items": {
-                        "type": "object"
+                        "$ref": "#/components/schemas/chapter"
                       }
                     }
                   }
@@ -318,7 +485,10 @@
                       "name_complex": "Al-Fātiĥah",
                       "name_arabic": "الفاتحة",
                       "verses_count": 7,
-                      "pages": [1, 1],
+                      "pages": [
+                        1,
+                        1
+                      ],
                       "translated_name": {
                         "language_name": "english",
                         "name": "The Opener"
@@ -329,22 +499,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/chapters/{id}": {
       "get": {
-        "tags": ["Chapters"],
+        "tags": [
+          "Chapters"
+        ],
         "summary": "Get Chapter",
         "description": "Get details of a single Chapter.",
         "operationId": "GET-chapter",
@@ -392,7 +584,10 @@
                     "name_complex": "Al-Fātiĥah",
                     "name_arabic": "الفاتحة",
                     "verses_count": 7,
-                    "pages": [1, 1],
+                    "pages": [
+                      1,
+                      1
+                    ],
                     "translated_name": {
                       "language_name": "english",
                       "name": "The Opener"
@@ -402,35 +597,57 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
-    "/chapters/{chapter_id}/info": {
+    "/chapters/{id}/info": {
       "get": {
-        "tags": ["Chapters"],
+        "tags": [
+          "Chapters"
+        ],
         "summary": "Get Chapter Info",
         "description": "Get Chapter Info in specific language. Default to `English`.",
-        "operationId": "info",
+        "operationId": "get-chapter-info",
         "parameters": [
           {
-            "name": "chapter_id",
+            "name": "id",
             "in": "path",
-            "description": "Chapter number ( 1-114 )",
+            "description": "Chapter number (1-114)",
             "required": true,
             "schema": {
-              "maximum": 114,
+              "type": "integer",
               "minimum": 1,
-              "type": "integer"
+              "maximum": 114
             }
           },
           {
@@ -439,7 +656,16 @@
             "schema": {
               "type": "string",
               "default": "en"
-            }
+            },
+            "description": "Language ISO code for translated metadata. Defaults to English."
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Locale fallback if a language code is not provided."
           }
         ],
         "responses": {
@@ -468,22 +694,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/verses/by_chapter/{chapter_number}": {
       "get": {
-        "tags": ["Verses"],
+        "tags": [
+          "Verses"
+        ],
         "summary": "By Chapter",
         "description": "Get list of Verse(s) by Chapter / Surah number.",
         "operationId": "verses-by_chapter_number",
@@ -515,7 +763,10 @@
             "schema": {
               "type": "string",
               "default": "true",
-              "enum": ["true", "false"]
+              "enum": [
+                "true",
+                "false"
+              ]
             }
           },
           {
@@ -664,22 +915,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/verses/by_page/{page_number}": {
       "get": {
-        "tags": ["Verses"],
+        "tags": [
+          "Verses"
+        ],
         "summary": "By Page",
         "description": "Get all verses of a specific Madani Mushaf page(1 to 604)",
         "operationId": "verses-by_page_number",
@@ -713,7 +986,10 @@
             "schema": {
               "type": "string",
               "default": "true",
-              "enum": ["true", "false"]
+              "enum": [
+                "true",
+                "false"
+              ]
             }
           },
           {
@@ -862,22 +1138,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/verses/by_juz/{juz_number}": {
       "get": {
-        "tags": ["Verses"],
+        "tags": [
+          "Verses"
+        ],
         "summary": "By Juz",
         "description": "Get all verses from a specific juz(1-30).",
         "operationId": "verses-by_juz_number",
@@ -908,7 +1206,10 @@
             "schema": {
               "type": "string",
               "default": "true",
-              "enum": ["true", "false"]
+              "enum": [
+                "true",
+                "false"
+              ]
             }
           },
           {
@@ -1057,22 +1358,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/verses/by_hizb/{hizb_number}": {
       "get": {
-        "tags": ["Verses"],
+        "tags": [
+          "Verses"
+        ],
         "summary": "By Hizb number",
         "description": "Get all verses from a specific Hizb( half(1-60).",
         "operationId": "verses-by_hizb_number",
@@ -1104,7 +1427,10 @@
             "schema": {
               "type": "string",
               "default": "true",
-              "enum": ["true", "false"]
+              "enum": [
+                "true",
+                "false"
+              ]
             }
           },
           {
@@ -1253,22 +1579,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/verses/by_rub/{rub_el_hizb_number}": {
       "get": {
-        "tags": ["Verses"],
+        "tags": [
+          "Verses"
+        ],
         "summary": "By Rub el Hizb number",
         "description": "Get all verses of a specific Rub el Hizb number(1-240).",
         "operationId": "verses-by_rub_el_hizb_number",
@@ -1300,7 +1648,10 @@
             "schema": {
               "type": "string",
               "default": "true",
-              "enum": ["true", "false"]
+              "enum": [
+                "true",
+                "false"
+              ]
             }
           },
           {
@@ -1429,16 +1780,36 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
@@ -1761,7 +2132,9 @@
     },
     "/verses/by_key/{verse_key}": {
       "get": {
-        "tags": ["Verses"],
+        "tags": [
+          "Verses"
+        ],
         "summary": "By Specific Verse By Key",
         "description": "Get a specific ayah with key. Key is combination of surah number and ayah number. 1:1 is first ayah of first surah for example.\n\n10:5 is 5th ayah of 10th surah.",
         "operationId": "verses-by_verse_key",
@@ -1791,7 +2164,10 @@
             "schema": {
               "type": "string",
               "default": "true",
-              "enum": ["true", "false"]
+              "enum": [
+                "true",
+                "false"
+              ]
             }
           },
           {
@@ -1849,7 +2225,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["verse"],
+                  "required": [
+                    "verse"
+                  ],
                   "type": "object",
                   "properties": {
                     "verse": {
@@ -1906,22 +2284,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/verses/random": {
       "get": {
-        "tags": ["Verses"],
+        "tags": [
+          "Verses"
+        ],
         "summary": "Get random ayah",
         "description": "Get a random verse. You can get random verse from a specific `chapter`,`page`, `juz`, `hizb`, `rub-el-hizb`, `ruku`, `manzil`, or from whole Quran.",
         "operationId": "random_verse",
@@ -1930,45 +2330,71 @@
             "name": "chapter_number",
             "in": "query",
             "description": "Return a random verse **only from the specified chapter (sūrah)**.",
-            "schema": { "type": "integer", "minimum": 1, "maximum": 114 }
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 114
+            }
           },
           {
             "name": "page_number",
             "in": "query",
             "description": "Return a random verse **only from the specified Muṣḥaf page** (1 – 604).",
-            "schema": { "type": "integer", "minimum": 1, "maximum": 604 }
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 604
+            }
           },
           {
             "name": "juz_number",
             "in": "query",
             "description": "Return a random verse **only from the specified juzʾ** (1 – 30).",
-            "schema": { "type": "integer", "minimum": 1, "maximum": 30 }
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            }
           },
           {
             "name": "hizb_number",
             "in": "query",
             "description": "Return a random verse **only from the specified ḥizb** (1 – 60).",
-            "schema": { "type": "integer", "minimum": 1, "maximum": 60 }
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60
+            }
           },
           {
             "name": "rub_el_hizb_number",
             "in": "query",
             "description": "Return a random verse **only from the specified rubʿ al-ḥizb** (1 – 240).",
-            "schema": { "type": "integer", "minimum": 1, "maximum": 240 }
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 240
+            }
           },
           {
             "name": "ruku_number",
             "in": "query",
             "description": "Return a random verse **only from the specified rukūʿ**.",
-            "schema": { "type": "integer", "minimum": 1 }
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
           },
           {
             "name": "manzil_number",
             "in": "query",
             "description": "Return a random verse **only from the specified manzil** (1 – 7).",
-            "schema": { "type": "integer", "minimum": 1, "maximum": 7 }
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 7
+            }
           },
-
           {
             "name": "language",
             "in": "query",
@@ -1985,7 +2411,10 @@
             "schema": {
               "type": "string",
               "default": "true",
-              "enum": ["true", "false"]
+              "enum": [
+                "true",
+                "false"
+              ]
             }
           },
           {
@@ -2043,7 +2472,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["verse"],
+                  "required": [
+                    "verse"
+                  ],
                   "type": "object",
                   "properties": {
                     "verse": {
@@ -2100,22 +2531,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/juzs": {
       "get": {
-        "tags": ["Juz"],
+        "tags": [
+          "Juz"
+        ],
         "summary": "Get All Juzs",
         "description": "Get list of all Juz",
         "operationId": "juzs",
@@ -2135,7 +2588,9 @@
     },
     "/quran/verses/indopak": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get Indopak Script of ayah",
         "description": "Get Indopak script of ayah. Use query strings to filter results, leave all query string blank if you want to fetch Indopak script of whole Quran.",
         "operationId": "QURAN-verses-indopak",
@@ -2238,22 +2693,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/verses/uthmani_tajweed": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get Uthmani Tajweed Script of ayah",
         "description": "Get Uthmani color coded tajweed text of ayah. Tajweed rules are embedded in text as `tajweed` html tags.",
         "operationId": "QURAN-verses-uthmani-tajweed",
@@ -2356,22 +2833,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/verses/uthmani": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get Uthmani Script of ayah",
         "description": "Get Uthmani script of ayah. Use query strings to filter results, leave all query string blank if you want to fetch Uthmani script of whole Quran.",
         "operationId": "QURAN-verses-uthmani",
@@ -2474,22 +2973,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/verses/uthmani_simple": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get Uthmani simple script of ayah",
         "description": "Get Uthmani simple script(without tashkiq/diacritical marks) of ayah. Use query strings to filter results, leave all query string blank if you want to fetch script of whole Quran.",
         "operationId": "QURAN-verses-uthmani_simple",
@@ -2592,22 +3113,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/verses/imlaei": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get Imlaei Simple text of ayah",
         "description": "Get Imlaei simple script(without tashkiq/diacritical marks) of ayah.",
         "operationId": "QURAN-verses-Imlaei",
@@ -2710,22 +3253,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/recitations": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Recitations",
         "description": "Get list of available Recitations.",
         "operationId": "recitations",
@@ -2767,22 +3332,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/recitations/{recitation_id}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get list of Audio files of single recitation",
         "description": "Get list of AudioFile for a single recitation. See [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
         "operationId": "recitation-audio-files",
@@ -2869,7 +3456,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files"],
+                  "required": [
+                    "audio_files"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -2927,22 +3516,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/translations/{translation_id}": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get a single translation",
         "description": "Get a single Translation of all ayah.\n\nSee [/resources/translations](/docs/content_apis_versioned/translations) endpoint to fetch available translations.\n\nYou can also include more fields of translation using `fields` query string.",
         "operationId": "translation",
@@ -3039,7 +3650,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["translations"],
+                  "required": [
+                    "translations"
+                  ],
                   "type": "object",
                   "properties": {
                     "translations": {
@@ -3084,22 +3697,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/chapter_reciters": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "List of Chapter Reciters",
         "description": "Get list of Chapter Reciter.",
         "operationId": "chapter-reciters",
@@ -3161,22 +3796,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/tafsirs/{tafsir_id}": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get a single tafsir",
         "description": "Get a single Tafsir of all ayah.\n\nSee [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) endpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
         "operationId": "tafsir",
@@ -3263,7 +3920,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["tafsirs"],
+                  "required": [
+                    "tafsirs"
+                  ],
                   "type": "object",
                   "properties": {
                     "tafsirs": {
@@ -3297,22 +3956,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/verses/code_v1": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get V1 Glyph codes of ayah",
         "description": "Get glyph codes of ayah for QCF v1 font",
         "operationId": "QURAN-verses-code_v1",
@@ -3423,22 +4104,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/quran/verses/code_v2": {
       "get": {
-        "tags": ["Quran"],
+        "tags": [
+          "Quran"
+        ],
         "summary": "Get V2 Glyph codes of ayah",
         "description": "Get glyph codes of ayah for QCF v2 font",
         "operationId": "QURAN-verses-code_v2",
@@ -3513,7 +4216,10 @@
                     "verses": {
                       "type": "array",
                       "items": {
-                        "required": ["code_v2", "v2_page"],
+                        "required": [
+                          "code_v2",
+                          "v2_page"
+                        ],
                         "type": "object",
                         "properties": {
                           "id": {
@@ -3550,22 +4256,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/recitations/{recitation_id}/by_chapter/{chapter_number}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get Ayah recitations for specific Surah",
         "description": "Returns per-verse audio file URLs for the chapter. Response includes a `pagination` object.",
         "operationId": "list-surah-recitation",
@@ -3623,13 +4351,34 @@
                     "summary": "First page (no segments/timestamps)",
                     "value": {
                       "audio_files": [
-                        { "verse_key": "1:1", "url": "Alafasy/mp3/001001.mp3" },
-                        { "verse_key": "1:2", "url": "Alafasy/mp3/001002.mp3" },
-                        { "verse_key": "1:3", "url": "Alafasy/mp3/001003.mp3" },
-                        { "verse_key": "1:4", "url": "Alafasy/mp3/001004.mp3" },
-                        { "verse_key": "1:5", "url": "Alafasy/mp3/001005.mp3" },
-                        { "verse_key": "1:6", "url": "Alafasy/mp3/001006.mp3" },
-                        { "verse_key": "1:7", "url": "Alafasy/mp3/001007.mp3" }
+                        {
+                          "verse_key": "1:1",
+                          "url": "Alafasy/mp3/001001.mp3"
+                        },
+                        {
+                          "verse_key": "1:2",
+                          "url": "Alafasy/mp3/001002.mp3"
+                        },
+                        {
+                          "verse_key": "1:3",
+                          "url": "Alafasy/mp3/001003.mp3"
+                        },
+                        {
+                          "verse_key": "1:4",
+                          "url": "Alafasy/mp3/001004.mp3"
+                        },
+                        {
+                          "verse_key": "1:5",
+                          "url": "Alafasy/mp3/001005.mp3"
+                        },
+                        {
+                          "verse_key": "1:6",
+                          "url": "Alafasy/mp3/001006.mp3"
+                        },
+                        {
+                          "verse_key": "1:7",
+                          "url": "Alafasy/mp3/001007.mp3"
+                        }
                       ],
                       "pagination": {
                         "per_page": 10,
@@ -3657,22 +4406,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/recitations/{recitation_id}/by_juz/{juz_number}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get Ayah recitations for specific Juz",
         "description": "Get list of ayah AudioFile for a juz.",
         "operationId": "list-juz-recitation",
@@ -3703,7 +4474,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files", "pagination"],
+                  "required": [
+                    "audio_files",
+                    "pagination"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -3743,22 +4517,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/recitations/{recitation_id}/by_page/{page_number}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get Ayah recitations for specific Madani Mushaf page",
         "description": "Get list of ayah AudioFile for a Madani Mushaf page.",
         "operationId": "list-page-recitation",
@@ -3789,7 +4585,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files", "pagination"],
+                  "required": [
+                    "audio_files",
+                    "pagination"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -3829,22 +4628,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/recitations/{recitation_id}/by_rub/{rub_el_hizb_number}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get Ayah recitations for specific Rub el Hizb",
         "description": "Get list of ayah AudioFile for a Rub el Hizb.",
         "operationId": "list-rub-el-hizb-recitation",
@@ -3875,7 +4696,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files", "pagination"],
+                  "required": [
+                    "audio_files",
+                    "pagination"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -3915,22 +4739,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/recitations/{recitation_id}/by_hizb/{hizb_number}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get Ayah recitations for specific Hizb",
         "description": "Get list of ayah AudioFile for a Hizb.",
         "operationId": "list-hizb-recitation",
@@ -3961,7 +4807,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files", "pagination"],
+                  "required": [
+                    "audio_files",
+                    "pagination"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -4001,22 +4850,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/recitations/{recitation_id}/by_ayah/{ayah_key}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get Ayah recitations for specific Ayah",
         "description": "Get list of ayah AudioFile for a specific Ayah.",
         "operationId": "list-ayah-recitation",
@@ -4048,7 +4919,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files", "pagination"],
+                  "required": [
+                    "audio_files",
+                    "pagination"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -4088,22 +4962,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/recitations/{recitation_id}/info": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Recitation Info",
         "description": "Get information of a specific recitation. Could include detail about the reciter, recitation style. When and who recorded it etc.",
         "operationId": "recitation-info",
@@ -4144,22 +5040,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/translations/{translation_id}/info": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Translation Info",
         "description": "Get information of a specific translation. Could include detail about the author, publishing date and publisher etc.",
         "operationId": "translation-info",
@@ -4200,22 +5118,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/translations": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Translations",
         "description": "Get list of available translations. Use `language` query to get translated names of authors in specific language(e.g language=ur will send translation names in Urdu). \n\nFor list of available language see [/resources/languages](/docs/content_apis_versioned/languages) endpoint.",
         "operationId": "translations",
@@ -4263,22 +5203,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/tafsirs": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Tafsirs",
         "description": "Get list of available tafsirs.",
         "operationId": "tafsirs",
@@ -4327,22 +5289,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/tafsirs/{tafsir_id}/info": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Tafsir Info",
         "description": "Get the information of a specific tafsir. Could include information about the author, when it was published etc.",
         "operationId": "tafsir-info",
@@ -4363,13 +5347,20 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["info"],
+                  "required": [
+                    "info"
+                  ],
                   "properties": {
                     "info": {
                       "type": "object",
-                      "required": ["id", "info"],
+                      "required": [
+                        "id",
+                        "info"
+                      ],
                       "properties": {
-                        "id": { "type": "integer" },
+                        "id": {
+                          "type": "integer"
+                        },
                         "info": {
                           "type": "string",
                           "description": "Markdown or HTML text describing the tafsir resource."
@@ -4387,22 +5378,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/recitation_styles": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Recitation Styles",
         "description": "Get the available recitation styles.",
         "operationId": "recitation-styles",
@@ -4413,15 +5426,27 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["recitation_styles"],
+                  "required": [
+                    "recitation_styles"
+                  ],
                   "properties": {
                     "recitation_styles": {
                       "type": "object",
-                      "required": ["mujawwad", "murattal", "muallim"],
+                      "required": [
+                        "mujawwad",
+                        "murattal",
+                        "muallim"
+                      ],
                       "properties": {
-                        "mujawwad": { "type": "string" },
-                        "murattal": { "type": "string" },
-                        "muallim": { "type": "string" }
+                        "mujawwad": {
+                          "type": "string"
+                        },
+                        "murattal": {
+                          "type": "string"
+                        },
+                        "muallim": {
+                          "type": "string"
+                        }
                       }
                     }
                   }
@@ -4436,22 +5461,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/languages": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Languages",
         "description": "Get all languages. You can get translated names of languages in specific language using `language` query parameter. For example \n\n  ```\n  /resources/languages?language=ur\n  ```\n  \nwill return language names translated into Urdu",
         "operationId": "languages",
@@ -4485,22 +5532,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/chapter_infos": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Chapter Infos",
         "description": "Get list of chapter info we've in different languages.",
         "operationId": "chapter-info",
@@ -4596,22 +5665,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/resources/verse_media": {
       "get": {
-        "tags": ["Resources"],
+        "tags": [
+          "Resources"
+        ],
         "summary": "Verse Media",
         "description": "Get media related to the verse.",
         "operationId": "verse-media",
@@ -4622,25 +5713,51 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["verse_media"],
+                  "required": [
+                    "verse_media"
+                  ],
                   "properties": {
                     "verse_media": {
                       "type": "array",
                       "items": {
                         "type": "object",
-                        "required": ["id", "name", "author_name", "slug", "language_name", "translated_name"],
+                        "required": [
+                          "id",
+                          "name",
+                          "author_name",
+                          "slug",
+                          "language_name",
+                          "translated_name"
+                        ],
                         "properties": {
-                          "id": { "type": "integer" },
-                          "name": { "type": "string" },
-                          "author_name": { "type": "string" },
-                          "slug": { "type": "string" },
-                          "language_name": { "type": "string" },
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "author_name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "language_name": {
+                            "type": "string"
+                          },
                           "translated_name": {
                             "type": "object",
-                            "required": ["name", "language_name"],
+                            "required": [
+                              "name",
+                              "language_name"
+                            ],
                             "properties": {
-                              "name": { "type": "string" },
-                              "language_name": { "type": "string" }
+                              "name": {
+                                "type": "string"
+                              },
+                              "language_name": {
+                                "type": "string"
+                              }
                             }
                           }
                         }
@@ -4666,22 +5783,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/search": {
       "get": {
-        "tags": ["Search"],
+        "tags": [
+          "Search"
+        ],
         "summary": "Search verses and translations",
         "description": "Full-text search across Arabic verses and authorised translations.\n\nQuery terms are analysed with language-specific stemming and tokenization. Quranic text hits are boosted over translations, and within translations we require all terms to match (`AND`) before a result scores. When you omit the `language` parameter we auto-detect likely languages from the query (CLD3) and add English as a fallback, boosting matches in those translation indexes.\n\nHighlights use `<em>` tags; strip or escape that HTML before rendering.",
         "operationId": "search",
@@ -4790,22 +5929,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/recitations/{recitation_id}/by_manzil/{manzil_number}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get Ayah recitations for specific Manzil",
         "description": "Get list of ayah recitations for a Manzil.",
         "operationId": "list-manzil-recitation",
@@ -4836,7 +5997,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files", "pagination"],
+                  "required": [
+                    "audio_files",
+                    "pagination"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -4868,22 +6032,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/recitations/{recitation_id}/by_ruku/{ruku_number}": {
       "get": {
-        "tags": ["Audio"],
+        "tags": [
+          "Audio"
+        ],
         "summary": "Get Ayah recitations for specific Ruku",
         "description": "Get list of ayah recitations for a Ruku.",
         "operationId": "list-ruku-recitation",
@@ -4914,7 +6100,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["audio_files", "pagination"],
+                  "required": [
+                    "audio_files",
+                    "pagination"
+                  ],
                   "type": "object",
                   "properties": {
                     "audio_files": {
@@ -4946,22 +6135,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/translations/{resource_id}/by_chapter/{chapter_number}": {
       "get": {
-        "tags": ["Translations"],
+        "tags": [
+          "Translations"
+        ],
         "summary": "Get translations for specific Surah",
         "description": "Get list of translations for a specific Surah.",
         "operationId": "list-surah-translations",
@@ -5017,22 +6228,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/translations/{resource_id}/by_page/{page_number}": {
       "get": {
-        "tags": ["Translations"],
+        "tags": [
+          "Translations"
+        ],
         "summary": "Get translations for specific Madani Mushaf page",
         "description": "Get list of translations for a specific Madani Mushaf page.",
         "operationId": "list-page-translations",
@@ -5100,22 +6333,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/translations/{resource_id}/by_juz/{juz_number}": {
       "get": {
-        "tags": ["Translations"],
+        "tags": [
+          "Translations"
+        ],
         "summary": "Get translations for specific Juz",
         "description": "Get list of translations for a specific Juz.",
         "operationId": "list-juz-translations",
@@ -5183,22 +6438,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/translations/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}": {
       "get": {
-        "tags": ["Translations"],
+        "tags": [
+          "Translations"
+        ],
         "summary": "Get translations for specific Rub el Hizb",
         "description": "Get list of translations for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-translations",
@@ -5266,22 +6543,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/translations/{resource_id}/by_hizb/{hizb_number}": {
       "get": {
-        "tags": ["Translations"],
+        "tags": [
+          "Translations"
+        ],
         "summary": "Get translations for specific Hizb",
         "description": "Get list of translations for a specific Hizb.",
         "operationId": "list-hizb-translations",
@@ -5349,22 +6648,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/translations/{resource_id}/by_manzil/{manzil_number}": {
       "get": {
-        "tags": ["Translations"],
+        "tags": [
+          "Translations"
+        ],
         "summary": "Get translations for specific Manzil",
         "description": "Get list of translations for a specific Manzil.",
         "operationId": "list-manzil-translations",
@@ -5432,22 +6753,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/translations/{resource_id}/by_ruku/{ruku_number}": {
       "get": {
-        "tags": ["Translations"],
+        "tags": [
+          "Translations"
+        ],
         "summary": "Get translations for specific Ruku",
         "description": "Get list of translations for a specific Ruku.",
         "operationId": "list-ruku-translations",
@@ -5515,22 +6858,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/translations/{resource_id}/by_ayah/{ayah_key}": {
       "get": {
-        "tags": ["Translations"],
+        "tags": [
+          "Translations"
+        ],
         "summary": "Get translations for specific Ayah",
         "description": "Get list of translations for a specific Ayah.",
         "operationId": "list-ayah-translations",
@@ -5582,22 +6947,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/tafsirs/{resource_id}/by_chapter/{chapter_number}": {
       "get": {
-        "tags": ["Tafsirs"],
+        "tags": [
+          "Tafsirs"
+        ],
         "summary": "Get tafsirs for specific Surah",
         "description": "Get list of tafsirs for a specific Surah.",
         "operationId": "list-surah-tafsirs",
@@ -5653,22 +7040,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/tafsirs/{resource_id}/by_page/{page_number}": {
       "get": {
-        "tags": ["Tafsirs"],
+        "tags": [
+          "Tafsirs"
+        ],
         "summary": "Get tafsirs for specific Madani Mushaf page",
         "description": "Get list of tafsirs for a specific Madani Mushaf page.",
         "operationId": "list-page-tafsirs",
@@ -5734,22 +7143,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/tafsirs/{resource_id}/by_juz/{juz_number}": {
       "get": {
-        "tags": ["Tafsirs"],
+        "tags": [
+          "Tafsirs"
+        ],
         "summary": "Get tafsirs for specific Juz",
         "description": "Get list of tafsirs for a specific Juz.",
         "operationId": "list-juz-tafsirs",
@@ -5815,22 +7246,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/tafsirs/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}": {
       "get": {
-        "tags": ["Tafsirs"],
+        "tags": [
+          "Tafsirs"
+        ],
         "summary": "Get tafsirs for specific Rub el Hizb",
         "description": "Get list of tafsirs for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-tafsirs",
@@ -5896,22 +7349,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/tafsirs/{resource_id}/by_hizb/{hizb_number}": {
       "get": {
-        "tags": ["Tafsirs"],
+        "tags": [
+          "Tafsirs"
+        ],
         "summary": "Get tafsirs for specific Hizb",
         "description": "Get list of tafsirs for a specific Hizb.",
         "operationId": "list-hizb-tafsirs",
@@ -5977,22 +7452,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/tafsirs/{resource_id}/by_manzil/{manzil_number}": {
       "get": {
-        "tags": ["Tafsirs"],
+        "tags": [
+          "Tafsirs"
+        ],
         "summary": "Get tafsirs for specific Manzil",
         "description": "Get list of tafsirs for a specific Manzil.",
         "operationId": "list-manzil-tafsirs",
@@ -6058,22 +7555,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/tafsirs/{resource_id}/by_ruku/{ruku_number}": {
       "get": {
-        "tags": ["Tafsirs"],
+        "tags": [
+          "Tafsirs"
+        ],
         "summary": "Get tafsirs for specific Ruku",
         "description": "Get list of tafsirs for a specific Ruku.",
         "operationId": "list-ruku-tafsirs",
@@ -6139,22 +7658,44 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
     "/tafsirs/{resource_id}/by_ayah/{ayah_key}": {
       "get": {
-        "tags": ["Tafsirs"],
+        "tags": [
+          "Tafsirs"
+        ],
         "summary": "Get tafsirs for specific Ayah",
         "description": "Get list of tafsirs for a specific Ayah.",
         "operationId": "list-ayah-tafsirs",
@@ -6204,21 +7745,40 @@
                           "additionalProperties": {
                             "type": "object",
                             "properties": {
-                              "id": { "type": "integer" }
+                              "id": {
+                                "type": "integer"
+                              }
                             },
-                            "required": ["id"]
+                            "required": [
+                              "id"
+                            ]
                           }
                         },
-                        "resource_id": { "type": "integer" },
-                        "resource_name": { "type": "string" },
-                        "language_id": { "type": "integer" },
-                        "slug": { "type": "string" },
+                        "resource_id": {
+                          "type": "integer"
+                        },
+                        "resource_name": {
+                          "type": "string"
+                        },
+                        "language_id": {
+                          "type": "integer"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
                         "translated_name": {
                           "type": "object",
-                          "required": ["name", "language_name"],
+                          "required": [
+                            "name",
+                            "language_name"
+                          ],
                           "properties": {
-                            "name": { "type": "string" },
-                            "language_name": { "type": "string" }
+                            "name": {
+                              "type": "string"
+                            },
+                            "language_name": {
+                              "type": "string"
+                            }
                           }
                         },
                         "text": {
@@ -6232,9 +7792,15 @@
                 "example": {
                   "tafsir": {
                     "verses": {
-                      "2:111": { "id": 118 },
-                      "2:112": { "id": 119 },
-                      "2:113": { "id": 120 }
+                      "2:111": {
+                        "id": 118
+                      },
+                      "2:112": {
+                        "id": 119
+                      },
+                      "2:113": {
+                        "id": 120
+                      }
                     },
                     "resource_id": 168,
                     "resource_name": "Ma'arif al-Qur'an",
@@ -6250,17 +7816,36 @@
               }
             }
           },
-
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     }
@@ -6279,7 +7864,12 @@
       },
       "VerseTimestamp": {
         "type": "object",
-        "required": ["verse_key", "timestamp_from", "timestamp_to", "duration"],
+        "required": [
+          "verse_key",
+          "timestamp_from",
+          "timestamp_to",
+          "duration"
+        ],
         "properties": {
           "verse_key": {
             "type": "string",
@@ -6305,7 +7895,9 @@
           },
           "segments": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/SegmentTriplet" },
+            "items": {
+              "$ref": "#/components/schemas/SegmentTriplet"
+            },
             "description": "Present only when `segments=true`. Word-level timing triplets for the verse.",
             "nullable": true
           }
@@ -6313,7 +7905,13 @@
       },
       "AudioFile": {
         "type": "object",
-        "required": ["id", "chapter_id", "file_size", "format", "audio_url"],
+        "required": [
+          "id",
+          "chapter_id",
+          "file_size",
+          "format",
+          "audio_url"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -6341,20 +7939,28 @@
           "timestamps": {
             "type": "array",
             "description": "Present when timing data is available. If `segments=true`, each item may include a `segments` array.",
-            "items": { "$ref": "#/components/schemas/VerseTimestamp" }
+            "items": {
+              "$ref": "#/components/schemas/VerseTimestamp"
+            }
           }
         }
       },
       "ChapterReciterAudioFileResponse": {
         "type": "object",
         "properties": {
-          "audio_file": { "$ref": "#/components/schemas/AudioFile" }
+          "audio_file": {
+            "$ref": "#/components/schemas/AudioFile"
+          }
         },
-        "required": ["audio_file"]
+        "required": [
+          "audio_file"
+        ]
       },
       "SearchResponse": {
         "type": "object",
-        "required": ["search"],
+        "required": [
+          "search"
+        ],
         "properties": {
           "search": {
             "$ref": "#/components/schemas/SearchEnvelope"
@@ -6364,7 +7970,13 @@
       },
       "SearchEnvelope": {
         "type": "object",
-        "required": ["query", "total_results", "current_page", "total_pages", "results"],
+        "required": [
+          "query",
+          "total_results",
+          "current_page",
+          "total_pages",
+          "results"
+        ],
         "properties": {
           "query": {
             "type": "string",
@@ -6388,13 +8000,21 @@
           "results": {
             "type": "array",
             "description": "Verse-centric aggregation of matching results.",
-            "items": { "$ref": "#/components/schemas/SearchResult" }
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            }
           }
         }
       },
       "SearchResult": {
         "type": "object",
-        "required": ["verse_key", "verse_id", "text", "words", "translations"],
+        "required": [
+          "verse_key",
+          "verse_id",
+          "text",
+          "words",
+          "translations"
+        ],
         "properties": {
           "verse_key": {
             "type": "string",
@@ -6419,18 +8039,25 @@
           "words": {
             "type": "array",
             "description": "Verse words with match metadata.",
-            "items": { "$ref": "#/components/schemas/SearchWord" }
+            "items": {
+              "$ref": "#/components/schemas/SearchWord"
+            }
           },
           "translations": {
             "type": "array",
             "description": "Highlighted authorised translations that matched the query.",
-            "items": { "$ref": "#/components/schemas/SearchTranslation" }
+            "items": {
+              "$ref": "#/components/schemas/SearchTranslation"
+            }
           }
         }
       },
       "SearchWord": {
         "type": "object",
-        "required": ["char_type", "text"],
+        "required": [
+          "char_type",
+          "text"
+        ],
         "properties": {
           "char_type": {
             "type": "string",
@@ -6449,7 +8076,12 @@
       },
       "SearchTranslation": {
         "type": "object",
-        "required": ["text", "resource_id", "name", "language_name"],
+        "required": [
+          "text",
+          "resource_id",
+          "name",
+          "language_name"
+        ],
         "properties": {
           "text": {
             "type": "string",
@@ -6496,12 +8128,36 @@
           "format": "mp3",
           "segments": [
             [
-              [0, 120, -1],
-              [120, 420, 0],
-              [540, 810, 1],
-              [1350, 1006, 2],
-              [2356, 2454, 3],
-              [4810, 390, -1]
+              [
+                0,
+                120,
+                -1
+              ],
+              [
+                120,
+                420,
+                0
+              ],
+              [
+                540,
+                810,
+                1
+              ],
+              [
+                1350,
+                1006,
+                2
+              ],
+              [
+                2356,
+                2454,
+                3
+              ],
+              [
+                4810,
+                390,
+                -1
+              ]
             ]
           ]
         }
@@ -6523,15 +8179,22 @@
       },
       "chapter-info": {
         "title": "Chapter Info",
-        "required": ["chapter_id", "short_text", "source", "text"],
+        "required": [
+          "id",
+          "chapter_id",
+          "language_name",
+          "short_text",
+          "source",
+          "text"
+        ],
         "type": "object",
         "properties": {
           "chapter_id": {
-            "type": "number"
+            "type": "integer"
           },
           "text": {
             "type": "string",
-            "description": "Long text of chapter info, this could include html tags for formatting and styling."
+            "description": "Long chapter info text; may include HTML markup for formatting."
           },
           "short_text": {
             "type": "string"
@@ -6541,15 +8204,19 @@
           },
           "source": {
             "type": "string",
-            "description": "Name of the source, could be a book name or site name."
+            "description": "Name of the source, such as a book or site title."
+          },
+          "id": {
+            "type": "integer"
           }
         },
         "example": {
           "chapter_id": 1,
-          "text": "<h2>Name</h2>\n<p>This Surah is named Al-Fatihah because of its subject-matter. Fatihah is that which opens a subject or a book or any other thing. In other words, Al-Fatihah is a sort of preface.</p>...",
-          "short_text": "This Surah is named Al-Fatihah because of its subject-matter. Fatihah is that which opens a subject or a book or any other thing. In other words, Al-Fatihah is a sort of preface.",
-          "language_name": "English",
-          "source": "Sayyid Abul Ala Maududi - Tafhim al-Qur'an - The Meaning of the Quran"
+          "text": "<h2>Name</h2>\n<p>This Surah is named Al-Fatihah because of its subject-matter. Fatihah opens the book and the subject.</p>",
+          "short_text": "This Surah is named Al-Fatihah because of its subject-matter. Fatihah opens the book and the subject.",
+          "language_name": "english",
+          "source": "Sayyid Abul Ala Maududi - Tafhim al-Qur'an - The Meaning of the Quran",
+          "id": 1
         }
       },
       "language": {
@@ -6730,7 +8397,10 @@
       },
       "translated-name": {
         "title": "TranslatedName",
-        "required": ["language_name", "name"],
+        "required": [
+          "language_name",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "language_name": {
@@ -6749,7 +8419,10 @@
       },
       "translation": {
         "title": "Translation",
-        "required": ["resource_id", "text"],
+        "required": [
+          "resource_id",
+          "text"
+        ],
         "type": "object",
         "properties": {
           "resource_id": {
@@ -7097,7 +8770,18 @@
       },
       "chapter": {
         "title": "Chapter",
-        "required": ["translated_name"],
+        "required": [
+          "id",
+          "revelation_place",
+          "revelation_order",
+          "bismillah_pre",
+          "name_simple",
+          "name_complex",
+          "name_arabic",
+          "verses_count",
+          "pages",
+          "translated_name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -7129,6 +8813,9 @@
           },
           "translated_name": {
             "$ref": "#/components/schemas/translated-name"
+          },
+          "name_simple": {
+            "type": "string"
           }
         },
         "example": {
@@ -7139,11 +8826,15 @@
           "name_complex": "Al-Fātiĥah",
           "name_arabic": "الفاتحة",
           "verses_count": 7,
-          "pages": [1, 1],
+          "pages": [
+            1,
+            1
+          ],
           "translated_name": {
             "language_name": "english",
             "name": "The Opener"
-          }
+          },
+          "name_simple": "Al-Fatihah"
         }
       },
       "resource": {
@@ -7223,7 +8914,9 @@
       },
       "juz": {
         "title": "Juz",
-        "required": ["verse_mapping"],
+        "required": [
+          "verse_mapping"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -7311,7 +9004,10 @@
       },
       "chapter-reciters": {
         "title": "Chapter Reciters",
-        "required": ["id", "name"],
+        "required": [
+          "id",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -7350,7 +9046,10 @@
       },
       "ListSurahRecitationAudioFile": {
         "type": "object",
-        "required": ["verse_key", "url"],
+        "required": [
+          "verse_key",
+          "url"
+        ],
         "properties": {
           "verse_key": {
             "type": "string",
@@ -7398,7 +9097,10 @@
       },
       "ListSurahRecitationResponse": {
         "type": "object",
-        "required": ["audio_files", "pagination"],
+        "required": [
+          "audio_files",
+          "pagination"
+        ],
         "properties": {
           "audio_files": {
             "type": "array",
@@ -7644,4 +9346,3 @@
   },
   "x-original-swagger-version": "2.0"
 }
-
