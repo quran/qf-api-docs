@@ -1813,6 +1813,323 @@
         }
       }
     },
+    "/verses/by_ruku/{ruku_number}": {
+      "get": {
+        "tags": ["Verses"],
+        "summary": "By Ruku",
+        "description": "Get all verses in a specific ruku (1-558).",
+        "operationId": "verses-by_ruku_number",
+        "parameters": [
+          {
+            "name": "ruku_number",
+            "in": "path",
+            "description": "Ruku number (1-558)",
+            "required": true,
+            "schema": {
+              "maximum": 558,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language to fetch word translation in specific language.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          },
+          {
+            "name": "words",
+            "in": "query",
+            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "schema": {
+              "type": "string",
+              "default": "true",
+              "enum": ["true", "false"]
+            }
+          },
+          {
+            "name": "translations",
+            "in": "query",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "audio",
+            "in": "query",
+            "description": "Id of recitation if you want to load audio of each ayah.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "tafsirs",
+            "in": "query",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "word_fields",
+            "in": "query",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "translation_fields",
+            "in": "query",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "verses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/verse"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                },
+                "example": {
+                  "verses": [
+                    {
+                      "id": 8,
+                      "verse_number": 1,
+                      "verse_key": "2:1",
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "ruku_number": 2,
+                      "manzil_number": 1,
+                      "sajdah_number": null,
+                      "text_indopak": "الٓمّٓۚ‏",
+                      "page_number": 2,
+                      "juz_number": 1,
+                      "audio": {
+                        "url": "Alafasy/mp3/002001.mp3",
+                        "segments": [
+                          [0, 1, 30, 7080]
+                        ]
+                      }
+                    },
+                    {
+                      "id": 9,
+                      "verse_number": 2,
+                      "verse_key": "2:2",
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "ruku_number": 2,
+                      "manzil_number": 1,
+                      "sajdah_number": null,
+                      "text_indopak": "ذٰلِكَ الۡڪِتٰبُ لَا رَيۡبَۛۚۖ فِيۡهِۛۚ هُدًى لِّلۡمُتَّقِيۡنَۙ‏",
+                      "page_number": 2,
+                      "juz_number": 1,
+                      "audio": {
+                        "url": "Alafasy/mp3/002002.mp3",
+                        "segments": [
+                          [0, 1, 150, 860],
+                          [1, 2, 870, 1820],
+                          [2, 3, 1830, 2130],
+                          [3, 4, 2140, 2680],
+                          [4, 5, 2690, 4980],
+                          [5, 6, 4990, 5180],
+                          [6, 7, 5190, 8610]
+                        ]
+                      }
+                    },
+                    {
+                      "id": 10,
+                      "verse_number": 3,
+                      "verse_key": "2:3",
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "ruku_number": 2,
+                      "manzil_number": 1,
+                      "sajdah_number": null,
+                      "text_indopak": "الَّذِيۡنَ يُؤۡمِنُوۡنَ بِالۡغَيۡبِ وَ يُقِيۡمُوۡنَ الصَّلٰوةَ وَمِمَّا رَزَقۡنٰهُمۡ يُن۫فِقُوۡنَۙ‏",
+                      "page_number": 2,
+                      "juz_number": 1,
+                      "audio": {
+                        "url": "Alafasy/mp3/002003.mp3",
+                        "segments": [
+                          [0, 1, 30, 1010],
+                          [1, 2, 1020, 2120],
+                          [2, 3, 2130, 3070],
+                          [3, 4, 3080, 4200],
+                          [4, 5, 4210, 5130],
+                          [5, 6, 5140, 6570],
+                          [6, 7, 6580, 7930],
+                          [7, 8, 7940, 11060]
+                        ]
+                      }
+                    },
+                    {
+                      "id": 11,
+                      "verse_number": 4,
+                      "verse_key": "2:4",
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "ruku_number": 2,
+                      "manzil_number": 1,
+                      "sajdah_number": null,
+                      "text_indopak": "وَالَّذِيۡنَ يُؤۡمِنُوۡنَ بِمَۤا اُنۡزِلَ اِلَيۡكَ وَمَاۤ اُنۡزِلَ مِنۡ قَبۡلِكَۚ وَبِالۡاٰخِرَةِ هُمۡ يُوۡقِنُوۡنَؕ‏",
+                      "page_number": 2,
+                      "juz_number": 1,
+                      "audio": {
+                        "url": "Alafasy/mp3/002004.mp3",
+                        "segments": [
+                          [0, 1, 50, 1120],
+                          [1, 2, 1130, 2190],
+                          [2, 3, 2200, 3920],
+                          [3, 4, 3930, 5250],
+                          [4, 5, 5260, 5960],
+                          [5, 6, 5970, 6180],
+                          [6, 7, 6190, 9020],
+                          [7, 8, 9030, 9830],
+                          [8, 9, 9840, 10640],
+                          [9, 10, 10650, 12110],
+                          [10, 11, 12120, 12460],
+                          [11, 12, 12470, 15480]
+                        ]
+                      }
+                    },
+                    {
+                      "id": 12,
+                      "verse_number": 5,
+                      "verse_key": "2:5",
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "ruku_number": 2,
+                      "manzil_number": 1,
+                      "sajdah_number": null,
+                      "text_indopak": "اُولٰٓٮِٕكَ عَلٰى هُدًى مِّنۡ رَّبِّهِمۡ​ وَاُولٰٓٮِٕكَ هُمُ الۡمُفۡلِحُوۡنَ‏ ﻿﻿",
+                      "page_number": 2,
+                      "juz_number": 1,
+                      "audio": {
+                        "url": "Alafasy/mp3/002005.mp3",
+                        "segments": [
+                          [0, 1, 70, 2490],
+                          [1, 2, 2500, 3030],
+                          [2, 3, 3040, 3480],
+                          [3, 4, 3490, 4240],
+                          [4, 5, 4250, 5490],
+                          [5, 6, 5500, 7970],
+                          [6, 7, 7980, 8380],
+                          [7, 8, 8390, 10970]
+                        ]
+                      }
+                    },
+                    {
+                      "id": 13,
+                      "verse_number": 6,
+                      "verse_key": "2:6",
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "ruku_number": 2,
+                      "manzil_number": 1,
+                      "sajdah_number": null,
+                      "text_indopak": "اِنَّ الَّذِيۡنَ كَفَرُوۡا سَوَآءٌ عَلَيۡهِمۡ ءَاَنۡذَرۡتَهُمۡ اَمۡ لَمۡ تُنۡذِرۡهُمۡ لَا يُؤۡمِنُوۡنَ‏",
+                      "page_number": 3,
+                      "juz_number": 1,
+                      "audio": {
+                        "url": "Alafasy/mp3/002006.mp3",
+                        "segments": [
+                          [0, 1, 30, 1260],
+                          [1, 2, 1270, 2150],
+                          [2, 3, 2160, 2880],
+                          [3, 4, 2890, 4950],
+                          [4, 5, 4960, 5880],
+                          [5, 6, 5890, 7780],
+                          [6, 7, 7790, 8090],
+                          [7, 8, 8100, 8430],
+                          [8, 9, 8440, 10080],
+                          [9, 10, 10090, 10430],
+                          [10, 11, 10440, 12340]
+                        ]
+                      }
+                    },
+                    {
+                      "id": 14,
+                      "verse_number": 7,
+                      "verse_key": "2:7",
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "ruku_number": 2,
+                      "manzil_number": 1,
+                      "sajdah_number": null,
+                      "text_indopak": "خَتَمَ اللّٰهُ عَلَىٰ قُلُوۡبِهِمۡ وَعَلٰى سَمۡعِهِمۡ​ؕ وَعَلٰىٓ اَبۡصَارِهِمۡ غِشَاوَةٌ  وَّلَهُمۡ عَذَابٌ عَظِيۡمٌ‏",
+                      "page_number": 3,
+                      "juz_number": 1,
+                      "audio": {
+                        "url": "Alafasy/mp3/002007.mp3",
+                        "segments": [
+                          [0, 1, 140, 660],
+                          [1, 2, 670, 1390],
+                          [2, 3, 1400, 1950],
+                          [3, 4, 1960, 3140],
+                          [4, 5, 3150, 3820],
+                          [5, 6, 3830, 5210],
+                          [6, 7, 5220, 6900],
+                          [7, 8, 6910, 8250],
+                          [8, 9, 8260, 9580],
+                          [9, 10, 9590, 10260],
+                          [10, 11, 10270, 11230],
+                          [11, 12, 11240, 12940]
+                        ]
+                      }
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 7,
+                    "current_page": 1,
+                    "next_page": null,
+                    "total_pages": 1,
+                    "total_records": 7
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/invalidRequest" },
+          "401": { "$ref": "#/components/responses/unauthorized" },
+          "403": { "$ref": "#/components/responses/forbidden" },
+          "404": { "$ref": "#/components/responses/notFound" },
+          "422": { "$ref": "#/components/responses/unprocessableEntity" },
+          "500": { "$ref": "#/components/responses/internalServerError" },
+          "502": { "$ref": "#/components/responses/badGateway" },
+          "503": { "$ref": "#/components/responses/serviceUnavailable" },
+          "504": { "$ref": "#/components/responses/gatewayTimeout" },
+          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+        }
+      }
+    },
     "/verses/by_key/{verse_key}": {
       "get": {
         "tags": [
@@ -8249,6 +8566,12 @@
             "minimum": 1,
             "type": "integer",
             "description": "page_number is deprecated, please use `v1_page` instead."
+          },
+          "ruku_number": {
+            "type": "integer"
+          },
+          "manzil_number": {
+            "type": "integer"
           },
           "image_url": {
             "type": "string"
