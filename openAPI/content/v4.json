@@ -8652,6 +8652,167 @@
         }
       }
     },
+    "/rukus": {
+      "get": {
+        "tags": [
+          "Ruku"
+        ],
+        "summary": "List Rukus",
+        "description": "Get list of all Rukus.",
+        "operationId": "list-rukus",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "rukus"
+                  ],
+                  "properties": {
+                    "rukus": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ruku"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "rukus": [
+                    {
+                      "id": 1,
+                      "ruku_number": 1,
+                      "surah_ruku_number": 1,
+                      "verse_mapping": {
+                        "1": "1-7"
+                      },
+                      "first_verse_id": 1,
+                      "last_verse_id": 7,
+                      "verses_count": 7
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/rukus/{id}": {
+      "get": {
+        "tags": [
+          "Ruku"
+        ],
+        "summary": "Get Ruku",
+        "description": "Get details for a single Ruku.",
+        "operationId": "get-ruku",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Ruku number (1-558)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 558
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ruku": {
+                      "$ref": "#/components/schemas/ruku"
+                    }
+                  }
+                },
+                "example": {
+                  "ruku": {
+                    "id": 1,
+                    "ruku_number": 1,
+                    "surah_ruku_number": 1,
+                    "verse_mapping": {
+                      "1": "1-7"
+                    },
+                    "first_verse_id": 1,
+                    "last_verse_id": 7,
+                    "verses_count": 7
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
     "/manzils": {
       "get": {
         "tags": [
@@ -10316,6 +10477,63 @@
           "first_verse_id": 1,
           "last_verse_id": 43,
           "verses_count": 43
+        }
+      },
+      "ruku": {
+        "title": "Ruku",
+        "type": "object",
+        "required": [
+          "id",
+          "ruku_number",
+          "surah_ruku_number",
+          "verse_mapping",
+          "first_verse_id",
+          "last_verse_id",
+          "verses_count"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "ruku_number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 558
+          },
+          "surah_ruku_number": {
+            "type": "integer",
+            "description": "Position of the ruku within its surah."
+          },
+          "verse_mapping": {
+            "type": "object",
+            "description": "Mapping of chapter numbers to the verse range included in the section.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "first_verse_id": {
+            "type": "integer",
+            "description": "ID of the first verse in this ruku."
+          },
+          "last_verse_id": {
+            "type": "integer",
+            "description": "ID of the last verse in this ruku."
+          },
+          "verses_count": {
+            "type": "integer",
+            "description": "Total verses in this ruku."
+          }
+        },
+        "example": {
+          "id": 1,
+          "ruku_number": 1,
+          "surah_ruku_number": 1,
+          "verse_mapping": {
+            "1": "1-7"
+          },
+          "first_verse_id": 1,
+          "last_verse_id": 7,
+          "verses_count": 7
         }
       },
       "manzil": {
