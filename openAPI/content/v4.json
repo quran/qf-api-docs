@@ -1815,7 +1815,9 @@
     },
     "/verses/by_ruku/{ruku_number}": {
       "get": {
-        "tags": ["Verses"],
+        "tags": [
+          "Verses"
+        ],
         "summary": "By Ruku",
         "description": "Get all verses in a specific ruku (1-558).",
         "operationId": "verses-by_ruku_number",
@@ -1847,7 +1849,10 @@
             "schema": {
               "type": "string",
               "default": "true",
-              "enum": ["true", "false"]
+              "enum": [
+                "true",
+                "false"
+              ]
             }
           },
           {
@@ -1935,7 +1940,12 @@
                       "audio": {
                         "url": "Alafasy/mp3/002001.mp3",
                         "segments": [
-                          [0, 1, 30, 7080]
+                          [
+                            0,
+                            1,
+                            30,
+                            7080
+                          ]
                         ]
                       }
                     },
@@ -1954,13 +1964,48 @@
                       "audio": {
                         "url": "Alafasy/mp3/002002.mp3",
                         "segments": [
-                          [0, 1, 150, 860],
-                          [1, 2, 870, 1820],
-                          [2, 3, 1830, 2130],
-                          [3, 4, 2140, 2680],
-                          [4, 5, 2690, 4980],
-                          [5, 6, 4990, 5180],
-                          [6, 7, 5190, 8610]
+                          [
+                            0,
+                            1,
+                            150,
+                            860
+                          ],
+                          [
+                            1,
+                            2,
+                            870,
+                            1820
+                          ],
+                          [
+                            2,
+                            3,
+                            1830,
+                            2130
+                          ],
+                          [
+                            3,
+                            4,
+                            2140,
+                            2680
+                          ],
+                          [
+                            4,
+                            5,
+                            2690,
+                            4980
+                          ],
+                          [
+                            5,
+                            6,
+                            4990,
+                            5180
+                          ],
+                          [
+                            6,
+                            7,
+                            5190,
+                            8610
+                          ]
                         ]
                       }
                     },
@@ -1979,14 +2024,54 @@
                       "audio": {
                         "url": "Alafasy/mp3/002003.mp3",
                         "segments": [
-                          [0, 1, 30, 1010],
-                          [1, 2, 1020, 2120],
-                          [2, 3, 2130, 3070],
-                          [3, 4, 3080, 4200],
-                          [4, 5, 4210, 5130],
-                          [5, 6, 5140, 6570],
-                          [6, 7, 6580, 7930],
-                          [7, 8, 7940, 11060]
+                          [
+                            0,
+                            1,
+                            30,
+                            1010
+                          ],
+                          [
+                            1,
+                            2,
+                            1020,
+                            2120
+                          ],
+                          [
+                            2,
+                            3,
+                            2130,
+                            3070
+                          ],
+                          [
+                            3,
+                            4,
+                            3080,
+                            4200
+                          ],
+                          [
+                            4,
+                            5,
+                            4210,
+                            5130
+                          ],
+                          [
+                            5,
+                            6,
+                            5140,
+                            6570
+                          ],
+                          [
+                            6,
+                            7,
+                            6580,
+                            7930
+                          ],
+                          [
+                            7,
+                            8,
+                            7940,
+                            11060
+                          ]
                         ]
                       }
                     },
@@ -2005,18 +2090,78 @@
                       "audio": {
                         "url": "Alafasy/mp3/002004.mp3",
                         "segments": [
-                          [0, 1, 50, 1120],
-                          [1, 2, 1130, 2190],
-                          [2, 3, 2200, 3920],
-                          [3, 4, 3930, 5250],
-                          [4, 5, 5260, 5960],
-                          [5, 6, 5970, 6180],
-                          [6, 7, 6190, 9020],
-                          [7, 8, 9030, 9830],
-                          [8, 9, 9840, 10640],
-                          [9, 10, 10650, 12110],
-                          [10, 11, 12120, 12460],
-                          [11, 12, 12470, 15480]
+                          [
+                            0,
+                            1,
+                            50,
+                            1120
+                          ],
+                          [
+                            1,
+                            2,
+                            1130,
+                            2190
+                          ],
+                          [
+                            2,
+                            3,
+                            2200,
+                            3920
+                          ],
+                          [
+                            3,
+                            4,
+                            3930,
+                            5250
+                          ],
+                          [
+                            4,
+                            5,
+                            5260,
+                            5960
+                          ],
+                          [
+                            5,
+                            6,
+                            5970,
+                            6180
+                          ],
+                          [
+                            6,
+                            7,
+                            6190,
+                            9020
+                          ],
+                          [
+                            7,
+                            8,
+                            9030,
+                            9830
+                          ],
+                          [
+                            8,
+                            9,
+                            9840,
+                            10640
+                          ],
+                          [
+                            9,
+                            10,
+                            10650,
+                            12110
+                          ],
+                          [
+                            10,
+                            11,
+                            12120,
+                            12460
+                          ],
+                          [
+                            11,
+                            12,
+                            12470,
+                            15480
+                          ]
                         ]
                       }
                     },
@@ -2035,14 +2180,54 @@
                       "audio": {
                         "url": "Alafasy/mp3/002005.mp3",
                         "segments": [
-                          [0, 1, 70, 2490],
-                          [1, 2, 2500, 3030],
-                          [2, 3, 3040, 3480],
-                          [3, 4, 3490, 4240],
-                          [4, 5, 4250, 5490],
-                          [5, 6, 5500, 7970],
-                          [6, 7, 7980, 8380],
-                          [7, 8, 8390, 10970]
+                          [
+                            0,
+                            1,
+                            70,
+                            2490
+                          ],
+                          [
+                            1,
+                            2,
+                            2500,
+                            3030
+                          ],
+                          [
+                            2,
+                            3,
+                            3040,
+                            3480
+                          ],
+                          [
+                            3,
+                            4,
+                            3490,
+                            4240
+                          ],
+                          [
+                            4,
+                            5,
+                            4250,
+                            5490
+                          ],
+                          [
+                            5,
+                            6,
+                            5500,
+                            7970
+                          ],
+                          [
+                            6,
+                            7,
+                            7980,
+                            8380
+                          ],
+                          [
+                            7,
+                            8,
+                            8390,
+                            10970
+                          ]
                         ]
                       }
                     },
@@ -2061,17 +2246,72 @@
                       "audio": {
                         "url": "Alafasy/mp3/002006.mp3",
                         "segments": [
-                          [0, 1, 30, 1260],
-                          [1, 2, 1270, 2150],
-                          [2, 3, 2160, 2880],
-                          [3, 4, 2890, 4950],
-                          [4, 5, 4960, 5880],
-                          [5, 6, 5890, 7780],
-                          [6, 7, 7790, 8090],
-                          [7, 8, 8100, 8430],
-                          [8, 9, 8440, 10080],
-                          [9, 10, 10090, 10430],
-                          [10, 11, 10440, 12340]
+                          [
+                            0,
+                            1,
+                            30,
+                            1260
+                          ],
+                          [
+                            1,
+                            2,
+                            1270,
+                            2150
+                          ],
+                          [
+                            2,
+                            3,
+                            2160,
+                            2880
+                          ],
+                          [
+                            3,
+                            4,
+                            2890,
+                            4950
+                          ],
+                          [
+                            4,
+                            5,
+                            4960,
+                            5880
+                          ],
+                          [
+                            5,
+                            6,
+                            5890,
+                            7780
+                          ],
+                          [
+                            6,
+                            7,
+                            7790,
+                            8090
+                          ],
+                          [
+                            7,
+                            8,
+                            8100,
+                            8430
+                          ],
+                          [
+                            8,
+                            9,
+                            8440,
+                            10080
+                          ],
+                          [
+                            9,
+                            10,
+                            10090,
+                            10430
+                          ],
+                          [
+                            10,
+                            11,
+                            10440,
+                            12340
+                          ]
                         ]
                       }
                     },
@@ -2090,18 +2330,78 @@
                       "audio": {
                         "url": "Alafasy/mp3/002007.mp3",
                         "segments": [
-                          [0, 1, 140, 660],
-                          [1, 2, 670, 1390],
-                          [2, 3, 1400, 1950],
-                          [3, 4, 1960, 3140],
-                          [4, 5, 3150, 3820],
-                          [5, 6, 3830, 5210],
-                          [6, 7, 5220, 6900],
-                          [7, 8, 6910, 8250],
-                          [8, 9, 8260, 9580],
-                          [9, 10, 9590, 10260],
-                          [10, 11, 10270, 11230],
-                          [11, 12, 11240, 12940]
+                          [
+                            0,
+                            1,
+                            140,
+                            660
+                          ],
+                          [
+                            1,
+                            2,
+                            670,
+                            1390
+                          ],
+                          [
+                            2,
+                            3,
+                            1400,
+                            1950
+                          ],
+                          [
+                            3,
+                            4,
+                            1960,
+                            3140
+                          ],
+                          [
+                            4,
+                            5,
+                            3150,
+                            3820
+                          ],
+                          [
+                            5,
+                            6,
+                            3830,
+                            5210
+                          ],
+                          [
+                            6,
+                            7,
+                            5220,
+                            6900
+                          ],
+                          [
+                            7,
+                            8,
+                            6910,
+                            8250
+                          ],
+                          [
+                            8,
+                            9,
+                            8260,
+                            9580
+                          ],
+                          [
+                            9,
+                            10,
+                            9590,
+                            10260
+                          ],
+                          [
+                            10,
+                            11,
+                            10270,
+                            11230
+                          ],
+                          [
+                            11,
+                            12,
+                            11240,
+                            12940
+                          ]
                         ]
                       }
                     }
@@ -2117,16 +2417,36 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/invalidRequest" },
-          "401": { "$ref": "#/components/responses/unauthorized" },
-          "403": { "$ref": "#/components/responses/forbidden" },
-          "404": { "$ref": "#/components/responses/notFound" },
-          "422": { "$ref": "#/components/responses/unprocessableEntity" },
-          "500": { "$ref": "#/components/responses/internalServerError" },
-          "502": { "$ref": "#/components/responses/badGateway" },
-          "503": { "$ref": "#/components/responses/serviceUnavailable" },
-          "504": { "$ref": "#/components/responses/gatewayTimeout" },
-          "429": { "$ref": "#/components/responses/rateLimitExceeded" }
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
         }
       }
     },
@@ -2569,19 +2889,85 @@
         "tags": [
           "Juz"
         ],
-        "summary": "Get All Juzs",
-        "description": "Get list of all Juz",
-        "operationId": "juzs",
+        "summary": "List Juzs",
+        "description": "Get list of all Juzs with verse boundaries.",
+        "operationId": "list-juzs",
+        "parameters": [
+          {
+            "name": "mushaf",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Optional mushaf identifier (alias: mushaf_id) to select the verse mapping set."
+          }
+        ],
         "responses": {
-          "default": {
-            "description": "",
+          "200": {
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "required": [
+                    "juzs"
+                  ],
+                  "properties": {
+                    "juzs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/juz"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "juzs": [
+                    {
+                      "id": 1,
+                      "juz_number": 1,
+                      "verse_mapping": {
+                        "1": "1-7",
+                        "2": "1-141"
+                      },
+                      "first_verse_id": 1,
+                      "last_verse_id": 148,
+                      "verses_count": 148
+                    }
+                  ]
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
           }
         }
       }
@@ -7848,6 +8234,820 @@
           }
         }
       }
+    },
+    "/juzs/{id}": {
+      "get": {
+        "tags": [
+          "Juz"
+        ],
+        "summary": "Get Juz",
+        "description": "Get details for a single Juz.",
+        "operationId": "get-juz",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Juz number (1-30)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            }
+          },
+          {
+            "name": "mushaf",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Optional mushaf identifier (alias: mushaf_id) to select the verse mapping set."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "juz": {
+                      "$ref": "#/components/schemas/juz"
+                    }
+                  }
+                },
+                "example": {
+                  "juz": {
+                    "id": 1,
+                    "juz_number": 1,
+                    "verse_mapping": {
+                      "1": "1-7",
+                      "2": "1-141"
+                    },
+                    "first_verse_id": 1,
+                    "last_verse_id": 148,
+                    "verses_count": 148
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/hizbs": {
+      "get": {
+        "tags": [
+          "Hizb"
+        ],
+        "summary": "List Hizbs",
+        "description": "Get list of all Hizbs with verse boundaries.",
+        "operationId": "list-hizbs",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "hizbs"
+                  ],
+                  "properties": {
+                    "hizbs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/hizb"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "hizbs": [
+                    {
+                      "id": 1,
+                      "hizb_number": 1,
+                      "verse_mapping": {
+                        "1": "1-77",
+                        "2": "78-141",
+                        "3": "142-176",
+                        "4": "177-286"
+                      },
+                      "first_verse_id": 1,
+                      "last_verse_id": 286,
+                      "verses_count": 286
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/hizbs/{id}": {
+      "get": {
+        "tags": [
+          "Hizb"
+        ],
+        "summary": "Get Hizb",
+        "description": "Get details for a single Hizb.",
+        "operationId": "get-hizb",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Hizb number (1-60)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hizb": {
+                      "$ref": "#/components/schemas/hizb"
+                    }
+                  }
+                },
+                "example": {
+                  "hizb": {
+                    "id": 1,
+                    "hizb_number": 1,
+                    "verse_mapping": {
+                      "1": "1-77",
+                      "2": "78-141",
+                      "3": "142-176",
+                      "4": "177-286"
+                    },
+                    "first_verse_id": 1,
+                    "last_verse_id": 286,
+                    "verses_count": 286
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/rub_el_hizbs": {
+      "get": {
+        "tags": [
+          "Rub El Hizb"
+        ],
+        "summary": "List Rubʿ al-Ḥizb",
+        "description": "Get list of all Rubʿ al-Ḥizb segments.",
+        "operationId": "list-rub-el-hizbs",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "rub_el_hizbs"
+                  ],
+                  "properties": {
+                    "rub_el_hizbs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/rub-el-hizb"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "rub_el_hizbs": [
+                    {
+                      "id": 1,
+                      "rub_el_hizb_number": 1,
+                      "verse_mapping": {
+                        "1": "1-26",
+                        "2": "27-43"
+                      },
+                      "first_verse_id": 1,
+                      "last_verse_id": 43,
+                      "verses_count": 43
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/rub_el_hizbs/{id}": {
+      "get": {
+        "tags": [
+          "Rub El Hizb"
+        ],
+        "summary": "Get Rubʿ al-Ḥizb",
+        "description": "Get details for a single Rubʿ al-Ḥizb segment.",
+        "operationId": "get-rub-el-hizb",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Rubʿ al-Ḥizb number (1-240)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 240
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rub_el_hizb": {
+                      "$ref": "#/components/schemas/rub-el-hizb"
+                    }
+                  }
+                },
+                "example": {
+                  "rub_el_hizb": {
+                    "id": 1,
+                    "rub_el_hizb_number": 1,
+                    "verse_mapping": {
+                      "1": "1-26",
+                      "2": "27-43"
+                    },
+                    "first_verse_id": 1,
+                    "last_verse_id": 43,
+                    "verses_count": 43
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/rukus": {
+      "get": {
+        "tags": [
+          "Ruku"
+        ],
+        "summary": "List Rukus",
+        "description": "Get list of all Rukus.",
+        "operationId": "list-rukus",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "rukus"
+                  ],
+                  "properties": {
+                    "rukus": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ruku"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "rukus": [
+                    {
+                      "id": 1,
+                      "ruku_number": 1,
+                      "surah_ruku_number": 1,
+                      "verse_mapping": {
+                        "1": "1-7"
+                      },
+                      "first_verse_id": 1,
+                      "last_verse_id": 7,
+                      "verses_count": 7
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/rukus/{id}": {
+      "get": {
+        "tags": [
+          "Ruku"
+        ],
+        "summary": "Get Ruku",
+        "description": "Get details for a single Ruku.",
+        "operationId": "get-ruku",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Ruku number (1-558)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 558
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ruku": {
+                      "$ref": "#/components/schemas/ruku"
+                    }
+                  }
+                },
+                "example": {
+                  "ruku": {
+                    "id": 1,
+                    "ruku_number": 1,
+                    "surah_ruku_number": 1,
+                    "verse_mapping": {
+                      "1": "1-7"
+                    },
+                    "first_verse_id": 1,
+                    "last_verse_id": 7,
+                    "verses_count": 7
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/manzils": {
+      "get": {
+        "tags": [
+          "Manzil"
+        ],
+        "summary": "List Manzils",
+        "description": "Get list of all Manzils.",
+        "operationId": "list-manzils",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "manzils"
+                  ],
+                  "properties": {
+                    "manzils": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/manzil"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "manzils": [
+                    {
+                      "id": 1,
+                      "manzil_number": 1,
+                      "verse_mapping": {
+                        "1": "1-148",
+                        "2": "1-152"
+                      },
+                      "first_verse_id": 1,
+                      "last_verse_id": 260,
+                      "verses_count": 260
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/manzils/{id}": {
+      "get": {
+        "tags": [
+          "Manzil"
+        ],
+        "summary": "Get Manzil",
+        "description": "Get details for a single Manzil.",
+        "operationId": "get-manzil",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Manzil number (1-7)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 7
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "manzil": {
+                      "$ref": "#/components/schemas/manzil"
+                    }
+                  }
+                },
+                "example": {
+                  "manzil": {
+                    "id": 1,
+                    "manzil_number": 1,
+                    "verse_mapping": {
+                      "1": "1-148",
+                      "2": "1-152"
+                    },
+                    "first_verse_id": 1,
+                    "last_verse_id": 260,
+                    "verses_count": 260
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/foot_notes/{id}": {
+      "get": {
+        "tags": [
+          "Foot Note"
+        ],
+        "summary": "Get Foot Note",
+        "description": "Retrieve a single footnote.",
+        "operationId": "get-foot-note",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Footnote ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "foot_note": {
+                      "$ref": "#/components/schemas/foot-note"
+                    }
+                  }
+                },
+                "example": {
+                  "foot_note": {
+                    "id": 1,
+                    "text": "Some manuscripts record an additional marginal explanation for this verse.",
+                    "language_name": "english"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -8914,54 +10114,54 @@
       },
       "juz": {
         "title": "Juz",
-        "required": [
-          "verse_mapping"
-        ],
         "type": "object",
+        "required": [
+          "id",
+          "juz_number",
+          "verse_mapping",
+          "first_verse_id",
+          "last_verse_id",
+          "verses_count"
+        ],
         "properties": {
           "id": {
             "type": "integer"
           },
           "juz_number": {
-            "maximum": 30,
+            "type": "integer",
             "minimum": 1,
-            "type": "integer",
-            "description": ""
-          },
-          "first_verse_id": {
-            "type": "integer",
-            "description": "Id of the first ayah in this juz."
-          },
-          "last_verse_id": {
-            "type": "integer",
-            "description": "Id of the last ayah in this juz."
-          },
-          "verses_count": {
-            "type": "integer",
-            "description": "total verses in this juz"
+            "maximum": 30
           },
           "verse_mapping": {
             "type": "object",
-            "properties": {
-              "1": {
-                "type": "string"
-              },
-              "2": {
-                "type": "string"
-              }
-            },
-            "description": "Mapping of surah and range of ayah each juz has. \n\nverse_mapping: {\"1: \"1-7\", \"2\": \"1-141\"}\n\nmeans this juz has 1-7 ayah of first surah, then 1-141 ayah of second surah."
+            "description": "Mapping of chapter numbers to the verse range included in the section.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "first_verse_id": {
+            "type": "integer",
+            "description": "ID of the first verse in this juz."
+          },
+          "last_verse_id": {
+            "type": "integer",
+            "description": "ID of the last verse in this juz."
+          },
+          "verses_count": {
+            "type": "integer",
+            "description": "Total verses in this juz."
           }
         },
         "example": {
+          "id": 1,
           "juz_number": 1,
-          "first_verse_id": 1,
-          "last_verse_id": 148,
-          "verses_count": 148,
           "verse_mapping": {
             "1": "1-7",
             "2": "1-141"
-          }
+          },
+          "first_verse_id": 1,
+          "last_verse_id": 148,
+          "verses_count": 148
         }
       },
       "chapter-recitation": {
@@ -9172,6 +10372,248 @@
       },
       "rateLimitExceededResponse": {
         "$ref": "#/components/schemas/commonErrorResponse"
+      },
+      "hizb": {
+        "title": "Hizb",
+        "type": "object",
+        "required": [
+          "id",
+          "hizb_number",
+          "verse_mapping",
+          "first_verse_id",
+          "last_verse_id",
+          "verses_count"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "hizb_number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60
+          },
+          "verse_mapping": {
+            "type": "object",
+            "description": "Mapping of chapter numbers to the verse range included in the section.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "first_verse_id": {
+            "type": "integer",
+            "description": "ID of the first verse in this hizb."
+          },
+          "last_verse_id": {
+            "type": "integer",
+            "description": "ID of the last verse in this hizb."
+          },
+          "verses_count": {
+            "type": "integer",
+            "description": "Total verses in this hizb."
+          }
+        },
+        "example": {
+          "id": 1,
+          "hizb_number": 1,
+          "verse_mapping": {
+            "1": "1-77",
+            "2": "78-141",
+            "3": "142-176",
+            "4": "177-286"
+          },
+          "first_verse_id": 1,
+          "last_verse_id": 286,
+          "verses_count": 286
+        }
+      },
+      "rub-el-hizb": {
+        "title": "Rub El Hizb",
+        "type": "object",
+        "required": [
+          "id",
+          "rub_el_hizb_number",
+          "verse_mapping",
+          "first_verse_id",
+          "last_verse_id",
+          "verses_count"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "rub_el_hizb_number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 240
+          },
+          "verse_mapping": {
+            "type": "object",
+            "description": "Mapping of chapter numbers to the verse range included in the section.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "first_verse_id": {
+            "type": "integer",
+            "description": "ID of the first verse in this Rubʿ al-Ḥizb."
+          },
+          "last_verse_id": {
+            "type": "integer",
+            "description": "ID of the last verse in this Rubʿ al-Ḥizb."
+          },
+          "verses_count": {
+            "type": "integer",
+            "description": "Total verses in this Rubʿ al-Ḥizb."
+          }
+        },
+        "example": {
+          "id": 1,
+          "rub_el_hizb_number": 1,
+          "verse_mapping": {
+            "1": "1-26",
+            "2": "27-43"
+          },
+          "first_verse_id": 1,
+          "last_verse_id": 43,
+          "verses_count": 43
+        }
+      },
+      "ruku": {
+        "title": "Ruku",
+        "type": "object",
+        "required": [
+          "id",
+          "ruku_number",
+          "surah_ruku_number",
+          "verse_mapping",
+          "first_verse_id",
+          "last_verse_id",
+          "verses_count"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "ruku_number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 558
+          },
+          "surah_ruku_number": {
+            "type": "integer",
+            "description": "Position of the ruku within its surah."
+          },
+          "verse_mapping": {
+            "type": "object",
+            "description": "Mapping of chapter numbers to the verse range included in the section.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "first_verse_id": {
+            "type": "integer",
+            "description": "ID of the first verse in this ruku."
+          },
+          "last_verse_id": {
+            "type": "integer",
+            "description": "ID of the last verse in this ruku."
+          },
+          "verses_count": {
+            "type": "integer",
+            "description": "Total verses in this ruku."
+          }
+        },
+        "example": {
+          "id": 1,
+          "ruku_number": 1,
+          "surah_ruku_number": 1,
+          "verse_mapping": {
+            "1": "1-7"
+          },
+          "first_verse_id": 1,
+          "last_verse_id": 7,
+          "verses_count": 7
+        }
+      },
+      "manzil": {
+        "title": "Manzil",
+        "type": "object",
+        "required": [
+          "id",
+          "manzil_number",
+          "verse_mapping",
+          "first_verse_id",
+          "last_verse_id",
+          "verses_count"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "manzil_number": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "verse_mapping": {
+            "type": "object",
+            "description": "Mapping of chapter numbers to the verse range included in the section.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "first_verse_id": {
+            "type": "integer",
+            "description": "ID of the first verse in this manzil."
+          },
+          "last_verse_id": {
+            "type": "integer",
+            "description": "ID of the last verse in this manzil."
+          },
+          "verses_count": {
+            "type": "integer",
+            "description": "Total verses in this manzil."
+          }
+        },
+        "example": {
+          "id": 1,
+          "manzil_number": 1,
+          "verse_mapping": {
+            "1": "1-148",
+            "2": "1-152"
+          },
+          "first_verse_id": 1,
+          "last_verse_id": 260,
+          "verses_count": 260
+        }
+      },
+      "foot-note": {
+        "title": "Foot Note",
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "language_name"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "text": {
+            "type": "string",
+            "description": "Footnote body. May include HTML markup."
+          },
+          "language_name": {
+            "type": "string",
+            "description": "Language display name."
+          }
+        },
+        "example": {
+          "id": 1,
+          "text": "Some manuscripts record an additional marginal explanation for this verse.",
+          "language_name": "english"
+        }
       }
     },
     "securitySchemes": {
