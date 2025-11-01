@@ -6474,7 +6474,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "maximum": 556,
+              "maximum": 558,
               "minimum": 1,
               "type": "number"
             }
@@ -7195,7 +7195,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "maximum": 556,
+              "maximum": 558,
               "minimum": 1,
               "type": "number"
             }
@@ -7997,7 +7997,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "maximum": 556,
+              "maximum": 558,
               "minimum": 1,
               "type": "number"
             }
