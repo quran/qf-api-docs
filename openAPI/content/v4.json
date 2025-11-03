@@ -3032,6 +3032,16 @@
             }
           },
           {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get indopak script of a specific manzil.",
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
             "name": "ruku_number",
             "in": "query",
             "description": "If you want to get indopak script of a specific ruku.",
@@ -3177,6 +3187,16 @@
             "description": "If you want to get text of a specific Rub el Hizb.",
             "schema": {
               "maximum": 240,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get text of a specific manzil.",
+            "schema": {
+              "maximum": 7,
               "minimum": 1,
               "type": "integer"
             }
@@ -3332,6 +3352,16 @@
             }
           },
           {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get Uthmani script of a specific manzil.",
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
             "name": "ruku_number",
             "in": "query",
             "description": "If you want to get Uthmani script of a specific ruku.",
@@ -3482,6 +3512,16 @@
             }
           },
           {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get Uthmani script of a specific manzil.",
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
             "name": "ruku_number",
             "in": "query",
             "description": "If you want to get Uthmani script of a specific ruku.",
@@ -3627,6 +3667,16 @@
             "description": "If you want to get text of a specific Rub el Hizb.",
             "schema": {
               "maximum": 240,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get text of a specific manzil.",
+            "schema": {
+              "maximum": 7,
               "minimum": 1,
               "type": "integer"
             }
@@ -3878,6 +3928,16 @@
             }
           },
           {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get audio file of a specific manzil.",
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
             "name": "ruku_number",
             "in": "query",
             "description": "If you want to get audio file of a specific ruku.",
@@ -4077,6 +4137,16 @@
             "description": "If you want to get translation of a specific Rub el Hizb.",
             "schema": {
               "maximum": 240,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get translation of a specific manzil.",
+            "schema": {
+              "maximum": 7,
               "minimum": 1,
               "type": "integer"
             }
@@ -4362,6 +4432,16 @@
             }
           },
           {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get tafsir of a specific manzil.",
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
             "name": "ruku_number",
             "in": "query",
             "description": "If you want to get tafsir of a specific ruku.",
@@ -4510,6 +4590,16 @@
             "description": "If you want to get text of a specific Rub el Hizb.",
             "schema": {
               "maximum": 240,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get text of a specific manzil.",
+            "schema": {
+              "maximum": 7,
               "minimum": 1,
               "type": "integer"
             }
@@ -4668,6 +4758,16 @@
             "description": "If you want to get text of a specific Rub el Hizb.",
             "schema": {
               "maximum": 240,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get text of a specific manzil.",
+            "schema": {
+              "maximum": 7,
               "minimum": 1,
               "type": "integer"
             }
