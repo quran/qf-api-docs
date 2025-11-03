@@ -3334,6 +3334,166 @@
         }
       }
     },
+    "/quran/verses/indopak_nastaleeq": {
+      "get": {
+        "tags": [
+          "Quran"
+        ],
+        "summary": "Get Indopak Nastaleeq Script of ayah",
+        "description": "Get Indopak Nastaleeq script of ayah. Use query strings to filter results, leave all query string blank if you want to fetch Indopak Nastaleeq script of whole Quran.",
+        "operationId": "QURAN-verses-indopak-nastaleeq",
+        "parameters": [
+          {
+            "name": "chapter_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific surah.",
+            "schema": {
+              "maximum": 114,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "juz_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific juz.",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a Madani Mushaf page",
+            "schema": {
+              "maximum": 604,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "hizb_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific hizb.",
+            "schema": {
+              "maximum": 60,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "rub_el_hizb_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific Rub el Hizb.",
+            "schema": {
+              "maximum": 240,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific manzil.",
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ruku_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific ruku.",
+            "schema": {
+              "maximum": 558,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "verse_key",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific ayah.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "verses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "text_indopak_nastaleeq": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "verses": [
+                    {
+                      "id": 1,
+                      "verse_key": "1:1",
+                      "text_indopak_nastaleeq": "بِسۡمِ اللهِ الرَّحۡمٰنِ الرَّحِيمِ"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
     "/quran/verses/uthmani_tajweed": {
       "get": {
         "tags": [
