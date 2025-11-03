@@ -1813,6 +1813,229 @@
         }
       }
     },
+    "/verses/by_manzil/{manzil_number}": {
+      "get": {
+        "tags": [
+          "Verses"
+        ],
+        "summary": "By Manzil",
+        "description": "Get all verses from a specific manzil (1-7).",
+        "operationId": "verses-by_manzil_number",
+        "parameters": [
+          {
+            "name": "manzil_number",
+            "in": "path",
+            "description": "Manzil number (1-7)",
+            "required": true,
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language to fetch word translation in specific language.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          },
+          {
+            "name": "words",
+            "in": "query",
+            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "schema": {
+              "type": "string",
+              "default": "true",
+              "enum": [
+                "true",
+                "false"
+              ]
+            }
+          },
+          {
+            "name": "translations",
+            "in": "query",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "audio",
+            "in": "query",
+            "description": "Id of recitation if you want to load audio of each ayah.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "tafsirs",
+            "in": "query",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "word_fields",
+            "in": "query",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "translation_fields",
+            "in": "query",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "For paginating within the result",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "records per api call, you can get maximum 50 records. ",
+            "schema": {
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "verses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/verse"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                },
+                "example": {
+                  "verses": [
+                    {
+                      "id": 1,
+                      "verse_number": 1,
+                      "page_number": 1,
+                      "verse_key": "1:1",
+                      "juz_number": 1,
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "ruku_number": 1,
+                      "manzil_number": 1,
+                      "sajdah_type": null,
+                      "sajdah_number": null,
+                      "words": [
+                        {
+                          "id": 1,
+                          "position": 1,
+                          "audio_url": "wbw/001_001_001.mp3",
+                          "char_type_name": "word",
+                          "line_number": 2,
+                          "page_number": 1,
+                          "code_v1": "&#xfb51;",
+                          "translation": {
+                            "text": "In (the) name",
+                            "language_name": "english"
+                          },
+                          "transliteration": {
+                            "text": "bis'mi",
+                            "language_name": "english"
+                          }
+                        }
+                      ],
+                      "translations": [
+                        {
+                          "resource_id": 131,
+                          "text": "In the Name of Allah—the Most Compassionate, Most Merciful."
+                        }
+                      ],
+                      "tafsirs": [
+                        {
+                          "id": 82641,
+                          "language_name": "english",
+                          "name": "Tafsir Ibn Kathir",
+                          "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>"
+                        }
+                      ]
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 1,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 7,
+                    "total_records": 7
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
     "/verses/by_ruku/{ruku_number}": {
       "get": {
         "tags": [
