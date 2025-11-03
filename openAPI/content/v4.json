@@ -3195,6 +3195,218 @@
         }
       }
     },
+    "/quran/verses/{script}": {
+      "get": {
+        "tags": [
+          "Quran"
+        ],
+        "summary": "Get Quran verses in a specific script",
+        "description": "Stream the complete Quran text in the requested script. Use the structural filters to limit results to a chapter, juz, hizb, rub el hizb, manzil, ruku, or page.",
+        "operationId": "quran-verses-by-script",
+        "parameters": [
+          {
+            "name": "script",
+            "in": "path",
+            "description": "Script identifier for the response payload. Supported values: `uthmani`, `uthmani_simple`, `uthmani_tajweed`, `indopak`, `indopak_nastaleeq`, `imlaei`, `imlaei_simple`, `qpc_hafs`, `qpc_nastaleeq`, `code_v1`, `code_v2`, `v1_image`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "uthmani",
+                "uthmani_simple",
+                "uthmani_tajweed",
+                "indopak",
+                "indopak_nastaleeq",
+                "imlaei",
+                "imlaei_simple",
+                "qpc_hafs",
+                "qpc_nastaleeq",
+                "code_v1",
+                "code_v2",
+                "v1_image"
+              ]
+            }
+          },
+          {
+            "name": "chapter_number",
+            "in": "query",
+            "description": "Filter verses to a specific surah.",
+            "schema": {
+              "maximum": 114,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "juz_number",
+            "in": "query",
+            "description": "Filter verses to a specific juz.",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "Filter verses to a Madani Mushaf page.",
+            "schema": {
+              "maximum": 604,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "hizb_number",
+            "in": "query",
+            "description": "Filter verses to a specific hizb.",
+            "schema": {
+              "maximum": 60,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "rub_el_hizb_number",
+            "in": "query",
+            "description": "Filter verses to a specific rub el hizb.",
+            "schema": {
+              "maximum": 240,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "Filter verses to a specific manzil.",
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ruku_number",
+            "in": "query",
+            "description": "Filter verses to a specific ruku.",
+            "schema": {
+              "maximum": 558,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "verse_key",
+            "in": "query",
+            "description": "Fetch a single ayah by its `chapter:verse` key.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Result page number (pagination).",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Records per page (maximum 50).",
+            "schema": {
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "verses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/verse"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                },
+                "example": {
+                  "verses": [
+                    {
+                      "id": 1,
+                      "verse_key": "1:1",
+                      "chapter_id": 1,
+                      "text_uthmani": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+                      "code_v1": null,
+                      "code_v2": null,
+                      "image_url": null,
+                      "juz_number": 1,
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "manzil_number": 1,
+                      "ruku_number": 1,
+                      "page_number": 1
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 10,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 62,
+                    "total_records": 6236
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
     "/quran/verses/indopak": {
       "get": {
         "tags": [
@@ -3316,6 +3528,166 @@
                       "id": 1,
                       "verse_key": "1:1",
                       "text_indopak": "بِسۡمِ اللهِ الرَّحۡم]ٰنِ الرَّحِيۡمِ"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/quran/verses/indopak_nastaleeq": {
+      "get": {
+        "tags": [
+          "Quran"
+        ],
+        "summary": "Get Indopak Nastaleeq Script of ayah",
+        "description": "Get Indopak Nastaleeq script of ayah. Use query strings to filter results, leave all query string blank if you want to fetch Indopak Nastaleeq script of whole Quran.",
+        "operationId": "QURAN-verses-indopak-nastaleeq",
+        "parameters": [
+          {
+            "name": "chapter_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific surah.",
+            "schema": {
+              "maximum": 114,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "juz_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific juz.",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a Madani Mushaf page",
+            "schema": {
+              "maximum": 604,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "hizb_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific hizb.",
+            "schema": {
+              "maximum": 60,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "rub_el_hizb_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific Rub el Hizb.",
+            "schema": {
+              "maximum": 240,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific manzil.",
+            "schema": {
+              "maximum": 7,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ruku_number",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific ruku.",
+            "schema": {
+              "maximum": 558,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "verse_key",
+            "in": "query",
+            "description": "If you want to get Indopak Nastaleeq script of a specific ayah.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "verses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "text_indopak_nastaleeq": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "verses": [
+                    {
+                      "id": 1,
+                      "verse_key": "1:1",
+                      "text_indopak_nastaleeq": "بِسۡمِ اللهِ الرَّحۡمٰنِ الرَّحِيمِ"
                     }
                   ]
                 }
