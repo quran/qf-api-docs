@@ -1,0 +1,30 @@
+---
+id: users-controller-get-user-followers
+title: "UsersController_getUserFollowers"
+description: "UsersController_getUserFollowers"
+sidebar_label: "UsersController_getUserFollowers"
+hide_title: true
+hide_table_of_contents: true
+api: {"operationId":"UsersController_getUserFollowers","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}},{"name":"limit","required":true,"in":"query","schema":{"minimum":1,"maximum":20,"default":20,"type":"number"}},{"name":"page","required":true,"in":"query","schema":{"minimum":1,"default":1,"type":"number"}}],"responses":{"200":{"description":""}},"tags":["Users"],"servers":[{"url":"https://apis-prelive.quran.foundation/quran-reflect","description":"Pre-production Server"},{"url":"https://apis.quran.foundation/quran-reflect","description":"Production Server"}],"description":"UsersController_getUserFollowers","method":"get","path":"/v1/users/{id}/followers","security":[{"x-auth-token":[],"x-client-id":[]}],"securitySchemes":{"x-auth-token":{"type":"apiKey","in":"header","name":"x-auth-token","description":"The JWT access token required for accessing the endpoints."},"x-client-id":{"type":"apiKey","in":"header","name":"x-client-id","description":"Your client id"}},"info":{"title":"User-related APIs","version":"1.0.0","description":"Quran.Foundation user-related APIs enable your app to seamlessly integrate with Quran.Foundation's user-centric features, providing access to personalized notes, bookmarks, goals, streaks, reading sessions, and more. This differentiates them from [content APIs](/docs/category/content-apis) that focus on non-user-specific resources like translations, tafsirs, and verses.\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). \n\n ## Pagination \n\n We are using cursor based pagination. The pagination query params consist of `first`,`after`, `before` and `last`. \n\n Example \n - `first: 10` will give you first 10 items \n - `first: 10, after: xyz` will give you first 10 items after the item with id `xyz` \n - `last: 10` will give you the last 10 items \n - `last: 10, before: xyz` will give you the last 10 items before the item with id `xyz` \n\n The only possible combinations are `first + after` or `last + before`. They should not be used together"},"postman":{"name":"Users Controller get User Followers","description":{"type":"text/plain"},"url":{"path":["v1","users",":id","followers"],"host":["{{baseUrl}}"],"query":[{"disabled":false,"description":{"content":"(Required) ","type":"text/plain"},"key":"limit","value":""},{"disabled":false,"description":{"content":"(Required) ","type":"text/plain"},"key":"page","value":""}],"variable":[{"disabled":false,"description":{"content":"(Required) ","type":"text/plain"},"type":"any","value":"","key":"id"}]},"method":"GET"}}
+sidebar_class_name: "get api-method"
+info_path: docs/user_related_apis_versioned/user-related-apis
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## UsersController_getUserFollowers
+
+
+
+UsersController_getUserFollowers
+
+<details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Path Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"id","required":true,"in":"path","schema":{"type":"string"}}}></ParamsItem></ul></div></details><details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Query Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"limit","required":true,"in":"query","schema":{"minimum":1,"maximum":20,"default":20,"type":"number"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"name":"page","required":true,"in":"query","schema":{"minimum":1,"default":1,"type":"number"}}}></ParamsItem></ul></div></details><div><ApiTabs><TabItem label={"200"} value={"200"}><div></div><div></div></TabItem></ApiTabs></div>
+      
