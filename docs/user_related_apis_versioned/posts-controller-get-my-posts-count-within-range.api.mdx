@@ -1,0 +1,34 @@
+---
+id: posts-controller-get-my-posts-count-within-range
+title: "PostsController_getMyPostsCountWithinRange"
+description: "PostsController_getMyPostsCountWithinRange"
+sidebar_label: "PostsController_getMyPostsCountWithinRange"
+hide_title: true
+hide_table_of_contents: true
+api: {"operationId":"PostsController_getMyPostsCountWithinRange","parameters":[{"name":"from","required":true,"in":"query","schema":{"pattern":"VERSE_KEY_REGEX","type":"string"}},{"name":"to","required":true,"in":"query","schema":{"pattern":"VERSE_KEY_REGEX","type":"string"}}],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"type":"object"}}}}},"tags":["Posts"],"servers":[{"url":"https://apis-prelive.quran.foundation/quran-reflect","description":"Pre-production Server"},{"url":"https://apis.quran.foundation/quran-reflect","description":"Production Server"}],"description":"PostsController_getMyPostsCountWithinRange","method":"get","path":"/v1/posts/count-within-range","security":[{"x-auth-token":[],"x-client-id":[]}],"securitySchemes":{"x-auth-token":{"type":"apiKey","in":"header","name":"x-auth-token","description":"The JWT access token required for accessing the endpoints."},"x-client-id":{"type":"apiKey","in":"header","name":"x-client-id","description":"Your client id"}},"info":{"title":"User-related APIs","version":"1.0.0","description":"Quran.Foundation user-related APIs enable your app to seamlessly integrate with Quran.Foundation's user-centric features, providing access to personalized notes, bookmarks, goals, streaks, reading sessions, and more. This differentiates them from [content APIs](/docs/category/content-apis) that focus on non-user-specific resources like translations, tafsirs, and verses.\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). \n\n ## Pagination \n\n We are using cursor based pagination. The pagination query params consist of `first`,`after`, `before` and `last`. \n\n Example \n - `first: 10` will give you first 10 items \n - `first: 10, after: xyz` will give you first 10 items after the item with id `xyz` \n - `last: 10` will give you the last 10 items \n - `last: 10, before: xyz` will give you the last 10 items before the item with id `xyz` \n\n The only possible combinations are `first + after` or `last + before`. They should not be used together"},"postman":{"name":"Posts Controller get My Posts Count Within Range","description":{"type":"text/plain"},"url":{"path":["v1","posts","count-within-range"],"host":["{{baseUrl}}"],"query":[{"disabled":false,"description":{"content":"(Required) ","type":"text/plain"},"key":"from","value":""},{"disabled":false,"description":{"content":"(Required) ","type":"text/plain"},"key":"to","value":""}],"variable":[]},"header":[{"key":"Accept","value":"application/json"}],"method":"GET"}}
+sidebar_class_name: "get api-method"
+info_path: docs/user_related_apis_versioned/user-related-apis
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## PostsController_getMyPostsCountWithinRange
+
+
+
+PostsController_getMyPostsCountWithinRange
+
+<details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Query Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"from","required":true,"in":"query","schema":{"pattern":"VERSE_KEY_REGEX","type":"string"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"name":"to","required":true,"in":"query","schema":{"pattern":"VERSE_KEY_REGEX","type":"string"}}}></ParamsItem></ul></div></details><div><ApiTabs><TabItem label={"200"} value={"200"}><div></div><div><MimeTabs schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs><TabItem label={"Schema"} value={"Schema"}><details style={{}} data-collapsed={false} open={true}><summary style={{"textAlign":"left"}}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><div style={{"marginTop":".5rem","marginBottom":".5rem","marginLeft":"1rem"}}>
+
+object
+
+</div></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div>
+      

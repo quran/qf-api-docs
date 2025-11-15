@@ -10101,61 +10101,21 @@
         "title": "AudioFile",
         "type": "object",
         "properties": {
+          "verse_key": {
+            "type": "string"
+          },
           "url": {
             "type": "string"
-          },
-          "duration": {
-            "type": "number"
-          },
-          "format": {
-            "type": "string"
-          },
-          "segments": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
           }
         },
         "example": {
-          "url": "https://verses.quran.foundation/AbdulBaset/Mujawwad/mp3/001001.mp3",
-          "duration": 6,
-          "format": "mp3",
-          "segments": [
-            [
-              [
-                0,
-                120,
-                -1
-              ],
-              [
-                120,
-                420,
-                0
-              ],
-              [
-                540,
-                810,
-                1
-              ],
-              [
-                1350,
-                1006,
-                2
-              ],
-              [
-                2356,
-                2454,
-                3
-              ],
-              [
-                4810,
-                390,
-                -1
-              ]
-            ]
-          ]
-        }
+          "verse_key": "1:1",
+          "url": "https://verses.quran.foundation/AbdulBaset/Mujawwad/mp3/001001.mp3"
+        },
+        "required": [
+          "verse_key",
+          "url"
+        ]
       },
       "author": {
         "title": "Author",
