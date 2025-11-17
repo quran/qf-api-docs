@@ -443,7 +443,7 @@
           "Chapters"
         ],
         "summary": "List Chapters",
-        "description": "Get list of Chapter.",
+        "description": "Get list of Chapter. When a `language` query parameter is supplied the translated chapter names are looked up in that language, and if not available the lookup automatically falls back to the default English translations.",
         "operationId": "list-chapters",
         "parameters": [
           {
