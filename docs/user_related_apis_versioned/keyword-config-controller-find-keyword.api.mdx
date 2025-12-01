@@ -1,0 +1,38 @@
+---
+id: keyword-config-controller-find-keyword
+title: "Get moderation keyword configuration"
+description: "Return the keyword configuration if Moderation has a match."
+sidebar_label: "Get moderation keyword configuration"
+hide_title: true
+hide_table_of_contents: true
+api: {"operationId":"KeywordConfigController_findKeyword","description":"Return the keyword configuration if Moderation has a match.","parameters":[{"name":"keyword","required":true,"in":"path","description":"Keyword to inspect","schema":{"example":"profile","type":"string"}}],"responses":{"200":{"description":"Keyword configuration found","content":{"application/json":{"schema":{"type":"object","properties":{"keyword":{"type":"string","description":"Canonical keyword managed by Moderation","example":"profile"},"url":{"type":"string","description":"Optional URL the frontend should open for this keyword","example":"https://support.quranreflect.com/profile","nullable":true}},"required":["keyword"],"title":"KeywordConfigResponseDto"}}}},"404":{"description":"Keyword configuration not found"}},"tags":["Keywords"],"servers":[{"url":"https://apis-prelive.quran.foundation/quran-reflect","description":"Pre-production Server"},{"url":"https://apis.quran.foundation/quran-reflect","description":"Production Server"}],"method":"get","path":"/v1/keywords/{keyword}","security":[{"x-auth-token":[],"x-client-id":[]}],"securitySchemes":{"x-auth-token":{"type":"apiKey","in":"header","name":"x-auth-token","description":"The JWT access token required for accessing the endpoints."},"x-client-id":{"type":"apiKey","in":"header","name":"x-client-id","description":"Your client id"}},"info":{"title":"User-related APIs","version":"1.0.0","description":"Quran.Foundation user-related APIs enable your app to seamlessly integrate with Quran.Foundation's user-centric features, providing access to personalized notes, bookmarks, goals, streaks, reading sessions, and more. This differentiates them from [content APIs](/docs/category/content-apis) that focus on non-user-specific resources like translations, tafsirs, and verses.\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). \n\n ## Pagination \n\n We are using cursor based pagination. The pagination query params consist of `first`,`after`, `before` and `last`. \n\n Example \n - `first: 10` will give you first 10 items \n - `first: 10, after: xyz` will give you first 10 items after the item with id `xyz` \n - `last: 10` will give you the last 10 items \n - `last: 10, before: xyz` will give you the last 10 items before the item with id `xyz` \n\n The only possible combinations are `first + after` or `last + before`. They should not be used together"},"postman":{"name":"Get moderation keyword configuration","description":{"content":"Return the keyword configuration if Moderation has a match.","type":"text/plain"},"url":{"path":["v1","keywords",":keyword"],"host":["{{baseUrl}}"],"query":[],"variable":[{"disabled":false,"description":{"content":"(Required) Keyword to inspect","type":"text/plain"},"type":"any","value":"","key":"keyword"}]},"header":[{"key":"Accept","value":"application/json"}],"method":"GET"}}
+sidebar_class_name: "get api-method"
+info_path: docs/user_related_apis_versioned/user-related-apis
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## Get moderation keyword configuration
+
+
+
+Return the keyword configuration if Moderation has a match.
+
+<details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Path Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"keyword","required":true,"in":"path","description":"Keyword to inspect","schema":{"example":"profile","type":"string"}}}></ParamsItem></ul></div></details><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+Keyword configuration found
+
+</div><div><MimeTabs schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs><TabItem label={"Schema"} value={"Schema"}><details style={{}} data-collapsed={false} open={true}><summary style={{"textAlign":"left"}}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"keyword"} required={true} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Canonical keyword managed by Moderation","example":"profile"}}></SchemaItem><SchemaItem collapsible={false} name={"url"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Optional URL the frontend should open for this keyword","example":"https://support.quranreflect.com/profile","nullable":true}}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"keyword\": \"profile\",\n  \"url\": \"https://support.quranreflect.com/profile\"\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem><TabItem label={"404"} value={"404"}><div>
+
+Keyword configuration not found
+
+</div><div></div></TabItem></ApiTabs></div>
+      

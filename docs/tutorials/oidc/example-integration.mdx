@@ -18,11 +18,22 @@ sidebar_position: 4
   TOKEN_HOST = 'https://oauth2.quran.foundation'
   CLIENT_ID = 'quran-demo'
   CLIENT_SECRET = 'secret'
-  SCOPES = 'openid offline collection bookmark reading_session preference user'
+  SCOPES = 'openid offline_acces collection bookmark reading_session preference user'
   ```
 
-  - Please note that the values of client id and client secret are set to (`quran-demo` and `secret`) which are meant for testing purposes and are not meant for production use.
-  - For production use, please make sure to obtain your own client id and secret use by submitting your OAuth2 [Application](/request-access).
+  :::info
+The credentials shown here (`quran-demo` / `secret`) are **dummy placeholders** used only to demonstrate the configuration format.
+
+They are **not linked to any real OAuth client**, so the authorization flow will **not complete**, and you will **not** be redirected to your callback URL.
+
+To run the example end-to-end, you must submit your own OAuth application and provide:
+
+1. A valid `CLIENT_ID` and `CLIENT_SECRET`, and  
+2. Your callback URL (e.g., `http://localhost:3000/callback`) **exactly** in the [API Access Request form](request-access).
+
+Only callback URLs registered through the form are accepted, and they must match exactly.
+:::
+
 - Install dependencies:
   ```bash
   npm install
