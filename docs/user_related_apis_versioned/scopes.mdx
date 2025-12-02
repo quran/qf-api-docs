@@ -4,13 +4,16 @@ id: scopes
 
 # OAuth2 Scopes
 
-Quran.Foundations's OAuth 2.0 scopes provide a way to limit the amount of access that is granted to an access token. When requesting an accessing token, clients should also request the scopes they are interested in getting access to. If the APIs are user-related, the user will need to consent to granting access to the scopes your app is requesting first.
+Quran.Foundations's OAuth 2.0 scopes provide a way to limit the amount of access that is granted to
+an access token. When requesting an accessing token, clients should also request the scopes they are
+interested in getting access to. If the APIs are user-related, the user will need to consent to
+granting access to the scopes your app is requesting first.
 
 ## Content
 
-| Scope           | Description                    |
-| --------------- | ------------------------------ |
-| content         | Read Quran.Foundation's non user-related content e.g. Tafsirs, Translations, etc |
+| Scope   | Description                                                                      |
+| ------- | -------------------------------------------------------------------------------- |
+| content | Read Quran.Foundation's non user-related content e.g. Tafsirs, Translations, etc |
 
 ## Bookmarks
 
@@ -82,11 +85,16 @@ Quran.Foundations's OAuth 2.0 scopes provide a way to limit the amount of access
 
 ## Users
 
-| Scope              | Description                   |
-| ------------------ | ----------------------------- |
-| user               | Manage your user profile data |
-| user.profile.read  | Read your user profile data   |
-| user.username.read | Read your current username    |
+| Scope               | Description                   |
+| ------------------- | ----------------------------- |
+| user                | Manage your user profile data |
+| user.profile.read   | Read your user profile data   |
+| user.profile.update | Update your user profile data |
+| user.rooms.read     | Read your rooms list          |
+| user.search         | Search for users              |
+| user.follow         | Follow/unfollow users         |
+| user.followers.read | Read user's followers list    |
+| user.following.read | Read user's following list    |
 
 ## Posts
 
@@ -100,6 +108,8 @@ Quran.Foundations's OAuth 2.0 scopes provide a way to limit the amount of access
 | post.save   | Save QuranReflect posts to your profile |
 | post.like   | Like QuranReflect posts                 |
 | post.report | Report QuranReflect posts               |
+| post.log    | Track post views                        |
+| post.export | Export posts (e.g., PDF)                |
 
 ## Comments
 
@@ -108,13 +118,32 @@ Quran.Foundations's OAuth 2.0 scopes provide a way to limit the amount of access
 | comment        | Manage your QuranReflect post comments |
 | comment.read   | Read QuranReflect posts' comments      |
 | comment.create | Create a new QuranReflect post comment |
-| comment.update | Update your QuranReflect post comments |
-| comment.delete | Update your QuranReflect post comments |
+| comment.delete | Delete your QuranReflect post comments |
+| comment.like   | Like/unlike comments                   |
 
-## Groups
+## Rooms
 
-| Scope        | Description                               |
-| ------------ | ----------------------------------------- |
-| group        | Manage your QuranReflect groups           |
-| group.read   | Read your QuranReflect groups             |
-| group.update | Update your QuranReflect groups' settings |
+| Scope               | Description                         |
+| ------------------- | ----------------------------------- |
+| room                | Manage your QuranReflect rooms      |
+| room.read           | Read room profiles and lists        |
+| room.create         | Create new groups/pages             |
+| room.update         | Update groups/pages                 |
+| room.admin          | Manage room admin access            |
+| room.search         | Search for rooms                    |
+| room.invite         | Invite users, accept/reject invites |
+| room.join           | Join a group                        |
+| room.leave          | Leave a group                       |
+| room.follow         | Follow a page                       |
+| room.unfollow       | Unfollow a page                     |
+| room.members.read   | Read room members list              |
+| room.members.remove | Remove members from room            |
+| room.posts.read     | Read posts in a room                |
+| room.posts.update   | Update post privacy in room         |
+
+## Tags
+
+| Scope    | Description      |
+| -------- | ---------------- |
+| tag      | Access tags      |
+| tag.read | Read/search tags |
