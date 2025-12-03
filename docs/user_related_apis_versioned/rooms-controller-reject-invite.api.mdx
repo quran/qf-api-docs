@@ -1,11 +1,11 @@
 ---
 id: rooms-controller-reject-invite
-title: "RoomsController_rejectInvite"
-description: "RoomsController_rejectInvite"
-sidebar_label: "RoomsController_rejectInvite"
+title: "Reject room invite"
+description: "Decline an invitation to join a room. Invalidates the invite token."
+sidebar_label: "Reject room invite"
 hide_title: true
 hide_table_of_contents: true
-api: {"operationId":"RoomsController_rejectInvite","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"number"}},{"name":"token","required":true,"in":"query","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Rooms"],"servers":[{"url":"https://apis-prelive.quran.foundation/quran-reflect","description":"Pre-production Server"},{"url":"https://apis.quran.foundation/quran-reflect","description":"Production Server"}],"description":"RoomsController_rejectInvite","method":"get","path":"/v1/rooms/{id}/reject-invite","security":[{"x-auth-token":[],"x-client-id":[]}],"securitySchemes":{"x-auth-token":{"type":"apiKey","in":"header","name":"x-auth-token","description":"The JWT access token required for accessing the endpoints."},"x-client-id":{"type":"apiKey","in":"header","name":"x-client-id","description":"Your client id"}},"info":{"title":"User-related APIs","version":"1.0.0","description":"Quran.Foundation user-related APIs enable your app to seamlessly integrate with Quran.Foundation's user-centric features, providing access to personalized notes, bookmarks, goals, streaks, reading sessions, and more. This differentiates them from [content APIs](/docs/category/content-apis) that focus on non-user-specific resources like translations, tafsirs, and verses.\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). \n\n ## Pagination \n\n We are using cursor based pagination. The pagination query params consist of `first`,`after`, `before` and `last`. \n\n Example \n - `first: 10` will give you first 10 items \n - `first: 10, after: xyz` will give you first 10 items after the item with id `xyz` \n - `last: 10` will give you the last 10 items \n - `last: 10, before: xyz` will give you the last 10 items before the item with id `xyz` \n\n The only possible combinations are `first + after` or `last + before`. They should not be used together"},"postman":{"name":"Rooms Controller reject Invite","description":{"type":"text/plain"},"url":{"path":["v1","rooms",":id","reject-invite"],"host":["{{baseUrl}}"],"query":[{"disabled":false,"description":{"content":"(Required) ","type":"text/plain"},"key":"token","value":""}],"variable":[{"disabled":false,"description":{"content":"(Required) ","type":"text/plain"},"type":"any","value":"","key":"id"}]},"method":"GET"}}
+api: {"operationId":"RoomsController_rejectInvite","description":"Decline an invitation to join a room. Invalidates the invite token.","parameters":[{"name":"id","required":true,"in":"path","description":"Unique numeric room ID","schema":{"type":"number"}},{"name":"token","required":true,"in":"query","description":"Invitation token from invite link","schema":{"type":"string"}}],"responses":{"200":{"description":"Invitation rejected"},"400":{"description":"Invalid or expired token"},"401":{"description":"User not authenticated"}},"tags":["Rooms"],"servers":[{"url":"https://apis-prelive.quran.foundation/quran-reflect","description":"Pre-production Server"},{"url":"https://apis.quran.foundation/quran-reflect","description":"Production Server"}],"method":"get","path":"/v1/rooms/{id}/reject-invite","security":[{"x-auth-token":[],"x-client-id":[]}],"securitySchemes":{"x-auth-token":{"type":"apiKey","in":"header","name":"x-auth-token","description":"The JWT access token required for accessing the endpoints."},"x-client-id":{"type":"apiKey","in":"header","name":"x-client-id","description":"Your client id"}},"info":{"title":"User-related APIs","version":"1.0.0","description":"Quran.Foundation user-related APIs enable your app to seamlessly integrate with Quran.Foundation's user-centric features, providing access to personalized notes, bookmarks, goals, streaks, reading sessions, and more. This differentiates them from [content APIs](/docs/category/content-apis) that focus on non-user-specific resources like translations, tafsirs, and verses.\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). \n\n ## Pagination \n\n We are using cursor based pagination. The pagination query params consist of `first`,`after`, `before` and `last`. \n\n Example \n - `first: 10` will give you first 10 items \n - `first: 10, after: xyz` will give you first 10 items after the item with id `xyz` \n - `last: 10` will give you the last 10 items \n - `last: 10, before: xyz` will give you the last 10 items before the item with id `xyz` \n\n The only possible combinations are `first + after` or `last + before`. They should not be used together"},"postman":{"name":"Reject room invite","description":{"content":"Decline an invitation to join a room. Invalidates the invite token.","type":"text/plain"},"url":{"path":["v1","rooms",":id","reject-invite"],"host":["{{baseUrl}}"],"query":[{"disabled":false,"description":{"content":"(Required) Invitation token from invite link","type":"text/plain"},"key":"token","value":""}],"variable":[{"disabled":false,"description":{"content":"(Required) Unique numeric room ID","type":"text/plain"},"type":"any","value":"","key":"id"}]},"method":"GET"}}
 sidebar_class_name: "get api-method"
 info_path: docs/user_related_apis_versioned/user-related-apis
 custom_edit_url: null
@@ -20,11 +20,23 @@ import SchemaTabs from "@theme/SchemaTabs";
 import DiscriminatorTabs from "@theme/DiscriminatorTabs";
 import TabItem from "@theme/TabItem";
 
-## RoomsController_rejectInvite
+## Reject room invite
 
 
 
-RoomsController_rejectInvite
+Decline an invitation to join a room. Invalidates the invite token.
 
-<details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Path Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"id","required":true,"in":"path","schema":{"type":"number"}}}></ParamsItem></ul></div></details><details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Query Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"token","required":true,"in":"query","schema":{"type":"string"}}}></ParamsItem></ul></div></details><div><ApiTabs><TabItem label={"200"} value={"200"}><div></div><div></div></TabItem></ApiTabs></div>
+<details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Path Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"id","required":true,"in":"path","description":"Unique numeric room ID","schema":{"type":"number"}}}></ParamsItem></ul></div></details><details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Query Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"token","required":true,"in":"query","description":"Invitation token from invite link","schema":{"type":"string"}}}></ParamsItem></ul></div></details><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+Invitation rejected
+
+</div><div></div></TabItem><TabItem label={"400"} value={"400"}><div>
+
+Invalid or expired token
+
+</div><div></div></TabItem><TabItem label={"401"} value={"401"}><div>
+
+User not authenticated
+
+</div><div></div></TabItem></ApiTabs></div>
       
