@@ -115,7 +115,7 @@ def generate_pkce_pair():
 - Public PKCE clients: send `client_id` in the body + `code_verifier`
 - Confidential clients: use HTTP Basic (`client_id:client_secret`)
 
-Expected response includes `access_token`, `refresh_token` (if `offline` scope), `id_token` (if `openid`), `expires_in`.
+Expected response includes `access_token`, `refresh_token` (if `offline_access` scope), `id_token` (if `openid`), `expires_in`.
 
 Note: If you used PKCE in Step 2, always send `code_verifier` here.
 
@@ -268,7 +268,7 @@ def get_collections(access_token, client_id):
 
 ---
 
-## 🔁 Step 5: Refresh the Access Token (offline scope)
+## 🔁 Step 5: Refresh the Access Token (offline_access scope)
 
 When `expires_in` elapses, exchange the `refresh_token` for a new `access_token`.
 
@@ -348,8 +348,8 @@ def refresh_access_token(client_id, client_secret, refresh_token):
 - State: Always send and validate `state` to protect against CSRF.
 - Nonce: When you request `openid`, always include a `nonce`. Some deployments enforce it; if an ID token is issued, you **must** verify the `nonce` claim equals the value you initially sent.
 - PKCE: Use for public clients (SPAs/mobile). Do not ship `client_secret` to browsers/mobile apps.
-- Scopes: Use `openid offline user collection`. Add more scopes only as needed.
-- Scopes note: Quran.Foundation expects `offline` (not `offline_access`).
+- Scopes: Use `openid offline_access user collection`. Add more scopes only as needed.
+- Scopes note: Quran.Foundation expects `offline_access` (not `offline`).
 - Token storage: Store `refresh_token` securely; rotate if compromised.
 - Clock skew: Ensure system time is correct (e.g., via NTP) to avoid `invalid_grant` due to time drift.
 
