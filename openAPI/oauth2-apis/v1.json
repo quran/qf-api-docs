@@ -55,7 +55,7 @@
         "description": "Introspection contains an access token's session data as specified by\n[IETF RFC 7662](https://tools.ietf.org/html/rfc7662)",
         "example": {
           "active": true,
-          "scope": "openid offline collection bookmark reading_session preference user",
+          "scope": "openid offline_access collection bookmark reading_session preference user",
           "client_id": "quran-demo",
           "sub": "a4f5a01a-a641-4b23-ba05-d002b704bfaa",
           "exp": 1675239767,
@@ -139,7 +139,7 @@
           "expires_in": 3600,
           "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6InB1YmxpYzpoeWRyYS5vcGVuaWQuaWQtdW4iLCJ0eXAiOiJKV1QifQ.eyJhdF9oYXNoIjoiU2xUUGbnktSkRzdm1nMjNqTDVHZysImF1ZCI6WyJxdXJhbi1kZW1vIl0sImF1dGhfdGltZSI6MTY3NTIzNDc4OCwiZW1haWwiOiJtdWhhamlyZnJhbWVAZ21haWwuY29tIiwiZXhwIjoxNjc1MjM4MzkzLCJmaXJzdF9uYW1lIjoiTXVoYW1tYWQiLCJpYXQiOjE2NzUyMzQ3OTMsImlzcyI6Imh0dHBzOi8vb2F1dGgyLnF1cmFuLmNvbS8iLCJqdGkiOiIxMzUzYWIyYi0zZjRlLTQwZDQtYjlmNi0zYjllOWRhYmIxOWUiLCJsYXN0X25hbWUiOiJNdWhhamlyIiwicmF0IjoxNjc1MjM0Nzg2LCJzaWQiOiJjZTJhZTIxYi04N2VkLTQwZmItYjRjOC05MzI0ZGM4OThkZjciLCJzdWIiOiJhNGY1YTAxYS1hNjQxLTRiMjMtYmEwNS1kMDAyYjcwNGJmYWEifQ.dJuUdVszxahMmIEN5_bYfUgrdqK94ZPU9PbLm0fpnmDDd21kHl6jd62p4KROW3vCVJY9-tbBtdul9f90qUap7G0v-396s4TuBq5pl6Dx1XSxr8buW04RPxNkpBcdxzEtggpFYCRj9vuilcBekgHSg305YWyL1DW8tRiNyqU_3AJze786t6LPjHPoTKdUCxKW-bS3hDEB1vznKmtHpOUXhUECy-kFV_YLBVOJiKsR2peyCa65wrKZDn5L1qrVQLuTSOBawJRCxu3M9Sr_p3kud26AvRKNjlxWRcspxLOlRy2QuOaz1q0l0R7WHrvQkqhX1ZYLf4ukBTtbG0HeXIi6grXMK4ZSw04N-uBW_zDNwpaQOr7hU7yJc2_wopeDrshElEgvszMzUfyg4RXE_XmHym1ZfaVli_gJcsTcBguZgKw8UvmqL0_QZgKAEqNfQZE_GazFIvtSRBQ_Zl9pqZCyMgAN4dz_cBJc-3GqR-nsMaj6Zz5fqQxkqrUwMAwX3bulnp5KQBg42YOeNAGoP_SpKrjaZrZJsVbM7UNFHiGT6QvkLAbcgq1ysWuUDEqNinGKLGcOzFMoX1tCwvc_1fEwkw9VYbSjE2Ep_UcY6PI468iGQacpmyxBzUhTBajNT1DZZejTYNYbxEnlitlGF6lE4AYFwBlHk_RLd3zOZWjp5kA",
           "refresh_token": "WVHJVqgSIf8Vsqf0k71vGCbkjPaoP_w5BMu_ektC36c.UI9w16x-XFQueGJOWp-c1BUyd1tBbjXnsvza_YxhxBE",
-          "scope": "collection bookmark reading_session preference user openid offline",
+          "scope": "collection bookmark reading_session preference user openid offline_access",
           "token_type": "bearer",
           "expires_at": "2023-02-01T07:59:53.167Z"
         },
@@ -158,7 +158,7 @@
             "type": "string"
           },
           "refresh_token": {
-            "description": "The refresh token, which can be used to obtain new\naccess tokens. To retrieve it add the scope \"offline\" to your access token request.",
+            "description": "The refresh token, which can be used to obtain new\naccess tokens. To retrieve it add the scope \"offline_access\" to your access token request.",
             "type": "string"
           },
           "scope": {
@@ -258,7 +258,7 @@
                   "scope": {
                     "type": "string",
                     "description": "The scope of the access request",
-                    "example": "openid offline collection bookmark reading_session preference user"
+                    "example": "openid offline_access collection bookmark reading_session preference user"
                   }
                 },
                 "required": ["grant_type"],
@@ -272,7 +272,7 @@
                     "code": "180ezHATHWKTe-NoCx",
                     "client_id": "quran-demo",
                     "redirect_uri": "https://oauth2-client-example.quran.foundation/callback",
-                    "scope": "openid offline collection bookmark reading_session preference user"
+                    "scope": "openid offline_access collection bookmark reading_session preference user"
                   }
                 },
                 "refreshToken": {
@@ -281,7 +281,7 @@
                     "grant_type": "refresh_token",
                     "refresh_token": "ptDH6OdENVk3zY4LVxts90whTFgi6dVn9_wVekNyPmc.RZQ6JuoTlw8Zz38sJZvvJumqdNXuDxj6l3MzcK0",
                     "client_id": "quran-demo",
-                    "scope": "openid offline collection bookmark reading_session preference user"
+                    "scope": "openid offline_access collection bookmark reading_session preference user"
                   }
                 },
                 "clientCredentials": {
