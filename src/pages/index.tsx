@@ -111,6 +111,13 @@ function HomepageHeader() {
           >
             💎 Dev Benefits
           </button>
+          <button
+            type="button"
+            className={clsx("button button--lg", styles.ghostButton)}
+            onClick={() => setActiveModal("disclaimers")}
+          >
+            ⚠️ Dev Disclaimers
+          </button>
           <Link
             className="button button--secondary button--lg"
             to="/docs/quickstart"
@@ -123,13 +130,6 @@ function HomepageHeader() {
           >
             📂 API Reference
           </Link>
-          <button
-            type="button"
-            className={clsx("button button--lg", styles.ghostButton)}
-            onClick={() => setActiveModal("disclaimers")}
-          >
-            ⚠️ Dev Disclaimers
-          </button>
         </div>
       </div>
       {activeModal === "benefits" &&
