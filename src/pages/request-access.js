@@ -128,7 +128,7 @@ export default function RequestAccess() {
                                 className={clsx('button button--lg', styles.outlineButton)}
                                 onClick={() => setActiveModal('benefits')}
                             >
-                                ⭐ Dev Benefits
+                                💎 Dev Benefits
                             </button>
                             <button
                                 type="button"

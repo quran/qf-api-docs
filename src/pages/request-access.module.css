@@ -12,6 +12,12 @@
   border: 2px solid var(--ifm-color-primary);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+  width: 220px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .outlineButton:hover {
@@ -26,6 +32,12 @@
   border: 2px solid #e2e8f0;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+  width: 220px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .ghostButton:hover {
