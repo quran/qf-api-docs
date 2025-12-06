@@ -7,15 +7,22 @@
   padding: 1rem !important;
   text-align: center;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
-.infoRow {
+.heroButtonRow {
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 1.25rem auto 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+}
+
+.heroButtonRow > * {
+  flex: 0 0 220px;
 }
 
 .outlineButton {
@@ -24,10 +31,16 @@
   border: 2px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+  width: 220px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .outlineButton:hover {
-  transform: translateY(-2px);
+  transform: none;
   background: rgba(255, 255, 255, 0.22);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
 }
@@ -38,11 +51,17 @@
   border: 2px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+  width: 220px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 .ghostButton:hover {
   background: rgba(255, 255, 255, 0.18);
-  transform: translateY(-2px);
+  transform: none;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
 }
 

@@ -103,32 +103,26 @@ function HomepageHeader() {
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
 
-        {/* ✅ ADD THE BUTTONS HERE */}
-        <div className="buttons" style={{ marginTop: "1.5rem" }}>
+        <div className={styles.heroButtonRow}>
+          <button
+            type="button"
+            className={clsx("button button--lg", styles.outlineButton)}
+            onClick={() => setActiveModal("benefits")}
+          >
+            💎 Dev Benefits
+          </button>
           <Link
             className="button button--secondary button--lg"
             to="/docs/quickstart"
           >
             🚀 Quick Start Guide
           </Link>
-          {/* Optional: Add API Reference Button */}
           <Link
             className="button button--primary button--lg"
             to="/docs/category/content-apis"
-            style={{ marginLeft: "1rem" }}
           >
             📂 API Reference
           </Link>
-        </div>
-
-        <div className={styles.infoRow}>
-          <button
-            type="button"
-            className={clsx("button button--lg", styles.outlineButton)}
-            onClick={() => setActiveModal("benefits")}
-          >
-            ⭐ Dev Benefits
-          </button>
           <button
             type="button"
             className={clsx("button button--lg", styles.ghostButton)}
