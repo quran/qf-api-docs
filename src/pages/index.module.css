@@ -46,9 +46,9 @@
 }
 
 .ghostButton {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
   width: 220px;
@@ -60,7 +60,7 @@
 }
 
 .ghostButton:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.22);
   transform: none;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
 }
