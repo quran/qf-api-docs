@@ -15,24 +15,23 @@ function HomepageHeader() {
 
   const benefitPoints = [
     "Comprehensive APIs, backend, and managed data so you can focus on solving unique problems.",
-    "Opportunity to be featured on Quran.com via the app marketplace.",
-    "Direct support from Quran.com and its broader network.",
+    "Opportunity to be featured on Quran.com via Quran App Portal.",
+    "Direct support from Quran Foundation and its broader network.",
     "Reliable, copyrighted, scholarly verified content.",
     "Mission-driven community that prioritizes da'wah impact.",
     "Users can bring their reading history, bookmarks, saved verses, notes, reflections, and streaks into your app.",
     "Full feature set from Quran.com and QuranReflect, plus OAuth and a notification engine.",
-    "Funding or in-kind support for high-value projects aligned with Quran.Foundation plans.",
+    "Funding or in-kind support for high-value projects aligned with Quran Foundation plans.",
   ];
 
   const disclaimerPoints = [
-    "Building a Quranic or guidance app puts you in a da'wah role—clarify your references and scholars, and consult them on content, behavior design, priorities, and potential harms.",
+    "Building a Quranic or guidance app puts you in a da'wah role, clarify your references and scholars, and consult them on content, behavior design, priorities, and potential harms.",
     "Respect copyrights and licensing expectations.",
     "Honor scholarly review and keep content aligned with verified sources.",
-    "Seek scholarly input even on feature design, not just content wording.",
     "Use the API to keep content accurate as removals, additions, or edits occur.",
-    "Examine intention and risks—your product shapes hearts and behavior.",
+    "Examine intention and risks, your product shapes hearts and behavior.",
     "Focus on solving unique problems; the ummah needs more coverage than current resources provide.",
-    "Decide your commercial stance with scholars; if allowed, follow guidelines for both developers and Quran.Foundation collaboration.",
+    "Decide your commercial stance with scholars; if allowed, follow guidelines for both developers and Quran Foundation collaboration.",
     "Practice ta'awun (Quranic collaboration) with the wider ecosystem.",
     "Align with our vision and architecture (auth, user features, notifications) to receive support.",
   ];
