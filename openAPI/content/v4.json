@@ -954,7 +954,7 @@
           "Verses"
         ],
         "summary": "By Page",
-        "description": "Get all verses of a specific Madani Mushaf page(1 to 604)",
+        "description": "Get all verses of a specific Madani Mushaf page (1 to 604)",
         "operationId": "verses-by_page_number",
         "parameters": [
           {
@@ -10519,8 +10519,7 @@
           "page_number": {
             "maximum": 604,
             "minimum": 1,
-            "type": "integer",
-            "description": "page_number is deprecated, please use `v1_page` instead."
+            "type": "integer"
           },
           "ruku_number": {
             "type": "integer"
@@ -10641,8 +10640,7 @@
           "page_number": {
             "maximum": 604,
             "minimum": 1,
-            "type": "integer",
-            "description": "page_number is deprecated, please use `v1_page` instead."
+            "type": "integer"
           },
           "line_number": {
             "type": "integer",
