@@ -268,6 +268,19 @@ const config = {
               },
             ],
           },
+          {
+            title: "Legal",
+            items: [
+              {
+                label: "Developer Terms of Service",
+                to: "/legal/developer-terms",
+              },
+              {
+                label: "Developer Privacy Policy Requirements",
+                to: "/legal/developer-privacy",
+              },
+            ],
+          },
         ],
       },
       prism: {
