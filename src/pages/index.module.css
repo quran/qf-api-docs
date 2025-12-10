@@ -16,13 +16,13 @@
   align-items: center;
   gap: 0.9rem;
   margin: 1.25rem auto 0;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  overflow: visible;
   padding-bottom: 0.35rem;
 }
 
 .heroButtonRow > * {
-  flex: 0 0 220px;
+  flex: 0 1 220px;
 }
 
 .outlineButton {
@@ -141,6 +141,18 @@
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 0rem;
+  }
+  .heroButtonRow {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+  .heroButtonRow > * {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .outlineButton,
+  .ghostButton {
+    width: 100%;
   }
   .heroBanner :global(.hero__title) {
     font-size: 2rem;
