@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
+import Link from '@docusaurus/Link';
 import { useForm } from 'react-hook-form';
 import styles from './request-access.module.css';
 
 
 export default function RequestAccess() {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [activeModal, setActiveModal] = useState(null); // "benefits" | "disclaimers"
+    const hasAcceptedTerms = watch('agreementsAccepted', false);
 
     const benefitPoints = [
         "Comprehensive APIs, backend, and managed data so you can focus on solving unique problems.",
@@ -190,10 +192,38 @@ export default function RequestAccess() {
                                 </small>
                             </div>
 
+                            <div className="margin-bottom--md">
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        id="agreementsAccepted"
+                                        {...register('agreementsAccepted', {
+                                            required: 'You must agree to the terms to continue',
+                                        })}
+                                    />
+                                    <label htmlFor="agreementsAccepted" className="form-label" style={{ display: 'inline', marginLeft: '0.5rem' }}>
+                                        I have read and agree to the{' '}
+                                        <Link to="/legal/developer-terms">
+                                            Quran Foundation Developer Terms of Service
+                                        </Link>{' '}
+                                        and the{' '}
+                                        <Link to="/legal/developer-privacy">
+                                            Developer Privacy Policy Requirements
+                                        </Link>
+                                        .
+                                    </label>
+                                </div>
+                                {errors.agreementsAccepted && (
+                                    <div className="error-message">
+                                        {errors.agreementsAccepted.message}
+                                    </div>
+                                )}
+                            </div>
+
                             <button
                                 type="submit"
                                 className="button button--primary button--block"
-                                disabled={isSubmitting}
+                                disabled={isSubmitting || !hasAcceptedTerms}
                             >
                                 {isSubmitting ? 'Submitting...' : 'Submit Request'}
                             </button>
