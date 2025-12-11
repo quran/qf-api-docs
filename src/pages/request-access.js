@@ -1,9 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import { useForm } from 'react-hook-form';
 import styles from './request-access.module.css';
+import {
+    DeveloperBenefitsModal,
+    DeveloperDisclaimersModal,
+} from '@site/src/components/DeveloperModals';
 
 
 export default function RequestAccess() {
@@ -13,81 +17,7 @@ export default function RequestAccess() {
     const [activeModal, setActiveModal] = useState(null); // "benefits" | "disclaimers"
     const hasAcceptedTerms = watch('agreementsAccepted', false);
 
-    const benefitPoints = [
-        "Comprehensive APIs, backend, and managed data so you can focus on solving unique problems.",
-        "Opportunity to be featured on Quran.com via Quran App Portal.",
-        "Direct support from Quran Foundation and its broader network.",
-        "Reliable, copyrighted, scholarly verified content.",
-        "Mission-driven community that prioritizes da'wah impact.",
-        "Users can bring their reading history, bookmarks, saved verses, notes, reflections, and streaks into your app.",
-        "Full feature set from Quran.com and QuranReflect, plus OAuth and a notification engine.",
-        "Funding or in-kind support for high-value projects aligned with Quran Foundation plans.",
-    ];
-
-    const disclaimerPoints = [
-        "Building a Quranic or guidance app puts you in a da'wah role, clarify your references and scholars, and consult them on content, behavior design, priorities, and potential harms.",
-        "Respect copyrights and licensing expectations.",
-        "Honor scholarly review and keep content aligned with verified sources.",
-        "Use the API to keep content accurate as removals, additions, or edits occur.",
-        "Examine intention and risks, your product shapes hearts and behavior.",
-        "Focus on solving unique problems; the ummah needs more coverage than current resources provide.",
-        "Decide your commercial stance with scholars; if allowed, follow guidelines for both developers and Quran Foundation collaboration.",
-        "Practice ta'awun (Quranic collaboration) with the wider ecosystem.",
-        "Align with our vision and architecture (auth, user features, notifications) to receive support.",
-    ];
-
     const closeModal = useCallback(() => setActiveModal(null), []);
-
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        };
-        document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [closeModal]);
-
-    const renderModal = (title, points, ctaLabel) => {
-        if (activeModal === null) return null;
-        return (
-            <div
-                className={styles.modalOverlay}
-                role="dialog"
-                aria-modal="true"
-                onClick={closeModal}
-            >
-                <div
-                    className={styles.modalCard}
-                    onClick={(event) => event.stopPropagation()}
-                >
-                    <div className={styles.modalHeader}>
-                        <h3 className={styles.modalTitle}>{title}</h3>
-                        <button
-                            type="button"
-                            className={styles.closeButton}
-                            onClick={closeModal}
-                            aria-label="Close dialog"
-                        >
-                            ×
-                        </button>
-                    </div>
-                    <ul className={styles.modalList}>
-                        {points.map((point) => (
-                            <li key={point}>{point}</li>
-                        ))}
-                    </ul>
-                    <button
-                        type="button"
-                        className={clsx('button button--primary button--md', styles.modalCta)}
-                        onClick={closeModal}
-                    >
-                        {ctaLabel}
-                    </button>
-                </div>
-            </div>
-        );
-    };
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
@@ -244,10 +174,14 @@ export default function RequestAccess() {
                 </div>
             </div>
 
-            {activeModal === 'benefits' &&
-                renderModal('Developer Benefits', benefitPoints, 'Got it')}
-            {activeModal === 'disclaimers' &&
-                renderModal('Developer Disclaimers', disclaimerPoints, 'Understood')}
+            <DeveloperBenefitsModal
+                isOpen={activeModal === 'benefits'}
+                onClose={closeModal}
+            />
+            <DeveloperDisclaimersModal
+                isOpen={activeModal === 'disclaimers'}
+                onClose={closeModal}
+            />
         </Layout>
     );
 }
