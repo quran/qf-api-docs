@@ -49,6 +49,13 @@ function HomepageHeader() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [closeModal]);
 
+  React.useEffect(() => {
+    document.body.classList.add("home-page");
+    return () => {
+      document.body.classList.remove("home-page");
+    };
+  }, []);
+
   const renderModal = (
     title: string,
     points: string[],
@@ -130,6 +137,14 @@ function HomepageHeader() {
             📂 API Reference
           </Link>
         </div>
+        <div className={styles.mobileRequestAccess}>
+          <Link
+            className="button button--secondary button--lg"
+            to="/request-access"
+          >
+            📨 Request Access
+          </Link>
+        </div>
       </div>
       {activeModal === "benefits" &&
         renderModal("Developer Benefits", benefitPoints, "Got it")}
@@ -144,7 +159,7 @@ export default function Home(): JSX.Element {
   return (
     <Layout
       title={siteConfig.title}
-      description="Quran Foundation's Docs portal that will help Muslim developers get the Ummah closer to the Quran by seamlessly develop apps on top of Quran.Foundation's APIs."
+      description="QuranFoundation API Docs portal that will help Muslim developers get the Ummah closer to the Quran by seamlessly develop apps on top of Quran.Foundation's APIs."
     >
       <HomepageHeader />
       <main>

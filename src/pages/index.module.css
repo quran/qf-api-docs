@@ -25,6 +25,11 @@
   flex: 0 1 220px;
 }
 
+.mobileRequestAccess {
+  display: none;
+  margin-top: 0.5rem;
+}
+
 .outlineButton {
   background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
@@ -152,6 +157,13 @@
   }
   .outlineButton,
   .ghostButton {
+    width: 100%;
+  }
+  .mobileRequestAccess {
+    display: flex;
+    justify-content: center;
+  }
+  .mobileRequestAccess :global(a) {
     width: 100%;
   }
   .heroBanner :global(.hero__title) {

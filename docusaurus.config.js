@@ -6,7 +6,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Quran Foundation's Documentation Portal",
+  title: "QuranFoundation API Documentation Portal",
   tagline: "Build Quran-related apps in no time!",
   // Set the production url of your site here
   url: "https://api-docs.quran.foundation",
@@ -149,7 +149,7 @@ const config = {
       // Replace with your project's social card
       // image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: "Quran Foundation Docs Portal",
+        title: "QuranFoundation API Docs portal",
         items: [
           {
             type: "doc",
@@ -215,6 +215,7 @@ const config = {
             to: "/request-access",
             label: "Request Access",
             position: "right",
+            className: "navbar__item--request-access",
           },
         ],
       },
