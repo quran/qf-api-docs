@@ -70,79 +70,6 @@
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
 }
 
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  padding: 1rem;
-}
-
-.modalCard {
-  background: #ffffff;
-  color: #0f172a;
-  border-radius: 14px;
-  max-width: 780px;
-  width: min(90vw, 780px);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.14);
-  padding: 1.8rem 1.6rem 2.4rem;
-  animation: popIn 160ms ease;
-  max-height: calc(100vh - 2rem);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable both-edges;
-}
-
-.modalHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.modalTitle {
-  margin: 0;
-  font-size: 1.3rem;
-}
-
-.closeButton {
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #0f172a;
-  line-height: 1;
-  padding: 0.25rem 0.5rem;
-}
-
-.modalList {
-  margin-top: 0.75rem;
-  margin-bottom: 1.4rem;
-  text-align: left;
-  padding-left: 1.15rem;
-  display: grid;
-  gap: 0.4rem;
-}
-
-.modalCta {
-  width: 100%;
-  justify-content: center;
-}
-
-@keyframes popIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 0rem;
@@ -171,10 +98,6 @@
     word-break: keep-all;
     overflow-wrap: normal;
     max-width: 100%;
-  }
-  .modalCard {
-    max-height: calc(100vh - 1rem);
-    padding: 1.4rem 1.2rem 2.6rem;
   }
 }
 
