@@ -73,7 +73,11 @@
 
 @media screen and (max-width: 996px) {
   .modalCard {
-    max-height: calc(100vh - 1rem);
+    /* Safari-friendly viewport stack */
+    max-height: calc(100dvh - 1rem);
+    max-height: calc(100svh - 1rem);
+    max-height: calc(100vh - 1rem); /* fallback */
     padding: 1.3rem 1.2rem 2.6rem;
+    overflow-y: auto;
   }
 }
