@@ -47,13 +47,14 @@ Here's how the OAuth2 process works in a common scenario where user consent is n
 - `code_challenge=BASE64URL_SHA256(code_verifier)`
 - `code_challenge_method=S256`
 
-**Production Environment**
-- `https://oauth2.quran.foundation`
+**Environment bases**
+- Pre-Production: `https://prelive-oauth2.quran.foundation`
+- Production: `https://oauth2.quran.foundation`
 
-**Example URL (Production with PKCE):**
+**Example URL (Pre-Production with PKCE):**
 
 ```
-https://oauth2.quran.foundation/oauth2/auth?response_type=code
+https://prelive-oauth2.quran.foundation/oauth2/auth?response_type=code
 &client_id=YOUR_CLIENT_ID
 &redirect_uri=https%3A%2F%2Fyour-app.com%2Foauth%2Fcallback
 &scope=openid%20offline_access%20user%20collection
@@ -124,7 +125,7 @@ Note: If you used PKCE in Step 2, always send `code_verifier` here.
 
 ```bash
 curl --request POST \
-  --url https://oauth2.quran.foundation/oauth2/token \
+  --url https://prelive-oauth2.quran.foundation/oauth2/token \
   --user 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=authorization_code&code=YOUR_CODE&redirect_uri=https%3A%2F%2Fyour-app.com%2Foauth%2Fcallback&code_verifier=YOUR_CODE_VERIFIER'
@@ -137,7 +138,7 @@ curl --request POST \
 
 ```bash
 curl --request POST \
-  --url https://oauth2.quran.foundation/oauth2/token \
+  --url https://prelive-oauth2.quran.foundation/oauth2/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=authorization_code&client_id=YOUR_CLIENT_ID&code=YOUR_CODE&redirect_uri=https%3A%2F%2Fyour-app.com%2Foauth%2Fcallback&code_verifier=YOUR_CODE_VERIFIER'
 ```
@@ -159,7 +160,7 @@ async function exchangeCodeForTokens(clientId, code, redirectUri, codeVerifier) 
   params.append('code_verifier', codeVerifier);
 
   const res = await axios.post(
-    'https://oauth2.quran.foundation/oauth2/token',
+    'https://prelive-oauth2.quran.foundation/oauth2/token',
     params.toString(),
     { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
   );
@@ -177,7 +178,7 @@ import requests
 
 def exchange_code_for_tokens(client_id, code, redirect_uri, code_verifier):
     resp = requests.post(
-        'https://oauth2.quran.foundation/oauth2/token',
+        'https://prelive-oauth2.quran.foundation/oauth2/token',
         headers={'Content-Type': 'application/x-www-form-urlencoded'},
         data={
             'grant_type': 'authorization_code',
@@ -224,7 +225,7 @@ x-client-id: YOUR_CLIENT_ID
 
 ```bash
 curl --request GET \
-  --url https://apis.quran.foundation/auth/v1/collections \
+  --url https://apis-prelive.quran.foundation/auth/v1/collections \
   --header "x-auth-token: YOUR_ACCESS_TOKEN" \
   --header "x-client-id: YOUR_CLIENT_ID"
 ```
@@ -241,7 +242,7 @@ const axios = require('axios');
 
 async function getCollections(accessToken, clientId) {
   const res = await axios.get(
-    'https://apis.quran.foundation/auth/v1/collections',
+    'https://apis-prelive.quran.foundation/auth/v1/collections',
     { headers: { 'x-auth-token': accessToken, 'x-client-id': clientId } }
   );
   return res.data;
@@ -258,7 +259,7 @@ import requests
 
 def get_collections(access_token, client_id):
     r = requests.get(
-        'https://apis.quran.foundation/auth/v1/collections?first=1',
+        'https://apis-prelive.quran.foundation/auth/v1/collections?first=1',
         headers={'x-auth-token': access_token, 'x-client-id': client_id}
     )
     return r.json()
@@ -277,7 +278,7 @@ When `expires_in` elapses, exchange the `refresh_token` for a new `access_token`
 
 ```bash
 curl --request POST \
-  --url https://oauth2.quran.foundation/oauth2/token \
+  --url https://prelive-oauth2.quran.foundation/oauth2/token \
   --user 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=refresh_token&refresh_token=YOUR_REFRESH_TOKEN'
@@ -290,7 +291,7 @@ curl --request POST \
 
 ```bash
 curl --request POST \
-  --url https://oauth2.quran.foundation/oauth2/token \
+  --url https://prelive-oauth2.quran.foundation/oauth2/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=refresh_token&client_id=YOUR_CLIENT_ID&refresh_token=YOUR_REFRESH_TOKEN'
 ```
@@ -309,7 +310,7 @@ async function refreshAccessToken(clientId, clientSecret, refreshToken) {
   params.append('refresh_token', refreshToken);
 
   const res = await axios.post(
-    'https://oauth2.quran.foundation/oauth2/token',
+    'https://prelive-oauth2.quran.foundation/oauth2/token',
     params.toString(),
     {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -330,7 +331,7 @@ import requests
 
 def refresh_access_token(client_id, client_secret, refresh_token):
     resp = requests.post(
-        'https://oauth2.quran.foundation/oauth2/token',
+        'https://prelive-oauth2.quran.foundation/oauth2/token',
         auth=(client_id, client_secret),
         headers={'Content-Type': 'application/x-www-form-urlencoded'},
         data={'grant_type': 'refresh_token', 'refresh_token': refresh_token}
