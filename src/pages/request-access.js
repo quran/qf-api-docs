@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
@@ -9,15 +9,88 @@ import {
     DeveloperDisclaimersModal,
 } from '@site/src/components/DeveloperModals';
 
+const REQUEST_ACCESS_FORM_STORAGE_KEY = 'qf:request-access-form:v1';
+
+const DEFAULT_FORM_VALUES = {
+    appName: '',
+    email: '',
+    callbackUrl: '',
+    agreementsAccepted: false,
+};
+
+function sanitizeFormValues(values) {
+    if (!values || typeof values !== 'object') {
+        return { ...DEFAULT_FORM_VALUES };
+    }
+
+    return {
+        ...DEFAULT_FORM_VALUES,
+        appName: typeof values.appName === 'string' ? values.appName : '',
+        email: typeof values.email === 'string' ? values.email : '',
+        callbackUrl: typeof values.callbackUrl === 'string' ? values.callbackUrl : '',
+        agreementsAccepted: Boolean(values.agreementsAccepted),
+    };
+}
+
+function isEmptyFormValues(values) {
+    return (
+        !values.appName &&
+        !values.email &&
+        !values.callbackUrl &&
+        !values.agreementsAccepted
+    );
+}
 
 export default function RequestAccess() {
-    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({
+        defaultValues: DEFAULT_FORM_VALUES,
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [activeModal, setActiveModal] = useState(null); // "benefits" | "disclaimers"
     const hasAcceptedTerms = watch('agreementsAccepted', false);
 
     const closeModal = useCallback(() => setActiveModal(null), []);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        const storedValues = window.sessionStorage.getItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
+        if (!storedValues) {
+            return;
+        }
+
+        try {
+            reset(sanitizeFormValues(JSON.parse(storedValues)));
+        } catch {
+            window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
+        }
+    }, [reset]);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        const subscription = watch((values) => {
+            try {
+                const sanitizedValues = sanitizeFormValues(values);
+                if (isEmptyFormValues(sanitizedValues)) {
+                    window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
+                } else {
+                    window.sessionStorage.setItem(
+                        REQUEST_ACCESS_FORM_STORAGE_KEY,
+                        JSON.stringify(sanitizedValues)
+                    );
+                }
+            } catch {
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [watch]);
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
@@ -36,6 +109,9 @@ export default function RequestAccess() {
 
             setSubmitStatus('success');
             reset();
+            if (typeof window !== 'undefined') {
+                window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
+            }
         } catch (error) {
             console.error('Error submitting form:', error);
             setSubmitStatus('error');
