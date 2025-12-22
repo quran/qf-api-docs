@@ -11372,7 +11372,7 @@
     "securitySchemes": {
       "x-auth-token": {
         "type": "apiKey",
-        "description": "The JWT access token required for accessing the endpoints.",
+        "description": "The access token required for accessing the endpoints.",
         "name": "x-auth-token",
         "in": "header"
       },

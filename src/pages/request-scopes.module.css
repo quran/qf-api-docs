@@ -1,0 +1,107 @@
+.scopeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.readonlyInput {
+  background: #f8fafc;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+}
+
+.summaryLabel {
+  font-weight: 600;
+}
+
+.summaryValue {
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+}
+
+.scopesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.scopeGroup {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.scopeGroupTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  color: #0f172a;
+}
+
+.scopeList {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.scopeItem {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  background: #f8fafc;
+  border: 1px solid transparent;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.scopeItem:hover {
+  border-color: rgba(59, 130, 246, 0.35);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.15);
+}
+
+.scopeItem input {
+  margin-top: 0.2rem;
+}
+
+.scopeParent {
+  background: #eef2ff;
+}
+
+.scopeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.scopeLabel {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.scopeDescription {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .scopeGroup {
+    padding: 0.9rem;
+  }
+
+  .scopeItem {
+    padding: 0.55rem 0.65rem;
+  }
+}
