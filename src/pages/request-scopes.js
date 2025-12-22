@@ -35,6 +35,8 @@ export default function RequestScopes() {
     const [targets, setTargets] = useState([]);
     const [token, setToken] = useState('');
     const [selectedScopes, setSelectedScopes] = useState(new Set());
+    const [lockedScopes, setLockedScopes] = useState(new Set());
+    const [readOnlyTargets, setReadOnlyTargets] = useState([]);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -73,6 +75,15 @@ export default function RequestScopes() {
                 setEmail(data.email || '');
                 setScopes(Array.isArray(data.scopes) ? data.scopes : []);
                 setTargets(Array.isArray(data.targets) ? data.targets : []);
+                setReadOnlyTargets(
+                    Array.isArray(data.readOnlyTargets) ? data.readOnlyTargets : []
+                );
+                const preselected = Array.isArray(data.preselectedScopes)
+                    ? data.preselectedScopes
+                    : [];
+                const lockedSet = new Set(preselected);
+                setLockedScopes(lockedSet);
+                setSelectedScopes(new Set(preselected));
                 setStatus('ready');
             } catch (error) {
                 setStatus('invalid');
@@ -100,6 +111,9 @@ export default function RequestScopes() {
     }, [scopes]);
 
     const handleScopeToggle = (value) => {
+        if (lockedScopes.has(value)) {
+            return;
+        }
         setSelectedScopes((prev) => {
             const next = new Set(prev);
             if (next.has(value)) {
@@ -158,6 +172,7 @@ export default function RequestScopes() {
     };
 
     const targetLabel = getTargetLabel(targets);
+    const hasPreliveReadOnly = readOnlyTargets.includes('prelive');
     const selectedCount = selectedScopes.size;
 
     return (
@@ -195,6 +210,12 @@ export default function RequestScopes() {
 
                         {status === 'ready' && (
                             <form onSubmit={handleSubmit} className={styles.scopeForm}>
+                                {hasPreliveReadOnly && (
+                                    <div className="alert alert--info">
+                                        Pre-production already includes all scopes. Your
+                                        selections below apply to production only.
+                                    </div>
+                                )}
                                 <div className="margin-bottom--md">
                                     <label htmlFor="email" className="form-label">
                                         Email
@@ -222,31 +243,41 @@ export default function RequestScopes() {
                                         <div key={group.title} className={styles.scopeGroup}>
                                             <h3 className={styles.scopeGroupTitle}>{group.title}</h3>
                                             <div className={styles.scopeList}>
-                                                {group.scopes.map((scope) => (
-                                                    <label
-                                                        key={scope.value}
-                                                        className={clsx(
-                                                            styles.scopeItem,
-                                                            scope.isParent && styles.scopeParent
-                                                        )}
-                                                    >
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={selectedScopes.has(scope.value)}
-                                                            onChange={() =>
-                                                                handleScopeToggle(scope.value)
-                                                            }
-                                                        />
-                                                        <span className={styles.scopeContent}>
-                                                            <span className={styles.scopeLabel}>
-                                                                {scope.label || scope.value}
+                                                {group.scopes.map((scope) => {
+                                                    const isLocked = lockedScopes.has(scope.value);
+                                                    return (
+                                                        <label
+                                                            key={scope.value}
+                                                            className={clsx(
+                                                                styles.scopeItem,
+                                                                scope.isParent && styles.scopeParent,
+                                                                isLocked && styles.scopeLocked
+                                                            )}
+                                                        >
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={selectedScopes.has(scope.value)}
+                                                                disabled={isLocked}
+                                                                onChange={() =>
+                                                                    handleScopeToggle(scope.value)
+                                                                }
+                                                            />
+                                                            <span className={styles.scopeContent}>
+                                                                <span className={styles.scopeLabel}>
+                                                                    {scope.label || scope.value}
+                                                                </span>
+                                                                {isLocked && (
+                                                                    <span className={styles.lockedBadge}>
+                                                                        Included by default
+                                                                    </span>
+                                                                )}
+                                                                <span className={styles.scopeDescription}>
+                                                                    {scope.description}
+                                                                </span>
                                                             </span>
-                                                            <span className={styles.scopeDescription}>
-                                                                {scope.description}
-                                                            </span>
-                                                        </span>
-                                                    </label>
-                                                ))}
+                                                        </label>
+                                                    );
+                                                })}
                                             </div>
                                         </div>
                                     ))}

@@ -79,6 +79,10 @@
   background: #eef2ff;
 }
 
+.scopeLocked {
+  opacity: 0.7;
+}
+
 .scopeContent {
   display: flex;
   flex-direction: column;
@@ -88,6 +92,16 @@
 .scopeLabel {
   font-weight: 600;
   color: #0f172a;
+}
+
+.lockedBadge {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1d4ed8;
+  background: #e0e7ff;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
 }
 
 .scopeDescription {
