@@ -209,11 +209,11 @@ export default function RequestAccess() {
                                     />
                                     <label htmlFor="agreementsAccepted" className="form-label" style={{ display: 'inline', marginLeft: '0.5rem' }}>
                                         I have read and agree to the{' '}
-                                        <Link to="/legal/developer-terms">
+                                        <Link target='_blank' to="/legal/developer-terms" rel='noopener noreferrer'>
                                             Quran Foundation Developer Terms of Service
                                         </Link>{' '}
                                         and the{' '}
-                                        <Link to="/legal/developer-privacy">
+                                        <Link target='_blank' to="/legal/developer-privacy" rel='noopener noreferrer'>
                                             Developer Privacy Policy Requirements
                                         </Link>
                                         .
