@@ -31,6 +31,7 @@ export default function RequestScopes() {
 
     const [status, setStatus] = useState('loading');
     const [email, setEmail] = useState('');
+    const [appName, setAppName] = useState('');
     const [scopes, setScopes] = useState([]);
     const [targets, setTargets] = useState([]);
     const [token, setToken] = useState('');
@@ -73,6 +74,7 @@ export default function RequestScopes() {
 
                 const data = await response.json();
                 setEmail(data.email || '');
+                setAppName(data.appName || '');
                 setScopes(Array.isArray(data.scopes) ? data.scopes : []);
                 setTargets(Array.isArray(data.targets) ? data.targets : []);
                 setReadOnlyTargets(
@@ -225,6 +227,19 @@ export default function RequestScopes() {
                                         type="email"
                                         className={clsx('form-input', styles.readonlyInput)}
                                         value={email}
+                                        readOnly
+                                    />
+                                </div>
+                                <div className="margin-bottom--md">
+                                    <label htmlFor="appName" className="form-label">
+                                        App name
+                                    </label>
+                                    <input
+                                        id="appName"
+                                        type="text"
+                                        className={clsx('form-input', styles.readonlyInput)}
+                                        value={appName}
+                                        placeholder="Not provided"
                                         readOnly
                                     />
                                 </div>
