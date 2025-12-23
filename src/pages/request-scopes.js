@@ -272,7 +272,7 @@ export default function RequestScopes() {
                                                                     </span>
                                                                 )}
                                                                 <span className={styles.scopeDescription}>
-                                                                    {scope.description}
+                                                                    {scope.developerDescription || scope.description}
                                                                 </span>
                                                             </span>
                                                         </label>
