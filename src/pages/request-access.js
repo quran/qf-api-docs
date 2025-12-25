@@ -47,6 +47,7 @@ export default function RequestAccess() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
+    const [submitError, setSubmitError] = useState('');
     const [activeModal, setActiveModal] = useState(null); // "benefits" | "disclaimers"
     const hasAcceptedTerms = watch('agreementsAccepted', false);
 
@@ -94,6 +95,7 @@ export default function RequestAccess() {
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
+        setSubmitError('');
         try {
             const response = await fetch(`https://qf-form-handler.fly.dev/api/v1/webhook`, {
                 method: 'POST',
@@ -104,7 +106,13 @@ export default function RequestAccess() {
             });
 
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const payload = await response.json().catch(() => ({}));
+                setSubmitStatus('error');
+                setSubmitError(
+                    payload.error || 'There was an error submitting your request. Please try again later.'
+                );
+                setIsSubmitting(false);
+                return;
             }
 
             setSubmitStatus('success');
@@ -115,6 +123,7 @@ export default function RequestAccess() {
         } catch (error) {
             console.error('Error submitting form:', error);
             setSubmitStatus('error');
+            setSubmitError('There was an error submitting your request. Please try again later.');
         }
         setIsSubmitting(false);
     };
@@ -242,7 +251,7 @@ export default function RequestAccess() {
 
                             {submitStatus === 'error' && (
                                 <div className="alert alert--danger margin-top--md">
-                                    There was an error submitting your request. Please try again later.
+                                    {submitError || 'There was an error submitting your request. Please try again later.'}
                                 </div>
                             )}
                         </form>
