@@ -750,7 +750,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translation in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -772,7 +772,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
@@ -973,7 +973,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translation in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -995,7 +995,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
@@ -1193,7 +1193,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translation in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -1215,7 +1215,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
@@ -1414,7 +1414,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translation in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -1436,7 +1436,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
@@ -1635,7 +1635,8 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translation 
+            in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -1657,7 +1658,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
@@ -1836,7 +1837,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translation in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -1858,7 +1859,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
@@ -2059,7 +2060,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translation in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -2081,7 +2082,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
@@ -2694,7 +2695,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translations in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -2716,7 +2717,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
@@ -2941,7 +2942,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Language to fetch word translation in specific language.",
+            "description": "Language to fetch word-by-word translation in a specific language.",
             "schema": {
               "type": "string",
               "default": "en"
@@ -2963,7 +2964,7 @@
           {
             "name": "translations",
             "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See /resources/translations for available ids.",
+            "description": "comma separated ids of translations to load for each ayah. See /resources/translations for available ids. Use translations=57 to include full-ayah transliteration.",
             "schema": {
               "type": "string"
             }
