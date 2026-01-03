@@ -759,7 +759,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
@@ -982,7 +982,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
@@ -1202,7 +1202,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
@@ -1423,7 +1423,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
@@ -1645,7 +1645,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
@@ -1846,7 +1846,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
@@ -2069,7 +2069,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
@@ -2704,7 +2704,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
@@ -2951,7 +2951,7 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? \n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
             "schema": {
               "type": "string",
               "default": "true",
