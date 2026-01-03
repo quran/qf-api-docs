@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
@@ -9,14 +9,85 @@ import {
     DeveloperDisclaimersModal,
 } from '@site/src/components/DeveloperModals';
 
+const REQUEST_ACCESS_FORM_STORAGE_KEY = 'qf:request-access-form:v1';
+
+const DEFAULT_FORM_VALUES = {
+    appName: '',
+    email: '',
+    callbackUrl: '',
+    agreementsAccepted: false,
+};
+
+function sanitizeFormValues(values) {
+    if (!values || typeof values !== 'object') {
+        return { ...DEFAULT_FORM_VALUES };
+    }
+
+    return {
+        ...DEFAULT_FORM_VALUES,
+        appName: typeof values.appName === 'string' ? values.appName : '',
+        email: typeof values.email === 'string' ? values.email : '',
+        callbackUrl: typeof values.callbackUrl === 'string' ? values.callbackUrl : '',
+        agreementsAccepted: Boolean(values.agreementsAccepted),
+    };
+}
+
+function isEmptyFormValues(values) {
+    return (
+        !values.appName &&
+        !values.email &&
+        !values.callbackUrl &&
+        !values.agreementsAccepted
+    );
+}
+
 
 export default function RequestAccess() {
-    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({
+        defaultValues: DEFAULT_FORM_VALUES,
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [submitError, setSubmitError] = useState('');
     const [activeModal, setActiveModal] = useState(null); // "benefits" | "disclaimers"
     const hasAcceptedTerms = watch('agreementsAccepted', false);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+        const storedValues = window.sessionStorage.getItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
+        if (!storedValues) {
+            return;
+        }
+        try {
+            reset(sanitizeFormValues(JSON.parse(storedValues)));
+        } catch (error) {
+            window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
+        }
+    }, [reset]);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+        const subscription = watch((value) => {
+            try {
+                const sanitizedValues = sanitizeFormValues(value);
+                if (isEmptyFormValues(sanitizedValues)) {
+                    window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
+                } else {
+                    window.sessionStorage.setItem(
+                        REQUEST_ACCESS_FORM_STORAGE_KEY,
+                        JSON.stringify(sanitizedValues)
+                    );
+                }
+            } catch (error) {
+                // Ignore storage errors (e.g., quota or serialization issues).
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [watch]);
 
     const closeModal = useCallback(() => setActiveModal(null), []);
 
@@ -44,6 +115,9 @@ export default function RequestAccess() {
 
             setSubmitStatus('success');
             reset();
+            if (typeof window !== 'undefined') {
+                window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
+            }
         } catch (error) {
             console.error('Error submitting form:', error);
             setSubmitStatus('error');
@@ -142,11 +216,11 @@ export default function RequestAccess() {
                                     />
                                     <label htmlFor="agreementsAccepted" className="form-label" style={{ display: 'inline', marginLeft: '0.5rem' }}>
                                         I have read and agree to the{' '}
-                                        <Link to="/legal/developer-terms">
+                                        <Link to="/legal/developer-terms" target="_blank" rel="noopener noreferrer">
                                             Quran Foundation Developer Terms of Service
                                         </Link>{' '}
                                         and the{' '}
-                                        <Link to="/legal/developer-privacy">
+                                        <Link to="/legal/developer-privacy" target="_blank" rel="noopener noreferrer">
                                             Developer Privacy Policy Requirements
                                         </Link>
                                         .
