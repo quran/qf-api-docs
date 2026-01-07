@@ -8,6 +8,7 @@ import {
     DeveloperBenefitsModal,
     DeveloperDisclaimersModal,
 } from '@site/src/components/DeveloperModals';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const REQUEST_ACCESS_FORM_STORAGE_KEY = 'qf:request-access-form:v1';
 
@@ -50,6 +51,12 @@ export default function RequestAccess() {
     const [submitError, setSubmitError] = useState('');
     const [activeModal, setActiveModal] = useState(null); // "benefits" | "disclaimers"
     const hasAcceptedTerms = watch('agreementsAccepted', false);
+
+    const { siteConfig } = useDocusaurusContext();
+    const apiBaseUrl =
+        siteConfig.customFields?.scopeRequestApiBaseUrl ||
+        'https://qf-form-handler.fly.dev';
+    
 
     useEffect(() => {
         if (typeof window === 'undefined') {
@@ -94,7 +101,7 @@ export default function RequestAccess() {
         setIsSubmitting(true);
         setSubmitError('');
         try {
-            const response = await fetch(`https://qf-form-handler.fly.dev/api/v1/webhook`, {
+            const response = await fetch(`${apiBaseUrl}/api/v1/webhook`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
