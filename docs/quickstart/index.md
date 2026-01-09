@@ -256,6 +256,8 @@ Steps to migrate:
 
 1. Request API access — see [instructions above](#step-1-request-api-access).
 2. Obtain your client credentials and token — follow the [Authentication section](#step-2-get-your-access-token-authentication).
+    - Access tokens expire after 3600 seconds (1 hour).
+    - After 3600 seconds, request a new token to continue making API calls.
 3. Update your base URL:
     - Pre-Production:
 
@@ -271,7 +273,9 @@ Steps to migrate:
 
 4. Add authorization headers — follow [Use the Access Token](#step-3-use-the-access-token) to include your token and client ID with each request.
 
-That’s it — the endpoints, query parameters, and responses remain unchanged.
+:::info
+✅ **Endpoints, query parameters, and responses remain unchanged.** Only the base URL and authentication method are different.
+:::
 
 
 ---
