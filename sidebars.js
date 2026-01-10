@@ -11,6 +11,7 @@
 const contentAPIsVersions = require("./docs/content_apis_versioned/versions.json");
 const userRelatedAPIsVersions = require("./docs/user_related_apis_versioned/versions.json");
 const oauth2APIsVersions = require("./docs/oauth2_apis_versioned/versions.json");
+const searchAPIsVersions = require("./docs/search_apis_versioned/versions.json");
 const {
   versionSelector,
   versionCrumb,
@@ -236,6 +237,54 @@ const sidebars = {
         slug: "/category/oauth2_apis-1.0.0",
       },
       items: require("./docs/oauth2_apis_versioned/1.0.0/sidebar.js"),
+    },
+  ],
+  search_apis: [
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionSelector(searchAPIsVersions),
+      className: "version-button",
+    },
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionCrumb(`v1.0.0`),
+    },
+    {
+      type: "category",
+      label: "Search APIs",
+      link: {
+        type: "generated-index",
+        title: "Search APIs (latest)",
+        description: "Search APIs",
+        slug: "/category/search-apis",
+      },
+      items: require("./docs/search_apis_versioned/sidebar.js"),
+    },
+  ],
+  "search_apis-1.0.0": [
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionSelector(searchAPIsVersions),
+      className: "version-button",
+    },
+    {
+      type: "html",
+      defaultStyle: true,
+      value: versionCrumb(`v1.0.0`),
+    },
+    {
+      type: "category",
+      label: "Search APIs",
+      link: {
+        type: "generated-index",
+        title: "Search APIs (v1.0.0)",
+        description: "Search APIs",
+        slug: "/category/search-apis-1.0.0",
+      },
+      items: require("./docs/search_apis_versioned/1.0.0/sidebar.js"),
     },
   ],
 };
