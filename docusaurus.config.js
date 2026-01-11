@@ -24,6 +24,10 @@ const config = {
     defaultLocale: "en",
     locales: ["en"],
   },
+  customFields: {
+    scopeRequestApiBaseUrl:
+      process.env.SCOPE_REQUEST_API_BASE_URL || "https://qf-form-handler.fly.dev",
+  },
   presets: [
     [
       "classic",
