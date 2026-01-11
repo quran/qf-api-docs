@@ -19,8 +19,8 @@
     "clean-api-docs": "npx docusaurus clean-api-docs",
     "gen-api-docs:version": "npx docusaurus gen-api-docs:version",
     "clean-api-docs:version": "npx docusaurus clean-api-docs:version",
-    "gen-all": "npx docusaurus gen-api-docs all && npx docusaurus gen-api-docs:version content_apis_versioned:all && npx docusaurus gen-api-docs:version user_related_apis_versioned:all && npx docusaurus gen-api-docs:version oauth2_apis_versioned:all",
-    "clean-all": "npx docusaurus clean-api-docs all && npx docusaurus clean-api-docs:version content_apis_versioned:all && npx docusaurus clean-api-docs:version user_related_apis_versioned:all && npx docusaurus clean-api-docs:version oauth2_apis_versioned:all",
+    "gen-all": "npx docusaurus gen-api-docs all && npx docusaurus gen-api-docs:version content_apis_versioned:all && npx docusaurus gen-api-docs:version user_related_apis_versioned:all && npx docusaurus gen-api-docs:version oauth2_apis_versioned:all && npx docusaurus gen-api-docs:version search_apis_versioned:all",
+    "clean-all": "npx docusaurus clean-api-docs all && npx docusaurus clean-api-docs:version content_apis_versioned:all && npx docusaurus clean-api-docs:version user_related_apis_versioned:all && npx docusaurus clean-api-docs:version oauth2_apis_versioned:all && npx docusaurus clean-api-docs:version search_apis_versioned:all",
     "re-gen": "yarn clean-all && yarn gen-all"
   },
   "dependencies": {
