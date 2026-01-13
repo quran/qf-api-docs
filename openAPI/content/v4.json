@@ -437,6 +437,305 @@
         }
       }
     },
+    "/audio/reciters/{reciter_id}/timestamp": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Get timestamp range",
+        "description": "Find the timestamp range for a reciter's audio. Provide a `chapter_number` to get the full chapter range, or a `verse_key`/`verse_id` to scope to a verse. Use `word` or (`word_from`,`word_to`) to narrow to word timings. All time values are milliseconds.",
+        "operationId": "audio-reciter-timestamp",
+        "parameters": [
+          {
+            "name": "reciter_id",
+            "in": "path",
+            "description": "The Id of the reciter",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "chapter_number",
+            "in": "query",
+            "description": "Chapter number (1 - 114). Required unless you provide `verse_key` or `verse_id`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 114
+            }
+          },
+          {
+            "name": "verse_key",
+            "in": "query",
+            "description": "Verse key (e.g., 2:255). If provided, returns the verse timing range.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "verse_id",
+            "in": "query",
+            "description": "Verse id. If provided, returns the verse timing range.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "word",
+            "in": "query",
+            "description": "1-based word index within the verse. Only applies when a verse is selected.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "word_from",
+            "in": "query",
+            "description": "1-based start word index within the verse. Use with `word_to`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "word_to",
+            "in": "query",
+            "description": "1-based end word index within the verse. Use with `word_from`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp_from": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Start offset in milliseconds from the beginning of the file."
+                        },
+                        "timestamp_to": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "End offset in milliseconds from the beginning of the file."
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "result": {
+                    "timestamp_from": 0,
+                    "timestamp_to": 6493
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/audio/reciters/{reciter_id}/lookup": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Lookup verse by timestamp",
+        "description": "Find the closest verse timing segment for a reciter and chapter at the given timestamp. All time values are milliseconds.",
+        "operationId": "audio-reciter-lookup",
+        "parameters": [
+          {
+            "name": "reciter_id",
+            "in": "path",
+            "description": "The Id of the reciter",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "chapter_number",
+            "in": "query",
+            "description": "Chapter number (1 - 114). Required unless you provide `verse_key` or `verse_id`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 114
+            }
+          },
+          {
+            "name": "verse_key",
+            "in": "query",
+            "description": "Verse key (e.g., 2:255). Used only to derive the chapter when `chapter_number` is omitted.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "verse_id",
+            "in": "query",
+            "description": "Verse id. Used only to derive the chapter when `chapter_number` is omitted.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "description": "Timestamp in milliseconds to look up.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "segments",
+            "in": "query",
+            "description": "If true, include word-level timing segments for the verse.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "verse_key": {
+                          "type": "string"
+                        },
+                        "timestamp_from": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Start offset in milliseconds from the beginning of the file."
+                        },
+                        "timestamp_to": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "End offset in milliseconds from the beginning of the file."
+                        },
+                        "duration": {
+                          "type": "integer",
+                          "format": "int32",
+                          "description": "Duration in milliseconds (mirrors source data; may be negative in legacy data)."
+                        },
+                        "segments": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/SegmentTriplet"
+                          },
+                          "description": "Present only when `segments=true`. Word-level timing triplets for the verse.",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "result": {
+                    "verse_key": "1:1",
+                    "timestamp_from": 0,
+                    "timestamp_to": 6493,
+                    "duration": -6493,
+                    "segments": [
+                      [
+                        1,
+                        0,
+                        630
+                      ],
+                      [
+                        2,
+                        650,
+                        1570
+                      ]
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
     "/chapters": {
       "get": {
         "tags": [
@@ -2691,6 +2990,242 @@
                     "current_page": 1,
                     "next_page": null,
                     "total_pages": 1,
+                    "total_records": 7
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          }
+        }
+      }
+    },
+    "/verses/by_range": {
+      "get": {
+        "tags": [
+          "Verses"
+        ],
+        "summary": "By Range",
+        "description": "Get verses within a verse key range. Both `from` and `to` are inclusive.",
+        "operationId": "verses-by_range",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Start verse key (e.g., 2:255).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "End verse key (e.g., 2:257).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language to fetch word-by-word translation in a specific language.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          },
+          {
+            "name": "words",
+            "in": "query",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration. 0 or false will not include words. 1 or true will include the words.",
+            "schema": {
+              "type": "string",
+              "default": "true",
+              "enum": [
+                "true",
+                "false"
+              ]
+            }
+          },
+          {
+            "name": "translations",
+            "in": "query",
+            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "audio",
+            "in": "query",
+            "description": "Id of recitation if you want to load audio of each ayah.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "tafsirs",
+            "in": "query",
+            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "word_fields",
+            "in": "query",
+            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "translation_fields",
+            "in": "query",
+            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "For paginating within the result",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "records per api call, you can get maximum 50 records. ",
+            "schema": {
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "verses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/verse"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
+                    }
+                  }
+                },
+                "example": {
+                  "verses": [
+                    {
+                      "id": 1,
+                      "verse_number": 1,
+                      "page_number": 1,
+                      "verse_key": "1:1",
+                      "juz_number": 1,
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "sajdah_type": null,
+                      "sajdah_number": null,
+                      "words": [
+                        {
+                          "id": 1,
+                          "position": 1,
+                          "audio_url": "wbw/001_001_001.mp3",
+                          "char_type_name": "word",
+                          "line_number": 2,
+                          "page_number": 1,
+                          "code_v1": "&#xfb51;",
+                          "translation": {
+                            "text": "In (the) name",
+                            "language_name": "english"
+                          },
+                          "transliteration": {
+                            "text": "bis'mi",
+                            "language_name": "english"
+                          }
+                        }
+                      ],
+                      "translations": [
+                        {
+                          "resource_id": 131,
+                          "text": "In the Name of Allah—the Most Compassionate, Most Merciful."
+                        }
+                      ],
+                      "tafsirs": [
+                        {
+                          "id": 82641,
+                          "language_name": "english",
+                          "name": "Tafsir Ibn Kathir",
+                          "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>"
+                        }
+                      ]
+                    }
+                  ],
+                  "pagination": {
+                    "per_page": 1,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 7,
                     "total_records": 7
                   }
                 }
