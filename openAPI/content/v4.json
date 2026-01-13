@@ -1058,10 +1058,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -1119,7 +1119,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1289,10 +1289,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -1350,7 +1350,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1517,10 +1517,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -1578,7 +1578,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1746,10 +1746,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -1807,7 +1807,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -1976,10 +1976,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -2037,7 +2037,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -2185,10 +2185,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -2246,7 +2246,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -2416,10 +2416,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -2477,7 +2477,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -3068,10 +3068,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration. 0 or false will not include words. 1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -3129,7 +3129,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -3295,10 +3295,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -3356,7 +3356,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -3550,10 +3550,10 @@
           {
             "name": "words",
             "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.",
+            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
             "schema": {
               "type": "string",
-              "default": "true",
+              "default": "false",
               "enum": [
                 "true",
                 "false"
@@ -3611,7 +3611,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
