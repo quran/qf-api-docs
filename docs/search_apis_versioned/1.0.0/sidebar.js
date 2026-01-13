@@ -1,0 +1,1 @@
+module.exports = [{"type":"doc","id":"search_apis_versioned/1.0.0/quran-foundation-search-api"},{"type":"category","label":"Search","link":{"type":"doc","id":"search_apis_versioned/1.0.0/search"},"items":[{"type":"doc","id":"search_apis_versioned/1.0.0/search-controller-search","label":"Search Quran content","className":"api-method get"}]}];
