@@ -810,6 +810,14 @@
             }
           },
           {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "fields",
             "in": "query",
             "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
@@ -1028,6 +1036,14 @@
             "name": "translation_fields",
             "in": "query",
             "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
             "schema": {
               "type": "string"
             }
@@ -1253,6 +1269,14 @@
             }
           },
           {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "fields",
             "in": "query",
             "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
@@ -1469,6 +1493,14 @@
             "name": "translation_fields",
             "in": "query",
             "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
             "schema": {
               "type": "string"
             }
@@ -1696,6 +1728,14 @@
             }
           },
           {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "fields",
             "in": "query",
             "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
@@ -1892,6 +1932,14 @@
             "name": "translation_fields",
             "in": "query",
             "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
             "schema": {
               "type": "string"
             }
@@ -2115,6 +2163,14 @@
             "name": "translation_fields",
             "in": "query",
             "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
             "schema": {
               "type": "string"
             }
@@ -2755,6 +2811,14 @@
             }
           },
           {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "fields",
             "in": "query",
             "description": "Comma-separated list of verse-level fields to include in response. [See full field reference](/docs/api/field-reference#verse-level-fields).",
@@ -2997,6 +3061,14 @@
             "name": "translation_fields",
             "in": "query",
             "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tafsir_fields",
+            "in": "query",
+            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
             "schema": {
               "type": "string"
             }
