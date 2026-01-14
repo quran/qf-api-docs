@@ -41,25 +41,44 @@ When a user logs into **your app** using Quran Foundation OAuth2:
 
 ### The Easy Way vs. The Hard Way
 
-```
-❌ The Hard Way (What Some Developers Do)
-┌─────────────────────────────────────────────────────────────────┐
-│  Your App ─┬─► Your Auth Server ─► Your User Database           │
-│            │   (you maintain)       (you maintain)              │
-│            └─► QF Content APIs (no user context)                │
-│                                                                  │
-│  Problems: Separate accounts, no sync, duplicate work           │
-└─────────────────────────────────────────────────────────────────┘
+#### ❌ The Hard Way (What Some Developers Do)
 
-✅ The Easy Way (Full QF OAuth2)
-┌─────────────────────────────────────────────────────────────────┐
-│  Your App ───► QF OAuth2 ───► QF User APIs (bookmarks, goals)   │
-│                    │                                             │
-│                    └───► QF Content APIs (verses, translations) │
-│                                                                  │
-│  Benefits: SSO, synced data, zero user management               │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph maintain["🔧 You Maintain"]
+        Auth["Your Auth Server"]
+        DB["Your User Database"]
+    end
+
+    App["Your App"] --> Auth
+    Auth --> DB
+    App -.-> Content["QF Content APIs<br/>(no user context)"]
+
+    style maintain fill:#ffcccc,stroke:#cc0000
+    style App fill:#f9f9f9,stroke:#333
+    style Content fill:#e6f3ff,stroke:#0066cc
 ```
+
+> **Problems**: Separate accounts, no sync, duplicate work
+
+#### ✅ The Easy Way (Full QF OAuth2)
+
+```mermaid
+flowchart LR
+    App["Your App"] --> OAuth["QF OAuth2"]
+    OAuth --> UserAPI["QF User APIs<br/>(bookmarks, goals)"]
+    OAuth --> ContentAPI["QF Content APIs<br/>(verses, translations)"]
+
+    App --> OwnDB["Your DB / Features<br/>(Optional internal logic)"]
+
+    style App fill:#f9f9f9,stroke:#333
+    style OAuth fill:#d4edda,stroke:#28a745
+    style UserAPI fill:#e6f3ff,stroke:#0066cc
+    style ContentAPI fill:#e6f3ff,stroke:#0066cc
+    style OwnDB fill:#fff3cd,stroke:#ffc107,stroke-dasharray: 5 5
+```
+
+> **Benefits**: SSO, synced data, zero user management, **flexibility to add your own features**
 
 ### 🚀 Ready-to-Run Examples
 
