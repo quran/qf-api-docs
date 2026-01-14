@@ -248,7 +248,7 @@
                   "redirect_uri": {
                     "type": "string",
                     "description": "The redirect URI used in the initial authorization request",
-                    "example": "https://oauth2-client-example.quran.foundation/callback"
+                    "example": "https://oauth2-client-prelive.quran.foundation/callback"
                   },
                   "refresh_token": {
                     "type": "string",
@@ -271,7 +271,7 @@
                     "grant_type": "authorization_code",
                     "code": "180ezHATHWKTe-NoCx",
                     "client_id": "quran-demo",
-                    "redirect_uri": "https://oauth2-client-example.quran.foundation/callback",
+                    "redirect_uri": "https://oauth2-client-prelive.quran.foundation/callback",
                     "scope": "openid offline_access collection bookmark reading_session preference user"
                   }
                 },
@@ -414,7 +414,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "https://oauth2-client-example.quran.foundation/callback"
+              "example": "https://oauth2-client-prelive.quran.foundation/callback"
             }
           },
           {
