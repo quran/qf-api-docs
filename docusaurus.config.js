@@ -24,6 +24,9 @@ const config = {
     defaultLocale: "en",
     locales: ["en"],
   },
+  markdown: {
+    mermaid: true,
+  },
   customFields: {
     scopeRequestApiBaseUrl:
       process.env.SCOPE_REQUEST_API_BASE_URL || "https://qf-form-handler.fly.dev",
@@ -125,7 +128,7 @@ const config = {
     ],
   ],
 
-  themes: ["docusaurus-theme-openapi-docs"],
+  themes: ["docusaurus-theme-openapi-docs", "@docusaurus/theme-mermaid"],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
