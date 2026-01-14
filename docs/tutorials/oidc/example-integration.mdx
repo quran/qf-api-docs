@@ -127,16 +127,21 @@ const client = new AuthorizationCode({
 });
 ```
 
-#### 2. Authorization URL
+#### 2. Authorization URL with CSRF Protection
 
 ```javascript
-const authorizationUri = client.authorizeURL({
-  redirect_uri: "http://localhost:3000/callback",
-  scope: process.env.SCOPES,
-  state: "random-csrf-protection-string", // Generate securely!
-});
+const crypto = require("crypto");
 
 app.get("/auth", (req, res) => {
+  // Generate cryptographically random state for CSRF protection
+  const state = crypto.randomBytes(32).toString("hex");
+  req.session.oauthState = state;
+
+  const authorizationUri = client.authorizeURL({
+    redirect_uri: "http://localhost:3000/callback",
+    scope: process.env.SCOPES,
+    state,
+  });
   res.redirect(authorizationUri);
 });
 ```
@@ -147,11 +152,20 @@ app.get("/auth", (req, res) => {
 - `scope` — Permissions requested. See [available scopes](/docs/user_related_apis_versioned/scopes)
 - `state` — CSRF protection (validate on callback)
 
-#### 3. Token Exchange (Callback)
+#### 3. Token Exchange (Callback) with State Validation
 
 ```javascript
 app.get("/callback", async (req, res) => {
-  const { code } = req.query;
+  const { code, state } = req.query;
+
+  // Validate state parameter to prevent CSRF attacks
+  if (!state || state !== req.session.oauthState) {
+    console.error("State mismatch - possible CSRF attack");
+    return res.status(403).send("Invalid state parameter");
+  }
+
+  // Clear the stored state after validation
+  delete req.session.oauthState;
 
   try {
     const tokenResponse = await client.getToken({

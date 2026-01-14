@@ -136,6 +136,7 @@ npm install express express-session simple-oauth2 jsonwebtoken dotenv
 // server.js
 const express = require("express");
 const session = require("express-session");
+const crypto = require("crypto");
 const { AuthorizationCode } = require("simple-oauth2");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -167,17 +168,30 @@ const CALLBACK_URL = process.env.BASE_URL + "/callback";
 
 // Login route - redirects to Quran.Foundation
 app.get("/login", (req, res) => {
+  // Generate cryptographically random state for CSRF protection
+  const state = crypto.randomBytes(32).toString("hex");
+  req.session.oauthState = state;
+
   const authUrl = oauth2Client.authorizeURL({
     redirect_uri: CALLBACK_URL,
     scope: "openid offline_access bookmark collection user",
-    state: "random-state-string", // Generate securely in production
+    state,
   });
   res.redirect(authUrl);
 });
 
 // OAuth callback - exchanges code for tokens
 app.get("/callback", async (req, res) => {
-  const { code } = req.query;
+  const { code, state } = req.query;
+
+  // Validate state parameter to prevent CSRF attacks
+  if (!state || state !== req.session.oauthState) {
+    console.error("State mismatch - possible CSRF attack");
+    return res.status(403).send("Invalid state parameter");
+  }
+
+  // Clear the stored state after validation
+  delete req.session.oauthState;
 
   try {
     const tokenResponse = await oauth2Client.getToken({
