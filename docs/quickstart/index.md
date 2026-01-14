@@ -10,6 +10,8 @@ Welcome to the Quran Foundation API! This Quick Start guide will help you get up
 
 :::tip Recommended for first-time users
 Follow these steps to make your first successful API call.
+
+🤖 **Using AI to code?** Look for the <b>"🤖 AI prompt"</b> sections throughout this guide — copy-paste them into ChatGPT, Claude, or Copilot for instant implementation help!
 :::
 
 ---
@@ -193,7 +195,7 @@ def list_chapters():
 **Client-side:** Never embed `client_secret` in browser or mobile apps.
 
 <details>
-<summary><b>AI prompt: implement Step 1 (credentials + env selection)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 1 (credentials + env selection)</b></summary>
 
 ```text
 Implement Quran Foundation API credential configuration.
@@ -373,7 +375,7 @@ def get_access_token():
 :::
 
 <details>
-<summary><b>AI prompt: implement Step 2 (token retrieval + caching)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 2 (token retrieval + caching)</b></summary>
 
 ```text
 Implement OAuth2 Client Credentials token retrieval with caching.
@@ -610,7 +612,7 @@ When multiple concurrent requests need a token at the same time (e.g., at app st
 The code above ensures **only one token request runs at a time**; other requests wait for it.
 
 <details>
-<summary><b>AI prompt: implement Step 2.5 (token caching + lifecycle)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 2.5 (token caching + lifecycle)</b></summary>
 
 ```text
 Implement token caching and lifecycle management for Quran Foundation OAuth2 Client Credentials.
@@ -765,7 +767,7 @@ def call_qf_api(endpoint, method='GET', **kwargs):
 </details>
 
 <details>
-<summary><b>AI prompt: implement Step 3 (authenticated API client)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 3 (authenticated API client)</b></summary>
 
 ```text
 Create an authenticated API client helper for Quran Foundation Content APIs.
@@ -945,7 +947,7 @@ def get_chapters(access_token, client_id):
 **Client-side:** Prefer calling your backend and returning the data to the UI.
 
 <details>
-<summary><b>AI prompt: implement Step 4 (first call + verify)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 4 (first call + verify)</b></summary>
 
 ```text
 Implement a "list chapters" call using the authenticated client, plus a quick verification.
@@ -1009,7 +1011,7 @@ To help ensure users never see machine-re-translated Quranic text:
 Note: Some teams also rely on CSP to restrict injected translation scripts, but the most reliable approach is `translate="no"` and `notranslate` markers.
 
 <details>
-<summary><b>AI prompt: environment config and auto-translate</b></summary>
+<summary><b>🤖 AI prompt: environment config and auto-translate</b></summary>
 
 ```text
 Add environment selection and client-side safeguards.
@@ -1072,7 +1074,7 @@ Steps to migrate:
 **Client-side:** If you still call the API directly (not recommended), update base URLs and headers there too.
 
 <details>
-<summary><b>AI prompt: migration</b></summary>
+<summary><b>🤖 AI prompt: migration</b></summary>
 
 ```text
 Migrate an existing integration from https://api.quran.com/api/v4/... to Quran Foundation Content APIs (OAuth2 required).
@@ -1146,7 +1148,7 @@ Client-side rule
 **Client-side:** Show friendly errors and avoid logging tokens.
 
 <details>
-<summary><b>AI prompt: troubleshooting</b></summary>
+<summary><b>🤖 AI prompt: troubleshooting</b></summary>
 
 ```text
 Add safe error handling for common responses.

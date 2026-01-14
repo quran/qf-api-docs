@@ -8,8 +8,10 @@ sidebar_label: "⚡ Quick Start"
 
 Get user authentication working in **under 5 minutes**. This guide shows you the fastest path to integrating Quran Foundation OAuth2 for accessing User APIs (bookmarks, collections, reading progress, etc.).
 
-:::tip Why Use Our Auth?
-**We've built this for the Ummah so you don't have to.** Stop maintaining your own user database — use ours and get cross-app sync with Quran.com for free. [Learn more →](/docs/tutorials/oidc/getting-started-with-oauth2#-why-use-quran-foundation-authentication)
+:::tip Recommended for first-time users
+**We've built this for the Ummah so you don't have to.** Use our auth and get cross-app sync with Quran.com for free — while keeping full freedom to build your own features. Link our `user.sub` to your database for custom logic. [Learn more →](/docs/tutorials/oidc/getting-started-with-oauth2#-why-use-quran-foundation-authentication)
+
+🤖 **Using AI to code?** Look for the <b>"🤖 AI prompt"</b> sections throughout this guide — copy-paste them into ChatGPT, Claude, or Copilot for instant implementation help!
 :::
 
 ---
@@ -123,6 +125,45 @@ export default function App() {
 ```
 
 👉 **[Full React Native Example Repo](https://github.com/quran/oauth2-react-native-client-example)**
+
+<details>
+<summary><b>🤖 AI prompt: implement React Native OAuth2</b></summary>
+
+```text
+Implement Quran Foundation OAuth2 authentication for React Native (Expo).
+
+Goal
+- Add "Login with Quran.com" button that authenticates users via OAuth2
+- Use PKCE flow (required for mobile apps - no client_secret needed)
+- Store tokens and decode user info from ID token
+
+Dependencies
+- expo-auth-session
+- expo-web-browser
+- expo-crypto
+- jwt-decode
+
+OAuth2 Endpoints (production)
+- Authorization: https://oauth2.quran.foundation/oauth2/auth
+- Token: https://oauth2.quran.foundation/oauth2/token
+- Revocation: https://oauth2.quran.foundation/oauth2/revoke
+
+Implementation requirements
+- Use useAuthRequest hook with usePKCE: true
+- Scopes: openid, offline_access, bookmark, collection, user
+- On success, exchange code for tokens using exchangeCodeAsync
+- Include code_verifier from request in extraParams
+- Decode idToken with jwt-decode to get user info
+- Implement logout that revokes refresh token
+
+Acceptance checklist
+- Login redirects to Quran.Foundation auth page
+- After consent, user info is displayed
+- Logout clears tokens and revokes refresh token
+- No client_secret is used (PKCE only)
+```
+
+</details>
 
 ---
 
@@ -246,6 +287,55 @@ SESSION_SECRET=random-secure-string
 
 👉 **[Full Web Example Repo](https://github.com/quran/quran-oauth2-client-example)**
 
+<details>
+<summary><b>🤖 AI prompt: implement Node.js Express OAuth2</b></summary>
+
+```text
+Implement Quran Foundation OAuth2 authentication for Node.js + Express.
+
+Goal
+- Add "Login with Quran.com" that redirects to OAuth2 authorization
+- Handle callback, exchange code for tokens, store in session
+- Decode ID token for user info
+- Implement secure logout
+
+Dependencies
+- express
+- express-session
+- simple-oauth2
+- jsonwebtoken
+- crypto (built-in)
+
+OAuth2 Configuration (production)
+- Token Host: https://oauth2.quran.foundation
+- Token Path: /oauth2/token
+- Authorize Path: /oauth2/auth
+- Logout: /oauth2/sessions/logout?client_id=YOUR_CLIENT_ID
+
+Environment variables
+- CLIENT_ID
+- CLIENT_SECRET
+- BASE_URL (e.g., http://localhost:3000)
+- SESSION_SECRET
+
+Implementation requirements
+- Generate cryptographically random state (crypto.randomBytes) for CSRF protection
+- Store state in session before redirect
+- Validate state on callback (reject if mismatch)
+- Use simple-oauth2 AuthorizationCode client
+- Scopes: openid offline_access bookmark collection user
+- Store tokens in session after exchange
+- Decode id_token with jsonwebtoken to get user info
+- Logout must destroy session AND redirect to OAuth2 provider logout
+
+Security checklist
+- State parameter generated and validated (CSRF protection)
+- Session cookie secure in production
+- Never log client_secret or tokens
+```
+
+</details>
+
 ---
 
 ### iOS Native (Swift)
@@ -287,6 +377,47 @@ OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { config, error
 
 👉 **[iOS Guide with Demo](/docs/tutorials/oidc/mobile-apps/iOS)**
 
+<details>
+<summary><b>🤖 AI prompt: implement iOS OAuth2 with AppAuth</b></summary>
+
+```text
+Implement Quran Foundation OAuth2 authentication for iOS using AppAuth.
+
+Goal
+- Add "Login with Quran.com" that opens OAuth2 flow
+- Use AppAuth-iOS library for secure PKCE flow
+- Handle callback and store auth state
+
+Dependency
+- AppAuth-iOS (via SPM or CocoaPods)
+
+OAuth2 Issuer
+- https://oauth2.quran.foundation
+
+Implementation requirements
+- Use OIDAuthorizationService.discoverConfiguration to fetch OAuth2 config
+- Create OIDAuthorizationRequest with:
+  - clientId (no client_secret for mobile)
+  - scopes: OIDScopeOpenID, offline_access, bookmark, collection
+  - redirectURL: com.yourapp://callback (custom scheme)
+  - responseType: OIDResponseTypeCode
+- Use OIDAuthState.authState(byPresenting:) to present flow
+- Store authState securely (Keychain recommended)
+- Access token via authState.lastTokenResponse.accessToken
+
+Info.plist requirements
+- Add URL scheme for redirect URI
+- Add LSApplicationQueriesSchemes if needed
+
+Acceptance checklist
+- App opens Safari/ASWebAuthenticationSession for login
+- Callback redirects back to app
+- Access token is available for API calls
+- Auth state persists across app launches
+```
+
+</details>
+
 ---
 
 ### Android Native (Kotlin)
@@ -313,6 +444,49 @@ startActivityForResult(authIntent, AUTH_REQUEST_CODE)
 ```
 
 👉 **[Android Guide with Demo](/docs/tutorials/oidc/mobile-apps/android)**
+
+<details>
+<summary><b>🤖 AI prompt: implement Android OAuth2 with AppAuth</b></summary>
+
+```text
+Implement Quran Foundation OAuth2 authentication for Android using AppAuth.
+
+Goal
+- Add "Login with Quran.com" that opens OAuth2 flow
+- Use AppAuth-Android library for secure PKCE flow
+- Handle callback and store tokens
+
+Dependency
+- net.openid:appauth (via Gradle)
+
+OAuth2 Endpoints
+- Authorization: https://oauth2.quran.foundation/oauth2/auth
+- Token: https://oauth2.quran.foundation/oauth2/token
+
+Implementation requirements
+- Create AuthorizationServiceConfiguration with endpoints
+- Build AuthorizationRequest with:
+  - clientId (no client_secret for mobile)
+  - ResponseTypeValues.CODE
+  - redirectUri: com.yourapp://callback (custom scheme)
+  - scopes: openid, offline_access, bookmark, collection
+- Use AuthorizationService to get auth intent
+- Start activity for result
+- In onActivityResult, exchange code for tokens
+- Store tokens securely (EncryptedSharedPreferences recommended)
+
+AndroidManifest requirements
+- Add intent-filter for redirect URI scheme
+- Add net.openid.appauth.RedirectUriReceiverActivity
+
+Acceptance checklist
+- App opens Chrome Custom Tab for login
+- Callback redirects back to app
+- Access token is available for API calls
+- Tokens persist securely across app launches
+```
+
+</details>
 
 ---
 
