@@ -76,9 +76,31 @@ Get started in minutes with our official example repositories:
 
 ## Overview
 
-Here's how the OAuth2 process works in a common scenario where user consent is needed to access their data:
+Here's how the OAuth2 Authorization Code flow works when user consent is needed to access their data:
 
-![oauth2 process](/img/oauth2-process.png)
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as Your App
+    participant Auth as Quran.Foundation<br/>Authorization Server
+    participant API as Quran.Foundation<br/>Resources Server
+
+    User->>App: Click "Login"
+    App->>Auth: Request Token
+    Auth->>User: Login and consent
+    User->>Auth: Approve
+    Auth-->>App: Authorization Code
+    App->>Auth: Exchange code for token
+    Auth-->>App: Token Response<br/>(access_token, refresh_token)
+
+    App->>API: Use token to call Quran.Foundation's API
+    API-->>App: Requested resource
+
+    Note over App,Auth: Access token expires (1 hour)
+
+    App->>Auth: Re-request access_token using refresh_token
+    Auth-->>App: New access_token and refresh_token
+```
 
 > 🔧 **Ready to code?** Check out the [User APIs Quick Start](/docs/tutorials/oidc/user-apis-quickstart) for copy-paste examples, or see the [Web Integration Example](/docs/tutorials/oidc/example-integration) and the [hosted demo](https://oauth2-client-prelive.quran.foundation/).
 
