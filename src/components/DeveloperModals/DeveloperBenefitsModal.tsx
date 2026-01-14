@@ -13,7 +13,7 @@ const benefitPoints: React.ReactNode[] = [
   <>
     Opportunity to be featured on Quran.com via {" "}
     <Link
-      href="https://quran.com/apps-portal"
+      href="https://quran.com/apps"
       target="_blank"
       rel="noopener noreferrer"
     >

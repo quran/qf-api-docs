@@ -10,16 +10,55 @@ In this [guide](/docs/tutorials/oidc/getting-started-with-oauth2), we have brief
 
 Besides OAuth2, Quran.Foundation also supports [OpenID Connect](https://openid.net/connect) standards by providing the [UserInfo Endpoint](/docs/oauth2_apis_versioned/get-oidc-user-info) to get more information about the user.
 
+## OIDC Discovery & JWKS
+
+Quran.Foundation provides standard OIDC Discovery endpoints for automatic configuration:
+
+| Environment    | Discovery URL                                                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Production     | [`https://oauth2.quran.foundation/.well-known/openid-configuration`](https://oauth2.quran.foundation/.well-known/openid-configuration)                 |
+| Pre-Production | [`https://prelive-oauth2.quran.foundation/.well-known/openid-configuration`](https://prelive-oauth2.quran.foundation/.well-known/openid-configuration) |
+
+The discovery document includes:
+
+- `issuer` — The issuer identifier (use for `iss` claim validation)
+- `authorization_endpoint`, `token_endpoint`, `userinfo_endpoint`
+- `jwks_uri` — URL to fetch public keys for JWT verification
+- Supported scopes, grant types, and signing algorithms
+
+### Verifying ID Tokens
+
+To verify `id_token` signatures:
+
+1. Fetch the JWKS from the `jwks_uri` in the discovery document
+2. Use the `kid` (key ID) from the token header to select the correct key
+3. Verify the signature using the public key
+4. Validate standard claims: `iss`, `aud`, `exp`, `iat`
+
+```javascript
+// Example using jose library
+import { createRemoteJWKSet, jwtVerify } from "jose";
+
+const JWKS = createRemoteJWKSet(
+  new URL("https://oauth2.quran.foundation/.well-known/jwks.json")
+);
+
+const { payload } = await jwtVerify(idToken, JWKS, {
+  issuer: "https://oauth2.quran.foundation/",
+  audience: "YOUR_CLIENT_ID",
+});
+
+console.log("Verified user:", payload.sub);
+```
+
 To be able to access OpenID Connect's endpoints, make sure to include `openid` in the list of requested [scopes](/docs/user_related_apis_versioned/scopes). Once this is done, besides `access_token`, the authorization callback will also contain a [JWT](https://www.rfc-editor.org/rfc/rfc7519) `id_token` parameter.
 
 The [ID Token](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) (`id_token`) contains information about the user and can be decoded using one of the JWT [libraries](https://jwt.io/libraries) to know more about the identity of the user. Below is an example of a decoded `id_token`:
 
-```
+```json
 {
   "at_hash": "tGJSmRygf5HXuZx1YDP1",
-  "aud": [
-    "quran-demo"
-  ],
+  "aud": ["quran-demo"],
   "auth_time": 1675234788,
   "email": "xyz@example.com",
   "exp": 1677591803,
@@ -33,3 +72,16 @@ The [ID Token](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) (`
   "sub": "a4f5a01d-a641-4b23-ba002f704cfaa"
 }
 ```
+
+### Stable User Identifier (`sub`)
+
+The `sub` (subject) claim is the **stable, unique user identifier** you should store in your database. This UUID:
+
+- Never changes for a given user
+- Is unique across all Quran.Foundation apps
+- Should be used as your primary key for user data
+- Is the same across all sessions and devices for that user
+
+:::tip Use `sub` as Your User ID
+Don't store email addresses as user identifiers—users can change their email. The `sub` claim is guaranteed to be stable and unique.
+:::
