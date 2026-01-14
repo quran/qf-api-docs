@@ -94,12 +94,20 @@ curl --request POST \
 <details>
 <summary><b>JavaScript (Node.js)</b></summary>
 
+<p><i>Server-side only (Node backend). Do not use in browser/mobile.</i></p>
+
 ```javascript
 const axios = require('axios');
 
 async function getAccessToken() {
-  const clientId = 'YOUR_CLIENT_ID';
-  const clientSecret = 'YOUR_CLIENT_SECRET';
+  const clientId = process.env.QF_CLIENT_ID;
+  const clientSecret = process.env.QF_CLIENT_SECRET;
+
+  if (!clientId || !clientSecret) {
+    throw new Error(
+      'Missing Quran Foundation API credentials. Request access: https://api-docs.quran.foundation/request-access'
+    );
+  }
 
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
 
@@ -125,12 +133,21 @@ async function getAccessToken() {
 <details>
 <summary><b>Python</b></summary>
 
+<p><i>Server-side only (Python backend). Do not use in browser/mobile.</i></p>
+
 ```python
 import requests
 
 def get_access_token():
-    client_id = 'YOUR_CLIENT_ID'
-    client_secret = 'YOUR_CLIENT_SECRET'
+    import os
+
+    client_id = os.getenv('QF_CLIENT_ID')
+    client_secret = os.getenv('QF_CLIENT_SECRET')
+
+    if not client_id or not client_secret:
+        raise RuntimeError(
+            'Missing Quran Foundation API credentials. Request access: https://api-docs.quran.foundation/request-access'
+        )
 
     response = requests.post(
         'https://prelive-oauth2.quran.foundation/oauth2/token',
@@ -246,6 +263,35 @@ Acceptance checklist
 ## 📂 Step 4: Make Your First API Call
 
 ### Example: List All Surahs (Chapters)
+
+<details>
+<summary><b>Recommended flow (backend proxy)</b></summary>
+
+```javascript
+// Backend route: GET /chapters
+// Proxies the request so the client never handles tokens.
+
+app.get('/chapters', async (req, res) => {
+  try {
+    // Use your server-side token + API client from Steps 1–3:
+    const data = await listChapters(); // calls upstream /content/api/v4/chapters
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch chapters' });
+  }
+});
+```
+</details>
+
+<details>
+<summary><b>Recommended flow (frontend)</b></summary>
+
+```javascript
+// Frontend: call your backend proxy. No tokens in the client.
+const res = await fetch('/chapters');
+const data = await res.json();
+```
+</details>
 
 <details>
 <summary><b>cURL</b></summary>
