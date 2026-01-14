@@ -8,6 +8,12 @@ Quran.Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow wit
 
 For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
+:::tip Recommended for first-time users
+This guide walks you through OAuth2 Authorization Code flow step-by-step.
+
+🤖 **Using AI to code?** Look for the <b>"🤖 AI prompt"</b> sections throughout this guide — copy-paste them into ChatGPT, Claude, or Copilot for instant implementation help!
+:::
+
 > 🔀 Flow split: Use **Client Credentials** for **Content APIs** (see [Quick Start](/docs/quickstart)). Use **Authorization Code (+PKCE)** for **User APIs** (this page).
 
 ---
@@ -16,7 +22,7 @@ For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openi
 
 **We've built this for the Ummah so you don't have to.**
 
-Many developers integrate our APIs but still maintain their own user accounts, sessions, and databases. **This is unnecessary extra work.** By fully adopting Quran Foundation OAuth2, you get everything out of the box:
+Many developers integrate our APIs but still maintain their own user accounts, sessions, and databases. **This is unnecessary extra work.** By fully adopting Quran Foundation OAuth2, you get everything out of the box — while still having **complete freedom** to build your own features on top.
 
 | What You Get              | Without QF Auth         | With QF Auth                    |
 | ------------------------- | ----------------------- | ------------------------------- |
@@ -28,6 +34,7 @@ Many developers integrate our APIs but still maintain their own user accounts, s
 | Synced reading progress   | ❌ Per-app only         | ✅ Shared goals & streaks       |
 | User preferences          | You build & maintain it | ✅ Done                         |
 | Social features           | You build & maintain it | ✅ Comments, reflections ready  |
+| **Your custom features**  | You build & maintain it | ✅ **Still yours to build!**    |
 
 :::tip Real Example: Automatic Cross-App Sync
 When a user logs into **your app** using Quran Foundation OAuth2:
@@ -41,25 +48,110 @@ When a user logs into **your app** using Quran Foundation OAuth2:
 
 ### The Easy Way vs. The Hard Way
 
-```
-❌ The Hard Way (What Some Developers Do)
-┌─────────────────────────────────────────────────────────────────┐
-│  Your App ─┬─► Your Auth Server ─► Your User Database           │
-│            │   (you maintain)       (you maintain)              │
-│            └─► QF Content APIs (no user context)                │
-│                                                                  │
-│  Problems: Separate accounts, no sync, duplicate work           │
-└─────────────────────────────────────────────────────────────────┘
+#### ❌ The Hard Way (What Some Developers Do)
 
-✅ The Easy Way (Full QF OAuth2)
-┌─────────────────────────────────────────────────────────────────┐
-│  Your App ───► QF OAuth2 ───► QF User APIs (bookmarks, goals)   │
-│                    │                                             │
-│                    └───► QF Content APIs (verses, translations) │
-│                                                                  │
-│  Benefits: SSO, synced data, zero user management               │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph maintain["🔧 You Maintain (unnecessary!)"]
+        Auth["Your Auth Server"]
+        DB["Your User Database"]
+    end
+
+    App["Your App"] --> Auth
+    Auth --> DB
+    App -.-> Content["QF Content APIs<br/>(no user context)"]
+
+    style maintain fill:#ffcccc,stroke:#cc0000
+    style App fill:#f9f9f9,stroke:#333
+    style Content fill:#e6f3ff,stroke:#0066cc
 ```
+
+> **Problems**: Separate accounts, no sync with Quran.com, duplicate auth work, users need another password
+
+#### ✅ The Easy Way (Use Our Auth + Build Your Features)
+
+```mermaid
+flowchart LR
+    App["Your App"] --> OAuth["QF OAuth2<br/>(we handle auth)"]
+    OAuth --> UserAPI["QF User APIs<br/>(bookmarks, goals)"]
+    OAuth --> ContentAPI["QF Content APIs<br/>(verses, translations)"]
+
+    App --> OwnDB["Your Features<br/>(link via user.sub)"]
+    OAuth -.->|"user.sub (ID)"| OwnDB
+
+    style App fill:#f9f9f9,stroke:#333
+    style OAuth fill:#d4edda,stroke:#28a745
+    style UserAPI fill:#e6f3ff,stroke:#0066cc
+    style ContentAPI fill:#e6f3ff,stroke:#0066cc
+    style OwnDB fill:#e8f5e9,stroke:#4caf50
+```
+
+> **Benefits**: SSO, synced data, zero auth headaches — **and full flexibility to build anything you want**
+
+:::info 🔑 You Can Still Build Custom Features!
+Using our auth doesn't limit you. After login, you get a unique `user.sub` (user ID) that you can use as a foreign key in your own database. Build whatever you need:
+
+- **Custom analytics** — Track usage patterns for your app
+- **Premium features** — Gate features based on your own subscription logic
+- **App-specific data** — Store settings, preferences, or data unique to your app
+- **Gamification** — Build your own achievements, leaderboards, etc.
+
+**Just link `user.sub` to your internal records — we handle auth, you handle everything else.**
+:::
+
+### 💡 How to Link QF Users to Your Data
+
+After OAuth2 login, decode the ID token to get the user's unique identifier:
+
+```javascript
+const jwt = require("jsonwebtoken");
+
+// After successful OAuth2 callback
+const idToken = tokenResponse.id_token;
+const user = jwt.decode(idToken);
+
+// user.sub is the unique, stable identifier for this user
+const qfUserId = user.sub; // e.g., "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+
+// Use this as a foreign key in YOUR database
+await db.query(
+  `
+  INSERT INTO my_app_users (qf_user_id, premium_until, custom_setting)
+  VALUES ($1, $2, $3)
+  ON CONFLICT (qf_user_id) DO UPDATE SET last_login = NOW()
+`,
+  [qfUserId, null, "default"]
+);
+```
+
+```python
+import jwt
+
+# After successful OAuth2 callback
+id_token = token_response['id_token']
+user = jwt.decode(id_token, options={"verify_signature": False})
+
+# user['sub'] is the unique, stable identifier for this user
+qf_user_id = user['sub']  # e.g., "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+
+# Use this as a foreign key in YOUR database
+cursor.execute("""
+    INSERT INTO my_app_users (qf_user_id, premium_until, custom_setting)
+    VALUES (%s, %s, %s)
+    ON CONFLICT (qf_user_id) DO UPDATE SET last_login = NOW()
+""", (qf_user_id, None, 'default'))
+```
+
+| ID Token Claim | Description                             | Use For                                |
+| -------------- | --------------------------------------- | -------------------------------------- |
+| `sub`          | Unique user ID (stable, never changes)  | **Primary key** for linking to your DB |
+| `email`        | User's email (if `email` scope granted) | Display, notifications                 |
+| `first_name`   | User's first name                       | Personalization                        |
+| `name`         | Full name                               | Display                                |
+
+:::warning Don't use email as primary key
+Always use `sub` as the foreign key to link users. Email addresses can change, but `sub` is permanent and unique.
+:::
 
 ### 🚀 Ready-to-Run Examples
 
@@ -76,9 +168,31 @@ Get started in minutes with our official example repositories:
 
 ## Overview
 
-Here's how the OAuth2 process works in a common scenario where user consent is needed to access their data:
+Here's how the OAuth2 Authorization Code flow works when user consent is needed to access their data:
 
-![oauth2 process](/img/oauth2-process.png)
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as Your App
+    participant Auth as Quran.Foundation<br/>Authorization Server
+    participant API as Quran.Foundation<br/>Resources Server
+
+    User->>App: Click "Login"
+    App->>Auth: Request Token
+    Auth->>User: Login and consent
+    User->>Auth: Approve
+    Auth-->>App: Authorization Code
+    App->>Auth: Exchange code for token
+    Auth-->>App: Token Response<br/>(access_token, refresh_token)
+
+    App->>API: Use token to call Quran.Foundation's API
+    API-->>App: Requested resource
+
+    Note over App,Auth: Access token expires (1 hour)
+
+    App->>Auth: Re-request access_token using refresh_token
+    Auth-->>App: New access_token and refresh_token
+```
 
 > 🔧 **Ready to code?** Check out the [User APIs Quick Start](/docs/tutorials/oidc/user-apis-quickstart) for copy-paste examples, or see the [Web Integration Example](/docs/tutorials/oidc/example-integration) and the [hosted demo](https://oauth2-client-prelive.quran.foundation/).
 
@@ -92,7 +206,7 @@ Here's how the OAuth2 process works in a common scenario where user consent is n
 > ⚠️ Never embed `client_secret` in public clients (SPA/mobile). Use PKCE and keep secrets on the server only.
 
 <details>
-<summary><b>AI prompt: implement Step 1 (OAuth client config + env selection)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 1 (OAuth client config + env selection)</b></summary>
 
 ```text
 Implement Quran Foundation OAuth2 client configuration for User APIs.
@@ -269,7 +383,7 @@ module.exports = { buildAuthorizationUrl };
 </details>
 
 <details>
-<summary><b>AI prompt: implement Step 2 (PKCE + auth URL + secure state)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 2 (PKCE + auth URL + secure state)</b></summary>
 
 ```text
 Implement Authorization Code + PKCE authorization URL builder.
@@ -474,7 +588,7 @@ Sample token response
 After the token exchange, compare the `scope` field in the token response with the features your app intends to enable; hide or disable any feature whose scope wasn’t granted.
 
 <details>
-<summary><b>AI prompt: implement Step 3 (code exchange + safe errors)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 3 (code exchange + safe errors)</b></summary>
 
 ```text
 Implement Authorization Code token exchange for Quran Foundation OAuth2.
@@ -579,7 +693,7 @@ def get_collections(access_token: str):
 </details>
 
 <details>
-<summary><b>AI prompt: implement Step 4 (authenticated User API client)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 4 (authenticated User API client)</b></summary>
 
 ```text
 Create an authenticated API client helper for Quran Foundation User APIs.
@@ -721,7 +835,7 @@ def refresh_access_token(refresh_token: str):
 </details>
 
 <details>
-<summary><b>AI prompt: implement Step 5 (refresh token + session-safe storage)</b></summary>
+<summary><b>🤖 AI prompt: implement Step 5 (refresh token + session-safe storage)</b></summary>
 
 ```text
 Implement refresh token handling for Quran Foundation OAuth2 (offline_access).
@@ -780,7 +894,7 @@ Acceptance checklist
 | Production     | `https://oauth2.quran.foundation`         | `https://apis.quran.foundation`         | Live applications     |
 
 <details>
-<summary><b>AI prompt: environment isolation + safety rules</b></summary>
+<summary><b>🤖 AI prompt: environment isolation + safety rules</b></summary>
 
 ```text
 Harden environment selection and token isolation for Quran Foundation OAuth2.
@@ -819,7 +933,7 @@ Acceptance checklist
 | `401 Unauthorized` (APIs) | Missing/expired token                      | Send `x-auth-token` and `x-client-id`, refresh token |
 
 <details>
-<summary><b>AI prompt: troubleshooting + safe logs</b></summary>
+<summary><b>🤖 AI prompt: troubleshooting + safe logs</b></summary>
 
 ```text
 Add safe error handling for OAuth2 and User API calls.

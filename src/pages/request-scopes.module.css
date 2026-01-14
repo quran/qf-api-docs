@@ -1,0 +1,148 @@
+.scopeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  --scope-surface: #f8fafc;
+  --scope-surface-alt: #ffffff;
+  --scope-border: #e2e8f0;
+  --scope-text: #0f172a;
+  --scope-text-strong: #1e293b;
+  --scope-muted: #475569;
+  --scope-parent: #eef2ff;
+  --scope-badge-text: #1d4ed8;
+  --scope-badge-bg: #e0e7ff;
+  --scope-hover-border: rgba(59, 130, 246, 0.35);
+  --scope-hover-shadow: rgba(59, 130, 246, 0.15);
+  --scope-card-shadow: rgba(15, 23, 42, 0.06);
+}
+
+:global([data-theme='dark']) .scopeForm {
+  --scope-surface: #0f172a;
+  --scope-surface-alt: #111827;
+  --scope-border: #1f2937;
+  --scope-text: #e2e8f0;
+  --scope-text-strong: #f1f5f9;
+  --scope-muted: #94a3b8;
+  --scope-parent: rgba(59, 130, 246, 0.18);
+  --scope-badge-text: #93c5fd;
+  --scope-badge-bg: rgba(59, 130, 246, 0.2);
+  --scope-hover-border: rgba(59, 130, 246, 0.5);
+  --scope-hover-shadow: rgba(59, 130, 246, 0.25);
+  --scope-card-shadow: rgba(0, 0, 0, 0.3);
+}
+
+.readonlyInput {
+  background: var(--scope-surface);
+  color: var(--scope-text);
+  border: 1px solid var(--scope-border);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  background: var(--scope-surface);
+  border: 1px solid var(--scope-border);
+  color: var(--scope-text-strong);
+}
+
+.summaryLabel {
+  font-weight: 600;
+}
+
+.summaryValue {
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+}
+
+.scopesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.scopeGroup {
+  border-radius: 12px;
+  border: 1px solid var(--scope-border);
+  background: var(--scope-surface-alt);
+  padding: 1rem 1.2rem;
+  box-shadow: 0 8px 24px var(--scope-card-shadow);
+}
+
+.scopeGroupTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  color: var(--scope-text);
+}
+
+.scopeList {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.scopeItem {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  background: var(--scope-surface);
+  border: 1px solid transparent;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.scopeItem:hover {
+  border-color: var(--scope-hover-border);
+  box-shadow: 0 6px 16px var(--scope-hover-shadow);
+}
+
+.scopeItem input {
+  margin-top: 0.2rem;
+}
+
+.scopeParent {
+  background: var(--scope-parent);
+}
+
+.scopeLocked {
+  opacity: 0.7;
+}
+
+.scopeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.scopeLabel {
+  font-weight: 600;
+  color: var(--scope-text);
+}
+
+.lockedBadge {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--scope-badge-text);
+  background: var(--scope-badge-bg);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+.scopeDescription {
+  font-size: 0.9rem;
+  color: var(--scope-muted);
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .scopeGroup {
+    padding: 0.9rem;
+  }
+
+  .scopeItem {
+    padding: 0.55rem 0.65rem;
+  }
+}

@@ -8,6 +8,7 @@ import {
     DeveloperBenefitsModal,
     DeveloperDisclaimersModal,
 } from '@site/src/components/DeveloperModals';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const REQUEST_ACCESS_FORM_STORAGE_KEY = 'qf:request-access-form:v1';
 
@@ -47,24 +48,27 @@ export default function RequestAccess() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
+    const [submitError, setSubmitError] = useState('');
     const [activeModal, setActiveModal] = useState(null); // "benefits" | "disclaimers"
     const hasAcceptedTerms = watch('agreementsAccepted', false);
 
-    const closeModal = useCallback(() => setActiveModal(null), []);
+    const { siteConfig } = useDocusaurusContext();
+    const apiBaseUrl =
+        siteConfig.customFields?.scopeRequestApiBaseUrl ||
+        'https://qf-form-handler.fly.dev';
+    
 
     useEffect(() => {
         if (typeof window === 'undefined') {
             return;
         }
-
         const storedValues = window.sessionStorage.getItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
         if (!storedValues) {
             return;
         }
-
         try {
             reset(sanitizeFormValues(JSON.parse(storedValues)));
-        } catch {
+        } catch (error) {
             window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
         }
     }, [reset]);
@@ -73,10 +77,9 @@ export default function RequestAccess() {
         if (typeof window === 'undefined') {
             return;
         }
-
-        const subscription = watch((values) => {
+        const subscription = watch((value) => {
             try {
-                const sanitizedValues = sanitizeFormValues(values);
+                const sanitizedValues = sanitizeFormValues(value);
                 if (isEmptyFormValues(sanitizedValues)) {
                     window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
                 } else {
@@ -85,17 +88,20 @@ export default function RequestAccess() {
                         JSON.stringify(sanitizedValues)
                     );
                 }
-            } catch {
+            } catch (error) {
+                // Ignore storage errors (e.g., quota or serialization issues).
             }
         });
-
         return () => subscription.unsubscribe();
     }, [watch]);
 
+    const closeModal = useCallback(() => setActiveModal(null), []);
+
     const onSubmit = async (data) => {
         setIsSubmitting(true);
+        setSubmitError('');
         try {
-            const response = await fetch(`https://qf-form-handler.fly.dev/api/v1/webhook`, {
+            const response = await fetch(`${apiBaseUrl}/api/v1/webhook`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,7 +110,13 @@ export default function RequestAccess() {
             });
 
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const payload = await response.json().catch(() => ({}));
+                setSubmitStatus('error');
+                setSubmitError(
+                    payload.error || 'There was an error submitting your request. Please try again later.'
+                );
+                setIsSubmitting(false);
+                return;
             }
 
             setSubmitStatus('success');
@@ -115,6 +127,7 @@ export default function RequestAccess() {
         } catch (error) {
             console.error('Error submitting form:', error);
             setSubmitStatus('error');
+            setSubmitError('There was an error submitting your request. Please try again later.');
         }
         setIsSubmitting(false);
     };
@@ -242,7 +255,7 @@ export default function RequestAccess() {
 
                             {submitStatus === 'error' && (
                                 <div className="alert alert--danger margin-top--md">
-                                    There was an error submitting your request. Please try again later.
+                                    {submitError || 'There was an error submitting your request. Please try again later.'}
                                 </div>
                             )}
                         </form>
