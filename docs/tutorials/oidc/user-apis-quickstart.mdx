@@ -1,0 +1,432 @@
+---
+sidebar_position: 0
+title: "⚡ User APIs Quick Start"
+sidebar_label: "⚡ Quick Start"
+---
+
+# ⚡ User APIs Quick Start
+
+Get user authentication working in **under 5 minutes**. This guide shows you the fastest path to integrating Quran Foundation OAuth2 for accessing User APIs (bookmarks, collections, reading progress, etc.).
+
+:::tip Why Use Our Auth?
+**We've built this for the Ummah so you don't have to.** Stop maintaining your own user database — use ours and get cross-app sync with Quran.com for free. [Learn more →](/docs/tutorials/oidc/getting-started-with-oauth2#-why-use-quran-foundation-authentication)
+:::
+
+---
+
+## 📋 Prerequisites
+
+1. **Get OAuth2 credentials**: [Request Access →](/request-access)
+2. **Register your redirect URI** (e.g., `http://localhost:3000/callback` or `yourapp://callback`)
+
+---
+
+## 🚀 Choose Your Platform
+
+### React Native (Expo)
+
+The fastest way to add authentication to a React Native app:
+
+```bash
+npx expo install expo-auth-session expo-web-browser expo-crypto
+npm install jwt-decode
+```
+
+```jsx
+import * as React from "react";
+import { Button, Text, View } from "react-native";
+import jwtDecode from "jwt-decode";
+import {
+  useAuthRequest,
+  exchangeCodeAsync,
+  revokeAsync,
+} from "expo-auth-session";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
+
+// OAuth2 endpoints - use prelive for testing, production for live apps
+const discovery = {
+  authorizationEndpoint: "https://oauth2.quran.foundation/oauth2/auth",
+  tokenEndpoint: "https://oauth2.quran.foundation/oauth2/token",
+  revocationEndpoint: "https://oauth2.quran.foundation/oauth2/revoke",
+};
+
+export default function App() {
+  const [user, setUser] = React.useState(null);
+  const [tokens, setTokens] = React.useState(null);
+
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: "YOUR_CLIENT_ID", // Replace with your client ID
+      scopes: ["openid", "offline_access", "bookmark", "collection", "user"],
+      redirectUri: "yourapp://callback", // Replace with your redirect URI
+      usePKCE: true, // Required for mobile apps
+    },
+    discovery
+  );
+
+  React.useEffect(() => {
+    if (response?.type === "success") {
+      const { code } = response.params;
+
+      // Exchange code for tokens
+      exchangeCodeAsync(
+        {
+          clientId: "YOUR_CLIENT_ID",
+          code,
+          redirectUri: "yourapp://callback",
+          extraParams: { code_verifier: request.codeVerifier },
+        },
+        discovery
+      ).then((tokenResponse) => {
+        setTokens(tokenResponse);
+        // Decode ID token to get user info
+        const userInfo = jwtDecode(tokenResponse.idToken);
+        setUser(userInfo);
+      });
+    }
+  }, [response]);
+
+  const logout = async () => {
+    if (tokens?.refreshToken) {
+      await revokeAsync(
+        { clientId: "YOUR_CLIENT_ID", token: tokens.refreshToken },
+        discovery
+      );
+    }
+    setUser(null);
+    setTokens(null);
+  };
+
+  if (user) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 24, marginBottom: 20 }}>
+          Welcome, {user.first_name || user.name || "User"}!
+        </Text>
+        <Button title="Logout" onPress={logout} />
+      </View>
+    );
+  }
+
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Button
+        disabled={!request}
+        title="Login with Quran.com"
+        onPress={() => promptAsync()}
+      />
+    </View>
+  );
+}
+```
+
+👉 **[Full React Native Example Repo](https://github.com/quran/oauth2-react-native-client-example)**
+
+---
+
+### Web (Node.js + Express)
+
+```bash
+npm install express express-session simple-oauth2 jsonwebtoken dotenv
+```
+
+```javascript
+// server.js
+const express = require("express");
+const session = require("express-session");
+const crypto = require("crypto");
+const { AuthorizationCode } = require("simple-oauth2");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const app = express();
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: process.env.NODE_ENV === "production" },
+  })
+);
+
+const oauth2Client = new AuthorizationCode({
+  client: {
+    id: process.env.CLIENT_ID,
+    secret: process.env.CLIENT_SECRET,
+  },
+  auth: {
+    tokenHost: "https://oauth2.quran.foundation",
+    tokenPath: "/oauth2/token",
+    authorizePath: "/oauth2/auth",
+  },
+});
+
+const CALLBACK_URL = process.env.BASE_URL + "/callback";
+
+// Login route - redirects to Quran.Foundation
+app.get("/login", (req, res) => {
+  // Generate cryptographically random state for CSRF protection
+  const state = crypto.randomBytes(32).toString("hex");
+  req.session.oauthState = state;
+
+  const authUrl = oauth2Client.authorizeURL({
+    redirect_uri: CALLBACK_URL,
+    scope: "openid offline_access bookmark collection user",
+    state,
+  });
+  res.redirect(authUrl);
+});
+
+// OAuth callback - exchanges code for tokens
+app.get("/callback", async (req, res) => {
+  const { code, state } = req.query;
+
+  // Validate state parameter to prevent CSRF attacks
+  if (!state || state !== req.session.oauthState) {
+    console.error("State mismatch - possible CSRF attack");
+    return res.status(403).send("Invalid state parameter");
+  }
+
+  // Clear the stored state after validation
+  delete req.session.oauthState;
+
+  try {
+    const tokenResponse = await oauth2Client.getToken({
+      code,
+      redirect_uri: CALLBACK_URL,
+    });
+
+    // Store tokens in session
+    req.session.tokens = tokenResponse.token;
+
+    // Decode ID token for user info
+    const user = jwt.decode(tokenResponse.token.id_token);
+    req.session.user = user;
+
+    res.redirect("/");
+  } catch (error) {
+    console.error("OAuth Error:", error);
+    res.status(500).send("Authentication failed");
+  }
+});
+
+// Protected route example
+app.get("/", (req, res) => {
+  if (!req.session.user) {
+    return res.send('<a href="/login">Login with Quran.com</a>');
+  }
+  res.send(
+    `Welcome, ${
+      req.session.user.first_name || req.session.user.name
+    }! <a href="/logout">Logout</a>`
+  );
+});
+
+// Logout
+app.get("/logout", (req, res) => {
+  const logoutUrl = `https://oauth2.quran.foundation/oauth2/sessions/logout?client_id=${process.env.CLIENT_ID}`;
+  req.session.destroy();
+  res.redirect(logoutUrl);
+});
+
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+```
+
+**`.env` file:**
+
+```env
+CLIENT_ID=your_client_id
+CLIENT_SECRET=your_client_secret
+BASE_URL=http://localhost:3000
+SESSION_SECRET=random-secure-string
+```
+
+👉 **[Full Web Example Repo](https://github.com/quran/quran-oauth2-client-example)**
+
+---
+
+### iOS Native (Swift)
+
+Use [AppAuth-iOS](https://github.com/openid/AppAuth-iOS) for native iOS apps:
+
+```swift
+import AppAuth
+
+let issuer = URL(string: "https://oauth2.quran.foundation")!
+let clientId = "YOUR_CLIENT_ID"
+let redirectUri = URL(string: "com.yourapp://callback")!
+
+// Discover OAuth2 configuration
+OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { config, error in
+    guard let config = config else { return }
+
+    let request = OIDAuthorizationRequest(
+        configuration: config,
+        clientId: clientId,
+        scopes: [OIDScopeOpenID, "offline_access", "bookmark", "collection"],
+        redirectURL: redirectUri,
+        responseType: OIDResponseTypeCode,
+        additionalParameters: nil
+    )
+
+    // Present authorization flow
+    appDelegate.currentAuthorizationFlow = OIDAuthState.authState(
+        byPresenting: request,
+        presenting: self
+    ) { authState, error in
+        if let authState = authState {
+            // Store authState.lastTokenResponse.accessToken
+            // Use for API calls
+        }
+    }
+}
+```
+
+👉 **[iOS Guide with Demo](/docs/tutorials/oidc/mobile-apps/iOS)**
+
+---
+
+### Android Native (Kotlin)
+
+Use [AppAuth-Android](https://github.com/openid/AppAuth-Android) for native Android apps:
+
+```kotlin
+val serviceConfig = AuthorizationServiceConfiguration(
+    Uri.parse("https://oauth2.quran.foundation/oauth2/auth"),
+    Uri.parse("https://oauth2.quran.foundation/oauth2/token")
+)
+
+val authRequest = AuthorizationRequest.Builder(
+    serviceConfig,
+    "YOUR_CLIENT_ID",
+    ResponseTypeValues.CODE,
+    Uri.parse("com.yourapp://callback")
+).setScopes("openid", "offline_access", "bookmark", "collection")
+ .build()
+
+val authService = AuthorizationService(context)
+val authIntent = authService.getAuthorizationRequestIntent(authRequest)
+startActivityForResult(authIntent, AUTH_REQUEST_CODE)
+```
+
+👉 **[Android Guide with Demo](/docs/tutorials/oidc/mobile-apps/android)**
+
+---
+
+## 🔑 Making Authenticated API Calls
+
+Once you have an `access_token`, use it to call User APIs:
+
+```javascript
+// Example: Get user's bookmarks
+const response = await fetch(
+  "https://apis.quran.foundation/auth/v1/bookmarks",
+  {
+    headers: {
+      "x-auth-token": accessToken,
+      "x-client-id": "YOUR_CLIENT_ID",
+    },
+  }
+);
+const bookmarks = await response.json();
+```
+
+```python
+# Example: Get user's bookmarks
+import requests
+
+response = requests.get(
+    'https://apis.quran.foundation/auth/v1/bookmarks',
+    headers={
+        'x-auth-token': access_token,
+        'x-client-id': 'YOUR_CLIENT_ID',
+    }
+)
+bookmarks = response.json()
+```
+
+---
+
+## 📚 Available Scopes
+
+Request only the scopes you need:
+
+| Scope             | Access To                              |
+| ----------------- | -------------------------------------- |
+| `openid`          | User identity (ID token)               |
+| `offline_access`  | Refresh tokens for long-lived sessions |
+| `user`            | User profile information               |
+| `bookmark`        | User's bookmarked verses               |
+| `collection`      | User's verse collections               |
+| `reading_session` | Reading progress and history           |
+| `preference`      | User preferences and settings          |
+| `goal`            | Reading goals                          |
+| `streak`          | Reading streaks                        |
+
+---
+
+## 🔄 Token Refresh
+
+### Token Lifetimes
+
+| Token Type      | Lifetime       | Notes                          |
+| --------------- | -------------- | ------------------------------ |
+| `access_token`  | **1 hour**     | Use for API calls              |
+| `refresh_token` | **Long-lived** | Used to get new access tokens  |
+| `id_token`      | **1 hour**     | Contains user identity (`sub`) |
+
+:::info Refresh Token Policy
+
+- Refresh tokens are issued when you request the `offline_access` scope
+- Refresh tokens do **not** rotate on use (you can reuse the same refresh token)
+- Refresh tokens remain valid until explicitly revoked or user logs out
+- Store refresh tokens securely server-side
+  :::
+
+Use the refresh token to get a new access token:
+
+```javascript
+// Using simple-oauth2
+const newToken = await oauth2Client.refreshToken.refresh(tokenResponse);
+```
+
+```python
+# Using requests
+response = requests.post(
+    'https://oauth2.quran.foundation/oauth2/token',
+    auth=(client_id, client_secret),
+    data={
+        'grant_type': 'refresh_token',
+        'refresh_token': refresh_token,
+    }
+)
+```
+
+---
+
+## ⚠️ Common Mistakes
+
+:::danger Avoid These Errors
+❌ **Embedding `client_secret` in mobile/browser apps** — Use PKCE instead, no secret needed
+❌ **Not validating `state` parameter** — Always validate to prevent CSRF attacks
+❌ **Forgetting to store `refresh_token`** — You need it for long-lived sessions
+❌ **Requesting too many scopes** — Only request what you actually use
+❌ **Mixing prelive/production URLs** — Tokens are environment-specific
+:::
+
+---
+
+## 🎯 Next Steps
+
+- **[Full OAuth2 Guide](/docs/tutorials/oidc/getting-started-with-oauth2)** — Detailed step-by-step with AI prompts
+- **[User APIs Reference](/docs/category/user-related-apis)** — All available endpoints
+- **[OpenID Connect](/docs/tutorials/oidc/openid-connect)** — Understanding ID tokens
+
+---
+
+## 💬 Need Help?
+
+📧 **developers@quran.com** — We're here to help you integrate!

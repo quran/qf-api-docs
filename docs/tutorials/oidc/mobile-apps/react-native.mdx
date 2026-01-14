@@ -1,20 +1,221 @@
 ---
 sidebar_position: 1
 ---
-import PartialObtainClientCredentials from './_obtain_client_credentials.mdx';
-import PartialIntro from './_intro.mdx';
+
+import PartialObtainClientCredentials from "./_obtain_client_credentials.mdx";
+import PartialIntro from "./_intro.mdx";
 
 # React Native
 
 <PartialIntro />
 <PartialObtainClientCredentials />
 
-## Example
+## ⚡ Quick Setup
 
-We have created an [Example](https://github.com/quran/oauth2-react-native-client-example) OAuth2 React Native client that connects to Quran.Foundation Authorization server.
+```bash
+npx expo install expo-auth-session expo-web-browser expo-crypto
+npm install jwt-decode
+```
 
-<div style={{display: 'flex', alignItems: 'center'}}>
-<img style={{width: '30%', border: '1px black solid', margin: '0px 10px'}} alt="User is not logged in yet" src="/img/mobile-auth/logged_out.png" width="200px" height="100px"/>
-<img style={{width: '30%', border: '1px black solid', margin: '0px 10px'}} alt="User is consenting" src="/img/mobile-auth/consent.png" width="200px" height="100px"/>
-<img style={{width: '30%', border: '1px black solid', margin: '0px 10px'}} alt="User is logged in" src="/img/mobile-auth/logged_in.png" width="200px" height="100px"/>
+## 🚀 Complete Working Example
+
+Copy this into your `App.js` to get OAuth2 working immediately:
+
+```jsx
+import * as React from "react";
+import { Button, Text, View, StyleSheet } from "react-native";
+import jwtDecode from "jwt-decode";
+import {
+  useAuthRequest,
+  exchangeCodeAsync,
+  revokeAsync,
+} from "expo-auth-session";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
+
+// ⚙️ Configuration - Update these values!
+const CLIENT_ID = "YOUR_CLIENT_ID"; // From your OAuth application
+const REDIRECT_URI = "exp://192.168.x.x:8081"; // Your Expo dev URL or custom scheme
+
+// OAuth2 Endpoints (use prelive for testing)
+const discovery = {
+  authorizationEndpoint: "https://oauth2.quran.foundation/oauth2/auth",
+  tokenEndpoint: "https://oauth2.quran.foundation/oauth2/token",
+  revocationEndpoint: "https://oauth2.quran.foundation/oauth2/revoke",
+};
+
+export default function App() {
+  const [authTokens, setAuthTokens] = React.useState(null);
+
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: CLIENT_ID,
+      scopes: ["openid", "offline_access", "bookmark", "collection", "user"],
+      redirectUri: REDIRECT_URI,
+      usePKCE: true, // Required for mobile - no client_secret needed!
+    },
+    discovery
+  );
+
+  React.useEffect(() => {
+    const exchangeFn = async (exchangeTokenReq) => {
+      try {
+        const exchangeTokenResponse = await exchangeCodeAsync(
+          exchangeTokenReq,
+          discovery
+        );
+        const { idToken } = exchangeTokenResponse;
+        const userProfile = jwtDecode(idToken);
+        setAuthTokens({ ...exchangeTokenResponse, userProfile });
+      } catch (error) {
+        console.error("Token exchange failed:", error);
+      }
+    };
+
+    if (response) {
+      if (response.error) {
+        console.error("Auth error:", response.params.error_description);
+        return;
+      }
+      if (response.type === "success") {
+        exchangeFn({
+          clientId: CLIENT_ID,
+          code: response.params.code,
+          redirectUri: REDIRECT_URI,
+          extraParams: { code_verifier: request.codeVerifier },
+        });
+      }
+    }
+  }, [discovery, request, response]);
+
+  const logout = async () => {
+    if (authTokens?.refreshToken) {
+      await revokeAsync(
+        { clientId: CLIENT_ID, token: authTokens.refreshToken },
+        discovery
+      );
+    }
+    setAuthTokens(null);
+  };
+
+  // Logged in view
+  if (authTokens) {
+    const { userProfile } = authTokens;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome, {userProfile.first_name || userProfile.name || "User"}!
+        </Text>
+        <Text style={styles.email}>{userProfile.email}</Text>
+        <View style={styles.buttonContainer}>
+          <Button title="Logout" onPress={logout} />
+        </View>
+      </View>
+    );
+  }
+
+  // Login view
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Quran App</Text>
+      <View style={styles.buttonContainer}>
+        <Button
+          disabled={!request}
+          title="Login with Quran.com"
+          onPress={() => promptAsync()}
+        />
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  title: { fontSize: 28, fontWeight: "bold", marginBottom: 40 },
+  welcome: { fontSize: 24, fontWeight: "600", marginBottom: 10 },
+  email: { fontSize: 16, color: "#666", marginBottom: 30 },
+  buttonContainer: { marginTop: 20, width: "80%" },
+});
+```
+
+## Example Repository
+
+We have created a complete [Example OAuth2 React Native client](https://github.com/quran/oauth2-react-native-client-example) that you can clone and run.
+
+<div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    marginTop: "20px",
+  }}
+>
+  <img
+    style={{ width: "30%", border: "1px solid #ccc", borderRadius: "8px" }}
+    alt="User is not logged in yet"
+    src="/img/mobile-auth/logged_out.png"
+  />
+  <img
+    style={{ width: "30%", border: "1px solid #ccc", borderRadius: "8px" }}
+    alt="User is consenting"
+    src="/img/mobile-auth/consent.png"
+  />
+  <img
+    style={{ width: "30%", border: "1px solid #ccc", borderRadius: "8px" }}
+    alt="User is logged in"
+    src="/img/mobile-auth/logged_in.png"
+  />
 </div>
+
+## 🔑 Making API Calls
+
+Once authenticated, use the `accessToken` to call User APIs:
+
+```javascript
+// Example: Fetch user's bookmarks
+const fetchBookmarks = async () => {
+  const response = await fetch(
+    "https://apis.quran.foundation/auth/v1/bookmarks",
+    {
+      headers: {
+        "x-auth-token": authTokens.accessToken,
+        "x-client-id": CLIENT_ID,
+      },
+    }
+  );
+  return response.json();
+};
+```
+
+## 🔄 Token Refresh
+
+Access tokens expire after 1 hour. The `refreshToken` allows you to get a new access token without re-authenticating:
+
+```javascript
+import { refreshAsync } from "expo-auth-session";
+
+const refreshTokens = async () => {
+  const newTokens = await refreshAsync(
+    { clientId: CLIENT_ID, refreshToken: authTokens.refreshToken },
+    discovery
+  );
+  setAuthTokens({ ...newTokens, userProfile: authTokens.userProfile });
+};
+```
+
+:::tip Store Refresh Token Securely
+Use `expo-secure-store` to persist the refresh token between app sessions:
+
+```javascript
+import * as SecureStore from "expo-secure-store";
+await SecureStore.setItemAsync("refreshToken", authTokens.refreshToken);
+```
+
+:::

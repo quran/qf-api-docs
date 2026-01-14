@@ -13,7 +13,7 @@ const benefitPoints: React.ReactNode[] = [
   <>
     Opportunity to be featured on Quran.com via {" "}
     <Link
-      href="https://quran.com/apps-portal"
+      href="https://quran.com/apps"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -21,12 +21,12 @@ const benefitPoints: React.ReactNode[] = [
     </Link>
     .
   </>,
-  "Direct support from QuranFoundation and its broader network.",
-  "Reliable, copyrighted, scholarly verified content.",
+  "Direct support from Quran.Foundation and its broader network.",
+  "Reliable, scholarly verified Quranic content, with properly licensed translations, tafsir, and supplementary materials.",
   "Mission-driven community that prioritizes da'wah impact.",
-  "Users can bring their reading history, bookmarks, saved verses, notes, reflections, and streaks into your app.",
+  "Users can bring their reading history, bookmarks, saved verses, notes, reflections, and reading streaks into your app.",
   "Full feature set from Quran.com and QuranReflect, plus OAuth and a notification engine.",
-  "Funding or in-kind support for high-value projects aligned with QuranFoundation plans.",
+  "Funding or in-kind support for high-value projects aligned with Quran.Foundation plans.",
 ];
 
 export default function DeveloperBenefitsModal({
