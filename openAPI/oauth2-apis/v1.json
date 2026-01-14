@@ -386,7 +386,7 @@
     "/oauth2/auth": {
       "get": {
         "summary": "OAuth 2.0 Authorize Endpoint",
-        "description": "This endpoint is used to start the authorization process. The client redirects the user to this endpoint to request authorization. The user will be prompted to log in and grant permission to the client application.\n\nUse open source libraries to perform OAuth 2.0 and OpenID Connect available for any programming language. You can find a list of libraries at https://oauth.net/code/\n\nFor now, you can only use grant_type `authorization_code` and `refresh_token` in the /oauth2/token endpoint",
+        "description": "This endpoint is used to start the authorization process. The client redirects the user to this endpoint to request authorization. The user will be prompted to log in and grant permission to the client application.\n\nUse open source libraries to perform OAuth 2.0 and OpenID Connect available for any programming language. You can find a list of libraries at https://oauth.net/code/\n\nFor now, you can only use grant_type `authorization_code` and `refresh_token` in the [`/oauth2/token`](/docs/oauth2_apis_versioned/oauth-2-token-exchange) endpoint",
         "operationId": "oAuth2Authorize",
         "parameters": [
           {
