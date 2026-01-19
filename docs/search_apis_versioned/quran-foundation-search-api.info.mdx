@@ -1,0 +1,37 @@
+---
+id: quran-foundation-search-api
+title: "Quran.Foundation Search API"
+description: "Quran.Foundation Search API provides programmatic access to search Quran content including verses, chapters, juz, pages, and translations. This is distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis)."
+sidebar_label: Introduction
+sidebar_position: 0
+hide_title: true
+custom_edit_url: null
+---
+
+import ApiLogo from "@theme/ApiLogo";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+import Export from "@theme/ApiDemoPanel/Export";
+
+<span className={"theme-doc-version-badge badge badge--secondary"}>Version: 1.0</span>
+
+# Quran.Foundation Search API
+
+
+
+Quran.Foundation Search API provides programmatic access to search Quran content including verses, chapters, juz, pages, and translations. This is distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).
+
+## How to get access
+
+We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). The required scope is [`search`](/docs/user_related_apis_versioned/scopes#search).
+
+<div style={{"marginBottom":"2rem"}}><h2 id={"authentication"} style={{"marginBottom":"1rem"}}>Authentication</h2><SchemaTabs className={"openapi-tabs__security-schemes"}><TabItem label={"API Key: x-auth-token"} value={"x-auth-token"}>
+
+The JWT access token required for accessing the endpoints.
+
+<div><table><tbody><tr><th>Security Scheme Type:</th><td>apiKey</td></tr><tr><th>Header parameter name:</th><td>x-auth-token</td></tr></tbody></table></div></TabItem><TabItem label={"API Key: x-client-id"} value={"x-client-id"}>
+
+Your client id
+
+<div><table><tbody><tr><th>Security Scheme Type:</th><td>apiKey</td></tr><tr><th>Header parameter name:</th><td>x-client-id</td></tr></tbody></table></div></TabItem></SchemaTabs></div>
+      
