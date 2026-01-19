@@ -1,0 +1,106 @@
+---
+title: Audio API
+description: Access Quran audio recitations from different reciters.
+slug: /sdk/javascript/audio
+---
+
+import Link from "@docusaurus/Link";
+
+The Audio API provides access to audio recitations including chapter audio and verse-by-verse audio with timing.
+
+## Chapter Recitations
+
+### Get All Chapter Recitations
+
+```ts
+const recitations = await client.audio.findAllChapterRecitations("2");
+
+console.log(recitations[0]);
+// {
+//   id: 1,
+//   chapterId: 1,
+//   fileSize: 12345,
+//   format: "mp3",
+//   audioUrl: "https://audio.quran.com/..."
+// }
+```
+
+### ChapterRecitation Type
+
+| Field       | Type     | Notes                                           |
+| ----------- | -------- | ----------------------------------------------- |
+| `id`        | `number` | Unique identifier for the chapter audio record. |
+| `chapterId` | `number` | Surah that the audio recitation belongs to.     |
+| `fileSize`  | `number` | File size in bytes.                             |
+| `format`    | `string` | Audio format, typically `mp3`.                  |
+| `audioUrl`  | `string` | Download URL for the chapter recitation.        |
+
+### Get Specific Chapter
+
+```ts
+const audio = await client.audio.findChapterRecitationById("2", "1");
+
+console.log(`URL: ${audio.audioUrl}`);
+console.log(`Format: ${audio.format}`);
+```
+
+## Verse Recitations
+
+### By Chapter
+
+```ts
+const { audioFiles, pagination } =
+  await client.audio.findVerseRecitationsByChapter(
+    "1", // Chapter ID
+    "2", // Recitation ID
+  );
+
+audioFiles.forEach((audio) => {
+  console.log(`${audio.verseKey}: ${audio.url}`);
+});
+```
+
+### VerseRecitation Type
+
+| Field       | Type        | Notes                                             |
+| ----------- | ----------- | ------------------------------------------------- |
+| `verseKey`  | `string`    | Verse identifier such as `2:255`.                 |
+| `url`       | `string`    | Direct URL to the verse audio file.               |
+| `id`        | `number`    | Unique identifier for the verse recitation.       |
+| `chapterId` | `number`    | Surah that the verse belongs to.                  |
+| `segments`  | `Segment[]` | Optional timing metadata for word-level playback. |
+| `format`    | `string`    | Audio format, e.g. `mp3`.                         |
+
+`Segment` entries include the timestamp ranges (`start`, `end`) that power word-level playback.
+
+### By Verse Key
+
+```ts
+const { audioFiles } = await client.audio.findVerseRecitationsByKey(
+  "2:255",
+  "2",
+);
+
+const audio = audioFiles[0];
+console.log(`URL: ${audio.url}`);
+console.log(`Format: ${audio.format ?? "stream"}`);
+```
+
+## Field Selection
+
+```ts
+const { audioFiles } = await client.audio.findVerseRecitationsByChapter(
+  "1",
+  "2",
+  {
+    fields: {
+      segments: true,
+      format: true,
+      id: true,
+      chapterId: false,
+    },
+  },
+);
+
+// Available verse fields: id, chapterId, segments, format
+```

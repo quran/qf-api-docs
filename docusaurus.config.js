@@ -205,7 +205,7 @@ const config = {
             type: "doc",
             docId: "sdk/index",
             position: "left",
-            label: "SDK",
+            label: "SDKs",
           },
           {
             sidebarId: "APIsSidebar",
@@ -222,8 +222,8 @@ const config = {
                 to: "docs/search_apis_versioned/quran-foundation-search-api",
               },
               {
-                label: "SDK Docs",
-                to: "docs/sdk",
+                label: "JavaScript SDK",
+                to: "docs/sdk/javascript",
               },
               {
                 label: "User-related APIs",
@@ -264,8 +264,8 @@ const config = {
                 to: "/docs/search_apis_versioned/quran-foundation-search-api",
               },
               {
-                label: "SDK Docs",
-                to: "/docs/sdk",
+                label: "JavaScript SDK",
+                to: "/docs/sdk/javascript",
               },
               {
                 label: "User-related APIs",

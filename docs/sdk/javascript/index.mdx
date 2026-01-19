@@ -1,0 +1,130 @@
+---
+title: JavaScript SDK
+description: Install and configure @quranjs/api - the official TypeScript/JavaScript SDK for the Quran.Foundation API.
+slug: /sdk/javascript
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+The official JavaScript/TypeScript SDK for the Quran.Foundation API. Works in Node.js and browsers.
+
+<p>
+  <a
+    href="https://www.npmjs.com/package/@quranjs/api"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    View on NPM
+  </a>{" "}
+  ·{" "}
+  <a
+    href="https://github.com/quran/api-js"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    GitHub Repository
+  </a>
+</p>
+
+## Installation
+
+<Tabs groupId="sdk-install" queryString>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm install @quranjs/api
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm install @quranjs/api
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="yarn">
+
+```bash
+yarn add @quranjs/api
+```
+
+  </TabItem>
+  <TabItem value="bun" label="bun">
+
+```bash
+bun add @quranjs/api
+```
+
+  </TabItem>
+</Tabs>
+
+## Quick Start
+
+```ts
+import { Language, QuranClient } from "@quranjs/api";
+
+// Initialize the client
+const client = new QuranClient({
+  clientId: process.env.QURAN_CLIENT_ID!,
+  clientSecret: process.env.QURAN_CLIENT_SECRET!,
+  defaults: {
+    language: Language.ENGLISH,
+  },
+});
+
+// Fetch all chapters
+const chapters = await client.chapters.findAll();
+
+// Get a specific verse
+const verse = await client.verses.findByKey("2:255", {
+  translations: [20],
+  words: true,
+});
+
+// Search
+const results = await client.search.search("light", {
+  mode: SearchMode.Quick,
+  language: Language.ENGLISH,
+});
+```
+
+## Environment Variables
+
+```bash
+# .env
+QURAN_CLIENT_ID=your_client_id
+QURAN_CLIENT_SECRET=your_client_secret
+```
+
+```ts
+const client = new QuranClient({
+  clientId: process.env.QURAN_CLIENT_ID!,
+  clientSecret: process.env.QURAN_CLIENT_SECRET!,
+});
+```
+
+## Runtime Configuration
+
+```ts
+// Get current config
+const config = client.getConfig();
+
+// Update config
+client.updateConfig({
+  defaults: { language: Language.ARABIC },
+});
+
+// Clear auth token
+client.clearCachedToken();
+```
+
+## Next Steps
+
+- [Chapters API](/docs/sdk/javascript/chapters)
+- [Verses API](/docs/sdk/javascript/verses)
+- [Audio API](/docs/sdk/javascript/audio)
+- [Resources API](/docs/sdk/javascript/resources)
+- [Search API](/docs/sdk/javascript/search)
+- [Migration Guide](/docs/sdk/javascript/migration)
