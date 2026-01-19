@@ -14,7 +14,10 @@
             "description": "Search mode - quick for navigation/autocomplete, advanced for detailed results",
             "example": "quick",
             "schema": {
-              "enum": ["advanced", "quick"],
+              "enum": [
+                "advanced",
+                "quick"
+              ],
               "type": "string"
             }
           },
@@ -45,7 +48,10 @@
             "description": "Return only exact matches (advanced mode only)",
             "schema": {
               "default": "0",
-              "enum": ["0", "1"],
+              "enum": [
+                "0",
+                "1"
+              ],
               "type": "string"
             }
           },
@@ -56,7 +62,10 @@
             "description": "Include full verse text in results",
             "schema": {
               "default": "0",
-              "enum": ["0", "1"],
+              "enum": [
+                "0",
+                "1"
+              ],
               "type": "string"
             }
           },
@@ -67,7 +76,10 @@
             "description": "Highlight matching text in results",
             "schema": {
               "default": "1",
-              "enum": ["0", "1"],
+              "enum": [
+                "0",
+                "1"
+              ],
               "type": "string"
             }
           },
@@ -137,7 +149,9 @@
             "description": "Forbidden - token does not have the required \"search\" scope"
           }
         },
-        "tags": ["Search"]
+        "tags": [
+          "Search"
+        ]
       }
     }
   },
@@ -209,7 +223,12 @@
             "description": "Total number of matching records"
           }
         },
-        "required": ["current_page", "per_page", "total_pages", "total_records"]
+        "required": [
+          "current_page",
+          "per_page",
+          "total_pages",
+          "total_records"
+        ]
       },
       "SearchNavigationResultDto": {
         "type": "object",
@@ -258,7 +277,11 @@
             "description": "True if the result is from transliteration matching"
           }
         },
-        "required": ["result_type", "key", "name"]
+        "required": [
+          "result_type",
+          "key",
+          "name"
+        ]
       },
       "SearchResultsDto": {
         "type": "object",
@@ -306,7 +329,10 @@
             }
           }
         },
-        "required": ["navigation", "verses"]
+        "required": [
+          "navigation",
+          "verses"
+        ]
       },
       "SearchResponseDto": {
         "type": "object",
@@ -328,7 +354,10 @@
             ]
           }
         },
-        "required": ["pagination", "result"]
+        "required": [
+          "pagination",
+          "result"
+        ]
       }
     }
   },
