@@ -266,6 +266,11 @@
             "example": "Al-Fatihah",
             "description": "Display name of the result (chapter name, verse text preview, etc.)"
           },
+          "arabic": {
+            "type": "string",
+            "example": "الفاتحة",
+            "description": "Original Arabic text of the result"
+          },
           "isArabic": {
             "type": "boolean",
             "example": true,
