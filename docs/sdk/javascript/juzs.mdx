@@ -1,8 +1,10 @@
 ---
 title: Juzs API
 description: Access information about the 30 Juzs (Para/Siparah) of the Quran.
-slug: /sdk/juzs
+slug: /sdk/javascript/juzs
 ---
+
+import Link from "@docusaurus/Link";
 
 The Juzs API provides information about the 30 Juzs, which are traditional divisions of the Quran.
 
@@ -27,14 +29,14 @@ console.log(juzs[0]); // First Juz
 
 ## Juz Type
 
-| Field | Type | Notes |
-| --- | --- | --- |
-| `id` | `number` | Unique identifier for the Juz. |
-| `juzNumber` | `number` | Juz sequence from 1 to 30. |
+| Field          | Type                     | Notes                                                      |
+| -------------- | ------------------------ | ---------------------------------------------------------- |
+| `id`           | `number`                 | Unique identifier for the Juz.                             |
+| `juzNumber`    | `number`                 | Juz sequence from 1 to 30.                                 |
 | `verseMapping` | `Record<string, string>` | Maps start/end verse keys for each section within the Juz. |
-| `firstVerseId` | `number` | Identifier of the first verse in the Juz. |
-| `lastVerseId` | `number` | Identifier of the last verse in the Juz. |
-| `versesCount` | `number` | Total verses contained in the Juz. |
+| `firstVerseId` | `number`                 | Identifier of the first verse in the Juz.                  |
+| `lastVerseId`  | `number`                 | Identifier of the last verse in the Juz.                   |
+| `versesCount`  | `number`                 | Total verses contained in the Juz.                         |
 
 ## Understanding Verse Mapping
 

@@ -1,109 +1,37 @@
 ---
-title: Getting Started
-description: Install and configure @quranjs/api - a TypeScript SDK for the Quran.com API.
+title: SDKs
+description: Official SDKs for the Quran.Foundation API.
 slug: /sdk
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+# Official SDKs
 
-## Installation
+We provide official SDKs to help you integrate the Quran.Foundation API into your applications quickly and easily.
 
-<Tabs groupId="sdk-install" queryString>
-  <TabItem value="npm" label="npm">
+## Available SDKs
 
-  ```bash
-  npm install @quranjs/api
-  ```
+| Language                    | Package                                | Status       |
+| --------------------------- | -------------------------------------- | ------------ |
+| **JavaScript / TypeScript** | [`@quranjs/api`](/docs/sdk/javascript) | ✅ Available |
+| Python                      | Coming soon                            | 🚧 Planned   |
+| Swift                       | Coming soon                            | 🚧 Planned   |
+| Kotlin                      | Coming soon                            | 🚧 Planned   |
 
-  </TabItem>
-  <TabItem value="pnpm" label="pnpm">
+## Get Started
 
-  ```bash
-  pnpm install @quranjs/api
-  ```
+Choose your language to get started:
 
-  </TabItem>
-  <TabItem value="yarn" label="yarn">
+- [JavaScript / TypeScript SDK](/docs/sdk/javascript) — Full-featured SDK for Node.js and browsers
 
-  ```bash
-  yarn add @quranjs/api
-  ```
+## Why Use an SDK?
 
-  </TabItem>
-  <TabItem value="bun" label="bun">
+Our SDKs provide:
 
-  ```bash
-  bun add @quranjs/api
-  ```
+- **Type Safety** — Full TypeScript support with comprehensive type definitions
+- **Authentication** — Automatic OAuth2 token management and refresh
+- **Error Handling** — Consistent error handling across all endpoints
+- **Developer Experience** — IntelliSense support and comprehensive documentation
 
-  </TabItem>
-</Tabs>
+## Direct API Access
 
-## Quick Start
-
-```ts
-import { Language, QuranClient } from "@quranjs/api";
-
-// Initialize the client
-const client = new QuranClient({
-  clientId: process.env.QURAN_CLIENT_ID!,
-  clientSecret: process.env.QURAN_CLIENT_SECRET!,
-  defaults: {
-    language: Language.ENGLISH,
-  },
-});
-
-// Fetch all chapters
-const chapters = await client.chapters.findAll();
-
-// Get a specific verse
-const verse = await client.verses.findByKey("2:255", {
-  translations: [20],
-  words: true,
-});
-
-// Search
-const results = await client.search.search("light", {
-  language: Language.ENGLISH,
-  size: 10,
-});
-```
-
-## Environment Variables
-
-```bash
-# .env
-QURAN_CLIENT_ID=your_client_id
-QURAN_CLIENT_SECRET=your_client_secret
-```
-
-```ts
-const client = new QuranClient({
-  clientId: process.env.QURAN_CLIENT_ID!,
-  clientSecret: process.env.QURAN_CLIENT_SECRET!,
-});
-```
-
-## Runtime Configuration
-
-```ts
-// Get current config
-const config = client.getConfig();
-
-// Update config
-client.updateConfig({
-  defaults: { language: Language.ARABIC },
-});
-
-// Clear auth token
-client.clearCachedToken();
-```
-
-## Next Steps
-
-- [Chapters API](/docs/sdk/chapters)
-- [Verses API](/docs/sdk/verses)
-- [Audio API](/docs/sdk/audio)
-- [Resources API](/docs/sdk/resources)
-- [Migration Guide](/docs/sdk/migration)
+If you prefer to use the API directly without an SDK, check out our [Quick Start Guide](/docs/quickstart) and [API Reference](/docs/category/content-apis).

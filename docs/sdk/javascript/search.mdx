@@ -1,0 +1,200 @@
+---
+title: Search API
+description: Search Quran content with language support and pagination.
+slug: /sdk/javascript/search
+---
+
+import Link from "@docusaurus/Link";
+
+The Search API enables searching through Quranic content with multi-language support. It supports two modes: **Quick** for autocomplete/navigation and **Advanced** for detailed search results.
+
+:::info
+See the [Search API Reference](/docs/search_apis_versioned/search-controller-search) for the complete endpoint documentation.
+:::
+
+## Search Modes
+
+The [`@quranjs/api`](/docs/sdk/javascript) SDK requires specifying a search mode:
+
+| Mode                  | Use Case                  | Description                                                           |
+| --------------------- | ------------------------- | --------------------------------------------------------------------- |
+| `SearchMode.Quick`    | Command bar, autocomplete | Returns navigational results (chapters, juz, pages) and verse matches |
+| `SearchMode.Advanced` | Search results page       | Returns detailed verse results with pagination                        |
+
+## Basic Search
+
+```ts
+import { SearchMode } from "@quranjs/api";
+
+// Quick search (for autocomplete/navigation)
+const quickResults = await client.search.search("fatiha", {
+  mode: SearchMode.Quick,
+});
+
+// Advanced search (for detailed results)
+const advancedResults = await client.search.search("mercy", {
+  mode: SearchMode.Advanced,
+});
+```
+
+## Response Structure
+
+The search response contains:
+
+```ts
+interface SearchResponse {
+  pagination: {
+    currentPage: number;
+    nextPage: number | null;
+    perPage: number;
+    totalPages: number;
+    totalRecords: number;
+  };
+  result?: {
+    navigation: SearchResult[]; // Chapters, juz, pages matching query
+    verses: SearchResult[]; // Individual verse matches
+  };
+}
+```
+
+### SearchResult Type
+
+| Field               | Type                   | Description                                                                    |
+| ------------------- | ---------------------- | ------------------------------------------------------------------------------ |
+| `resultType`        | `SearchNavigationType` | Type of result: `surah`, `juz`, `hizb`, `ayah`, `rub_el_hizb`, `page`, `range` |
+| `key`               | `number \| string`     | Navigation key (chapter number, verse key like `"1:1"`, juz number, etc.)      |
+| `name`              | `string`               | Display name (chapter name, verse text preview, etc.)                          |
+| `arabic`            | `string?`              | Original Arabic text                                                           |
+| `isArabic`          | `boolean?`             | True if the name contains Arabic text                                          |
+| `isTransliteration` | `boolean?`             | True if matched via transliteration                                            |
+
+## Quick Mode Examples
+
+Quick mode is ideal for command bars and search-as-you-type interfaces:
+
+```ts
+import { SearchMode } from "@quranjs/api";
+
+const results = await client.search.search("fatiha", {
+  mode: SearchMode.Quick,
+  navigationalResultsNumber: 5, // Number of navigation results
+  versesResultsNumber: 10, // Number of verse results
+});
+
+// Navigation results (chapters, juz, pages)
+results.result?.navigation.forEach((nav) => {
+  console.log(`${nav.resultType}: ${nav.name} (key: ${nav.key})`);
+});
+
+// Verse results
+results.result?.verses.forEach((verse) => {
+  console.log(`${verse.key}: ${verse.name}`);
+});
+```
+
+## Advanced Mode Examples
+
+Advanced mode provides paginated, detailed search results:
+
+```ts
+import { Language, SearchMode } from "@quranjs/api";
+
+const results = await client.search.search("mercy", {
+  mode: SearchMode.Advanced,
+  page: 1,
+  size: 20,
+  language: Language.ENGLISH,
+});
+
+console.log(
+  `Page ${results.pagination.currentPage} of ${results.pagination.totalPages}`,
+);
+console.log(`Total results: ${results.pagination.totalRecords}`);
+
+results.result?.verses.forEach((verse) => {
+  console.log(`${verse.key}: ${verse.name}`);
+});
+```
+
+### With Translation Filters
+
+```ts
+const results = await client.search.search("الرحمن", {
+  mode: SearchMode.Advanced,
+  translationIds: [131, 20], // Filter by translation IDs
+  exactMatchesOnly: "1", // Only exact matches
+});
+```
+
+### Pagination
+
+```ts
+// Get first page
+const page1 = await client.search.search("light", {
+  mode: SearchMode.Advanced,
+  page: 1,
+  size: 20,
+});
+
+// Get next page if available
+if (page1.pagination.nextPage) {
+  const page2 = await client.search.search("light", {
+    mode: SearchMode.Advanced,
+    page: page1.pagination.nextPage,
+    size: 20,
+  });
+}
+```
+
+## Search Options Reference
+
+### Common Options
+
+| Option           | Type                 | Description                         |
+| ---------------- | -------------------- | ----------------------------------- |
+| `mode`           | `SearchMode`         | **Required.** `Quick` or `Advanced` |
+| `language`       | `Language`           | Response language                   |
+| `translationIds` | `string \| number[]` | Filter by translation IDs           |
+
+### Quick Mode Options
+
+| Option                      | Type                 | Default | Description                                 |
+| --------------------------- | -------------------- | ------- | ------------------------------------------- |
+| `navigationalResultsNumber` | `number`             | 5       | Number of navigation results (1-50)         |
+| `versesResultsNumber`       | `number`             | 20      | Number of verse results (1-50)              |
+| `indexes`                   | `string \| string[]` | —       | Indexes to search (`quran`, `translations`) |
+
+### Advanced Mode Options
+
+| Option               | Type                 | Default | Description               |
+| -------------------- | -------------------- | ------- | ------------------------- |
+| `page`               | `number`             | 1       | Page number               |
+| `size`               | `number`             | 30      | Results per page          |
+| `exactMatchesOnly`   | `"0" \| "1"`         | `"0"`   | Only return exact matches |
+| `getText`            | `"0" \| "1"`         | `"0"`   | Include full verse text   |
+| `highlight`          | `"0" \| "1"`         | `"1"`   | Highlight matching text   |
+| `filterTranslations` | `string \| string[]` | —       | Filter by translation IDs |
+
+## Multi-Language Search
+
+```ts
+import { Language, SearchMode } from "@quranjs/api";
+
+// English search
+const english = await client.search.search("mercy", {
+  mode: SearchMode.Advanced,
+  language: Language.ENGLISH,
+});
+
+// Arabic search
+const arabic = await client.search.search("الرحمن", {
+  mode: SearchMode.Advanced,
+  language: Language.ARABIC,
+});
+
+// Urdu search
+const urdu = await client.search.search("رحمت", {
+  mode: SearchMode.Advanced,
+  language: Language.URDU,
+});
+```

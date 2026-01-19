@@ -68,7 +68,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "SDK",
+      label: "SDKs",
       link: {
         type: "doc",
         id: "sdk/index",
@@ -76,17 +76,21 @@ const sidebars = {
       items: [
         {
           type: "category",
-          label: "API Modules",
+          label: "JS/TS",
+          link: {
+            type: "doc",
+            id: "sdk/javascript/index",
+          },
           items: [
-            "sdk/chapters",
-            "sdk/verses",
-            "sdk/audio",
-            "sdk/resources",
-            "sdk/juzs",
-            "sdk/search",
+            "sdk/javascript/chapters",
+            "sdk/javascript/verses",
+            "sdk/javascript/audio",
+            "sdk/javascript/resources",
+            "sdk/javascript/juzs",
+            "sdk/javascript/search",
+            "sdk/javascript/v1-migration-guide",
           ],
         },
-        "sdk/v1-migration-guide",
       ],
     },
     // {
