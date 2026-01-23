@@ -200,6 +200,12 @@ export default function RequestAccess() {
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="request-access-form">
+                            <div className={styles.sectionHeader}>
+                                <h2 className={styles.sectionTitle}>Required</h2>
+                                <p className={styles.sectionHint}>
+                                    We use these to create your application record and contact you.
+                                </p>
+                            </div>
                             <div className="margin-bottom--md">
                                 <label htmlFor="appName" className="form-label">
                                     App Name *
@@ -236,6 +242,13 @@ export default function RequestAccess() {
                                 )}
                             </div>
 
+                            <hr className={styles.sectionDivider} />
+                            <div className={styles.sectionHeader}>
+                                <h2 className={styles.sectionTitle}>Optional: OAuth2 &amp; user data</h2>
+                                <p className={styles.sectionHint}>
+                                    Only needed if you plan to use OAuth2 flows or user-related APIs
+                                </p>
+                            </div>
                             <div className="margin-bottom--md">
                                 <label htmlFor="callbackUrl" className="form-label">
                                     Redirect URI
@@ -248,7 +261,7 @@ export default function RequestAccess() {
                                     {...register('callbackUrl')}
                                 />
                                 <small className="text-muted">
-                                    Optional: Provide the OAuth callback URL.
+                                    OAuth callback URL.
                                 </small>
                             </div>
 
@@ -316,7 +329,7 @@ export default function RequestAccess() {
                                     {...register('postLogoutRedirectUris')}
                                 />
                                 <small className="text-muted">
-                                    Optional: Provide the post-logout redirect URL.
+                                    Optional: Post-logout redirect URL.
                                 </small>
                             </div>
 
