@@ -15,7 +15,7 @@ When you register an OAuth2 client with Quran.Foundation, you can configure meta
 | `client_uri` | Your app's website (clickable from logo) |
 | `policy_uri` | Link to your privacy policy |
 | `tos_uri` | Link to your terms of service |
-| `post_logout_redirect_uris` | Allowed URLs for post-logout redirect |
+| `post_logout_redirect_uris` | Allowed URLs for post-logout redirect (must match a redirect URI's scheme/domain/port) |
 
 ## How to Configure
 
@@ -47,6 +47,11 @@ Your logo appears on the consent page when users authorize your app:
 ### Post-Logout Redirect
 
 To enable redirect after logout, you must **pre-register the URI** in `post_logout_redirect_uris`.
+The post-logout URL must share the same **scheme, domain, and port** as at least one entry in `redirect_uris`.
+
+Examples:
+- Redirect URI: `https://your-app.com/callback` → Post-logout: `https://your-app.com/logout`
+- Redirect URI: `http://localhost:3000/callback` → Post-logout: `http://localhost:3000/logout`
 
 ```javascript
 // Example logout with redirect

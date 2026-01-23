@@ -261,7 +261,7 @@ export default function RequestAccess() {
                                     {...register('callbackUrl')}
                                 />
                                 <small className="text-muted">
-                                    OAuth callback URL.
+                                    OAuth callback URL. Example: https://your-app.com/callback or http://localhost:3000/callback.
                                 </small>
                             </div>
 
@@ -329,7 +329,8 @@ export default function RequestAccess() {
                                     {...register('postLogoutRedirectUris')}
                                 />
                                 <small className="text-muted">
-                                    Optional: Post-logout redirect URL.
+                                    Optional: Must match Redirect URI scheme, domain, and port.
+                                    Example: https://your-app.com/logout or http://localhost:3000/logout.
                                 </small>
                             </div>
 
