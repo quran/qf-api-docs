@@ -188,19 +188,27 @@ app.get("/callback", async (req, res) => {
 });
 ```
 
-#### 4. Logout with OAuth2 Provider
+#### 4. Logout with Redirect
+
+To redirect users back to your app after logout, include the `post_logout_redirect_uri` parameter:
 
 ```javascript
 app.get("/logout", (req, res) => {
-  req.session.destroy();
+  req.session.destroy(() => {
+    // Build logout URL with redirect back to app
+    const params = new URLSearchParams({
+      post_logout_redirect_uri: `${process.env.BASE_PATH}/`,
+    });
 
-  // Also logout from Quran.Foundation
-  const logoutUrl = `${process.env.TOKEN_HOST}/oauth2/sessions/logout?client_id=${process.env.CLIENT_ID}`;
-  res.redirect(logoutUrl);
+    const logoutUrl = `${process.env.TOKEN_HOST}/oauth2/sessions/logout?${params}`;
+    res.redirect(logoutUrl);
+  });
 });
 ```
 
----
+:::warning Pre-Register Your Redirect URI
+The `post_logout_redirect_uri` must be pre-registered in your OAuth2 client's `post_logout_redirect_uris` configuration. Contact us to update your client settings.
+:::
 
 ## Production Deployment
 

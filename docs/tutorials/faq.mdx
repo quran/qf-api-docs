@@ -32,3 +32,14 @@ Store refresh tokens securely and reuse them until they expire. Refresh tokens a
 ## Can I use the demo credentials `quran-demo`/`secret` in production?
 
 No. These demo credentials are for testing only and should not be used in production applications.
+
+## How do I redirect users back to my app after logout?
+
+Include the `post_logout_redirect_uri` parameter when calling the logout endpoint. The redirect URI must be pre-registered in your OAuth2 client's `post_logout_redirect_uris` configuration.
+
+See [Logout with Redirect](/docs/tutorials/oidc/example-integration#4-logout-with-redirect) for implementation examples.
+
+## How do I display my app's logo on the consent page?
+
+Your logo is displayed automatically if `logo_uri` is configured in your OAuth2 client registration. See [Client Configuration](/docs/tutorials/oidc/client-setup) for details on setting up your client metadata.
+
