@@ -16,7 +16,20 @@ const DEFAULT_FORM_VALUES = {
     appName: '',
     email: '',
     callbackUrl: '',
+    logoUri: '',
+    clientUri: '',
+    policyUri: '',
+    tosUri: '',
+    postLogoutRedirectUris: '',
     agreementsAccepted: false,
+};
+
+const normalizeOptionalValue = (value) => {
+    if (typeof value !== 'string') {
+        return undefined;
+    }
+    const trimmed = value.trim();
+    return trimmed ? trimmed : undefined;
 };
 
 function sanitizeFormValues(values) {
@@ -29,6 +42,14 @@ function sanitizeFormValues(values) {
         appName: typeof values.appName === 'string' ? values.appName : '',
         email: typeof values.email === 'string' ? values.email : '',
         callbackUrl: typeof values.callbackUrl === 'string' ? values.callbackUrl : '',
+        logoUri: typeof values.logoUri === 'string' ? values.logoUri : '',
+        clientUri: typeof values.clientUri === 'string' ? values.clientUri : '',
+        policyUri: typeof values.policyUri === 'string' ? values.policyUri : '',
+        tosUri: typeof values.tosUri === 'string' ? values.tosUri : '',
+        postLogoutRedirectUris:
+            typeof values.postLogoutRedirectUris === 'string'
+                ? values.postLogoutRedirectUris
+                : '',
         agreementsAccepted: Boolean(values.agreementsAccepted),
     };
 }
@@ -38,6 +59,11 @@ function isEmptyFormValues(values) {
         !values.appName &&
         !values.email &&
         !values.callbackUrl &&
+        !values.logoUri &&
+        !values.clientUri &&
+        !values.policyUri &&
+        !values.tosUri &&
+        !values.postLogoutRedirectUris &&
         !values.agreementsAccepted
     );
 }
@@ -100,13 +126,27 @@ export default function RequestAccess() {
     const onSubmit = async (data) => {
         setIsSubmitting(true);
         setSubmitError('');
+        const redirectUri = normalizeOptionalValue(data.callbackUrl);
+        const postLogoutRedirectUri = normalizeOptionalValue(data.postLogoutRedirectUris);
+        const payload = {
+            appName: data.appName,
+            email: data.email,
+            callbackUrl: redirectUri,
+            agreementsAccepted: data.agreementsAccepted,
+            logo_uri: normalizeOptionalValue(data.logoUri),
+            client_uri: normalizeOptionalValue(data.clientUri),
+            policy_uri: normalizeOptionalValue(data.policyUri),
+            tos_uri: normalizeOptionalValue(data.tosUri),
+            redirect_uris: redirectUri,
+            post_logout_redirect_uris: postLogoutRedirectUri,
+        };
         try {
             const response = await fetch(`${apiBaseUrl}/api/v1/webhook`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
@@ -198,16 +238,85 @@ export default function RequestAccess() {
 
                             <div className="margin-bottom--md">
                                 <label htmlFor="callbackUrl" className="form-label">
-                                    Callback URL
+                                    Redirect URI
                                 </label>
                                 <input
                                     type="url"
                                     id="callbackUrl"
                                     className="form-input"
+                                    placeholder="https://your-app.com/callback"
                                     {...register('callbackUrl')}
                                 />
                                 <small className="text-muted">
-                                    Optional: Provide a callback URL if you're planning to use OAuth2 authentication
+                                    Optional: Provide the OAuth callback URL.
+                                </small>
+                            </div>
+
+                            <div className="margin-bottom--md">
+                                <label htmlFor="logoUri" className="form-label">
+                                    Logo URL
+                                </label>
+                                <input
+                                    type="url"
+                                    id="logoUri"
+                                    className="form-input"
+                                    placeholder="https://your-app.com/logo.png"
+                                    {...register('logoUri')}
+                                />
+                            </div>
+
+                            <div className="margin-bottom--md">
+                                <label htmlFor="clientUri" className="form-label">
+                                    Client URL
+                                </label>
+                                <input
+                                    type="url"
+                                    id="clientUri"
+                                    className="form-input"
+                                    placeholder="https://your-app.com"
+                                    {...register('clientUri')}
+                                />
+                            </div>
+
+                            <div className="margin-bottom--md">
+                                <label htmlFor="policyUri" className="form-label">
+                                    Privacy Policy URL
+                                </label>
+                                <input
+                                    type="url"
+                                    id="policyUri"
+                                    className="form-input"
+                                    placeholder="https://your-app.com/privacy"
+                                    {...register('policyUri')}
+                                />
+                            </div>
+
+                            <div className="margin-bottom--md">
+                                <label htmlFor="tosUri" className="form-label">
+                                    Terms of Service URL
+                                </label>
+                                <input
+                                    type="url"
+                                    id="tosUri"
+                                    className="form-input"
+                                    placeholder="https://your-app.com/terms"
+                                    {...register('tosUri')}
+                                />
+                            </div>
+
+                            <div className="margin-bottom--md">
+                                <label htmlFor="postLogoutRedirectUris" className="form-label">
+                                    Post-logout Redirect URI
+                                </label>
+                                <input
+                                    type="url"
+                                    id="postLogoutRedirectUris"
+                                    className="form-input"
+                                    placeholder="https://your-app.com/"
+                                    {...register('postLogoutRedirectUris')}
+                                />
+                                <small className="text-muted">
+                                    Optional: Provide the post-logout redirect URL.
                                 </small>
                             </div>
 

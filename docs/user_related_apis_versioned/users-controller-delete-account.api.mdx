@@ -1,0 +1,38 @@
+---
+id: users-controller-delete-account
+title: "Delete user account permanently"
+description: "Permanently delete the authenticated user account and all associated data from QuranReflect and Quran.com. This action is irreversible. The user is immediately banned to prevent further actions, then all data is deleted in the background. All posts, comments, likes, preferences, and memberships will be removed. If the user owns rooms, posts by other members will be converted to global posts."
+sidebar_label: "Delete user account permanently"
+hide_title: true
+hide_table_of_contents: true
+api: {"operationId":"UsersController_deleteAccount","description":"Permanently delete the authenticated user account and all associated data from QuranReflect and Quran.com. This action is irreversible. The user is immediately banned to prevent further actions, then all data is deleted in the background. All posts, comments, likes, preferences, and memberships will be removed. If the user owns rooms, posts by other members will be converted to global posts.","parameters":[],"responses":{"200":{"description":"Account deletion initiated successfully","content":{"application/json":{"schema":{"type":"object","properties":{"success":{"type":"boolean","example":true},"message":{"type":"string","example":"Account deletion initiated successfully"}}}}}},"401":{"description":"User not authenticated"}},"tags":["Users"],"servers":[{"url":"https://apis-prelive.quran.foundation/quran-reflect","description":"Pre-production Server"},{"url":"https://apis.quran.foundation/quran-reflect","description":"Production Server"}],"method":"delete","path":"/v1/users","security":[{"x-auth-token":[],"x-client-id":[]}],"securitySchemes":{"x-auth-token":{"type":"apiKey","in":"header","name":"x-auth-token","description":"The JWT access token required for accessing the endpoints."},"x-client-id":{"type":"apiKey","in":"header","name":"x-client-id","description":"Your client id"}},"info":{"title":"User-related APIs","version":"1.0.0","description":"Quran.Foundation user-related APIs enable your app to seamlessly integrate with Quran.Foundation's user-centric features, providing access to personalized notes, bookmarks, goals, streaks, reading sessions, and more. This differentiates them from [content APIs](/docs/category/content-apis) that focus on non-user-specific resources like translations, tafsirs, and verses.\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). \n\n ## Pagination \n\n We are using cursor based pagination. The pagination query params consist of `first`,`after`, `before` and `last`. \n\n Example \n - `first: 10` will give you first 10 items \n - `first: 10, after: xyz` will give you first 10 items after the item with id `xyz` \n - `last: 10` will give you the last 10 items \n - `last: 10, before: xyz` will give you the last 10 items before the item with id `xyz` \n\n The only possible combinations are `first + after` or `last + before`. They should not be used together"},"postman":{"name":"Delete user account permanently","description":{"content":"Permanently delete the authenticated user account and all associated data from QuranReflect and Quran.com. This action is irreversible. The user is immediately banned to prevent further actions, then all data is deleted in the background. All posts, comments, likes, preferences, and memberships will be removed. If the user owns rooms, posts by other members will be converted to global posts.","type":"text/plain"},"url":{"path":["v1","users"],"host":["{{baseUrl}}"],"query":[],"variable":[]},"header":[{"key":"Accept","value":"application/json"}],"method":"DELETE"}}
+sidebar_class_name: "delete api-method"
+info_path: docs/user_related_apis_versioned/user-related-apis
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## Delete user account permanently
+
+
+
+Permanently delete the authenticated user account and all associated data from QuranReflect and Quran.com. This action is irreversible. The user is immediately banned to prevent further actions, then all data is deleted in the background. All posts, comments, likes, preferences, and memberships will be removed. If the user owns rooms, posts by other members will be converted to global posts.
+
+<div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+Account deletion initiated successfully
+
+</div><div><MimeTabs schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs><TabItem label={"Schema"} value={"Schema"}><details style={{}} data-collapsed={false} open={true}><summary style={{"textAlign":"left"}}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"success"} required={false} schemaName={"boolean"} qualifierMessage={undefined} schema={{"type":"boolean","example":true}}></SchemaItem><SchemaItem collapsible={false} name={"message"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","example":"Account deletion initiated successfully"}}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"success\": true,\n  \"message\": \"Account deletion initiated successfully\"\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem><TabItem label={"401"} value={"401"}><div>
+
+User not authenticated
+
+</div><div></div></TabItem></ApiTabs></div>
+      
