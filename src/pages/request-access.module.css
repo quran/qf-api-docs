@@ -45,3 +45,25 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
 }
+
+.sectionHeader {
+  margin: 1.5rem 0 0.75rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.sectionHint {
+  margin: 0.25rem 0 0;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+}
+
+.sectionDivider {
+  margin: 1.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}

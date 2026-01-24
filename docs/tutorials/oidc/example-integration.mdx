@@ -190,7 +190,7 @@ app.get("/callback", async (req, res) => {
 
 #### 4. Logout with Redirect
 
-To redirect users back to your app after logout, include the `post_logout_redirect_uri` parameter:
+To redirect users back to your app after logout, include the `post_logout_redirect_uri` parameter **and** the `id_token_hint` from the login response:
 
 ```javascript
 app.get("/logout", (req, res) => {
@@ -198,6 +198,7 @@ app.get("/logout", (req, res) => {
     // Build logout URL with redirect back to app
     const params = new URLSearchParams({
       post_logout_redirect_uri: `${process.env.BASE_PATH}/`,
+      id_token_hint: req.session.token?.id_token,
     });
 
     const logoutUrl = `${process.env.TOKEN_HOST}/oauth2/sessions/logout?${params}`;
