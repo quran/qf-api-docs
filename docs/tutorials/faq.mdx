@@ -35,7 +35,7 @@ No. These demo credentials are for testing only and should not be used in produc
 
 ## How do I redirect users back to my app after logout?
 
-Include the `post_logout_redirect_uri` parameter when calling the logout endpoint. The redirect URI must be pre-registered in your OAuth2 client's `post_logout_redirect_uris` configuration.
+Include the `post_logout_redirect_uri` parameter when calling the logout endpoint **and** pass `id_token_hint` (the ID token from the login response). The redirect URI must be pre-registered in your OAuth2 client's `post_logout_redirect_uris` configuration. If `post_logout_redirect_uri` is set without `id_token_hint`, the logout request will be rejected.
 
 See [Logout with Redirect](/docs/tutorials/oidc/example-integration#4-logout-with-redirect) for implementation examples.
 

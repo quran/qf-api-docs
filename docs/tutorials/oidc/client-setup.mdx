@@ -57,6 +57,8 @@ Examples:
 // Example logout with redirect
 const params = new URLSearchParams({
   post_logout_redirect_uri: "https://your-app.com/",
+  // Required when using post_logout_redirect_uri
+  id_token_hint: idTokenFromLogin,
 });
 
 const logoutUrl = `https://oauth2.quran.foundation/oauth2/sessions/logout?${params}`;
@@ -64,6 +66,10 @@ const logoutUrl = `https://oauth2.quran.foundation/oauth2/sessions/logout?${para
 
 :::warning Without Pre-Registration
 If `post_logout_redirect_uri` is not pre-registered in your client configuration, users will remain on the OAuth2 provider's page after logout.
+:::
+
+:::warning Missing ID Token Hint
+If you include `post_logout_redirect_uri` without `id_token_hint`, the logout request will be rejected. Use the ID token returned during login (`id_token`) as the hint.
 :::
 
 ## Example Client Configuration
