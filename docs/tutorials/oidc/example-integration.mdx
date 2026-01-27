@@ -70,7 +70,7 @@ const response = await fetch(
       "x-auth-token": access_token,
       "x-client-id": process.env.CLIENT_ID,
     },
-  }
+  },
 );
 const bookmarks = await response.json();
 ```
@@ -233,5 +233,5 @@ fly deploy
 ## Next Steps
 
 - **[Full OAuth2 Guide](/docs/tutorials/oidc/getting-started-with-oauth2)** — Detailed walkthrough with AI prompts
-- **[Mobile Apps](/docs/category/mobile-apps)** — iOS, Android, React Native guides
+- **[SDK](/docs/sdk)** — Client SDK for mobile and web apps
 - **[User APIs Reference](/docs/category/user-related-apis)** — All available endpoints
