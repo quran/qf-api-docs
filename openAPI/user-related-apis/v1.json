@@ -34,7 +34,7 @@
       "Bookmark": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "cmku2pvz90005pdjq1l2ndb81" },
+          "id": { "type": "string", "example": "cmkwbc0iu0005b0s028eh6ztm" },
           "createdAt": {
             "type": "string",
             "format": "date-time",
@@ -51,7 +51,7 @@
       "Collection": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "cmku2pw0h0007pdjqc10s2chz" },
+          "id": { "type": "string", "example": "cmkwbc0k10007b0s0g5jh3l4e" },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
@@ -357,7 +357,7 @@
       "ReadingSession": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "cmku2pwby000epdjqg6eqec02" },
+          "id": { "type": "string", "example": "cmkwbc0yr000gb0s01wvy1ntj" },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
@@ -1260,6 +1260,52 @@
               }
             }
           },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error. The request includes one or more invalid params. Please check the request params and try again.",
             "content": {
@@ -1447,7 +1493,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmku2pvui0000pdjqec4ug7py"
+              "example": "cmkwbc0dr0000b0s0fboz3anv"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -1458,7 +1504,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmku2pvuj0001pdjqgbvqbbqw"
+              "example": "cmkwbc0ds0001b0s01bxvcw79"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -1481,11 +1527,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -1718,7 +1764,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the collection to be added.",
-              "example": "cmku2pw240008pdjqhq5r6or3"
+              "example": "cmkwbc0lu0008b0s0ax83876g"
             },
             "required": true,
             "description": "The Id of the collection to be added."
@@ -1900,6 +1946,52 @@
               }
             }
           },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error. The request includes one or more invalid params. Please check the request params and try again.",
             "content": {
@@ -2027,13 +2119,11 @@
             }
           }
         }
-      }
-    },
-    "/v1/collections/{collectionId}": {
+      },
       "delete": {
-        "description": "Delete a an existing collection.",
+        "description": "Delete a bookmark from an existing collection by bookmark's details. When successfully deleted, the bookmark itself does not get deleted but rather only detached from the collection.",
         "tags": ["Collections"],
-        "summary": "Delete collection",
+        "summary": "Delete collection bookmark by details",
         "parameters": [
           {
             "in": "path",
@@ -2041,7 +2131,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the collection to be deleted.",
-              "example": "cmku2pw2b0009pdjq26tddi7u"
+              "example": "cmkwbc0mo000bb0s0agvl9c6c"
             },
             "required": true,
             "description": "The Id of the collection to be deleted."
@@ -2068,22 +2158,10 @@
                   "type": "object",
                   "properties": {
                     "success": { "type": "boolean", "example": true },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "message": { "enum": ["collection deleted"] }
-                      },
-                      "additionalProperties": false
-                    }
+                    "data": { "type": "object" }
                   },
                   "additionalProperties": false
                 }
-              }
-            },
-            "headers": {
-              "X-Mutation-At": {
-                "description": "Unix timestamp (milliseconds) of the latest mutation for the user. Clients should store this value and include it in subsequent mutation requests for optimistic concurrency control.",
-                "schema": { "type": "string", "example": "1731636500303" }
               }
             }
           },
@@ -2289,6 +2367,389 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "integer",
+                        "description": "Surah number",
+                        "example": 2
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["ayah"],
+                        "description": "The bookmark type.",
+                        "default": "ayah"
+                      },
+                      "verseNumber": { "type": "integer", "example": 3 },
+                      "mushaf": {
+                        "type": "integer",
+                        "enum": [1, 2, 3, 4, 5, 6, 7, 11, 19],
+                        "description": "The id of the Mushaf being used. \n\n1 = QCFV2 \n\n  2 = QCFV1 \n\n  3 = Indopak \n\n  4 = UthmaniHafs \n\n  5 = KFGQPCHAFS \n\n  6 = Indopak15Lines \n\n  7 = Indopak16Lines \n\n  11 = Tajweeed \n\n  19 = QCFTajweedV4",
+                        "example": 4
+                      }
+                    },
+                    "required": ["key", "verseNumber", "mushaf"],
+                    "additionalProperties": false,
+                    "title": "Ayah"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "integer",
+                        "description": "Surah, Juz or page number."
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["juz", "page", "surah"],
+                        "description": "The bookmark type.",
+                        "example": "surah"
+                      },
+                      "mushaf": {
+                        "type": "integer",
+                        "enum": [1, 2, 3, 4, 5, 6, 7, 11, 19],
+                        "description": "The id of the Mushaf being used. \n\n1 = QCFV2 \n\n  2 = QCFV1 \n\n  3 = Indopak \n\n  4 = UthmaniHafs \n\n  5 = KFGQPCHAFS \n\n  6 = Indopak15Lines \n\n  7 = Indopak16Lines \n\n  11 = Tajweeed \n\n  19 = QCFTajweedV4",
+                        "example": 4
+                      }
+                    },
+                    "required": ["key", "mushaf"],
+                    "additionalProperties": false,
+                    "title": "Surah, Juz, Or Page"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "bookmarkId": {
+                        "type": "string",
+                        "description": "The Id of the bookmark to be deleted.",
+                        "example": "cmkwbc0mo000ab0s0ddad6f04"
+                      }
+                    },
+                    "required": ["bookmarkId"],
+                    "additionalProperties": false,
+                    "title": "Bookmark ID"
+                  }
+                ],
+                "title": "input"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/collections/{collectionId}": {
+      "delete": {
+        "description": "Delete a an existing collection.",
+        "tags": ["Collections"],
+        "summary": "Delete collection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "collectionId",
+            "schema": {
+              "type": "string",
+              "description": "The Id of the collection to be deleted.",
+              "example": "cmkwbc0m10009b0s0d05fapzk"
+            },
+            "required": true,
+            "description": "The Id of the collection to be deleted."
+          },
+          {
+            "in": "query",
+            "name": "lastMutationAt",
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "description": "The timestamp of the last mutation that was applied on the server. Required for any data modification operation to ensure concurrency control.",
+              "example": 1731636500303
+            },
+            "required": true,
+            "description": "The timestamp of the last mutation that was applied on the server. Required for any data modification operation to ensure concurrency control."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request has been handled successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": { "enum": ["collection deleted"] }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "headers": {
+              "X-Mutation-At": {
+                "description": "Unix timestamp (milliseconds) of the latest mutation for the user. Clients should store this value and include it in subsequent mutation requests for optimistic concurrency control.",
+                "schema": { "type": "string", "example": "1731636500303" }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is missing required parameters or is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The request is missing required headers or is invalid"
+                    },
+                    "type": { "type": "string", "example": "invalid_request" },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The request is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The request requires user authentication"
+                    },
+                    "type": { "type": "string", "example": "unauthorized" },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden error. Can either be due to access token not being passed, having been expired or the caller trying to access a resource without enough permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The server understood the request, but refuses to authorize it"
+                    },
+                    "type": { "type": "string", "example": "forbidden" },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. The resource being accessed does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The requested resource could not be found"
+                    },
+                    "type": { "type": "string", "example": "not_found" },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error. The request includes one or more invalid params. Please check the request params and try again.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The request was well-formed but was unable to be followed due to semantic errors"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "unprocessable_entity"
+                    },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests, please try again later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Too many requests, please try again later"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "rate_limit_exceeded"
+                    },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error. Something went wrong, try again later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The server encountered an internal error and was unable to complete your request"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "internal_server_error"
+                    },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Invalid response from the upstream server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The server was acting as a gateway or proxy and received an invalid response from the upstream server"
+                    },
+                    "type": { "type": "string", "example": "bad_gateway" },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The server is currently unable to handle the request due to a temporary overload or scheduled maintenance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The server is currently unable to handle the request due to a temporary overload or scheduled maintenance"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "service_unavailable"
+                    },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "The server did not receive a timely response from the upstream server.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The server was acting as a gateway or proxy and did not receive a timely response from the upstream server"
+                    },
+                    "type": { "type": "string", "example": "gateway_timeout" },
+                    "success": { "type": "boolean", "example": false }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
         }
       },
       "get": {
@@ -2301,7 +2762,7 @@
             "name": "collectionId",
             "schema": {
               "type": "string",
-              "example": "cmku2pw36000cpdjqfahw9b56"
+              "example": "cmkwbc0ng000eb0s04gn2b009"
             }
           },
           {
@@ -2346,7 +2807,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmku2pvui0000pdjqec4ug7py"
+              "example": "cmkwbc0dr0000b0s0fboz3anv"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -2357,7 +2818,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmku2pvuj0001pdjqgbvqbbqw"
+              "example": "cmkwbc0ds0001b0s01bxvcw79"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -2389,11 +2850,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -2762,6 +3223,52 @@
               }
             }
           },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error. The request includes one or more invalid params. Please check the request params and try again.",
             "content": {
@@ -2903,7 +3410,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the collection to be deleted.",
-              "example": "cmku2pw2i000apdjqae7igz3n"
+              "example": "cmkwbc0mu000cb0s0cm6n09p7"
             },
             "required": true,
             "description": "The Id of the collection to be deleted."
@@ -2914,7 +3421,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the bookmark to be deleted.",
-              "example": "cmku2pw2i000bpdjqeuau0kl3"
+              "example": "cmkwbc0mu000db0s005p84503"
             },
             "required": true,
             "description": "The Id of the bookmark to be deleted."
@@ -3032,6 +3539,52 @@
                     "success": { "type": "boolean", "example": false }
                   },
                   "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -3224,7 +3777,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmku2pvui0000pdjqec4ug7py"
+              "example": "cmkwbc0dr0000b0s0fboz3anv"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -3235,7 +3788,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmku2pvuj0001pdjqgbvqbbqw"
+              "example": "cmkwbc0ds0001b0s01bxvcw79"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -3258,11 +3811,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -3664,6 +4217,52 @@
               }
             }
           },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error. The request includes one or more invalid params. Please check the request params and try again.",
             "content": {
@@ -3855,7 +4454,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmku2pvui0000pdjqec4ug7py"
+              "example": "cmkwbc0dr0000b0s0fboz3anv"
             },
             "required": false,
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
@@ -3867,7 +4466,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmku2pvuj0001pdjqgbvqbbqw"
+              "example": "cmkwbc0ds0001b0s01bxvcw79"
             },
             "required": false,
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
@@ -3891,11 +4490,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -4128,7 +4727,7 @@
             "schema": {
               "type": "string",
               "description": "The id of the bookmark to be deleted.",
-              "example": "cmku2pvzi0006pdjq9cai8zg8"
+              "example": "cmkwbc0j40006b0s0gh8bh75y"
             },
             "required": true,
             "description": "The id of the bookmark to be deleted."
@@ -4246,6 +4845,52 @@
                     "success": { "type": "boolean", "example": false }
                   },
                   "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -4446,11 +5091,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -5019,7 +5664,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmku2pvui0000pdjqec4ug7py"
+              "example": "cmkwbc0dr0000b0s0fboz3anv"
             },
             "required": false,
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
@@ -5031,7 +5676,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmku2pvuj0001pdjqgbvqbbqw"
+              "example": "cmkwbc0ds0001b0s01bxvcw79"
             },
             "required": false,
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
@@ -6683,7 +7328,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmku2pvui0000pdjqec4ug7py"
+              "example": "cmkwbc0dr0000b0s0fboz3anv"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -6694,7 +7339,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmku2pvuj0001pdjqgbvqbbqw"
+              "example": "cmkwbc0ds0001b0s01bxvcw79"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -6717,11 +7362,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -6958,7 +7603,8 @@
                 "QURAN_PAGES",
                 "QURAN_RANGE",
                 "COURSE",
-                "QURAN_READING_PROGRAM"
+                "QURAN_READING_PROGRAM",
+                "RAMADAN_CHALLENGE"
               ],
               "description": "The type of the goal.",
               "example": "QURAN_TIME"
@@ -7004,7 +7650,7 @@
                             "id": {
                               "type": "string",
                               "description": "The id of the activity day.",
-                              "example": "cmku2pvv00004pdjqb000bm4m"
+                              "example": "cmkwbc0ec0004b0s040lfctn8"
                             },
                             "date": {
                               "type": "string",
@@ -7352,7 +7998,7 @@
             "schema": {
               "type": "string",
               "description": "The id of the goal.",
-              "example": "cmku2pw4c000dpdjq8fb6hiz4"
+              "example": "cmkwbc0oi000fb0s04c737onv"
             },
             "required": true,
             "description": "The id of the goal."
@@ -7393,7 +8039,8 @@
                       "QURAN_PAGES",
                       "QURAN_RANGE",
                       "COURSE",
-                      "QURAN_READING_PROGRAM"
+                      "QURAN_READING_PROGRAM",
+                      "RAMADAN_CHALLENGE"
                     ],
                     "description": "The type of the goal.",
                     "example": "QURAN_TIME"
@@ -7422,7 +8069,12 @@
                   },
                   "category": {
                     "type": "string",
-                    "enum": ["QURAN", "COURSE", "QURAN_READING_PROGRAM"],
+                    "enum": [
+                      "QURAN",
+                      "COURSE",
+                      "QURAN_READING_PROGRAM",
+                      "RAMADAN_CHALLENGE"
+                    ],
                     "description": "The category of the goal"
                   }
                 },
@@ -7666,7 +8318,7 @@
             "schema": {
               "type": "string",
               "description": "The id of the goal.",
-              "example": "cmku2pw4c000dpdjq8fb6hiz4"
+              "example": "cmkwbc0oi000fb0s04c737onv"
             },
             "required": true,
             "description": "The id of the goal."
@@ -7676,7 +8328,12 @@
             "name": "category",
             "schema": {
               "type": "string",
-              "enum": ["QURAN", "COURSE", "QURAN_READING_PROGRAM"],
+              "enum": [
+                "QURAN",
+                "COURSE",
+                "QURAN_READING_PROGRAM",
+                "RAMADAN_CHALLENGE"
+              ],
               "description": "The category of the goal"
             },
             "required": true,
@@ -7960,7 +8617,8 @@
                       "QURAN_PAGES",
                       "QURAN_RANGE",
                       "COURSE",
-                      "QURAN_READING_PROGRAM"
+                      "QURAN_READING_PROGRAM",
+                      "RAMADAN_CHALLENGE"
                     ],
                     "description": "The type of the goal.",
                     "example": "QURAN_TIME"
@@ -7989,7 +8647,12 @@
                   },
                   "category": {
                     "type": "string",
-                    "enum": ["QURAN", "COURSE", "QURAN_READING_PROGRAM"],
+                    "enum": [
+                      "QURAN",
+                      "COURSE",
+                      "QURAN_READING_PROGRAM",
+                      "RAMADAN_CHALLENGE"
+                    ],
                     "description": "The category of the goal"
                   }
                 },
@@ -8014,7 +8677,7 @@
                         "id": {
                           "type": "string",
                           "description": "The id of the goal.",
-                          "example": "cmku2pw4c000dpdjq8fb6hiz4"
+                          "example": "cmkwbc0oi000fb0s04c737onv"
                         }
                       },
                       "required": ["id"],
@@ -8247,7 +8910,8 @@
                 "QURAN_PAGES",
                 "QURAN_RANGE",
                 "COURSE",
-                "QURAN_READING_PROGRAM"
+                "QURAN_READING_PROGRAM",
+                "RAMADAN_CHALLENGE"
               ],
               "description": "The type of the goal.",
               "example": "QURAN_TIME"
@@ -8641,7 +9305,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmku2pvui0000pdjqec4ug7py"
+              "example": "cmkwbc0dr0000b0s0fboz3anv"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -8652,7 +9316,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmku2pvuj0001pdjqgbvqbbqw"
+              "example": "cmkwbc0ds0001b0s01bxvcw79"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -8674,7 +9338,7 @@
                           "id": {
                             "type": "string",
                             "description": "The id of the streak.",
-                            "example": "cmku2pwch000fpdjqbtmhe78f"
+                            "example": "cmkwbc0zd000hb0s04j4j2nuj"
                           },
                           "startDate": {
                             "type": "string",
@@ -8715,11 +9379,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -9581,7 +10245,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmku2pvui0000pdjqec4ug7py"
+              "example": "cmkwbc0dr0000b0s0fboz3anv"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -9592,7 +10256,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmku2pvuj0001pdjqgbvqbbqw"
+              "example": "cmkwbc0ds0001b0s01bxvcw79"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -9614,7 +10278,7 @@
                           "id": {
                             "type": "string",
                             "description": "The id of the activity day.",
-                            "example": "cmku2pvv00004pdjqb000bm4m"
+                            "example": "cmkwbc0ec0004b0s040lfctn8"
                           },
                           "date": {
                             "type": "string",
@@ -9738,11 +10402,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -10466,11 +11130,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -10936,6 +11600,52 @@
               }
             }
           },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error. The request includes one or more invalid params. Please check the request params and try again.",
             "content": {
@@ -11174,11 +11884,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0002pdjqei7wcrwp"
+                          "example": "cmkwbc0ds0002b0s0aeub15nr"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmku2pvuj0003pdjq75t5g9e7"
+                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -12848,6 +13558,52 @@
               }
             }
           },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error. The request includes one or more invalid params. Please check the request params and try again.",
             "content": {
@@ -13102,6 +13858,52 @@
                     "success": { "type": "boolean", "example": false }
                   },
                   "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -13402,6 +14204,52 @@
               }
             }
           },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "422": {
             "description": "Validation Error. The request includes one or more invalid params. Please check the request params and try again.",
             "content": {
@@ -13565,12 +14413,12 @@
             "name": "metadataOnly",
             "schema": {
               "type": "boolean",
-              "description": "When true, only returns lastMutationAt without mutations.",
+              "description": "When true, returns only the lastMutationAt timestamp without fetching actual mutations. This is significantly faster (single DB query vs multiple joins) and ideal for: 1) Checking if new data exists before performing a full sync, 2) Implementing periodic background polling to detect changes, 3) Recovering the current lastMutationAt if the client missed the X-Mutation-At header from a previous successful mutation response. Response will only contain { lastMutationAt: number }.",
               "example": true,
               "default": false
             },
             "required": false,
-            "description": "When true, only returns lastMutationAt without mutations."
+            "description": "When true, returns only the lastMutationAt timestamp without fetching actual mutations. This is significantly faster (single DB query vs multiple joins) and ideal for: 1) Checking if new data exists before performing a full sync, 2) Implementing periodic background polling to detect changes, 3) Recovering the current lastMutationAt if the client missed the X-Mutation-At header from a previous successful mutation response. Response will only contain { lastMutationAt: number }."
           },
           {
             "in": "query",
@@ -13824,6 +14672,52 @@
                     "success": { "type": "boolean", "example": false }
                   },
                   "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": false },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "OutOfSyncError"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid lastMutationAt, please re-sync your data and try again."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Out of sync": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -14258,7 +15152,7 @@
             }
           },
           "409": {
-            "description": "Out of Sync Error. The client lastMutationAt does not match server state.",
+            "description": "Out of Sync Error. The client lastMutationAt does not match server state. Client must re-sync data before retrying this operation.",
             "content": {
               "application/json": {
                 "schema": {
@@ -14287,6 +15181,15 @@
                       "error": {
                         "code": "OutOfSyncError",
                         "message": "Invalid lastMutationAt, please re-sync your data and try again."
+                      }
+                    }
+                  },
+                  "First sync - wrong lastMutationAt": {
+                    "value": {
+                      "success": false,
+                      "error": {
+                        "code": "OutOfSyncError",
+                        "message": "First sync detected. Please use lastMutationAt=-1 for initial sync."
                       }
                     }
                   }
