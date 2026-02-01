@@ -50,16 +50,14 @@ flowchart TB
 
 ### Data Model
 
-Store synced resources with metadata:
+Store synced resources with metadata. Resource fields vary by type, so keep them in a data payload you can map into your domain model.
 
 ```typescript
-interface LocalBookmark {
+interface LocalResource<TData = Record<string, any>> {
   // Server fields
   id: string;
-  key: number;
-  verseNumber?: number;
-  bookmarkType: string;
-  bookmarkGroup: string;
+  resource: "BOOKMARK" | "COLLECTION" | "COLLECTION_BOOKMARK" | "NOTE";
+  data: TData;
 
   // Sync metadata
   syncStatus: "synced" | "pending_create" | "pending_update" | "pending_delete";
@@ -102,6 +100,12 @@ interface QueuedMutation {
 
 Your sync engine should follow a **pull → apply → push** cycle and handle 409 conflicts by re-syncing before retrying local mutations. For a production-ready implementation, see the [SDK docs](/docs/sdk).
 
+### Pull → Apply → Push (with pagination)
+
+1. **Pull** — Call `GET /v1/sync?mutationsSince=T` and page through results (`page`/`limit`) until `hasMore=false`.
+2. **Apply** — Apply mutations in timestamp order and update local records.
+3. **Push** — Send queued mutations with `POST /v1/sync?lastMutationAt=T` and update `lastMutationAt` from the response.
+
 ## Connectivity Handling
 
 Monitor connectivity and trigger sync when connectivity is restored. Use `metadataOnly=true` for lightweight polling to detect server changes.
@@ -114,7 +118,7 @@ Apply local changes immediately, then enqueue mutations for sync. When the serve
 
 ### Handling Sync Results
 
-When the server returns mutation results, update local records with server IDs and timestamps, then dequeue the synced mutations.
+When the server returns mutation results, update local records with server IDs and timestamps, then dequeue the synced mutations. For direct mutation endpoints (e.g., `POST /v1/bookmarks`), read `X-Mutation-At` from the response header and persist it as your new `lastMutationAt`.
 
 ## Error Handling & Retry
 

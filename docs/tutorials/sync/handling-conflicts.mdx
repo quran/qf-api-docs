@@ -7,7 +7,7 @@ sidebar_position: 2
 
 # Handling Sync Conflicts
 
-When your client's `lastMutationAt` doesn't match the server's state, you'll receive a **409 Conflict** error. This guide explains when conflicts occur and how to resolve them.
+When your client's `lastMutationAt` doesn't exactly match the server's state, you'll receive a **409 Conflict** error. This guide explains when conflicts occur and how to resolve them.
 
 ## When Conflicts Occur
 
@@ -71,7 +71,7 @@ sequenceDiagram
     Client->>Client: Apply server changes locally
     Client->>Client: Resolve any conflicts
 
-    Client->>Server: POST /v1/sync?lastMutationAt=T_server
+    Client->>Server: POST /v1/sync?lastMutationAt=T_server<br/>{ mutations: [...] }
     Server-->>Client: 200 OK { lastMutationAt: T_new }
 
     Note over Client: Sync complete ✓
@@ -113,7 +113,7 @@ Combine changes field-by-field. Best for resources with independent fields.
 
 If your client loses track of `lastMutationAt` (e.g., app crash, missed header), use `metadataOnly`:
 
-This quickly retrieves the current `lastMutationAt` without fetching all mutations.
+This quickly retrieves the current `lastMutationAt` without fetching all mutations. You still need to pass `mutationsSince` in the request.
 
 See the full request/response schema in the API reference:
 

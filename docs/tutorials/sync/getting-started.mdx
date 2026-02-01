@@ -28,7 +28,7 @@ sequenceDiagram
 
     Note over Client: Apply server changes locally
 
-    Client->>Server: POST /v1/sync<br/>{ lastMutationAt, mutations }
+    Client->>Server: POST /v1/sync?lastMutationAt=T<br/>{ mutations }
     Server-->>Client: { lastMutationAt, mutations }
 
     Note over Client: Update local lastMutationAt
@@ -40,7 +40,7 @@ Before using the Sync API, ensure you have:
 
 1. **OAuth2 Client Credentials** — [Set up OAuth2](/docs/tutorials/oidc/getting-started-with-oauth2) for your app
 2. **Required Scopes** — Request these scopes during authorization:
-   - [`sync`](/docs/user_related_apis_versioned/scopes#sync) — Required for all sync operations
+   - [`sync`](/docs/user_related_apis_versioned/scopes#sync) — Required for `GET /v1/sync` and `POST /v1/sync`
    - [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks) — For syncing bookmarks
    - [`collection`](/docs/user_related_apis_versioned/scopes#collections) — For syncing collections
    - [`note`](/docs/user_related_apis_versioned/scopes#notes) — For syncing notes
@@ -51,7 +51,7 @@ You only receive mutations for resources your token has access to. If you reques
 
 ## Supported Resources
 
-The Sync API currently tracks these resources:
+The Sync API currently tracks these resources. All `/v1/sync` calls also require the [`sync`](/docs/user_related_apis_versioned/scopes#sync) scope.
 
 | Resource              | Description                        | Required Scope                                                                                                                         |
 | --------------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -59,6 +59,11 @@ The Sync API currently tracks these resources:
 | `COLLECTION`          | User collections                   | [`collection`](/docs/user_related_apis_versioned/scopes#collections)                                                                   |
 | `COLLECTION_BOOKMARK` | Bookmarks within collections       | [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks), [`collection`](/docs/user_related_apis_versioned/scopes#collections) |
 | `NOTE`                | User notes/reflections             | [`note`](/docs/user_related_apis_versioned/scopes#notes)                                                                               |
+
+:::note Resource IDs vs composite keys
+For `BOOKMARK`, `COLLECTION`, and `NOTE`, sync mutations include a single `resourceId`.
+For `COLLECTION_BOOKMARK`, there is no single ID; use `data.collectionId` and `data.bookmarkId` instead and omit `resourceId` in your mutation.
+:::
 
 ## Key Concepts
 
@@ -72,13 +77,13 @@ A Unix timestamp (milliseconds) tracking the most recent mutation for a user. Th
 
 ### First Sync Behavior
 
-When a user has never synced before:
+When a user has never synced before (no `lastMutationAt` stored on the server):
 
-| Scenario           | Server Response               | Client Action                         |
-| ------------------ | ----------------------------- | ------------------------------------- |
-| New user (no data) | `lastMutationAt: -1`          | Store `-1`, ready for first mutation  |
-| First mutation     | Send `lastMutationAt=-1`      | Server accepts, returns new timestamp |
-| Existing user      | `lastMutationAt: <timestamp>` | Store timestamp, fetch mutations      |
+| Scenario                        | Server Response               | Client Action                                     |
+| ------------------------------- | ----------------------------- | ------------------------------------------------- |
+| No sync history yet             | `lastMutationAt: -1`          | Store `-1`, treat as first-sync state             |
+| First mutation from this device | Send `lastMutationAt=-1`      | Server accepts, returns new timestamp             |
+| User already has sync history   | `lastMutationAt: <timestamp>` | Store timestamp, fetch mutations since `0` (or T) |
 
 :::warning First Sync Requirement
 For a user's very first mutation via `POST /v1/sync`, you **must** send `lastMutationAt=-1`. Any other value will be rejected.
@@ -90,13 +95,13 @@ For a user's very first mutation via `POST /v1/sync`, you **must** send `lastMut
 flowchart TD
     A[Start] --> B["GET /v1/sync?mutationsSince=0&metadataOnly=true"]
     B --> C{lastMutationAt?}
-    C -->|"-1 (new user)"| D["Store lastMutationAt = -1"]
+    C -->|"-1 (first-sync state)"| D["Store lastMutationAt = -1"]
     C -->|"timestamp (existing user)"| E["GET /v1/sync?mutationsSince=0"]
     E --> F["Apply mutations locally"]
     F --> G["Store lastMutationAt"]
     D --> H{User makes changes offline?}
     G --> H
-    H -->|Yes| I["POST /v1/sync?lastMutationAt=T<br/>with mutations array"]
+    H -->|Yes| I["POST /v1/sync?lastMutationAt=-1 (first time)<br/>or lastMutationAt=T (later)<br/>with mutations array"]
     I --> J["Update lastMutationAt from response"]
     J --> K[Done]
     H -->|No| K
@@ -104,9 +109,9 @@ flowchart TD
 
 ### Step 1: Check Sync Status
 
-First, check if the user has any existing data using `metadataOnly=true`. This returns only `lastMutationAt` without fetching mutations.
+First, check if the user has any existing data using `metadataOnly=true`. This returns only `lastMutationAt` without fetching mutations. (You still need to pass `mutationsSince`, even when `metadataOnly=true`.)
 
-- `lastMutationAt: -1` means new user with no data
+- `lastMutationAt: -1` means no sync history yet (first-sync state)
 - Any positive number means existing data exists
 
 ### Step 2: Pull Existing Data
@@ -115,7 +120,7 @@ If the user has data (`lastMutationAt > -1`), fetch all mutations and apply them
 
 ### Step 3: Push Local Changes
 
-When the user creates data offline, push mutations to the server. Update your local `lastMutationAt` from the response.
+When the user creates data offline, push mutations to the server using `POST /v1/sync?lastMutationAt=...`. Update your local `lastMutationAt` from the response.
 
 ### API References
 
@@ -137,11 +142,20 @@ For the full request/response schema, see:
 
 - [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/get-mutations)
 
+## Filtering & Pagination
+
+`GET /v1/sync` supports resource filtering and pagination:
+
+- `resources=BOOKMARK,COLLECTION` limits results to those resources
+- `limit` and `page` paginate results (max `limit` is 1000)
+- Continue fetching pages until `hasMore=false`
+
+When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagination fields).
+
 ## Important Notes
 
 - **Mutation limits** — `POST /v1/sync` accepts a maximum of 100 mutations per request.
-- **Mutation types** — `BOOKMARK` and `COLLECTION_BOOKMARK` support **CREATE** and **DELETE** only. `COLLECTION` and `NOTE` support **CREATE**, **UPDATE**, and **DELETE**.
-- **Direct endpoints** — Direct mutation endpoints (e.g. `POST /v1/bookmarks`) also return the `X-Mutation-At` header for updating `lastMutationAt`.
+- **Direct endpoints** — Direct mutation endpoints (e.g. `POST /v1/bookmarks`) require `lastMutationAt` as a query param and return the `X-Mutation-At` header for updating `lastMutationAt`.
 
 ## Next Steps
 
