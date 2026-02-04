@@ -149,7 +149,7 @@ export interface Props {
   codeSamples: any; // TODO: Type this...
 }
 
-function CodeTab({ children, hidden, className, onClick }: any): JSX.Element {
+function CodeTab({ children, hidden, className }: any): JSX.Element {
   return (
     <div
       role="tabpanel"
