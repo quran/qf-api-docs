@@ -273,6 +273,44 @@ function normalizeCodeSamples(samples: any): Language[] {
   return normalized;
 }
 
+function mergeLanguageTabs(base: Language[], overrides: Language[]): Language[] {
+  if (!overrides.length) {
+    return base;
+  }
+
+  const baseByLanguage = new Map<string, Language>();
+  const merged: Language[] = [];
+
+  for (const lang of base) {
+    if (!lang?.language) {
+      continue;
+    }
+    baseByLanguage.set(lang.language, lang);
+    merged.push(lang);
+  }
+
+  const seen = new Set(baseByLanguage.keys());
+  for (const override of overrides) {
+    if (!override?.language) {
+      continue;
+    }
+
+    if (baseByLanguage.has(override.language)) {
+      const index = merged.findIndex(
+        (lang) => lang.language === override.language
+      );
+      if (index >= 0) {
+        merged[index] = { ...baseByLanguage.get(override.language), ...override };
+      }
+    } else if (!seen.has(override.language)) {
+      merged.push(override);
+      seen.add(override.language);
+    }
+  }
+
+  return merged;
+}
+
 function Curl({ postman, codeSamples }: Props) {
   // TODO: match theme for vscode.
 
@@ -303,9 +341,10 @@ function Curl({ postman, codeSamples }: Props) {
 
   // User-defined languages array
   // Can override languageSet, change order of langs, override options and variants
-  const langs = useCuratedSamples
-    ? [...baseLanguageTabs, ...normalizedCodeSamples]
-    : [...baseLanguageTabs, ...rawCodeSamples];
+  const overrideSamples = useCuratedSamples
+    ? normalizedCodeSamples
+    : rawCodeSamples;
+  const langs = mergeLanguageTabs(baseLanguageTabs, overrideSamples);
 
   // Filter languageSet by user-defined langs
   const filteredLanguageSet = languageSet.filter((ls) => {
