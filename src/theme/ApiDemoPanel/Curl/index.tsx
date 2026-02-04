@@ -354,7 +354,7 @@ function Curl({ postman, codeSamples }: Props) {
   });
 
   // Merge user-defined langs into languageSet
-  const mergedLangs = merge(filteredLanguageSet, langs);
+  const mergedLangs = mergeLanguageTabs(filteredLanguageSet, langs);
 
   // Read defaultLang from localStorage
   const storedLang =
