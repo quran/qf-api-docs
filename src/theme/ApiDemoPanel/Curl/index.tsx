@@ -290,38 +290,32 @@ function Curl({ postman, codeSamples }: Props) {
 
   const auth = useTypedSelector((state: any) => state.auth);
 
-  const normalizedCodeSamples = normalizeCodeSamples(codeSamples);
+  const rawCodeSamples = Array.isArray(codeSamples) ? codeSamples : [];
+  const normalizedCodeSamples = normalizeCodeSamples(rawCodeSamples);
   const useCuratedSamples = normalizedCodeSamples.length > 0;
 
   const configuredLanguageTabs =
     (siteConfig?.themeConfig?.languageTabs as Language[] | undefined) ??
     languageSet;
-  const baseLanguageTabs = useCuratedSamples
-    ? configuredLanguageTabs
-    : configuredLanguageTabs.filter((lang) => lang.language !== "ai");
+  const baseLanguageTabs = configuredLanguageTabs.filter(
+    (lang) => lang.language !== "ai"
+  );
 
   // User-defined languages array
   // Can override languageSet, change order of langs, override options and variants
   const langs = useCuratedSamples
-    ? normalizedCodeSamples
-    : [
-        ...baseLanguageTabs,
-        ...codeSamples,
-      ];
+    ? [...baseLanguageTabs, ...normalizedCodeSamples]
+    : [...baseLanguageTabs, ...rawCodeSamples];
 
   // Filter languageSet by user-defined langs
-  const filteredLanguageSet = useCuratedSamples
-    ? []
-    : languageSet.filter((ls) => {
-        return langs.some((lang) => {
-          return lang.language === ls.language;
-        });
-      });
+  const filteredLanguageSet = languageSet.filter((ls) => {
+    return langs.some((lang) => {
+      return lang.language === ls.language;
+    });
+  });
 
   // Merge user-defined langs into languageSet
-  const mergedLangs = useCuratedSamples
-    ? normalizedCodeSamples
-    : merge(filteredLanguageSet, langs);
+  const mergedLangs = merge(filteredLanguageSet, langs);
 
   // Read defaultLang from localStorage
   const storedLang =
