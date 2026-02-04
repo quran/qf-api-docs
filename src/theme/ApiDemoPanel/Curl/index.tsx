@@ -377,6 +377,8 @@ function Curl({ postman, codeSamples }: Props) {
   const [codeText, setCodeText] = useState("");
 
   useEffect(() => {
+    let isCurrent = true;
+
     if (language && !!language.source) {
       setCodeText(language.source);
     } else if (language && !!language.options) {
@@ -398,7 +400,7 @@ function Curl({ postman, codeSamples }: Props) {
         postmanRequest,
         language.options,
         (error: any, snippet: string) => {
-          if (error) {
+          if (!isCurrent || error) {
             return;
           }
           setCodeText(snippet);
@@ -431,7 +433,7 @@ function Curl({ postman, codeSamples }: Props) {
         postmanRequest,
         mergedLanguage.options,
         (error: any, snippet: string) => {
-          if (error) {
+          if (!isCurrent || error) {
             return;
           }
           setCodeText(snippet);
@@ -440,6 +442,10 @@ function Curl({ postman, codeSamples }: Props) {
     } else {
       setCodeText("");
     }
+
+    return () => {
+      isCurrent = false;
+    };
   }, [
     accept,
     body,
