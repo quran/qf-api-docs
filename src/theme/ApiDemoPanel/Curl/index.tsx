@@ -293,13 +293,19 @@ function Curl({ postman, codeSamples }: Props) {
   const normalizedCodeSamples = normalizeCodeSamples(codeSamples);
   const useCuratedSamples = normalizedCodeSamples.length > 0;
 
+  const configuredLanguageTabs =
+    (siteConfig?.themeConfig?.languageTabs as Language[] | undefined) ??
+    languageSet;
+  const baseLanguageTabs = useCuratedSamples
+    ? configuredLanguageTabs
+    : configuredLanguageTabs.filter((lang) => lang.language !== "ai");
+
   // User-defined languages array
   // Can override languageSet, change order of langs, override options and variants
   const langs = useCuratedSamples
     ? normalizedCodeSamples
     : [
-        ...((siteConfig?.themeConfig?.languageTabs as Language[] | undefined) ??
-          languageSet),
+        ...baseLanguageTabs,
         ...codeSamples,
       ];
 
