@@ -324,9 +324,12 @@ function Curl({ postman, codeSamples }: Props) {
     : merge(filteredLanguageSet, langs);
 
   // Read defaultLang from localStorage
+  const storedLang =
+    typeof window !== "undefined"
+      ? localStorage.getItem("docusaurus.tab.code-samples")
+      : null;
   const defaultLang: Language[] = mergedLangs.filter(
-    (lang) =>
-      lang.language === localStorage.getItem("docusaurus.tab.code-samples")
+    (lang) => lang.language === storedLang
   );
 
   const [language, setLanguage] = useState(() => {
