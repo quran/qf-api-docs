@@ -24,3 +24,6 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+#Local scripts
+add-code-samples.js
