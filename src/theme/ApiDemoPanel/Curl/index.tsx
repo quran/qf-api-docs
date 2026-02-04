@@ -377,7 +377,9 @@ function Curl({ postman, codeSamples }: Props) {
   const [codeText, setCodeText] = useState("");
 
   useEffect(() => {
-    if (language && !!language.options) {
+    if (language && !!language.source) {
+      setCodeText(language.source);
+    } else if (language && !!language.options) {
       const postmanRequest = buildPostmanRequest(postman, {
         queryParams,
         pathParams,
@@ -402,8 +404,6 @@ function Curl({ postman, codeSamples }: Props) {
           setCodeText(snippet);
         }
       );
-    } else if (language && !!language.source) {
-      setCodeText(language.source);
     } else if (language && !language.options) {
       const langSource = mergedLangs.filter(
         (lang) => lang.language === language.language
