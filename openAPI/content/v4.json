@@ -333,7 +333,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -457,7 +457,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -618,7 +618,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -800,7 +800,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -917,7 +917,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -1037,7 +1037,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -1156,7 +1156,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -1407,7 +1407,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -1660,7 +1660,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -1910,7 +1910,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -2161,7 +2161,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -2392,7 +2392,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -2645,7 +2645,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -3312,7 +3312,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -3570,7 +3570,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -3787,7 +3787,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -4064,7 +4064,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -4174,7 +4174,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -4408,7 +4408,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -4590,7 +4590,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -4772,7 +4772,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -4954,7 +4954,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -5136,7 +5136,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -5318,7 +5318,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -5500,7 +5500,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -5601,7 +5601,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -5827,7 +5827,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -6050,7 +6050,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -6171,7 +6171,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -6373,7 +6373,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -6563,7 +6563,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -6757,7 +6757,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -6929,7 +6929,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -7062,7 +7062,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -7195,7 +7195,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -7328,7 +7328,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -7461,7 +7461,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -7595,7 +7595,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -7695,7 +7695,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -7795,7 +7795,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -7902,7 +7902,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8010,7 +8010,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8121,7 +8121,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8226,7 +8226,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8319,7 +8319,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8474,7 +8474,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8614,7 +8614,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8739,7 +8739,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8864,7 +8864,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -8979,7 +8979,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -9106,7 +9106,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -9233,7 +9233,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -9360,7 +9360,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -9487,7 +9487,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -9614,7 +9614,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -9741,7 +9741,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -9852,7 +9852,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -9967,7 +9967,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -10092,7 +10092,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -10217,7 +10217,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -10342,7 +10342,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -10467,7 +10467,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -10592,7 +10592,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -10717,7 +10717,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -10897,7 +10897,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11010,7 +11010,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11112,7 +11112,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11219,7 +11219,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11319,7 +11319,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11424,7 +11424,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11524,7 +11524,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11629,7 +11629,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11729,7 +11729,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11834,7 +11834,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
@@ -11931,7 +11931,7 @@
             "$ref": "#/components/responses/gatewayTimeout"
           }
         },
-        "x-codeSamples": [
+        "x-code-samples": [
           {
             "lang": "javascript",
             "label": "Node.js",
