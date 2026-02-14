@@ -34,7 +34,7 @@
       "Bookmark": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "cmkwbc0iu0005b0s028eh6ztm" },
+          "id": { "type": "string", "example": "cmllufw7u000542jq4x0jhz4u" },
           "createdAt": {
             "type": "string",
             "format": "date-time",
@@ -43,15 +43,16 @@
           "type": { "type": "string", "example": "ayah" },
           "key": { "type": "integer", "example": 1 },
           "verseNumber": { "type": "integer", "example": 5 },
-          "group": { "type": "string" }
+          "group": { "type": "string" },
+          "isInDefaultCollection": { "type": "boolean", "example": true }
         },
-        "required": ["id", "createdAt", "type", "key"],
+        "required": ["id", "createdAt", "type", "key", "isInDefaultCollection"],
         "additionalProperties": false
       },
       "Collection": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "cmkwbc0k10007b0s0g5jh3l4e" },
+          "id": { "type": "string", "example": "cmllufw99000742jq5vr5997v" },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
@@ -245,6 +246,18 @@
                 "maximum": 10,
                 "example": 3
               },
+              "surahInfoFontScale": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10,
+                "example": 3
+              },
+              "hadithFontScale": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10,
+                "example": 3
+              },
               "quranFont": {
                 "type": "string",
                 "enum": [
@@ -262,7 +275,8 @@
                 "type": "string",
                 "enum": ["15_lines", "16_lines"],
                 "example": "16_lines"
-              }
+              },
+              "showTajweedRules": { "type": "boolean", "example": true }
             },
             "required": [
               "tafsirFontScale",
@@ -271,7 +285,9 @@
               "wordByWordFontScale",
               "reflectionFontScale",
               "qnaFontScale",
-              "lessonFontScale"
+              "lessonFontScale",
+              "surahInfoFontScale",
+              "hadithFontScale"
             ],
             "additionalProperties": false
           },
@@ -357,7 +373,7 @@
       "ReadingSession": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "cmkwbc0yr000gb0s01wvy1ntj" },
+          "id": { "type": "string", "example": "cmllufwnf000g42jq7xsp5ndw" },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
@@ -397,7 +413,11 @@
             "items": { "type": "string" }
           },
           "ayahLanguages": { "type": "array", "items": { "type": "string" } },
-          "customized": { "type": "boolean" }
+          "customized": { "type": "boolean" },
+          "hideFollowSuggestion": {
+            "type": "boolean",
+            "description": "Hide follow suggestion popup after liking a post"
+          }
         }
       },
       "UserSerializedDto": {
@@ -1493,7 +1513,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmkwbc0dr0000b0s0fboz3anv"
+              "example": "cmllufw25000042jqhmcfez63"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -1504,7 +1524,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmkwbc0ds0001b0s01bxvcw79"
+              "example": "cmllufw25000142jq27mq9zle"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -1527,11 +1547,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -1764,7 +1784,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the collection to be added.",
-              "example": "cmkwbc0lu0008b0s0ax83876g"
+              "example": "cmllufwb7000842jqdmx1fglm"
             },
             "required": true,
             "description": "The Id of the collection to be added."
@@ -2131,7 +2151,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the collection to be deleted.",
-              "example": "cmkwbc0mo000bb0s0agvl9c6c"
+              "example": "cmllufwbz000b42jq1a29a6fn"
             },
             "required": true,
             "description": "The Id of the collection to be deleted."
@@ -2429,7 +2449,7 @@
                       "bookmarkId": {
                         "type": "string",
                         "description": "The Id of the bookmark to be deleted.",
-                        "example": "cmkwbc0mo000ab0s0ddad6f04"
+                        "example": "cmllufwbz000a42jq38zw6ymi"
                       }
                     },
                     "required": ["bookmarkId"],
@@ -2456,7 +2476,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the collection to be deleted.",
-              "example": "cmkwbc0m10009b0s0d05fapzk"
+              "example": "cmllufwbe000942jq2gbqaan5"
             },
             "required": true,
             "description": "The Id of the collection to be deleted."
@@ -2762,7 +2782,7 @@
             "name": "collectionId",
             "schema": {
               "type": "string",
-              "example": "cmkwbc0ng000eb0s04gn2b009"
+              "example": "cmllufwcx000e42jqbbko1239"
             }
           },
           {
@@ -2807,7 +2827,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmkwbc0dr0000b0s0fboz3anv"
+              "example": "cmllufw25000042jqhmcfez63"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -2818,7 +2838,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmkwbc0ds0001b0s01bxvcw79"
+              "example": "cmllufw25000142jq27mq9zle"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -2850,11 +2870,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -3410,7 +3430,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the collection to be deleted.",
-              "example": "cmkwbc0mu000cb0s0cm6n09p7"
+              "example": "cmllufwc7000c42jqgppy4l7i"
             },
             "required": true,
             "description": "The Id of the collection to be deleted."
@@ -3421,7 +3441,7 @@
             "schema": {
               "type": "string",
               "description": "The Id of the bookmark to be deleted.",
-              "example": "cmkwbc0mu000db0s005p84503"
+              "example": "cmllufwc7000d42jqcssd1xyn"
             },
             "required": true,
             "description": "The Id of the bookmark to be deleted."
@@ -3777,7 +3797,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmkwbc0dr0000b0s0fboz3anv"
+              "example": "cmllufw25000042jqhmcfez63"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -3788,7 +3808,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmkwbc0ds0001b0s01bxvcw79"
+              "example": "cmllufw25000142jq27mq9zle"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -3811,11 +3831,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -4079,6 +4099,10 @@
                         "description": "The Ayah number to be added.",
                         "example": 3
                       },
+                      "isReading": {
+                        "type": "boolean",
+                        "description": "Whether this bookmark is the reading bookmark. Only one reading bookmark per user."
+                      },
                       "mushaf": {
                         "type": "integer",
                         "enum": [1, 2, 3, 4, 5, 6, 7, 11, 19],
@@ -4102,6 +4126,10 @@
                         "enum": ["juz", "page", "surah"],
                         "description": "The bookmark type.",
                         "example": "surah"
+                      },
+                      "isReading": {
+                        "type": "boolean",
+                        "description": "Whether this bookmark is the reading bookmark. Only one reading bookmark per user."
                       },
                       "mushaf": {
                         "type": "integer",
@@ -4410,6 +4438,26 @@
           },
           {
             "in": "query",
+            "name": "isReading",
+            "schema": {
+              "type": "boolean",
+              "description": "Whether to fetch only the reading bookmark"
+            },
+            "required": false,
+            "description": "Whether to fetch only the reading bookmark"
+          },
+          {
+            "in": "query",
+            "name": "key",
+            "schema": {
+              "type": "integer",
+              "description": "Filter by key (surah/juz/page number)"
+            },
+            "required": false,
+            "description": "Filter by key (surah/juz/page number)"
+          },
+          {
+            "in": "query",
             "name": "mushafId",
             "schema": {
               "type": "integer",
@@ -4454,7 +4502,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmkwbc0dr0000b0s0fboz3anv"
+              "example": "cmllufw25000042jqhmcfez63"
             },
             "required": false,
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
@@ -4466,7 +4514,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmkwbc0ds0001b0s01bxvcw79"
+              "example": "cmllufw25000142jq27mq9zle"
             },
             "required": false,
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
@@ -4490,11 +4538,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -4727,7 +4775,7 @@
             "schema": {
               "type": "string",
               "description": "The id of the bookmark to be deleted.",
-              "example": "cmkwbc0j40006b0s0gh8bh75y"
+              "example": "cmllufw83000642jqazgfho39"
             },
             "required": true,
             "description": "The id of the bookmark to be deleted."
@@ -5091,11 +5139,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -5324,13 +5372,34 @@
         "parameters": [
           {
             "in": "query",
+            "name": "verseNumber",
+            "schema": {
+              "type": "integer",
+              "description": "The Ayah number of the bookmark"
+            },
+            "required": false,
+            "description": "The Ayah number of the bookmark"
+          },
+          {
+            "in": "query",
+            "name": "isReading",
+            "schema": {
+              "type": "boolean",
+              "description": "Whether to fetch the reading bookmark"
+            },
+            "required": false,
+            "description": "Whether to fetch the reading bookmark"
+          },
+          {
+            "in": "query",
             "name": "key",
             "schema": {
               "type": "integer",
+              "oneOf": [{}, { "x-required": true }],
               "description": "Surah, Juz or page number.",
               "example": 2
             },
-            "required": true,
+            "required": false,
             "description": "Surah, Juz or page number."
           },
           {
@@ -5339,21 +5408,12 @@
             "schema": {
               "type": "string",
               "enum": ["page", "juz", "surah", "ayah"],
+              "oneOf": [{}, { "x-required": true }],
               "description": "The bookmark type.",
               "default": "ayah"
             },
             "required": false,
             "description": "The bookmark type."
-          },
-          {
-            "in": "query",
-            "name": "verseNumber",
-            "schema": {
-              "type": "integer",
-              "description": "The Ayah number of the bookmark"
-            },
-            "required": false,
-            "description": "The Ayah number of the bookmark"
           },
           {
             "in": "query",
@@ -5664,7 +5724,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmkwbc0dr0000b0s0fboz3anv"
+              "example": "cmllufw25000042jqhmcfez63"
             },
             "required": false,
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
@@ -5676,7 +5736,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmkwbc0ds0001b0s01bxvcw79"
+              "example": "cmllufw25000142jq27mq9zle"
             },
             "required": false,
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
@@ -6001,8 +6061,11 @@
                           "reflectionFontScale",
                           "qnaFontScale",
                           "lessonFontScale",
+                          "surahInfoFontScale",
+                          "hadithFontScale",
                           "quranFont",
-                          "mushafLines"
+                          "mushafLines",
+                          "showTajweedRules"
                         ]
                       }
                     },
@@ -7328,7 +7391,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmkwbc0dr0000b0s0fboz3anv"
+              "example": "cmllufw25000042jqhmcfez63"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -7339,7 +7402,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmkwbc0ds0001b0s01bxvcw79"
+              "example": "cmllufw25000142jq27mq9zle"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -7362,11 +7425,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -7650,7 +7713,7 @@
                             "id": {
                               "type": "string",
                               "description": "The id of the activity day.",
-                              "example": "cmkwbc0ec0004b0s040lfctn8"
+                              "example": "cmllufw2m000442jqb9o141br"
                             },
                             "date": {
                               "type": "string",
@@ -7998,7 +8061,7 @@
             "schema": {
               "type": "string",
               "description": "The id of the goal.",
-              "example": "cmkwbc0oi000fb0s04c737onv"
+              "example": "cmllufwdv000f42jqe7ukd4my"
             },
             "required": true,
             "description": "The id of the goal."
@@ -8318,7 +8381,7 @@
             "schema": {
               "type": "string",
               "description": "The id of the goal.",
-              "example": "cmkwbc0oi000fb0s04c737onv"
+              "example": "cmllufwdv000f42jqe7ukd4my"
             },
             "required": true,
             "description": "The id of the goal."
@@ -8677,7 +8740,7 @@
                         "id": {
                           "type": "string",
                           "description": "The id of the goal.",
-                          "example": "cmkwbc0oi000fb0s04c737onv"
+                          "example": "cmllufwdv000f42jqe7ukd4my"
                         }
                       },
                       "required": ["id"],
@@ -9305,7 +9368,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmkwbc0dr0000b0s0fboz3anv"
+              "example": "cmllufw25000042jqhmcfez63"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -9316,7 +9379,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmkwbc0ds0001b0s01bxvcw79"
+              "example": "cmllufw25000142jq27mq9zle"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -9338,7 +9401,7 @@
                           "id": {
                             "type": "string",
                             "description": "The id of the streak.",
-                            "example": "cmkwbc0zd000hb0s04j4j2nuj"
+                            "example": "cmllufwnz000h42jq9fhh3626"
                           },
                           "startDate": {
                             "type": "string",
@@ -9379,11 +9442,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -10245,7 +10308,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor after which you want to get the next page of items. Should be used together with `first`",
-              "example": "cmkwbc0dr0000b0s0fboz3anv"
+              "example": "cmllufw25000042jqhmcfez63"
             },
             "description": "The cursor after which you want to get the next page of items. Should be used together with `first`"
           },
@@ -10256,7 +10319,7 @@
               "type": "string",
               "oneOf": [{ "type": "string" }],
               "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`",
-              "example": "cmkwbc0ds0001b0s01bxvcw79"
+              "example": "cmllufw25000142jq27mq9zle"
             },
             "description": "The cursor before which the previous page of items will be fetched. Should be used together with `last`"
           }
@@ -10278,7 +10341,7 @@
                           "id": {
                             "type": "string",
                             "description": "The id of the activity day.",
-                            "example": "cmkwbc0ec0004b0s040lfctn8"
+                            "example": "cmllufw2m000442jqb9o141br"
                           },
                           "date": {
                             "type": "string",
@@ -10402,11 +10465,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -11130,11 +11193,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -11884,11 +11947,11 @@
                       "properties": {
                         "startCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0002b0s0aeub15nr"
+                          "example": "cmllufw25000242jq7syu6r8q"
                         },
                         "endCursor": {
                           "type": "string",
-                          "example": "cmkwbc0ds0003b0s0a2whdvgb"
+                          "example": "cmllufw26000342jq37j17vvo"
                         },
                         "hasNextPage": { "type": "boolean", "example": true },
                         "hasPreviousPage": {
@@ -16348,6 +16411,16 @@
               "default": 5,
               "type": "number"
             }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Sort order (default: NAME_ASC)",
+            "schema": {
+              "enum": ["NAME_ASC", "NAME_DESC", "LATEST_ACTIVITY"],
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -16397,6 +16470,16 @@
               "maximum": 5,
               "default": 5,
               "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Sort order (default: NAME_ASC)",
+            "schema": {
+              "enum": ["NAME_ASC", "NAME_DESC", "LATEST_ACTIVITY"],
+              "type": "string"
             }
           }
         ],
