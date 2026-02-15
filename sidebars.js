@@ -17,17 +17,27 @@ const {
   versionCrumb,
 } = require("docusaurus-plugin-openapi-docs/lib/sidebars/utils");
 
-const readingSessionsVsActivityDaysSidebarItem = {
+const makeReadingSessionsVsActivityDaysSidebarItem = (docId) => ({
   type: "category",
   label: "Reading Sessions vs Activity Days (quick decision/clarifier)",
   link: {
     type: "doc",
-    id: "user-related-apis/reading-sessions-vs-activity-days",
+    id: docId,
   },
   items: [],
-};
+});
 
-const reorderUserRelatedApisSidebarItems = (items) => {
+const readingSessionsVsActivityDaysLatestSidebarItem =
+  makeReadingSessionsVsActivityDaysSidebarItem(
+    "user-related-apis/reading-sessions-vs-activity-days",
+  );
+
+const readingSessionsVsActivityDaysV1_0_0SidebarItem =
+  makeReadingSessionsVsActivityDaysSidebarItem(
+    "user-related-apis/1.0.0/reading-sessions-vs-activity-days",
+  );
+
+const reorderUserRelatedApisSidebarItems = (items, vsGuideSidebarItem) => {
   // Keep generated structure, but group reading-related sections for better UX.
   const isCategoryWithLabel = (item, label) =>
     item && typeof item === "object" && item.type === "category" && item.label === label;
@@ -41,7 +51,7 @@ const reorderUserRelatedApisSidebarItems = (items) => {
   const insertAt = items.indexOf(readingSessions);
 
   const isVsGuide = (item) =>
-    isCategoryWithLabel(item, readingSessionsVsActivityDaysSidebarItem.label);
+    isCategoryWithLabel(item, vsGuideSidebarItem.label);
 
   // Remove any existing instances first to avoid duplicates across reloads.
   const before = items.slice(0, insertAt).filter((item) => item !== activityDays && !isVsGuide(item));
@@ -52,7 +62,7 @@ const reorderUserRelatedApisSidebarItems = (items) => {
   return [
     ...before,
     readingSessions,
-    readingSessionsVsActivityDaysSidebarItem,
+    vsGuideSidebarItem,
     activityDays,
     ...after,
   ];
@@ -211,6 +221,7 @@ const sidebars = {
       },
       items: reorderUserRelatedApisSidebarItems(
         require("./docs/user_related_apis_versioned/sidebar.js"),
+        readingSessionsVsActivityDaysLatestSidebarItem,
       ),
     },
   ],
@@ -237,6 +248,7 @@ const sidebars = {
       },
       items: reorderUserRelatedApisSidebarItems(
         require("./docs/user_related_apis_versioned/1.0.0/sidebar.js"),
+        readingSessionsVsActivityDaysV1_0_0SidebarItem,
       ),
     },
   ],
