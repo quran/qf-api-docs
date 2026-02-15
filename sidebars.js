@@ -38,7 +38,7 @@ const readingSessionsVsActivityDaysV1_0_0SidebarItem =
   );
 
 const reorderUserRelatedApisSidebarItems = (items, vsGuideSidebarItem) => {
-  // Keep generated structure, but group reading-related sections for better UX.
+  // Reorder generated items to group reading-related sections for better UX.
   const isCategoryWithLabel = (item, label) =>
     item && typeof item === "object" && item.type === "category" && item.label === label;
 
