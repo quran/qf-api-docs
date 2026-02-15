@@ -17,6 +17,57 @@ const {
   versionCrumb,
 } = require("docusaurus-plugin-openapi-docs/lib/sidebars/utils");
 
+const makeReadingSessionsVsActivityDaysSidebarItem = (docId) => ({
+  type: "category",
+  label: "Reading Sessions vs Activity Days (quick decision/clarifier)",
+  link: {
+    type: "doc",
+    id: docId,
+  },
+  items: [],
+});
+
+const readingSessionsVsActivityDaysLatestSidebarItem =
+  makeReadingSessionsVsActivityDaysSidebarItem(
+    "user-related-apis/reading-sessions-vs-activity-days",
+  );
+
+const readingSessionsVsActivityDaysV1_0_0SidebarItem =
+  makeReadingSessionsVsActivityDaysSidebarItem(
+    "user-related-apis/1.0.0/reading-sessions-vs-activity-days",
+  );
+
+const reorderUserRelatedApisSidebarItems = (items, vsGuideSidebarItem) => {
+  // Reorder generated items to group reading-related sections for better UX.
+  const isCategoryWithLabel = (item, label) =>
+    item && typeof item === "object" && item.type === "category" && item.label === label;
+
+  const readingSessions = items.find((item) => isCategoryWithLabel(item, "Reading Sessions"));
+  const activityDays = items.find((item) => isCategoryWithLabel(item, "Activity Days"));
+
+  // If the generated sidebar changes, fall back to the original order.
+  if (!readingSessions || !activityDays) return items;
+
+  const insertAt = items.indexOf(readingSessions);
+
+  const isVsGuide = (item) =>
+    isCategoryWithLabel(item, vsGuideSidebarItem.label);
+
+  // Remove any existing instances first to avoid duplicates across reloads.
+  const before = items.slice(0, insertAt).filter((item) => item !== activityDays && !isVsGuide(item));
+  const after = items
+    .slice(insertAt + 1)
+    .filter((item) => item !== activityDays && item !== readingSessions && !isVsGuide(item));
+
+  return [
+    ...before,
+    readingSessions,
+    vsGuideSidebarItem,
+    activityDays,
+    ...after,
+  ];
+};
+
 // @ts-check
 
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
@@ -168,7 +219,10 @@ const sidebars = {
         description: "User-related APIs",
         slug: "/category/user-related-apis",
       },
-      items: require("./docs/user_related_apis_versioned/sidebar.js"),
+      items: reorderUserRelatedApisSidebarItems(
+        require("./docs/user_related_apis_versioned/sidebar.js"),
+        readingSessionsVsActivityDaysLatestSidebarItem,
+      ),
     },
   ],
   "user-related-apis-1.0.0": [
@@ -192,7 +246,10 @@ const sidebars = {
         description: "User-related APIs",
         slug: "/category/user-related-apis-1.0.0",
       },
-      items: require("./docs/user_related_apis_versioned/1.0.0/sidebar.js"),
+      items: reorderUserRelatedApisSidebarItems(
+        require("./docs/user_related_apis_versioned/1.0.0/sidebar.js"),
+        readingSessionsVsActivityDaysV1_0_0SidebarItem,
+      ),
     },
   ],
   oauth2_apis: [
