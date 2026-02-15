@@ -1,0 +1,35 @@
+---
+title: Reading Sessions vs Activity Days
+description: How to choose between Reading Sessions and Activity Days when a user reads.
+---
+
+Both are updated when a user reads, but they serve different product use cases.
+
+## Reading Sessions
+
+Tracks the user's most recent reading location (`chapterNumber` + `verseNumber`) for "Continue reading" and "Recently read" UX.
+
+- POST `/v1/reading-sessions` creates a new session unless the latest session was updated within the last 20 minutes, in which case it updates the latest session.
+- GET `/v1/reading-sessions` returns the user's reading session history (most recent first).
+
+## Activity Days
+
+Tracks daily activity/progress (by date + type). This powers streaks, goals, and calendar-style progress views.
+
+- POST `/v1/activity-days` creates/updates one activity day per date per type. For `type=QURAN`, it accepts `seconds`, `ranges`, and `mushafId` (and optional `date` for backfill) and enqueues progress updates.
+- GET `/v1/activity-days` fetches activity days for a date range (calendar/history).
+- GET `/v1/activity-days/estimate-reading-time` estimates seconds from verse ranges.
+
+## When A User Reads (Qur'an)
+
+- Use **Reading Sessions** to save the user's current position for resume/recently-read UX (Surah/Ayah location).
+- Use **Activity Days** to credit time/ranges toward streaks, goals, and activity calendar progress.
+
+## Related API Docs
+
+- [Add or update user reading session](/docs/user_related_apis_versioned/add-or-update-user-reading-session)
+- [Get user reading sessions](/docs/user_related_apis_versioned/get-user-reading-sessions)
+- [Add/update activity day](/docs/user_related_apis_versioned/add-update-activity-day)
+- [Get activity days](/docs/user_related_apis_versioned/get-activity-days)
+- [Estimate reading time](/docs/user_related_apis_versioned/estimate-reading-time)
+
