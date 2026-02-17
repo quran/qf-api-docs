@@ -78,6 +78,11 @@
   text-decoration: none;
 }
 
+/* ── Mobile-only Request Access button ── */
+.mobileRequestAccess {
+  display: none; /* hidden on desktop */
+}
+
 /* ── Responsive ── */
 @media screen and (max-width: 768px) {
   .heroBanner {
@@ -100,6 +105,40 @@
   .heroButtonRow > * {
     width: 100%;
     max-width: 320px;
+  }
+
+  /* Show Request Access as the top teal button on mobile */
+  .mobileRequestAccess {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    order: -1; /* push to top */
+    background: var(--ifm-color-primary) !important;
+    color: #ffffff !important;
+    border: 2px solid var(--ifm-color-primary) !important;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .mobileRequestAccess:hover {
+    background: var(--ifm-color-primary-dark) !important;
+    border-color: var(--ifm-color-primary-dark) !important;
+    color: #ffffff !important;
+    text-decoration: none;
+  }
+
+  /* Swap Quick Start to outlined on mobile */
+  .primaryButton {
+    background: transparent !important;
+    color: var(--qf-text-primary) !important;
+    border: 1.5px solid var(--qf-border-card) !important;
+    font-weight: 500;
+  }
+
+  .primaryButton:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-color: var(--ifm-color-primary) !important;
+    color: var(--ifm-color-primary) !important;
   }
 }
 

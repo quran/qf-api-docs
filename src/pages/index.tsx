@@ -50,6 +50,12 @@ function HomepageHeader() {
 
         <div className={styles.heroButtonRow}>
           <Link
+            className={clsx("button button--lg", styles.mobileRequestAccess)}
+            to="/request-access"
+          >
+            📨 Request Access
+          </Link>
+          <Link
             className={clsx("button button--lg", styles.primaryButton)}
             to="/docs/quickstart"
           >

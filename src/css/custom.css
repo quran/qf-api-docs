@@ -122,7 +122,12 @@ a.navbar__item--request-access:hover {
   border-bottom-color: #1e293b;
 }
 
-/* Request Access is always visible in navbar — no mobile-only hiding needed */
+/* On mobile homepage, hide Request Access from hamburger — it's in the hero instead */
+@media screen and (max-width: 996px) {
+  body.home-page .navbar__item--request-access {
+    display: none;
+  }
+}
 
 /* ─── Footer ──────────────────────────────────────────────── */
 .footer {
