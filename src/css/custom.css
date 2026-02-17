@@ -118,8 +118,8 @@ a.navbar__item--request-access:hover {
 }
 
 [data-theme='dark'] .navbar {
-  background: #0f172a;
-  border-bottom-color: #1e293b;
+  background: var(--qf-surface-page);
+  border-bottom-color: var(--qf-border-card);
 }
 
 /* On mobile homepage, hide Request Access from hamburger — it's in the hero instead */

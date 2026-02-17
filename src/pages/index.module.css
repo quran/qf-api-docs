@@ -45,7 +45,7 @@
   background: var(--ifm-color-primary) !important;
   color: #ffffff !important;
   border: 2px solid var(--ifm-color-primary) !important;
-  border-radius: 8px;
+  border-radius: var(--ifm-global-radius);
   font-weight: 600;
   padding: 0.6rem 1.6rem;
   transition: background 150ms ease, transform 100ms ease, box-shadow 150ms ease;
@@ -64,14 +64,14 @@
   background: transparent !important;
   color: var(--qf-text-primary) !important;
   border: 1.5px solid var(--qf-border-card) !important;
-  border-radius: 8px;
+  border-radius: var(--ifm-global-radius);
   font-weight: 500;
   padding: 0.6rem 1.6rem;
   transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
 }
 
 .outlineButton:hover {
-  background: rgba(0, 0, 0, 0.04) !important;
+  background: var(--ifm-color-emphasis-100) !important;
   border-color: var(--ifm-color-primary) !important;
   color: var(--ifm-color-primary) !important;
   transform: translateY(-1px);
@@ -116,7 +116,7 @@
     background: var(--ifm-color-primary) !important;
     color: #ffffff !important;
     border: 2px solid var(--ifm-color-primary) !important;
-    border-radius: 8px;
+    border-radius: var(--ifm-global-radius);
     font-weight: 600;
   }
 
@@ -136,7 +136,7 @@
   }
 
   .primaryButton:hover {
-    background: rgba(0, 0, 0, 0.04) !important;
+    background: var(--ifm-color-emphasis-100) !important;
     border-color: var(--ifm-color-primary) !important;
     color: var(--ifm-color-primary) !important;
   }

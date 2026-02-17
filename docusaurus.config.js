@@ -267,11 +267,11 @@ const config = {
               },
               {
                 label: "OAuth2 / OIDC APIs",
-                to: "docs/category/oauth2_apis",
+                to: "/docs/category/oauth2_apis",
               },
               {
                 label: "User-related APIs",
-                to: "docs/category/user-related-apis",
+                to: "/docs/category/user-related-apis",
               },
               {
                 label: "Search APIs",

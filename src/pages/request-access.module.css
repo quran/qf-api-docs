@@ -45,7 +45,7 @@
 }
 
 .ghostButton:hover {
-  background: rgba(0, 0, 0, 0.03);
+  background: var(--ifm-color-emphasis-100);
   border-color: var(--ifm-color-primary);
   color: var(--ifm-color-primary);
   transform: translateY(-2px);
