@@ -122,12 +122,7 @@ a.navbar__item--request-access:hover {
   border-bottom-color: #1e293b;
 }
 
-/* Hide on mobile homepage */
-@media screen and (max-width: 996px) {
-  body.home-page .navbar__item--request-access {
-    display: none;
-  }
-}
+/* Request Access is always visible in navbar — no mobile-only hiding needed */
 
 /* ─── Footer ──────────────────────────────────────────────── */
 .footer {
