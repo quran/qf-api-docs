@@ -6,8 +6,8 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "QuranFoundation API Documentation Portal",
-  tagline: "Build Quran-related apps in no time!",
+  title: "Quran Foundation Documentation Portal",
+  tagline: "Our API documentation is clear, concise, easy to understand and will help you create innovative and engaging Quran-related apps.",
   // Set the production url of your site here
   url: "https://api-docs.quran.foundation",
   baseUrl: "/",
@@ -175,19 +175,19 @@ const config = {
       // Replace with your project's social card
       // image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: "QuranFoundation API Docs portal",
+        title: "Quran Foundation API Docs",
         items: [
           {
             type: "doc",
             docId: "quickstart/index", // Points to your /docs/quickstart/index.md
             position: "left",
-            label: "🚀 Quick Start",
+            label: "Quick Start",
           },
           {
             type: "doc",
             docId: "updates/index",
             position: "left",
-            label: "📢 Updates",
+            label: "Updates",
           },
 
           {
@@ -266,20 +266,16 @@ const config = {
                 to: "/docs/category/content-apis",
               },
               {
-                label: "Search APIs",
-                to: "/docs/search_apis_versioned/quran-foundation-search-api",
-              },
-              {
-                label: "JavaScript SDK",
-                to: "/docs/sdk/javascript",
+                label: "OAuth2 / OIDC APIs",
+                to: "docs/category/oauth2_apis",
               },
               {
                 label: "User-related APIs",
                 to: "docs/category/user-related-apis",
               },
               {
-                label: "OAuth2 APIs",
-                to: "docs/category/oauth2_apis",
+                label: "Search APIs",
+                to: "/docs/search_apis_versioned/quran-foundation-search-api",
               },
             ],
           },
@@ -300,25 +296,8 @@ const config = {
                 to: "https://donate.quran.foundation",
               },
               {
-                label: "Updates",
-                to: "/docs/updates",
-              },
-              {
                 label: "GitHub",
                 href: "https://github.com/quran",
-              },
-            ],
-          },
-          {
-            title: "Legal",
-            items: [
-              {
-                label: "Developer Terms of Service",
-                to: "/legal/developer-terms",
-              },
-              {
-                label: "Developer Privacy Policy Requirements",
-                to: "/legal/developer-privacy",
               },
             ],
           },

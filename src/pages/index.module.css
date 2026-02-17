@@ -1,103 +1,110 @@
 /**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ * Homepage hero banner and button styles.
+ * CSS Modules — scoped locally.
  */
 
 .heroBanner {
-  padding: 1rem !important;
+  background: var(--qf-surface-hero);
+  padding: 4rem 1.5rem 3.5rem;
   text-align: center;
   position: relative;
-  overflow: visible;
 }
 
+.heroContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--qf-text-primary);
+  margin: 0 0 1rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.heroSubtitle {
+  font-size: 1.05rem;
+  color: var(--qf-text-secondary);
+  line-height: 1.6;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+}
+
+/* ── Buttons ── */
 .heroButtonRow {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.9rem;
-  margin: 1.25rem auto 0;
+  gap: 0.75rem;
   flex-wrap: wrap;
-  overflow: visible;
-  padding-bottom: 0.35rem;
 }
 
-.heroButtonRow > * {
-  flex: 0 1 220px;
+.primaryButton {
+  background: var(--ifm-color-primary) !important;
+  color: #ffffff !important;
+  border: 2px solid var(--ifm-color-primary) !important;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 0.6rem 1.6rem;
+  transition: background 150ms ease, transform 100ms ease, box-shadow 150ms ease;
 }
 
-.mobileRequestAccess {
-  display: none;
-  margin-top: 0.5rem;
+.primaryButton:hover {
+  background: var(--ifm-color-primary-dark) !important;
+  border-color: var(--ifm-color-primary-dark) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(44, 164, 171, 0.25);
+  text-decoration: none;
 }
 
 .outlineButton {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
-  width: 220px;
-  max-width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
+  background: transparent !important;
+  color: var(--qf-text-primary) !important;
+  border: 1.5px solid var(--qf-border-card) !important;
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.6rem 1.6rem;
+  transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
 }
 
 .outlineButton:hover {
-  transform: none;
-  background: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: var(--ifm-color-primary) !important;
+  color: var(--ifm-color-primary) !important;
+  transform: translateY(-1px);
+  text-decoration: none;
 }
 
-.ghostButton {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
-  width: 220px;
-  max-width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-}
-
-.ghostButton:hover {
-  background: rgba(255, 255, 255, 0.22);
-  transform: none;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
-}
-
-@media screen and (max-width: 996px) {
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
   .heroBanner {
-    padding: 0rem;
+    padding: 2.5rem 1rem 2rem;
   }
+
+  .heroTitle {
+    font-size: 1.75rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.95rem;
+  }
+
   .heroButtonRow {
-    flex-wrap: wrap;
-    overflow: visible;
+    flex-direction: column;
+    gap: 0.5rem;
   }
+
   .heroButtonRow > * {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
-  .outlineButton,
-  .ghostButton {
     width: 100%;
-  }
-  .mobileRequestAccess {
-    display: flex;
-    justify-content: center;
-  }
-  .mobileRequestAccess :global(a) {
-    width: 100%;
-  }
-  .heroBanner :global(.hero__title) {
-    font-size: 2rem;
-    word-break: keep-all;
-    overflow-wrap: normal;
-    max-width: 100%;
+    max-width: 320px;
   }
 }
 
+@media screen and (min-width: 769px) and (max-width: 996px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+}

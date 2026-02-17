@@ -10,7 +10,8 @@
   background: var(--ifm-color-primary);
   color: #ffffff;
   border: 2px solid var(--ifm-color-primary);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: var(--qf-shadow-sm);
   transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
   width: 220px;
   max-width: 100%;
@@ -18,19 +19,21 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
+  font-weight: 600;
 }
 
 .outlineButton:hover {
   transform: translateY(-2px);
   background: var(--ifm-color-primary-darker);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--qf-shadow-md);
 }
 
 .ghostButton {
-  background: #f1f5f9;
-  color: var(--ifm-color-primary);
-  border: 2px solid #e2e8f0;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  background: var(--qf-surface-card);
+  color: var(--qf-text-primary);
+  border: 1.5px solid var(--qf-border-card);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: var(--qf-shadow-sm);
   transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
   width: 220px;
   max-width: 100%;
@@ -38,12 +41,15 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
+  font-weight: 500;
 }
 
 .ghostButton:hover {
-  background: #e2e8f0;
+  background: rgba(0, 0, 0, 0.03);
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
+  box-shadow: var(--qf-shadow-md);
 }
 
 .sectionHeader {
@@ -54,16 +60,17 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
+  color: var(--qf-text-primary);
 }
 
 .sectionHint {
   margin: 0.25rem 0 0;
-  color: var(--ifm-color-emphasis-600);
+  color: var(--qf-text-muted);
   font-size: 0.9rem;
 }
 
 .sectionDivider {
   margin: 1.5rem 0;
   border: 0;
-  border-top: 1px solid var(--ifm-color-emphasis-200);
+  border-top: 1px solid var(--qf-border-card);
 }
