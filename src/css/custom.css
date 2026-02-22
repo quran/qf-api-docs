@@ -1,50 +1,222 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Global styles for the QuranFoundation API Documentation Portal.
+ * Design system based on the Figma design reference.
+ *
+ * Infima is the underlying Docusaurus CSS framework.
+ * We override its tokens here to match our brand.
  */
 
-/* You can override the default Infima variables here. */
+/* ─── Google Font ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ─── Design Tokens (Light) ───────────────────────────────── */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  /* Brand – teal palette */
+  --ifm-color-primary: #2ca4ab;
+  --ifm-color-primary-dark: #279499;
+  --ifm-color-primary-darker: #258c91;
+  --ifm-color-primary-darkest: #1e7377;
+  --ifm-color-primary-light: #31b4bd;
+  --ifm-color-primary-lighter: #38b9c1;
+  --ifm-color-primary-lightest: #54c6cd;
+
+  /* Typography */
+  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, sans-serif;
+  --ifm-heading-font-family: 'Inter', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+  --ifm-font-size-base: 16px;
+  --ifm-code-font-size: 94%;
+
+  /* Spacing & Radius */
+  --ifm-global-radius: 8px;
+  --qf-radius-lg: 12px;
+  --qf-radius-xl: 16px;
+
+  /* Shadows */
+  --qf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --qf-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --qf-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  /* Surfaces */
+  --qf-surface-hero: #f5f6f8;
+  --qf-surface-card: #ffffff;
+  --qf-surface-page: #ffffff;
+  --qf-border-card: #e5e7eb;
+  --qf-text-primary: #111827;
+  --qf-text-secondary: #4b5563;
+  --qf-text-muted: #6b7280;
+
+  /* Code highlight */
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.08);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* ─── Design Tokens (Dark) ────────────────────────────────── */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #3ec1c9;
+  --ifm-color-primary-dark: #2bb5bd;
+  --ifm-color-primary-darker: #28aab2;
+  --ifm-color-primary-darkest: #218c92;
+  --ifm-color-primary-light: #55cad1;
+  --ifm-color-primary-lighter: #63ced5;
+  --ifm-color-primary-lightest: #88dbe0;
+
+  --qf-surface-hero: #111827;
+  --qf-surface-card: #1f2937;
+  --qf-surface-page: #111827;
+  --qf-border-card: #374151;
+  --qf-text-primary: #f9fafb;
+  --qf-text-secondary: #d1d5db;
+  --qf-text-muted: #9ca3af;
+
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-/* Form styles */
+/* ─── Global ──────────────────────────────────────────────── */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Navbar ──────────────────────────────────────────────── */
+.navbar {
+  background: var(--qf-surface-page);
+  border-bottom: 1px solid var(--qf-border-card);
+  box-shadow: none;
+  padding: 0.5rem 1.5rem;
+}
+
+.navbar__title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--qf-text-primary);
+}
+
+.navbar__link {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Request Access pill button in navbar */
+.navbar__item--request-access {
+  margin-right: 0.75rem;
+}
+
+.navbar__item--theme-toggle {
+  margin-left: 0.75rem;
+}
+
+.navbar__item--request-access .navbar__link,
+a.navbar__item--request-access {
+  background: var(--ifm-color-primary);
+  color: #ffffff !important;
+  border-radius: 999px;
+  padding: 0.4rem 1.15rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background 150ms ease, transform 100ms ease;
+  border: none;
+}
+
+.navbar__item--request-access .navbar__link:hover,
+a.navbar__item--request-access:hover {
+  background: var(--ifm-color-primary-dark);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .navbar {
+  background: var(--qf-surface-page);
+  border-bottom-color: var(--qf-border-card);
+}
+
+/* On mobile homepage, hide Request Access from navbar — it's in the hero instead */
+@media screen and (max-width: 768px) {
+  body.home-page .navbar__item--request-access {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .navbar-sidebar .navbar__item--request-access,
+  .navbar-sidebar .navbar__item--request-access .navbar__link,
+  .navbar-sidebar .navbar__item--request-access .menu__link,
+  .navbar-sidebar a.navbar__item--request-access {
+    background: transparent !important;
+    color: var(--qf-text-primary) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0;
+    padding: 0.65rem 1rem !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: none;
+  }
+
+  .navbar-sidebar .navbar__item--request-access .navbar__link:hover,
+  .navbar-sidebar .navbar__item--request-access .menu__link:hover,
+  .navbar-sidebar a.navbar__item--request-access:hover {
+    background: transparent !important;
+    transform: none;
+  }
+}
+
+/* ─── Footer ──────────────────────────────────────────────── */
+.footer {
+  background: #1f2937;
+  padding: 2.5rem 0 2rem;
+}
+
+.footer__title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #f9fafb;
+  margin-bottom: 0.75rem;
+}
+
+.footer__link-item {
+  font-size: 0.88rem;
+  color: #d1d5db;
+  transition: color 150ms ease;
+}
+
+.footer__link-item:hover {
+  color: var(--ifm-color-primary-lightest);
+  text-decoration: none;
+}
+
+.footer__copyright {
+  color: #6b7280;
+  font-size: 0.82rem;
+  margin-top: 1.5rem;
+}
+
+/* ─── Form styles ─────────────────────────────────────────── */
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  color: var(--qf-text-primary);
 }
 
 .form-input {
   display: block;
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--qf-border-card);
   border-radius: var(--ifm-global-radius);
   background-color: var(--ifm-background-color);
   color: var(--ifm-font-color-base);
   margin-bottom: 0.5rem;
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.9rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.form-input:focus {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 3px rgba(44, 164, 171, 0.15);
+  outline: none;
 }
 
 .form-input-error {
@@ -53,43 +225,38 @@
 
 .error-message {
   color: var(--ifm-color-danger);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   margin-top: -0.25rem;
   margin-bottom: 0.5rem;
 }
 
 .text-muted {
-  color: var(--ifm-color-emphasis-600);
-  font-size: 0.875rem;
+  color: var(--qf-text-muted);
+  font-size: 0.85rem;
 }
 
 .request-access-form {
-  background: var(--ifm-background-surface-color);
-  padding: 1rem;
-  border-radius: var(--ifm-global-radius);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  background: var(--qf-surface-card);
+  padding: 1.5rem;
+  border-radius: var(--qf-radius-lg);
+  border: 1px solid var(--qf-border-card);
+  box-shadow: var(--qf-shadow-sm);
 }
 
-@media screen and (max-width: 996px) {
-  body.home-page .navbar__item--request-access {
-    display: none;
-  }
-}
-
-/* OpenAPI demo panel UX polish */
+/* ─── OpenAPI demo panel polish ───────────────────────────── */
 .theme-api-markdown {
-  --openapi-card-background-color: #f7faf8;
-  --openapi-card-border-radius: 12px;
-  --openapi-input-background: #ffffff;
-  --openapi-input-border: #2e8555;
+  --openapi-card-background-color: var(--qf-surface-card);
+  --openapi-card-border-radius: var(--qf-radius-lg);
+  --openapi-input-background: var(--ifm-background-color);
+  --openapi-input-border: var(--ifm-color-primary);
   --openapi-inverse-color: #ffffff;
   --ifm-pre-padding: 16px;
 }
 
 [data-theme='dark'] .theme-api-markdown {
-  --openapi-card-background-color: #111614;
+  --openapi-card-background-color: #0f172a;
   --openapi-input-background: #0b100e;
-  --openapi-input-border: #25c2a0;
+  --openapi-input-border: var(--ifm-color-primary);
   --openapi-inverse-color: #0b100e;
 }
 
@@ -98,8 +265,9 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--ifm-color-emphasis-200);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: none;
   white-space: pre-wrap;
 }
 
@@ -109,14 +277,15 @@
 }
 
 .theme-api-markdown .details__demo-panel {
-  border: 1px solid var(--ifm-color-emphasis-200);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--qf-radius-lg);
+  box-shadow: var(--qf-shadow-md);
 }
 
 .theme-api-markdown .details__demo-panel > summary {
   position: relative;
   padding: 0.75rem 2.5rem 0.75rem 1rem;
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom: 1px solid var(--qf-border-card);
 }
 
 .theme-api-markdown .details__demo-panel > summary::after {
@@ -156,13 +325,13 @@
 
 .theme-api-markdown .details__response-summary .button--secondary {
   background: transparent;
-  border-color: var(--ifm-color-emphasis-300);
+  border-color: var(--qf-border-card);
 }
 
 .theme-api-markdown .details__demo-panel input,
 .theme-api-markdown .details__demo-panel select,
 .theme-api-markdown .details__demo-panel textarea {
-  border-radius: 8px;
+  border-radius: var(--ifm-global-radius);
 }
 
 .theme-api-markdown .openapi-demo__code-block code {
@@ -201,4 +370,16 @@
 .theme-api-markdown .code__tab--ai.tabs__item--active {
   border-bottom-color: var(--ifm-color-primary);
   background-color: var(--ifm-color-emphasis-100);
+}
+
+/* ─── Buttons ─────────────────────────────────────────────── */
+.button--primary {
+  border-radius: var(--ifm-global-radius);
+  font-weight: 600;
+  transition: background 150ms ease, transform 100ms ease, box-shadow 150ms ease;
+}
+
+.button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--qf-shadow-md);
 }

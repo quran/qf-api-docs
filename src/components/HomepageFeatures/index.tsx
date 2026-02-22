@@ -1,53 +1,49 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.css';
+import React from "react";
+import Link from "@docusaurus/Link";
+import styles from "./styles.module.css";
 
-type FeatureItem = {
+type ApiCard = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
-  description: JSX.Element;
+  icon: string;
+  description: string;
+  link: string;
 };
 
-const FeatureList: FeatureItem[] = [
+const ApiCards: ApiCard[] = [
   {
-    title: 'Easy-to-use API documentation',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Our API documentation is clear, concise, easy to understand and will help you create innovative and engaging Quran-related apps.
-      </>
-    ),
+    title: "Content APIs",
+    icon: "📖",
+    description:
+      "Access Quranic chapters, verses, translations, audio files, and search through comprehensive endpoints designed for seamless app integration.",
+    link: "/docs/category/content-apis",
   },
   {
-    title: 'Try our APIs right from the browser',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        We provide the ability to try our APIs right from the browser. Try first and integrate into your app later.
-      </>
-    ),
+    title: "OAuth2 / OIDC APIs",
+    icon: "🔐",
+    description:
+      "Implement secure user authentication using industry-standard OAuth2 and OpenID Connect flows. Manage tokens, authorization, and identity.",
+    link: "/docs/category/oauth2_apis",
   },
   {
-    title: 'Integration code examples',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Each API comes with integration examples in popular programming languages, such as Java, Python, and JavaScript. Build your app in no time!
-      </>
-    ),
+    title: "User-related APIs",
+    icon: "👤",
+    description:
+      "Manage user data including bookmarks, reading sessions, preferences, goals, notes, and collections. Build personalized Quran experiences.",
+    link: "/docs/category/user-related-apis",
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function ApiCardItem({ title, icon, description, link }: ApiCard) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+    <div className={styles.card}>
+      <div className={styles.cardHeader}>
+        <span className={styles.cardIcon}>{icon}</span>
+        <h3 className={styles.cardTitle}>{title}</h3>
       </div>
-      <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
+      <p className={styles.cardDescription}>{description}</p>
+      <Link className={styles.cardLink} to={link}>
+        See docs →
+      </Link>
     </div>
   );
 }
@@ -56,9 +52,15 @@ export default function HomepageFeatures(): JSX.Element {
   return (
     <section className={styles.features}>
       <div className="container">
-        <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Get started with our APIs:</h2>
+          <Link className={styles.sectionLink} to="/docs/category/content-apis">
+            See API References
+          </Link>
+        </div>
+        <div className={styles.cardGrid}>
+          {ApiCards.map((card) => (
+            <ApiCardItem key={card.title} {...card} />
           ))}
         </div>
       </div>

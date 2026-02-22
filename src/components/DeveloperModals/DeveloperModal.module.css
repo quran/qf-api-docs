@@ -7,15 +7,16 @@
   justify-content: center;
   z-index: 999;
   padding: 1rem;
+  backdrop-filter: blur(2px);
 }
 
 .modalCard {
-  background: #ffffff;
-  color: #0f172a;
-  border-radius: 14px;
+  background: var(--qf-surface-card);
+  color: var(--qf-text-primary);
+  border-radius: var(--qf-radius-xl);
   max-width: 780px;
   width: min(90vw, 780px);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.14);
+  box-shadow: var(--qf-shadow-lg);
   padding: 1.6rem 1.5rem 2.4rem;
   animation: popIn 160ms ease;
   max-height: calc(100vh - 2rem);
@@ -41,9 +42,14 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #0f172a;
+  color: var(--qf-text-muted);
   line-height: 1;
   padding: 0.25rem 0.5rem;
+  transition: color 150ms ease;
+}
+
+.closeButton:hover {
+  color: var(--qf-text-primary);
 }
 
 .modalList {
