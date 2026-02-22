@@ -98,6 +98,14 @@ html {
 }
 
 /* Request Access pill button in navbar */
+.navbar__item--request-access {
+  margin-right: 0.75rem;
+}
+
+.navbar__item--theme-toggle {
+  margin-left: 0.75rem;
+}
+
 .navbar__item--request-access .navbar__link,
 a.navbar__item--request-access {
   background: var(--ifm-color-primary);

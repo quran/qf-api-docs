@@ -41,7 +41,7 @@ function HomepageHeader() {
     <header className={styles.heroBanner}>
       <div className={styles.heroContent}>
         <h1 className={styles.heroTitle}>
-          Quran Foundation Documentation Portal
+          Quran.Foundation Documentation Portal
         </h1>
         <p className={styles.heroSubtitle}>
           Our API documentation is clear, concise, easy to understand and will
