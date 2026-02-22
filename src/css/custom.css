@@ -130,10 +130,34 @@ a.navbar__item--request-access:hover {
   border-bottom-color: var(--qf-border-card);
 }
 
-/* On mobile homepage, hide Request Access from hamburger — it's in the hero instead */
-@media screen and (max-width: 996px) {
+/* On mobile homepage, hide Request Access from navbar — it's in the hero instead */
+@media screen and (max-width: 768px) {
   body.home-page .navbar__item--request-access {
     display: none;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .navbar-sidebar .navbar__item--request-access,
+  .navbar-sidebar .navbar__item--request-access .navbar__link,
+  .navbar-sidebar .navbar__item--request-access .menu__link,
+  .navbar-sidebar a.navbar__item--request-access {
+    background: transparent !important;
+    color: var(--qf-text-primary) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0;
+    padding: 0.65rem 1rem !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: none;
+  }
+
+  .navbar-sidebar .navbar__item--request-access .navbar__link:hover,
+  .navbar-sidebar .navbar__item--request-access .menu__link:hover,
+  .navbar-sidebar a.navbar__item--request-access:hover {
+    background: transparent !important;
+    transform: none;
   }
 }
 
