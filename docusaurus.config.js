@@ -59,6 +59,7 @@ const config = {
   ],
 
   plugins: [
+    "./plugins/llms-txt-plugin.js",
     [
       "docusaurus-plugin-openapi-docs",
       {
