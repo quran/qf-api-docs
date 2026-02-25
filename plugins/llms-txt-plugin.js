@@ -170,12 +170,58 @@ function generateLlmsTxt(docsDir) {
   return { content: lines.join('\n'), linkCount };
 }
 
+/**
+ * Recursively copy srcDir into destDir, creating subdirectories as needed.
+ * Existing files in destDir are overwritten.
+ */
+function copyDirSync(srcDir, destDir) {
+  fs.mkdirSync(destDir, { recursive: true });
+  for (const entry of fs.readdirSync(srcDir)) {
+    const srcPath = path.join(srcDir, entry);
+    const destPath = path.join(destDir, entry);
+    if (fs.statSync(srcPath).isDirectory()) {
+      copyDirSync(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
 /** @type {import('@docusaurus/types').PluginModule} */
 module.exports = function llmsTxtPlugin(context) {
   return {
     name: 'llms-txt-plugin',
 
+    /**
+     * During `yarn start` (dev server), serve the source openAPI/ directory
+     * at /openAPI/ so the JSON specs are accessible without a separate copy.
+     */
+    configureWebpack(_config, isServer) {
+      if (isServer) return {};
+      return {
+        devServer: {
+          static: [
+            {
+              directory: path.join(context.siteDir, 'openAPI'),
+              publicPath: '/openAPI',
+              watch: true,
+            },
+          ],
+        },
+      };
+    },
+
     async postBuild({ outDir }) {
+      // 1. Copy OpenAPI source specs into the build output so deployed JSON is
+      //    always freshly sourced from openAPI/ and cannot diverge.
+      const srcOpenApiDir = path.join(context.siteDir, 'openAPI');
+      const destOpenApiDir = path.join(outDir, 'openAPI');
+      copyDirSync(srcOpenApiDir, destOpenApiDir);
+      console.log(
+        `[llms-txt-plugin] Copied ${srcOpenApiDir} → ${destOpenApiDir}`,
+      );
+
+      // 2. Generate llms.txt from the current docs/ source tree.
       const docsDir = path.join(context.siteDir, 'docs');
       const { content, linkCount } = generateLlmsTxt(docsDir);
       const outFile = path.join(outDir, 'llms.txt');
