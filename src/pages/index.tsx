@@ -50,7 +50,7 @@ function HomepageHeader() {
 
         <p className={styles.heroSubtitle}>
           <strong>AI agents / LLMs</strong> — see{" "}
-          <Link to="/llms.txt">/llms.txt</Link> for machine-readable OpenAPI
+          <a href="/llms.txt">/llms.txt</a> for machine-readable OpenAPI
           specs.
         </p>
 
