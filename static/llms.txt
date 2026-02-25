@@ -1,0 +1,16 @@
+# Quran Foundation API
+
+> API documentation for Quran.com content, search, user, and authentication APIs.
+
+## OpenAPI Specifications
+
+- [Content APIs v4](https://api-docs.quran.foundation/openAPI/content/v4.json): Verses, chapters, translations, tafsirs, audio
+- [User APIs v1](https://api-docs.quran.foundation/openAPI/user-related-apis/v1.json): Bookmarks, collections, notes, profiles, rooms, posts
+- [OAuth2 APIs v1](https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json): Authentication and authorization
+- [Search APIs v1](https://api-docs.quran.foundation/openAPI/search/v1.json): Quran text search
+
+## Docs
+
+- [Quick Start](https://api-docs.quran.foundation/docs/quickstart/)
+- [OAuth2 Scopes](https://api-docs.quran.foundation/docs/user_related_apis_versioned/scopes)
+- [Request Access](https://api-docs.quran.foundation/request-access)

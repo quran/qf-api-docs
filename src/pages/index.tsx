@@ -48,6 +48,12 @@ function HomepageHeader() {
           help you create innovative and engaging Quran-related apps.
         </p>
 
+        <p className={styles.heroSubtitle}>
+          <strong>AI agents / LLMs</strong> — see{" "}
+          <Link to="/llms.txt">/llms.txt</Link> for machine-readable OpenAPI
+          specs.
+        </p>
+
         <div className={styles.heroButtonRow}>
           <Link
             className={clsx("button button--lg", styles.mobileRequestAccess)}
