@@ -188,7 +188,7 @@ function copyDirSync(srcDir, destDir) {
 }
 
 /** @type {import('@docusaurus/types').PluginModule} */
-module.exports = function llmsTxtPlugin(context) {
+function llmsTxtPlugin(context) {
   return {
     name: 'llms-txt-plugin',
 
@@ -231,4 +231,7 @@ module.exports = function llmsTxtPlugin(context) {
       );
     },
   };
-};
+}
+
+module.exports = llmsTxtPlugin;
+module.exports.generateLlmsTxt = generateLlmsTxt;

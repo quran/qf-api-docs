@@ -6,6 +6,7 @@
   "scripts": {
     "deploy:pages": "yarn run build && wrangler pages deploy build",
     "docusaurus": "npx docusaurus",
+    "llms:sync": "node scripts/sync-static-llms-txt.js",
     "start": "yarn gen-all && npx docusaurus start",
     "build": "yarn gen-all && npx docusaurus build",
     "swizzle": "npx docusaurus swizzle",
