@@ -77,7 +77,7 @@ function HomepageHeader() {
           </button>
         </div>
 
-        <p className={styles.heroSubtitle}>
+        <p className={clsx(styles.heroSubtitle, styles.heroLlmsCallout)}>
           <strong>AI agents / LLMs</strong> — see{" "}
           <a href="/llms.txt">/llms.txt</a> for machine-readable OpenAPI
           specs.

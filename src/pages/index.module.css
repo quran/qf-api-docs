@@ -32,6 +32,10 @@
   margin: 0 auto 2rem;
 }
 
+.heroLlmsCallout {
+  margin: 2rem auto 0;
+}
+
 /* ── Buttons ── */
 .heroButtonRow {
   display: flex;
