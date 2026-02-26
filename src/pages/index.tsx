@@ -76,6 +76,12 @@ function HomepageHeader() {
             Read Dev Disclaimers
           </button>
         </div>
+
+        <p className={clsx(styles.heroSubtitle, styles.heroLlmsCallout)}>
+          <strong>AI agents / LLMs</strong> — see{" "}
+          <a href="/llms.txt">/llms.txt</a> for machine-readable OpenAPI
+          specs.
+        </p>
       </div>
 
       <DeveloperBenefitsModal
