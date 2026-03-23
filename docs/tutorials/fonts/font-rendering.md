@@ -313,6 +313,7 @@ Each word includes:
 - `position`: Word order within the verse
 
 > **Note:** The API returns words in correct Mushaf order, so no sorting is needed—just group by line.
+> `line_number` is a physical page line index, so the first visible Quran text on a page can begin on line 2 or 3. If you support alternate mushafs, validate layout fidelity against the intended print edition.
 
 **Data Transformation (Pseudo-code):**
 
