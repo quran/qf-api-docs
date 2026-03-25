@@ -14083,7 +14083,7 @@
         "tags": [
           "Foot Note"
         ],
-        "summary": "Get Foot Note",
+        "summary": "Get Footnote",
         "description": "Retrieve a single footnote.",
         "operationId": "get-foot-note",
         "parameters": [
