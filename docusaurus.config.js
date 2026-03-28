@@ -169,8 +169,8 @@ const config = {
       ],
       docs: {
         sidebar: {
-          hideable: true,
-          autoCollapseCategories: true,
+          hideable: false,
+          autoCollapseCategories: false,
         },
       },
       // Replace with your project's social card
@@ -226,19 +226,19 @@ const config = {
             items: [
               {
                 label: "Content APIs",
-                to: "docs/category/content-apis",
+                to: "/docs/content_apis_versioned/content-apis",
               },
               {
                 label: "Search APIs",
-                to: "docs/search_apis_versioned/quran-foundation-search-api",
+                to: "/docs/search_apis_versioned/quran-foundation-search-api",
               },
               {
                 label: "User-related APIs",
-                to: "docs/category/user-related-apis",
+                to: "/docs/user_related_apis_versioned/user-related-apis",
               },
               {
                 label: "OAuth2 APIs",
-                to: "docs/category/oauth2_apis",
+                to: "/docs/oauth2_apis_versioned/oauth-2-apis",
               },
             ],
           },
@@ -264,15 +264,15 @@ const config = {
             items: [
               {
                 label: "Content APIs",
-                to: "/docs/category/content-apis",
+                to: "/docs/content_apis_versioned/content-apis",
               },
               {
                 label: "OAuth2 / OIDC APIs",
-                to: "/docs/category/oauth2_apis",
+                to: "/docs/oauth2_apis_versioned/oauth-2-apis",
               },
               {
                 label: "User-related APIs",
-                to: "/docs/category/user-related-apis",
+                to: "/docs/user_related_apis_versioned/user-related-apis",
               },
               {
                 label: "Search APIs",
