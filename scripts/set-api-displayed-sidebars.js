@@ -13,6 +13,7 @@ const docsDirs = [
 
 const versionDirPattern = /^\d+\.\d+\.\d+$/;
 const generatedApiDocPattern = /\.(api|info|tag)\.mdx$/;
+const generatedSidebarPattern = /(?:^|[\\/])sidebar\.js$/;
 
 function walk(dir) {
   /** @type {string[]} */
@@ -68,19 +69,37 @@ function upsertDisplayedSidebar(content, displayedSidebarId) {
   );
 }
 
+function normalizeGeneratedLabels(content) {
+  return content
+    .replace(/Foot Note/g, 'Footnote')
+    .replace(/foot note/g, 'footnote');
+}
+
 let updatedFiles = 0;
 let checkedFiles = 0;
 
 for (const docsDir of docsDirs) {
-  for (const filePath of walk(docsDir)) {
+  const generatedDocs = walk(docsDir);
+  const generatedSidebars = [
+    path.join(docsDir, 'sidebar.js'),
+    ...fs
+      .readdirSync(docsDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && versionDirPattern.test(entry.name))
+      .map((entry) => path.join(docsDir, entry.name, 'sidebar.js'))
+      .filter((filePath) => generatedSidebarPattern.test(filePath) && fs.existsSync(filePath)),
+  ];
+
+  for (const filePath of [...generatedDocs, ...generatedSidebars]) {
     checkedFiles += 1;
 
-    const displayedSidebarId = getDisplayedSidebarId(filePath);
     const originalContent = fs.readFileSync(filePath, 'utf8');
-    const updatedContent = upsertDisplayedSidebar(
-      originalContent,
-      displayedSidebarId,
-    );
+    const normalizedContent = normalizeGeneratedLabels(originalContent);
+    const updatedContent = generatedApiDocPattern.test(filePath)
+      ? upsertDisplayedSidebar(
+          normalizedContent,
+          getDisplayedSidebarId(filePath),
+        )
+      : normalizedContent;
 
     if (updatedContent !== originalContent) {
       fs.writeFileSync(filePath, updatedContent, 'utf8');
