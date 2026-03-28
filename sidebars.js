@@ -8,6 +8,8 @@
 
  Create as many sidebars as you want.
  */
+const fs = require("fs");
+const path = require("path");
 const contentAPIsVersions = require("./docs/content_apis_versioned/versions.json");
 const userRelatedAPIsVersions = require("./docs/user_related_apis_versioned/versions.json");
 const oauth2APIsVersions = require("./docs/oauth2_apis_versioned/versions.json");
@@ -16,6 +18,15 @@ const {
   versionSelector,
   versionCrumb,
 } = require("docusaurus-plugin-openapi-docs/lib/sidebars/utils");
+
+const safeRequire = (relativePath, fallback) => {
+  const fullPath = path.join(__dirname, relativePath);
+  if (!fs.existsSync(fullPath)) {
+    return fallback;
+  }
+
+  return require(fullPath);
+};
 
 const makeReadingSessionsVsActivityDaysSidebarItem = (docId) => ({
   type: "category",
@@ -38,6 +49,10 @@ const readingSessionsVsActivityDaysV1_0_0SidebarItem =
   );
 
 const reorderUserRelatedApisSidebarItems = (items, vsGuideSidebarItem) => {
+  if (!vsGuideSidebarItem) {
+    return items;
+  }
+
   // Reorder generated items to group reading-related sections for better UX.
   const isCategoryWithLabel = (item, label) =>
     item && typeof item === "object" && item.type === "category" && item.label === label;
@@ -252,6 +267,22 @@ const sidebars = {
       ),
     },
   ],
+  "user-related-apis-pre-live": [
+    {
+      type: "category",
+      label: "User-related APIs (Pre-live)",
+      link: {
+        type: "generated-index",
+        title: "User-related APIs (Pre-live)",
+        description: "User-related APIs from the pre-live branch.",
+        slug: "/category/user-related-apis-pre-live",
+      },
+      items: reorderUserRelatedApisSidebarItems(
+        safeRequire("./docs/user_related_apis_prelive/sidebar.js", []),
+        null,
+      ),
+    },
+  ],
   oauth2_apis: [
     {
       type: "html",
@@ -351,4 +382,3 @@ const sidebars = {
 };
 
 module.exports = sidebars;
-

@@ -36,7 +36,8 @@ const OPENAPI_HEADER = [
   '## OpenAPI Specifications',
   '',
   '- [Content APIs v4](https://api-docs.quran.foundation/openAPI/content/v4.json): Verses, chapters, translations, tafsirs, audio',
-  '- [User APIs v1](https://api-docs.quran.foundation/openAPI/user-related-apis/v1.json): Bookmarks, collections, notes, profiles, rooms, posts',
+  '- [User APIs v1 (Production)](https://api-docs.quran.foundation/openAPI/user-related-apis/v1.json): Stable production documentation for bookmarks, collections, notes, profiles, rooms, posts',
+  '- [User APIs v1 (Pre-live)](https://api-docs.quran.foundation/openAPI/user-related-apis/pre-live/v1.json): Upcoming pre-live documentation for unreleased user API changes',
   '- [OAuth2 APIs v1](https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json): Authentication and authorization',
   '- [Search APIs v1](https://api-docs.quran.foundation/openAPI/search/v1.json): Quran text search',
   '',
@@ -123,7 +124,12 @@ function walkDocs(dir, relBase) {
     const relpath = relBase ? `${relBase}/${entry}` : entry;
     const stat = fs.statSync(fullpath);
     if (stat.isDirectory()) {
-      if (VERSIONED_DIR_RE.test(entry) || entry.startsWith('_') || entry.startsWith('.')) {
+      if (
+        VERSIONED_DIR_RE.test(entry) ||
+        entry === 'user_related_apis_prelive' ||
+        entry.startsWith('_') ||
+        entry.startsWith('.')
+      ) {
         continue;
       }
       results.push(...walkDocs(fullpath, relpath));
