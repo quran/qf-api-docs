@@ -26,7 +26,7 @@
 - [Content APIs](https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis)
 - [Get Chapter Info](https://api-docs.quran.foundation/docs/content_apis_versioned/get-chapter-info)
 - [Get Chapter](https://api-docs.quran.foundation/docs/content_apis_versioned/get-chapter)
-- [Get Foot Note](https://api-docs.quran.foundation/docs/content_apis_versioned/get-foot-note)
+- [Get Footnote](https://api-docs.quran.foundation/docs/content_apis_versioned/get-foot-note)
 - [Get Hizb](https://api-docs.quran.foundation/docs/content_apis_versioned/get-hizb)
 - [Get Juz](https://api-docs.quran.foundation/docs/content_apis_versioned/get-juz)
 - [Get Manzil](https://api-docs.quran.foundation/docs/content_apis_versioned/get-manzil)
