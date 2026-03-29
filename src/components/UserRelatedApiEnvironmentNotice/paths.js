@@ -1,8 +1,8 @@
 const PROD_CATEGORY_PATH = '/docs/category/user-related-apis';
 const PRELIVE_CATEGORY_PATH = '/docs/category/user-related-apis-pre-live';
 const PROD_LATEST_PREFIX = '/docs/user_related_apis_versioned/';
-const PROD_VERSION_PREFIX = '/docs/user_related_apis_versioned/1.0.0/';
 const PRELIVE_PREFIX = '/docs/user_related_apis_prelive/';
+const PROD_VERSION_PREFIX_REGEX = /^\d+\.\d+\.\d+(\/|$)/;
 
 const stripPrefix = (value, prefix) => value.slice(prefix.length);
 const getFallbackPath = (environment) =>
@@ -43,8 +43,16 @@ function getUserRelatedDocsEnvironment(pathname) {
 }
 
 function getTargetPath(pathname, targetEnvironment) {
+  const currentEnvironment = getUserRelatedDocsEnvironment(pathname);
   const fallbackPath = getFallbackPath(targetEnvironment);
   let targetPath = fallbackPath;
+
+  if (currentEnvironment && currentEnvironment === targetEnvironment) {
+    return {
+      fallbackPath,
+      targetPath: pathname,
+    };
+  }
 
   if (targetEnvironment === 'production') {
     if (pathname === PRELIVE_CATEGORY_PATH) {
@@ -55,10 +63,11 @@ function getTargetPath(pathname, targetEnvironment) {
   } else if (targetEnvironment === 'pre-live') {
     if (pathname === PROD_CATEGORY_PATH) {
       targetPath = PRELIVE_CATEGORY_PATH;
-    } else if (pathname.startsWith(PROD_VERSION_PREFIX)) {
-      targetPath = `${PRELIVE_PREFIX}${stripPrefix(pathname, PROD_VERSION_PREFIX)}`;
     } else if (pathname.startsWith(PROD_LATEST_PREFIX)) {
-      targetPath = `${PRELIVE_PREFIX}${stripPrefix(pathname, PROD_LATEST_PREFIX)}`;
+      const relativePath = stripPrefix(pathname, PROD_LATEST_PREFIX);
+      const normalizedRelativePath = relativePath.replace(PROD_VERSION_PREFIX_REGEX, '');
+
+      targetPath = `${PRELIVE_PREFIX}${normalizedRelativePath}`;
     }
   } else {
     return {

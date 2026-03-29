@@ -56,6 +56,20 @@ test('maps the current doc route between production and pre-live trees', () => {
     '/docs/user_related_apis_versioned/get-user-profile',
   );
   assert.equal(
+    getUserRelatedDocsPath(
+      '/docs/user_related_apis_versioned/get-user-profile',
+      'production',
+    ),
+    '/docs/user_related_apis_versioned/get-user-profile',
+  );
+  assert.equal(
+    getUserRelatedDocsPath(
+      '/docs/user_related_apis_prelive/get-user-profile',
+      'pre-live',
+    ),
+    '/docs/user_related_apis_prelive/get-user-profile',
+  );
+  assert.equal(
     getUserRelatedDocsPath('/docs/category/user-related-apis', 'pre-live'),
     '/docs/category/user-related-apis-pre-live',
   );
@@ -68,6 +82,7 @@ test('maps the current doc route between production and pre-live trees', () => {
 test('falls back to the environment category when the target doc does not exist', () => {
   const availablePaths = new Set([
     '/docs/user_related_apis_versioned/get-user-profile',
+    '/docs/user_related_apis_versioned/1.1.0/get-user-profile',
     '/docs/user_related_apis_prelive/get-user-profile',
     '/docs/user_related_apis_prelive/get-sync-mutations',
   ]);
@@ -105,6 +120,14 @@ test('falls back to the environment category when the target doc does not exist'
   );
   assert.equal(equivalentTarget.path, '/docs/user_related_apis_versioned/get-user-profile');
   assert.equal(equivalentTarget.hasEquivalentDoc, true);
+
+  const versionedProdToPreliveTarget = getUserRelatedDocsTarget(
+    '/docs/user_related_apis_versioned/1.1.0/get-user-profile',
+    'pre-live',
+    { availablePaths },
+  );
+  assert.equal(versionedProdToPreliveTarget.path, '/docs/user_related_apis_prelive/get-user-profile');
+  assert.equal(versionedProdToPreliveTarget.hasEquivalentDoc, true);
 });
 
 test('collects available docs paths from Docusaurus docs data', () => {

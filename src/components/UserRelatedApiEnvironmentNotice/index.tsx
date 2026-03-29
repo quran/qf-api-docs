@@ -25,7 +25,7 @@ const getCopy = (environment: "production" | "pre-live") => {
   if (environment === "pre-live") {
     return {
       title: "Pre-live user-related API docs",
-      body: "These docs track the pre-live branch and may include unreleased or breaking changes. Use them when integrating against pre-live services.",
+      body: "These docs track the pre-live environment and may rarely include unreleased changes. Use them when integrating against pre-live services.",
     };
   }
 
@@ -64,16 +64,15 @@ export default function UserRelatedApiEnvironmentNotice({
           <p className={styles.eyebrow}>User-related API environment</p>
           <h2 className={styles.title}>{copy.title}</h2>
         </div>
-        <div
+        <nav
           className={styles.switcher}
           aria-label="User-related API environment switcher"
         >
           {(["production", "pre-live"] as const).map((targetEnvironment) => {
-            const { hasEquivalentDoc, path: targetPath } = getUserRelatedDocsTarget(
-              pathname,
-              targetEnvironment,
-              { availablePaths },
-            );
+            const { hasEquivalentDoc, path: targetPath } =
+              getUserRelatedDocsTarget(pathname, targetEnvironment, {
+                availablePaths,
+              });
             const href = `${targetPath}${search}${hash}`;
             const isActive = targetEnvironment === environment;
             const isUnavailable = !isActive && !hasEquivalentDoc;
@@ -82,7 +81,10 @@ export default function UserRelatedApiEnvironmentNotice({
               return (
                 <span
                   key={targetEnvironment}
-                  className={clsx(styles.switcherLink, styles.switcherLinkDisabled)}
+                  className={clsx(
+                    styles.switcherLink,
+                    styles.switcherLinkDisabled,
+                  )}
                   title={`No equivalent ${LABELS[targetEnvironment]} page for this endpoint`}
                   aria-disabled="true"
                 >
@@ -97,13 +99,14 @@ export default function UserRelatedApiEnvironmentNotice({
                 className={clsx(styles.switcherLink, {
                   [styles.switcherLinkActive]: isActive,
                 })}
+                aria-current={isActive ? "page" : undefined}
                 to={href}
               >
                 {LABELS[targetEnvironment]}
               </Link>
             );
           })}
-        </div>
+        </nav>
       </div>
       <p className={styles.body}>{copy.body}</p>
     </div>

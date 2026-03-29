@@ -4,15 +4,14 @@ import ApiItemLayout from "@theme-original/ApiItem/Layout";
 
 import UserRelatedApiEnvironmentNotice from "@site/src/components/UserRelatedApiEnvironmentNotice";
 
-export default function ApiItemLayoutWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+type ApiItemLayoutProps = React.ComponentProps<typeof ApiItemLayout>;
+
+export default function ApiItemLayoutWrapper(props: ApiItemLayoutProps) {
+  const { children, ...restProps } = props;
   const location = useLocation();
 
   return (
-    <ApiItemLayout>
+    <ApiItemLayout {...restProps}>
       <UserRelatedApiEnvironmentNotice
         hash={location.hash}
         pathname={location.pathname}
