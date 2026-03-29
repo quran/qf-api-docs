@@ -3,6 +3,7 @@
 
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const enableGtag = process.env.NODE_ENV === "production";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -50,10 +51,14 @@ const config = {
           priority: 0.5,
           filename: "sitemap.xml",
         },
-        gtag: {
-          trackingID: "G-8986R74P88",
-          anonymizeIP: true,
-        },
+        ...(enableGtag
+          ? {
+              gtag: {
+                trackingID: "G-8986R74P88",
+                anonymizeIP: true,
+              },
+            }
+          : {}),
       }),
     ],
   ],
@@ -177,8 +182,8 @@ const config = {
       ],
       docs: {
         sidebar: {
-          hideable: true,
-          autoCollapseCategories: true,
+          hideable: false,
+          autoCollapseCategories: false,
         },
       },
       // Replace with your project's social card
@@ -234,15 +239,15 @@ const config = {
             items: [
               {
                 label: "Content APIs",
-                to: "docs/category/content-apis",
+                to: "/docs/content_apis_versioned/content-apis",
               },
               {
                 label: "Search APIs",
-                to: "docs/search_apis_versioned/quran-foundation-search-api",
+                to: "/docs/search_apis_versioned/quran-foundation-search-api",
               },
               {
                 label: "User-related APIs",
-                to: "docs/category/user-related-apis",
+                to: "/docs/user_related_apis_versioned/user-related-apis",
               },
               {
                 label: "User-related APIs (Pre-live)",
@@ -250,7 +255,7 @@ const config = {
               },
               {
                 label: "OAuth2 APIs",
-                to: "docs/category/oauth2_apis",
+                to: "/docs/oauth2_apis_versioned/oauth-2-apis",
               },
             ],
           },
@@ -276,15 +281,15 @@ const config = {
             items: [
               {
                 label: "Content APIs",
-                to: "/docs/category/content-apis",
+                to: "/docs/content_apis_versioned/content-apis",
               },
               {
                 label: "OAuth2 / OIDC APIs",
-                to: "/docs/category/oauth2_apis",
+                to: "/docs/oauth2_apis_versioned/oauth-2-apis",
               },
               {
                 label: "User-related APIs",
-                to: "/docs/category/user-related-apis",
+                to: "/docs/user_related_apis_versioned/user-related-apis",
               },
               {
                 label: "User-related APIs (Pre-live)",

@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Content APIs",
-    "description": "Quran.Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. \n\n```mermaid\nsequenceDiagram\n    participant App as Your App\n    participant Auth as Quran.Foundation<br/>Authorization Server\n    participant API as Quran.Foundation<br/>Resources Server\n\n    App->>Auth: Request Token with Client Credentials\n    Auth-->>App: Token Response (access_token)\n    App->>API: Use token to call API\n    API-->>App: Requested resource\n\n    Note over App,Auth: Access token expires (1 hour)\n\n    App->>Auth: Re-issue access_token using client_credentials\n    Auth-->>App: New access_token\n```\n\n After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`.",
+    "description": "Quran.Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. \n\n```mermaid\nsequenceDiagram\n    participant App as Your App\n    participant Auth as Quran.Foundation<br/>Authorization Server\n    participant API as Quran.Foundation<br/>Resources Server\n\n    App->>Auth: Request Token with Client Credentials\n    Auth-->>App: Token Response (access_token)\n    App->>API: Use token to call API\n    API-->>App: Requested resource\n\n    Note over App,Auth: Access token expires (1 hour)\n\n    App->>Auth: Re-issue access_token using client_credentials\n    Auth-->>App: New access_token\n```\n\n After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`. This spec also includes a small subset of Quran Reflect post-read endpoints that are compatible with the `client_credentials` grant. These operations still require `x-auth-token` and `x-client-id`, but they do not use the `content` scope. Use `post.read` for `/quran-reflect/v1/posts/feed`, `/quran-reflect/v1/posts/{id}`, and `/quran-reflect/v1/posts/user-posts/{id}`. Use `comment.read` for `/quran-reflect/v1/posts/{id}/comments` and `/quran-reflect/v1/posts/{id}/all-comments`. These are Quran Reflect gateway endpoints, not `/content/api/v4/...` endpoints.",
     "version": "v4"
   },
   "servers": [
@@ -14204,6 +14204,477 @@
           }
         ]
       }
+    },
+    "/quran-reflect/v1/posts/feed": {
+      "get": {
+        "operationId": "PostsController_feed",
+        "summary": "Get posts feed",
+        "description": "Retrieve a paginated feed of posts (reflections). Supports filtering by authors, tags, Quran references, groups, pages, and post types. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
+        "parameters": [
+          {
+            "name": "tab",
+            "required": false,
+            "in": "query",
+            "description": "Feed tab type. feed shows personalized content, trending shows explore, following shows posts from followed users.",
+            "schema": {
+              "enum": [
+                "newest",
+                "latest",
+                "following",
+                "draft",
+                "favorite",
+                "most_popular",
+                "only_room_members",
+                "public",
+                "feed",
+                "trending",
+                "popular"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "languages",
+            "required": false,
+            "in": "query",
+            "description": "Array of language IDs to filter posts by reflection language",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination (default: 1)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of posts per page (default: 20)",
+            "schema": {
+              "minimum": 1,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "required": false,
+            "name": "authors",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "required": false,
+            "name": "tags",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "required": false,
+            "name": "references",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ReferenceAttributes"
+              }
+            }
+          },
+          {
+            "required": false,
+            "name": "groups",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "required": false,
+            "name": "pages",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "required": false,
+            "name": "postTypeIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "required": false,
+            "name": "tagsOperator",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "OR",
+                "AND"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "referencesOperator",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "OR",
+                "AND"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "verifiedOnly",
+            "in": "query",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Feed retrieved successfully with paginated posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quran Reflect Posts"
+        ],
+        "servers": [
+          {
+            "url": "https://apis-prelive.quran.foundation",
+            "description": "Pre-production Server"
+          },
+          {
+            "url": "https://apis.quran.foundation",
+            "description": "Production Server"
+          }
+        ],
+        "security": [
+          {
+            "x-auth-token": [],
+            "x-client-id": []
+          }
+        ]
+      }
+    },
+    "/quran-reflect/v1/posts/{id}": {
+      "get": {
+        "operationId": "PostsController_findOne",
+        "summary": "Get post by ID",
+        "description": "Retrieve a specific post by its unique numeric ID. Returns the full post with author details, tags, references, room information, and engagement metrics. Admins can view additional moderation details. Full gateway path is `/quran-reflect/v1/posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Unique numeric post ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post found and returned with all associated data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostSerialized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found or has been deleted"
+          }
+        },
+        "tags": [
+          "Quran Reflect Posts"
+        ],
+        "servers": [
+          {
+            "url": "https://apis-prelive.quran.foundation",
+            "description": "Pre-production Server"
+          },
+          {
+            "url": "https://apis.quran.foundation",
+            "description": "Production Server"
+          }
+        ],
+        "security": [
+          {
+            "x-auth-token": [],
+            "x-client-id": []
+          }
+        ]
+      }
+    },
+    "/quran-reflect/v1/posts/user-posts/{id}": {
+      "get": {
+        "operationId": "PostsController_getUserPost",
+        "summary": "Get user posts",
+        "description": "Retrieve public posts created by a specific user. If called with a user-bound token for the same user, the response can include that user's drafts. Full gateway path is `/quran-reflect/v1/posts/user-posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the user whose posts to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Sort order for posts (default: latest)",
+            "schema": {
+              "enum": [
+                "latest",
+                "popular"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of posts per page (default: 20, max: 20)",
+            "schema": {
+              "minimum": 1,
+              "maximum": 20,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination (default: 1)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "postTypeIds",
+            "required": false,
+            "in": "query",
+            "description": "Array of post type IDs to filter by",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User posts retrieved with pagination metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quran Reflect Posts"
+        ],
+        "servers": [
+          {
+            "url": "https://apis-prelive.quran.foundation",
+            "description": "Pre-production Server"
+          },
+          {
+            "url": "https://apis.quran.foundation",
+            "description": "Production Server"
+          }
+        ],
+        "security": [
+          {
+            "x-auth-token": [],
+            "x-client-id": []
+          }
+        ]
+      }
+    },
+    "/quran-reflect/v1/posts/{id}/comments": {
+      "get": {
+        "operationId": "PostsController_getComments",
+        "summary": "Get post comments",
+        "description": "Retrieve paginated top-level comments for a post. Use the replies endpoint to get nested replies for specific comments. Full gateway path is `/quran-reflect/v1/posts/{id}/comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Unique numeric post ID",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return",
+            "schema": {
+              "minimum": 1,
+              "maximum": 20,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comments retrieved with pagination metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostCommentsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Quran Reflect Posts"
+        ],
+        "servers": [
+          {
+            "url": "https://apis-prelive.quran.foundation",
+            "description": "Pre-production Server"
+          },
+          {
+            "url": "https://apis.quran.foundation",
+            "description": "Production Server"
+          }
+        ],
+        "security": [
+          {
+            "x-auth-token": [],
+            "x-client-id": []
+          }
+        ]
+      }
+    },
+    "/quran-reflect/v1/posts/{id}/all-comments": {
+      "get": {
+        "operationId": "PostsController_getAllComment",
+        "summary": "Get all post comments",
+        "description": "Retrieve all comments for a post in a single request without pagination. Useful for displaying full comment threads or export scenarios. Full gateway path is `/quran-reflect/v1/posts/{id}/all-comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Unique numeric post ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All comments returned with total count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostAllCommentsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Quran Reflect Posts"
+        ],
+        "servers": [
+          {
+            "url": "https://apis-prelive.quran.foundation",
+            "description": "Pre-production Server"
+          },
+          {
+            "url": "https://apis.quran.foundation",
+            "description": "Production Server"
+          }
+        ],
+        "security": [
+          {
+            "x-auth-token": [],
+            "x-client-id": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -15582,6 +16053,649 @@
           "text": "Some manuscripts record an additional marginal explanation for this verse.",
           "language_name": "english"
         }
+      },
+      "ReferenceAttributes": {
+        "type": "object",
+        "properties": {
+          "chapterId": {
+            "type": "number",
+            "minimum": 1
+          },
+          "from": {
+            "type": "number",
+            "default": 0
+          },
+          "to": {
+            "type": "number",
+            "default": 0
+          }
+        },
+        "required": [
+          "chapterId",
+          "from",
+          "to"
+        ]
+      },
+      "PostTag": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "PostReference": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "from": {
+            "type": "number"
+          },
+          "to": {
+            "type": "number"
+          },
+          "chapterId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "UserAuthor": {
+        "type": "object",
+        "properties": {
+          "postsCount": {
+            "type": "number"
+          },
+          "avatarUrls": {
+            "type": "object",
+            "properties": {
+              "small": {
+                "required": true,
+                "type": "string"
+              },
+              "medium": {
+                "required": true,
+                "type": "string"
+              },
+              "large": {
+                "required": true,
+                "type": "string"
+              }
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean",
+            "default": false
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "memberType": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "avatarUrls",
+          "id"
+        ]
+      },
+      "PostRecentComment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "author": {
+            "$ref": "#/components/schemas/UserAuthor"
+          },
+          "body": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "author",
+          "body",
+          "createdAt"
+        ]
+      },
+      "PostRoom": {
+        "type": "object",
+        "properties": {
+          "isAdmin": {
+            "type": "object"
+          },
+          "isOwner": {
+            "type": "object"
+          },
+          "isPublic": {
+            "type": "object"
+          },
+          "id": {
+            "type": "number"
+          },
+          "subdomain": {
+            "type": "string"
+          },
+          "roomType": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean",
+            "default": false
+          },
+          "name": {
+            "type": "string"
+          },
+          "_group": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "UserWithMentionLocations": {
+        "type": "object",
+        "properties": {
+          "postsCount": {
+            "type": "number"
+          },
+          "avatarUrls": {
+            "type": "object",
+            "properties": {
+              "small": {
+                "required": true,
+                "type": "string"
+              },
+              "medium": {
+                "required": true,
+                "type": "string"
+              },
+              "large": {
+                "required": true,
+                "type": "string"
+              }
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean",
+            "default": false
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "memberType": {
+            "type": "number"
+          },
+          "locations": {
+            "type": "object"
+          },
+          "followersCount": {
+            "type": "number"
+          },
+          "displayName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "avatarUrls",
+          "id",
+          "locations",
+          "followersCount"
+        ]
+      },
+      "PostSerialized": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostTag"
+            }
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostReference"
+            }
+          },
+          "author": {
+            "type": "object"
+          },
+          "recentComment": {
+            "$ref": "#/components/schemas/PostRecentComment"
+          },
+          "room": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PostRoom"
+              }
+            ]
+          },
+          "mentions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserWithMentionLocations"
+            }
+          },
+          "isLiked": {
+            "type": "boolean"
+          },
+          "isByFollowedUser": {
+            "type": "boolean"
+          },
+          "isCommentedOn": {
+            "type": "boolean"
+          },
+          "isSaved": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "number"
+          },
+          "authorId": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "discussionId": {
+            "type": "number"
+          },
+          "draft": {
+            "type": "boolean",
+            "default": false
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "publishedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "global": {
+            "type": "boolean"
+          },
+          "toxicityScore": {
+            "type": "number"
+          },
+          "reported": {
+            "type": "boolean",
+            "default": false
+          },
+          "views": {
+            "type": "number"
+          },
+          "removed": {
+            "type": "boolean",
+            "default": false
+          },
+          "verified": {
+            "type": "boolean",
+            "default": false
+          },
+          "roomPostStatus": {
+            "description": "@description 0: OnlyMembers, 1: Publicly, 2: AsRoom",
+            "default": 0,
+            "enum": [
+              0,
+              1,
+              2
+            ],
+            "type": "number"
+          },
+          "hidden": {
+            "type": "boolean",
+            "default": false
+          },
+          "commentsCount": {
+            "type": "number",
+            "default": 0
+          },
+          "likesCount": {
+            "type": "number",
+            "default": 0
+          },
+          "viewsCount": {
+            "type": "number",
+            "default": 0
+          },
+          "languageId": {
+            "type": "number"
+          },
+          "languageName": {
+            "type": "string"
+          },
+          "moderationStatus": {
+            "description": "featured = 1, // Like Sticky posts, will be featured for a time period.Shown at top in feed and partner apps\n\npromoted = 2, // High quality content.Shown at top(after featured) in feed and partner apps\n\nnormal = 3, // Default status, available in search, latest and popular tabs.In feed(if you're following the author)\n\nhidden = 4, // Visible only to author or moderators, or via private share link.\n\nprivate_note = 5, // Private notes, only visible to author or via private share link.These are the posts made \"private\" by moderators.\n\nrequested_review = 6, // User requested the review, treat them has hidden.Only visible to author and moderators\n\ndeleted = 30,",
+            "enum": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              30
+            ],
+            "type": "number"
+          },
+          "reviewedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "featuredAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "estimatedReadingTime": {
+            "type": "number",
+            "default": 0
+          },
+          "roomId": {
+            "type": "number"
+          },
+          "postTypeId": {
+            "type": "number"
+          },
+          "postTypeName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "authorId",
+          "createdAt",
+          "updatedAt",
+          "commentsCount",
+          "roomId",
+          "postTypeId"
+        ]
+      },
+      "FeedResponseDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 10
+          },
+          "currentPage": {
+            "type": "number",
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "example": 10
+          },
+          "pages": {
+            "type": "number",
+            "example": 1
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PostSerialized"
+            }
+          }
+        },
+        "required": [
+          "total",
+          "currentPage",
+          "limit",
+          "pages",
+          "data"
+        ]
+      },
+      "CommentAuthor": {
+        "type": "object",
+        "properties": {
+          "postsCount": {
+            "type": "number"
+          },
+          "avatarUrls": {
+            "type": "object",
+            "properties": {
+              "small": {
+                "required": true,
+                "type": "string"
+              },
+              "medium": {
+                "required": true,
+                "type": "string"
+              },
+              "large": {
+                "required": true,
+                "type": "string"
+              }
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean",
+            "default": false
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "memberType": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "avatarUrls",
+          "id"
+        ]
+      },
+      "CommentTag": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "commentsCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "postId": {
+            "type": "number"
+          },
+          "authorId": {
+            "type": "string"
+          },
+          "parentId": {
+            "type": "number"
+          },
+          "isPrivate": {
+            "type": "boolean",
+            "default": false
+          },
+          "body": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "toxicityScore": {
+            "type": "number"
+          },
+          "repliesCount": {
+            "type": "number",
+            "default": 0
+          },
+          "likesCount": {
+            "type": "number",
+            "default": 0
+          },
+          "reported": {
+            "type": "boolean",
+            "default": false
+          },
+          "removed": {
+            "type": "boolean",
+            "default": false
+          },
+          "hidden": {
+            "type": "boolean",
+            "default": false
+          },
+          "languageId": {
+            "type": "number"
+          },
+          "languageName": {
+            "type": "string"
+          },
+          "moderationStatus": {
+            "type": "number"
+          },
+          "author": {
+            "$ref": "#/components/schemas/CommentAuthor"
+          },
+          "mentions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserWithMentionLocations"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommentTag"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "postId",
+          "authorId",
+          "parentId",
+          "isPrivate",
+          "body",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "PostCommentsResponse": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 10
+          },
+          "currentPage": {
+            "type": "number",
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "example": 10
+          },
+          "pages": {
+            "type": "number",
+            "example": 1
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          }
+        },
+        "required": [
+          "total",
+          "currentPage",
+          "limit",
+          "pages",
+          "comments"
+        ]
+      },
+      "PostAllCommentsResponse": {
+        "type": "object",
+        "properties": {
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          },
+          "total": {
+            "type": "number",
+            "example": "10 // works also with swagger setup"
+          }
+        },
+        "required": [
+          "comments",
+          "total"
+        ]
       }
     },
     "securitySchemes": {
