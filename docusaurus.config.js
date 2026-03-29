@@ -3,6 +3,7 @@
 
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const enableGtag = process.env.NODE_ENV === "production";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -50,10 +51,14 @@ const config = {
           priority: 0.5,
           filename: "sitemap.xml",
         },
-        gtag: {
-          trackingID: "G-8986R74P88",
-          anonymizeIP: true,
-        },
+        ...(enableGtag
+          ? {
+              gtag: {
+                trackingID: "G-8986R74P88",
+                anonymizeIP: true,
+              },
+            }
+          : {}),
       }),
     ],
   ],

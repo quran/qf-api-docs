@@ -104,6 +104,12 @@ const makeApiDocSidebarItem = (id, label, className) => ({
   className,
 });
 
+const makeApiCategorySidebarItem = (label, items) => ({
+  type: "category",
+  label,
+  items,
+});
+
 const insertDocsIntoCategory = (
   items,
   categoryLabel,
@@ -158,6 +164,37 @@ const insertDocsIntoCategory = (
     };
   });
 
+const ensureDocsInCategory = (items, categoryLabel, docsToEnsure, afterDocId) => {
+  const hasCategory = items.some(
+    (item) =>
+      item &&
+      typeof item === "object" &&
+      item.type === "category" &&
+      item.label === categoryLabel,
+  );
+
+  if (hasCategory) {
+    return insertDocsIntoCategory(
+      items,
+      categoryLabel,
+      docsToEnsure,
+      afterDocId,
+    );
+  }
+
+  return [
+    ...items,
+    makeApiCategorySidebarItem(
+      categoryLabel,
+      docsToEnsure.filter(
+        (docItem, index, allItems) =>
+          allItems.findIndex((candidate) => candidate.id === docItem.id) ===
+          index,
+      ),
+    ),
+  ];
+};
+
 const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
   const withUsersEndpoints = insertDocsIntoCategory(
     items,
@@ -191,10 +228,50 @@ const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
   );
 };
 
+const extendContentApisSidebarItems = (items, baseDocIdPrefix) =>
+  ensureDocsInCategory(
+    items,
+    "Quran Reflect Posts",
+    [
+      makeApiDocSidebarItem(
+        `${baseDocIdPrefix}/posts-controller-feed`,
+        "Get posts feed",
+        "api-method get",
+      ),
+      makeApiDocSidebarItem(
+        `${baseDocIdPrefix}/posts-controller-find-one`,
+        "Get post by ID",
+        "api-method get",
+      ),
+      makeApiDocSidebarItem(
+        `${baseDocIdPrefix}/posts-controller-get-user-post`,
+        "Get user posts",
+        "api-method get",
+      ),
+      makeApiDocSidebarItem(
+        `${baseDocIdPrefix}/posts-controller-get-comments`,
+        "Get post comments",
+        "api-method get",
+      ),
+      makeApiDocSidebarItem(
+        `${baseDocIdPrefix}/posts-controller-get-all-comment`,
+        "Get all post comments",
+        "api-method get",
+      ),
+    ],
+    null,
+  );
+
 const buildContentApisLatestItems = () =>
-  cloneSidebarItems(require("./docs/content_apis_versioned/sidebar.js"));
+  extendContentApisSidebarItems(
+    cloneSidebarItems(require("./docs/content_apis_versioned/sidebar.js")),
+    "content_apis_versioned",
+  );
 const buildContentApisVersionedItems = () =>
-  cloneSidebarItems(require("./docs/content_apis_versioned/4.0.0/sidebar.js"));
+  extendContentApisSidebarItems(
+    cloneSidebarItems(require("./docs/content_apis_versioned/4.0.0/sidebar.js")),
+    "content_apis_versioned/4.0.0",
+  );
 
 const buildUserRelatedApisLatestItems = () =>
   reorderUserRelatedApisSidebarItems(
