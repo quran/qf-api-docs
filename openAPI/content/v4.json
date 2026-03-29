@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Content APIs",
-    "description": "Quran.Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. \n\n```mermaid\nsequenceDiagram\n    participant App as Your App\n    participant Auth as Quran.Foundation<br/>Authorization Server\n    participant API as Quran.Foundation<br/>Resources Server\n\n    App->>Auth: Request Token with Client Credentials\n    Auth-->>App: Token Response (access_token)\n    App->>API: Use token to call API\n    API-->>App: Requested resource\n\n    Note over App,Auth: Access token expires (1 hour)\n\n    App->>Auth: Re-issue access_token using client_credentials\n    Auth-->>App: New access_token\n```\n\n After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`. This spec also includes a small subset of Quran Reflect post-read endpoints that are compatible with the `client_credentials` grant. These operations still require `x-auth-token` and `x-client-id`, but they do not use the `content` scope. Use `post.read` for `/v1/posts/feed`, `/v1/posts/{id}`, and `/v1/posts/user-posts/{id}`. Use `comment.read` for `/v1/posts/{id}/comments` and `/v1/posts/{id}/all-comments`. Those operations also override the server base URL at the operation level to point to Quran Reflect.",
+    "description": "Quran.Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. \n\n```mermaid\nsequenceDiagram\n    participant App as Your App\n    participant Auth as Quran.Foundation<br/>Authorization Server\n    participant API as Quran.Foundation<br/>Resources Server\n\n    App->>Auth: Request Token with Client Credentials\n    Auth-->>App: Token Response (access_token)\n    App->>API: Use token to call API\n    API-->>App: Requested resource\n\n    Note over App,Auth: Access token expires (1 hour)\n\n    App->>Auth: Re-issue access_token using client_credentials\n    Auth-->>App: New access_token\n```\n\n After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`. This spec also includes a small subset of Quran Reflect post-read endpoints that are compatible with the `client_credentials` grant. These operations still require `x-auth-token` and `x-client-id`, but they do not use the `content` scope. Use `post.read` for `/quran-reflect/v1/posts/feed`, `/quran-reflect/v1/posts/{id}`, and `/quran-reflect/v1/posts/user-posts/{id}`. Use `comment.read` for `/quran-reflect/v1/posts/{id}/comments` and `/quran-reflect/v1/posts/{id}/all-comments`. These are Quran Reflect gateway endpoints, not `/content/api/v4/...` endpoints.",
     "version": "v4"
   },
   "servers": [
@@ -14205,11 +14205,11 @@
         ]
       }
     },
-    "/v1/posts/feed": {
+    "/quran-reflect/v1/posts/feed": {
       "get": {
         "operationId": "PostsController_feed",
         "summary": "Get posts feed",
-        "description": "Retrieve a paginated feed of posts (reflections). Supports filtering by authors, tags, Quran references, groups, pages, and post types. Results can be filtered by language preferences from user settings or query parameters. This Quran Reflect endpoint is compatible with the client_credentials grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
+        "description": "Retrieve a paginated feed of posts (reflections). Supports filtering by authors, tags, Quran references, groups, pages, and post types. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
         "parameters": [
           {
             "name": "tab",
@@ -14380,15 +14380,15 @@
           }
         },
         "tags": [
-          "Posts"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
-            "url": "https://apis-prelive.quran.foundation/quran-reflect",
+            "url": "https://apis-prelive.quran.foundation",
             "description": "Pre-production Server"
           },
           {
-            "url": "https://apis.quran.foundation/quran-reflect",
+            "url": "https://apis.quran.foundation",
             "description": "Production Server"
           }
         ],
@@ -14400,11 +14400,11 @@
         ]
       }
     },
-    "/v1/posts/{id}": {
+    "/quran-reflect/v1/posts/{id}": {
       "get": {
         "operationId": "PostsController_findOne",
         "summary": "Get post by ID",
-        "description": "Retrieve a specific post by its unique numeric ID. Returns the full post with author details, tags, references, room information, and engagement metrics. Admins can view additional moderation details. This Quran Reflect endpoint is compatible with the client_credentials grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
+        "description": "Retrieve a specific post by its unique numeric ID. Returns the full post with author details, tags, references, room information, and engagement metrics. Admins can view additional moderation details. Full gateway path is `/quran-reflect/v1/posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
         "parameters": [
           {
             "name": "id",
@@ -14432,15 +14432,15 @@
           }
         },
         "tags": [
-          "Posts"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
-            "url": "https://apis-prelive.quran.foundation/quran-reflect",
+            "url": "https://apis-prelive.quran.foundation",
             "description": "Pre-production Server"
           },
           {
-            "url": "https://apis.quran.foundation/quran-reflect",
+            "url": "https://apis.quran.foundation",
             "description": "Production Server"
           }
         ],
@@ -14452,11 +14452,11 @@
         ]
       }
     },
-    "/v1/posts/user-posts/{id}": {
+    "/quran-reflect/v1/posts/user-posts/{id}": {
       "get": {
         "operationId": "PostsController_getUserPost",
         "summary": "Get user posts",
-        "description": "Retrieve public posts created by a specific user. If called with a user-bound token for the same user, the response can include that user's drafts. This Quran Reflect endpoint is compatible with the client_credentials grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
+        "description": "Retrieve public posts created by a specific user. If called with a user-bound token for the same user, the response can include that user's drafts. Full gateway path is `/quran-reflect/v1/posts/user-posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
         "parameters": [
           {
             "name": "id",
@@ -14529,15 +14529,15 @@
           }
         },
         "tags": [
-          "Posts"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
-            "url": "https://apis-prelive.quran.foundation/quran-reflect",
+            "url": "https://apis-prelive.quran.foundation",
             "description": "Pre-production Server"
           },
           {
-            "url": "https://apis.quran.foundation/quran-reflect",
+            "url": "https://apis.quran.foundation",
             "description": "Production Server"
           }
         ],
@@ -14549,11 +14549,11 @@
         ]
       }
     },
-    "/v1/posts/{id}/comments": {
+    "/quran-reflect/v1/posts/{id}/comments": {
       "get": {
         "operationId": "PostsController_getComments",
         "summary": "Get post comments",
-        "description": "Retrieve paginated top-level comments for a post. Use the replies endpoint to get nested replies for specific comments. This Quran Reflect endpoint is compatible with the client_credentials grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "description": "Retrieve paginated top-level comments for a post. Use the replies endpoint to get nested replies for specific comments. Full gateway path is `/quran-reflect/v1/posts/{id}/comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
         "parameters": [
           {
             "name": "id",
@@ -14604,15 +14604,15 @@
           }
         },
         "tags": [
-          "Posts"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
-            "url": "https://apis-prelive.quran.foundation/quran-reflect",
+            "url": "https://apis-prelive.quran.foundation",
             "description": "Pre-production Server"
           },
           {
-            "url": "https://apis.quran.foundation/quran-reflect",
+            "url": "https://apis.quran.foundation",
             "description": "Production Server"
           }
         ],
@@ -14624,11 +14624,11 @@
         ]
       }
     },
-    "/v1/posts/{id}/all-comments": {
+    "/quran-reflect/v1/posts/{id}/all-comments": {
       "get": {
         "operationId": "PostsController_getAllComment",
         "summary": "Get all post comments",
-        "description": "Retrieve all comments for a post in a single request without pagination. Useful for displaying full comment threads or export scenarios. This Quran Reflect endpoint is compatible with the client_credentials grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "description": "Retrieve all comments for a post in a single request without pagination. Useful for displaying full comment threads or export scenarios. Full gateway path is `/quran-reflect/v1/posts/{id}/all-comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
         "parameters": [
           {
             "name": "id",
@@ -14656,15 +14656,15 @@
           }
         },
         "tags": [
-          "Posts"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
-            "url": "https://apis-prelive.quran.foundation/quran-reflect",
+            "url": "https://apis-prelive.quran.foundation",
             "description": "Pre-production Server"
           },
           {
-            "url": "https://apis.quran.foundation/quran-reflect",
+            "url": "https://apis.quran.foundation",
             "description": "Production Server"
           }
         ],

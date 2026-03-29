@@ -231,7 +231,7 @@ const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
 const extendContentApisSidebarItems = (items, baseDocIdPrefix) =>
   ensureDocsInCategory(
     items,
-    "Posts",
+    "Quran Reflect Posts",
     [
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-feed`,
