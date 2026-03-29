@@ -25,13 +25,13 @@ const getCopy = (environment: "production" | "pre-live") => {
   if (environment === "pre-live") {
     return {
       title: "Pre-live user-related API docs",
-      body: "These docs track the pre-live environment and may rarely include unreleased changes. Use them when integrating against pre-live services.",
+      body: "",
     };
   }
 
   return {
     title: "Production user-related API docs",
-    body: "This is the stable production documentation. If your integration targets pre-live services, switch to the Pre-live docs before validating request and response shapes.",
+    body: "",
   };
 };
 
