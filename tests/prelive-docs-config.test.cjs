@@ -73,3 +73,13 @@ test('publishes both production and pre-live user-related raw spec links', () =>
     /\[User APIs v1 \(Pre-live\)\]\(https:\/\/api-docs\.quran\.foundation\/openAPI\/user-related-apis\/pre-live\/v1\.json\)/,
   );
 });
+
+test('includes pre-live user-related endpoint docs in llms.txt', () => {
+  const { content } = generateLlmsTxt(docsDir);
+
+  assert.match(content, /## User-Related APIs v1 \(Pre-live\)/);
+  assert.match(
+    content,
+    /\[Get mutations\]\(https:\/\/api-docs\.quran\.foundation\/docs\/user_related_apis_prelive\/get-mutations\)/,
+  );
+});

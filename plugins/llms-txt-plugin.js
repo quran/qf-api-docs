@@ -19,6 +19,7 @@ const SECTION_ORDER = [
   'Getting Started',
   'Content APIs v4',
   'User-Related APIs v1',
+  'User-Related APIs v1 (Pre-live)',
   'OAuth2 APIs v1',
   'Search APIs v1',
   'Tutorials',
@@ -98,6 +99,9 @@ function getUrl(relpath, fm) {
 /** Map a docs-relative file path to one of the known sections. */
 function getSection(relpath) {
   if (relpath.startsWith('content_apis_versioned/')) return 'Content APIs v4';
+  if (relpath.startsWith('user_related_apis_prelive/')) {
+    return 'User-Related APIs v1 (Pre-live)';
+  }
   if (
     relpath.startsWith('user_related_apis_versioned/') ||
     relpath.startsWith('user-related-apis/')
@@ -126,7 +130,6 @@ function walkDocs(dir, relBase) {
     if (stat.isDirectory()) {
       if (
         VERSIONED_DIR_RE.test(entry) ||
-        entry === 'user_related_apis_prelive' ||
         entry.startsWith('_') ||
         entry.startsWith('.')
       ) {
