@@ -7,6 +7,8 @@
  * The sidebars can be generated from the filesystem, or explicitly defined
  * here.
  */
+const fs = require("fs");
+const path = require("path");
 const contentAPIsVersions = require("./docs/content_apis_versioned/versions.json");
 const userRelatedAPIsVersions = require("./docs/user_related_apis_versioned/versions.json");
 const oauth2APIsVersions = require("./docs/oauth2_apis_versioned/versions.json");
@@ -15,6 +17,15 @@ const {
   versionSelector,
   versionCrumb,
 } = require("docusaurus-plugin-openapi-docs/lib/sidebars/utils");
+
+const safeRequire = (relativePath, fallback) => {
+  const fullPath = path.join(__dirname, relativePath);
+  if (!fs.existsSync(fullPath)) {
+    return fallback;
+  }
+
+  return require(fullPath);
+};
 
 const cloneSidebarItems = (items) => JSON.parse(JSON.stringify(items));
 
@@ -291,6 +302,8 @@ const buildUserRelatedApisVersionedItems = () =>
     ),
     "user-related-apis/1.0.0/reading-sessions-vs-activity-days",
   );
+const buildUserRelatedApisPreLiveItems = () =>
+  cloneSidebarItems(safeRequire("./docs/user_related_apis_prelive/sidebar.js", []));
 
 const buildOAuth2ApisLatestItems = () =>
   cloneSidebarItems(require("./docs/oauth2_apis_versioned/sidebar.js"));
@@ -521,6 +534,19 @@ const sidebars = {
   "user-related-apis-1.0.0": makeApiFamilySidebar(
     userRelatedApisVersionedConfig,
   ),
+  "user-related-apis-pre-live": [
+    {
+      type: "category",
+      label: "User-related APIs (Pre-live)",
+      link: {
+        type: "generated-index",
+        title: "User-related APIs (Pre-live)",
+        description: "User-related APIs from the pre-live branch.",
+        slug: "/category/user-related-apis-pre-live",
+      },
+      items: buildUserRelatedApisPreLiveItems(),
+    },
+  ],
   oauth2_apis: makeApiFamilySidebar(oauth2ApisLatestConfig),
   "oauth2_apis-1.0.0": makeApiFamilySidebar(oauth2ApisVersionedConfig),
   search_apis: makeApiFamilySidebar(searchApisLatestConfig),

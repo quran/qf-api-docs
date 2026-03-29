@@ -91,6 +91,14 @@ const config = {
               },
             },
           },
+          user_related_apis_prelive: {
+            specPath: "openAPI/user-related-apis/pre-live/v1.json",
+            outputDir: "docs/user_related_apis_prelive",
+            sidebarOptions: {
+              groupPathsBy: "tag",
+              categoryLinkSource: "tag",
+            },
+          },
           content_apis_versioned: {
             specPath: "openAPI/content/v4.json",
             outputDir: "docs/content_apis_versioned", // No trailing slash
@@ -242,6 +250,10 @@ const config = {
                 to: "/docs/user_related_apis_versioned/user-related-apis",
               },
               {
+                label: "User-related APIs (Pre-live)",
+                to: "docs/category/user-related-apis-pre-live",
+              },
+              {
                 label: "OAuth2 APIs",
                 to: "/docs/oauth2_apis_versioned/oauth-2-apis",
               },
@@ -278,6 +290,10 @@ const config = {
               {
                 label: "User-related APIs",
                 to: "/docs/user_related_apis_versioned/user-related-apis",
+              },
+              {
+                label: "User-related APIs (Pre-live)",
+                to: "/docs/category/user-related-apis-pre-live",
               },
               {
                 label: "Search APIs",
@@ -317,4 +333,3 @@ const config = {
 };
 
 module.exports = config;
-
