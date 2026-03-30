@@ -75,6 +75,47 @@ function normalizeGeneratedLabels(content) {
     .replace(/foot note/g, 'footnote');
 }
 
+function dedupeSidebarItems(items) {
+  const seenDocIds = new Set();
+
+  return items.reduce((accumulator, item) => {
+    if (!item || typeof item !== 'object') {
+      accumulator.push(item);
+      return accumulator;
+    }
+
+    if (item.type === 'doc') {
+      if (seenDocIds.has(item.id)) {
+        return accumulator;
+      }
+
+      seenDocIds.add(item.id);
+      accumulator.push(item);
+      return accumulator;
+    }
+
+    if (item.type === 'category' && Array.isArray(item.items)) {
+      accumulator.push({
+        ...item,
+        items: dedupeSidebarItems(item.items),
+      });
+      return accumulator;
+    }
+
+    accumulator.push(item);
+    return accumulator;
+  }, []);
+}
+
+function normalizeGeneratedSidebar(filePath) {
+  delete require.cache[require.resolve(filePath)];
+  const sidebarItems = require(filePath);
+  const dedupedSidebarItems = dedupeSidebarItems(sidebarItems);
+  const serializedSidebar = `module.exports = ${JSON.stringify(dedupedSidebarItems)};`;
+
+  return normalizeGeneratedLabels(serializedSidebar);
+}
+
 let updatedFiles = 0;
 let checkedFiles = 0;
 
@@ -93,7 +134,9 @@ for (const docsDir of docsDirs) {
     checkedFiles += 1;
 
     const originalContent = fs.readFileSync(filePath, 'utf8');
-    const normalizedContent = normalizeGeneratedLabels(originalContent);
+    const normalizedContent = generatedSidebarPattern.test(filePath)
+      ? normalizeGeneratedSidebar(filePath)
+      : normalizeGeneratedLabels(originalContent);
     const updatedContent = generatedApiDocPattern.test(filePath)
       ? upsertDisplayedSidebar(
           normalizedContent,

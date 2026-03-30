@@ -133,7 +133,7 @@ const config = {
                 specPath: "openAPI/oauth2-apis/v1.json",
                 outputDir: "docs/oauth2_apis_versioned/1.0.0", // No trailing slash
                 label: "v1.0.0",
-                baseUrl: "/docs/oauth2_apis_versioned/1.0.0/oauth2_apis", // Leading slash is important
+                baseUrl: "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis", // Must match the generated intro doc slug
               },
             },
           },
@@ -152,7 +152,8 @@ const config = {
                 specPath: "openAPI/search/v1.json",
                 outputDir: "docs/search_apis_versioned/1.0.0", // No trailing slash
                 label: "v1.0.0",
-                baseUrl: "/docs/search_apis_versioned/1.0.0/search-apis", // Leading slash is important
+                baseUrl:
+                  "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api", // Must match the generated intro doc slug
               },
             },
           },
