@@ -14326,7 +14326,7 @@
             "required": false,
             "name": "postTypeIds",
             "in": "query",
-            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor.\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.\n- Reflection FAQ: https://quranreflect.com/faq",
+            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
@@ -14508,7 +14508,7 @@
             "name": "postTypeIds",
             "required": false,
             "in": "query",
-            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor.\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.\n- Reflection FAQ: https://quranreflect.com/faq",
+            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
