@@ -14326,7 +14326,7 @@
             "required": false,
             "name": "postTypeIds",
             "in": "query",
-            "description": "Filter by Quran Reflect post type IDs. On Quran.com, post type `1` is Reflection and post type `2` is Lesson. Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, visit https://quranreflect.com/faq. Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
+            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor.\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.\n- Reflection FAQ: https://quranreflect.com/faq",
             "schema": {
               "type": "array",
               "items": {
@@ -14508,7 +14508,7 @@
             "name": "postTypeIds",
             "required": false,
             "in": "query",
-            "description": "Filter by Quran Reflect post type IDs. On Quran.com, post type `1` is Reflection and post type `2` is Lesson. Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, visit https://quranreflect.com/faq. Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
+            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor.\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.\n- Reflection FAQ: https://quranreflect.com/faq",
             "schema": {
               "type": "array",
               "items": {
@@ -16441,7 +16441,7 @@
             "type": "number"
           },
           "postTypeId": {
-            "description": "Numeric Quran Reflect post type identifier. On Quran.com, `1` = Reflection and `2` = Lesson.",
+            "description": "Numeric Quran Reflect post type identifier. `1` = Reflection. `2` = Lesson.",
             "type": "number"
           },
           "postTypeName": {
