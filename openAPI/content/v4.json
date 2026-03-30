@@ -14209,7 +14209,7 @@
       "get": {
         "operationId": "PostsController_feed",
         "summary": "Get posts feed",
-        "description": "Retrieve a paginated feed of posts (reflections). Supports filtering by authors, tags, Quran references, groups, pages, and post types. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
+        "description": "Retrieve a paginated feed of Quran Reflect posts, including reflections and lessons. Supports filtering by authors, tags, Quran references, groups, pages, and post types. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
         "parameters": [
           {
             "name": "tab",
@@ -14326,6 +14326,7 @@
             "required": false,
             "name": "postTypeIds",
             "in": "query",
+            "description": "Filter by Quran Reflect post type IDs. On Quran.com, post type `1` is Reflection and post type `2` is Lesson. Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, visit https://quranreflect.com/faq. Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
@@ -14404,7 +14405,7 @@
       "get": {
         "operationId": "PostsController_findOne",
         "summary": "Get post by ID",
-        "description": "Retrieve a specific post by its unique numeric ID. Returns the full post with author details, tags, references, room information, and engagement metrics. Admins can view additional moderation details. Full gateway path is `/quran-reflect/v1/posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
+        "description": "Retrieve a specific post by its unique numeric ID. Returns the full post with author details, tags, references, room information, and engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. Admins can view additional moderation details. Full gateway path is `/quran-reflect/v1/posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
         "parameters": [
           {
             "name": "id",
@@ -14456,7 +14457,7 @@
       "get": {
         "operationId": "PostsController_getUserPost",
         "summary": "Get user posts",
-        "description": "Retrieve public posts created by a specific user. If called with a user-bound token for the same user, the response can include that user's drafts. Full gateway path is `/quran-reflect/v1/posts/user-posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
+        "description": "Retrieve public posts created by a specific user. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. If called with a user-bound token for the same user, the response can include that user's drafts. Full gateway path is `/quran-reflect/v1/posts/user-posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
         "parameters": [
           {
             "name": "id",
@@ -14507,7 +14508,7 @@
             "name": "postTypeIds",
             "required": false,
             "in": "query",
-            "description": "Array of post type IDs to filter by",
+            "description": "Filter by Quran Reflect post type IDs. On Quran.com, post type `1` is Reflection and post type `2` is Lesson. Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, visit https://quranreflect.com/faq. Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
@@ -14553,7 +14554,7 @@
       "get": {
         "operationId": "PostsController_getComments",
         "summary": "Get post comments",
-        "description": "Retrieve paginated top-level comments for a post. Use the replies endpoint to get nested replies for specific comments. Full gateway path is `/quran-reflect/v1/posts/{id}/comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "description": "Retrieve paginated top-level comments for a post. The response returns comment objects plus pagination metadata including `total`, `currentPage`, `limit`, and `pages`. Use the replies endpoint to get nested replies for specific comments. Full gateway path is `/quran-reflect/v1/posts/{id}/comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
         "parameters": [
           {
             "name": "id",
@@ -14628,7 +14629,7 @@
       "get": {
         "operationId": "PostsController_getAllComment",
         "summary": "Get all post comments",
-        "description": "Retrieve all comments for a post in a single request without pagination. Useful for displaying full comment threads or export scenarios. Full gateway path is `/quran-reflect/v1/posts/{id}/all-comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "description": "Retrieve all comments for a post in a single request without pagination. The response returns the full `comments` array and the `total` comment count. Useful for displaying full comment threads or export scenarios. Full gateway path is `/quran-reflect/v1/posts/{id}/all-comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
         "parameters": [
           {
             "name": "id",
@@ -16299,6 +16300,7 @@
             "type": "object"
           },
           "recentComment": {
+            "description": "Most recent visible comment summary when available. Use the dedicated comment endpoints to retrieve full comment objects.",
             "$ref": "#/components/schemas/PostRecentComment"
           },
           "room": {
@@ -16391,10 +16393,12 @@
             "default": false
           },
           "commentsCount": {
+            "description": "Total number of comments on the post.",
             "type": "number",
             "default": 0
           },
           "likesCount": {
+            "description": "Total number of likes on the post.",
             "type": "number",
             "default": 0
           },
@@ -16437,9 +16441,11 @@
             "type": "number"
           },
           "postTypeId": {
+            "description": "Numeric Quran Reflect post type identifier. On Quran.com, `1` = Reflection and `2` = Lesson.",
             "type": "number"
           },
           "postTypeName": {
+            "description": "Human-readable Quran Reflect post type name, such as `reflection` or `lesson`.",
             "type": "string"
           }
         },
