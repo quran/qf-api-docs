@@ -1,3 +1,7 @@
+---
+displayed_sidebar: APIsSidebar
+---
+
 # Integrating Quran Font Rendering
 
 ## Overview
@@ -149,7 +153,7 @@ Quran.com supports two categories of fonts:
 
 ## API Parameters for Font Rendering
 
-This section covers the specific API parameters needed for font rendering. For complete API documentation including authentication, endpoints, and general usage, see the [Quick Start Guide](https://api-docs.quran.foundation/docs/quickstart).
+This section covers the specific API parameters needed for font rendering. For complete API documentation including authentication, endpoints, and general usage, see the [Content APIs Quickstart Guide](/docs/quickstart).
 
 ### Essential Parameters
 
