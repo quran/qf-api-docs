@@ -194,7 +194,7 @@ Implementation requirements
 - On success, POST code + codeVerifier + redirectUri to the backend exchange endpoint
 - Keep client_secret off the device
 - Decode returned idToken with jwt-decode to get user info
-- Implement logout that calls the backend logout endpoint, sends refreshToken when using the sample stateless backend, and clears local state
+- Implement logout that calls the backend logout endpoint: include refreshToken in the request when your backend expects the app to forward tokens for revocation, or omit refreshToken when your backend stores and revokes refresh tokens itself; in all cases, clear local state
 - Mention that direct in-app token exchange is only for clients that Quran Foundation provisioned as public with token_endpoint_auth_method=none
 
 Acceptance checklist

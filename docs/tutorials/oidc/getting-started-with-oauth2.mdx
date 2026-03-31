@@ -698,8 +698,8 @@ Implementation requirements
 - Validate callback inputs:
   - state must match stored value (CSRF protection)
   - redirect_uri must be exactly the one used in Step 2
-  - server-initiated web flows: code_verifier must come from server storage
-  - frontend/native app + backend exchange flows: accept code_verifier from the app callback payload and validate presence before forwarding it
+  - server-initiated web flows: the PKCE `code_verifier` value must come from server storage when calling the token endpoint
+  - frontend/native app + backend exchange flows: accept a `codeVerifier` field in the app's JSON callback payload, validate its presence, and forward it as `code_verifier` in the OAuth2 token request body
 - Never log:
   - client_secret
   - authorization code
