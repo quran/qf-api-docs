@@ -219,10 +219,10 @@ sequenceDiagram
 
 ## 🧩 Step 1: Request OAuth 2.0 Client Credentials
 
-1. Submit an [Application](/request-access) to obtain your `client_id`.
+1. Submit an [Application](/request-access) to obtain your OAuth client credentials: you will always receive a `client_id`, and confidential clients will also receive a `client_secret` for server-side use only.
 2. Provide one or more exact `redirect_uri` values. These must match exactly at runtime.
 
-> Most Request Access clients should let the frontend or native app start the login flow and generate PKCE, then use a backend for token exchange and refresh. Never embed `client_secret` in a browser or mobile app.
+> Most Request Access clients should let the frontend or native app start the login flow and generate PKCE, then use a backend for token exchange and refresh. For confidential clients, keep the `client_secret` on the server only and never embed it in a browser or mobile app.
 
 :::important Client Type Is Set During Provisioning
 Hydra/Ory decides whether your client is public or confidential when Quran Foundation provisions the OAuth client, not when you write the integration code.
