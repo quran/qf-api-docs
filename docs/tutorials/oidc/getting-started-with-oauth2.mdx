@@ -215,7 +215,7 @@ sequenceDiagram
 1. Submit an [Application](/request-access) to obtain your `client_id` and confirm how the client is registered for token endpoint authentication.
 2. Provide one or more exact `redirect_uri` values. These must match exactly at runtime.
 
-> Most Request Access clients should use a frontend/native app for login + PKCE, and a backend for token exchange and refresh. Never embed `client_secret` in a browser or mobile app.
+> Most Request Access clients should let the frontend or native app start the login flow and generate PKCE, then use a backend for token exchange and refresh. Never embed `client_secret` in a browser or mobile app.
 
 :::important Client Type Is Determined At Registration
 Hydra/Ory decides whether your client is public or confidential when the OAuth client is registered, not when you write the integration code.

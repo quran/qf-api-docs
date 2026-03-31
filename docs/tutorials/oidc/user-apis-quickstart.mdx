@@ -39,7 +39,7 @@ If you are integrating during the hackathon or using a newly issued Request Acce
 
 ### React Native (Expo)
 
-This example keeps the login UI and PKCE flow in the app, but sends the authorization code to your backend for token exchange. That works with the confidential clients currently issued through Request Access.
+In this pattern, the app opens the Quran Foundation login screen and generates the PKCE values, then sends the returned authorization code to your backend. Your backend exchanges the code for tokens using the client secret. This works with the confidential clients currently issued through Request Access.
 
 ```bash
 npx expo install expo-auth-session expo-web-browser expo-crypto
