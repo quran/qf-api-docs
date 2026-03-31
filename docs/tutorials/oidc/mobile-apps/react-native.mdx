@@ -40,12 +40,15 @@ const CLIENT_ID = "YOUR_CLIENT_ID"; // From your OAuth application
 const REDIRECT_URI = "exp://192.168.x.x:8081"; // Your Expo dev URL or custom scheme
 const BACKEND_BASE_URL = "https://your-backend.example.com";
 const USE_PRELIVE = true; // set to false for production
+const authBaseUrl = USE_PRELIVE
+  ? "https://prelive-oauth2.quran.foundation"
+  : "https://oauth2.quran.foundation";
 
 // OAuth2 authorization endpoint
 const discovery = {
-  authorizationEndpoint: USE_PRELIVE
-    ? "https://prelive-oauth2.quran.foundation/oauth2/auth"
-    : "https://oauth2.quran.foundation/oauth2/auth",
+  authorizationEndpoint: `${authBaseUrl}/oauth2/auth`,
+  tokenEndpoint: `${authBaseUrl}/oauth2/token`,
+  revocationEndpoint: `${authBaseUrl}/oauth2/revoke`,
 };
 
 export default function App() {
@@ -108,6 +111,8 @@ export default function App() {
   const logout = async () => {
     await fetch(`${BACKEND_BASE_URL}/api/auth/qf/logout`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken: authSession?.refreshToken }),
     }).catch(() => {});
     setAuthSession(null);
   };
