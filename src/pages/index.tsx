@@ -1,6 +1,5 @@
 import React from "react";
 import clsx from "clsx";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
@@ -12,7 +11,6 @@ import {
 import styles from "./index.module.css";
 
 function HomepageHeader() {
-  const { siteConfig } = useDocusaurusContext();
   const [activeModal, setActiveModal] = React.useState<
     "benefits" | "disclaimers" | null
   >(null);
@@ -53,13 +51,13 @@ function HomepageHeader() {
             className={clsx("button button--lg", styles.mobileRequestAccess)}
             to="/request-access"
           >
-            📨 Request Access
+            Request Access
           </Link>
           <Link
             className={clsx("button button--lg", styles.primaryButton)}
-            to="/docs/quickstart"
+            to="/docs/tutorials/oidc/user-apis-quickstart"
           >
-            🚀 Quick Start Guide
+            Start with User APIs
           </Link>
           <button
             type="button"
@@ -78,7 +76,7 @@ function HomepageHeader() {
         </div>
 
         <p className={clsx(styles.heroSubtitle, styles.heroLlmsCallout)}>
-          <strong>AI agents / LLMs</strong> — see{" "}
+          <strong>AI agents / LLMs</strong> - see{" "}
           <a href="/llms.txt">/llms.txt</a> for machine-readable OpenAPI
           specs.
         </p>

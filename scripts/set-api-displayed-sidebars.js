@@ -42,7 +42,7 @@ function getDisplayedSidebarId(filePath) {
     versionDirPattern.test(segment),
   );
 
-  return isVersionedDoc ? 'apiVersionedSidebar' : 'apiSidebar';
+  return isVersionedDoc ? 'APIsVersionedSidebar' : 'APIsSidebar';
 }
 
 function upsertDisplayedSidebar(content, displayedSidebarId) {

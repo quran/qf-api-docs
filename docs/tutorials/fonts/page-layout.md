@@ -1,3 +1,7 @@
+---
+displayed_sidebar: APIsSidebar
+---
+
 # Page Layout API Guide
 
 ## Introduction

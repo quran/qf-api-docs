@@ -1,10 +1,11 @@
 ---
 sidebar_position: 1
+displayed_sidebar: APIsSidebar
 ---
 
 # Using OAuth 2.0 to Access Quran.Foundation APIs
 
-Quran.Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. This guide mirrors our Quick Start style: clear steps, tips, and ready-to-run examples in Python (requests) and JavaScript (Node + axios).
+Quran.Foundation **User Related APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. This guide mirrors our quickstart style: clear steps, tips, and ready-to-run examples in Python (requests) and JavaScript (Node + axios).
 
 For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
@@ -14,7 +15,7 @@ This guide walks you through OAuth2 Authorization Code flow step-by-step.
 🤖 **Using AI to code?** Look for the <b>"🤖 AI prompt"</b> sections throughout this guide — copy-paste them into ChatGPT, Claude, or Copilot for instant implementation help!
 :::
 
-> 🔀 Flow split: Use **Client Credentials** for **Content APIs** (see [Quick Start](/docs/quickstart)). Use **Authorization Code (+PKCE)** for **User APIs** (this page).
+> 🔀 Flow split: Use **Client Credentials** for **Content APIs** (see [Content APIs Quickstart Guide](/docs/quickstart)). Use **Authorization Code (+PKCE)** for **User Related APIs** (this page).
 
 ---
 
@@ -194,7 +195,7 @@ sequenceDiagram
     Auth-->>App: New access_token and refresh_token
 ```
 
-> 🔧 **Ready to code?** Check out the [User APIs Quick Start](/docs/tutorials/oidc/user-apis-quickstart) for copy-paste examples, or see the [Web Integration Example](/docs/tutorials/oidc/example-integration) and the [hosted demo](https://oauth2-client-prelive.quran.foundation/).
+> 🔧 **Ready to code?** Check out the [User Related APIs Quickstart Guide](/docs/tutorials/oidc/user-apis-quickstart) for copy-paste examples, or see the [Web Integration Example](/docs/tutorials/oidc/example-integration) and the [hosted demo](https://oauth2-client-prelive.quran.foundation/).
 
 ---
 

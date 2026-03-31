@@ -2,6 +2,7 @@
 id: index
 title: "📢 API Updates"
 sidebar_label: Updates
+displayed_sidebar: APIsSidebar
 ---
 
 # 📢 Recent API Updates
