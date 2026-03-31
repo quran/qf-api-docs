@@ -224,17 +224,6 @@ sequenceDiagram
 
 > Most Request Access clients should let the frontend or native app start the login flow and generate PKCE, then use a backend for token exchange and refresh. For confidential clients, keep the `client_secret` on the server only and never embed it in a browser or mobile app.
 
-:::important Client Type Is Set During Provisioning
-Hydra/Ory decides whether your client is public or confidential when Quran Foundation provisions the OAuth client, not when you write the integration code.
-
-| `token_endpoint_auth_method` | Client type | Token exchange at `/oauth2/token` | Where code/refresh exchange belongs |
-| ---------------------------- | ----------- | --------------------------------- | ----------------------------------- |
-| `none` | Public | Send `client_id` in the body and `code_verifier` for PKCE. Do not send `client_secret`. | Native app, SPA, or a backend proxy for that public client |
-| `client_secret_basic` (default) or `client_secret_post` | Confidential | Authenticate the client with its secret. | Server only |
-
-If Quran Foundation does not provision your client with `token_endpoint_auth_method=none`, Hydra treats it as confidential by default. In the current Request Access flow, that usually means your app should collect the authorization code while your backend performs the token exchange. Calling `/oauth2/token` without authenticating a confidential client will fail with `invalid_client`.
-:::
-
 <details>
 <summary><b>🤖 AI prompt: implement Step 1 (OAuth client config + env selection)</b></summary>
 
@@ -481,12 +470,6 @@ Note: If you used PKCE in Step 2, always send `code_verifier` here.
 If your client came from [Request Access](/request-access), let the app handle the authorization redirect and PKCE, then send `code + code_verifier + redirect_uri` to a backend endpoint that performs the token exchange with `client_secret`.
 :::
 
-:::info Match The Exchange Method To The Registered Client
-- `token_endpoint_auth_method=none` means the client is public. Use PKCE, send `client_id` in the body, and never ship a `client_secret`.
-- `client_secret_basic` (default) or `client_secret_post` means the client is confidential. Keep the `client_secret` on the server and exchange both authorization codes and refresh tokens on the server.
-- If the client is confidential and you omit client authentication, Hydra returns `invalid_client`.
-:::
-
 <details>
 <summary><b>JavaScript (Express backend exchange endpoint for mobile/frontends)</b></summary>
 
@@ -715,7 +698,8 @@ Implementation requirements
 - Validate callback inputs:
   - state must match stored value (CSRF protection)
   - redirect_uri must be exactly the one used in Step 2
-  - code_verifier must come from server storage (not from browser input)
+  - server-initiated web flows: the PKCE `code_verifier` value must come from server storage when calling the token endpoint
+  - frontend/native app + backend exchange flows: accept a `codeVerifier` field in the app's JSON callback payload, validate its presence, and forward it as `code_verifier` in the OAuth2 token request body
 - Never log:
   - client_secret
   - authorization code
@@ -731,6 +715,7 @@ Output shape
 Acceptance checklist
 - Token exchange succeeds for public PKCE clients.
 - Token exchange succeeds for confidential clients when client_secret is present.
+- Frontend/native app + backend exchange flow accepts code + codeVerifier from the app and forwards code_verifier safely in the OAuth2 token request.
 - Omitting client authentication for a confidential client produces invalid_client.
 - Errors do not leak secrets, codes, or tokens.
 ```

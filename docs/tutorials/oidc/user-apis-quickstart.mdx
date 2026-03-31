@@ -175,24 +175,33 @@ Dependencies
 - expo-crypto
 - jwt-decode
 
-OAuth2 Endpoints (production)
-- Authorization: https://oauth2.quran.foundation/oauth2/auth
+OAuth2 Endpoints
+- Use production:
+  - Authorization: https://oauth2.quran.foundation/oauth2/auth
+  - Token: https://oauth2.quran.foundation/oauth2/token
+  - Revocation: https://oauth2.quran.foundation/oauth2/revoke
+- Or switch all three to prelive:
+  - Authorization: https://prelive-oauth2.quran.foundation/oauth2/auth
+  - Token: https://prelive-oauth2.quran.foundation/oauth2/token
+  - Revocation: https://prelive-oauth2.quran.foundation/oauth2/revoke
 - Backend exchange endpoint: https://your-backend.example.com/api/auth/qf/exchange
 - Backend logout endpoint: https://your-backend.example.com/api/auth/qf/logout
 
 Implementation requirements
 - Use useAuthRequest hook with usePKCE: true
+- Build the Expo discovery object with authorizationEndpoint, tokenEndpoint, and revocationEndpoint
 - Scopes: openid, offline_access, bookmark, collection, user
 - On success, POST code + codeVerifier + redirectUri to the backend exchange endpoint
 - Keep client_secret off the device
 - Decode returned idToken with jwt-decode to get user info
-- Implement logout that calls the backend logout endpoint and clears local state
+- Implement logout that calls the backend logout endpoint: include refreshToken in the request when your backend expects the app to forward tokens for revocation, or omit refreshToken when your backend stores and revokes refresh tokens itself; in all cases, clear local state
 - Mention that direct in-app token exchange is only for clients that Quran Foundation provisioned as public with token_endpoint_auth_method=none
 
 Acceptance checklist
 - Login redirects to Quran.Foundation auth page
 - After consent, user info is displayed
 - Backend receives code + codeVerifier and performs token exchange
+- Expo discovery config includes authorization, token, and revocation endpoints
 - Logout clears local session state
 - No client_secret is used in the app
 ```
