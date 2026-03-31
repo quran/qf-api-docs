@@ -715,7 +715,8 @@ Implementation requirements
 - Validate callback inputs:
   - state must match stored value (CSRF protection)
   - redirect_uri must be exactly the one used in Step 2
-  - code_verifier must come from server storage (not from browser input)
+  - server-initiated web flows: code_verifier must come from server storage
+  - frontend/native app + backend exchange flows: accept code_verifier from the app callback payload and validate presence before forwarding it
 - Never log:
   - client_secret
   - authorization code
@@ -731,6 +732,7 @@ Output shape
 Acceptance checklist
 - Token exchange succeeds for public PKCE clients.
 - Token exchange succeeds for confidential clients when client_secret is present.
+- Frontend/native app + backend exchange flow can forward code + code_verifier safely.
 - Omitting client authentication for a confidential client produces invalid_client.
 - Errors do not leak secrets, codes, or tokens.
 ```
