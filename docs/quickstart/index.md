@@ -1,12 +1,13 @@
 ﻿---
 id: index
-title: 🚀 Quick Start Guide
-sidebar_label: Quick Start
+title: Content APIs Quickstart Guide
+sidebar_label: Content APIs Quickstart
+displayed_sidebar: APIsSidebar
 ---
 
-# 🚀 Quick Start Guide
+# Content APIs Quickstart Guide
 
-Welcome to the Quran Foundation API! This Quick Start guide will help you get up and running within minutes.
+Welcome to the Quran Foundation API! This Content APIs Quickstart Guide will help you get up and running within minutes.
 
 :::tip Recommended for first-time users
 Follow these steps to make your first successful API call.
@@ -1193,7 +1194,7 @@ Now that you're authenticated and have successfully made your first API call, ex
 ## 🤖 Complete Implementation Prompt
 
 ```text
-Implement the full Quick Start flow end-to-end in this codebase with minimal assumptions.
+Implement the full Content APIs Quickstart flow end-to-end in this codebase with minimal assumptions.
 
 RECOMMENDED: Use the official SDK (TypeScript/JavaScript)
 For TypeScript/JavaScript projects, install @quranjs/api which handles token management,
@@ -1245,7 +1246,7 @@ Client-side (rules)
   - translate="no" on Quranic text containers (and optionally class="notranslate")
 
 Constraints
-- Use the Quick Start guide at https://api-docs.quran.foundation/docs/quickstart/ as the source of truth for URLs, headers, and endpoint paths.
+- Use the Content APIs Quickstart Guide at https://api-docs.quran.foundation/docs/quickstart/ as the source of truth for URLs, headers, and endpoint paths.
 - Do not invent endpoints or headers; copy them exactly.
 - Remember: Client Credentials has NO refresh_token - re-request tokens, don't try to refresh.
 

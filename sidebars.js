@@ -13,10 +13,6 @@ const contentAPIsVersions = require("./docs/content_apis_versioned/versions.json
 const userRelatedAPIsVersions = require("./docs/user_related_apis_versioned/versions.json");
 const oauth2APIsVersions = require("./docs/oauth2_apis_versioned/versions.json");
 const searchAPIsVersions = require("./docs/search_apis_versioned/versions.json");
-const {
-  versionSelector,
-  versionCrumb,
-} = require("docusaurus-plugin-openapi-docs/lib/sidebars/utils");
 
 const safeRequire = (relativePath, fallback) => {
   const fullPath = path.join(__dirname, relativePath);
@@ -28,19 +24,6 @@ const safeRequire = (relativePath, fallback) => {
 };
 
 const cloneSidebarItems = (items) => JSON.parse(JSON.stringify(items));
-
-const makeVersionSelectorItem = (versions) => ({
-  type: "html",
-  defaultStyle: true,
-  value: versionSelector(versions),
-  className: "version-button",
-});
-
-const makeVersionCrumbItem = (label) => ({
-  type: "html",
-  defaultStyle: true,
-  value: versionCrumb(label),
-});
 
 const makeReadingSessionsVsActivityDaysSidebarItem = (docId) => ({
   type: "category",
@@ -442,8 +425,6 @@ const versionedApiFamilies = [
 ];
 
 const makeApiFamilySidebar = (config) => [
-  makeVersionSelectorItem(config.versions),
-  makeVersionCrumbItem(config.versionLabel),
   {
     type: "category",
     label: config.label,
@@ -466,12 +447,134 @@ const makeSharedApiFamilyCategory = (config) => ({
   },
   collapsible: true,
   collapsed: true,
-  items: [
-    makeVersionSelectorItem(config.versions),
-    makeVersionCrumbItem(config.versionLabel),
-    ...stripIntroDoc(config.itemsBuilder(), config.introDocId),
-  ],
+  items: stripIntroDoc(config.itemsBuilder(), config.introDocId),
 });
+
+const buildSdkSidebarItems = () => [
+  {
+    type: "category",
+    label: "JS/TS",
+    link: {
+      type: "doc",
+      id: "sdk/javascript/index",
+    },
+    collapsible: true,
+    collapsed: false,
+    items: [
+      "sdk/javascript/chapters",
+      "sdk/javascript/verses",
+      "sdk/javascript/audio",
+      "sdk/javascript/resources",
+      "sdk/javascript/juzs",
+      "sdk/javascript/search",
+      "sdk/javascript/v1-migration-guide",
+    ],
+  },
+];
+
+const buildTutorialsSidebarItems = () => [
+  "tutorials/faq",
+  {
+    type: "category",
+    label: "Font & Page Rendering",
+    collapsible: true,
+    collapsed: false,
+    items: [
+      "tutorials/fonts/font-rendering",
+      "tutorials/fonts/page-layout",
+    ],
+  },
+  {
+    type: "category",
+    label: "OAuth2 / OpenID Connect",
+    collapsible: true,
+    collapsed: false,
+    items: [
+      "tutorials/oidc/getting-started-with-oauth2",
+      "tutorials/oidc/openid-connect",
+      "tutorials/oidc/example-integration",
+      "tutorials/oidc/client-setup",
+      {
+        type: "category",
+        label: "Mobile Apps",
+        link: {
+          type: "doc",
+          id: "tutorials/oidc/mobile-apps/index",
+        },
+        collapsible: true,
+        collapsed: false,
+        items: [
+          "tutorials/oidc/mobile-apps/react-native",
+          "tutorials/oidc/mobile-apps/android",
+          "tutorials/oidc/mobile-apps/iOS",
+        ],
+      },
+    ],
+  },
+];
+
+const makeSharedDocsSidebar = (apiFamilies) => [
+  {
+    type: "category",
+    label: "QF",
+    collapsible: false,
+    collapsed: false,
+    items: [
+      {
+        type: "doc",
+        id: "tutorials/oidc/user-apis-quickstart",
+        label: "User APIs Quickstart",
+      },
+      {
+        type: "doc",
+        id: "quickstart/index",
+        label: "Content APIs Quickstart",
+      },
+      {
+        type: "category",
+        label: "API",
+        collapsible: true,
+        collapsed: false,
+        items: [
+          ...apiFamilies.map(makeSharedApiFamilyCategory),
+          {
+            type: "doc",
+            id: "api/field-reference",
+            label: "Field Reference",
+          },
+          {
+            type: "doc",
+            id: "user_related_apis_versioned/scopes",
+            label: "OAuth2 Scopes",
+          },
+        ],
+      },
+      {
+        type: "category",
+        label: "SDKs",
+        link: {
+          type: "doc",
+          id: "sdk/index",
+        },
+        collapsible: true,
+        collapsed: false,
+        items: buildSdkSidebarItems(),
+      },
+      {
+        type: "doc",
+        id: "updates/index",
+        label: "Updates",
+      },
+      {
+        type: "category",
+        label: "Tutorials",
+        collapsible: true,
+        collapsed: false,
+        items: buildTutorialsSidebarItems(),
+      },
+    ],
+  },
+];
 
 // @ts-check
 
@@ -481,7 +584,7 @@ const sidebars = {
     {
       type: "doc",
       id: "quickstart/index",
-      label: "Quick Start Guide",
+      label: "Content APIs Quickstart",
     },
   ],
 
@@ -502,55 +605,11 @@ const sidebars = {
   ],
 
   tutorialsSidebar: [
-    "tutorials/faq",
-    {
-      type: "category",
-      label: "Font & Page Rendering",
-      items: [
-        "tutorials/fonts/font-rendering",
-        "tutorials/fonts/page-layout",
-      ],
-    },
-    {
-      type: "autogenerated",
-      dirName: "tutorials/oidc",
-    },
+    ...buildTutorialsSidebarItems(),
   ],
 
-  APIsSidebar: [
-    {
-      type: "doc",
-      id: "quickstart/index",
-      label: "Quick Start Guide",
-    },
-    {
-      type: "category",
-      label: "SDKs",
-      link: {
-        type: "doc",
-        id: "sdk/index",
-      },
-      items: [
-        {
-          type: "category",
-          label: "JS/TS",
-          link: {
-            type: "doc",
-            id: "sdk/javascript/index",
-          },
-          items: [
-            "sdk/javascript/chapters",
-            "sdk/javascript/verses",
-            "sdk/javascript/audio",
-            "sdk/javascript/resources",
-            "sdk/javascript/juzs",
-            "sdk/javascript/search",
-            "sdk/javascript/v1-migration-guide",
-          ],
-        },
-      ],
-    },
-  ],
+  APIsSidebar: makeSharedDocsSidebar(latestApiFamilies),
+  APIsVersionedSidebar: makeSharedDocsSidebar(versionedApiFamilies),
 
   "content-apis": makeApiFamilySidebar(contentApisLatestConfig),
   "content-apis-4.0.0": makeApiFamilySidebar(contentApisVersionedConfig),

@@ -194,9 +194,9 @@ const config = {
         items: [
           {
             type: "doc",
-            docId: "quickstart/index", // Points to your /docs/quickstart/index.md
+            docId: "tutorials/oidc/user-apis-quickstart",
             position: "left",
-            label: "Quick Start",
+            label: "User Quickstart",
           },
           {
             type: "doc",
