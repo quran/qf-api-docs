@@ -186,25 +186,32 @@ Here's how the OAuth2 Authorization Code flow works when user consent is needed 
 sequenceDiagram
     actor User
     participant App as Your App
+    participant Backend as Your Backend
     participant Auth as Quran.Foundation<br/>Authorization Server
     participant API as Quran.Foundation<br/>Resources Server
 
     User->>App: Click "Login"
-    App->>Auth: Request Token
+    App->>Auth: Start login with PKCE
     Auth->>User: Login and consent
     User->>Auth: Approve
     Auth-->>App: Authorization Code
-    App->>Auth: Exchange code for token
-    Auth-->>App: Token Response<br/>(access_token, refresh_token)
+    App->>Backend: Send code + PKCE verifier
+    Backend->>Auth: Exchange code for token
+    Auth-->>Backend: Token Response<br/>(access_token, refresh_token)
+    Backend-->>App: Session or token payload
 
     App->>API: Use token to call Quran.Foundation's API
     API-->>App: Requested resource
 
-    Note over App,Auth: Access token expires (1 hour)
+    Note over App,Backend: Access token expires (1 hour)
 
-    App->>Auth: Re-request access_token using refresh_token
-    Auth-->>App: New access_token and refresh_token
+    App->>Backend: Request refreshed token
+    Backend->>Auth: Refresh using refresh_token
+    Auth-->>Backend: New access_token and refresh_token
+    Backend-->>App: Updated session or token payload
 ```
+
+> If Quran Foundation explicitly provisions your client as public with `token_endpoint_auth_method=none`, the app can exchange the code directly. For the current Request Access flow, use the backend exchange pattern shown above.
 
 > 🔧 **Ready to code?** Check out the [User Related APIs Quickstart Guide](/docs/tutorials/oidc/user-apis-quickstart) for copy-paste examples, or see the [Web Integration Example](/docs/tutorials/oidc/example-integration) and the [hosted demo](https://oauth2-client-prelive.quran.foundation/).
 

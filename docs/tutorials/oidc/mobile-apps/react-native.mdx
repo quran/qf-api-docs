@@ -39,10 +39,13 @@ WebBrowser.maybeCompleteAuthSession();
 const CLIENT_ID = "YOUR_CLIENT_ID"; // From your OAuth application
 const REDIRECT_URI = "exp://192.168.x.x:8081"; // Your Expo dev URL or custom scheme
 const BACKEND_BASE_URL = "https://your-backend.example.com";
+const USE_PRELIVE = true; // set to false for production
 
-// OAuth2 authorization endpoint (use prelive for testing)
+// OAuth2 authorization endpoint
 const discovery = {
-  authorizationEndpoint: "https://oauth2.quran.foundation/oauth2/auth",
+  authorizationEndpoint: USE_PRELIVE
+    ? "https://prelive-oauth2.quran.foundation/oauth2/auth"
+    : "https://oauth2.quran.foundation/oauth2/auth",
 };
 
 export default function App() {
@@ -195,7 +198,7 @@ const fetchBookmarks = async () => {
     "https://apis.quran.foundation/auth/v1/bookmarks",
     {
       headers: {
-        "x-auth-token": authTokens.accessToken,
+        "x-auth-token": authSession.accessToken,
         "x-client-id": CLIENT_ID,
       },
     }
@@ -229,7 +232,7 @@ If your app keeps refresh tokens locally, use `expo-secure-store` to persist the
 
 ```javascript
 import * as SecureStore from "expo-secure-store";
-await SecureStore.setItemAsync("refreshToken", authTokens.refreshToken);
+await SecureStore.setItemAsync("refreshToken", authSession.refreshToken);
 ```
 
 :::

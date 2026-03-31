@@ -58,10 +58,13 @@ WebBrowser.maybeCompleteAuthSession();
 const CLIENT_ID = "YOUR_CLIENT_ID";
 const REDIRECT_URI = "yourapp://callback";
 const BACKEND_BASE_URL = "https://your-backend.example.com";
+const USE_PRELIVE = true; // set to false for production
 
-// OAuth2 authorization endpoint - use prelive for testing, production for live apps
+// OAuth2 authorization endpoint
 const discovery = {
-  authorizationEndpoint: "https://oauth2.quran.foundation/oauth2/auth",
+  authorizationEndpoint: USE_PRELIVE
+    ? "https://prelive-oauth2.quran.foundation/oauth2/auth"
+    : "https://oauth2.quran.foundation/oauth2/auth",
 };
 
 export default function App() {
@@ -218,12 +221,63 @@ const authBaseUrl =
 app.post("/api/auth/qf/exchange", async (req, res) => {
   const { code, codeVerifier, redirectUri } = req.body;
 
+  if (!code || !codeVerifier || !redirectUri) {
+    return res.status(400).json({
+      error:
+        "Missing required fields: code, codeVerifier, and redirectUri are required",
+    });
+  }
+
   try {
     const params = new URLSearchParams();
     params.append("grant_type", "authorization_code");
     params.append("code", code);
     params.append("redirect_uri", redirectUri);
     params.append("code_verifier", codeVerifier);
+
+    const tokenResponse = await axios.post(
+      `${authBaseUrl}/oauth2/token`,
+      params.toString(),
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        auth: {
+          username: process.env.CLIENT_ID,
+          password: process.env.CLIENT_SECRET,
+        },
+      }
+    );
+
+    const token = tokenResponse.data;
+    // jwt.decode does not verify the ID token signature or claims.
+    // In production, validate id_token with OIDC/JWKS as shown in:
+    // /docs/tutorials/oidc/getting-started-with-oauth2#validate-id-tokens-with-jwks
+    const user = token.id_token ? jwt.decode(token.id_token) : null;
+
+    res.json({
+      accessToken: token.access_token,
+      refreshToken: token.refresh_token,
+      idToken: token.id_token,
+      expiresIn: token.expires_in,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to exchange authorization code" });
+  }
+});
+
+app.post("/api/auth/qf/refresh", async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res
+      .status(400)
+      .json({ error: "Missing required field: refreshToken" });
+  }
+
+  try {
+    const params = new URLSearchParams();
+    params.append("grant_type", "refresh_token");
+    params.append("refresh_token", refreshToken);
 
     const tokenResponse = await axios.post(
       `${authBaseUrl}/oauth2/token`,
@@ -247,32 +301,6 @@ app.post("/api/auth/qf/exchange", async (req, res) => {
       expiresIn: token.expires_in,
       user,
     });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to exchange authorization code" });
-  }
-});
-
-app.post("/api/auth/qf/refresh", async (req, res) => {
-  const { refreshToken } = req.body;
-
-  try {
-    const params = new URLSearchParams();
-    params.append("grant_type", "refresh_token");
-    params.append("refresh_token", refreshToken);
-
-    const tokenResponse = await axios.post(
-      `${authBaseUrl}/oauth2/token`,
-      params.toString(),
-      {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        auth: {
-          username: process.env.CLIENT_ID,
-          password: process.env.CLIENT_SECRET,
-        },
-      }
-    );
-
-    res.json(tokenResponse.data);
   } catch (error) {
     res.status(500).json({ error: "Failed to refresh access token" });
   }
