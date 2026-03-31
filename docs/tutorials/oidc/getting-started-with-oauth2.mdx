@@ -481,12 +481,6 @@ Note: If you used PKCE in Step 2, always send `code_verifier` here.
 If your client came from [Request Access](/request-access), let the app handle the authorization redirect and PKCE, then send `code + code_verifier + redirect_uri` to a backend endpoint that performs the token exchange with `client_secret`.
 :::
 
-:::info Match The Exchange Method To The Provisioned Client Type
-- `token_endpoint_auth_method=none` means the client is public. Use PKCE, send `client_id` in the body, and never ship a `client_secret`.
-- `client_secret_basic` (default) or `client_secret_post` means the client is confidential. Keep the `client_secret` on the server and exchange both authorization codes and refresh tokens on the server.
-- If the client is confidential and you omit client authentication, Hydra returns `invalid_client`.
-:::
-
 <details>
 <summary><b>JavaScript (Express backend exchange endpoint for mobile/frontends)</b></summary>
 
