@@ -19,8 +19,8 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 
 ## 📋 Prerequisites
 
-1. **Get OAuth2 credentials and confirm how Quran Foundation provisioned the client**: [Request Access →](/request-access)
-2. **Register your redirect URI** (e.g., `http://localhost:3000/callback` or `yourapp://callback`)
+1. **Get OAuth2 credentials**: [Request Access →](/request-access)
+2. **Register your redirect URI**, for example `http://localhost:3000/callback` or `yourapp://callback`
 
 :::important Recommended Integration Shape
 - Frontend and native apps can still use Quran Foundation's hosted login screen and PKCE.
@@ -59,12 +59,15 @@ const CLIENT_ID = "YOUR_CLIENT_ID";
 const REDIRECT_URI = "yourapp://callback";
 const BACKEND_BASE_URL = "https://your-backend.example.com";
 const USE_PRELIVE = true; // set to false for production
+const authBaseUrl = USE_PRELIVE
+  ? "https://prelive-oauth2.quran.foundation"
+  : "https://oauth2.quran.foundation";
 
-// OAuth2 authorization endpoint
+// OAuth2 endpoints
 const discovery = {
-  authorizationEndpoint: USE_PRELIVE
-    ? "https://prelive-oauth2.quran.foundation/oauth2/auth"
-    : "https://oauth2.quran.foundation/oauth2/auth",
+  authorizationEndpoint: `${authBaseUrl}/oauth2/auth`,
+  tokenEndpoint: `${authBaseUrl}/oauth2/token`,
+  revocationEndpoint: `${authBaseUrl}/oauth2/revoke`,
 };
 
 export default function App() {
@@ -119,6 +122,8 @@ export default function App() {
   const logout = async () => {
     await fetch(`${BACKEND_BASE_URL}/api/auth/qf/logout`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken: session?.refreshToken }),
     }).catch(() => {});
 
     setUser(null);
@@ -148,7 +153,7 @@ export default function App() {
 }
 ```
 
-If Quran Foundation provisioned your client as public with `token_endpoint_auth_method=none`, you can swap the backend call above for a direct `exchangeCodeAsync(...)` call in the app.
+If Quran Foundation provisioned your client as public with `token_endpoint_auth_method=none`, you can swap the backend call above for a direct `exchangeCodeAsync(...)` call in the app using the same `discovery.tokenEndpoint`.
 
 👉 **[Full React Native Example Repo](https://github.com/quran/oauth2-react-native-client-example)** shows the direct public-client variant
 
@@ -306,12 +311,38 @@ app.post("/api/auth/qf/refresh", async (req, res) => {
   }
 });
 
+app.post("/api/auth/qf/logout", async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(204).send();
+  }
+
+  try {
+    const params = new URLSearchParams();
+    params.append("token", refreshToken);
+    params.append("token_type_hint", "refresh_token");
+
+    await axios.post(`${authBaseUrl}/oauth2/revoke`, params.toString(), {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      auth: {
+        username: process.env.CLIENT_ID,
+        password: process.env.CLIENT_SECRET,
+      },
+    });
+  } catch (error) {
+    // Treat logout as best effort so the app can still clear local state.
+  }
+
+  res.status(204).send();
+});
+
 app.listen(3000, () => {
   console.log("QF backend exchange service running on http://localhost:3000");
 });
 ```
 
-If you already use backend sessions, keep the `refresh_token` on the server and return only the short-lived access token and decoded user profile to the app.
+If you already use backend sessions, keep the `refresh_token` on the server and return only the short-lived access token and decoded user profile to the app. In that setup, `/api/auth/qf/logout` should revoke and clear the server-stored refresh token instead of expecting it from the app.
 
 ---
 
