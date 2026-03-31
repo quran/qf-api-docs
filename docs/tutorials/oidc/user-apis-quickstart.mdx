@@ -19,7 +19,7 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 
 ## 📋 Prerequisites
 
-1. **Get OAuth2 credentials and confirm the client registration mode**: [Request Access →](/request-access)
+1. **Get OAuth2 credentials and confirm how Quran Foundation provisioned the client**: [Request Access →](/request-access)
 2. **Register your redirect URI** (e.g., `http://localhost:3000/callback` or `yourapp://callback`)
 
 :::important Recommended Integration Shape
@@ -289,7 +289,7 @@ If you already use backend sessions, keep the `refresh_token` on the server and 
 
 ### Web (Node.js + Express, confidential server-side)
 
-This is the recommended path for clients currently issued through [Request Access](/request-access). The example assumes the client is confidential and registered with the default Hydra mode `client_secret_basic`. Keep `CLIENT_SECRET` on the server; code exchange and refresh happen on the server.
+This is the recommended path for clients currently issued through [Request Access](/request-access). The example assumes the client is confidential and provisioned with the default Hydra mode `client_secret_basic`. Keep `CLIENT_SECRET` on the server; code exchange and refresh happen on the server.
 
 ```bash
 npm install express express-session simple-oauth2 jsonwebtoken dotenv
@@ -467,6 +467,8 @@ Use [AppAuth-iOS](https://github.com/openid/AppAuth-iOS) for native iOS apps:
 
 Use AppAuth to present the login screen and manage PKCE in the app. For most Request Access clients, pair it with the backend exchange endpoint above so the code and refresh-token exchange stay on the server.
 
+The snippet below only shows how to start the authorization request. For current Request Access clients, handle the callback in your app, capture the authorization `code`, and POST `code + code_verifier + redirect_uri` to your backend exchange endpoint.
+
 ```swift
 import AppAuth
 
@@ -488,9 +490,9 @@ OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { config, error
     )
 
     // Present authorization flow with AppAuth.
-    // For clients issued through Request Access, use AppAuth's manual
-    // no-code-exchange mode so your backend can redeem the returned
-    // authorization code with CLIENT_SECRET.
+    // For current Request Access clients, stop after you receive the
+    // authorization code in the callback and send it to your backend
+    // exchange endpoint together with the PKCE verifier.
 }
 ```
 
@@ -523,7 +525,7 @@ Implementation requirements
   - redirectURL: com.yourapp://callback (custom scheme)
   - responseType: OIDResponseTypeCode
 - Use AppAuth to present the authorization flow
-- For confidential clients, use AppAuth's manual interaction mode and send the returned code + PKCE verifier to your backend exchange endpoint
+- For confidential clients, use AppAuth for the authorization request only, then send the returned code + PKCE verifier to your backend exchange endpoint
 - Mention that on-device token exchange is only for clients that Quran Foundation provisioned as public with token_endpoint_auth_method=none
 
 Info.plist requirements
@@ -546,6 +548,8 @@ Acceptance checklist
 Use [AppAuth-Android](https://github.com/openid/AppAuth-Android) for native Android apps:
 
 Use AppAuth to present the login flow and generate PKCE in the app. For most Request Access clients, pair it with the backend exchange endpoint above so the code and refresh-token exchange stay on the server.
+
+The snippet below only shows how to start the authorization request. For current Request Access clients, handle the callback in your app, capture the authorization `code`, and POST `code + code_verifier + redirect_uri` to your backend exchange endpoint.
 
 ```kotlin
 val serviceConfig = AuthorizationServiceConfiguration(
