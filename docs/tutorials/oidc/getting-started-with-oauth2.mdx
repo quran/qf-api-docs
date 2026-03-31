@@ -172,9 +172,9 @@ Get started in minutes with our official example repositories:
 | Platform           | Repository                                                                                        | Features                                                                 |
 | ------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | **Web (Node.js)**  | [quran-oauth2-client-example](https://github.com/quran/quran-oauth2-client-example)               | Express, session management, JWT decoding, recommended for current Request Access clients |
-| **React Native**   | [oauth2-react-native-client-example](https://github.com/quran/oauth2-react-native-client-example) | Expo, PKCE, token management, only for clients explicitly registered as public |
-| **iOS Native**     | See [iOS Guide](/docs/tutorials/oidc/mobile-apps/iOS)                                             | AppAuth-iOS, only for clients explicitly registered as public            |
-| **Android Native** | See [Android Guide](/docs/tutorials/oidc/mobile-apps/android)                                     | AppAuth-Android, only for clients explicitly registered as public        |
+| **React Native**   | [oauth2-react-native-client-example](https://github.com/quran/oauth2-react-native-client-example) | Expo, PKCE, token management, direct in-app exchange only if QF provisions your client as public |
+| **iOS Native**     | See [iOS Guide](/docs/tutorials/oidc/mobile-apps/iOS)                                             | AppAuth-iOS, direct on-device exchange only if QF provisions your client as public |
+| **Android Native** | See [Android Guide](/docs/tutorials/oidc/mobile-apps/android)                                     | AppAuth-Android, direct on-device exchange only if QF provisions your client as public |
 
 ---
 
@@ -212,20 +212,20 @@ sequenceDiagram
 
 ## 🧩 Step 1: Request OAuth 2.0 Client Credentials
 
-1. Submit an [Application](/request-access) to obtain your `client_id` and confirm how the client is registered for token endpoint authentication.
+1. Submit an [Application](/request-access) to obtain your `client_id` and confirm whether Quran Foundation provisioned the client as public or confidential.
 2. Provide one or more exact `redirect_uri` values. These must match exactly at runtime.
 
 > Most Request Access clients should let the frontend or native app start the login flow and generate PKCE, then use a backend for token exchange and refresh. Never embed `client_secret` in a browser or mobile app.
 
-:::important Client Type Is Determined At Registration
-Hydra/Ory decides whether your client is public or confidential when the OAuth client is registered, not when you write the integration code.
+:::important Client Type Is Set During Provisioning
+Hydra/Ory decides whether your client is public or confidential when Quran Foundation provisions the OAuth client, not when you write the integration code.
 
 | `token_endpoint_auth_method` | Client type | Token exchange at `/oauth2/token` | Where code/refresh exchange belongs |
 | ---------------------------- | ----------- | --------------------------------- | ----------------------------------- |
 | `none` | Public | Send `client_id` in the body and `code_verifier` for PKCE. Do not send `client_secret`. | Native app, SPA, or a backend proxy for that public client |
 | `client_secret_basic` (default) or `client_secret_post` | Confidential | Authenticate the client with its secret. | Server only |
 
-If you do not register `token_endpoint_auth_method=none`, Hydra treats the client as confidential by default. In the current Request Access flow, that usually means your app should collect the authorization code while your backend performs the token exchange. Calling `/oauth2/token` without authenticating a confidential client will fail with `invalid_client`.
+If Quran Foundation does not provision your client with `token_endpoint_auth_method=none`, Hydra treats it as confidential by default. In the current Request Access flow, that usually means your app should collect the authorization code while your backend performs the token exchange. Calling `/oauth2/token` without authenticating a confidential client will fail with `invalid_client`.
 :::
 
 <details>
@@ -239,7 +239,7 @@ Goal
 
 Environment variables (server-only)
 - QF_CLIENT_ID (required)
-- QF_CLIENT_SECRET (required on the backend for current Request Access clients; omit it only if Quran Foundation explicitly registered the client as public with token_endpoint_auth_method=none)
+- QF_CLIENT_SECRET (required on the backend for current Request Access clients; omit it only if Quran Foundation provisioned your client as public with token_endpoint_auth_method=none)
 - QF_ENV (optional): "prelive" | "production" (default: "prelive")
 
 Base URLs (copy exactly)
@@ -311,7 +311,7 @@ https://prelive-oauth2.quran.foundation/oauth2/auth?response_type=code
 
 Least privilege: Add scopes only as you need them.
 
-> Tip: Always persist your `code_verifier` **before** redirecting to `/oauth2/auth`. For current Request Access clients, keep it either in app state until callback and send it to your backend exchange endpoint, or keep it in a server-side session if the backend initiates the login flow. Public native/mobile clients should only redeem the code directly if Quran Foundation explicitly registered the client with `token_endpoint_auth_method=none`.
+> Tip: Always persist your `code_verifier` **before** redirecting to `/oauth2/auth`. For current Request Access clients, keep it either in app state until callback and send it to your backend exchange endpoint, or keep it in a server-side session if the backend initiates the login flow. Public native/mobile clients should only redeem the code directly if Quran Foundation provisioned the client with `token_endpoint_auth_method=none`.
 
 For example, request `collection` only when the user actually creates or manages a collection.
 
@@ -568,7 +568,7 @@ const axios = require("axios");
 const { getQfOAuthConfig } = require("./qfOAuthConfig");
 
 async function exchangeCodeForTokens({ code, redirectUri, codeVerifier }) {
-  // Only use this variant if the OAuth client itself is registered as public.
+  // Only use this variant if Quran Foundation provisioned the OAuth client as public.
   // Otherwise Hydra will reject the token request with invalid_client.
   const { authBaseUrl, clientId } = getQfOAuthConfig();
 
@@ -648,7 +648,7 @@ from qf_oauth_config import get_qf_oauth_config  # your Step 1 config
 def exchange_code_for_tokens(code: str, redirect_uri: str, code_verifier: str):
     cfg = get_qf_oauth_config()
 
-    # Only use this variant if the OAuth client itself is registered as public.
+    # Only use this variant if Quran Foundation provisioned the OAuth client as public.
     # Otherwise Hydra will reject the token request with invalid_client.
     resp = requests.post(
         f"{cfg['authBaseUrl']}/oauth2/token",
@@ -995,7 +995,7 @@ Acceptance checklist
 - State: Always send and validate `state` to protect against CSRF.
 - Nonce: When you request `openid`, always include a `nonce`. Some deployments enforce it; if an ID token is issued, you **must** verify the `nonce` claim equals the value you initially sent.
 - PKCE: Use for public clients (SPAs/mobile). Do not ship `client_secret` to browsers/mobile apps.
-- Registration mode: Unless the client is explicitly registered with `token_endpoint_auth_method=none`, Hydra treats it as confidential and requires client authentication at `/oauth2/token`. This is the current default for clients issued through Request Access.
+- Registration mode: Unless Quran Foundation provisioned the client with `token_endpoint_auth_method=none`, Hydra treats it as confidential and requires client authentication at `/oauth2/token`. This is the current default for clients issued through Request Access.
 - Scopes: Use `openid offline_access user collection`. Add more scopes only as needed.
 - Scopes note: Quran.Foundation expects `offline_access` (not `offline`).
 - Token storage: Store `refresh_token` securely; rotate if compromised.

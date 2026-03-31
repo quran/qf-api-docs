@@ -12,7 +12,7 @@ import PartialIntro from "./_intro.mdx";
 <PartialObtainClientCredentials />
 
 :::tip Recommended Pattern
-Let the app open the Quran Foundation login screen and generate PKCE, then send `code + code_verifier + redirect_uri` to your backend. Your backend performs token exchange and refresh. If Quran Foundation explicitly registered your client with `token_endpoint_auth_method=none`, you can also do the token exchange directly in the app.
+Let the app open the Quran Foundation login screen and generate PKCE, then send `code + code_verifier + redirect_uri` to your backend. Your backend performs token exchange and refresh. If Quran Foundation provisioned your client with `token_endpoint_auth_method=none`, you can also do the token exchange directly in the app.
 :::
 
 ## ⚡ Quick Setup

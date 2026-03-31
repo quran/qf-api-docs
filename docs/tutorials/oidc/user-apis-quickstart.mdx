@@ -26,7 +26,7 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 - Frontend and native apps can still use Quran Foundation's hosted login screen and PKCE.
 - For most clients issued through [Request Access](/request-access), your app should stop after receiving the authorization `code` and send `code + code_verifier + redirect_uri` to your backend.
 - Your backend keeps `CLIENT_SECRET` and performs the authorization-code exchange and refresh-token exchange.
-- If Quran Foundation explicitly registered your client with `token_endpoint_auth_method=none`, you can also use a fully public in-app token exchange flow.
+- If Quran Foundation provisioned your client with `token_endpoint_auth_method=none`, you can also use a fully public in-app token exchange flow.
 :::
 
 ---
@@ -34,7 +34,7 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 ## 🚀 Choose Your Platform
 
 :::tip Recommended Path For The Current Request Access Flow
-If you are integrating during the hackathon or using a newly issued Request Access client, keep the login screen and PKCE flow in your app, then use a small backend/proxy for token exchange and refresh.
+If you are using a newly issued Request Access client, keep the login screen and PKCE flow in your app, then use a small backend/proxy for token exchange and refresh.
 :::
 
 ### React Native (Expo)
@@ -145,7 +145,7 @@ export default function App() {
 }
 ```
 
-If Quran Foundation explicitly registered your client as public with `token_endpoint_auth_method=none`, you can swap the backend call above for a direct `exchangeCodeAsync(...)` call in the app.
+If Quran Foundation provisioned your client as public with `token_endpoint_auth_method=none`, you can swap the backend call above for a direct `exchangeCodeAsync(...)` call in the app.
 
 👉 **[Full React Native Example Repo](https://github.com/quran/oauth2-react-native-client-example)** shows the direct public-client variant
 
@@ -179,7 +179,7 @@ Implementation requirements
 - Keep client_secret off the device
 - Decode returned idToken with jwt-decode to get user info
 - Implement logout that calls the backend logout endpoint and clears local state
-- Mention that direct in-app token exchange is only for clients explicitly registered as public with token_endpoint_auth_method=none
+- Mention that direct in-app token exchange is only for clients that Quran Foundation provisioned as public with token_endpoint_auth_method=none
 
 Acceptance checklist
 - Login redirects to Quran.Foundation auth page
@@ -494,7 +494,7 @@ OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { config, error
 }
 ```
 
-If Quran Foundation explicitly registered your client as public with `token_endpoint_auth_method=none`, AppAuth can also complete the token exchange on-device.
+If Quran Foundation provisioned your client as public with `token_endpoint_auth_method=none`, AppAuth can also complete the token exchange on-device.
 
 👉 **[iOS Guide with Demo](/docs/tutorials/oidc/mobile-apps/iOS)**
 
@@ -524,7 +524,7 @@ Implementation requirements
   - responseType: OIDResponseTypeCode
 - Use AppAuth to present the authorization flow
 - For confidential clients, use AppAuth's manual interaction mode and send the returned code + PKCE verifier to your backend exchange endpoint
-- Mention that on-device token exchange is only for clients explicitly registered as public with token_endpoint_auth_method=none
+- Mention that on-device token exchange is only for clients that Quran Foundation provisioned as public with token_endpoint_auth_method=none
 
 Info.plist requirements
 - Add URL scheme for redirect URI
@@ -566,7 +566,7 @@ val authIntent = authService.getAuthorizationRequestIntent(authRequest)
 startActivityForResult(authIntent, AUTH_REQUEST_CODE)
 ```
 
-In your callback handler, send the returned authorization code and PKCE verifier to your backend exchange endpoint. If Quran Foundation explicitly registered your client as public with `token_endpoint_auth_method=none`, you can also let AppAuth-Android exchange the code on-device.
+In your callback handler, send the returned authorization code and PKCE verifier to your backend exchange endpoint. If Quran Foundation provisioned your client as public with `token_endpoint_auth_method=none`, you can also let AppAuth-Android exchange the code on-device.
 
 👉 **[Android Guide with Demo](/docs/tutorials/oidc/mobile-apps/android)**
 
@@ -598,7 +598,7 @@ Implementation requirements
 - Use AuthorizationService to get auth intent
 - Start activity for result
 - In the callback, send code + PKCE verifier to your backend exchange endpoint
-- Mention that direct on-device token exchange is only for clients explicitly registered as public with token_endpoint_auth_method=none
+- Mention that direct on-device token exchange is only for clients that Quran Foundation provisioned as public with token_endpoint_auth_method=none
 
 AndroidManifest requirements
 - Add intent-filter for redirect URI scheme
@@ -683,7 +683,7 @@ Request only the scopes you need:
 - Refresh tokens do **not** rotate on use (you can reuse the same refresh token)
 - Refresh tokens remain valid until explicitly revoked or user logs out
 - Store refresh tokens securely: server-side for confidential clients, or in secure device storage for native public clients
-- Current Request Access clients should treat refresh as a server-side confidential flow unless Quran Foundation explicitly registered the client as public
+- Current Request Access clients should treat refresh as a server-side confidential flow unless Quran Foundation provisioned the client as public
 :::
 
 Use the refresh token to get a new access token:
