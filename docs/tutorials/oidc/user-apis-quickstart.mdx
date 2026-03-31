@@ -19,8 +19,15 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 
 ## 📋 Prerequisites
 
-1. **Get OAuth2 credentials**: [Request Access →](/request-access)
+1. **Get OAuth2 credentials and confirm the client registration mode**: [Request Access →](/request-access)
 2. **Register your redirect URI** (e.g., `http://localhost:3000/callback` or `yourapp://callback`)
+
+:::important Choose The Example That Matches Your Registered Client
+- Public/mobile example flows in this guide only apply if your OAuth client is registered with `token_endpoint_auth_method=none`.
+- If your client is not explicitly registered with `token_endpoint_auth_method=none`, Hydra treats it as confidential by default (`client_secret_basic`) and `/oauth2/token` will require client authentication.
+- Confidential clients must keep `CLIENT_SECRET` on the server and exchange authorization codes and refresh tokens on the server.
+- Public clients must not ship a `client_secret` and should use PKCE.
+:::
 
 ---
 
@@ -28,7 +35,9 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 
 ### React Native (Expo)
 
-The fastest way to add authentication to a React Native app:
+The fastest way to add authentication to a React Native app.
+
+This direct mobile flow only applies to clients registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move the code and refresh token exchange to a backend and keep the secret there.
 
 ```bash
 npx expo install expo-auth-session expo-web-browser expo-crypto
@@ -64,7 +73,7 @@ export default function App() {
       clientId: "YOUR_CLIENT_ID", // Replace with your client ID
       scopes: ["openid", "offline_access", "bookmark", "collection", "user"],
       redirectUri: "yourapp://callback", // Replace with your redirect URI
-      usePKCE: true, // Required for mobile apps
+      usePKCE: true, // Required for public mobile clients (`token_endpoint_auth_method=none`)
     },
     discovery
   );
@@ -73,7 +82,9 @@ export default function App() {
     if (response?.type === "success") {
       const { code } = response.params;
 
-      // Exchange code for tokens
+      // Exchange code for tokens.
+      // This direct exchange only works for public clients registered with
+      // token_endpoint_auth_method=none.
       exchangeCodeAsync(
         {
           clientId: "YOUR_CLIENT_ID",
@@ -135,7 +146,7 @@ Implement Quran Foundation OAuth2 authentication for React Native (Expo).
 
 Goal
 - Add "Login with Quran.com" button that authenticates users via OAuth2
-- Use PKCE flow (required for mobile apps - no client_secret needed)
+- Use PKCE flow for a public mobile client registered with token_endpoint_auth_method=none
 - Store tokens and decode user info from ID token
 
 Dependencies
@@ -150,6 +161,7 @@ OAuth2 Endpoints (production)
 - Revocation: https://oauth2.quran.foundation/oauth2/revoke
 
 Implementation requirements
+- This guide applies only to clients registered as public with token_endpoint_auth_method=none
 - Use useAuthRequest hook with usePKCE: true
 - Scopes: openid, offline_access, bookmark, collection, user
 - On success, exchange code for tokens using exchangeCodeAsync
@@ -162,13 +174,16 @@ Acceptance checklist
 - After consent, user info is displayed
 - Logout clears tokens and revokes refresh token
 - No client_secret is used (PKCE only)
+- Client is registered with token_endpoint_auth_method=none
 ```
 
 </details>
 
 ---
 
-### Web (Node.js + Express)
+### Web (Node.js + Express, confidential server-side)
+
+This example assumes the client is confidential and registered with the default Hydra mode `client_secret_basic`. Keep `CLIENT_SECRET` on the server; code exchange and refresh happen on the server.
 
 ```bash
 npm install express express-session simple-oauth2 jsonwebtoken dotenv
@@ -222,7 +237,7 @@ app.get("/login", (req, res) => {
   res.redirect(authUrl);
 });
 
-// OAuth callback - exchanges code for tokens
+// OAuth callback - exchanges code for tokens on the server
 app.get("/callback", async (req, res) => {
   const { code, state } = req.query;
 
@@ -296,7 +311,7 @@ Implement Quran Foundation OAuth2 authentication for Node.js + Express.
 
 Goal
 - Add "Login with Quran.com" that redirects to OAuth2 authorization
-- Handle callback, exchange code for tokens, store in session
+- Handle callback, exchange code for tokens on the server, store in session
 - Decode ID token for user info
 - Implement secure logout
 
@@ -315,11 +330,12 @@ OAuth2 Configuration (production)
 
 Environment variables
 - CLIENT_ID
-- CLIENT_SECRET
+- CLIENT_SECRET (server-only)
 - BASE_URL (e.g., http://localhost:3000)
 - SESSION_SECRET
 
 Implementation requirements
+- This example applies to confidential clients; keep client_secret, code exchange, and refresh on the server
 - Generate cryptographically random state (crypto.randomBytes) for CSRF protection
 - Store state in session before redirect
 - Validate state on callback (reject if mismatch)
@@ -342,6 +358,8 @@ Security checklist
 ### iOS Native (Swift)
 
 Use [AppAuth-iOS](https://github.com/openid/AppAuth-iOS) for native iOS apps:
+
+This direct mobile flow assumes the client is registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move token exchange to a backend and keep the secret there.
 
 ```swift
 import AppAuth
@@ -386,7 +404,7 @@ Implement Quran Foundation OAuth2 authentication for iOS using AppAuth.
 
 Goal
 - Add "Login with Quran.com" that opens OAuth2 flow
-- Use AppAuth-iOS library for secure PKCE flow
+- Use AppAuth-iOS library for secure PKCE flow with a client registered as public (`token_endpoint_auth_method=none`)
 - Handle callback and store auth state
 
 Dependency
@@ -396,6 +414,7 @@ OAuth2 Issuer
 - https://oauth2.quran.foundation
 
 Implementation requirements
+- This guide applies only to public mobile clients registered with token_endpoint_auth_method=none
 - Use OIDAuthorizationService.discoverConfiguration to fetch OAuth2 config
 - Create OIDAuthorizationRequest with:
   - clientId (no client_secret for mobile)
@@ -424,6 +443,8 @@ Acceptance checklist
 ### Android Native (Kotlin)
 
 Use [AppAuth-Android](https://github.com/openid/AppAuth-Android) for native Android apps:
+
+This direct mobile flow assumes the client is registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move token exchange to a backend and keep the secret there.
 
 ```kotlin
 val serviceConfig = AuthorizationServiceConfiguration(
@@ -454,7 +475,7 @@ Implement Quran Foundation OAuth2 authentication for Android using AppAuth.
 
 Goal
 - Add "Login with Quran.com" that opens OAuth2 flow
-- Use AppAuth-Android library for secure PKCE flow
+- Use AppAuth-Android library for secure PKCE flow with a client registered as public (`token_endpoint_auth_method=none`)
 - Handle callback and store tokens
 
 Dependency
@@ -465,6 +486,7 @@ OAuth2 Endpoints
 - Token: https://oauth2.quran.foundation/oauth2/token
 
 Implementation requirements
+- This guide applies only to public mobile clients registered with token_endpoint_auth_method=none
 - Create AuthorizationServiceConfiguration with endpoints
 - Build AuthorizationRequest with:
   - clientId (no client_secret for mobile)
@@ -558,18 +580,20 @@ Request only the scopes you need:
 - Refresh tokens are issued when you request the `offline_access` scope
 - Refresh tokens do **not** rotate on use (you can reuse the same refresh token)
 - Refresh tokens remain valid until explicitly revoked or user logs out
-- Store refresh tokens securely server-side
+- Store refresh tokens securely: server-side for confidential clients, or in secure device storage for native public clients
   :::
 
 Use the refresh token to get a new access token:
 
+For confidential clients, refresh on the server and authenticate the client:
+
 ```javascript
-// Using simple-oauth2
+// Using simple-oauth2 (confidential server-side client)
 const newToken = await oauth2Client.refreshToken.refresh(tokenResponse);
 ```
 
 ```python
-# Using requests
+# Using requests (confidential server-side client)
 response = requests.post(
     'https://oauth2.quran.foundation/oauth2/token',
     auth=(client_id, client_secret),
@@ -580,12 +604,15 @@ response = requests.post(
 )
 ```
 
+If your client is public (`token_endpoint_auth_method=none`), do not add `client_secret`. Only clients registered as public can omit it.
+
 ---
 
 ## ⚠️ Common Mistakes
 
 :::danger Avoid These Errors
 ❌ **Embedding `client_secret` in mobile/browser apps** — Use PKCE instead, no secret needed
+❌ **Assuming every client can omit `client_secret`** — Only clients registered with `token_endpoint_auth_method=none` can do that
 ❌ **Not validating `state` parameter** — Always validate to prevent CSRF attacks
 ❌ **Forgetting to store `refresh_token`** — You need it for long-lived sessions
 ❌ **Requesting too many scopes** — Only request what you actually use
