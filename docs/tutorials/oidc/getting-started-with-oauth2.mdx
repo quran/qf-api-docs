@@ -715,7 +715,7 @@ Output shape
 Acceptance checklist
 - Token exchange succeeds for public PKCE clients.
 - Token exchange succeeds for confidential clients when client_secret is present.
-- Frontend/native app + backend exchange flow can forward code + code_verifier safely.
+- Frontend/native app + backend exchange flow accepts code + codeVerifier from the app and forwards code_verifier safely in the OAuth2 token request.
 - Omitting client authentication for a confidential client produces invalid_client.
 - Errors do not leak secrets, codes, or tokens.
 ```
