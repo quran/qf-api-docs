@@ -23,6 +23,7 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 2. **Register your redirect URI** (e.g., `http://localhost:3000/callback` or `yourapp://callback`)
 
 :::important Choose The Example That Matches Your Registered Client
+- Clients issued through [Request Access](/request-access) are currently provisioned as confidential clients unless Quran Foundation explicitly registers `token_endpoint_auth_method=none` for you.
 - Public/mobile example flows in this guide only apply if your OAuth client is registered with `token_endpoint_auth_method=none`.
 - If your client is not explicitly registered with `token_endpoint_auth_method=none`, Hydra treats it as confidential by default (`client_secret_basic`) and `/oauth2/token` will require client authentication.
 - Confidential clients must keep `CLIENT_SECRET` on the server and exchange authorization codes and refresh tokens on the server.
@@ -33,9 +34,13 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 
 ## 🚀 Choose Your Platform
 
-### React Native (Expo)
+:::tip Recommended Path For The Current Request Access Flow
+If you are integrating during the hackathon or using a newly issued Request Access client, start with the confidential server-side example below or add a small backend/proxy for your app. The direct mobile examples only work if Quran Foundation explicitly provisioned your client as public.
+:::
 
-The fastest way to add authentication to a React Native app.
+### React Native (Expo, only for explicitly public clients)
+
+Use this only if Quran Foundation explicitly provisioned your client with `token_endpoint_auth_method=none`.
 
 This direct mobile flow only applies to clients registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move the code and refresh token exchange to a backend and keep the secret there.
 
@@ -136,7 +141,7 @@ export default function App() {
 }
 ```
 
-👉 **[Full React Native Example Repo](https://github.com/quran/oauth2-react-native-client-example)**
+👉 **[Full React Native Example Repo](https://github.com/quran/oauth2-react-native-client-example)** only for explicitly public clients
 
 <details>
 <summary><b>🤖 AI prompt: implement React Native OAuth2</b></summary>
@@ -147,6 +152,7 @@ Implement Quran Foundation OAuth2 authentication for React Native (Expo).
 Goal
 - Add "Login with Quran.com" button that authenticates users via OAuth2
 - Use PKCE flow for a public mobile client registered with token_endpoint_auth_method=none
+- If the issued client is confidential, stop and build a backend/proxy instead of doing direct token exchange in the app
 - Store tokens and decode user info from ID token
 
 Dependencies
@@ -183,7 +189,7 @@ Acceptance checklist
 
 ### Web (Node.js + Express, confidential server-side)
 
-This example assumes the client is confidential and registered with the default Hydra mode `client_secret_basic`. Keep `CLIENT_SECRET` on the server; code exchange and refresh happen on the server.
+This is the recommended path for clients currently issued through [Request Access](/request-access). The example assumes the client is confidential and registered with the default Hydra mode `client_secret_basic`. Keep `CLIENT_SECRET` on the server; code exchange and refresh happen on the server.
 
 ```bash
 npm install express express-session simple-oauth2 jsonwebtoken dotenv
@@ -359,7 +365,7 @@ Security checklist
 
 Use [AppAuth-iOS](https://github.com/openid/AppAuth-iOS) for native iOS apps:
 
-This direct mobile flow assumes the client is registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move token exchange to a backend and keep the secret there.
+This direct mobile flow assumes the client is registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move token exchange to a backend and keep the secret there. For newly issued Request Access clients, assume confidential unless Quran Foundation explicitly told you otherwise.
 
 ```swift
 import AppAuth
@@ -444,7 +450,7 @@ Acceptance checklist
 
 Use [AppAuth-Android](https://github.com/openid/AppAuth-Android) for native Android apps:
 
-This direct mobile flow assumes the client is registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move token exchange to a backend and keep the secret there.
+This direct mobile flow assumes the client is registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move token exchange to a backend and keep the secret there. For newly issued Request Access clients, assume confidential unless Quran Foundation explicitly told you otherwise.
 
 ```kotlin
 val serviceConfig = AuthorizationServiceConfiguration(
@@ -581,7 +587,8 @@ Request only the scopes you need:
 - Refresh tokens do **not** rotate on use (you can reuse the same refresh token)
 - Refresh tokens remain valid until explicitly revoked or user logs out
 - Store refresh tokens securely: server-side for confidential clients, or in secure device storage for native public clients
-  :::
+- Current Request Access clients should treat refresh as a server-side confidential flow unless Quran Foundation explicitly registered the client as public
+:::
 
 Use the refresh token to get a new access token:
 
@@ -604,7 +611,7 @@ response = requests.post(
 )
 ```
 
-If your client is public (`token_endpoint_auth_method=none`), do not add `client_secret`. Only clients registered as public can omit it.
+If your client is public (`token_endpoint_auth_method=none`), do not add `client_secret`. Only clients registered as public can omit it. If the client came from Request Access, assume the confidential example above applies unless Quran Foundation explicitly confirmed a public client.
 
 ---
 
@@ -612,7 +619,7 @@ If your client is public (`token_endpoint_auth_method=none`), do not add `client
 
 :::danger Avoid These Errors
 ❌ **Embedding `client_secret` in mobile/browser apps** — Use PKCE instead, no secret needed
-❌ **Assuming every client can omit `client_secret`** — Only clients registered with `token_endpoint_auth_method=none` can do that
+❌ **Assuming every client can omit `client_secret`** — Only clients registered with `token_endpoint_auth_method=none` can do that; Request Access clients are confidential unless QF explicitly says otherwise
 ❌ **Not validating `state` parameter** — Always validate to prevent CSRF attacks
 ❌ **Forgetting to store `refresh_token`** — You need it for long-lived sessions
 ❌ **Requesting too many scopes** — Only request what you actually use

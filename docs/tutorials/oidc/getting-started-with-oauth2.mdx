@@ -5,7 +5,7 @@ displayed_sidebar: APIsSidebar
 
 # Using OAuth 2.0 to Access Quran.Foundation APIs
 
-Quran.Foundation **User Related APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. This guide mirrors our quickstart style: clear steps, tips, and ready-to-run examples in Python (requests) and JavaScript (Node + axios).
+Quran.Foundation **User Related APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. In the current Request Access flow, clients are provisioned as **confidential clients by default**, so most integrations should perform the code exchange and refresh flow on a server. This guide mirrors our quickstart style: clear steps, tips, and ready-to-run examples in Python (requests) and JavaScript (Node + axios).
 
 For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
@@ -16,6 +16,12 @@ This guide walks you through OAuth2 Authorization Code flow step-by-step.
 :::
 
 > 🔀 Flow split: Use **Client Credentials** for **Content APIs** (see [Content APIs Quickstart Guide](/docs/quickstart)). Use **Authorization Code (+PKCE)** for **User Related APIs** (this page).
+
+:::important Current Request Access Default
+Clients issued through [Request Access](/request-access) are currently provisioned as **confidential clients** unless Quran Foundation explicitly tells you the client was registered with `token_endpoint_auth_method=none`.
+
+If you received a `client_secret`, keep it on the server and perform both the authorization code exchange and refresh-token exchange on the server. If you call `/oauth2/token` without client authentication for that client, Hydra returns `invalid_client`.
+:::
 
 ---
 
@@ -158,12 +164,12 @@ Always use `sub` as the foreign key to link users. Email addresses can change, b
 
 Get started in minutes with our official example repositories:
 
-| Platform           | Repository                                                                                        | Features                                  |
-| ------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| **Web (Node.js)**  | [quran-oauth2-client-example](https://github.com/quran/quran-oauth2-client-example)               | Express, session management, JWT decoding |
-| **React Native**   | [oauth2-react-native-client-example](https://github.com/quran/oauth2-react-native-client-example) | Expo, PKCE, token management              |
-| **iOS Native**     | See [iOS Guide](/docs/tutorials/oidc/mobile-apps/iOS)                                             | AppAuth-iOS                               |
-| **Android Native** | See [Android Guide](/docs/tutorials/oidc/mobile-apps/android)                                     | AppAuth-Android                           |
+| Platform           | Repository                                                                                        | Features                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Web (Node.js)**  | [quran-oauth2-client-example](https://github.com/quran/quran-oauth2-client-example)               | Express, session management, JWT decoding, recommended for current Request Access clients |
+| **React Native**   | [oauth2-react-native-client-example](https://github.com/quran/oauth2-react-native-client-example) | Expo, PKCE, token management, only for clients explicitly registered as public |
+| **iOS Native**     | See [iOS Guide](/docs/tutorials/oidc/mobile-apps/iOS)                                             | AppAuth-iOS, only for clients explicitly registered as public            |
+| **Android Native** | See [Android Guide](/docs/tutorials/oidc/mobile-apps/android)                                     | AppAuth-Android, only for clients explicitly registered as public        |
 
 ---
 
@@ -204,7 +210,7 @@ sequenceDiagram
 1. Submit an [Application](/request-access) to obtain your `client_id` and confirm how the client is registered for token endpoint authentication.
 2. Provide one or more exact `redirect_uri` values. These must match exactly at runtime.
 
-> ⚠️ Never embed `client_secret` in public clients (SPA/mobile). Use PKCE and keep secrets on the server only.
+> ⚠️ Current Request Access clients are confidential unless Quran Foundation explicitly provisions `token_endpoint_auth_method=none` for your client. Never embed `client_secret` in a browser or mobile app.
 
 :::important Client Type Is Determined At Registration
 Hydra/Ory decides whether your client is public or confidential when the OAuth client is registered, not when you write the integration code.
@@ -214,7 +220,7 @@ Hydra/Ory decides whether your client is public or confidential when the OAuth c
 | `none` | Public | Send `client_id` in the body and `code_verifier` for PKCE. Do not send `client_secret`. | Native app, SPA, or a backend proxy for that public client |
 | `client_secret_basic` (default) or `client_secret_post` | Confidential | Authenticate the client with its secret. | Server only |
 
-If you do not register `token_endpoint_auth_method=none`, Hydra treats the client as confidential by default. Calling `/oauth2/token` without authenticating a confidential client will fail with `invalid_client`.
+If you do not register `token_endpoint_auth_method=none`, Hydra treats the client as confidential by default. In the current Request Access flow, that means you should assume server-side token exchange unless Quran Foundation explicitly confirms a public client registration. Calling `/oauth2/token` without authenticating a confidential client will fail with `invalid_client`.
 :::
 
 <details>
@@ -228,7 +234,7 @@ Goal
 
 Environment variables (server-only)
 - QF_CLIENT_ID (required)
-- QF_CLIENT_SECRET (optional only when the OAuth client is registered as public with token_endpoint_auth_method=none; otherwise required for confidential server apps)
+- QF_CLIENT_SECRET (required for current Request Access clients; omit it only if Quran Foundation explicitly registered the client as public with token_endpoint_auth_method=none)
 - QF_ENV (optional): "prelive" | "production" (default: "prelive")
 
 Base URLs (copy exactly)
@@ -240,6 +246,7 @@ Base URLs (copy exactly)
   - API Base URL: https://apis.quran.foundation
 
 Implementation requirements
+- Default to a confidential server-side integration unless Quran Foundation explicitly confirms `token_endpoint_auth_method=none` for the client.
 - Make it explicit in code/comments whether this integration is using a public client (`token_endpoint_auth_method=none`) or a confidential client (`client_secret_basic` by default).
 - Create a config module (e.g., qfOAuthConfig.*) that:
   - reads QF_CLIENT_ID, QF_CLIENT_SECRET (optional), QF_ENV
@@ -299,7 +306,7 @@ https://prelive-oauth2.quran.foundation/oauth2/auth?response_type=code
 
 Least privilege: Add scopes only as you need them.
 
-> Tip: Always persist your `code_verifier` **before** redirecting to `/oauth2/auth`. Public native/mobile clients can keep it in secure app state/storage; confidential web/server apps should keep it server-side (session or secure httpOnly cookie) and redeem the `code` on the server.
+> Tip: Always persist your `code_verifier` **before** redirecting to `/oauth2/auth`. For current Request Access clients, keep it server-side (session or secure httpOnly cookie) and redeem the `code` on the server. Public native/mobile clients should only keep it in app state/storage if Quran Foundation explicitly registered the client with `token_endpoint_auth_method=none`.
 
 For example, request `collection` only when the user actually creates or manages a collection.
 
@@ -457,6 +464,10 @@ Acceptance checklist
 Expected response includes `access_token`, `refresh_token` (if `offline_access` scope), `id_token` (if `openid`), `expires_in`.
 
 Note: If you used PKCE in Step 2, always send `code_verifier` here.
+
+:::tip Start With The Confidential Example Unless QF Told You Otherwise
+If your client came from [Request Access](/request-access), use the confidential server-side examples below unless Quran Foundation explicitly confirmed that your client was registered with `token_endpoint_auth_method=none`.
+:::
 
 :::warning Match The Exchange Method To The Registered Client
 - `token_endpoint_auth_method=none` means the client is public. Use PKCE, send `client_id` in the body, and never ship a `client_secret`.
@@ -630,6 +641,7 @@ Source of truth
 Implementation requirements
 - Use authBaseUrl from getQfOAuthConfig():
   POST {authBaseUrl}/oauth2/token
+- Default to the confidential server-side exchange unless Quran Foundation explicitly confirms public registration.
 - Match the exchange method to the registered client type:
   - public (`token_endpoint_auth_method=none`) => client_id in body, no client_secret
   - confidential (`client_secret_basic` by default) => keep client_secret on the server and exchange on the server
@@ -768,6 +780,8 @@ The same registration rule applies during refresh:
 - Public clients registered with `token_endpoint_auth_method=none` can omit `client_secret` and send `client_id` in the body.
 - Confidential clients registered with `client_secret_basic` (default) or `client_secret_post` must refresh on the server and authenticate the client.
 
+If your client came from [Request Access](/request-access), assume the refresh flow is confidential and server-side unless Quran Foundation explicitly confirmed a public-client registration.
+
 <details>
 <summary><b>cURL (confidential server client)</b></summary>
 
@@ -884,6 +898,7 @@ Source of truth
 - Must send refresh_token
 - Public PKCE clients registered with token_endpoint_auth_method=none: include client_id in body
 - Confidential clients registered with client_secret_basic (default) or client_secret_post: use client authentication
+- Default to confidential/server-side refresh unless Quran Foundation explicitly confirmed a public-client registration
 
 Implementation requirements
 - Use authBaseUrl from getQfOAuthConfig():
@@ -918,7 +933,7 @@ Acceptance checklist
 - State: Always send and validate `state` to protect against CSRF.
 - Nonce: When you request `openid`, always include a `nonce`. Some deployments enforce it; if an ID token is issued, you **must** verify the `nonce` claim equals the value you initially sent.
 - PKCE: Use for public clients (SPAs/mobile). Do not ship `client_secret` to browsers/mobile apps.
-- Registration mode: Unless the client is explicitly registered with `token_endpoint_auth_method=none`, Hydra treats it as confidential and requires client authentication at `/oauth2/token`.
+- Registration mode: Unless the client is explicitly registered with `token_endpoint_auth_method=none`, Hydra treats it as confidential and requires client authentication at `/oauth2/token`. This is the current default for clients issued through Request Access.
 - Scopes: Use `openid offline_access user collection`. Add more scopes only as needed.
 - Scopes note: Quran.Foundation expects `offline_access` (not `offline`).
 - Token storage: Store `refresh_token` securely; rotate if compromised.
@@ -964,7 +979,7 @@ Acceptance checklist
 
 | Error                     | Likely Cause                               | Resolution                                           |
 | ------------------------- | ------------------------------------------ | ---------------------------------------------------- |
-| `invalid_client`          | Wrong client auth method, missing secret for a confidential client, or wrong environment | Verify registration mode, `client_id/secret`, and environment |
+| `invalid_client`          | Wrong client auth method, using the public-client flow with a confidential client, missing secret for a confidential client, or wrong environment | Verify registration mode, `client_id/secret`, and environment. If the client came from Request Access, switch to the server-side exchange unless QF explicitly confirmed a public client |
 | `invalid_grant`           | Bad/expired/used `code` or `refresh_token` | Ensure one-time use, check clock skew                |
 | `redirect_uri_mismatch`   | Redirect URI not exact match               | Align with registered value                          |
 | `invalid_scope`           | Scope misspelled or not allowed            | Use valid scopes; request incrementally              |
@@ -977,7 +992,7 @@ Acceptance checklist
 Add safe error handling for OAuth2 and User API calls.
 
 OAuth2 errors
-- invalid_client: wrong client auth method, missing secret for a confidential client, wrong client_id/secret, or wrong environment
+- invalid_client: wrong client auth method, using a public-client example with a confidential client, missing secret for a confidential client, wrong client_id/secret, or wrong environment
 - invalid_grant: code/refresh_token invalid, expired, already used, or clock skew
 - redirect_uri_mismatch: redirect URI differs from registered value
 - invalid_scope: scope is misspelled or not allowed
