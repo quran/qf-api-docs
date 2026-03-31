@@ -224,19 +224,6 @@ sequenceDiagram
 
 > Most Request Access clients should let the frontend or native app start the login flow and generate PKCE, then use a backend for token exchange and refresh. For confidential clients, keep the `client_secret` on the server only and never embed it in a browser or mobile app.
 
-:::important Client Type Is Set During Provisioning
-Hydra/Ory decides whether your client is public or confidential when Quran Foundation provisions the OAuth client, not when you write the integration code.
-
-For the current Request Access flow, treat your client as confidential unless Quran Foundation explicitly confirms it was provisioned with `token_endpoint_auth_method=none`.
-
-That means:
-- your app can handle the hosted login screen and PKCE
-- your backend should exchange authorization codes and refresh tokens
-- `client_secret` stays on the server only
-
-If a confidential client calls `/oauth2/token` without client authentication, Hydra returns `invalid_client`.
-:::
-
 <details>
 <summary><b>🤖 AI prompt: implement Step 1 (OAuth client config + env selection)</b></summary>
 
