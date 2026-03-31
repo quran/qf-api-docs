@@ -239,9 +239,32 @@ const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
   );
 };
 
-const extendContentApisSidebarItems = (items, baseDocIdPrefix) =>
-  ensureDocsInCategory(
+const extendContentApisSidebarItems = (items, baseDocIdPrefix) => {
+  const withPages = ensureDocsInCategory(
     items,
+    "Pages",
+    [
+      makeApiDocSidebarItem(
+        `${baseDocIdPrefix}/list-pages`,
+        "List Pages",
+        "api-method get",
+      ),
+      makeApiDocSidebarItem(
+        `${baseDocIdPrefix}/get-pages-lookup`,
+        "Lookup Pages",
+        "api-method get",
+      ),
+      makeApiDocSidebarItem(
+        `${baseDocIdPrefix}/get-pages-page-number`,
+        "Get Page",
+        "api-method get",
+      ),
+    ],
+    null,
+  );
+
+  return ensureDocsInCategory(
+    withPages,
     "Quran Reflect Posts",
     [
       makeApiDocSidebarItem(
@@ -272,6 +295,7 @@ const extendContentApisSidebarItems = (items, baseDocIdPrefix) =>
     ],
     null,
   );
+};
 
 const buildContentApisLatestItems = () =>
   extendContentApisSidebarItems(

@@ -1,0 +1,31 @@
+---
+id: list-pages
+title: "List Pages"
+description: "Get all pages for the selected mushaf."
+sidebar_label: "List Pages"
+hide_title: true
+hide_table_of_contents: true
+api: {"operationId":"LIST-pages","tags":["Pages"],"description":"Get all pages for the selected mushaf.","parameters":[{"name":"mushaf","in":"query","description":"Optional mushaf id. Defaults to the system default mushaf.","schema":{"type":"integer"}}],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"type":"object","properties":{"pages":{"type":"array","items":{"type":"object","properties":{"id":{"type":"integer"},"page_number":{"type":"integer"},"verse_mapping":{"type":"object"},"first_verse_id":{"type":"integer"},"last_verse_id":{"type":"integer"},"verses_count":{"type":"integer"}}}}}},"examples":{"response":{"value":{"pages":[{"id":1,"page_number":507,"verse_mapping":{"47:1":"47:3"},"first_verse_id":4787,"last_verse_id":4789,"verses_count":3}]}}}}}}},"method":"get","path":"/pages","servers":[{"url":"https://api.quran.com/api/v4"},{"url":"http://api.quran.com/api/v4"}],"info":{"version":"v4","title":"Quran.com API","description":" Documentation of Quran.com v4 API"},"postman":{"name":"List Pages","description":{"content":"Get all pages for the selected mushaf.","type":"text/plain"},"url":{"path":["pages"],"host":["{{baseUrl}}"],"query":[{"disabled":false,"description":{"content":"Optional mushaf id. Defaults to the system default mushaf.","type":"text/plain"},"key":"mushaf","value":""}],"variable":[]},"header":[{"key":"Accept","value":"application/json"}],"method":"GET"}}
+sidebar_class_name: "get api-method"
+info_path: docs/content_apis_versioned/content-apis
+custom_edit_url: null
+displayed_sidebar: apiSidebar
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## List Pages
+
+
+
+Get all pages for the selected mushaf.
+
+<details style={{"marginBottom":"1rem"}} data-collapsed={false} open={true}><summary style={{}}><strong>Query Parameters</strong></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"mushaf","in":"query","description":"Optional mushaf id. Defaults to the system default mushaf.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><div><ApiTabs><TabItem label={"200"} value={"200"}><div></div><div><MimeTabs schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs><TabItem label={"Schema"} value={"Schema"}><details style={{}} data-collapsed={false} open={true}><summary style={{"textAlign":"left"}}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={true} className={"schemaItem"}><details style={{}}><summary style={{}}><strong>pages</strong><span style={{"opacity":"0.6"}}> object[]</span></summary><div style={{"marginLeft":"1rem"}}><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}>Array [</div></li><SchemaItem collapsible={false} name={"id"} required={false} schemaName={"integer"} qualifierMessage={undefined} schema={{"type":"integer"}}></SchemaItem><SchemaItem collapsible={false} name={"page_number"} required={false} schemaName={"integer"} qualifierMessage={undefined} schema={{"type":"integer"}}></SchemaItem><SchemaItem collapsible={false} name={"verse_mapping"} required={false} schemaName={"object"} qualifierMessage={undefined} schema={{"type":"object"}}></SchemaItem><SchemaItem collapsible={false} name={"first_verse_id"} required={false} schemaName={"integer"} qualifierMessage={undefined} schema={{"type":"integer"}}></SchemaItem><SchemaItem collapsible={false} name={"last_verse_id"} required={false} schemaName={"integer"} qualifierMessage={undefined} schema={{"type":"integer"}}></SchemaItem><SchemaItem collapsible={false} name={"verses_count"} required={false} schemaName={"integer"} qualifierMessage={undefined} schema={{"type":"integer"}}></SchemaItem><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}>]</div></li></div></details></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"pages\": [\n    {\n      \"id\": 0,\n      \"page_number\": 0,\n      \"verse_mapping\": {},\n      \"first_verse_id\": 0,\n      \"last_verse_id\": 0,\n      \"verses_count\": 0\n    }\n  ]\n}"} language={"json"}></ResponseSamples></TabItem><TabItem label={"response"} value={"response"}><ResponseSamples responseExample={"{\n  \"pages\": [\n    {\n      \"id\": 1,\n      \"page_number\": 507,\n      \"verse_mapping\": {\n        \"47:1\": \"47:3\"\n      },\n      \"first_verse_id\": 4787,\n      \"last_verse_id\": 4789,\n      \"verses_count\": 3\n    }\n  ]\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div>
+      
