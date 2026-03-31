@@ -11,6 +11,10 @@ import PartialIntro from "./_intro.mdx";
 <PartialIntro />
 <PartialObtainClientCredentials />
 
+:::tip Recommended Pattern
+Keep the hosted login screen and PKCE flow in the app, then send `code + code_verifier + redirect_uri` to your backend for token exchange and refresh. If Quran Foundation explicitly registered your client with `token_endpoint_auth_method=none`, you can also do the token exchange directly in the app.
+:::
+
 ## ⚡ Quick Setup
 
 ```bash
@@ -26,11 +30,7 @@ Copy this into your `App.js` to get OAuth2 working immediately:
 import * as React from "react";
 import { Button, Text, View, StyleSheet } from "react-native";
 import jwtDecode from "jwt-decode";
-import {
-  useAuthRequest,
-  exchangeCodeAsync,
-  revokeAsync,
-} from "expo-auth-session";
+import { useAuthRequest } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -38,71 +38,80 @@ WebBrowser.maybeCompleteAuthSession();
 // ⚙️ Configuration - Update these values!
 const CLIENT_ID = "YOUR_CLIENT_ID"; // From your OAuth application
 const REDIRECT_URI = "exp://192.168.x.x:8081"; // Your Expo dev URL or custom scheme
+const BACKEND_BASE_URL = "https://your-backend.example.com";
 
-// OAuth2 Endpoints (use prelive for testing)
+// OAuth2 authorization endpoint (use prelive for testing)
 const discovery = {
   authorizationEndpoint: "https://oauth2.quran.foundation/oauth2/auth",
-  tokenEndpoint: "https://oauth2.quran.foundation/oauth2/token",
-  revocationEndpoint: "https://oauth2.quran.foundation/oauth2/revoke",
 };
 
 export default function App() {
-  const [authTokens, setAuthTokens] = React.useState(null);
+  const [authSession, setAuthSession] = React.useState(null);
 
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: CLIENT_ID,
       scopes: ["openid", "offline_access", "bookmark", "collection", "user"],
       redirectUri: REDIRECT_URI,
-      usePKCE: true, // Required for mobile - no client_secret needed!
+      usePKCE: true,
     },
     discovery
   );
 
   React.useEffect(() => {
-    const exchangeFn = async (exchangeTokenReq) => {
+    const exchangeOnBackend = async () => {
+      if (!response) {
+        return;
+      }
+
+      if (response.error) {
+        console.error("Auth error:", response.params.error_description);
+        return;
+      }
+
+      if (response.type !== "success" || !request?.codeVerifier) {
+        return;
+      }
+
       try {
-        const exchangeTokenResponse = await exchangeCodeAsync(
-          exchangeTokenReq,
-          discovery
+        const backendResponse = await fetch(
+          `${BACKEND_BASE_URL}/api/auth/qf/exchange`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              code: response.params.code,
+              codeVerifier: request.codeVerifier,
+              redirectUri: REDIRECT_URI,
+            }),
+          }
         );
-        const { idToken } = exchangeTokenResponse;
-        const userProfile = jwtDecode(idToken);
-        setAuthTokens({ ...exchangeTokenResponse, userProfile });
+
+        const payload = await backendResponse.json();
+        if (!backendResponse.ok) {
+          throw new Error(payload.error || "Token exchange failed");
+        }
+
+        const userProfile = payload.user || jwtDecode(payload.idToken);
+        setAuthSession({ ...payload, userProfile });
       } catch (error) {
         console.error("Token exchange failed:", error);
       }
     };
 
-    if (response) {
-      if (response.error) {
-        console.error("Auth error:", response.params.error_description);
-        return;
-      }
-      if (response.type === "success") {
-        exchangeFn({
-          clientId: CLIENT_ID,
-          code: response.params.code,
-          redirectUri: REDIRECT_URI,
-          extraParams: { code_verifier: request.codeVerifier },
-        });
-      }
-    }
-  }, [discovery, request, response]);
+    exchangeOnBackend();
+  }, [request?.codeVerifier, response]);
 
   const logout = async () => {
-    if (authTokens?.refreshToken) {
-      await revokeAsync(
-        { clientId: CLIENT_ID, token: authTokens.refreshToken },
-        discovery
-      );
-    }
-    setAuthTokens(null);
+    await fetch(`${BACKEND_BASE_URL}/api/auth/qf/logout`, {
+      method: "POST",
+    }).catch(() => {});
+    setAuthSession(null);
   };
 
   // Logged in view
-  if (authTokens) {
-    const { userProfile } = authTokens;
+  if (authSession) {
+    const { userProfile } = authSession;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -147,7 +156,7 @@ const styles = StyleSheet.create({
 
 ## Example Repository
 
-We have created a complete [Example OAuth2 React Native client](https://github.com/quran/oauth2-react-native-client-example) that you can clone and run.
+We have created a complete [Example OAuth2 React Native client](https://github.com/quran/oauth2-react-native-client-example) that you can clone and run. That repository shows the direct public-client exchange variant. For current Request Access clients, keep the in-app login pieces and move token exchange to your backend as shown above.
 
 <div
   style={{
@@ -197,22 +206,26 @@ const fetchBookmarks = async () => {
 
 ## 🔄 Token Refresh
 
-Access tokens expire after 1 hour. The `refreshToken` allows you to get a new access token without re-authenticating:
+Access tokens expire after 1 hour. For most Request Access clients, refresh them through your backend:
 
 ```javascript
-import { refreshAsync } from "expo-auth-session";
-
 const refreshTokens = async () => {
-  const newTokens = await refreshAsync(
-    { clientId: CLIENT_ID, refreshToken: authTokens.refreshToken },
-    discovery
+  const response = await fetch(
+    `${BACKEND_BASE_URL}/api/auth/qf/refresh`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken: authSession.refreshToken }),
+    }
   );
-  setAuthTokens({ ...newTokens, userProfile: authTokens.userProfile });
+
+  const payload = await response.json();
+  setAuthSession((current) => ({ ...current, ...payload }));
 };
 ```
 
 :::tip Store Refresh Token Securely
-Use `expo-secure-store` to persist the refresh token between app sessions:
+If your app keeps refresh tokens locally, use `expo-secure-store` to persist them between app sessions. If you already have backend sessions, keep the refresh token on the server instead:
 
 ```javascript
 import * as SecureStore from "expo-secure-store";

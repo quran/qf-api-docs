@@ -22,12 +22,11 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 1. **Get OAuth2 credentials and confirm the client registration mode**: [Request Access →](/request-access)
 2. **Register your redirect URI** (e.g., `http://localhost:3000/callback` or `yourapp://callback`)
 
-:::important Choose The Example That Matches Your Registered Client
-- Clients issued through [Request Access](/request-access) are currently provisioned as confidential clients unless Quran Foundation explicitly registers `token_endpoint_auth_method=none` for you.
-- Public/mobile example flows in this guide only apply if your OAuth client is registered with `token_endpoint_auth_method=none`.
-- If your client is not explicitly registered with `token_endpoint_auth_method=none`, Hydra treats it as confidential by default (`client_secret_basic`) and `/oauth2/token` will require client authentication.
-- Confidential clients must keep `CLIENT_SECRET` on the server and exchange authorization codes and refresh tokens on the server.
-- Public clients must not ship a `client_secret` and should use PKCE.
+:::important Recommended Integration Shape
+- Frontend and native apps can still use Quran Foundation's hosted login screen and PKCE.
+- For most clients issued through [Request Access](/request-access), your app should stop after receiving the authorization `code` and send `code + code_verifier + redirect_uri` to your backend.
+- Your backend keeps `CLIENT_SECRET` and performs the authorization-code exchange and refresh-token exchange.
+- If Quran Foundation explicitly registered your client with `token_endpoint_auth_method=none`, you can also use a fully public in-app token exchange flow.
 :::
 
 ---
@@ -35,14 +34,12 @@ Get user authentication working in **under 5 minutes**. This guide shows you the
 ## 🚀 Choose Your Platform
 
 :::tip Recommended Path For The Current Request Access Flow
-If you are integrating during the hackathon or using a newly issued Request Access client, start with the confidential server-side example below or add a small backend/proxy for your app. The direct mobile examples only work if Quran Foundation explicitly provisioned your client as public.
+If you are integrating during the hackathon or using a newly issued Request Access client, keep the login screen and PKCE flow in your app, then use a small backend/proxy for token exchange and refresh.
 :::
 
-### React Native (Expo, only for explicitly public clients)
+### React Native (Expo)
 
-Use this only if Quran Foundation explicitly provisioned your client with `token_endpoint_auth_method=none`.
-
-This direct mobile flow only applies to clients registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move the code and refresh token exchange to a backend and keep the secret there.
+This example keeps the login UI and PKCE flow in the app, but sends the authorization code to your backend for token exchange. That works with the confidential clients currently issued through Request Access.
 
 ```bash
 npx expo install expo-auth-session expo-web-browser expo-crypto
@@ -53,69 +50,76 @@ npm install jwt-decode
 import * as React from "react";
 import { Button, Text, View } from "react-native";
 import jwtDecode from "jwt-decode";
-import {
-  useAuthRequest,
-  exchangeCodeAsync,
-  revokeAsync,
-} from "expo-auth-session";
+import { useAuthRequest } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 
 WebBrowser.maybeCompleteAuthSession();
 
-// OAuth2 endpoints - use prelive for testing, production for live apps
+const CLIENT_ID = "YOUR_CLIENT_ID";
+const REDIRECT_URI = "yourapp://callback";
+const BACKEND_BASE_URL = "https://your-backend.example.com";
+
+// OAuth2 authorization endpoint - use prelive for testing, production for live apps
 const discovery = {
   authorizationEndpoint: "https://oauth2.quran.foundation/oauth2/auth",
-  tokenEndpoint: "https://oauth2.quran.foundation/oauth2/token",
-  revocationEndpoint: "https://oauth2.quran.foundation/oauth2/revoke",
 };
 
 export default function App() {
   const [user, setUser] = React.useState(null);
-  const [tokens, setTokens] = React.useState(null);
+  const [session, setSession] = React.useState(null);
 
   const [request, response, promptAsync] = useAuthRequest(
     {
-      clientId: "YOUR_CLIENT_ID", // Replace with your client ID
+      clientId: CLIENT_ID,
       scopes: ["openid", "offline_access", "bookmark", "collection", "user"],
-      redirectUri: "yourapp://callback", // Replace with your redirect URI
-      usePKCE: true, // Required for public mobile clients (`token_endpoint_auth_method=none`)
+      redirectUri: REDIRECT_URI,
+      usePKCE: true,
     },
     discovery
   );
 
   React.useEffect(() => {
-    if (response?.type === "success") {
-      const { code } = response.params;
+    async function handleAuthCallback() {
+      if (response?.type !== "success" || !request?.codeVerifier) {
+        return;
+      }
 
-      // Exchange code for tokens.
-      // This direct exchange only works for public clients registered with
-      // token_endpoint_auth_method=none.
-      exchangeCodeAsync(
+      const backendResponse = await fetch(
+        `${BACKEND_BASE_URL}/api/auth/qf/exchange`,
         {
-          clientId: "YOUR_CLIENT_ID",
-          code,
-          redirectUri: "yourapp://callback",
-          extraParams: { code_verifier: request.codeVerifier },
-        },
-        discovery
-      ).then((tokenResponse) => {
-        setTokens(tokenResponse);
-        // Decode ID token to get user info
-        const userInfo = jwtDecode(tokenResponse.idToken);
-        setUser(userInfo);
-      });
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            code: response.params.code,
+            codeVerifier: request.codeVerifier,
+            redirectUri: REDIRECT_URI,
+          }),
+        }
+      );
+
+      const sessionPayload = await backendResponse.json();
+      if (!backendResponse.ok) {
+        throw new Error(sessionPayload.error || "Authentication failed");
+      }
+
+      setSession(sessionPayload);
+      const decodedUser =
+        sessionPayload.user || jwtDecode(sessionPayload.idToken);
+      setUser(decodedUser);
     }
-  }, [response]);
+
+    handleAuthCallback().catch((error) => {
+      console.error("OAuth error:", error);
+    });
+  }, [request?.codeVerifier, response]);
 
   const logout = async () => {
-    if (tokens?.refreshToken) {
-      await revokeAsync(
-        { clientId: "YOUR_CLIENT_ID", token: tokens.refreshToken },
-        discovery
-      );
-    }
+    await fetch(`${BACKEND_BASE_URL}/api/auth/qf/logout`, {
+      method: "POST",
+    }).catch(() => {});
+
     setUser(null);
-    setTokens(null);
+    setSession(null);
   };
 
   if (user) {
@@ -141,7 +145,9 @@ export default function App() {
 }
 ```
 
-👉 **[Full React Native Example Repo](https://github.com/quran/oauth2-react-native-client-example)** only for explicitly public clients
+If Quran Foundation explicitly registered your client as public with `token_endpoint_auth_method=none`, you can swap the backend call above for a direct `exchangeCodeAsync(...)` call in the app.
+
+👉 **[Full React Native Example Repo](https://github.com/quran/oauth2-react-native-client-example)** shows the direct public-client variant
 
 <details>
 <summary><b>🤖 AI prompt: implement React Native OAuth2</b></summary>
@@ -151,9 +157,9 @@ Implement Quran Foundation OAuth2 authentication for React Native (Expo).
 
 Goal
 - Add "Login with Quran.com" button that authenticates users via OAuth2
-- Use PKCE flow for a public mobile client registered with token_endpoint_auth_method=none
-- If the issued client is confidential, stop and build a backend/proxy instead of doing direct token exchange in the app
-- Store tokens and decode user info from ID token
+- Use PKCE in the app for the authorization request
+- Send authorization code + code_verifier + redirect_uri to a backend exchange endpoint
+- Store returned session/token data and decode user info from ID token
 
 Dependencies
 - expo-auth-session
@@ -163,27 +169,121 @@ Dependencies
 
 OAuth2 Endpoints (production)
 - Authorization: https://oauth2.quran.foundation/oauth2/auth
-- Token: https://oauth2.quran.foundation/oauth2/token
-- Revocation: https://oauth2.quran.foundation/oauth2/revoke
+- Backend exchange endpoint: https://your-backend.example.com/api/auth/qf/exchange
+- Backend logout endpoint: https://your-backend.example.com/api/auth/qf/logout
 
 Implementation requirements
-- This guide applies only to clients registered as public with token_endpoint_auth_method=none
 - Use useAuthRequest hook with usePKCE: true
 - Scopes: openid, offline_access, bookmark, collection, user
-- On success, exchange code for tokens using exchangeCodeAsync
-- Include code_verifier from request in extraParams
-- Decode idToken with jwt-decode to get user info
-- Implement logout that revokes refresh token
+- On success, POST code + codeVerifier + redirectUri to the backend exchange endpoint
+- Keep client_secret off the device
+- Decode returned idToken with jwt-decode to get user info
+- Implement logout that calls the backend logout endpoint and clears local state
+- Mention that direct in-app token exchange is only for clients explicitly registered as public with token_endpoint_auth_method=none
 
 Acceptance checklist
 - Login redirects to Quran.Foundation auth page
 - After consent, user info is displayed
-- Logout clears tokens and revokes refresh token
-- No client_secret is used (PKCE only)
-- Client is registered with token_endpoint_auth_method=none
+- Backend receives code + codeVerifier and performs token exchange
+- Logout clears local session state
+- No client_secret is used in the app
 ```
 
 </details>
+
+---
+
+### Backend Token Exchange Endpoint (Node.js + Express)
+
+Use this pattern when your frontend or native app handles the login screen, but your backend holds `CLIENT_SECRET`.
+
+```bash
+npm install express axios jsonwebtoken dotenv
+```
+
+```javascript
+const express = require("express");
+const axios = require("axios");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const app = express();
+app.use(express.json());
+
+const authBaseUrl =
+  process.env.QF_ENV === "production"
+    ? "https://oauth2.quran.foundation"
+    : "https://prelive-oauth2.quran.foundation";
+
+app.post("/api/auth/qf/exchange", async (req, res) => {
+  const { code, codeVerifier, redirectUri } = req.body;
+
+  try {
+    const params = new URLSearchParams();
+    params.append("grant_type", "authorization_code");
+    params.append("code", code);
+    params.append("redirect_uri", redirectUri);
+    params.append("code_verifier", codeVerifier);
+
+    const tokenResponse = await axios.post(
+      `${authBaseUrl}/oauth2/token`,
+      params.toString(),
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        auth: {
+          username: process.env.CLIENT_ID,
+          password: process.env.CLIENT_SECRET,
+        },
+      }
+    );
+
+    const token = tokenResponse.data;
+    const user = token.id_token ? jwt.decode(token.id_token) : null;
+
+    res.json({
+      accessToken: token.access_token,
+      refreshToken: token.refresh_token,
+      idToken: token.id_token,
+      expiresIn: token.expires_in,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to exchange authorization code" });
+  }
+});
+
+app.post("/api/auth/qf/refresh", async (req, res) => {
+  const { refreshToken } = req.body;
+
+  try {
+    const params = new URLSearchParams();
+    params.append("grant_type", "refresh_token");
+    params.append("refresh_token", refreshToken);
+
+    const tokenResponse = await axios.post(
+      `${authBaseUrl}/oauth2/token`,
+      params.toString(),
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        auth: {
+          username: process.env.CLIENT_ID,
+          password: process.env.CLIENT_SECRET,
+        },
+      }
+    );
+
+    res.json(tokenResponse.data);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to refresh access token" });
+  }
+});
+
+app.listen(3000, () => {
+  console.log("QF backend exchange service running on http://localhost:3000");
+});
+```
+
+If you already use backend sessions, keep the `refresh_token` on the server and return only the short-lived access token and decoded user profile to the app.
 
 ---
 
@@ -365,7 +465,7 @@ Security checklist
 
 Use [AppAuth-iOS](https://github.com/openid/AppAuth-iOS) for native iOS apps:
 
-This direct mobile flow assumes the client is registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move token exchange to a backend and keep the secret there. For newly issued Request Access clients, assume confidential unless Quran Foundation explicitly told you otherwise.
+Use AppAuth to present the login screen and manage PKCE in the app. For most Request Access clients, pair it with the backend exchange endpoint above so the code and refresh-token exchange stay on the server.
 
 ```swift
 import AppAuth
@@ -387,18 +487,14 @@ OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { config, error
         additionalParameters: nil
     )
 
-    // Present authorization flow
-    appDelegate.currentAuthorizationFlow = OIDAuthState.authState(
-        byPresenting: request,
-        presenting: self
-    ) { authState, error in
-        if let authState = authState {
-            // Store authState.lastTokenResponse.accessToken
-            // Use for API calls
-        }
-    }
+    // Present authorization flow with AppAuth.
+    // For clients issued through Request Access, use AppAuth's manual
+    // no-code-exchange mode so your backend can redeem the returned
+    // authorization code with CLIENT_SECRET.
 }
 ```
+
+If Quran Foundation explicitly registered your client as public with `token_endpoint_auth_method=none`, AppAuth can also complete the token exchange on-device.
 
 👉 **[iOS Guide with Demo](/docs/tutorials/oidc/mobile-apps/iOS)**
 
@@ -410,8 +506,8 @@ Implement Quran Foundation OAuth2 authentication for iOS using AppAuth.
 
 Goal
 - Add "Login with Quran.com" that opens OAuth2 flow
-- Use AppAuth-iOS library for secure PKCE flow with a client registered as public (`token_endpoint_auth_method=none`)
-- Handle callback and store auth state
+- Use AppAuth-iOS to present the login flow and generate PKCE
+- Send the authorization code and PKCE verifier to your backend exchange endpoint for current Request Access clients
 
 Dependency
 - AppAuth-iOS (via SPM or CocoaPods)
@@ -420,16 +516,15 @@ OAuth2 Issuer
 - https://oauth2.quran.foundation
 
 Implementation requirements
-- This guide applies only to public mobile clients registered with token_endpoint_auth_method=none
 - Use OIDAuthorizationService.discoverConfiguration to fetch OAuth2 config
 - Create OIDAuthorizationRequest with:
-  - clientId (no client_secret for mobile)
+  - clientId
   - scopes: OIDScopeOpenID, offline_access, bookmark, collection
   - redirectURL: com.yourapp://callback (custom scheme)
   - responseType: OIDResponseTypeCode
-- Use OIDAuthState.authState(byPresenting:) to present flow
-- Store authState securely (Keychain recommended)
-- Access token via authState.lastTokenResponse.accessToken
+- Use AppAuth to present the authorization flow
+- For confidential clients, use AppAuth's manual interaction mode and send the returned code + PKCE verifier to your backend exchange endpoint
+- Mention that on-device token exchange is only for clients explicitly registered as public with token_endpoint_auth_method=none
 
 Info.plist requirements
 - Add URL scheme for redirect URI
@@ -438,8 +533,8 @@ Info.plist requirements
 Acceptance checklist
 - App opens Safari/ASWebAuthenticationSession for login
 - Callback redirects back to app
-- Access token is available for API calls
-- Auth state persists across app launches
+- Authorization code reaches the app callback
+- Backend exchange endpoint can redeem the code for tokens
 ```
 
 </details>
@@ -450,7 +545,7 @@ Acceptance checklist
 
 Use [AppAuth-Android](https://github.com/openid/AppAuth-Android) for native Android apps:
 
-This direct mobile flow assumes the client is registered as public with `token_endpoint_auth_method=none`. If your client is confidential, move token exchange to a backend and keep the secret there. For newly issued Request Access clients, assume confidential unless Quran Foundation explicitly told you otherwise.
+Use AppAuth to present the login flow and generate PKCE in the app. For most Request Access clients, pair it with the backend exchange endpoint above so the code and refresh-token exchange stay on the server.
 
 ```kotlin
 val serviceConfig = AuthorizationServiceConfiguration(
@@ -471,6 +566,8 @@ val authIntent = authService.getAuthorizationRequestIntent(authRequest)
 startActivityForResult(authIntent, AUTH_REQUEST_CODE)
 ```
 
+In your callback handler, send the returned authorization code and PKCE verifier to your backend exchange endpoint. If Quran Foundation explicitly registered your client as public with `token_endpoint_auth_method=none`, you can also let AppAuth-Android exchange the code on-device.
+
 👉 **[Android Guide with Demo](/docs/tutorials/oidc/mobile-apps/android)**
 
 <details>
@@ -481,8 +578,8 @@ Implement Quran Foundation OAuth2 authentication for Android using AppAuth.
 
 Goal
 - Add "Login with Quran.com" that opens OAuth2 flow
-- Use AppAuth-Android library for secure PKCE flow with a client registered as public (`token_endpoint_auth_method=none`)
-- Handle callback and store tokens
+- Use AppAuth-Android to launch the login flow and generate PKCE
+- Send the authorization code and PKCE verifier to your backend exchange endpoint for current Request Access clients
 
 Dependency
 - net.openid:appauth (via Gradle)
@@ -492,17 +589,16 @@ OAuth2 Endpoints
 - Token: https://oauth2.quran.foundation/oauth2/token
 
 Implementation requirements
-- This guide applies only to public mobile clients registered with token_endpoint_auth_method=none
 - Create AuthorizationServiceConfiguration with endpoints
 - Build AuthorizationRequest with:
-  - clientId (no client_secret for mobile)
+  - clientId
   - ResponseTypeValues.CODE
   - redirectUri: com.yourapp://callback (custom scheme)
   - scopes: openid, offline_access, bookmark, collection
 - Use AuthorizationService to get auth intent
 - Start activity for result
-- In onActivityResult, exchange code for tokens
-- Store tokens securely (EncryptedSharedPreferences recommended)
+- In the callback, send code + PKCE verifier to your backend exchange endpoint
+- Mention that direct on-device token exchange is only for clients explicitly registered as public with token_endpoint_auth_method=none
 
 AndroidManifest requirements
 - Add intent-filter for redirect URI scheme
@@ -511,8 +607,8 @@ AndroidManifest requirements
 Acceptance checklist
 - App opens Chrome Custom Tab for login
 - Callback redirects back to app
-- Access token is available for API calls
-- Tokens persist securely across app launches
+- Authorization code reaches the app callback
+- Backend exchange endpoint can redeem the code for tokens
 ```
 
 </details>
@@ -592,6 +688,24 @@ Request only the scopes you need:
 
 Use the refresh token to get a new access token:
 
+If you are using the frontend + backend pattern above, let the app call your backend refresh endpoint instead of calling `/oauth2/token` directly from the device:
+
+```javascript
+const refreshSession = async () => {
+  const response = await fetch(
+    `${BACKEND_BASE_URL}/api/auth/qf/refresh`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken: session.refreshToken }),
+    }
+  );
+
+  const payload = await response.json();
+  setSession((current) => ({ ...current, ...payload }));
+};
+```
+
 For confidential clients, refresh on the server and authenticate the client:
 
 ```javascript
@@ -611,7 +725,7 @@ response = requests.post(
 )
 ```
 
-If your client is public (`token_endpoint_auth_method=none`), do not add `client_secret`. Only clients registered as public can omit it. If the client came from Request Access, assume the confidential example above applies unless Quran Foundation explicitly confirmed a public client.
+If your client is public (`token_endpoint_auth_method=none`), you can also refresh directly in the app. Otherwise, keep refresh on the backend.
 
 ---
 
@@ -619,7 +733,7 @@ If your client is public (`token_endpoint_auth_method=none`), do not add `client
 
 :::danger Avoid These Errors
 ❌ **Embedding `client_secret` in mobile/browser apps** — Use PKCE instead, no secret needed
-❌ **Assuming every client can omit `client_secret`** — Only clients registered with `token_endpoint_auth_method=none` can do that; Request Access clients are confidential unless QF explicitly says otherwise
+❌ **Calling `/oauth2/token` directly from a confidential mobile app** — Keep the login screen in the app, but move code exchange and refresh to your backend
 ❌ **Not validating `state` parameter** — Always validate to prevent CSRF attacks
 ❌ **Forgetting to store `refresh_token`** — You need it for long-lived sessions
 ❌ **Requesting too many scopes** — Only request what you actually use
