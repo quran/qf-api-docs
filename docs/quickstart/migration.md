@@ -51,11 +51,11 @@ curl --request GET \
   --url https://api.quran.com/api/v4/chapters
 ```
 
-Updated authenticated request:
+Updated authenticated request (replace `{apiBaseUrl}` with your prelive or production Content API base URL):
 
 ```bash
 curl --request GET \
-  --url https://apis-prelive.quran.foundation/content/api/v4/chapters \
+  --url {apiBaseUrl}/content/api/v4/chapters \
   --header "x-auth-token: YOUR_ACCESS_TOKEN" \
   --header "x-client-id: YOUR_CLIENT_ID"
 ```
@@ -67,16 +67,18 @@ import os
 
 import requests
 
+env = os.getenv("QF_ENV", "prelive")
 API_BASE_URL = (
     "https://apis.quran.foundation"
-    if os.getenv("QF_ENV") == "production"
+    if env == "production"
     else "https://apis-prelive.quran.foundation"
 )
+access_token = "YOUR_ACCESS_TOKEN"  # Replace with your token helper or prior manual-auth step.
 
 response = requests.get(
     f"{API_BASE_URL}/content/api/v4/chapters",
     headers={
-        "x-auth-token": os.environ["QF_ACCESS_TOKEN"],
+        "x-auth-token": access_token,
         "x-client-id": os.environ["QF_CLIENT_ID"],
     },
     timeout=30,

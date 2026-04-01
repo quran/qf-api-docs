@@ -45,16 +45,18 @@ import os
 
 import requests
 
+env = os.getenv("QF_ENV", "prelive")
 API_BASE_URL = (
     "https://apis.quran.foundation"
-    if os.getenv("QF_ENV") == "production"
+    if env == "production"
     else "https://apis-prelive.quran.foundation"
 )
+access_token = "YOUR_ACCESS_TOKEN"  # Replace with your token helper or prior manual-auth step.
 
 response = requests.get(
     f"{API_BASE_URL}/content/api/v4/chapters",
     headers={
-        "x-auth-token": os.environ["QF_ACCESS_TOKEN"],
+        "x-auth-token": access_token,
         "x-client-id": os.environ["QF_CLIENT_ID"],
     },
     timeout=30,
@@ -65,7 +67,7 @@ data = response.json()
 print(data["chapters"][0]["name_simple"])
 ```
 
-This example assumes you already stored the access token from the [manual authentication](/docs/quickstart/manual-authentication) step.
+This example uses `YOUR_ACCESS_TOKEN` as a placeholder. In production, reuse your token helper or cache from the [manual authentication](/docs/quickstart/manual-authentication) step instead of exporting one-off token environment variables.
 
 ### Example Successful Response
 

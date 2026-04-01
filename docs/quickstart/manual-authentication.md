@@ -94,33 +94,45 @@ expires_in = token["expires_in"]
 
 ### Node.js Example (`fetch`)
 
+This example assumes Node 18+ or another runtime with a global `fetch` implementation.
+
 ```js
-const authBaseUrl =
-  process.env.QF_ENV === "production"
-    ? "https://oauth2.quran.foundation"
-    : "https://prelive-oauth2.quran.foundation";
+async function getToken() {
+  const authBaseUrl =
+    process.env.QF_ENV === "production"
+      ? "https://oauth2.quran.foundation"
+      : "https://prelive-oauth2.quran.foundation";
 
-const basicAuth = Buffer.from(
-  `${process.env.QF_CLIENT_ID}:${process.env.QF_CLIENT_SECRET}`,
-).toString("base64");
+  const basicAuth = Buffer.from(
+    `${process.env.QF_CLIENT_ID}:${process.env.QF_CLIENT_SECRET}`,
+  ).toString("base64");
 
-const response = await fetch(`${authBaseUrl}/oauth2/token`, {
-  method: "POST",
-  headers: {
-    Authorization: `Basic ${basicAuth}`,
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  body: new URLSearchParams({
-    grant_type: "client_credentials",
-    scope: "content",
-  }),
-});
+  const response = await fetch(`${authBaseUrl}/oauth2/token`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${basicAuth}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      scope: "content",
+    }),
+  });
 
-if (!response.ok) {
-  throw new Error(`Token request failed: ${response.status}`);
+  if (!response.ok) {
+    throw new Error(`Token request failed: ${response.status}`);
+  }
+
+  return response.json();
 }
 
-const { access_token, expires_in } = await response.json();
+getToken()
+  .then(({ expires_in }) => {
+    console.log("Fetched token that expires in", expires_in, "seconds");
+  })
+  .catch((error) => {
+    console.error("Token request failed:", error);
+  });
 ```
 
 ### Sample Token Response

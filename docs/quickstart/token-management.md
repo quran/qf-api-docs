@@ -63,20 +63,27 @@ class QfTokenCache:
         self._lock = threading.Lock()
         self._token = None
         self._expires_at = 0
-        self._auth_base_url = (
-            "https://oauth2.quran.foundation"
-            if os.getenv("QF_ENV") == "production"
-            else "https://prelive-oauth2.quran.foundation"
-        )
-        self._api_base_url = (
-            "https://apis.quran.foundation"
-            if os.getenv("QF_ENV") == "production"
-            else "https://apis-prelive.quran.foundation"
-        )
+        env = os.getenv("QF_ENV", "prelive")
+        if env not in ("prelive", "production"):
+            raise ValueError(
+                f"Invalid QF_ENV value: {env!r}. Expected 'prelive' or 'production'."
+            )
+
+        auth_base_by_env = {
+            "production": "https://oauth2.quran.foundation",
+            "prelive": "https://prelive-oauth2.quran.foundation",
+        }
+        api_base_by_env = {
+            "production": "https://apis.quran.foundation",
+            "prelive": "https://apis-prelive.quran.foundation",
+        }
+        self.auth_base_url = auth_base_by_env[env]
+        self.api_base_url = api_base_by_env[env]
 
     def clear(self):
-        self._token = None
-        self._expires_at = 0
+        with self._lock:
+            self._token = None
+            self._expires_at = 0
 
     def get_access_token(self):
         now = time.time()
@@ -89,7 +96,7 @@ class QfTokenCache:
                 return self._token
 
             response = requests.post(
-                f"{self._auth_base_url}/oauth2/token",
+                f"{self.auth_base_url}/oauth2/token",
                 auth=HTTPBasicAuth(
                     os.environ["QF_CLIENT_ID"],
                     os.environ["QF_CLIENT_SECRET"],
@@ -129,7 +136,7 @@ cache = QfTokenCache()
 def get_json(path):
     token = cache.get_access_token()
     response = requests.get(
-        f"{cache._api_base_url}{path}",
+        f"{cache.api_base_url}{path}",
         headers={
             "x-auth-token": token,
             "x-client-id": os.environ["QF_CLIENT_ID"],
@@ -141,7 +148,7 @@ def get_json(path):
         cache.clear()
         token = cache.get_access_token()
         response = requests.get(
-            f"{cache._api_base_url}{path}",
+            f"{cache.api_base_url}{path}",
             headers={
                 "x-auth-token": token,
                 "x-client-id": os.environ["QF_CLIENT_ID"],
