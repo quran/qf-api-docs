@@ -70,10 +70,18 @@ import os
 import requests
 from requests.auth import HTTPBasicAuth
 
-AUTH_BASE_URL = {
+AUTH_BASE_BY_ENV = {
     "prelive": "https://prelive-oauth2.quran.foundation",
     "production": "https://oauth2.quran.foundation",
-}[os.getenv("QF_ENV", "prelive")]
+}
+
+env = os.getenv("QF_ENV", "prelive")
+if env not in AUTH_BASE_BY_ENV:
+    raise ValueError(
+        f"Invalid QF_ENV value: {env!r}. Expected 'prelive' or 'production'."
+    )
+
+AUTH_BASE_URL = AUTH_BASE_BY_ENV[env]
 
 response = requests.post(
     f"{AUTH_BASE_URL}/oauth2/token",
@@ -101,10 +109,16 @@ This example assumes Node 18+ or another runtime with a global `fetch` implement
 
 ```js
 async function getToken() {
-  const authBaseUrl =
-    process.env.QF_ENV === "production"
-      ? "https://oauth2.quran.foundation"
-      : "https://prelive-oauth2.quran.foundation";
+  const authBaseByEnv = {
+    production: "https://oauth2.quran.foundation",
+    prelive: "https://prelive-oauth2.quran.foundation",
+  };
+  const env = process.env.QF_ENV ?? "prelive";
+  if (!(env in authBaseByEnv)) {
+    throw new Error("QF_ENV must be 'prelive' or 'production'");
+  }
+
+  const authBaseUrl = authBaseByEnv[env];
 
   const basicAuth = Buffer.from(
     `${process.env.QF_CLIENT_ID}:${process.env.QF_CLIENT_SECRET}`,

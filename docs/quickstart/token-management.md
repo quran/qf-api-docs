@@ -193,6 +193,8 @@ function clearToken() {
 }
 ```
 
+</details>
+
 ## Retry Once on 401
 
 If a Content API request returns `401 Unauthorized`, treat the token as expired or invalid:
@@ -203,6 +205,9 @@ If a Content API request returns `401 Unauthorized`, treat the token as expired 
 4. If it still fails, surface the error instead of looping.
 
 This is a re-request, not a refresh. Client Credentials has no refresh token in this flow.
+
+<details>
+<summary><b>Expand for Python and Node.js 401 retry examples</b></summary>
 
 ### Python Example (`401` retry once)
 

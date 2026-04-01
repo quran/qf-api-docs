@@ -49,12 +49,17 @@ import os
 
 import requests
 
+API_BASE_BY_ENV = {
+    "production": "https://apis.quran.foundation",
+    "prelive": "https://apis-prelive.quran.foundation",
+}
 env = os.getenv("QF_ENV", "prelive")
-API_BASE_URL = (
-    "https://apis.quran.foundation"
-    if env == "production"
-    else "https://apis-prelive.quran.foundation"
-)
+if env not in API_BASE_BY_ENV:
+    raise ValueError(
+        f"Invalid QF_ENV value: {env!r}. Expected 'prelive' or 'production'."
+    )
+
+API_BASE_URL = API_BASE_BY_ENV[env]
 access_token = "YOUR_ACCESS_TOKEN"  # Replace with your token helper or prior manual-auth step.
 
 response = requests.get(
@@ -79,11 +84,16 @@ This example assumes Node 18+ or another runtime with a global `fetch` implement
 
 ```js
 async function listChapters() {
+  const apiBaseByEnv = {
+    production: "https://apis.quran.foundation",
+    prelive: "https://apis-prelive.quran.foundation",
+  };
   const env = process.env.QF_ENV ?? "prelive";
-  const apiBaseUrl =
-    env === "production"
-      ? "https://apis.quran.foundation"
-      : "https://apis-prelive.quran.foundation";
+  if (!(env in apiBaseByEnv)) {
+    throw new Error("QF_ENV must be 'prelive' or 'production'");
+  }
+
+  const apiBaseUrl = apiBaseByEnv[env];
 
   const response = await fetch(`${apiBaseUrl}/content/api/v4/chapters`, {
     headers: {
@@ -100,6 +110,8 @@ async function listChapters() {
   console.log(data.chapters[0].name_simple);
 }
 ```
+
+</details>
 
 ### Example Successful Response
 
@@ -136,8 +148,6 @@ Your frontend can then call your backend route without handling tokens:
 const response = await fetch("/chapters");
 const data = await response.json();
 ```
-
-</details>
 
 ## AI Handoff Prompt
 
