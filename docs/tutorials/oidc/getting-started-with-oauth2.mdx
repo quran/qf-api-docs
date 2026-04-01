@@ -481,7 +481,7 @@ Acceptance checklist
 
 ---
 
-## Step 3: Exchange Code for Tokens
+## Step 3: Exchange Code for Tokens {#step-3-exchange-code-for-tokens}
 
 - Token endpoint: `/oauth2/token`
 - Method: `POST`
@@ -741,7 +741,7 @@ Acceptance checklist
 
 ---
 
-## Step 4: Call User APIs with Headers
+## Step 4: Call User APIs with Headers {#step-4-call-user-apis-with-headers}
 
 Include the token and your client ID in request headers:
 
@@ -842,7 +842,7 @@ Acceptance checklist
 
 ---
 
-## Step 5: Refresh the Access Token (offline_access scope)
+## Step 5: Refresh the Access Token (offline_access scope) {#step-5-refresh-the-access-token-offline-access-scope}
 
 When `expires_in` elapses, exchange the `refresh_token` for a new `access_token`.
 
@@ -1040,7 +1040,7 @@ Acceptance checklist
 
 ---
 
-## Common Issues & Troubleshooting
+## Common Issues & Troubleshooting {#common-issues-troubleshooting}
 
 | Error                     | Likely Cause                               | Resolution                                           |
 | ------------------------- | ------------------------------------------ | ---------------------------------------------------- |
@@ -1098,7 +1098,7 @@ Use `openid offline_access` for authentication-only flows. If your app will call
 
 ### How long do Quran Foundation access tokens last?
 
-Access tokens expire after **1 hour** (3,600 seconds). Use the `refresh_token` (granted via the `offline_access` scope) to obtain a new access token without requiring the user to log in again. See [Step 5: Refresh the Access Token](#-step-5-refresh-the-access-token-offline_access-scope) for implementation details.
+Access tokens expire after **1 hour** (3,600 seconds). Use the `refresh_token` (granted via the `offline_access` scope) to obtain a new access token without requiring the user to log in again. See [Step 5: Refresh the Access Token](#step-5-refresh-the-access-token-offline-access-scope) for implementation details.
 
 ### Can I use the same tokens across pre-production and production?
 
@@ -1115,7 +1115,7 @@ Access tokens expire after **1 hour** (3,600 seconds). Use the `refresh_token` (
 
 **Public clients** (SPAs, mobile apps) rely solely on PKCE for security and never use a `client_secret`. Your client is public **only if** Quran Foundation has explicitly confirmed it.
 
-If you're unsure, assume your client is confidential and use the backend exchange pattern described in [Step 3](#-step-3-exchange-code-for-tokens).
+If you're unsure, assume your client is confidential and use the backend exchange pattern described in [Step 3](#step-3-exchange-code-for-tokens).
 
 ### What headers do I need to call Quran Foundation User APIs?
 
@@ -1126,11 +1126,11 @@ x-auth-token: YOUR_ACCESS_TOKEN
 x-client-id: YOUR_CLIENT_ID
 ```
 
-See [Step 4: Call User APIs with Headers](#-step-4-call-user-apis-with-headers) for complete examples in cURL, JavaScript, and Python.
+See [Step 4: Call User APIs with Headers](#step-4-call-user-apis-with-headers) for complete examples in cURL, JavaScript, and Python.
 
 ### I'm getting `invalid_client` — what's wrong?
 
-This usually means you're using some variant of the **public client** token exchange flow (sending `client_id` in the request body without a secret) when your client was actually **confidential**. For confidential clients, the token exchange must be authenticated on the server with the client secret. Check the [Troubleshooting table](#-common-issues--troubleshooting) for more details.
+This usually means you're using some variant of the **public client** token exchange flow (sending `client_id` in the request body without a secret) when your client was actually **confidential**. For confidential clients, the token exchange must be authenticated on the server with the client secret. Check the [Troubleshooting table](#common-issues-troubleshooting) for more details.
 
 ### How do I link Quran Foundation users to my own app's data?
 
