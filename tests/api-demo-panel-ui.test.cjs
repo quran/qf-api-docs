@@ -95,3 +95,18 @@ test("disabled send action does not fall through to the request summary", () => 
   assert.match(executeComponent, /event\.stopPropagation\(\)/);
   assert.match(sharedStyles, /\.actionButton:disabled[\s\S]*pointer-events: auto;/);
 });
+
+test("optional parameters toggle exposes accessible expanded state", () => {
+  assert.match(paramOptionsComponent, /useRef\(`optional-params-\$\{nanoid\(\)\}`\)\.current/);
+  assert.match(paramOptionsComponent, /aria-controls=\{optionalParamsId\}/);
+  assert.match(paramOptionsComponent, /aria-expanded=\{showOptional\}/);
+  assert.match(paramOptionsComponent, /aria-hidden="true"/);
+  assert.match(paramOptionsComponent, /id=\{optionalParamsId\}/);
+});
+
+test("text params are controlled from stored request state", () => {
+  assert.match(
+    paramOptionsComponent,
+    /value=\{typeof param\.value === "string" \? param\.value : ""\}/
+  );
+});

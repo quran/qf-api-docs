@@ -98,6 +98,7 @@ function SectionHeading({
 
 function ParamOptions() {
   const [showOptional, setShowOptional] = useState(false);
+  const optionalParamsId = useRef(`optional-params-${nanoid()}`).current;
 
   const pathParams = useTypedSelector((state: any) => state.params.path);
   const queryParams = useTypedSelector((state: any) => state.params.query);
@@ -132,11 +133,14 @@ function ParamOptions() {
             title="Optional Parameters"
           />
           <button
+            aria-controls={optionalParamsId}
+            aria-expanded={showOptional}
             className={styles.toggleButton}
             onClick={() => setShowOptional((previous) => !previous)}
             type="button"
           >
             <span
+              aria-hidden="true"
               className={showOptional ? styles.toggleIconExpanded : styles.toggleIcon}
             >
               +
@@ -147,6 +151,7 @@ function ParamOptions() {
           </button>
 
           <div
+            id={optionalParamsId}
             className={
               showOptional ? styles.optionalContent : styles.optionalContentHidden
             }
@@ -304,6 +309,7 @@ function ParamTextFormItem({ param }: ParamProps) {
         dispatchParamValue(dispatch, param, resolveTextValue(param, event.target.value))
       }
       placeholder={param.description || param.name}
+      value={typeof param.value === "string" ? param.value : ""}
     />
   );
 }
