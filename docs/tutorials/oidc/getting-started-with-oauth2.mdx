@@ -749,6 +749,8 @@ x-auth-token: YOUR_ACCESS_TOKEN
 x-client-id: YOUR_CLIENT_ID
 ```
 
+Note: the collections examples below require the `collection` scope, and other User API endpoints may require additional scopes such as `user`. A token granted only `openid offline_access` is sufficient for login and refresh, but not for every User API call.
+
 <details>
 <summary><b>cURL — Get collections</b></summary>
 
@@ -1099,7 +1101,7 @@ Acceptance checklist
 
 ### What scopes should I request for Quran Foundation OAuth2?
 
-Use `openid offline_access` as your default scope set. The `openid` scope returns an ID token with user identity, and `offline_access` provides a refresh token for long-lived sessions. Follow the principle of least privilege — only request additional scopes for things like user profile, bookmarks, collections, and similar features when your app actually needs them.
+Use `openid offline_access` for authentication-only flows. If your app will call User APIs like the collections examples in this guide, request the corresponding API scopes as well, such as `user` and `collection`. Follow the principle of least privilege — only request additional scopes for things like user profile, bookmarks, collections, and similar features when your app actually needs them.
 
 ### How long do Quran Foundation access tokens last?
 
