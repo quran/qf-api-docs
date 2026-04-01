@@ -1099,7 +1099,7 @@ Acceptance checklist
 
 ### What scopes should I request for Quran Foundation OAuth2?
 
-Use `openid offline_access user collection` as your default scope set. The `openid` scope returns an ID token with user identity, `offline_access` provides a refresh token for long-lived sessions, `user` grants access to user profile data, and `collection` enables bookmark and collection management. Follow the principle of least privilege — only request `collection` when your app actually needs it.
+Use `openid offline_access` as your default scope set. The `openid` scope returns an ID token with user identity, and `offline_access` provides a refresh token for long-lived sessions. Follow the principle of least privilege — only request additional scopes for things like user profile, bookmarks, collections, and similar features when your app actually needs them.
 
 ### How long do Quran Foundation access tokens last?
 
