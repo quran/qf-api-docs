@@ -449,7 +449,6 @@ const buildSdkSidebarItems = () => [
 ];
 
 const buildTutorialsSidebarItems = () => [
-  "tutorials/faq",
   {
     type: "category",
     label: "Font & Page Rendering",
@@ -502,64 +501,61 @@ const buildTutorialsSidebarItems = () => [
 
 const makeSharedDocsSidebar = (apiFamilies) => [
   {
+    type: "doc",
+    id: "tutorials/oidc/user-apis-quickstart",
+    label: "User APIs Quickstart",
+  },
+  {
+    type: "doc",
+    id: "quickstart/index",
+    label: "Content APIs Quickstart",
+  },
+  {
     type: "category",
-    label: "QF",
-    collapsible: false,
+    label: "API",
+    collapsible: true,
     collapsed: false,
     items: [
+      ...apiFamilies.map(makeSharedApiFamilyCategory),
       {
         type: "doc",
-        id: "tutorials/oidc/user-apis-quickstart",
-        label: "User APIs Quickstart",
-      },
-      {
-        type: "doc",
-        id: "quickstart/index",
-        label: "Content APIs Quickstart",
-      },
-      {
-        type: "category",
-        label: "API",
-        collapsible: true,
-        collapsed: false,
-        items: [
-          ...apiFamilies.map(makeSharedApiFamilyCategory),
-          {
-            type: "doc",
-            id: "api/field-reference",
-            label: "Field Reference",
-          },
-          {
-            type: "doc",
-            id: "user_related_apis_versioned/scopes",
-            label: "OAuth2 Scopes",
-          },
-        ],
-      },
-      {
-        type: "category",
-        label: "SDKs",
-        link: {
-          type: "doc",
-          id: "sdk/index",
-        },
-        collapsible: true,
-        collapsed: false,
-        items: buildSdkSidebarItems(),
+        id: "api/field-reference",
+        label: "Field Reference",
       },
       {
         type: "doc",
-        id: "updates/index",
-        label: "Updates",
-      },
-      {
-        type: "category",
-        label: "Tutorials",
-        collapsible: true,
-        collapsed: false,
-        items: buildTutorialsSidebarItems(),
+        id: "user_related_apis_versioned/scopes",
+        label: "OAuth2 Scopes",
       },
     ],
+  },
+  {
+    type: "category",
+    label: "SDKs",
+    link: {
+      type: "doc",
+      id: "sdk/index",
+    },
+    collapsible: true,
+    collapsed: false,
+    items: buildSdkSidebarItems(),
+  },
+  {
+    type: "doc",
+    id: "updates/index",
+    label: "Updates",
+  },
+  {
+    type: "doc",
+    id: "tutorials/faq",
+    label: "FAQ",
+  },
+  {
+    type: "category",
+    label: "Tutorials",
+    collapsible: true,
+    collapsed: false,
+    items: buildTutorialsSidebarItems(),
   },
 ];
 
