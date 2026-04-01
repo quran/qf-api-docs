@@ -40,7 +40,7 @@ Quran Foundation issues two types of OAuth2 clients. This distinction affects ho
 
 | | Confidential Client (default) | Public Client |
 |---|---|---|
-| **Has `client_secret`?** | ✅ Yes — keep it server-side only | ❌ No |
+| **Has `client_secret`?** | Yes — keep it server-side only | No |
 | **Token exchange** | Server-side with client authentication | In-app with PKCE only |
 | **Refresh tokens** | Server-side | In-app or via backend proxy |
 | **Typical pattern** | App handles login + PKCE → sends code to backend → backend exchanges with secret | App exchanges code directly |
