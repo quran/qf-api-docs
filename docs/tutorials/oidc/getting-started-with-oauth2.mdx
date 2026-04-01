@@ -136,6 +136,19 @@ Using our auth doesn't limit you. After login, you get a unique `user.sub` (user
 **Just link `user.sub` to your internal records — we handle auth, you handle everything else.**
 :::
 
+### Ready-to-Run Examples
+
+Get started in minutes with our official example repositories:
+
+| Platform           | Repository                                                                                        | Features                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Web (Node.js)**  | [quran-oauth2-client-example](https://github.com/quran/quran-oauth2-client-example)               | Express, session management, JWT decoding, recommended for current Request Access clients |
+| **React Native**   | [oauth2-react-native-client-example](https://github.com/quran/oauth2-react-native-client-example) | Expo, PKCE, token management, direct in-app exchange only if QF provisions your client as public |
+| **iOS Native**     | See [iOS Guide](/docs/tutorials/oidc/mobile-apps/iOS)                                             | AppAuth-iOS, direct on-device exchange only if QF provisions your client as public |
+| **Android Native** | See [Android Guide](/docs/tutorials/oidc/mobile-apps/android)                                     | AppAuth-Android, direct on-device exchange only if QF provisions your client as public |
+
+</details>
+
 ### How to Link QF Users to Your Data {#how-to-link-qf-users-to-your-data}
 
 After OAuth2 login, decode the ID token to get the user's unique identifier:
@@ -189,19 +202,6 @@ cursor.execute("""
 :::warning Don't use email as primary key
 Always use `sub` as the foreign key to link users. Email addresses can change, but `sub` is permanent and unique.
 :::
-
-### Ready-to-Run Examples
-
-Get started in minutes with our official example repositories:
-
-| Platform           | Repository                                                                                        | Features                                                                 |
-| ------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| **Web (Node.js)**  | [quran-oauth2-client-example](https://github.com/quran/quran-oauth2-client-example)               | Express, session management, JWT decoding, recommended for current Request Access clients |
-| **React Native**   | [oauth2-react-native-client-example](https://github.com/quran/oauth2-react-native-client-example) | Expo, PKCE, token management, direct in-app exchange only if QF provisions your client as public |
-| **iOS Native**     | See [iOS Guide](/docs/tutorials/oidc/mobile-apps/iOS)                                             | AppAuth-iOS, direct on-device exchange only if QF provisions your client as public |
-| **Android Native** | See [Android Guide](/docs/tutorials/oidc/mobile-apps/android)                                     | AppAuth-Android, direct on-device exchange only if QF provisions your client as public |
-
-</details>
 
 ---
 
