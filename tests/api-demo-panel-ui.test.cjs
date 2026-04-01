@@ -36,6 +36,13 @@ const securitySchemesComponent = read(
   "SecuritySchemes",
   "index.tsx"
 );
+const formSelectComponent = read(
+  "src",
+  "theme",
+  "ApiDemoPanel",
+  "FormSelect",
+  "index.tsx"
+);
 const utilsModule = read("src", "theme", "ApiDemoPanel", "utils.ts");
 
 test("shared demo-panel overrides exist", () => {
@@ -62,4 +69,14 @@ test("auth label mapping prefers human-readable names", () => {
 test("execute override keeps the primary request action", () => {
   assert.match(executeComponent, /Send API Request/);
   assert.match(executeComponent, /Complete required inputs to send the request/);
+});
+
+test("form select leaves the browser default selected option when no value is provided", () => {
+  assert.match(formSelectComponent, /value=\{value\}/);
+  assert.doesNotMatch(formSelectComponent, /normalizedOptions\[0\]\.value/);
+});
+
+test("array params sync from item changes without depending on param identity", () => {
+  assert.match(paramOptionsComponent, /const paramRef = useRef\(param\)/);
+  assert.match(paramOptionsComponent, /\}, \[dispatch, items\]\);/);
 });

@@ -16,13 +16,11 @@ function FormSelect({ value, options, onChange }: Props) {
     return null;
   }
 
-  const selectedValue = value ?? normalizedOptions[0].value;
-
   return (
     <select
       className={sharedStyles.selectControl}
       onChange={onChange}
-      value={selectedValue}
+      value={value}
     >
       {normalizedOptions.map((option, index) => (
         <option key={`${option.value}-${index}`} value={option.value}>

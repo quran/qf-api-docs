@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { nanoid } from "@reduxjs/toolkit";
 import FormItem from "@theme/ApiDemoPanel/FormItem";
@@ -163,8 +163,9 @@ function ParamOptions() {
 
 function ArrayItem({
   param,
+  value,
   onChange,
-}: ParamProps & { onChange(value?: string): void }) {
+}: ParamProps & { value?: string; onChange(value?: string): void }) {
   if (param.schema?.items?.type === "boolean") {
     return (
       <div className={styles.arrayControl}>
@@ -174,6 +175,7 @@ function ArrayItem({
             onChange(nextValue === EMPTY_OPTION ? undefined : nextValue);
           }}
           options={[EMPTY_OPTION, ...BOOLEAN_OPTIONS]}
+          value={value ?? EMPTY_OPTION}
         />
       </div>
     );
@@ -186,6 +188,7 @@ function ArrayItem({
           onChange(event.target.value);
         }}
         placeholder={param.description || param.name}
+        value={value ?? ""}
       />
     </div>
   );
@@ -194,14 +197,23 @@ function ArrayItem({
 function ParamArrayFormItem({ param }: ParamProps) {
   const [items, setItems] = useState<Array<{ id: string; value?: string }>>([]);
   const dispatch = useTypedDispatch();
+  const paramRef = useRef(param);
+
+  useEffect(() => {
+    paramRef.current = param;
+  }, [param]);
 
   useEffect(() => {
     const values = items
       .map((item) => item.value)
       .filter((item): item is string => Boolean(item));
 
-    dispatchParamValue(dispatch, param, values.length > 0 ? values : undefined);
-  }, [dispatch, items, param]);
+    dispatchParamValue(
+      dispatch,
+      paramRef.current,
+      values.length > 0 ? values : undefined
+    );
+  }, [dispatch, items]);
 
   return (
     <>
@@ -218,6 +230,7 @@ function ParamArrayFormItem({ param }: ParamProps) {
               );
             }}
             param={param}
+            value={item.value}
           />
           <button
             aria-label="Remove item"
@@ -262,6 +275,7 @@ function ParamSelectFormItem({
         );
       }}
       options={[EMPTY_OPTION, ...options]}
+      value={typeof param.value === "string" ? param.value : EMPTY_OPTION}
     />
   );
 }
