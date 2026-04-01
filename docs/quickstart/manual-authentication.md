@@ -59,6 +59,9 @@ curl --request POST \
   --data 'grant_type=client_credentials&scope=content'
 ```
 
+<details>
+<summary><b>Expand for Python and Node.js token request examples</b></summary>
+
 ### Python Example (`requests`)
 
 ```python
@@ -135,6 +138,8 @@ getToken()
   });
 ```
 
+</details>
+
 ### Sample Token Response
 
 ```json
@@ -163,6 +168,9 @@ Recommended pattern:
 
 Use this prompt when you want an AI coding tool to implement manual token retrieval on your backend:
 
+<details>
+<summary><b>Expand AI handoff prompt</b></summary>
+
 ```text
 Implement Quran Foundation Content API token retrieval on the backend.
 
@@ -177,6 +185,8 @@ Documentation to follow
 - Manual authentication: https://api-docs.quran.foundation/docs/quickstart/manual-authentication
 - Token management: https://api-docs.quran.foundation/docs/quickstart/token-management
 ```
+
+</details>
 
 ## Continue the Manual Flow
 

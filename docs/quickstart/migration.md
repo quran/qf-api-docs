@@ -7,6 +7,7 @@ keywords:
   - "OAuth2 migration"
   - "client credentials migration"
   - "Python requests migration example"
+  - "Node fetch migration example"
 sidebar_label: "Migration"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -60,6 +61,9 @@ curl --request GET \
   --header "x-client-id: YOUR_CLIENT_ID"
 ```
 
+<details>
+<summary><b>Expand for Python and Node.js migration examples</b></summary>
+
 Python migration example:
 
 ```python
@@ -86,6 +90,33 @@ response = requests.get(
 response.raise_for_status()
 ```
 
+Node.js migration example:
+
+```js
+async function fetchChapters() {
+  const env = process.env.QF_ENV ?? "prelive";
+  const apiBaseUrl =
+    env === "production"
+      ? "https://apis.quran.foundation"
+      : "https://apis-prelive.quran.foundation";
+
+  const response = await fetch(`${apiBaseUrl}/content/api/v4/chapters`, {
+    headers: {
+      "x-auth-token": "YOUR_ACCESS_TOKEN",
+      "x-client-id": process.env.QF_CLIENT_ID,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Migration check failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+```
+
+</details>
+
 ## Compatibility Notes
 
 - Tokens are environment-specific. Do not use prelive tokens against production or the reverse.
@@ -96,6 +127,9 @@ response.raise_for_status()
 ## AI Handoff Prompt
 
 Use this prompt when you want an AI coding tool to update an older `api.quran.com` integration:
+
+<details>
+<summary><b>Expand AI handoff prompt</b></summary>
 
 ```text
 Migrate an existing api.quran.com Content API integration to Quran Foundation Content APIs.
@@ -112,6 +146,8 @@ Documentation to follow
 - Manual authentication: https://api-docs.quran.foundation/docs/quickstart/manual-authentication
 - First API call: https://api-docs.quran.foundation/docs/quickstart/first-api-call
 ```
+
+</details>
 
 ## Related Docs
 

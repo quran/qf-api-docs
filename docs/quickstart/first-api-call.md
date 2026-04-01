@@ -8,6 +8,7 @@ keywords:
   - "chapters endpoint"
   - "backend proxy"
   - "Python requests chapters example"
+  - "Node fetch chapters example"
 sidebar_label: "First API Call"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -37,6 +38,9 @@ curl --request GET \
   --header "x-auth-token: YOUR_ACCESS_TOKEN" \
   --header "x-client-id: YOUR_CLIENT_ID"
 ```
+
+<details>
+<summary><b>Expand for Python and Node.js request examples</b></summary>
 
 ### Python Example (`requests`)
 
@@ -68,6 +72,34 @@ print(data["chapters"][0]["name_simple"])
 ```
 
 This example uses `YOUR_ACCESS_TOKEN` as a placeholder. In production, reuse your token helper or cache from the [manual authentication](/docs/quickstart/manual-authentication) step instead of exporting one-off token environment variables.
+
+### Node.js Example (`fetch`)
+
+This example assumes Node 18+ or another runtime with a global `fetch` implementation.
+
+```js
+async function listChapters() {
+  const env = process.env.QF_ENV ?? "prelive";
+  const apiBaseUrl =
+    env === "production"
+      ? "https://apis.quran.foundation"
+      : "https://apis-prelive.quran.foundation";
+
+  const response = await fetch(`${apiBaseUrl}/content/api/v4/chapters`, {
+    headers: {
+      "x-auth-token": "YOUR_ACCESS_TOKEN",
+      "x-client-id": process.env.QF_CLIENT_ID,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Chapters request failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  console.log(data.chapters[0].name_simple);
+}
+```
 
 ### Example Successful Response
 
@@ -105,9 +137,14 @@ const response = await fetch("/chapters");
 const data = await response.json();
 ```
 
+</details>
+
 ## AI Handoff Prompt
 
 Use this prompt when you want an AI coding tool to wire up the first authenticated Content API request:
+
+<details>
+<summary><b>Expand AI handoff prompt</b></summary>
 
 ```text
 Implement the first authenticated Quran Foundation Content API call on the backend.
@@ -124,6 +161,8 @@ Documentation to follow
 - Token management: https://api-docs.quran.foundation/docs/quickstart/token-management
 - Content API reference: https://api-docs.quran.foundation/docs/category/content-apis
 ```
+
+</details>
 
 ## Verification Checklist
 

@@ -8,6 +8,7 @@ keywords:
   - "401 retry"
   - "stampede prevention"
   - "Python token cache"
+  - "Node token cache promise"
 sidebar_label: "Token Management"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -46,6 +47,9 @@ return the new token
 ```
 
 This keeps your integration fast and avoids unnecessary token requests.
+
+<details>
+<summary><b>Expand for Python and Node.js cache examples</b></summary>
 
 ### Python Example (`requests` + lock)
 
@@ -116,6 +120,79 @@ class QfTokenCache:
             return self._token
 ```
 
+### Node.js Example (`fetch` + shared promise)
+
+This example assumes Node 18+ or another runtime with a global `fetch` implementation.
+
+```js
+const env = process.env.QF_ENV ?? "prelive";
+if (!["prelive", "production"].includes(env)) {
+  throw new Error("QF_ENV must be 'prelive' or 'production'");
+}
+
+const authBaseByEnv = {
+  production: "https://oauth2.quran.foundation",
+  prelive: "https://prelive-oauth2.quran.foundation",
+};
+const apiBaseByEnv = {
+  production: "https://apis.quran.foundation",
+  prelive: "https://apis-prelive.quran.foundation",
+};
+
+const authBaseUrl = authBaseByEnv[env];
+const apiBaseUrl = apiBaseByEnv[env];
+
+let cachedToken = null;
+let expiresAt = 0;
+let inflightTokenPromise = null;
+
+async function fetchToken() {
+  const basicAuth = Buffer.from(
+    `${process.env.QF_CLIENT_ID}:${process.env.QF_CLIENT_SECRET}`,
+  ).toString("base64");
+
+  const response = await fetch(`${authBaseUrl}/oauth2/token`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${basicAuth}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      scope: "content",
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Token request failed: ${response.status}`);
+  }
+
+  const token = await response.json();
+  cachedToken = token.access_token;
+  expiresAt = Date.now() + token.expires_in * 1000;
+  return cachedToken;
+}
+
+async function getAccessToken() {
+  if (cachedToken && Date.now() < expiresAt - 30_000) {
+    return cachedToken;
+  }
+
+  if (!inflightTokenPromise) {
+    inflightTokenPromise = fetchToken().finally(() => {
+      inflightTokenPromise = null;
+    });
+  }
+
+  return inflightTokenPromise;
+}
+
+function clearToken() {
+  cachedToken = null;
+  expiresAt = 0;
+}
+```
+
 ## Retry Once on 401
 
 If a Content API request returns `401 Unauthorized`, treat the token as expired or invalid:
@@ -160,6 +237,39 @@ def get_json(path):
     return response.json()
 ```
 
+### Node.js Example (`401` retry once)
+
+```js
+async function getJson(path) {
+  let token = await getAccessToken();
+  let response = await fetch(`${apiBaseUrl}${path}`, {
+    headers: {
+      "x-auth-token": token,
+      "x-client-id": process.env.QF_CLIENT_ID,
+    },
+  });
+
+  if (response.status === 401) {
+    clearToken();
+    token = await getAccessToken();
+    response = await fetch(`${apiBaseUrl}${path}`, {
+      headers: {
+        "x-auth-token": token,
+        "x-client-id": process.env.QF_CLIENT_ID,
+      },
+    });
+  }
+
+  if (!response.ok) {
+    throw new Error(`Content API request failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+```
+
+</details>
+
 ## Stampede Prevention
 
 Without coordination, many requests arriving at the same time can all decide the token is expired and all request a new token at once.
@@ -184,6 +294,9 @@ The important behavior is that one request fetches the new token while the other
 
 Use this prompt when you want an AI coding tool to add safe token lifecycle handling to an existing backend integration:
 
+<details>
+<summary><b>Expand AI handoff prompt</b></summary>
+
 ```text
 Implement Quran Foundation Content API token management for a backend Client Credentials integration.
 
@@ -200,6 +313,8 @@ Documentation to follow
 - Manual authentication: https://api-docs.quran.foundation/docs/quickstart/manual-authentication
 - First API call: https://api-docs.quran.foundation/docs/quickstart/first-api-call
 ```
+
+</details>
 
 ## Next Step
 
