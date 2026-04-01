@@ -1,9 +1,25 @@
 ---
 sidebar_position: 1
 displayed_sidebar: APIsSidebar
+title: "OAuth 2.0 Tutorial – Quran Foundation API Authentication (PKCE)"
+description: "Step-by-step guide to implementing OAuth 2.0 Authorization Code flow with PKCE for Quran Foundation User APIs. Includes ready-to-run code examples in JavaScript (Node.js) and Python."
+keywords:
+  - quran foundation oauth2
+  - quran api authentication
+  - oauth2 authorization code pkce
+  - quran foundation api tutorial
+  - quran user api access token
 ---
 
 # Using OAuth 2.0 to Access Quran.Foundation APIs
+
+:::info Quick Summary
+**What:** OAuth 2.0 Authorization Code flow with PKCE for Quran Foundation User APIs.
+**Who:** Developers building apps that access user data (bookmarks, collections, reading progress).
+**Prerequisites:** A `client_id` from [Request Access](/request-access).
+**Time:** ~30 minutes to implement.
+**Result:** Your app can authenticate users and access their Quran.com synced data.
+:::
 
 Quran.Foundation **User Related APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. In the current Request Access flow, clients are provisioned as **confidential clients by default**, so most integrations should perform the code exchange and refresh flow on a server. This guide mirrors our quickstart style: clear steps, tips, and ready-to-run examples in Python (requests) and JavaScript (Node + axios).
 
@@ -1076,3 +1092,51 @@ Acceptance checklist
 ```
 
 </details>
+
+---
+
+## Frequently Asked Questions
+
+### What scopes should I request for Quran Foundation OAuth2?
+
+Use `openid offline_access user collection` as your default scope set. The `openid` scope returns an ID token with user identity, `offline_access` provides a refresh token for long-lived sessions, `user` grants access to user profile data, and `collection` enables bookmark and collection management. Follow the principle of least privilege — only request `collection` when your app actually needs it.
+
+### How long do Quran Foundation access tokens last?
+
+Access tokens expire after **1 hour** (3,600 seconds). Use the `refresh_token` (granted via the `offline_access` scope) to obtain a new access token without requiring the user to log in again. See [Step 5: Refresh the Access Token](#-step-5-refresh-the-access-token-offline_access-scope) for implementation details.
+
+### Can I use the same tokens across pre-production and production?
+
+**No.** Tokens issued in the pre-production environment (`prelive-oauth2.quran.foundation`) will not work against the production API (`apis.quran.foundation`), and vice versa. Always ensure your `authBaseUrl` and `apiBaseUrl` point to the same environment.
+
+| Environment | Auth URL | API Base URL |
+|---|---|---|
+| Pre-Production | `https://prelive-oauth2.quran.foundation` | `https://apis-prelive.quran.foundation` |
+| Production | `https://oauth2.quran.foundation` | `https://apis.quran.foundation` |
+
+### What is the difference between public and confidential OAuth2 clients?
+
+**Confidential clients** have a `client_secret` that is stored securely on a backend server and used during token exchange and refresh. This is the **default** for clients issued through [Request Access](/request-access).
+
+**Public clients** (SPAs, mobile apps) are provisioned with `token_endpoint_auth_method=none` and rely solely on PKCE for security — they never use a `client_secret`. Your client is public **only if** Quran Foundation has explicitly confirmed it.
+
+If you're unsure, assume your client is confidential and use the backend exchange pattern described in [Step 3](#-step-3-exchange-code-for-tokens).
+
+### What headers do I need to call Quran Foundation User APIs?
+
+Every request to User APIs requires two custom headers:
+
+```http
+x-auth-token: YOUR_ACCESS_TOKEN
+x-client-id: YOUR_CLIENT_ID
+```
+
+See [Step 4: Call User APIs with Headers](#-step-4-call-user-apis-with-headers) for complete examples in cURL, JavaScript, and Python.
+
+### I'm getting `invalid_client` — what's wrong?
+
+This usually means you're using some variant of the **public client** token exchange flow (sending `client_id` in the request body without a secret) when your client was actually provisioned as **confidential**. For confidential clients, you must authenticate using HTTP Basic Auth (`client_id:client_secret`) or `client_secret_post`. Check the [Troubleshooting table](#-common-issues--troubleshooting) for more details.
+
+### How do I link Quran Foundation users to my own app's data?
+
+After a successful OAuth2 login, decode the `id_token` to get the `sub` claim — this is the user's unique, permanent identifier. Use `sub` as a foreign key in your own database to associate your app's custom data (premium status, preferences, analytics) with the Quran Foundation user. See [How to Link QF Users to Your Data](#-how-to-link-qf-users-to-your-data) for code examples.
