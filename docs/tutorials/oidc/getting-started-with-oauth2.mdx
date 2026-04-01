@@ -33,14 +33,14 @@ This guide walks you through OAuth2 Authorization Code flow step-by-step.
 
 > 🔀 Flow split: Use **Client Credentials** for **Content APIs** (see [Content APIs Quickstart Guide](/docs/quickstart)). Use **Authorization Code (+PKCE)** for **User Related APIs** (this page).
 
-<a id="client-types"></a>
+## Client Types {#client-types}
 
 :::important Confidential vs Public Clients
 Quran Foundation issues two types of OAuth2 clients. This distinction affects how you exchange codes and refresh tokens in **every step below**.
 
 | | Confidential Client (default) | Public Client |
 |---|---|---|
-| **Provisioned with** | `client_secret_basic` (default) | `token_endpoint_auth_method=none` |
+| **Token endpoint auth method** | `client_secret_basic` (default) | `none` |
 | **Has `client_secret`?** | ✅ Yes — keep it server-side only | ❌ No |
 | **Token exchange** | Server-side with `client_secret` | In-app with PKCE only |
 | **Refresh tokens** | Server-side | In-app or via backend proxy |
