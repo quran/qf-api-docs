@@ -11,6 +11,8 @@ export interface SelectOption {
   value: string;
 }
 
+export type SelectOptionInput = string | number | boolean | SelectOption;
+
 export interface AuthFieldMeta {
   dataKey: string;
   label: string;
@@ -202,10 +204,15 @@ export function resolveAuthFieldMeta(scheme: Scheme): AuthFieldMeta[] {
   return [];
 }
 
-export function normalizeSelectOptions(options?: Array<string | SelectOption>) {
+export function normalizeSelectOptions(options?: SelectOptionInput[]) {
   return (options || []).map((option) => {
-    if (typeof option === "string") {
-      return { label: option, value: option };
+    if (
+      typeof option === "string" ||
+      typeof option === "number" ||
+      typeof option === "boolean"
+    ) {
+      const normalizedOption = String(option);
+      return { label: normalizedOption, value: normalizedOption };
     }
 
     return option;

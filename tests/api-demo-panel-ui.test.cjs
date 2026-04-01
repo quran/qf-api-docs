@@ -110,3 +110,11 @@ test("text params are controlled from stored request state", () => {
     /value=\{typeof param\.value === "string" \? param\.value : ""\}/
   );
 });
+
+test("select option normalization coerces primitive values to strings", () => {
+  assert.match(
+    utilsModule,
+    /typeof option === "number"[\s\S]*typeof option === "boolean"/
+  );
+  assert.match(utilsModule, /const normalizedOption = String\(option\)/);
+});

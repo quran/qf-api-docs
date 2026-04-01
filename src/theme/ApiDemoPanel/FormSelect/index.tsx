@@ -1,11 +1,11 @@
 import React from "react";
 
 import sharedStyles from "../shared.module.css";
-import { normalizeSelectOptions, SelectOption } from "../utils";
+import { normalizeSelectOptions, SelectOptionInput } from "../utils";
 
 export interface Props {
   value?: string;
-  options?: Array<string | SelectOption>;
+  options?: SelectOptionInput[];
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
