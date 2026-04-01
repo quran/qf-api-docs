@@ -487,6 +487,17 @@ const buildTutorialsSidebarItems = () => [
       },
     ],
   },
+  {
+    type: "category",
+    label: "Offline-first Sync",
+    collapsible: true,
+    collapsed: false,
+    items: [
+      "tutorials/sync/getting-started",
+      "tutorials/sync/handling-conflicts",
+      "tutorials/sync/offline-first-patterns",
+    ],
+  },
 ];
 
 const makeSharedDocsSidebar = (apiFamilies) => [
