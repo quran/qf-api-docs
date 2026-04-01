@@ -448,6 +448,25 @@ const buildSdkSidebarItems = () => [
   },
 ];
 
+const contentQuickstartDocIds = [
+  "quickstart/manual-authentication",
+  "quickstart/token-management",
+  "quickstart/first-api-call",
+  "quickstart/migration",
+];
+
+const makeContentQuickstartSidebarItem = (collapsed = false) => ({
+  type: "category",
+  label: "Content APIs Quickstart",
+  link: {
+    type: "doc",
+    id: "quickstart/index",
+  },
+  collapsible: true,
+  collapsed,
+  items: contentQuickstartDocIds,
+});
+
 const buildTutorialsSidebarItems = () => [
   "tutorials/faq",
   {
@@ -512,11 +531,7 @@ const makeSharedDocsSidebar = (apiFamilies) => [
         id: "tutorials/oidc/user-apis-quickstart",
         label: "User APIs Quickstart",
       },
-      {
-        type: "doc",
-        id: "quickstart/index",
-        label: "Content APIs Quickstart",
-      },
+      makeContentQuickstartSidebarItem(false),
       {
         type: "category",
         label: "API",
@@ -568,11 +583,7 @@ const makeSharedDocsSidebar = (apiFamilies) => [
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   gettingStartedSidebar: [
-    {
-      type: "doc",
-      id: "quickstart/index",
-      label: "Content APIs Quickstart",
-    },
+    makeContentQuickstartSidebarItem(false),
   ],
 
   updatesSidebar: [
