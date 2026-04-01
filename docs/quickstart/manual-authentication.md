@@ -6,6 +6,8 @@ keywords:
   - "client credentials"
   - "manual authentication"
   - "content scope"
+  - "Python requests token request"
+  - "Node fetch client credentials"
 sidebar_label: "Manual Authentication"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -57,6 +59,70 @@ curl --request POST \
   --data 'grant_type=client_credentials&scope=content'
 ```
 
+### Python Example (`requests`)
+
+```python
+import os
+
+import requests
+from requests.auth import HTTPBasicAuth
+
+AUTH_BASE_URL = {
+    "prelive": "https://prelive-oauth2.quran.foundation",
+    "production": "https://oauth2.quran.foundation",
+}[os.getenv("QF_ENV", "prelive")]
+
+response = requests.post(
+    f"{AUTH_BASE_URL}/oauth2/token",
+    auth=HTTPBasicAuth(
+        os.environ["QF_CLIENT_ID"],
+        os.environ["QF_CLIENT_SECRET"],
+    ),
+    headers={"Content-Type": "application/x-www-form-urlencoded"},
+    data={
+        "grant_type": "client_credentials",
+        "scope": "content",
+    },
+    timeout=30,
+)
+response.raise_for_status()
+
+token = response.json()
+access_token = token["access_token"]
+expires_in = token["expires_in"]
+```
+
+### Node.js Example (`fetch`)
+
+```js
+const authBaseUrl =
+  process.env.QF_ENV === "production"
+    ? "https://oauth2.quran.foundation"
+    : "https://prelive-oauth2.quran.foundation";
+
+const basicAuth = Buffer.from(
+  `${process.env.QF_CLIENT_ID}:${process.env.QF_CLIENT_SECRET}`,
+).toString("base64");
+
+const response = await fetch(`${authBaseUrl}/oauth2/token`, {
+  method: "POST",
+  headers: {
+    Authorization: `Basic ${basicAuth}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  body: new URLSearchParams({
+    grant_type: "client_credentials",
+    scope: "content",
+  }),
+});
+
+if (!response.ok) {
+  throw new Error(`Token request failed: ${response.status}`);
+}
+
+const { access_token, expires_in } = await response.json();
+```
+
 ### Sample Token Response
 
 ```json
@@ -80,6 +146,25 @@ Recommended pattern:
 2. Cache it in memory or your server-side cache.
 3. Use the token when your backend calls the Content APIs.
 4. Return only the API data your frontend needs.
+
+## AI Handoff Prompt
+
+Use this prompt when you want an AI coding tool to implement manual token retrieval on your backend:
+
+```text
+Implement Quran Foundation Content API token retrieval on the backend.
+
+Requirements
+- Read QF_CLIENT_ID, QF_CLIENT_SECRET, and QF_ENV from environment variables.
+- Use prelive -> https://prelive-oauth2.quran.foundation and production -> https://oauth2.quran.foundation.
+- Request POST /oauth2/token with HTTP Basic auth, grant_type=client_credentials, and scope=content.
+- Return access_token and expires_in from the token response.
+- Do not expose client_secret to browser or mobile code.
+
+Documentation to follow
+- Manual authentication: https://api-docs.quran.foundation/docs/quickstart/manual-authentication
+- Token management: https://api-docs.quran.foundation/docs/quickstart/token-management
+```
 
 ## Continue the Manual Flow
 

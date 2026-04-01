@@ -7,6 +7,7 @@ keywords:
   - "re-request token"
   - "401 retry"
   - "stampede prevention"
+  - "Python token cache"
 sidebar_label: "Token Management"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -46,6 +47,68 @@ return the new token
 
 This keeps your integration fast and avoids unnecessary token requests.
 
+### Python Example (`requests` + lock)
+
+```python
+import os
+import threading
+import time
+
+import requests
+from requests.auth import HTTPBasicAuth
+
+
+class QfTokenCache:
+    def __init__(self):
+        self._lock = threading.Lock()
+        self._token = None
+        self._expires_at = 0
+        self._auth_base_url = (
+            "https://oauth2.quran.foundation"
+            if os.getenv("QF_ENV") == "production"
+            else "https://prelive-oauth2.quran.foundation"
+        )
+        self._api_base_url = (
+            "https://apis.quran.foundation"
+            if os.getenv("QF_ENV") == "production"
+            else "https://apis-prelive.quran.foundation"
+        )
+
+    def clear(self):
+        self._token = None
+        self._expires_at = 0
+
+    def get_access_token(self):
+        now = time.time()
+        if self._token and now < self._expires_at - 30:
+            return self._token
+
+        with self._lock:
+            now = time.time()
+            if self._token and now < self._expires_at - 30:
+                return self._token
+
+            response = requests.post(
+                f"{self._auth_base_url}/oauth2/token",
+                auth=HTTPBasicAuth(
+                    os.environ["QF_CLIENT_ID"],
+                    os.environ["QF_CLIENT_SECRET"],
+                ),
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+                data={
+                    "grant_type": "client_credentials",
+                    "scope": "content",
+                },
+                timeout=30,
+            )
+            response.raise_for_status()
+
+            token = response.json()
+            self._token = token["access_token"]
+            self._expires_at = time.time() + token["expires_in"]
+            return self._token
+```
+
 ## Retry Once on 401
 
 If a Content API request returns `401 Unauthorized`, treat the token as expired or invalid:
@@ -56,6 +119,39 @@ If a Content API request returns `401 Unauthorized`, treat the token as expired 
 4. If it still fails, surface the error instead of looping.
 
 This is a re-request, not a refresh. Client Credentials has no refresh token in this flow.
+
+### Python Example (`401` retry once)
+
+```python
+cache = QfTokenCache()
+
+
+def get_json(path):
+    token = cache.get_access_token()
+    response = requests.get(
+        f"{cache._api_base_url}{path}",
+        headers={
+            "x-auth-token": token,
+            "x-client-id": os.environ["QF_CLIENT_ID"],
+        },
+        timeout=30,
+    )
+
+    if response.status_code == 401:
+        cache.clear()
+        token = cache.get_access_token()
+        response = requests.get(
+            f"{cache._api_base_url}{path}",
+            headers={
+                "x-auth-token": token,
+                "x-client-id": os.environ["QF_CLIENT_ID"],
+            },
+            timeout=30,
+        )
+
+    response.raise_for_status()
+    return response.json()
+```
 
 ## Stampede Prevention
 
@@ -76,6 +172,27 @@ The important behavior is that one request fetches the new token while the other
 - Do not retry `401` in a loop.
 - Do not mix caches between `prelive` and `production`.
 - Do not log `client_secret` or `access_token`.
+
+## AI Handoff Prompt
+
+Use this prompt when you want an AI coding tool to add safe token lifecycle handling to an existing backend integration:
+
+```text
+Implement Quran Foundation Content API token management for a backend Client Credentials integration.
+
+Requirements
+- Cache access_token together with its expiry time.
+- Re-request a token about 30 seconds before expiry.
+- Do not implement refresh_token logic.
+- Ensure only one token request is in flight at a time.
+- On a 401 from the Content API, clear the cached token, re-request once, and retry once.
+- Do not retry in a loop.
+
+Documentation to follow
+- Token management: https://api-docs.quran.foundation/docs/quickstart/token-management
+- Manual authentication: https://api-docs.quran.foundation/docs/quickstart/manual-authentication
+- First API call: https://api-docs.quran.foundation/docs/quickstart/first-api-call
+```
 
 ## Next Step
 

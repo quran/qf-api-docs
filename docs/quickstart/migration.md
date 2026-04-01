@@ -6,6 +6,7 @@ keywords:
   - "Quran Foundation Content APIs"
   - "OAuth2 migration"
   - "client credentials migration"
+  - "Python requests migration example"
 sidebar_label: "Migration"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -41,12 +42,74 @@ The main changes are the base URL and authentication model. The endpoints, query
 5. Add `x-auth-token` and `x-client-id` to every Content API request.
 6. Verify the migration with `GET /content/api/v4/chapters`.
 
+## Before and After Example
+
+Older unauthenticated request:
+
+```bash
+curl --request GET \
+  --url https://api.quran.com/api/v4/chapters
+```
+
+Updated authenticated request:
+
+```bash
+curl --request GET \
+  --url https://apis-prelive.quran.foundation/content/api/v4/chapters \
+  --header "x-auth-token: YOUR_ACCESS_TOKEN" \
+  --header "x-client-id: YOUR_CLIENT_ID"
+```
+
+Python migration example:
+
+```python
+import os
+
+import requests
+
+API_BASE_URL = (
+    "https://apis.quran.foundation"
+    if os.getenv("QF_ENV") == "production"
+    else "https://apis-prelive.quran.foundation"
+)
+
+response = requests.get(
+    f"{API_BASE_URL}/content/api/v4/chapters",
+    headers={
+        "x-auth-token": os.environ["QF_ACCESS_TOKEN"],
+        "x-client-id": os.environ["QF_CLIENT_ID"],
+    },
+    timeout=30,
+)
+response.raise_for_status()
+```
+
 ## Compatibility Notes
 
 - Tokens are environment-specific. Do not use prelive tokens against production or the reverse.
 - This quickstart flow does not use refresh tokens. Re-request the access token instead.
 - A `403` usually points to missing permissions or the wrong scope. Use `scope=content`.
 - A `401` usually means the token expired or was invalid. Re-request once and retry once.
+
+## AI Handoff Prompt
+
+Use this prompt when you want an AI coding tool to update an older `api.quran.com` integration:
+
+```text
+Migrate an existing api.quran.com Content API integration to Quran Foundation Content APIs.
+
+Requirements
+- Replace the old base URL with the correct Quran Foundation prelive or production base URL.
+- Add backend-only OAuth2 Client Credentials token retrieval with scope=content.
+- Add x-auth-token and x-client-id to every Content API request.
+- Preserve existing endpoint paths, query parameters, and response handling where the API contract is unchanged.
+- Verify the migration with GET /content/api/v4/chapters.
+
+Documentation to follow
+- Migration guide: https://api-docs.quran.foundation/docs/quickstart/migration
+- Manual authentication: https://api-docs.quran.foundation/docs/quickstart/manual-authentication
+- First API call: https://api-docs.quran.foundation/docs/quickstart/first-api-call
+```
 
 ## Related Docs
 

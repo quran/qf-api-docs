@@ -7,6 +7,7 @@ keywords:
   - "x-client-id"
   - "chapters endpoint"
   - "backend proxy"
+  - "Python requests chapters example"
 sidebar_label: "First API Call"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -36,6 +37,35 @@ curl --request GET \
   --header "x-auth-token: YOUR_ACCESS_TOKEN" \
   --header "x-client-id: YOUR_CLIENT_ID"
 ```
+
+### Python Example (`requests`)
+
+```python
+import os
+
+import requests
+
+API_BASE_URL = (
+    "https://apis.quran.foundation"
+    if os.getenv("QF_ENV") == "production"
+    else "https://apis-prelive.quran.foundation"
+)
+
+response = requests.get(
+    f"{API_BASE_URL}/content/api/v4/chapters",
+    headers={
+        "x-auth-token": os.environ["QF_ACCESS_TOKEN"],
+        "x-client-id": os.environ["QF_CLIENT_ID"],
+    },
+    timeout=30,
+)
+response.raise_for_status()
+
+data = response.json()
+print(data["chapters"][0]["name_simple"])
+```
+
+This example assumes you already stored the access token from the [manual authentication](/docs/quickstart/manual-authentication) step.
 
 ### Example Successful Response
 
@@ -71,6 +101,26 @@ Your frontend can then call your backend route without handling tokens:
 ```js
 const response = await fetch("/chapters");
 const data = await response.json();
+```
+
+## AI Handoff Prompt
+
+Use this prompt when you want an AI coding tool to wire up the first authenticated Content API request:
+
+```text
+Implement the first authenticated Quran Foundation Content API call on the backend.
+
+Requirements
+- Call GET /content/api/v4/chapters against the correct prelive or production base URL.
+- Send both required headers: x-auth-token and x-client-id.
+- Reuse the existing backend token helper instead of requesting a new token for every request.
+- Expose a backend route or service method that returns the chapters response without leaking credentials to the frontend.
+- Verify success by checking that the response contains a chapters array.
+
+Documentation to follow
+- First API call: https://api-docs.quran.foundation/docs/quickstart/first-api-call
+- Token management: https://api-docs.quran.foundation/docs/quickstart/token-management
+- Content API reference: https://api-docs.quran.foundation/docs/category/content-apis
 ```
 
 ## Verification Checklist
