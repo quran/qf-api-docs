@@ -6,6 +6,8 @@ keywords:
   - "client credentials"
   - "manual authentication"
   - "content scope"
+  - "Python requests token request"
+  - "Node fetch client credentials"
 sidebar_label: "Manual Authentication"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -57,6 +59,101 @@ curl --request POST \
   --data 'grant_type=client_credentials&scope=content'
 ```
 
+<details>
+<summary><b>Expand for Python and Node.js token request examples</b></summary>
+
+### Python Example (`requests`)
+
+```python
+import os
+
+import requests
+from requests.auth import HTTPBasicAuth
+
+AUTH_BASE_BY_ENV = {
+    "prelive": "https://prelive-oauth2.quran.foundation",
+    "production": "https://oauth2.quran.foundation",
+}
+
+env = os.getenv("QF_ENV", "prelive")
+if env not in AUTH_BASE_BY_ENV:
+    raise ValueError(
+        f"Invalid QF_ENV value: {env!r}. Expected 'prelive' or 'production'."
+    )
+
+AUTH_BASE_URL = AUTH_BASE_BY_ENV[env]
+
+response = requests.post(
+    f"{AUTH_BASE_URL}/oauth2/token",
+    auth=HTTPBasicAuth(
+        os.environ["QF_CLIENT_ID"],
+        os.environ["QF_CLIENT_SECRET"],
+    ),
+    headers={"Content-Type": "application/x-www-form-urlencoded"},
+    data={
+        "grant_type": "client_credentials",
+        "scope": "content",
+    },
+    timeout=30,
+)
+response.raise_for_status()
+
+token = response.json()
+access_token = token["access_token"]
+expires_in = token["expires_in"]
+```
+
+### Node.js Example (`fetch`)
+
+This example assumes Node 18+ or another runtime with a global `fetch` implementation.
+
+```js
+async function getToken() {
+  const authBaseByEnv = {
+    production: "https://oauth2.quran.foundation",
+    prelive: "https://prelive-oauth2.quran.foundation",
+  };
+  const env = process.env.QF_ENV ?? "prelive";
+  if (!(env in authBaseByEnv)) {
+    throw new Error("QF_ENV must be 'prelive' or 'production'");
+  }
+
+  const authBaseUrl = authBaseByEnv[env];
+
+  const basicAuth = Buffer.from(
+    `${process.env.QF_CLIENT_ID}:${process.env.QF_CLIENT_SECRET}`,
+  ).toString("base64");
+
+  const response = await fetch(`${authBaseUrl}/oauth2/token`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${basicAuth}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      scope: "content",
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Token request failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+getToken()
+  .then(({ expires_in }) => {
+    console.log("Fetched token that expires in", expires_in, "seconds");
+  })
+  .catch((error) => {
+    console.error("Token request failed:", error);
+  });
+```
+
+</details>
+
 ### Sample Token Response
 
 ```json
@@ -80,6 +177,30 @@ Recommended pattern:
 2. Cache it in memory or your server-side cache.
 3. Use the token when your backend calls the Content APIs.
 4. Return only the API data your frontend needs.
+
+## AI Handoff Prompt
+
+Use this prompt when you want an AI coding tool to implement manual token retrieval on your backend:
+
+<details>
+<summary><b>Expand AI handoff prompt</b></summary>
+
+```text
+Implement Quran Foundation Content API token retrieval on the backend.
+
+Requirements
+- Read QF_CLIENT_ID, QF_CLIENT_SECRET, and QF_ENV from environment variables.
+- Use prelive -> https://prelive-oauth2.quran.foundation and production -> https://oauth2.quran.foundation.
+- Request POST /oauth2/token with HTTP Basic auth, grant_type=client_credentials, and scope=content.
+- Return access_token and expires_in from the token response.
+- Do not expose client_secret to browser or mobile code.
+
+Documentation to follow
+- Manual authentication: https://api-docs.quran.foundation/docs/quickstart/manual-authentication
+- Token management: https://api-docs.quran.foundation/docs/quickstart/token-management
+```
+
+</details>
 
 ## Continue the Manual Flow
 

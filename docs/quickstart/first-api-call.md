@@ -7,6 +7,8 @@ keywords:
   - "x-client-id"
   - "chapters endpoint"
   - "backend proxy"
+  - "Python requests chapters example"
+  - "Node fetch chapters example"
 sidebar_label: "First API Call"
 displayed_sidebar: "APIsSidebar"
 ---
@@ -36,6 +38,80 @@ curl --request GET \
   --header "x-auth-token: YOUR_ACCESS_TOKEN" \
   --header "x-client-id: YOUR_CLIENT_ID"
 ```
+
+<details>
+<summary><b>Expand for Python and Node.js request examples</b></summary>
+
+### Python Example (`requests`)
+
+```python
+import os
+
+import requests
+
+API_BASE_BY_ENV = {
+    "production": "https://apis.quran.foundation",
+    "prelive": "https://apis-prelive.quran.foundation",
+}
+env = os.getenv("QF_ENV", "prelive")
+if env not in API_BASE_BY_ENV:
+    raise ValueError(
+        f"Invalid QF_ENV value: {env!r}. Expected 'prelive' or 'production'."
+    )
+
+API_BASE_URL = API_BASE_BY_ENV[env]
+access_token = "YOUR_ACCESS_TOKEN"  # Replace with your token helper or prior manual-auth step.
+
+response = requests.get(
+    f"{API_BASE_URL}/content/api/v4/chapters",
+    headers={
+        "x-auth-token": access_token,
+        "x-client-id": os.environ["QF_CLIENT_ID"],
+    },
+    timeout=30,
+)
+response.raise_for_status()
+
+data = response.json()
+print(data["chapters"][0]["name_simple"])
+```
+
+This example uses `YOUR_ACCESS_TOKEN` as a placeholder. In production, reuse your token helper or cache from the [manual authentication](/docs/quickstart/manual-authentication) step instead of exporting one-off token environment variables.
+
+### Node.js Example (`fetch`)
+
+This example assumes Node 18+ or another runtime with a global `fetch` implementation.
+
+```js
+async function listChapters() {
+  const apiBaseByEnv = {
+    production: "https://apis.quran.foundation",
+    prelive: "https://apis-prelive.quran.foundation",
+  };
+  const env = process.env.QF_ENV ?? "prelive";
+  if (!(env in apiBaseByEnv)) {
+    throw new Error("QF_ENV must be 'prelive' or 'production'");
+  }
+
+  const apiBaseUrl = apiBaseByEnv[env];
+
+  const response = await fetch(`${apiBaseUrl}/content/api/v4/chapters`, {
+    headers: {
+      "x-auth-token": "YOUR_ACCESS_TOKEN",
+      "x-client-id": process.env.QF_CLIENT_ID,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Chapters request failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  console.log(data.chapters[0].name_simple);
+}
+```
+
+</details>
 
 ### Example Successful Response
 
@@ -72,6 +148,31 @@ Your frontend can then call your backend route without handling tokens:
 const response = await fetch("/chapters");
 const data = await response.json();
 ```
+
+## AI Handoff Prompt
+
+Use this prompt when you want an AI coding tool to wire up the first authenticated Content API request:
+
+<details>
+<summary><b>Expand AI handoff prompt</b></summary>
+
+```text
+Implement the first authenticated Quran Foundation Content API call on the backend.
+
+Requirements
+- Call GET /content/api/v4/chapters against the correct prelive or production base URL.
+- Send both required headers: x-auth-token and x-client-id.
+- Reuse the existing backend token helper instead of requesting a new token for every request.
+- Expose a backend route or service method that returns the chapters response without leaking credentials to the frontend.
+- Verify success by checking that the response contains a chapters array.
+
+Documentation to follow
+- First API call: https://api-docs.quran.foundation/docs/quickstart/first-api-call
+- Token management: https://api-docs.quran.foundation/docs/quickstart/token-management
+- Content API reference: https://api-docs.quran.foundation/docs/category/content-apis
+```
+
+</details>
 
 ## Verification Checklist
 
