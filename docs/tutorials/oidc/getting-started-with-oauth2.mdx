@@ -151,7 +151,10 @@ Get started in minutes with our official example repositories:
 
 ### How to Link QF Users to Your Data {#how-to-link-qf-users-to-your-data}
 
-After OAuth2 login, decode the ID token to get the user's unique identifier:
+After OAuth2 login, decode the ID token and use the `sub` claim as the user's stable Quran Foundation identifier. Store `sub` as the foreign key in your own database so you can attach your app's premium status, preferences, analytics, or other custom records to the same user.
+
+<details>
+<summary><b>Expand for JavaScript and Python code examples</b></summary>
 
 ```javascript
 const jwt = require("jsonwebtoken");
@@ -191,6 +194,8 @@ cursor.execute("""
     ON CONFLICT (qf_user_id) DO UPDATE SET last_login = NOW()
 """, (qf_user_id, None, 'default'))
 ```
+
+</details>
 
 | ID Token Claim | Description                             | Use For                                |
 | -------------- | --------------------------------------- | -------------------------------------- |
