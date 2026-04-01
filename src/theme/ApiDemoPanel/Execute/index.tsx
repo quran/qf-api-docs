@@ -59,9 +59,20 @@ function Execute({ postman, proxy }: Props) {
 
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
+  const handleActionClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (isValidRequest) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
   return (
-    <div className={sharedStyles.actionStack}>
+    <div
+      className={sharedStyles.actionStack}
+      onClickCapture={handleActionClickCapture}
+    >
       <button
         className={`button button--primary button--sm ${sharedStyles.actionButton}`}
         disabled={!isValidRequest}

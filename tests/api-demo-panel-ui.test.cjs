@@ -43,6 +43,7 @@ const formSelectComponent = read(
   "FormSelect",
   "index.tsx"
 );
+const sharedStyles = read("src", "theme", "ApiDemoPanel", "shared.module.css");
 const utilsModule = read("src", "theme", "ApiDemoPanel", "utils.ts");
 
 test("shared demo-panel overrides exist", () => {
@@ -79,4 +80,18 @@ test("form select leaves the browser default selected option when no value is pr
 test("array params sync from item changes without depending on param identity", () => {
   assert.match(paramOptionsComponent, /const paramRef = useRef\(param\)/);
   assert.match(paramOptionsComponent, /\}, \[dispatch, items\]\);/);
+});
+
+test("server panel renders variables from the selected server state", () => {
+  assert.match(serverComponent, /const fallbackServer =/);
+  assert.match(
+    serverComponent,
+    /value && fallbackServer && value\.url === fallbackServer\.url/
+  );
+});
+
+test("disabled send action does not fall through to the request summary", () => {
+  assert.match(executeComponent, /onClickCapture=\{handleActionClickCapture\}/);
+  assert.match(executeComponent, /event\.stopPropagation\(\)/);
+  assert.match(sharedStyles, /\.actionButton:disabled[\s\S]*pointer-events: auto;/);
 });

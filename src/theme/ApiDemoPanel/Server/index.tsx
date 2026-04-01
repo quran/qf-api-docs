@@ -18,11 +18,15 @@ function Server() {
   const value = useTypedSelector((state: any) => state.server.value);
   const options = useTypedSelector((state: any) => state.server.options);
   const dispatch = useTypedDispatch();
+  const serverOptions = Array.isArray(options) ? options : [];
+  const fallbackServer =
+    serverOptions.find((option: any) => option.url === value?.url) ||
+    serverOptions[0];
 
   const currentServer =
-    Array.isArray(options) && options.length > 0
-      ? options.find((option: any) => option.url === value?.url) || options[0]
-      : undefined;
+    value && fallbackServer && value.url === fallbackServer.url
+      ? value
+      : fallbackServer;
   const handleVariableChange =
     (key: string) =>
     (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -32,21 +36,21 @@ function Server() {
     };
 
   useEffect(() => {
-    if (!currentServer) {
+    if (!fallbackServer) {
       return;
     }
 
-    if (!value || value.url !== currentServer.url) {
-      dispatch(setServer(JSON.stringify(currentServer)));
+    if (!value || value.url !== fallbackServer.url) {
+      dispatch(setServer(JSON.stringify(fallbackServer)));
     }
-  }, [currentServer, dispatch, value]);
+  }, [dispatch, fallbackServer, value]);
 
-  if (!currentServer || !Array.isArray(options) || options.length === 0) {
+  if (!currentServer || serverOptions.length === 0) {
     return null;
   }
 
   const optionList = normalizeSelectOptions(
-    options.map((option: any, index: number) => ({
+    serverOptions.map((option: any, index: number) => ({
       label: resolveServerLabel(option, index),
       value: option.url,
     }))
@@ -62,16 +66,18 @@ function Server() {
 
       <FormItem
         description={
-          options.length > 1
+          serverOptions.length > 1
             ? "Switch between the published environments for this endpoint."
             : "This endpoint is served from a single environment."
         }
         label="Environment"
       >
-        {options.length > 1 ? (
+        {serverOptions.length > 1 ? (
           <FormSelect
             onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-              const nextServer = options.find((option: any) => option.url === event.target.value);
+              const nextServer = serverOptions.find(
+                (option: any) => option.url === event.target.value
+              );
 
               if (nextServer) {
                 dispatch(setServer(JSON.stringify(nextServer)));

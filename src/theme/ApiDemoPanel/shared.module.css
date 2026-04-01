@@ -196,6 +196,7 @@
 .actionButton:disabled {
   box-shadow: none;
   cursor: not-allowed;
+  pointer-events: auto;
 }
 
 .actionHint {
