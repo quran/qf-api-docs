@@ -18,7 +18,7 @@ Use this quickstart to make your first authenticated request to the Quran Founda
 :::tip Quick Summary
 Audience: backend teams, server-rendered apps, and web apps that proxy Content API calls through a server.
 
-Prerequisites: a `client_id` and `client_secret` from [Request Access](https://api-docs.quran.foundation/request-access), plus a choice of `prelive` or `production`.
+Prerequisites: a `client_id` and `client_secret` from [Request Access](/request-access), plus a choice of `prelive` or `production`.
 
 Recommended path: use the official JS/TS SDK when possible. Otherwise, implement OAuth2 Client Credentials on your backend, cache tokens, add the required headers, and call `/content/api/v4/...`.
 
