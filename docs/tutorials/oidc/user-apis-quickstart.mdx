@@ -52,9 +52,9 @@ Use the quickstart guidance on this page for the architecture decision, then jum
 
 For most Quran Foundation User APIs integrations, the end-to-end flow looks like this:
 
-1. Redirect the user to the Quran Foundation OAuth2 authorization endpoint.
+1. Generate PKCE parameters and a cryptographically random OAuth2 `state` value, and if you rely on `id_token` for identity, an OIDC `nonce`, then redirect the user to the Quran Foundation OAuth2 authorization endpoint.
 2. Let the user sign in and approve the requested scopes.
-3. Receive an authorization `code` at your registered redirect URI.
+3. Receive an authorization `code` at your registered redirect URI and verify that the returned `state` exactly matches the value you generated before trusting the callback.
 4. Send `code + code_verifier + redirect_uri` from the client to your backend.
 5. Exchange the code on the backend for `access_token`, `refresh_token`, and `id_token`.
 6. Use the `access_token` to call User APIs such as bookmarks, collections, and reading progress.
@@ -65,11 +65,15 @@ For most Quran Foundation User APIs integrations, the end-to-end flow looks like
 If Quran Foundation explicitly provisioned your client as public with `token_endpoint_auth_method=none`, you can complete the token exchange and refresh flow in the app with PKCE only. If you did not receive that confirmation, assume your client is confidential.
 :::
 
+If you use an OAuth2 or OIDC client library, make sure it generates and validates `state` automatically, and `nonce` as well when you rely on `id_token`. Do not disable those checks.
+
 ## Minimal API Call
 
 Once you have an `access_token`, you can call a User API endpoint like this:
 
 ```javascript
+const accessToken = session.accessToken; // OAuth2 access token returned by your backend
+
 const response = await fetch(
   "https://apis.quran.foundation/auth/v1/bookmarks",
   {
@@ -112,6 +116,7 @@ Request only the scopes your app actually needs.
 
 - Embedding `CLIENT_SECRET` in a mobile app or browser app.
 - Calling `/oauth2/token` directly from a confidential client without backend client authentication.
+- Skipping OAuth2 `state` validation, or `nonce` validation when you rely on `id_token`.
 - Mixing prelive and production OAuth2 environments.
 - Requesting more scopes than your app needs.
 - Treating the `id_token` as an API access token instead of using the `access_token`.
