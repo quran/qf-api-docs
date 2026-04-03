@@ -2001,7 +2001,7 @@
         "tags": [
           "Verses"
         ],
-        "summary": "By Rub el Hizb number",
+        "summary": "By Rub el Hizb number (alias: /by_rub_el_hizb)",
         "description": "Get all verses of a specific Rub el Hizb number(1-240).",
         "operationId": "verses-by_rub_el_hizb_number",
         "parameters": [
@@ -10612,7 +10612,7 @@
         "tags": [
           "Translations"
         ],
-        "summary": "Get translations for specific Rub el Hizb",
+        "summary": "Get translations for specific Rub el Hizb (alias: /by_rub)",
         "description": "Get list of translations for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-translations",
         "parameters": [
@@ -12077,7 +12077,7 @@
         "tags": [
           "Tafsirs"
         ],
-        "summary": "Get tafsirs for specific Rub el Hizb",
+        "summary": "Get tafsirs for specific Rub el Hizb (alias: /by_rub)",
         "description": "Get list of tafsirs for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-tafsirs",
         "parameters": [
@@ -15805,7 +15805,7 @@
         "tags": [
           "Audio"
         ],
-        "summary": "Get Ayah recitations for specific Rub el Hizb",
+        "summary": "Get Ayah recitations for specific Rub el Hizb (alias: /by_rub_el_hizb)",
         "description": "Get list of ayah AudioFile for a Rub el Hizb. Alias route for the same rub el hizb filter.",
         "operationId": "list-rub-el-hizb-recitation-rub-el-hizb",
         "parameters": [
@@ -18007,7 +18007,7 @@
           },
           "total": {
             "type": "number",
-            "example": "10 // works also with swagger setup"
+            "example": 10
           }
         },
         "required": [
