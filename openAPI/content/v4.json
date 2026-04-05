@@ -14380,7 +14380,7 @@
             "name": "filter[verifiedOnly]",
             "required": false,
             "in": "query",
-            "description": "Whether to limit the feed to verified contributors. Public ayah-by-ayah reads typically combine this with `filter[references]`.",
+            "description": "Whether to limit the feed to verified contributors. Public ayah-by-ayah reads typically combine this with the documented `filter[references][0][chapterId]`, `filter[references][0][from]`, and `filter[references][0][to]` params.",
             "schema": {
               "default": false,
               "type": "boolean",
