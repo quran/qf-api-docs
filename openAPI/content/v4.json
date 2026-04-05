@@ -14237,12 +14237,18 @@
             "name": "languages",
             "required": false,
             "in": "query",
-            "description": "Array of language IDs to filter posts by reflection language.",
+            "description": "Comma-separated list of language IDs to filter posts by reflection language, for example `languages=1,2`.",
+            "style": "form",
+            "explode": false,
             "schema": {
               "type": "array",
               "items": {
                 "type": "number"
-              }
+              },
+              "example": [
+                1,
+                2
+              ]
             }
           },
           {
@@ -14271,20 +14277,36 @@
             "name": "filter[authors]",
             "required": false,
             "in": "query",
+            "style": "form",
+            "explode": false,
             "description": "Comma-separated list of author identifiers to include.",
             "schema": {
-              "type": "string",
-              "example": "user-1,user-2"
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": [
+                "user-1",
+                "user-2"
+              ]
             }
           },
           {
             "name": "filter[tags]",
             "required": false,
             "in": "query",
+            "style": "form",
+            "explode": false,
             "description": "Comma-separated list of tag values to include.",
             "schema": {
-              "type": "string",
-              "example": "ramadan,patience"
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": [
+                "ramadan",
+                "patience"
+              ]
             }
           },
           {
@@ -14324,30 +14346,54 @@
             "name": "filter[groups]",
             "required": false,
             "in": "query",
+            "style": "form",
+            "explode": false,
             "description": "Comma-separated list of group URLs to include.",
             "schema": {
-              "type": "string",
-              "example": "my-group,ramadan-circle"
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": [
+                "my-group",
+                "ramadan-circle"
+              ]
             }
           },
           {
             "name": "filter[pages]",
             "required": false,
             "in": "query",
+            "style": "form",
+            "explode": false,
             "description": "Comma-separated list of page subdomains to include.",
             "schema": {
-              "type": "string",
-              "example": "quran-reflections,khutbahapp"
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": [
+                "quran-reflections",
+                "khutbahapp"
+              ]
             }
           },
           {
             "name": "filter[postTypeIds]",
             "required": false,
             "in": "query",
+            "style": "form",
+            "explode": false,
             "description": "Comma-separated Quran Reflect post type IDs. Use `1` for reflections and `2` for lessons.",
             "schema": {
-              "type": "string",
-              "example": "1,2"
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "example": [
+                1,
+                2
+              ]
             }
           },
           {
