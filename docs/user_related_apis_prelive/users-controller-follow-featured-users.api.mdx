@@ -1,0 +1,38 @@
+---
+id: users-controller-follow-featured-users
+title: "Follow all featured users"
+description: "Follows all eligible featured user recommendations in one action."
+sidebar_label: "Follow all featured users"
+hide_title: true
+hide_table_of_contents: true
+api: {"operationId":"UsersController_followFeaturedUsers","description":"Follows all eligible featured user recommendations in one action.","parameters":[],"responses":{"200":{"description":"Summary of follow-all operation","content":{"application/json":{"schema":{"type":"object","properties":{"requested":{"type":"number","example":9},"followed":{"type":"number","example":7},"skipped":{"type":"number","example":1},"failed":{"type":"number","example":1},"complete":{"type":"boolean","example":true},"failedItems":{"type":"array","items":{"type":"object","properties":{"followeeId":{"type":"string","example":"user-id-123"},"reason":{"type":"string","example":"FOLLOW_FAILED"}},"required":["followeeId","reason"],"title":"FailedFeaturedFollowItemDto"}}},"required":["requested","followed","skipped","failed","complete"],"title":"FollowFeaturedUsersResponseDto"}}}},"401":{"description":"User not authenticated"}},"tags":["Users"],"servers":[{"url":"https://apis-prelive.quran.foundation/quran-reflect","description":"Pre-production Server"},{"url":"https://apis.quran.foundation/quran-reflect","description":"Production Server"}],"method":"post","path":"/v1/users/featured/follow-all","security":[{"x-auth-token":[],"x-client-id":[]}],"securitySchemes":{"x-auth-token":{"type":"apiKey","in":"header","name":"x-auth-token","description":"The JWT access token required for accessing the endpoints."},"x-client-id":{"type":"apiKey","in":"header","name":"x-client-id","description":"Your client id"}},"info":{"title":"User-related APIs","version":"1.0.0","description":"Quran.Foundation user-related APIs enable your app to seamlessly integrate with Quran.Foundation's user-centric features, providing access to personalized notes, bookmarks, goals, streaks, reading sessions, and more. This differentiates them from [content APIs](/docs/category/content-apis) that focus on non-user-specific resources like translations, tafsirs, and verses.\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). \n\n ## Pagination \n\n We are using cursor based pagination. The pagination query params consist of `first`,`after`, `before` and `last`. \n\n Example \n - `first: 10` will give you first 10 items \n - `first: 10, after: xyz` will give you first 10 items after the item with id `xyz` \n - `last: 10` will give you the last 10 items \n - `last: 10, before: xyz` will give you the last 10 items before the item with id `xyz` \n\n The only possible combinations are `first + after` or `last + before`. They should not be used together"},"postman":{"name":"Follow all featured users","description":{"content":"Follows all eligible featured user recommendations in one action.","type":"text/plain"},"url":{"path":["v1","users","featured","follow-all"],"host":["{{baseUrl}}"],"query":[],"variable":[]},"header":[{"key":"Accept","value":"application/json"}],"method":"POST"}}
+sidebar_class_name: "post api-method"
+info_path: docs/user_related_apis_prelive/user-related-apis
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import TabItem from "@theme/TabItem";
+
+## Follow all featured users
+
+
+
+Follows all eligible featured user recommendations in one action.
+
+<div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+Summary of follow-all operation
+
+</div><div><MimeTabs schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs><TabItem label={"Schema"} value={"Schema"}><details style={{}} data-collapsed={false} open={true}><summary style={{"textAlign":"left"}}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"requested"} required={true} schemaName={"number"} qualifierMessage={undefined} schema={{"type":"number","example":9}}></SchemaItem><SchemaItem collapsible={false} name={"followed"} required={true} schemaName={"number"} qualifierMessage={undefined} schema={{"type":"number","example":7}}></SchemaItem><SchemaItem collapsible={false} name={"skipped"} required={true} schemaName={"number"} qualifierMessage={undefined} schema={{"type":"number","example":1}}></SchemaItem><SchemaItem collapsible={false} name={"failed"} required={true} schemaName={"number"} qualifierMessage={undefined} schema={{"type":"number","example":1}}></SchemaItem><SchemaItem collapsible={false} name={"complete"} required={true} schemaName={"boolean"} qualifierMessage={undefined} schema={{"type":"boolean","example":true}}></SchemaItem><SchemaItem collapsible={true} className={"schemaItem"}><details style={{}}><summary style={{}}><strong>failedItems</strong><span style={{"opacity":"0.6"}}> object[]</span></summary><div style={{"marginLeft":"1rem"}}><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}>Array [</div></li><SchemaItem collapsible={false} name={"followeeId"} required={true} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","example":"user-id-123"}}></SchemaItem><SchemaItem collapsible={false} name={"reason"} required={true} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","example":"FOLLOW_FAILED"}}></SchemaItem><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}>]</div></li></div></details></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"requested\": 9,\n  \"followed\": 7,\n  \"skipped\": 1,\n  \"failed\": 1,\n  \"complete\": true,\n  \"failedItems\": [\n    {\n      \"followeeId\": \"user-id-123\",\n      \"reason\": \"FOLLOW_FAILED\"\n    }\n  ]\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem><TabItem label={"401"} value={"401"}><div>
+
+User not authenticated
+
+</div><div></div></TabItem></ApiTabs></div>
+      
