@@ -14359,14 +14359,14 @@
     "/quran-reflect/v1/posts/feed": {
       "get": {
         "operationId": "PostsController_feed",
-        "summary": "Get posts feed",
-        "description": "Retrieve a paginated feed of Quran Reflect posts, including reflections and lessons. Supports filtering by authors, tags, Quran references, groups, pages, and post types. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. For ayah-by-ayah reads, use `filter[references][0][chapterId]`, `filter[references][0][from]`, and `filter[references][0][to]`, and use `filter[postTypeIds]=1` for reflections or `filter[postTypeIds]=2` for lessons. `/quran-reflect/v1/posts/by-verse/{verseKey}` is user-bound and is not part of the public `client_credentials` read subset. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
+        "summary": "Quran Reflect Lessons and Reflections Feed",
+        "description": "Retrieve the Quran Reflect lessons and reflections feed, a paginated stream of searchable lesson posts and reflection posts. Use this endpoint to browse lesson and reflection content across the main feed, trending, following, latest, newest, public, and popular views, with filters for authors, tags, Quran references, groups, pages, languages, verified content, and post types. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. For ayah-by-ayah reads, use `filter[references][0][chapterId]`, `filter[references][0][from]`, and `filter[references][0][to]`, and use `filter[postTypeIds]=1` for reflections or `filter[postTypeIds]=2` for lessons. `/quran-reflect/v1/posts/by-verse/{verseKey}` is user-bound and is not part of the public `client_credentials` read subset. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
         "parameters": [
           {
             "name": "tab",
             "required": false,
             "in": "query",
-            "description": "Feed tab type. `feed` shows personalized content, `trending` shows explore, and `following` shows posts from followed users.",
+            "description": "Feed view for Quran Reflect lessons and reflections. `feed` shows the personalized main feed, `trending` shows explore, `following` shows posts from followed users, and the remaining enum values select alternate listing views supported by the API.",
             "schema": {
               "enum": [
                 "newest",
@@ -14388,25 +14388,21 @@
             "name": "languages",
             "required": false,
             "in": "query",
-            "description": "Comma-separated list of language IDs to filter posts by reflection language, for example `languages=1,2`.",
+            "description": "Comma-separated list of language IDs used to filter Quran Reflect lessons and reflections by content language, for example `languages=1,2`.",
             "style": "form",
             "explode": false,
             "schema": {
               "type": "array",
               "items": {
                 "type": "number"
-              },
-              "example": [
-                1,
-                2
-              ]
+              }
             }
           },
           {
             "name": "page",
             "required": false,
             "in": "query",
-            "description": "Page number for pagination (default: 1).",
+            "description": "Page number for lessons and reflections feed pagination (default: 1).",
             "schema": {
               "minimum": 1,
               "default": 1,
@@ -14417,7 +14413,7 @@
             "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Number of posts per page (default: 20).",
+            "description": "Number of lessons or reflections to return per page (default: 20).",
             "schema": {
               "minimum": 1,
               "default": 20,
@@ -14430,16 +14426,12 @@
             "in": "query",
             "style": "form",
             "explode": false,
-            "description": "Comma-separated list of author identifiers to include.",
+            "description": "Comma-separated list of Quran Reflect author identifiers to include in the lessons and reflections feed.",
             "schema": {
               "type": "array",
               "items": {
                 "type": "string"
-              },
-              "example": [
-                "user-1",
-                "user-2"
-              ]
+              }
             }
           },
           {
@@ -14448,23 +14440,19 @@
             "in": "query",
             "style": "form",
             "explode": false,
-            "description": "Comma-separated list of tag values to include.",
+            "description": "Comma-separated list of Quran Reflect tag values to include in the lessons and reflections feed.",
             "schema": {
               "type": "array",
               "items": {
                 "type": "string"
-              },
-              "example": [
-                "ramadan",
-                "patience"
-              ]
+              }
             }
           },
           {
             "name": "filter[references][0][chapterId]",
             "required": false,
             "in": "query",
-            "description": "Reference filter example for index `0`. Use additional indices such as `filter[references][1][chapterId]` for more references.",
+            "description": "Chapter number for Quran reference filter index `0`. Use matching `from` and `to` values to target a specific ayah or passage.",
             "schema": {
               "type": "number",
               "minimum": 1,
@@ -14475,7 +14463,7 @@
             "name": "filter[references][0][from]",
             "required": false,
             "in": "query",
-            "description": "Starting ayah number for reference filter index `0`. Pair with the matching `chapterId` and `to` values.",
+            "description": "Starting ayah number for Quran reference filter index `0`. Pair this with the matching `chapterId` and `to` values.",
             "schema": {
               "type": "number",
               "minimum": 1,
@@ -14486,7 +14474,7 @@
             "name": "filter[references][0][to]",
             "required": false,
             "in": "query",
-            "description": "Ending ayah number for reference filter index `0`. For a single ayah, use the same value as `from`.",
+            "description": "Ending ayah number for Quran reference filter index `0`. For a single ayah, use the same value as `from`.",
             "schema": {
               "type": "number",
               "minimum": 1,
@@ -14499,16 +14487,12 @@
             "in": "query",
             "style": "form",
             "explode": false,
-            "description": "Comma-separated list of group URLs to include.",
+            "description": "Comma-separated list of Quran Reflect group URLs to include in the lessons and reflections feed.",
             "schema": {
               "type": "array",
               "items": {
                 "type": "string"
-              },
-              "example": [
-                "my-group",
-                "ramadan-circle"
-              ]
+              }
             }
           },
           {
@@ -14517,16 +14501,12 @@
             "in": "query",
             "style": "form",
             "explode": false,
-            "description": "Comma-separated list of page subdomains to include.",
+            "description": "Comma-separated list of Quran Reflect page subdomains to include in the lessons and reflections feed.",
             "schema": {
               "type": "array",
               "items": {
                 "type": "string"
-              },
-              "example": [
-                "quran-reflections",
-                "khutbahapp"
-              ]
+              }
             }
           },
           {
@@ -14535,23 +14515,19 @@
             "in": "query",
             "style": "form",
             "explode": false,
-            "description": "Comma-separated Quran Reflect post type IDs. Use `1` for reflections and `2` for lessons.",
+            "description": "Comma-separated Quran Reflect post type IDs. Use `1` to return reflections, `2` to return lessons, or include both values to search both content types.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
                 "type": "number"
-              },
-              "example": [
-                1,
-                2
-              ]
+              }
             }
           },
           {
             "name": "filter[tagsOperator]",
             "required": false,
             "in": "query",
-            "description": "Operator applied to multiple tag filters.",
+            "description": "How multiple tag filters are matched when searching lessons and reflections: `OR` matches any selected tag and `AND` requires all selected tags.",
             "schema": {
               "enum": [
                 "OR",
@@ -14564,7 +14540,7 @@
             "name": "filter[referencesOperator]",
             "required": false,
             "in": "query",
-            "description": "Operator applied to multiple Quran reference filters.",
+            "description": "How multiple Quran reference filters are matched when searching lessons and reflections: `OR` matches any reference and `AND` requires all references.",
             "schema": {
               "enum": [
                 "OR",
@@ -14577,7 +14553,7 @@
             "name": "filter[verifiedOnly]",
             "required": false,
             "in": "query",
-            "description": "Whether to limit the feed to verified contributors. Public ayah-by-ayah reads typically combine this with the documented `filter[references][0][chapterId]`, `filter[references][0][from]`, and `filter[references][0][to]` params.",
+            "description": "When `true`, return only verified Quran Reflect content in the lessons and reflections feed. Public ayah-by-ayah reads typically combine this with the documented Quran reference filters.",
             "schema": {
               "default": false,
               "type": "boolean",
@@ -14587,7 +14563,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Feed retrieved successfully with paginated posts",
+            "description": "Quran Reflect lessons and reflections feed retrieved successfully with pagination",
             "content": {
               "application/json": {
                 "schema": {
@@ -14621,7 +14597,7 @@
           }
         },
         "tags": [
-          "Quran Reflect Posts"
+          "Quran Reflect Lessons and Reflections"
         ],
         "servers": [
           {
@@ -14644,14 +14620,14 @@
     "/quran-reflect/v1/posts/{id}": {
       "get": {
         "operationId": "PostsController_findOne",
-        "summary": "Get post by ID",
-        "description": "Retrieve a specific post by its unique numeric ID. Returns the full post with author details, tags, references, room information, and engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. Admins can view additional moderation details. Full gateway path is `/quran-reflect/v1/posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
+        "summary": "Get Quran Reflect Lesson or Reflection by ID",
+        "description": "Retrieve a specific Quran Reflect lesson or reflection post by its unique numeric ID. Returns the full lesson or reflection with author details, tags, references, room information, and engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. Admins can view additional moderation details. Full gateway path is `/quran-reflect/v1/posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique numeric post ID",
+            "description": "Unique numeric Quran Reflect lesson or reflection post ID.",
             "schema": {
               "type": "number"
             }
@@ -14659,7 +14635,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Post found and returned with all associated data",
+            "description": "Quran Reflect lesson or reflection returned with all associated data",
             "content": {
               "application/json": {
                 "schema": {
@@ -14684,11 +14660,11 @@
             }
           },
           "404": {
-            "description": "Post not found or has been deleted"
+            "description": "Quran Reflect lesson or reflection not found or has been deleted"
           }
         },
         "tags": [
-          "Quran Reflect Posts"
+          "Quran Reflect Lessons and Reflections"
         ],
         "servers": [
           {
@@ -14711,14 +14687,14 @@
     "/quran-reflect/v1/posts/user-posts/{id}": {
       "get": {
         "operationId": "PostsController_getUserPost",
-        "summary": "Get user posts",
-        "description": "Retrieve public posts created by a specific user. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. If called with a user-bound token for the same user, the response can include that user's drafts. Full gateway path is `/quran-reflect/v1/posts/user-posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
+        "summary": "Get Quran Reflect Lessons and Reflections by User",
+        "description": "Retrieve a paginated list of Quran Reflect lessons and reflections created by a specific user. Use this endpoint to browse a user's public lesson posts and reflection posts, optionally filtered by post type and ordered by latest or popular. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. If called with a user-bound token for the same user, the response can include that user's drafts. Full gateway path is `/quran-reflect/v1/posts/user-posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "UUID of the user whose posts to retrieve",
+            "description": "UUID of the user whose Quran Reflect lessons and reflections to retrieve.",
             "schema": {
               "type": "string"
             }
@@ -14727,7 +14703,7 @@
             "name": "sortBy",
             "required": false,
             "in": "query",
-            "description": "Sort order for posts (default: latest)",
+            "description": "Sort a user's Quran Reflect lessons and reflections by `latest` or `popular` (default: `latest`).",
             "schema": {
               "enum": [
                 "latest",
@@ -14740,7 +14716,7 @@
             "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Number of posts per page (default: 20, max: 20)",
+            "description": "Number of lesson or reflection posts to return per page (default: 20, max: 20).",
             "schema": {
               "minimum": 1,
               "maximum": 20,
@@ -14752,7 +14728,7 @@
             "name": "page",
             "required": false,
             "in": "query",
-            "description": "Page number for pagination (default: 1)",
+            "description": "Page number for the user's lessons and reflections pagination (default: 1).",
             "schema": {
               "minimum": 1,
               "default": 1,
@@ -14763,7 +14739,7 @@
             "name": "postTypeIds",
             "required": false,
             "in": "query",
-            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
+            "description": "Filter a user's Quran Reflect lessons and reflections by post type. Use `1` to return reflections, `2` to return lessons, or include both values to return both content types.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
@@ -14774,7 +14750,7 @@
         ],
         "responses": {
           "200": {
-            "description": "User posts retrieved with pagination metadata",
+            "description": "User Quran Reflect lessons and reflections retrieved with pagination metadata",
             "content": {
               "application/json": {
                 "schema": {
@@ -14808,7 +14784,7 @@
           }
         },
         "tags": [
-          "Quran Reflect Posts"
+          "Quran Reflect Lessons and Reflections"
         ],
         "servers": [
           {
@@ -14831,14 +14807,14 @@
     "/quran-reflect/v1/posts/{id}/comments": {
       "get": {
         "operationId": "PostsController_getComments",
-        "summary": "Get post comments",
-        "description": "Retrieve paginated top-level comments for a post. The response returns comment objects plus pagination metadata including `total`, `currentPage`, `limit`, and `pages`. Use the replies endpoint to get nested replies for specific comments. Full gateway path is `/quran-reflect/v1/posts/{id}/comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "summary": "Get Comments for a Quran Reflect Lesson or Reflection",
+        "description": "Retrieve paginated top-level comments for a Quran Reflect lesson or reflection post. The response returns comment objects plus pagination metadata including `total`, `currentPage`, `limit`, and `pages`. Use the replies endpoint to get nested replies for specific comments. Full gateway path is `/quran-reflect/v1/posts/{id}/comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique numeric post ID",
+            "description": "Unique numeric Quran Reflect lesson or reflection post ID.",
             "schema": {
               "type": "number"
             }
@@ -14847,7 +14823,7 @@
             "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Number of results to return",
+            "description": "Number of comments to return per page for the lesson or reflection post.",
             "schema": {
               "minimum": 1,
               "maximum": 20,
@@ -14859,7 +14835,7 @@
             "name": "page",
             "required": false,
             "in": "query",
-            "description": "Page number",
+            "description": "Page number of comments for the lesson or reflection post.",
             "schema": {
               "minimum": 1,
               "default": 1,
@@ -14869,7 +14845,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Comments retrieved with pagination metadata",
+            "description": "Comments for the Quran Reflect lesson or reflection retrieved with pagination metadata",
             "content": {
               "application/json": {
                 "schema": {
@@ -14897,11 +14873,11 @@
             }
           },
           "404": {
-            "description": "Post not found"
+            "description": "Quran Reflect lesson or reflection not found"
           }
         },
         "tags": [
-          "Quran Reflect Posts"
+          "Quran Reflect Lessons and Reflections"
         ],
         "servers": [
           {
@@ -14924,14 +14900,14 @@
     "/quran-reflect/v1/posts/{id}/all-comments": {
       "get": {
         "operationId": "PostsController_getAllComment",
-        "summary": "Get all post comments",
-        "description": "Retrieve all comments for a post in a single request without pagination. The response returns the full `comments` array and the `total` comment count. Useful for displaying full comment threads or export scenarios. Full gateway path is `/quran-reflect/v1/posts/{id}/all-comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "summary": "Get All Comments for a Quran Reflect Lesson or Reflection",
+        "description": "Retrieve all comments for a Quran Reflect lesson or reflection post in a single request without pagination. The response returns the full `comments` array and the `total` comment count. Useful for displaying complete lesson or reflection comment threads, exports, or offline indexing. Full gateway path is `/quran-reflect/v1/posts/{id}/all-comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique numeric post ID",
+            "description": "Unique numeric Quran Reflect lesson or reflection post ID.",
             "schema": {
               "type": "number"
             }
@@ -14939,7 +14915,7 @@
         ],
         "responses": {
           "200": {
-            "description": "All comments returned with total count",
+            "description": "All comments for the Quran Reflect lesson or reflection returned with total count",
             "content": {
               "application/json": {
                 "schema": {
@@ -14964,11 +14940,11 @@
             }
           },
           "404": {
-            "description": "Post not found"
+            "description": "Quran Reflect lesson or reflection not found"
           }
         },
         "tags": [
-          "Quran Reflect Posts"
+          "Quran Reflect Lessons and Reflections"
         ],
         "servers": [
           {

@@ -225,31 +225,31 @@ const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
 const extendContentApisSidebarItems = (items, baseDocIdPrefix) =>
   ensureDocsInCategory(
     items,
-    "Quran Reflect Posts",
+    "Quran Reflect Lessons and Reflections",
     [
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-feed`,
-        "Get posts feed",
+        "Quran Reflect Lessons and Reflections Feed",
         "api-method get",
       ),
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-find-one`,
-        "Get post by ID",
+        "Get Quran Reflect Lesson or Reflection by ID",
         "api-method get",
       ),
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-get-user-post`,
-        "Get user posts",
+        "Get Quran Reflect Lessons and Reflections by User",
         "api-method get",
       ),
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-get-comments`,
-        "Get post comments",
+        "Get Comments for a Quran Reflect Lesson or Reflection",
         "api-method get",
       ),
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-get-all-comment`,
-        "Get all post comments",
+        "Get All Comments for a Quran Reflect Lesson or Reflection",
         "api-method get",
       ),
     ],
