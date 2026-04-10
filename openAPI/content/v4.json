@@ -1247,7 +1247,7 @@
           "Chapters"
         ],
         "summary": "Get Chapter Info",
-        "description": "Get Chapter Info in specific language. Default to `English`. Supports selecting a specific resource via `resource_id` and listing available resources via `include_resources=true`.",
+        "description": "Get Chapter Info in specific language. Default to `English`. Supports selecting a specific resource via `resource_id` and listing available resources via `include_resources=true`. Use this to fetch author-specific surah info, such as Ibn Ashur, after discovering the resource id or slug from `/resources/chapter_infos` or from `include_resources=true`.",
         "operationId": "get-chapter-info",
         "parameters": [
           {
@@ -1284,7 +1284,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Resource id or slug of the chapter info resource to fetch."
+            "description": "Resource id or slug of the chapter info resource to fetch. Use this to request a specific author, such as Ibn Ashur, after discovering the identifier from `/resources/chapter_infos` or from `include_resources=true`."
           },
           {
             "name": "include_resources",
@@ -1297,7 +1297,7 @@
                 "false"
               ]
             },
-            "description": "Include the ordered list of available chapter info resources for the resolved language."
+            "description": "Include the ordered list of available chapter info resources for the resolved language. This is useful for discovering the id or slug to pass as `resource_id` for a specific author such as Ibn Ashur."
           }
         ],
         "responses": {
@@ -1309,7 +1309,13 @@
                   "type": "object",
                   "properties": {
                     "chapter_info": {
-                      "$ref": "#/components/schemas/chapter-info"
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/chapter-info"
+                        }
+                      ],
+                      "nullable": true,
+                      "description": "Resolved chapter info resource. Returns `null` when the requested `resource_id` does not match an approved chapter info resource for the resolved language."
                     },
                     "resources": {
                       "type": "array",
@@ -1327,15 +1333,15 @@
                     "short_text": "This Surah is named Al-Fatihah because of its subject-matter. Fatihah is that which opens a subject or a book or any other thing. In other words, Al-Fatihah is a sort of preface.",
                     "source": "Sayyid Abul Ala Maududi - Tafhim al-Qur'an - The Meaning of the Quran",
                     "text": "<h2>Name</h2>\r\n<p>This Surah is named Al-Fatihah because of its subject-matter. Fatihah is that which opens a subject or a book or any other thing. In other words, Al-Fatihah is a sort of preface.</p>\r\n<h2>Period of Revelation</h2>...",
-                    "resource_id": 61
+                    "resource_id": 58
                   },
                   "resources": [
                     {
-                      "id": 61,
+                      "id": 58,
                       "name": "Chapter Info",
                       "author_name": "Sayyid Abul Ala Maududi",
-                      "slug": null,
-                      "language_name": "urdu",
+                      "slug": "",
+                      "language_name": "english",
                       "translated_name": {
                         "name": "Chapter Info",
                         "language_name": "english"
@@ -1381,52 +1387,52 @@
           {
             "lang": "javascript",
             "label": "Node.js",
-            "source": "// Get Chapter Info\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(id, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/chapters/${id}/info`,\n    {\n      headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi(\"1\", {\"language\":\"en\",\"locale\":\"value\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
+            "source": "// Get Chapter Info\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(id, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/chapters/${id}/info`,\n    {\n      headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\n// Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\ncallApi(\"1\", {\"language\":\"en\",\"resource_id\":\"58\",\"include_resources\":\"true\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "# Get Chapter Info\nimport requests\n\nAPI_BASE_URL = 'https://apis.quran.foundation/content/api/v4'\nACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>'\nCLIENT_ID = '<YOUR_CLIENT_ID>'\n\ndef call_api(id, language=None, locale=None):\n    params = {k: v for k, v in {'language': language, 'locale': locale}.items() if v is not None}\n    \n    response = requests.get(\n        f'{API_BASE_URL}/chapters/{id}/info',\n        headers={\n            'x-auth-token': ACCESS_TOKEN,\n            'x-client-id': CLIENT_ID\n        },\n        params=params\n    )\n    response.raise_for_status()\n    return response.json()\n\n# Example usage\ntry:\n    data = call_api(\"1\", language=\"en\", locale=\"value\")\n    print(data)\nexcept requests.HTTPError as e:\n    print(f'Error {e.response.status_code}: {e}')"
+            "source": "# Get Chapter Info\nimport requests\n\nAPI_BASE_URL = 'https://apis.quran.foundation/content/api/v4'\nACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>'\nCLIENT_ID = '<YOUR_CLIENT_ID>'\n\ndef call_api(id, language=None, locale=None, resource_id=None, include_resources=None):\n    params = {k: v for k, v in {\n        'language': language,\n        'locale': locale,\n        'resource_id': resource_id,\n        'include_resources': include_resources,\n    }.items() if v is not None}\n    \n    response = requests.get(\n        f'{API_BASE_URL}/chapters/{id}/info',\n        headers={\n            'x-auth-token': ACCESS_TOKEN,\n            'x-client-id': CLIENT_ID\n        },\n        params=params\n    )\n    response.raise_for_status()\n    return response.json()\n\n# Example usage\n# Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\ntry:\n    data = call_api(\"1\", language=\"en\", resource_id=\"58\", include_resources=\"true\")\n    print(data)\nexcept requests.HTTPError as e:\n    print(f'Error {e.response.status_code}: {e}')"
           },
           {
             "lang": "go",
             "label": "Go",
-            "source": "// Get Chapter Info\npackage main\n\nimport (\n  \"fmt\"\n  \"io\"\n  \"net/http\"\n  \"net/url\"\n)\n\nconst API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nconst ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nconst CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunc callApi(id string, params map[string]string) (string, error) {\n  path := fmt.Sprintf(\"/chapters/%s/info\", id)\n  endpoint := API_BASE_URL + path\n  if params != nil && len(params) > 0 {\n    values := url.Values{}\n    for k, v := range params {\n      values.Set(k, v)\n    }\n    endpoint = endpoint + \"?\" + values.Encode()\n  }\n\n  req, err := http.NewRequest(\"GET\", endpoint, nil)\n  if err != nil {\n    return \"\", err\n  }\n  req.Header.Set(\"x-auth-token\", ACCESS_TOKEN)\n  req.Header.Set(\"x-client-id\", CLIENT_ID)\n\n  resp, err := http.DefaultClient.Do(req)\n  if err != nil {\n    return \"\", err\n  }\n  defer resp.Body.Close()\n\n  body, err := io.ReadAll(resp.Body)\n  if err != nil {\n    return \"\", err\n  }\n  return string(body), nil\n}\n\n// Example usage\nfunc main() {\n  params := map[string]string{\"language\": \"en\", \"locale\": \"value\"}\n  data, err := callApi(\"1\", params)\n  if err != nil {\n    fmt.Println(\"Error:\", err)\n    return\n  }\n  fmt.Println(data)\n}"
+            "source": "// Get Chapter Info\npackage main\n\nimport (\n  \"fmt\"\n  \"io\"\n  \"net/http\"\n  \"net/url\"\n)\n\nconst API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nconst ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nconst CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunc callApi(id string, params map[string]string) (string, error) {\n  path := fmt.Sprintf(\"/chapters/%s/info\", id)\n  endpoint := API_BASE_URL + path\n  if params != nil && len(params) > 0 {\n    values := url.Values{}\n    for k, v := range params {\n      values.Set(k, v)\n    }\n    endpoint = endpoint + \"?\" + values.Encode()\n  }\n\n  req, err := http.NewRequest(\"GET\", endpoint, nil)\n  if err != nil {\n    return \"\", err\n  }\n  req.Header.Set(\"x-auth-token\", ACCESS_TOKEN)\n  req.Header.Set(\"x-client-id\", CLIENT_ID)\n\n  resp, err := http.DefaultClient.Do(req)\n  if err != nil {\n    return \"\", err\n  }\n  defer resp.Body.Close()\n\n  body, err := io.ReadAll(resp.Body)\n  if err != nil {\n    return \"\", err\n  }\n  return string(body), nil\n}\n\n// Example usage\n// Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\nfunc main() {\n  params := map[string]string{\"language\": \"en\", \"resource_id\": \"58\", \"include_resources\": \"true\"}\n  data, err := callApi(\"1\", params)\n  if err != nil {\n    fmt.Println(\"Error:\", err)\n    return\n  }\n  fmt.Println(data)\n}"
           },
           {
             "lang": "ruby",
             "label": "Ruby",
-            "source": "# Get Chapter Info\nrequire \"net/http\"\nrequire \"uri\"\n\nAPI_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nCLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\ndef call_api(id, params = {})\n  path = \"/chapters/#{id}/info\"\n  uri = URI(API_BASE_URL + path)\n  uri.query = URI.encode_www_form(params) if params && !params.empty?\n  request_class = Net::HTTP.const_get(\"Get\")\n  request = request_class.new(uri)\n  request[\"x-auth-token\"] = ACCESS_TOKEN\n  request[\"x-client-id\"] = CLIENT_ID\n\n  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|\n    http.request(request)\n  end\n\n  response.body\nend\n\n# Example usage\nparams = { \"language\" => \"en\", \"locale\" => \"value\" }\ndata = call_api(\"1\", params)\nputs data"
+            "source": "# Get Chapter Info\nrequire \"net/http\"\nrequire \"uri\"\n\nAPI_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nCLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\ndef call_api(id, params = {})\n  path = \"/chapters/#{id}/info\"\n  uri = URI(API_BASE_URL + path)\n  uri.query = URI.encode_www_form(params) if params && !params.empty?\n  request_class = Net::HTTP.const_get(\"Get\")\n  request = request_class.new(uri)\n  request[\"x-auth-token\"] = ACCESS_TOKEN\n  request[\"x-client-id\"] = CLIENT_ID\n\n  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|\n    http.request(request)\n  end\n\n  response.body\nend\n\n# Example usage\n# Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\nparams = { \"language\" => \"en\", \"resource_id\" => \"58\", \"include_resources\" => \"true\" }\ndata = call_api(\"1\", params)\nputs data"
           },
           {
             "lang": "csharp",
             "label": "C#",
-            "source": "// Get Chapter Info\nusing System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Net.Http;\nusing System.Threading.Tasks;\n\nconst string API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\nconst string ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\nconst string CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\nstatic async Task<string> CallApiAsync(string id, Dictionary<string, string> query = null)\n{\n    var path = $@\"/chapters/{id}/info\";\n    var url = API_BASE_URL + path;\n    if (query != null && query.Count > 0)\n    {\n        var queryString = string.Join(\"&\", query.Select(kvp =>\n            $\"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}\"));\n        url = $\"{url}?{queryString}\";\n    }\n    using var client = new HttpClient();\n    using var request = new HttpRequestMessage(new HttpMethod(\"GET\"), url);\n    request.Headers.Add(\"x-auth-token\", ACCESS_TOKEN);\n    request.Headers.Add(\"x-client-id\", CLIENT_ID);\n\n    using var response = await client.SendAsync(request);\n    response.EnsureSuccessStatusCode();\n    return await response.Content.ReadAsStringAsync();\n}\n\n// Example usage\nvar query = new Dictionary<string, string> { {\"language\", \"en\"}, {\"locale\", \"value\"} };\nvar data = await CallApiAsync(\"1\", query);\nConsole.WriteLine(data);"
+            "source": "// Get Chapter Info\nusing System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Net.Http;\nusing System.Threading.Tasks;\n\nconst string API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\nconst string ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\nconst string CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\nstatic async Task<string> CallApiAsync(string id, Dictionary<string, string> query = null)\n{\n    var path = $@\"/chapters/{id}/info\";\n    var url = API_BASE_URL + path;\n    if (query != null && query.Count > 0)\n    {\n        var queryString = string.Join(\"&\", query.Select(kvp =>\n            $\"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}\"));\n        url = $\"{url}?{queryString}\";\n    }\n    using var client = new HttpClient();\n    using var request = new HttpRequestMessage(new HttpMethod(\"GET\"), url);\n    request.Headers.Add(\"x-auth-token\", ACCESS_TOKEN);\n    request.Headers.Add(\"x-client-id\", CLIENT_ID);\n\n    using var response = await client.SendAsync(request);\n    response.EnsureSuccessStatusCode();\n    return await response.Content.ReadAsStringAsync();\n}\n\n// Example usage\n// Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\nvar query = new Dictionary<string, string> { {\"language\", \"en\"}, {\"resource_id\", \"58\"}, {\"include_resources\", \"true\"} };\nvar data = await CallApiAsync(\"1\", query);\nConsole.WriteLine(data);"
           },
           {
             "lang": "php",
             "label": "PHP",
-            "source": "# Get Chapter Info\n<?php\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nfunction callApi($id, $params = []) {\n  $path = sprintf(\"/chapters/%s/info\", $id);\n  $url = API_BASE_URL . $path;\n  if (!empty($params)) {\n    $url .= '?' . http_build_query($params);\n  }\n  $ch = curl_init($url);\n  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');\n  curl_setopt($ch, CURLOPT_HTTPHEADER, [\n    'x-auth-token: ' . ACCESS_TOKEN,\n    'x-client-id: ' . CLIENT_ID\n  ]);\n\n  $response = curl_exec($ch);\n  if ($response === false) {\n    throw new Exception(curl_error($ch));\n  }\n  curl_close($ch);\n  return $response;\n}\n\n// Example usage\n$params = ['language' => 'en', 'locale' => 'value'];\n$data = callApi(\"1\", $params);\necho $data;\n?>"
+            "source": "# Get Chapter Info\n<?php\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nfunction callApi($id, $params = []) {\n  $path = sprintf(\"/chapters/%s/info\", $id);\n  $url = API_BASE_URL . $path;\n  if (!empty($params)) {\n    $url .= '?' . http_build_query($params);\n  }\n  $ch = curl_init($url);\n  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');\n  curl_setopt($ch, CURLOPT_HTTPHEADER, [\n    'x-auth-token: ' . ACCESS_TOKEN,\n    'x-client-id: ' . CLIENT_ID\n  ]);\n\n  $response = curl_exec($ch);\n  if ($response === false) {\n    throw new Exception(curl_error($ch));\n  }\n  curl_close($ch);\n  return $response;\n}\n\n// Example usage\n// Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\n$params = ['language' => 'en', 'resource_id' => '58', 'include_resources' => 'true'];\n$data = callApi(\"1\", $params);\necho $data;\n?>"
           },
           {
             "lang": "java",
             "label": "Java",
-            "source": "// Get Chapter Info\nimport java.io.IOException;\nimport java.util.HashMap;\nimport java.util.Map;\nimport okhttp3.HttpUrl;\nimport okhttp3.OkHttpClient;\nimport okhttp3.Request;\nimport okhttp3.RequestBody;\nimport okhttp3.Response;\n\npublic class Main {\n  private static final String API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\n  private static final String ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\n  private static final String CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\n  public static String callApi(String id, Map<String, String> params) throws IOException {\n    String path = String.format(\"/chapters/%s/info\", id);\n    HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL + path).newBuilder();\n    if (params != null) {\n      for (Map.Entry<String, String> entry : params.entrySet()) {\n        urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());\n      }\n    }\n    String method = \"GET\";\n    RequestBody requestBody = method.equals(\"GET\") ? null : RequestBody.create(new byte[0]);\n    Request request = new Request.Builder()\n      .url(urlBuilder.build())\n      .addHeader(\"x-auth-token\", ACCESS_TOKEN)\n      .addHeader(\"x-client-id\", CLIENT_ID)\n      .method(method, requestBody)\n      .build();\n\n    OkHttpClient client = new OkHttpClient();\n    Response response = client.newCall(request).execute();\n    return response.body().string();\n  }\n\n  public static void main(String[] args) throws Exception {\n    Map<String, String> params = new HashMap<>();\n    params.put(\"language\", \"en\");\n    params.put(\"locale\", \"value\");\n    String data = callApi(\"1\", params);\n    System.out.println(data);\n  }\n}"
+            "source": "// Get Chapter Info\nimport java.io.IOException;\nimport java.util.HashMap;\nimport java.util.Map;\nimport okhttp3.HttpUrl;\nimport okhttp3.OkHttpClient;\nimport okhttp3.Request;\nimport okhttp3.RequestBody;\nimport okhttp3.Response;\n\npublic class Main {\n  private static final String API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\n  private static final String ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\n  private static final String CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\n  public static String callApi(String id, Map<String, String> params) throws IOException {\n    String path = String.format(\"/chapters/%s/info\", id);\n    HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL + path).newBuilder();\n    if (params != null) {\n      for (Map.Entry<String, String> entry : params.entrySet()) {\n        urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());\n      }\n    }\n    String method = \"GET\";\n    RequestBody requestBody = method.equals(\"GET\") ? null : RequestBody.create(new byte[0]);\n    Request request = new Request.Builder()\n      .url(urlBuilder.build())\n      .addHeader(\"x-auth-token\", ACCESS_TOKEN)\n      .addHeader(\"x-client-id\", CLIENT_ID)\n      .method(method, requestBody)\n      .build();\n\n    OkHttpClient client = new OkHttpClient();\n    Response response = client.newCall(request).execute();\n    return response.body().string();\n  }\n\n  public static void main(String[] args) throws Exception {\n    // Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\n    Map<String, String> params = new HashMap<>();\n    params.put(\"language\", \"en\");\n    params.put(\"resource_id\", \"58\");\n    params.put(\"include_resources\", \"true\");\n    String data = callApi(\"1\", params);\n    System.out.println(data);\n  }\n}"
           },
           {
             "lang": "powershell",
             "label": "PowerShell",
-            "source": "# Get Chapter Info\n$API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\n$ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\n$CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunction Call-Api([string]$id, [hashtable]$params = @{}) {\n  $path = \"/chapters/$id/info\"\n  $url = \"$API_BASE_URL$path\"\n  if ($params.Count -gt 0) {\n    $query = ($params.GetEnumerator() | ForEach-Object {\n      \"$($_.Key)=$([System.Uri]::EscapeDataString([string]$_.Value))\"\n    }) -join \"&\"\n    $url = \"$url?$query\"\n  }\n  $headers = @{\n    \"x-auth-token\" = $ACCESS_TOKEN\n    \"x-client-id\" = $CLIENT_ID\n  }\n\n  Invoke-RestMethod -Method GET -Uri $url -Headers $headers\n}\n\n# Example usage\n$params = @{ language = \"en\"; locale = \"value\" }\n$data = Call-Api(\"1\", $params)\nWrite-Output $data"
+            "source": "# Get Chapter Info\n$API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\n$ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\n$CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunction Call-Api([string]$id, [hashtable]$params = @{}) {\n  $path = \"/chapters/$id/info\"\n  $url = \"$API_BASE_URL$path\"\n  if ($params.Count -gt 0) {\n    $query = ($params.GetEnumerator() | ForEach-Object {\n      \"$($_.Key)=$([System.Uri]::EscapeDataString([string]$_.Value))\"\n    }) -join \"&\"\n    $url = \"$url?$query\"\n  }\n  $headers = @{\n    \"x-auth-token\" = $ACCESS_TOKEN\n    \"x-client-id\" = $CLIENT_ID\n  }\n\n  Invoke-RestMethod -Method GET -Uri $url -Headers $headers\n}\n\n# Example usage\n# Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\n$params = @{ language = \"en\"; resource_id = \"58\"; include_resources = \"true\" }\n$data = Call-Api(\"1\", $params)\nWrite-Output $data"
           },
           {
             "lang": "bash",
             "label": "cURL",
-            "source": "# Get Chapter Info\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/chapters/1/info?language=en&locale=value' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
+            "source": "# Get Chapter Info\n# Replace resource_id with the id or slug for a specific author such as Ibn Ashur.\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/chapters/1/info?language=en&resource_id=58&include_resources=true' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
           },
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get chapter info using the Quran Foundation API.\n\nEndpoint: GET /chapters/{id}/info\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  id: Chapter number (1-114) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language ISO code for translated metadata. Defaults to English.\n  locale: Locale fallback if a language code is not provided.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/chapters/{id}/info?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get chapter info using the Quran Foundation API.\n\nEndpoint: GET /chapters/{id}/info\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  id: Chapter number (1-114) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language ISO code for translated metadata. Defaults to English.\n  locale: Locale fallback if a language code is not provided.\n  resource_id: Resource id or slug of the chapter info resource to fetch. Use this to request a specific author such as Ibn Ashur after discovering the identifier via /resources/chapter_infos or include_resources=true.\n  include_resources: When true, include the ordered list of available chapter info resources for the resolved language.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/chapters/{id}/info?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts id and optional parameters including resource_id and include_resources\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -14904,7 +14910,7 @@
           "language_name": "english",
           "source": "Sayyid Abul Ala Maududi - Tafhim al-Qur'an - The Meaning of the Quran",
           "id": 1,
-          "resource_id": 61
+          "resource_id": 58
         }
       },
       "language": {
@@ -15537,7 +15543,8 @@
             "type": "string"
           },
           "slug": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "language_name": {
             "type": "string"
