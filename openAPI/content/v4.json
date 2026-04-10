@@ -15589,11 +15589,11 @@
             "type": "integer",
             "description": "Next page in paginated result"
           },
-          "total_pages=": {
+          "total_pages": {
             "type": "integer",
             "description": "Total number of pages"
           },
-          "total_records=": {
+          "total_records": {
             "type": "integer"
           }
         },
@@ -15601,8 +15601,8 @@
           "per_page": 1,
           "current_page": 1,
           "next_page": 2,
-          "total_pages=": 7,
-          "total_records=": 7
+          "total_pages": 7,
+          "total_records": 7
         }
       },
       "juz": {
