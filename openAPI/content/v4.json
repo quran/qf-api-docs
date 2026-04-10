@@ -22,6 +22,525 @@
     }
   ],
   "paths": {
+    "/chapter_recitations/{id}/{chapter_number}": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "Get chapter's audio file of a reciter",
+        "description": "Get chapter's audio file of a reciter. Supports `segments` (boolean query param; default `false`). When `segments=true`, verse-level timestamp entries include `segments` ([word_index, start_ms, end_ms]). All time values are milliseconds.",
+        "operationId": "chapter-reciter-audio-file",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Id of the reciter",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "chapter_number",
+            "in": "path",
+            "description": "The number of the chapter",
+            "required": true,
+            "schema": {
+              "maximum": 114,
+              "minimum": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "segments",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "If true, each verse timestamp includes a `segments` array of [word_index, start_ms, end_ms] triplets. Time values are in milliseconds."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChapterReciterAudioFileResponse"
+                },
+                "examples": {
+                  "default_no_segments": {
+                    "summary": "segments=false (default)",
+                    "value": {
+                      "audio_file": {
+                        "id": 457,
+                        "chapter_id": 1,
+                        "file_size": 710784,
+                        "format": "mp3",
+                        "audio_url": "https://download.quranicaudio.com/qdc/abu_bakr_shatri/murattal/1.mp3"
+                      }
+                    }
+                  },
+                  "with_segments_true": {
+                    "summary": "segments=true (includes timestamps + segments)",
+                    "value": {
+                      "audio_file": {
+                        "id": 457,
+                        "chapter_id": 1,
+                        "file_size": 710784,
+                        "format": "mp3",
+                        "audio_url": "https://download.quranicaudio.com/qdc/abu_bakr_shatri/murattal/1.mp3",
+                        "timestamps": [
+                          {
+                            "verse_key": "1:1",
+                            "timestamp_from": 0,
+                            "timestamp_to": 6493,
+                            "duration": -6493,
+                            "segments": [
+                              [
+                                1,
+                                0,
+                                630
+                              ],
+                              [
+                                2,
+                                650,
+                                1570
+                              ],
+                              [
+                                3,
+                                1570,
+                                3110
+                              ],
+                              [
+                                4,
+                                3110,
+                                5590
+                              ]
+                            ]
+                          },
+                          {
+                            "verse_key": "1:2",
+                            "timestamp_from": 6493,
+                            "timestamp_to": 11546,
+                            "duration": -5053,
+                            "segments": [
+                              [
+                                1,
+                                6493,
+                                7243
+                              ],
+                              [
+                                2,
+                                7243,
+                                8123
+                              ],
+                              [
+                                3,
+                                8143,
+                                8723
+                              ],
+                              [
+                                4,
+                                8723,
+                                11193
+                              ]
+                            ]
+                          },
+                          {
+                            "verse_key": "1:3",
+                            "timestamp_from": 11546,
+                            "timestamp_to": 15985,
+                            "duration": -4439,
+                            "segments": [
+                              [
+                                1,
+                                11546,
+                                12806
+                              ],
+                              [
+                                2,
+                                12916,
+                                15366
+                              ]
+                            ]
+                          },
+                          {
+                            "verse_key": "1:4",
+                            "timestamp_from": 15985,
+                            "timestamp_to": 21521,
+                            "duration": -5536,
+                            "segments": [
+                              [
+                                1,
+                                15985,
+                                16505
+                              ],
+                              [
+                                2,
+                                16705,
+                                17235
+                              ],
+                              [
+                                3,
+                                17265,
+                                19155
+                              ]
+                            ]
+                          },
+                          {
+                            "verse_key": "1:5",
+                            "timestamp_from": 21521,
+                            "timestamp_to": 27835,
+                            "duration": -6314,
+                            "segments": [
+                              [
+                                1,
+                                21521,
+                                22591
+                              ],
+                              [
+                                2,
+                                22591,
+                                23471
+                              ],
+                              [
+                                3,
+                                23631,
+                                25001
+                              ],
+                              [
+                                4,
+                                25001,
+                                27391
+                              ]
+                            ]
+                          },
+                          {
+                            "verse_key": "1:6",
+                            "timestamp_from": 27835,
+                            "timestamp_to": 33388,
+                            "duration": -5553,
+                            "segments": [
+                              [
+                                1,
+                                27835,
+                                28265
+                              ],
+                              [
+                                2,
+                                28265,
+                                29405
+                              ],
+                              [
+                                3,
+                                29405,
+                                32545
+                              ]
+                            ]
+                          },
+                          {
+                            "verse_key": "1:7",
+                            "timestamp_from": 33388,
+                            "timestamp_to": 53092,
+                            "duration": -19704,
+                            "segments": [
+                              [
+                                1,
+                                33388,
+                                34338
+                              ],
+                              [
+                                2,
+                                34338,
+                                35448
+                              ],
+                              [
+                                3,
+                                35518,
+                                36698
+                              ],
+                              [
+                                4,
+                                36718,
+                                38678
+                              ],
+                              [
+                                5,
+                                38678,
+                                39608
+                              ],
+                              [
+                                6,
+                                39628,
+                                41638
+                              ],
+                              [
+                                7,
+                                41638,
+                                43778
+                              ],
+                              [
+                                8,
+                                43778,
+                                44218
+                              ],
+                              [
+                                9,
+                                44338,
+                                51818
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "javascript",
+            "label": "Node.js",
+            "source": "// Get chapter's audio file of a reciter\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(id, chapter_number, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/chapter_recitations/${id}/${chapter_number}`,\n    {\n      headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi(\"7\", \"1\", {\"segments\":\"true\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "# Get chapter's audio file of a reciter\nimport requests\n\nAPI_BASE_URL = 'https://apis.quran.foundation/content/api/v4'\nACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>'\nCLIENT_ID = '<YOUR_CLIENT_ID>'\n\ndef call_api(id, chapter_number, segments=None):\n    params = {k: v for k, v in {'segments': segments}.items() if v is not None}\n    \n    response = requests.get(\n        f'{API_BASE_URL}/chapter_recitations/{id}/{chapter_number}',\n        headers={\n            'x-auth-token': ACCESS_TOKEN,\n            'x-client-id': CLIENT_ID\n        },\n        params=params\n    )\n    response.raise_for_status()\n    return response.json()\n\n# Example usage\ntry:\n    data = call_api(\"7\", \"1\", segments=\"true\")\n    print(data)\nexcept requests.HTTPError as e:\n    print(f'Error {e.response.status_code}: {e}')"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "// Get chapter's audio file of a reciter\npackage main\n\nimport (\n  \"fmt\"\n  \"io\"\n  \"net/http\"\n  \"net/url\"\n)\n\nconst API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nconst ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nconst CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunc callApi(id string, chapter_number string, params map[string]string) (string, error) {\n  path := fmt.Sprintf(\"/chapter_recitations/%s/%s\", id, chapter_number)\n  endpoint := API_BASE_URL + path\n  if params != nil && len(params) > 0 {\n    values := url.Values{}\n    for k, v := range params {\n      values.Set(k, v)\n    }\n    endpoint = endpoint + \"?\" + values.Encode()\n  }\n\n  req, err := http.NewRequest(\"GET\", endpoint, nil)\n  if err != nil {\n    return \"\", err\n  }\n  req.Header.Set(\"x-auth-token\", ACCESS_TOKEN)\n  req.Header.Set(\"x-client-id\", CLIENT_ID)\n\n  resp, err := http.DefaultClient.Do(req)\n  if err != nil {\n    return \"\", err\n  }\n  defer resp.Body.Close()\n\n  body, err := io.ReadAll(resp.Body)\n  if err != nil {\n    return \"\", err\n  }\n  return string(body), nil\n}\n\n// Example usage\nfunc main() {\n  params := map[string]string{\"segments\": \"true\"}\n  data, err := callApi(\"7\", \"1\", params)\n  if err != nil {\n    fmt.Println(\"Error:\", err)\n    return\n  }\n  fmt.Println(data)\n}"
+          },
+          {
+            "lang": "ruby",
+            "label": "Ruby",
+            "source": "# Get chapter's audio file of a reciter\nrequire \"net/http\"\nrequire \"uri\"\n\nAPI_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nCLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\ndef call_api(id, chapter_number, params = {})\n  path = \"/chapter_recitations/#{id}/#{chapter_number}\"\n  uri = URI(API_BASE_URL + path)\n  uri.query = URI.encode_www_form(params) if params && !params.empty?\n  request_class = Net::HTTP.const_get(\"Get\")\n  request = request_class.new(uri)\n  request[\"x-auth-token\"] = ACCESS_TOKEN\n  request[\"x-client-id\"] = CLIENT_ID\n\n  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|\n    http.request(request)\n  end\n\n  response.body\nend\n\n# Example usage\nparams = { \"segments\" => \"true\" }\ndata = call_api(\"7\", \"1\", params)\nputs data"
+          },
+          {
+            "lang": "csharp",
+            "label": "C#",
+            "source": "// Get chapter's audio file of a reciter\nusing System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Net.Http;\nusing System.Threading.Tasks;\n\nconst string API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\nconst string ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\nconst string CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\nstatic async Task<string> CallApiAsync(string id, string chapter_number, Dictionary<string, string> query = null)\n{\n    var path = $@\"/chapter_recitations/{id}/{chapter_number}\";\n    var url = API_BASE_URL + path;\n    if (query != null && query.Count > 0)\n    {\n        var queryString = string.Join(\"&\", query.Select(kvp =>\n            $\"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}\"));\n        url = $\"{url}?{queryString}\";\n    }\n    using var client = new HttpClient();\n    using var request = new HttpRequestMessage(new HttpMethod(\"GET\"), url);\n    request.Headers.Add(\"x-auth-token\", ACCESS_TOKEN);\n    request.Headers.Add(\"x-client-id\", CLIENT_ID);\n\n    using var response = await client.SendAsync(request);\n    response.EnsureSuccessStatusCode();\n    return await response.Content.ReadAsStringAsync();\n}\n\n// Example usage\nvar query = new Dictionary<string, string> { {\"segments\", \"true\"} };\nvar data = await CallApiAsync(\"7\", \"1\", query);\nConsole.WriteLine(data);"
+          },
+          {
+            "lang": "php",
+            "label": "PHP",
+            "source": "# Get chapter's audio file of a reciter\n<?php\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nfunction callApi($id, $chapter_number, $params = []) {\n  $path = sprintf(\"/chapter_recitations/%s/%s\", $id, $chapter_number);\n  $url = API_BASE_URL . $path;\n  if (!empty($params)) {\n    $url .= '?' . http_build_query($params);\n  }\n  $ch = curl_init($url);\n  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');\n  curl_setopt($ch, CURLOPT_HTTPHEADER, [\n    'x-auth-token: ' . ACCESS_TOKEN,\n    'x-client-id: ' . CLIENT_ID\n  ]);\n\n  $response = curl_exec($ch);\n  if ($response === false) {\n    throw new Exception(curl_error($ch));\n  }\n  curl_close($ch);\n  return $response;\n}\n\n// Example usage\n$params = ['segments' => 'true'];\n$data = callApi(\"7\", \"1\", $params);\necho $data;\n?>"
+          },
+          {
+            "lang": "java",
+            "label": "Java",
+            "source": "// Get chapter's audio file of a reciter\nimport java.io.IOException;\nimport java.util.HashMap;\nimport java.util.Map;\nimport okhttp3.HttpUrl;\nimport okhttp3.OkHttpClient;\nimport okhttp3.Request;\nimport okhttp3.RequestBody;\nimport okhttp3.Response;\n\npublic class Main {\n  private static final String API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\n  private static final String ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\n  private static final String CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\n  public static String callApi(String id, String chapter_number, Map<String, String> params) throws IOException {\n    String path = String.format(\"/chapter_recitations/%s/%s\", id, chapter_number);\n    HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL + path).newBuilder();\n    if (params != null) {\n      for (Map.Entry<String, String> entry : params.entrySet()) {\n        urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());\n      }\n    }\n    String method = \"GET\";\n    RequestBody requestBody = method.equals(\"GET\") ? null : RequestBody.create(new byte[0]);\n    Request request = new Request.Builder()\n      .url(urlBuilder.build())\n      .addHeader(\"x-auth-token\", ACCESS_TOKEN)\n      .addHeader(\"x-client-id\", CLIENT_ID)\n      .method(method, requestBody)\n      .build();\n\n    OkHttpClient client = new OkHttpClient();\n    Response response = client.newCall(request).execute();\n    return response.body().string();\n  }\n\n  public static void main(String[] args) throws Exception {\n    Map<String, String> params = new HashMap<>();\n    params.put(\"segments\", \"true\");\n    String data = callApi(\"7\", \"1\", params);\n    System.out.println(data);\n  }\n}"
+          },
+          {
+            "lang": "powershell",
+            "label": "PowerShell",
+            "source": "# Get chapter's audio file of a reciter\n$API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\n$ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\n$CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunction Call-Api([string]$id, [string]$chapter_number, [hashtable]$params = @{}) {\n  $path = \"/chapter_recitations/$id/$chapter_number\"\n  $url = \"$API_BASE_URL$path\"\n  if ($params.Count -gt 0) {\n    $query = ($params.GetEnumerator() | ForEach-Object {\n      \"$($_.Key)=$([System.Uri]::EscapeDataString([string]$_.Value))\"\n    }) -join \"&\"\n    $url = \"$url?$query\"\n  }\n  $headers = @{\n    \"x-auth-token\" = $ACCESS_TOKEN\n    \"x-client-id\" = $CLIENT_ID\n  }\n\n  Invoke-RestMethod -Method GET -Uri $url -Headers $headers\n}\n\n# Example usage\n$params = @{ segments = \"true\" }\n$data = Call-Api(\"7\", \"1\", $params)\nWrite-Output $data"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL",
+            "source": "# Get chapter's audio file of a reciter\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/chapter_recitations/7/1?segments=true' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
+          },
+          {
+            "lang": "text",
+            "label": "🤖 AI Prompt",
+            "source": "Implement a function to get chapter's audio file of a reciter using the Quran Foundation API.\n\nEndpoint: GET /chapter_recitations/{id}/{chapter_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  id: The Id of the reciter (e.g., \"7\")\n  chapter_number: The number of the chapter (e.g., \"1\")\nOptional Query Parameters:\n  segments: If true, each verse timestamp includes a `segments` array of [word_index, start_ms, end_ms] triplets. Time values are in milliseconds.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/chapter_recitations/{id}/{chapter_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts id, chapter_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+          }
+        ]
+      }
+    },
+    "/chapter_recitations/{id}": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "summary": "List of all chapter audio files of a reciter",
+        "description": "Get list of chapters' audio files of a reciter",
+        "operationId": "chapter-reciter-audio-files",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Id of the reciter",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "required": [
+                    "audio_files"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "audio_files": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/chapter-recitation"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "audio_files": [
+                    {
+                      "id": 43,
+                      "chapter_id": 22,
+                      "file_size": 19779712,
+                      "format": "mp3",
+                      "total_files": 1,
+                      "audio_url": "https://download.quranicaudio.com/quran/abdullaah_3awwaad_al-juhaynee//022.mp3"
+                    },
+                    {
+                      "id": 87,
+                      "chapter_id": 44,
+                      "file_size": 6453376,
+                      "format": "mp3",
+                      "total_files": 1,
+                      "audio_url": "https://download.quranicaudio.com/quran/abdullaah_3awwaad_al-juhaynee//044.mp3"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "javascript",
+            "label": "Node.js",
+            "source": "// List of all chapter audio files of a reciter\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(id, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/chapter_recitations/${id}`,\n    {\n      headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi(\"7\", {\"language\":\"en\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "# List of all chapter audio files of a reciter\nimport requests\n\nAPI_BASE_URL = 'https://apis.quran.foundation/content/api/v4'\nACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>'\nCLIENT_ID = '<YOUR_CLIENT_ID>'\n\ndef call_api(id, language=None):\n    params = {k: v for k, v in {'language': language}.items() if v is not None}\n    \n    response = requests.get(\n        f'{API_BASE_URL}/chapter_recitations/{id}',\n        headers={\n            'x-auth-token': ACCESS_TOKEN,\n            'x-client-id': CLIENT_ID\n        },\n        params=params\n    )\n    response.raise_for_status()\n    return response.json()\n\n# Example usage\ntry:\n    data = call_api(\"7\", language=\"en\")\n    print(data)\nexcept requests.HTTPError as e:\n    print(f'Error {e.response.status_code}: {e}')"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "// List of all chapter audio files of a reciter\npackage main\n\nimport (\n  \"fmt\"\n  \"io\"\n  \"net/http\"\n  \"net/url\"\n)\n\nconst API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nconst ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nconst CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunc callApi(id string, params map[string]string) (string, error) {\n  path := fmt.Sprintf(\"/chapter_recitations/%s\", id)\n  endpoint := API_BASE_URL + path\n  if params != nil && len(params) > 0 {\n    values := url.Values{}\n    for k, v := range params {\n      values.Set(k, v)\n    }\n    endpoint = endpoint + \"?\" + values.Encode()\n  }\n\n  req, err := http.NewRequest(\"GET\", endpoint, nil)\n  if err != nil {\n    return \"\", err\n  }\n  req.Header.Set(\"x-auth-token\", ACCESS_TOKEN)\n  req.Header.Set(\"x-client-id\", CLIENT_ID)\n\n  resp, err := http.DefaultClient.Do(req)\n  if err != nil {\n    return \"\", err\n  }\n  defer resp.Body.Close()\n\n  body, err := io.ReadAll(resp.Body)\n  if err != nil {\n    return \"\", err\n  }\n  return string(body), nil\n}\n\n// Example usage\nfunc main() {\n  params := map[string]string{\"language\": \"en\"}\n  data, err := callApi(\"7\", params)\n  if err != nil {\n    fmt.Println(\"Error:\", err)\n    return\n  }\n  fmt.Println(data)\n}"
+          },
+          {
+            "lang": "ruby",
+            "label": "Ruby",
+            "source": "# List of all chapter audio files of a reciter\nrequire \"net/http\"\nrequire \"uri\"\n\nAPI_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nCLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\ndef call_api(id, params = {})\n  path = \"/chapter_recitations/#{id}\"\n  uri = URI(API_BASE_URL + path)\n  uri.query = URI.encode_www_form(params) if params && !params.empty?\n  request_class = Net::HTTP.const_get(\"Get\")\n  request = request_class.new(uri)\n  request[\"x-auth-token\"] = ACCESS_TOKEN\n  request[\"x-client-id\"] = CLIENT_ID\n\n  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|\n    http.request(request)\n  end\n\n  response.body\nend\n\n# Example usage\nparams = { \"language\" => \"en\" }\ndata = call_api(\"7\", params)\nputs data"
+          },
+          {
+            "lang": "csharp",
+            "label": "C#",
+            "source": "// List of all chapter audio files of a reciter\nusing System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Net.Http;\nusing System.Threading.Tasks;\n\nconst string API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\nconst string ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\nconst string CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\nstatic async Task<string> CallApiAsync(string id, Dictionary<string, string> query = null)\n{\n    var path = $@\"/chapter_recitations/{id}\";\n    var url = API_BASE_URL + path;\n    if (query != null && query.Count > 0)\n    {\n        var queryString = string.Join(\"&\", query.Select(kvp =>\n            $\"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}\"));\n        url = $\"{url}?{queryString}\";\n    }\n    using var client = new HttpClient();\n    using var request = new HttpRequestMessage(new HttpMethod(\"GET\"), url);\n    request.Headers.Add(\"x-auth-token\", ACCESS_TOKEN);\n    request.Headers.Add(\"x-client-id\", CLIENT_ID);\n\n    using var response = await client.SendAsync(request);\n    response.EnsureSuccessStatusCode();\n    return await response.Content.ReadAsStringAsync();\n}\n\n// Example usage\nvar query = new Dictionary<string, string> { {\"language\", \"en\"} };\nvar data = await CallApiAsync(\"7\", query);\nConsole.WriteLine(data);"
+          },
+          {
+            "lang": "php",
+            "label": "PHP",
+            "source": "# List of all chapter audio files of a reciter\n<?php\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nfunction callApi($id, $params = []) {\n  $path = sprintf(\"/chapter_recitations/%s\", $id);\n  $url = API_BASE_URL . $path;\n  if (!empty($params)) {\n    $url .= '?' . http_build_query($params);\n  }\n  $ch = curl_init($url);\n  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');\n  curl_setopt($ch, CURLOPT_HTTPHEADER, [\n    'x-auth-token: ' . ACCESS_TOKEN,\n    'x-client-id: ' . CLIENT_ID\n  ]);\n\n  $response = curl_exec($ch);\n  if ($response === false) {\n    throw new Exception(curl_error($ch));\n  }\n  curl_close($ch);\n  return $response;\n}\n\n// Example usage\n$params = ['language' => 'en'];\n$data = callApi(\"7\", $params);\necho $data;\n?>"
+          },
+          {
+            "lang": "java",
+            "label": "Java",
+            "source": "// List of all chapter audio files of a reciter\nimport java.io.IOException;\nimport java.util.HashMap;\nimport java.util.Map;\nimport okhttp3.HttpUrl;\nimport okhttp3.OkHttpClient;\nimport okhttp3.Request;\nimport okhttp3.RequestBody;\nimport okhttp3.Response;\n\npublic class Main {\n  private static final String API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\n  private static final String ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\n  private static final String CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\n  public static String callApi(String id, Map<String, String> params) throws IOException {\n    String path = String.format(\"/chapter_recitations/%s\", id);\n    HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL + path).newBuilder();\n    if (params != null) {\n      for (Map.Entry<String, String> entry : params.entrySet()) {\n        urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());\n      }\n    }\n    String method = \"GET\";\n    RequestBody requestBody = method.equals(\"GET\") ? null : RequestBody.create(new byte[0]);\n    Request request = new Request.Builder()\n      .url(urlBuilder.build())\n      .addHeader(\"x-auth-token\", ACCESS_TOKEN)\n      .addHeader(\"x-client-id\", CLIENT_ID)\n      .method(method, requestBody)\n      .build();\n\n    OkHttpClient client = new OkHttpClient();\n    Response response = client.newCall(request).execute();\n    return response.body().string();\n  }\n\n  public static void main(String[] args) throws Exception {\n    Map<String, String> params = new HashMap<>();\n    params.put(\"language\", \"en\");\n    String data = callApi(\"7\", params);\n    System.out.println(data);\n  }\n}"
+          },
+          {
+            "lang": "powershell",
+            "label": "PowerShell",
+            "source": "# List of all chapter audio files of a reciter\n$API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\n$ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\n$CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunction Call-Api([string]$id, [hashtable]$params = @{}) {\n  $path = \"/chapter_recitations/$id\"\n  $url = \"$API_BASE_URL$path\"\n  if ($params.Count -gt 0) {\n    $query = ($params.GetEnumerator() | ForEach-Object {\n      \"$($_.Key)=$([System.Uri]::EscapeDataString([string]$_.Value))\"\n    }) -join \"&\"\n    $url = \"$url?$query\"\n  }\n  $headers = @{\n    \"x-auth-token\" = $ACCESS_TOKEN\n    \"x-client-id\" = $CLIENT_ID\n  }\n\n  Invoke-RestMethod -Method GET -Uri $url -Headers $headers\n}\n\n# Example usage\n$params = @{ language = \"en\" }\n$data = Call-Api(\"7\", $params)\nWrite-Output $data"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL",
+            "source": "# List of all chapter audio files of a reciter\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/chapter_recitations/7?language=en' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
+          },
+          {
+            "lang": "text",
+            "label": "🤖 AI Prompt",
+            "source": "Implement a function to list of all chapter audio files of a reciter using the Quran Foundation API.\n\nEndpoint: GET /chapter_recitations/{id}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  id: The Id of the reciter (e.g., \"7\")\nOptional Query Parameters:\n  language: Optional parameter\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/chapter_recitations/{id}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+          }
+        ]
+      }
+    },
     "/audio/reciters/{reciter_id}/timestamp": {
       "get": {
         "tags": [
@@ -728,7 +1247,7 @@
           "Chapters"
         ],
         "summary": "Get Chapter Info",
-        "description": "Get Chapter Info in specific language. Default to `English`.",
+        "description": "Get Chapter Info in specific language. Default to `English`. Supports selecting a specific resource via `resource_id` and listing available resources via `include_resources=true`.",
         "operationId": "get-chapter-info",
         "parameters": [
           {
@@ -758,6 +1277,27 @@
               "type": "string"
             },
             "description": "Locale fallback if a language code is not provided."
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource id or slug of the chapter info resource to fetch."
+          },
+          {
+            "name": "include_resources",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "false",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "description": "Include the ordered list of available chapter info resources for the resolved language."
           }
         ],
         "responses": {
@@ -770,6 +1310,12 @@
                   "properties": {
                     "chapter_info": {
                       "$ref": "#/components/schemas/chapter-info"
+                    },
+                    "resources": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/resource"
+                      }
                     }
                   }
                 },
@@ -780,8 +1326,22 @@
                     "language_name": "english",
                     "short_text": "This Surah is named Al-Fatihah because of its subject-matter. Fatihah is that which opens a subject or a book or any other thing. In other words, Al-Fatihah is a sort of preface.",
                     "source": "Sayyid Abul Ala Maududi - Tafhim al-Qur'an - The Meaning of the Quran",
-                    "text": "<h2>Name</h2>\r\n<p>This Surah is named Al-Fatihah because of its subject-matter. Fatihah is that which opens a subject or a book or any other thing. In other words, Al-Fatihah is a sort of preface.</p>\r\n<h2>Period of Revelation</h2>..."
-                  }
+                    "text": "<h2>Name</h2>\r\n<p>This Surah is named Al-Fatihah because of its subject-matter. Fatihah is that which opens a subject or a book or any other thing. In other words, Al-Fatihah is a sort of preface.</p>\r\n<h2>Period of Revelation</h2>...",
+                    "resource_id": 61
+                  },
+                  "resources": [
+                    {
+                      "id": 61,
+                      "name": "Chapter Info",
+                      "author_name": "Sayyid Abul Ala Maududi",
+                      "slug": null,
+                      "language_name": "urdu",
+                      "translated_name": {
+                        "name": "Chapter Info",
+                        "language_name": "english"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -2001,7 +2561,7 @@
         "tags": [
           "Verses"
         ],
-        "summary": "By Rub el Hizb number (alias: /by_rub_el_hizb)",
+        "summary": "By Rub el Hizb number",
         "description": "Get all verses of a specific Rub el Hizb number(1-240).",
         "operationId": "verses-by_rub_el_hizb_number",
         "parameters": [
@@ -4231,32 +4791,22 @@
           {
             "name": "script",
             "in": "path",
-            "description": "Script identifier for the response payload. Supported values: `uthmani`, `uthmani_simple`, `text_uthmani_simple`, `uthmani_tajweed`, `text_uthmani_tajweed`, `indopak`, `text_indopak`, `indopak_nastaleeq`, `text_indopak_nastaleeq`, `imlaei`, `text_imlaei`, `imlaei_simple`, `text_imlaei_simple`, `qpc_hafs`, `text_qpc_hafs`, `qpc_nastaleeq`, `text_qpc_nastaleeq`, `code_v1`, `v1`, `code_v2`, `v2`, `v1_image`. Unsupported values fall back to the Uthmani text payload.",
+            "description": "Script identifier for the response payload. Supported values: `uthmani`, `uthmani_simple`, `uthmani_tajweed`, `indopak`, `indopak_nastaleeq`, `imlaei`, `imlaei_simple`, `qpc_hafs`, `qpc_nastaleeq`, `code_v1`, `code_v2`, `v1_image`.",
             "required": true,
             "schema": {
               "type": "string",
               "enum": [
                 "uthmani",
                 "uthmani_simple",
-                "text_uthmani_simple",
                 "uthmani_tajweed",
-                "text_uthmani_tajweed",
                 "indopak",
-                "text_indopak",
                 "indopak_nastaleeq",
-                "text_indopak_nastaleeq",
                 "imlaei",
-                "text_imlaei",
                 "imlaei_simple",
-                "text_imlaei_simple",
                 "qpc_hafs",
-                "text_qpc_hafs",
                 "qpc_nastaleeq",
-                "text_qpc_nastaleeq",
                 "code_v1",
-                "v1",
                 "code_v2",
-                "v2",
                 "v1_image"
               ]
             }
@@ -4338,6 +4888,26 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Result page number (pagination).",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Records per page (maximum 50).",
+            "schema": {
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer",
+              "default": 10
+            }
           }
         ],
         "responses": {
@@ -4347,19 +4917,15 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "$ref": "#/components/schemas/verse"
                       }
                     },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
                     }
                   }
                 },
@@ -4368,13 +4934,25 @@
                     {
                       "id": 1,
                       "verse_key": "1:1",
-                      "text_uthmani": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ"
+                      "chapter_id": 1,
+                      "text_uthmani": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+                      "code_v1": null,
+                      "code_v2": null,
+                      "image_url": null,
+                      "juz_number": 1,
+                      "hizb_number": 1,
+                      "rub_el_hizb_number": 1,
+                      "manzil_number": 1,
+                      "ruku_number": 1,
+                      "page_number": 1
                     }
                   ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
+                  "pagination": {
+                    "per_page": 10,
+                    "current_page": 1,
+                    "next_page": 2,
+                    "total_pages": 62,
+                    "total_records": 6236
                   }
                 }
               }
@@ -4560,19 +5138,23 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "text_indopak": {
+                            "type": "string"
+                          }
+                        }
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
                     }
                   }
                 },
@@ -4581,14 +5163,9 @@
                     {
                       "id": 1,
                       "verse_key": "1:1",
-                      "text_indopak": "بِسۡمِ اللهِ الرَّحۡمٰنِ الرَّحِيۡمِ"
+                      "text_indopak": "بِسۡمِ اللهِ الرَّحۡم]ٰنِ الرَّحِيۡمِ"
                     }
-                  ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -4773,19 +5350,23 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "text_indopak_nastaleeq": {
+                            "type": "string"
+                          }
+                        }
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
                     }
                   }
                 },
@@ -4794,14 +5375,9 @@
                     {
                       "id": 1,
                       "verse_key": "1:1",
-                      "text_indopak_nastaleeq": "بِسۡمِ اللهِ الرَّحۡمٰنِ الرَّحِيۡمِ"
+                      "text_indopak_nastaleeq": "بِسۡمِ اللهِ الرَّحۡمٰنِ الرَّحِيمِ"
                     }
-                  ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -4986,19 +5562,23 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "text_uthmani_tajweed": {
+                            "type": "string"
+                          }
+                        }
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
                     }
                   }
                 },
@@ -5009,12 +5589,7 @@
                       "verse_key": "1:1",
                       "text_uthmani_tajweed": "بِسْمِ <tajweed class=ham_wasl>ٱ</tajweed>للَّهِ <tajweed class=ham_wasl>ٱ</tajweed><tajweed class=laam_shamsiyah>ل</tajweed>رَّحْمَ<tajweed class=madda_normal>ـٰ</tajweed>نِ <tajweed class=ham_wasl>ٱ</tajweed><tajweed class=laam_shamsiyah>ل</tajweed>رَّح<tajweed class=madda_permissible>ِي</tajweed>مِ <span class=end>١</span>"
                     }
-                  ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -5199,19 +5774,23 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "text_uthmani": {
+                            "type": "string"
+                          }
+                        }
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
                     }
                   }
                 },
@@ -5222,12 +5801,7 @@
                       "verse_key": "1:1",
                       "text_uthmani": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ"
                     }
-                  ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -5412,19 +5986,23 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "text_uthmani_simple": {
+                            "type": "string"
+                          }
+                        }
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
                     }
                   }
                 },
@@ -5435,12 +6013,7 @@
                       "verse_key": "1:1",
                       "text_uthmani_simple": "بسم الله الرحمن الرحيم"
                     }
-                  ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -5625,19 +6198,23 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "text_imlaei": {
+                            "type": "string"
+                          }
+                        }
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
                     }
                   }
                 },
@@ -5648,12 +6225,7 @@
                       "verse_key": "1:1",
                       "text_imlaei": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"
                     }
-                  ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -5768,17 +6340,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "required": [
-                    "recitations"
-                  ],
-                  "properties": {
-                    "recitations": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/recitation"
-                      }
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/recitation"
                   }
                 },
                 "example": {
@@ -6150,7 +6714,7 @@
           {
             "name": "translation_id",
             "in": "path",
-            "description": "Translation resource ID. Use `/resources/translations` to discover available translations.",
+            "description": "Recitation id",
             "required": true,
             "schema": {
               "type": "number"
@@ -6159,7 +6723,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
+            "description": "comma separated fields of translation.",
             "schema": {
               "type": "string"
             }
@@ -6172,7 +6736,7 @@
               "type": "boolean",
               "default": false
             },
-            "description": "If true, includes a `foot_notes` map inside each translation item keyed by footnote IDs from `<sup>` tags."
+            "description": "If true, includes a foot_notes map keyed by footnote IDs (from &lt;sup&gt; tags) to their text."
           },
           {
             "name": "chapter_number",
@@ -6260,8 +6824,7 @@
               "application/json": {
                 "schema": {
                   "required": [
-                    "translations",
-                    "meta"
+                    "translations"
                   ],
                   "type": "object",
                   "properties": {
@@ -6271,8 +6834,20 @@
                         "$ref": "#/components/schemas/translation"
                       }
                     },
+                    "foot_notes": {
+                      "type": "object",
+                      "description": "Map of footnote IDs (from &lt;sup&gt; tags) to their text. Present when foot_notes=true.",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
                     "meta": {
-                      "$ref": "#/components/schemas/QuranTranslationMeta"
+                      "type": "object",
+                      "properties": {
+                        "translation_name": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 },
@@ -6280,32 +6855,16 @@
                   "translations": [
                     {
                       "resource_id": 131,
-                      "resource_name": "Dr. Mustafa Khattab, the Clear Quran",
-                      "id": 903958,
-                      "text": "In the Name of Allah - the Most Compassionate, Most Merciful.",
-                      "verse_id": 1,
-                      "language_id": 38,
-                      "language_name": "english",
-                      "verse_key": "1:1",
-                      "chapter_id": 1,
-                      "verse_number": 1,
-                      "juz_number": 1,
-                      "hizb_number": 1,
-                      "rub_el_hizb_number": 1,
-                      "page_number": 1,
-                      "ruku_number": 1,
-                      "manzil_number": 1,
-                      "foot_notes": {
-                        "1": "Some editions note variant readings here."
-                      }
+                      "text": "In the Name of Allah—the Most Compassionate, Most Merciful."
                     }
                   ],
+                  "foot_notes": {
+                    "1": "Some editions note variant readings here.",
+                    "a": "See introduction for translator's methodology."
+                  },
                   "meta": {
                     "translation_name": "Dr. Mustafa Khattab, the Clear Quran",
-                    "author_name": "Dr. Mustafa Khattab",
-                    "filters": {
-                      "chapter_number": 1
-                    }
+                    "author_name": "Dr. Mustafa Khattab"
                   }
                 }
               }
@@ -6422,9 +6981,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "reciters"
-                  ],
                   "properties": {
                     "reciters": {
                       "type": "array",
@@ -6439,18 +6995,26 @@
                     {
                       "id": 3,
                       "name": "Abu Bakr al-Shatri",
-                      "style": {
-                        "name": "Murattal",
-                        "language_name": "english"
-                      },
-                      "qirat": {
-                        "name": "Hafs",
-                        "language_name": "english"
-                      },
-                      "translated_name": {
-                        "name": "Abu Bakr al-Shatri",
-                        "language_name": "english"
-                      }
+                      "arabic_name": "أبو بكر الشاطرى",
+                      "relative_path": "abu_bakr_ash-shaatree/",
+                      "format": "mp3",
+                      "files_size": 1258422528
+                    },
+                    {
+                      "id": 4,
+                      "name": "Sa`ud ash-Shuraym",
+                      "arabic_name": "سعود الشريم",
+                      "relative_path": "sa3ood_al-shuraym/",
+                      "format": "mp3",
+                      "files_size": 1258422528
+                    },
+                    {
+                      "id": 5,
+                      "name": "Mishari Rashid al-`Afasy",
+                      "arabic_name": "مشاري راشد العفاسي",
+                      "relative_path": "mishaari_raashid_al_3afaasee/",
+                      "format": "mp3",
+                      "files_size": 1258422528
                     }
                   ]
                 }
@@ -6869,19 +7433,30 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "code_v1": {
+                            "type": "string",
+                            "description": "Glyph codes for v1"
+                          },
+                          "v1_page": {
+                            "maximum": 604,
+                            "minimum": 1,
+                            "type": "integer",
+                            "description": "Madani Mushaf page number. You can use `v1_page` to generate css and font faces for QCF page font. "
+                          }
+                        }
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
                     }
                   }
                 },
@@ -6890,14 +7465,10 @@
                     {
                       "id": 1,
                       "verse_key": "1:1",
+                      "code_v1": "ﭑ ﭒ ﭓ ﭔ ﭕ",
                       "v1_page": 1
                     }
-                  ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -7082,19 +7653,34 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "verses",
-                    "meta"
-                  ],
                   "properties": {
                     "verses": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/QuranVerseText"
+                        "required": [
+                          "code_v2",
+                          "v2_page"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "verse_key": {
+                            "type": "string"
+                          },
+                          "code_v2": {
+                            "type": "string",
+                            "description": "Glyph codes for v2"
+                          },
+                          "v2_page": {
+                            "maximum": 604,
+                            "minimum": 1,
+                            "type": "integer",
+                            "description": "Madani Mushaf page number. You can use `v2_page` to generate css and font faces for QCF page font. "
+                          }
+                        }
                       }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/QuranFiltersMeta"
                     }
                   }
                 },
@@ -7103,14 +7689,10 @@
                     {
                       "id": 1,
                       "verse_key": "1:1",
+                      "code_v2": " ﱂ ﱃ ﱄ ﱅ",
                       "v2_page": 1
                     }
-                  ],
-                  "meta": {
-                    "filters": {
-                      "chapter_number": 1
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -7242,18 +7824,10 @@
             "in": "query",
             "description": "records per api call, you can get maximum 50 records.",
             "schema": {
-              "type": "integer",
-              "minimum": 1,
               "maximum": 50,
+              "minimum": 1,
+              "type": "integer",
               "default": 10
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
             }
           }
         ],
@@ -7437,34 +8011,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -7627,34 +8173,6 @@
               "maximum": 604,
               "minimum": 1,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
             }
           }
         ],
@@ -7819,34 +8337,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -8010,34 +8500,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -8198,35 +8660,9 @@
             "description": "Ayah key is combination of surah number and  ayah number. e.g 1:1 will be first Ayah of first Surah",
             "required": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
+              "maximum": 60,
               "minimum": 1,
-              "maximum": 50,
-              "default": 10
+              "type": "string"
             }
           }
         ],
@@ -8395,16 +8831,8 @@
                       "properties": {
                         "id": {
                           "type": "integer"
-                        },
-                        "info": {
-                          "type": "string",
-                          "nullable": true
                         }
-                      },
-                      "required": [
-                        "id",
-                        "info"
-                      ]
+                      }
                     }
                   }
                 },
@@ -8533,16 +8961,8 @@
                       "properties": {
                         "id": {
                           "type": "integer"
-                        },
-                        "info": {
-                          "type": "string",
-                          "nullable": true
                         }
-                      },
-                      "required": [
-                        "id",
-                        "info"
-                      ]
+                      }
                     }
                   }
                 },
@@ -9215,35 +9635,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "required": [
-                    "languages"
-                  ],
-                  "properties": {
-                    "languages": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/language"
-                      }
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/language"
                   }
                 },
-                "example": {
-                  "languages": [
-                    {
-                      "id": 38,
-                      "name": "English",
-                      "native_name": "English",
-                      "iso_code": "en",
-                      "direction": "ltr",
-                      "translations_count": 100,
-                      "translated_name": {
-                        "name": "English",
-                        "language_name": "english"
-                      }
-                    }
-                  ]
-                }
+                "example": [
+                  {
+                    "id": -71611860,
+                    "iso_code": "amet"
+                  }
+                ]
               }
             }
           },
@@ -9375,10 +9777,6 @@
                                 "type": "string"
                               }
                             }
-                          },
-                          "slug": {
-                            "type": "string",
-                            "nullable": true
                           }
                         }
                       }
@@ -9718,34 +10116,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -9900,34 +10270,6 @@
               "maximum": 558,
               "minimum": 1,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
             }
           }
         ],
@@ -10084,34 +10426,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -10140,14 +10454,7 @@
                       "text": "In the Name of Allah—the Most Compassionate, Most Merciful.",
                       "verse_key": "1:1"
                     }
-                  ],
-                  "pagination": {
-                    "per_page": 10,
-                    "current_page": 1,
-                    "next_page": null,
-                    "total_pages": 1,
-                    "total_records": 1
-                  }
+                  ]
                 }
               }
             }
@@ -10263,34 +10570,6 @@
               "maximum": 604,
               "minimum": 1,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
             }
           }
         ],
@@ -10449,34 +10728,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -10612,7 +10863,7 @@
         "tags": [
           "Translations"
         ],
-        "summary": "Get translations for specific Rub el Hizb (alias: /by_rub)",
+        "summary": "Get translations for specific Rub el Hizb",
         "description": "Get list of translations for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-translations",
         "parameters": [
@@ -10633,34 +10884,6 @@
               "maximum": 240,
               "minimum": 1,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
             }
           }
         ],
@@ -10819,34 +11042,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -11003,34 +11198,6 @@
               "maximum": 7,
               "minimum": 1,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
             }
           }
         ],
@@ -11189,34 +11356,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -11373,34 +11512,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -11416,9 +11527,6 @@
                       "items": {
                         "$ref": "#/components/schemas/translation"
                       }
-                    },
-                    "pagination": {
-                      "$ref": "#/components/schemas/pagination"
                     }
                   }
                 },
@@ -11429,14 +11537,7 @@
                       "resource_id": 20,
                       "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
                     }
-                  ],
-                  "pagination": {
-                    "per_page": 10,
-                    "current_page": 1,
-                    "next_page": null,
-                    "total_pages": 1,
-                    "total_records": 1
-                  }
+                  ]
                 }
               }
             }
@@ -11553,34 +11654,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -11609,14 +11682,7 @@
                       "text": "Bismillah بِسْمِ اللَّـهِ is a verse of the Holy Qur'an",
                       "verse_key": "1:1"
                     }
-                  ],
-                  "pagination": {
-                    "per_page": 10,
-                    "current_page": 1,
-                    "next_page": null,
-                    "total_pages": 1,
-                    "total_records": 1
-                  }
+                  ]
                 }
               }
             }
@@ -11732,34 +11798,6 @@
               "maximum": 604,
               "minimum": 1,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
             }
           }
         ],
@@ -11916,34 +11954,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -12077,7 +12087,7 @@
         "tags": [
           "Tafsirs"
         ],
-        "summary": "Get tafsirs for specific Rub el Hizb (alias: /by_rub)",
+        "summary": "Get tafsirs for specific Rub el Hizb",
         "description": "Get list of tafsirs for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-tafsirs",
         "parameters": [
@@ -12098,34 +12108,6 @@
               "maximum": 240,
               "minimum": 1,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
             }
           }
         ],
@@ -12282,34 +12264,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -12464,34 +12418,6 @@
               "maximum": 7,
               "minimum": 1,
               "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
             }
           }
         ],
@@ -12648,34 +12574,6 @@
               "minimum": 1,
               "type": "number"
             }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
           }
         ],
         "responses": {
@@ -12827,14 +12725,6 @@
             "in": "path",
             "description": "Ayah key is combination of surah number and ayah number. e.g 1:1 will be first Ayah of first Surah",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
             "schema": {
               "type": "string"
             }
@@ -14359,14 +14249,14 @@
     "/quran-reflect/v1/posts/feed": {
       "get": {
         "operationId": "PostsController_feed",
-        "summary": "Quran Reflect Lessons and Reflections Feed",
-        "description": "Retrieve the Quran Reflect lessons and reflections feed, a paginated stream of searchable lesson posts and reflection posts. Use this endpoint to browse lesson and reflection content across the main feed, trending, following, latest, newest, public, and popular views, with filters for authors, tags, Quran references, groups, pages, languages, verified content, and post types. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. For ayah-by-ayah reads, use `filter[references][0][chapterId]`, `filter[references][0][from]`, and `filter[references][0][to]`, and use `filter[postTypeIds]=1` for reflections or `filter[postTypeIds]=2` for lessons. `/quran-reflect/v1/posts/by-verse/{verseKey}` is user-bound and is not part of the public `client_credentials` read subset. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
+        "summary": "Get posts feed",
+        "description": "Retrieve a paginated feed of Quran Reflect posts, including reflections and lessons. Supports filtering by authors, tags, Quran references, groups, pages, and post types. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
         "parameters": [
           {
             "name": "tab",
             "required": false,
             "in": "query",
-            "description": "Feed view for Quran Reflect lessons and reflections. `feed` shows the personalized main feed, `trending` shows explore, `following` shows posts from followed users, and the remaining enum values select alternate listing views supported by the API.",
+            "description": "Feed tab type. feed shows personalized content, trending shows explore, following shows posts from followed users.",
             "schema": {
               "enum": [
                 "newest",
@@ -14388,9 +14278,7 @@
             "name": "languages",
             "required": false,
             "in": "query",
-            "description": "Comma-separated list of language IDs used to filter Quran Reflect lessons and reflections by content language, for example `languages=1,2`.",
-            "style": "form",
-            "explode": false,
+            "description": "Array of language IDs to filter posts by reflection language",
             "schema": {
               "type": "array",
               "items": {
@@ -14402,7 +14290,7 @@
             "name": "page",
             "required": false,
             "in": "query",
-            "description": "Page number for lessons and reflections feed pagination (default: 1).",
+            "description": "Page number for pagination (default: 1)",
             "schema": {
               "minimum": 1,
               "default": 1,
@@ -14413,7 +14301,7 @@
             "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Number of lessons or reflections to return per page (default: 20).",
+            "description": "Number of posts per page (default: 20)",
             "schema": {
               "minimum": 1,
               "default": 20,
@@ -14421,12 +14309,9 @@
             }
           },
           {
-            "name": "filter[authors]",
             "required": false,
+            "name": "authors",
             "in": "query",
-            "style": "form",
-            "explode": false,
-            "description": "Comma-separated list of Quran Reflect author identifiers to include in the lessons and reflections feed.",
             "schema": {
               "type": "array",
               "items": {
@@ -14435,12 +14320,9 @@
             }
           },
           {
-            "name": "filter[tags]",
             "required": false,
+            "name": "tags",
             "in": "query",
-            "style": "form",
-            "explode": false,
-            "description": "Comma-separated list of Quran Reflect tag values to include in the lessons and reflections feed.",
             "schema": {
               "type": "array",
               "items": {
@@ -14449,45 +14331,20 @@
             }
           },
           {
-            "name": "filter[references][0][chapterId]",
             "required": false,
+            "name": "references",
             "in": "query",
-            "description": "Chapter number for Quran reference filter index `0`. Use matching `from` and `to` values to target a specific ayah or passage.",
             "schema": {
-              "type": "number",
-              "minimum": 1,
-              "example": 2
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ReferenceAttributes"
+              }
             }
           },
           {
-            "name": "filter[references][0][from]",
             "required": false,
+            "name": "groups",
             "in": "query",
-            "description": "Starting ayah number for Quran reference filter index `0`. Pair this with the matching `chapterId` and `to` values.",
-            "schema": {
-              "type": "number",
-              "minimum": 1,
-              "example": 255
-            }
-          },
-          {
-            "name": "filter[references][0][to]",
-            "required": false,
-            "in": "query",
-            "description": "Ending ayah number for Quran reference filter index `0`. For a single ayah, use the same value as `from`.",
-            "schema": {
-              "type": "number",
-              "minimum": 1,
-              "example": 255
-            }
-          },
-          {
-            "name": "filter[groups]",
-            "required": false,
-            "in": "query",
-            "style": "form",
-            "explode": false,
-            "description": "Comma-separated list of Quran Reflect group URLs to include in the lessons and reflections feed.",
             "schema": {
               "type": "array",
               "items": {
@@ -14496,12 +14353,9 @@
             }
           },
           {
-            "name": "filter[pages]",
             "required": false,
+            "name": "pages",
             "in": "query",
-            "style": "form",
-            "explode": false,
-            "description": "Comma-separated list of Quran Reflect page subdomains to include in the lessons and reflections feed.",
             "schema": {
               "type": "array",
               "items": {
@@ -14510,12 +14364,10 @@
             }
           },
           {
-            "name": "filter[postTypeIds]",
             "required": false,
+            "name": "postTypeIds",
             "in": "query",
-            "style": "form",
-            "explode": false,
-            "description": "Comma-separated Quran Reflect post type IDs. Use `1` to return reflections, `2` to return lessons, or include both values to search both content types.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
+            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
@@ -14524,10 +14376,9 @@
             }
           },
           {
-            "name": "filter[tagsOperator]",
             "required": false,
+            "name": "tagsOperator",
             "in": "query",
-            "description": "How multiple tag filters are matched when searching lessons and reflections: `OR` matches any selected tag and `AND` requires all selected tags.",
             "schema": {
               "enum": [
                 "OR",
@@ -14537,10 +14388,9 @@
             }
           },
           {
-            "name": "filter[referencesOperator]",
             "required": false,
+            "name": "referencesOperator",
             "in": "query",
-            "description": "How multiple Quran reference filters are matched when searching lessons and reflections: `OR` matches any reference and `AND` requires all references.",
             "schema": {
               "enum": [
                 "OR",
@@ -14550,54 +14400,29 @@
             }
           },
           {
-            "name": "filter[verifiedOnly]",
             "required": false,
+            "name": "verifiedOnly",
             "in": "query",
-            "description": "When `true`, return only verified Quran Reflect content in the lessons and reflections feed. Public ayah-by-ayah reads typically combine this with the documented Quran reference filters.",
             "schema": {
               "default": false,
-              "type": "boolean",
-              "example": true
+              "type": "boolean"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Quran Reflect lessons and reflections feed retrieved successfully with pagination",
+            "description": "Feed retrieved successfully with paginated posts",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FeedResponseDto"
-                },
-                "example": {
-                  "total": 1,
-                  "currentPage": 1,
-                  "limit": 20,
-                  "pages": 1,
-                  "data": [
-                    {
-                      "id": 101,
-                      "authorId": "user-123",
-                      "body": "Reflection text",
-                      "createdAt": "2026-04-01T12:00:00.000Z",
-                      "updatedAt": "2026-04-01T12:00:00.000Z",
-                      "publishedAt": "2026-04-01T12:00:00.000Z",
-                      "commentsCount": 2,
-                      "likesCount": 5,
-                      "viewsCount": 20,
-                      "languageName": "english",
-                      "roomId": 1,
-                      "postTypeId": 1,
-                      "postTypeName": "reflection"
-                    }
-                  ]
                 }
               }
             }
           }
         },
         "tags": [
-          "Quran Reflect Lessons and Reflections"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
@@ -14620,14 +14445,14 @@
     "/quran-reflect/v1/posts/{id}": {
       "get": {
         "operationId": "PostsController_findOne",
-        "summary": "Get Quran Reflect Lesson or Reflection by ID",
-        "description": "Retrieve a specific Quran Reflect lesson or reflection post by its unique numeric ID. Returns the full lesson or reflection with author details, tags, references, room information, and engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. Admins can view additional moderation details. Full gateway path is `/quran-reflect/v1/posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
+        "summary": "Get post by ID",
+        "description": "Retrieve a specific post by its unique numeric ID. Returns the full post with author details, tags, references, room information, and engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. Admins can view additional moderation details. Full gateway path is `/quran-reflect/v1/posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique numeric Quran Reflect lesson or reflection post ID.",
+            "description": "Unique numeric post ID",
             "schema": {
               "type": "number"
             }
@@ -14635,36 +14460,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Quran Reflect lesson or reflection returned with all associated data",
+            "description": "Post found and returned with all associated data",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PostSerialized"
-                },
-                "example": {
-                  "id": 101,
-                  "authorId": "user-123",
-                  "body": "Reflection text",
-                  "createdAt": "2026-04-01T12:00:00.000Z",
-                  "updatedAt": "2026-04-01T12:00:00.000Z",
-                  "publishedAt": "2026-04-01T12:00:00.000Z",
-                  "commentsCount": 2,
-                  "likesCount": 5,
-                  "viewsCount": 20,
-                  "languageName": "english",
-                  "roomId": 1,
-                  "postTypeId": 1,
-                  "postTypeName": "reflection"
                 }
               }
             }
           },
           "404": {
-            "description": "Quran Reflect lesson or reflection not found or has been deleted"
+            "description": "Post not found or has been deleted"
           }
         },
         "tags": [
-          "Quran Reflect Lessons and Reflections"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
@@ -14687,14 +14497,14 @@
     "/quran-reflect/v1/posts/user-posts/{id}": {
       "get": {
         "operationId": "PostsController_getUserPost",
-        "summary": "Get Quran Reflect Lessons and Reflections by User",
-        "description": "Retrieve a paginated list of Quran Reflect lessons and reflections created by a specific user. Use this endpoint to browse a user's public lesson posts and reflection posts, optionally filtered by post type and ordered by latest or popular. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. If called with a user-bound token for the same user, the response can include that user's drafts. Full gateway path is `/quran-reflect/v1/posts/user-posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
+        "summary": "Get user posts",
+        "description": "Retrieve public posts created by a specific user. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. If called with a user-bound token for the same user, the response can include that user's drafts. Full gateway path is `/quran-reflect/v1/posts/user-posts/{id}`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. Client_credentials callers receive the public view.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "UUID of the user whose Quran Reflect lessons and reflections to retrieve.",
+            "description": "UUID of the user whose posts to retrieve",
             "schema": {
               "type": "string"
             }
@@ -14703,7 +14513,7 @@
             "name": "sortBy",
             "required": false,
             "in": "query",
-            "description": "Sort a user's Quran Reflect lessons and reflections by `latest` or `popular` (default: `latest`).",
+            "description": "Sort order for posts (default: latest)",
             "schema": {
               "enum": [
                 "latest",
@@ -14716,7 +14526,7 @@
             "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Number of lesson or reflection posts to return per page (default: 20, max: 20).",
+            "description": "Number of posts per page (default: 20, max: 20)",
             "schema": {
               "minimum": 1,
               "maximum": 20,
@@ -14728,7 +14538,7 @@
             "name": "page",
             "required": false,
             "in": "query",
-            "description": "Page number for the user's lessons and reflections pagination (default: 1).",
+            "description": "Page number for pagination (default: 1)",
             "schema": {
               "minimum": 1,
               "default": 1,
@@ -14739,7 +14549,7 @@
             "name": "postTypeIds",
             "required": false,
             "in": "query",
-            "description": "Filter a user's Quran Reflect lessons and reflections by post type. Use `1` to return reflections, `2` to return lessons, or include both values to return both content types.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
+            "description": "Filter by Quran Reflect post type IDs.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
@@ -14750,41 +14560,18 @@
         ],
         "responses": {
           "200": {
-            "description": "User Quran Reflect lessons and reflections retrieved with pagination metadata",
+            "description": "User posts retrieved with pagination metadata",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FeedResponseDto"
-                },
-                "example": {
-                  "total": 1,
-                  "currentPage": 1,
-                  "limit": 20,
-                  "pages": 1,
-                  "data": [
-                    {
-                      "id": 101,
-                      "authorId": "user-123",
-                      "body": "Reflection text",
-                      "createdAt": "2026-04-01T12:00:00.000Z",
-                      "updatedAt": "2026-04-01T12:00:00.000Z",
-                      "publishedAt": "2026-04-01T12:00:00.000Z",
-                      "commentsCount": 2,
-                      "likesCount": 5,
-                      "viewsCount": 20,
-                      "languageName": "english",
-                      "roomId": 1,
-                      "postTypeId": 1,
-                      "postTypeName": "reflection"
-                    }
-                  ]
                 }
               }
             }
           }
         },
         "tags": [
-          "Quran Reflect Lessons and Reflections"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
@@ -14807,14 +14594,14 @@
     "/quran-reflect/v1/posts/{id}/comments": {
       "get": {
         "operationId": "PostsController_getComments",
-        "summary": "Get Comments for a Quran Reflect Lesson or Reflection",
-        "description": "Retrieve paginated top-level comments for a Quran Reflect lesson or reflection post. The response returns comment objects plus pagination metadata including `total`, `currentPage`, `limit`, and `pages`. Use the replies endpoint to get nested replies for specific comments. Full gateway path is `/quran-reflect/v1/posts/{id}/comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "summary": "Get post comments",
+        "description": "Retrieve paginated top-level comments for a post. The response returns comment objects plus pagination metadata including `total`, `currentPage`, `limit`, and `pages`. Use the replies endpoint to get nested replies for specific comments. Full gateway path is `/quran-reflect/v1/posts/{id}/comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique numeric Quran Reflect lesson or reflection post ID.",
+            "description": "Unique numeric post ID",
             "schema": {
               "type": "number"
             }
@@ -14823,7 +14610,7 @@
             "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Number of comments to return per page for the lesson or reflection post.",
+            "description": "Number of results to return",
             "schema": {
               "minimum": 1,
               "maximum": 20,
@@ -14835,7 +14622,7 @@
             "name": "page",
             "required": false,
             "in": "query",
-            "description": "Page number of comments for the lesson or reflection post.",
+            "description": "Page number",
             "schema": {
               "minimum": 1,
               "default": 1,
@@ -14845,39 +14632,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Comments for the Quran Reflect lesson or reflection retrieved with pagination metadata",
+            "description": "Comments retrieved with pagination metadata",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PostCommentsResponse"
-                },
-                "example": {
-                  "total": 1,
-                  "currentPage": 1,
-                  "limit": 20,
-                  "pages": 1,
-                  "comments": [
-                    {
-                      "id": 501,
-                      "postId": 101,
-                      "authorId": "user-456",
-                      "parentId": 0,
-                      "isPrivate": false,
-                      "body": "Comment text",
-                      "createdAt": "2026-04-01T13:00:00.000Z",
-                      "updatedAt": "2026-04-01T13:00:00.000Z"
-                    }
-                  ]
                 }
               }
             }
           },
           "404": {
-            "description": "Quran Reflect lesson or reflection not found"
+            "description": "Post not found"
           }
         },
         "tags": [
-          "Quran Reflect Lessons and Reflections"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
@@ -14900,14 +14669,14 @@
     "/quran-reflect/v1/posts/{id}/all-comments": {
       "get": {
         "operationId": "PostsController_getAllComment",
-        "summary": "Get All Comments for a Quran Reflect Lesson or Reflection",
-        "description": "Retrieve all comments for a Quran Reflect lesson or reflection post in a single request without pagination. The response returns the full `comments` array and the `total` comment count. Useful for displaying complete lesson or reflection comment threads, exports, or offline indexing. Full gateway path is `/quran-reflect/v1/posts/{id}/all-comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
+        "summary": "Get all post comments",
+        "description": "Retrieve all comments for a post in a single request without pagination. The response returns the full `comments` array and the `total` comment count. Useful for displaying full comment threads or export scenarios. Full gateway path is `/quran-reflect/v1/posts/{id}/all-comments`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `comment.read` scope. User-bound tokens may still influence comment visibility.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique numeric Quran Reflect lesson or reflection post ID.",
+            "description": "Unique numeric post ID",
             "schema": {
               "type": "number"
             }
@@ -14915,36 +14684,21 @@
         ],
         "responses": {
           "200": {
-            "description": "All comments for the Quran Reflect lesson or reflection returned with total count",
+            "description": "All comments returned with total count",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PostAllCommentsResponse"
-                },
-                "example": {
-                  "total": 1,
-                  "comments": [
-                    {
-                      "id": 501,
-                      "postId": 101,
-                      "authorId": "user-456",
-                      "parentId": 0,
-                      "isPrivate": false,
-                      "body": "Comment text",
-                      "createdAt": "2026-04-01T13:00:00.000Z",
-                      "updatedAt": "2026-04-01T13:00:00.000Z"
-                    }
-                  ]
                 }
               }
             }
           },
           "404": {
-            "description": "Quran Reflect lesson or reflection not found"
+            "description": "Post not found"
           }
         },
         "tags": [
-          "Quran Reflect Lessons and Reflections"
+          "Quran Reflect Posts"
         ],
         "servers": [
           {
@@ -14962,1023 +14716,6 @@
             "x-client-id": []
           }
         ]
-      }
-    },
-    "/chapter_recitations/{reciter_id}": {
-      "get": {
-        "tags": [
-          "Audio"
-        ],
-        "summary": "List of all chapter audio files of a reciter",
-        "description": "Get list of chapters' audio files of a reciter.",
-        "operationId": "chapter-reciter-audio-files",
-        "parameters": [
-          {
-            "name": "reciter_id",
-            "in": "path",
-            "description": "The ID of the reciter",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "required": [
-                    "audio_files"
-                  ],
-                  "type": "object",
-                  "properties": {
-                    "audio_files": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/chapter-recitation"
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "audio_files": [
-                    {
-                      "id": 43,
-                      "chapter_id": 22,
-                      "file_size": 19779712,
-                      "format": "mp3",
-                      "audio_url": "https://download.quranicaudio.com/quran/abdullaah_3awwaad_al-juhaynee//022.mp3"
-                    },
-                    {
-                      "id": 87,
-                      "chapter_id": 44,
-                      "file_size": 6453376,
-                      "format": "mp3",
-                      "audio_url": "https://download.quranicaudio.com/quran/abdullaah_3awwaad_al-juhaynee//044.mp3"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/invalidRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/notFound"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessableEntity"
-          },
-          "429": {
-            "$ref": "#/components/responses/rateLimitExceeded"
-          },
-          "500": {
-            "$ref": "#/components/responses/internalServerError"
-          },
-          "502": {
-            "$ref": "#/components/responses/badGateway"
-          },
-          "503": {
-            "$ref": "#/components/responses/serviceUnavailable"
-          },
-          "504": {
-            "$ref": "#/components/responses/gatewayTimeout"
-          }
-        }
-      }
-    },
-    "/chapter_recitations/{reciter_id}/{chapter_number}": {
-      "get": {
-        "tags": [
-          "Audio"
-        ],
-        "summary": "Get chapter's audio file of a reciter",
-        "description": "Get chapter's audio file of a reciter. Supports `segments` (boolean query param; default `false`). When `segments=true`, verse-level timestamp entries include `segments` ([word_index, start_ms, end_ms]). All time values are milliseconds.",
-        "operationId": "chapter-reciter-audio-file",
-        "parameters": [
-          {
-            "name": "reciter_id",
-            "in": "path",
-            "description": "The ID of the reciter",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "chapter_number",
-            "in": "path",
-            "description": "The number of the chapter",
-            "required": true,
-            "schema": {
-              "maximum": 114,
-              "minimum": 1,
-              "type": "number"
-            }
-          },
-          {
-            "name": "segments",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "description": "If true, each verse timestamp includes a `segments` array of [word_index, start_ms, end_ms] triplets. Time values are in milliseconds."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChapterReciterAudioFileResponse"
-                },
-                "examples": {
-                  "default_no_segments": {
-                    "summary": "segments=false (default)",
-                    "value": {
-                      "audio_file": {
-                        "id": 457,
-                        "chapter_id": 1,
-                        "file_size": 710784,
-                        "format": "mp3",
-                        "audio_url": "https://download.quranicaudio.com/qdc/abu_bakr_shatri/murattal/1.mp3"
-                      }
-                    }
-                  },
-                  "with_segments_true": {
-                    "summary": "segments=true (includes timestamps + segments)",
-                    "value": {
-                      "audio_file": {
-                        "id": 457,
-                        "chapter_id": 1,
-                        "file_size": 710784,
-                        "format": "mp3",
-                        "audio_url": "https://download.quranicaudio.com/qdc/abu_bakr_shatri/murattal/1.mp3",
-                        "timestamps": [
-                          {
-                            "verse_key": "1:1",
-                            "timestamp_from": 0,
-                            "timestamp_to": 6493,
-                            "duration": -6493,
-                            "segments": [
-                              [
-                                1,
-                                0,
-                                630
-                              ],
-                              [
-                                2,
-                                650,
-                                1570
-                              ],
-                              [
-                                3,
-                                1570,
-                                3110
-                              ],
-                              [
-                                4,
-                                3110,
-                                5590
-                              ]
-                            ]
-                          },
-                          {
-                            "verse_key": "1:2",
-                            "timestamp_from": 6493,
-                            "timestamp_to": 11546,
-                            "duration": -5053,
-                            "segments": [
-                              [
-                                1,
-                                6493,
-                                7243
-                              ],
-                              [
-                                2,
-                                7243,
-                                8123
-                              ],
-                              [
-                                3,
-                                8143,
-                                8723
-                              ],
-                              [
-                                4,
-                                8723,
-                                11193
-                              ]
-                            ]
-                          },
-                          {
-                            "verse_key": "1:3",
-                            "timestamp_from": 11546,
-                            "timestamp_to": 15985,
-                            "duration": -4439,
-                            "segments": [
-                              [
-                                1,
-                                11546,
-                                12806
-                              ],
-                              [
-                                2,
-                                12916,
-                                15366
-                              ]
-                            ]
-                          },
-                          {
-                            "verse_key": "1:4",
-                            "timestamp_from": 15985,
-                            "timestamp_to": 21521,
-                            "duration": -5536,
-                            "segments": [
-                              [
-                                1,
-                                15985,
-                                16505
-                              ],
-                              [
-                                2,
-                                16705,
-                                17235
-                              ],
-                              [
-                                3,
-                                17265,
-                                19155
-                              ]
-                            ]
-                          },
-                          {
-                            "verse_key": "1:5",
-                            "timestamp_from": 21521,
-                            "timestamp_to": 27835,
-                            "duration": -6314,
-                            "segments": [
-                              [
-                                1,
-                                21521,
-                                22591
-                              ],
-                              [
-                                2,
-                                22591,
-                                23471
-                              ],
-                              [
-                                3,
-                                23631,
-                                25001
-                              ],
-                              [
-                                4,
-                                25001,
-                                27391
-                              ]
-                            ]
-                          },
-                          {
-                            "verse_key": "1:6",
-                            "timestamp_from": 27835,
-                            "timestamp_to": 33388,
-                            "duration": -5553,
-                            "segments": [
-                              [
-                                1,
-                                27835,
-                                28265
-                              ],
-                              [
-                                2,
-                                28265,
-                                29405
-                              ],
-                              [
-                                3,
-                                29405,
-                                32545
-                              ]
-                            ]
-                          },
-                          {
-                            "verse_key": "1:7",
-                            "timestamp_from": 33388,
-                            "timestamp_to": 53092,
-                            "duration": -19704,
-                            "segments": [
-                              [
-                                1,
-                                33388,
-                                34338
-                              ],
-                              [
-                                2,
-                                34338,
-                                35448
-                              ],
-                              [
-                                3,
-                                35518,
-                                36698
-                              ],
-                              [
-                                4,
-                                36718,
-                                38678
-                              ],
-                              [
-                                5,
-                                38678,
-                                39608
-                              ],
-                              [
-                                6,
-                                39628,
-                                41638
-                              ],
-                              [
-                                7,
-                                41638,
-                                43778
-                              ],
-                              [
-                                8,
-                                43778,
-                                44218
-                              ],
-                              [
-                                9,
-                                44338,
-                                51818
-                              ]
-                            ]
-                          }
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/invalidRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/notFound"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessableEntity"
-          },
-          "429": {
-            "$ref": "#/components/responses/rateLimitExceeded"
-          },
-          "500": {
-            "$ref": "#/components/responses/internalServerError"
-          },
-          "502": {
-            "$ref": "#/components/responses/badGateway"
-          },
-          "503": {
-            "$ref": "#/components/responses/serviceUnavailable"
-          },
-          "504": {
-            "$ref": "#/components/responses/gatewayTimeout"
-          }
-        }
-      }
-    },
-    "/verses/by_rub_el_hizb/{rub_el_hizb_number}": {
-      "get": {
-        "tags": [
-          "Verses"
-        ],
-        "summary": "By Rub el Hizb number",
-        "description": "Get all verses of a specific Rub el Hizb number(1-240). Alias route for the same rub el hizb filter.",
-        "operationId": "verses-by_rub_el_hizb_number-rub-el-hizb",
-        "parameters": [
-          {
-            "name": "rub_el_hizb_number",
-            "in": "path",
-            "description": "Rub el Hizb number(1-240)",
-            "required": true,
-            "schema": {
-              "maximum": 240,
-              "minimum": 1,
-              "type": "integer"
-            }
-          },
-          {
-            "name": "language",
-            "in": "query",
-            "description": "Language to fetch word-by-word translation in a specific language.",
-            "schema": {
-              "type": "string",
-              "default": "en"
-            }
-          },
-          {
-            "name": "words",
-            "in": "query",
-            "description": "Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.",
-            "schema": {
-              "type": "string",
-              "default": "false",
-              "enum": [
-                "true",
-                "false"
-              ]
-            }
-          },
-          {
-            "name": "translations",
-            "in": "query",
-            "description": "comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "audio",
-            "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "tafsirs",
-            "in": "query",
-            "description": "Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "word_fields",
-            "in": "query",
-            "description": "Comma-separated list of word-level fields to include in response. [See full field reference](/docs/api/field-reference#word-level-fields).",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "translation_fields",
-            "in": "query",
-            "description": "Comma separated list of translation fields if you want to add more fields for each translation. [See full field reference](/docs/api/field-reference#translation-fields).",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "tafsir_fields",
-            "in": "query",
-            "description": "Comma separated list of tafsir fields if you want to add more fields for each tafsir. [See full field reference](/docs/api/field-reference#tafsir-fields).",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "verses": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/verse"
-                      }
-                    },
-                    "pagination": {
-                      "$ref": "#/components/schemas/pagination"
-                    }
-                  }
-                },
-                "example": {
-                  "verses": [
-                    {
-                      "id": 1,
-                      "verse_number": 1,
-                      "page_number": 1,
-                      "verse_key": "1:1",
-                      "juz_number": 1,
-                      "hizb_number": 1,
-                      "rub_el_hizb_number": 1,
-                      "sajdah_type": null,
-                      "sajdah_number": null,
-                      "words": [
-                        {
-                          "id": 1,
-                          "position": 1,
-                          "audio_url": "wbw/001_001_001.mp3",
-                          "char_type_name": "word",
-                          "line_number": 2,
-                          "page_number": 1,
-                          "code_v1": "&#xfb51;",
-                          "translation": {
-                            "text": "In (the) name",
-                            "language_name": "english"
-                          },
-                          "transliteration": {
-                            "text": "bis'mi",
-                            "language_name": "english"
-                          }
-                        }
-                      ],
-                      "translations": [
-                        {
-                          "resource_id": 131,
-                          "text": "In the Name of Allah—the Most Compassionate, Most Merciful."
-                        }
-                      ],
-                      "tafsirs": [
-                        {
-                          "id": 82641,
-                          "language_name": "english",
-                          "name": "Tafsir Ibn Kathir",
-                          "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>"
-                        }
-                      ]
-                    }
-                  ],
-                  "pagination": {
-                    "per_page": 1,
-                    "current_page": 1,
-                    "next_page": 2,
-                    "total_pages": 7,
-                    "total_records": 7
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/invalidRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/notFound"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessableEntity"
-          },
-          "429": {
-            "$ref": "#/components/responses/rateLimitExceeded"
-          },
-          "500": {
-            "$ref": "#/components/responses/internalServerError"
-          },
-          "502": {
-            "$ref": "#/components/responses/badGateway"
-          },
-          "503": {
-            "$ref": "#/components/responses/serviceUnavailable"
-          },
-          "504": {
-            "$ref": "#/components/responses/gatewayTimeout"
-          }
-        }
-      }
-    },
-    "/translations/{resource_id}/by_rub/{rub_el_hizb_number}": {
-      "get": {
-        "tags": [
-          "Translations"
-        ],
-        "summary": "Get translations for specific Rub el Hizb",
-        "description": "Get list of translations for a specific Rub el Hizb. Alias route for the same rub el hizb filter.",
-        "operationId": "list-rub-el-hizb-translations-rub",
-        "parameters": [
-          {
-            "name": "resource_id",
-            "in": "path",
-            "description": "Translation resource ID",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "rub_el_hizb_number",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "maximum": 240,
-              "minimum": 1,
-              "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra translation fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "translations": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/translation"
-                      }
-                    },
-                    "pagination": {
-                      "$ref": "#/components/schemas/pagination"
-                    }
-                  }
-                },
-                "example": {
-                  "translations": [
-                    {
-                      "id": 215201,
-                      "resource_id": 20,
-                      "text": "In the Name of Allah-the Most Compassionate, Most Merciful."
-                    },
-                    {
-                      "id": 215202,
-                      "resource_id": 20,
-                      "text": "All praise is for Allah, Lord of all worlds."
-                    }
-                  ],
-                  "pagination": {
-                    "per_page": 50,
-                    "current_page": 1,
-                    "next_page": 2,
-                    "total_pages": 12,
-                    "total_records": 600
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/invalidRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/notFound"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessableEntity"
-          },
-          "429": {
-            "$ref": "#/components/responses/rateLimitExceeded"
-          },
-          "500": {
-            "$ref": "#/components/responses/internalServerError"
-          },
-          "502": {
-            "$ref": "#/components/responses/badGateway"
-          },
-          "503": {
-            "$ref": "#/components/responses/serviceUnavailable"
-          },
-          "504": {
-            "$ref": "#/components/responses/gatewayTimeout"
-          }
-        }
-      }
-    },
-    "/tafsirs/{resource_id}/by_rub/{rub_el_hizb_number}": {
-      "get": {
-        "tags": [
-          "Tafsirs"
-        ],
-        "summary": "Get tafsirs for specific Rub el Hizb",
-        "description": "Get list of tafsirs for a specific Rub el Hizb. Alias route for the same rub el hizb filter.",
-        "operationId": "list-rub-el-hizb-tafsirs-rub",
-        "parameters": [
-          {
-            "name": "resource_id",
-            "in": "path",
-            "description": "Tafsir resource ID",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "rub_el_hizb_number",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "maximum": 240,
-              "minimum": 1,
-              "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra tafsir fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, resource_name, language_name, language_id, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "tafsirs": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/tafsir"
-                      }
-                    },
-                    "pagination": {
-                      "$ref": "#/components/schemas/pagination"
-                    }
-                  }
-                },
-                "example": {
-                  "tafsirs": [
-                    {
-                      "id": 82641,
-                      "resource_id": 169,
-                      "verse_key": "1:1",
-                      "language_id": 38,
-                      "text": "<h2 class=\"title\">Which was revealed in Makkah</h2><h2 class=\"title\">The Meaning of Al-Fatihah and its Various Names</h2>",
-                      "slug": "tafsir-ibn-kathir"
-                    }
-                  ],
-                  "pagination": {
-                    "per_page": 50,
-                    "current_page": 1,
-                    "next_page": 2,
-                    "total_pages": 12,
-                    "total_records": 600
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/invalidRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/notFound"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessableEntity"
-          },
-          "429": {
-            "$ref": "#/components/responses/rateLimitExceeded"
-          },
-          "500": {
-            "$ref": "#/components/responses/internalServerError"
-          },
-          "502": {
-            "$ref": "#/components/responses/badGateway"
-          },
-          "503": {
-            "$ref": "#/components/responses/serviceUnavailable"
-          },
-          "504": {
-            "$ref": "#/components/responses/gatewayTimeout"
-          }
-        }
-      }
-    },
-    "/recitations/{recitation_id}/by_rub_el_hizb/{rub_el_hizb_number}": {
-      "get": {
-        "tags": [
-          "Audio"
-        ],
-        "summary": "Get Ayah recitations for specific Rub el Hizb (alias: /by_rub_el_hizb)",
-        "description": "Get list of ayah AudioFile for a Rub el Hizb. Alias route for the same rub el hizb filter.",
-        "operationId": "list-rub-el-hizb-recitation-rub-el-hizb",
-        "parameters": [
-          {
-            "name": "recitation_id",
-            "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "rub_el_hizb_number",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "maximum": 240,
-              "minimum": 1,
-              "type": "number"
-            }
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Comma-separated list of extra audio file fields to include. Supported values: chapter_id, verse_number, verse_key, juz_number, hizb_number, rub_el_hizb_number, page_number, ruku_number, manzil_number, format, url, segments, duration, id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "For paginating within the result",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "records per api call, you can get maximum 50 records.",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "required": [
-                    "audio_files",
-                    "pagination"
-                  ],
-                  "type": "object",
-                  "properties": {
-                    "audio_files": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/audiofile"
-                      }
-                    },
-                    "pagination": {
-                      "$ref": "#/components/schemas/pagination"
-                    }
-                  }
-                },
-                "example": {
-                  "audio_files": [
-                    {
-                      "verse_key": "1:1",
-                      "url": "AbdulBaset/Mujawwad/mp3/001001.mp3"
-                    },
-                    {
-                      "verse_key": "1:2",
-                      "url": "AbdulBaset/Mujawwad/mp3/001002.mp3"
-                    },
-                    {
-                      "verse_key": "1:3",
-                      "url": "AbdulBaset/Mujawwad/mp3/001003.mp3"
-                    }
-                  ],
-                  "pagination": {
-                    "per_page": 10,
-                    "current_page": 1,
-                    "next_page": 2,
-                    "total_pages": 15,
-                    "total_records": 148
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/invalidRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/notFound"
-          },
-          "422": {
-            "$ref": "#/components/responses/unprocessableEntity"
-          },
-          "429": {
-            "$ref": "#/components/responses/rateLimitExceeded"
-          },
-          "500": {
-            "$ref": "#/components/responses/internalServerError"
-          },
-          "502": {
-            "$ref": "#/components/responses/badGateway"
-          },
-          "503": {
-            "$ref": "#/components/responses/serviceUnavailable"
-          },
-          "504": {
-            "$ref": "#/components/responses/gatewayTimeout"
-          }
-        }
       }
     }
   },
@@ -16129,6 +14866,7 @@
           "id",
           "chapter_id",
           "language_name",
+          "resource_id",
           "short_text",
           "source",
           "text"
@@ -16154,6 +14892,9 @@
           },
           "id": {
             "type": "integer"
+          },
+          "resource_id": {
+            "type": "integer"
           }
         },
         "example": {
@@ -16162,7 +14903,8 @@
           "short_text": "This Surah is named Al-Fatihah because of its subject-matter. Fatihah opens the book and the subject.",
           "language_name": "english",
           "source": "Sayyid Abul Ala Maududi - Tafhim al-Qur'an - The Meaning of the Quran",
-          "id": 1
+          "id": 1,
+          "resource_id": 61
         }
       },
       "language": {
@@ -16185,25 +14927,25 @@
           "direction": {
             "type": "string"
           },
-          "translations_count": {
-            "type": "integer",
-            "description": "Number of translation resources available in this language."
-          },
-          "translated_name": {
-            "$ref": "#/components/schemas/translated-name"
+          "translated_names": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/translated-name"
+            }
           }
         },
         "example": {
-          "id": 38,
+          "id": 1,
           "name": "English",
           "native_name": "English",
           "iso_code": "en",
           "direction": "ltr",
-          "translations_count": 100,
-          "translated_name": {
-            "name": "English",
-            "language_name": "english"
-          }
+          "translated_names": [
+            {
+              "name": "انگریزی",
+              "language_name": "Urdu"
+            }
+          ]
         }
       },
       "media-content": {
@@ -16408,31 +15150,18 @@
           "hizb_number": {
             "type": "integer"
           },
+          "rub_number": {
+            "type": "integer"
+          },
           "page_number": {
             "type": "integer"
-          },
-          "rub_el_hizb_number": {
-            "type": "integer"
-          },
-          "ruku_number": {
-            "type": "integer"
-          },
-          "manzil_number": {
-            "type": "integer"
-          },
-          "foot_notes": {
-            "type": "object",
-            "description": "Map of footnote IDs to their text. Present when `foot_notes=true`.",
-            "additionalProperties": {
-              "type": "string"
-            }
           }
         },
         "example": {
           "resource_id": 131,
           "resource_name": "Dr. Mustafa Khattab, the Clear Quran",
           "id": 903958,
-          "text": "In the Name of Allah - the Most Compassionate, Most Merciful.",
+          "text": "In the Name of Allah—the Most Compassionate, Most Merciful.",
           "verse_id": 1,
           "language_id": 38,
           "language_name": "english",
@@ -16445,9 +15174,7 @@
           "page_number": 1,
           "ruku_number": 1,
           "manzil_number": 1,
-          "foot_notes": {
-            "1": "Some editions note variant readings here."
-          }
+          "slug": "tafsir-ibn-kathir"
         }
       },
       "transliteration": {
@@ -16469,7 +15196,7 @@
           "id",
           "juz_number",
           "page_number",
-          "rub_el_hizb_number",
+          "rub_number",
           "verse_key",
           "verse_number"
         ],
@@ -16517,6 +15244,9 @@
             "type": "integer"
           },
           "hizb_number": {
+            "type": "integer"
+          },
+          "rub_number": {
             "type": "integer"
           },
           "page_number": {
@@ -16570,9 +15300,6 @@
             "minimum": 1,
             "type": "integer",
             "description": "Madani Mushaf Page number for v2 font. If `v2_page` value is 2, that means you'll use page 2 font file to render this ayah using v2 glyph codes."
-          },
-          "rub_el_hizb_number": {
-            "type": "integer"
           }
         },
         "example": {
@@ -16849,18 +15576,17 @@
           },
           "current_page": {
             "type": "integer",
-            "description": "Current page in paginated result"
+            "description": ""
           },
           "next_page": {
             "type": "integer",
-            "description": "Next page in paginated result",
-            "nullable": true
+            "description": "Next page in paginated result"
           },
-          "total_pages": {
+          "total_pages=": {
             "type": "integer",
             "description": "Total number of pages"
           },
-          "total_records": {
+          "total_records=": {
             "type": "integer"
           }
         },
@@ -16868,8 +15594,8 @@
           "per_page": 1,
           "current_page": 1,
           "next_page": 2,
-          "total_pages": 7,
-          "total_records": 7
+          "total_pages=": 7,
+          "total_records=": 7
         }
       },
       "juz": {
@@ -16944,6 +15670,10 @@
             "type": "string",
             "description": "The format of the file"
           },
+          "total_files": {
+            "type": "integer",
+            "description": "The total number of files"
+          },
           "audio_url": {
             "type": "string",
             "description": "The audio file's url"
@@ -16954,23 +15684,15 @@
           "chapter_id": 1,
           "file_size": 710784,
           "format": "mp3",
+          "total_files": 1,
           "audio_url": "https://download.quranicaudio.com/quran/abdullaah_3awwaad_al-juhaynee//001.mp3"
-        },
-        "required": [
-          "id",
-          "chapter_id",
-          "file_size",
-          "format",
-          "audio_url"
-        ]
+        }
       },
       "chapter-reciters": {
         "title": "Chapter Reciters",
         "required": [
           "id",
-          "name",
-          "style",
-          "qirat"
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -16982,60 +15704,30 @@
             "type": "string",
             "description": "Name of reciter in English"
           },
-          "style": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "nullable": true
-              },
-              "language_name": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "language_name"
-            ]
+          "arabic_name": {
+            "type": "string",
+            "description": "Reciter name in Arabic "
           },
-          "qirat": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "nullable": true
-              },
-              "language_name": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "language_name"
-            ]
+          "relative_path": {
+            "type": "string"
           },
-          "translated_name": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/translated-name"
-              }
-            ]
+          "format": {
+            "type": "string",
+            "description": "Audio files format",
+            "default": "mp3"
+          },
+          "files_size": {
+            "type": "number",
+            "description": "Total size of all audio files in KBs"
           }
         },
         "example": {
           "id": 3,
           "name": "Abu Bakr al-Shatri",
-          "style": {
-            "name": "Murattal",
-            "language_name": "english"
-          },
-          "qirat": {
-            "name": "Hafs",
-            "language_name": "english"
-          },
-          "translated_name": {
-            "name": "Abu Bakr al-Shatri",
-            "language_name": "english"
-          }
+          "arabic_name": "أبو بكر الشاطرى",
+          "relative_path": "abu_bakr_ash-shaatree/",
+          "format": "mp3",
+          "files_size": 1258422528
         }
       },
       "ListSurahRecitationAudioFile": {
@@ -18049,126 +16741,13 @@
           },
           "total": {
             "type": "number",
-            "example": 10
+            "example": "10 // works also with swagger setup"
           }
         },
         "required": [
           "comments",
           "total"
         ]
-      },
-      "QuranVerseText": {
-        "title": "Quran Verse Text",
-        "type": "object",
-        "required": [
-          "id",
-          "verse_key"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "verse_key": {
-            "type": "string"
-          },
-          "text_uthmani": {
-            "type": "string"
-          },
-          "text_uthmani_simple": {
-            "type": "string"
-          },
-          "text_uthmani_tajweed": {
-            "type": "string"
-          },
-          "text_indopak": {
-            "type": "string"
-          },
-          "text_indopak_nastaleeq": {
-            "type": "string"
-          },
-          "text_imlaei": {
-            "type": "string"
-          },
-          "text_imlaei_simple": {
-            "type": "string"
-          },
-          "text_qpc_hafs": {
-            "type": "string"
-          },
-          "text_qpc_nastaleeq": {
-            "type": "string"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "code_v1": {
-            "type": "string"
-          },
-          "code_v2": {
-            "type": "string"
-          },
-          "v1_page": {
-            "type": "integer"
-          },
-          "v2_page": {
-            "type": "integer"
-          }
-        },
-        "example": {
-          "id": 1,
-          "verse_key": "1:1",
-          "text_uthmani": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ"
-        }
-      },
-      "QuranFiltersMeta": {
-        "type": "object",
-        "required": [
-          "filters"
-        ],
-        "properties": {
-          "filters": {
-            "type": "object",
-            "additionalProperties": {
-              "oneOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "QuranTranslationMeta": {
-        "type": "object",
-        "required": [
-          "translation_name",
-          "author_name",
-          "filters"
-        ],
-        "properties": {
-          "translation_name": {
-            "type": "string"
-          },
-          "author_name": {
-            "type": "string"
-          },
-          "filters": {
-            "type": "object",
-            "additionalProperties": {
-              "oneOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            }
-          }
-        }
       }
     },
     "securitySchemes": {
