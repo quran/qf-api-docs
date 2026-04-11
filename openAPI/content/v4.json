@@ -8837,8 +8837,16 @@
                       "properties": {
                         "id": {
                           "type": "integer"
+                        },
+                        "info": {
+                          "type": "string",
+                          "nullable": true
                         }
-                      }
+                      },
+                      "required": [
+                        "id",
+                        "info"
+                      ]
                     }
                   }
                 },
@@ -8967,8 +8975,16 @@
                       "properties": {
                         "id": {
                           "type": "integer"
+                        },
+                        "info": {
+                          "type": "string",
+                          "nullable": true
                         }
-                      }
+                      },
+                      "required": [
+                        "id",
+                        "info"
+                      ]
                     }
                   }
                 },
