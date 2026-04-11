@@ -15156,7 +15156,7 @@
           "hizb_number": {
             "type": "integer"
           },
-          "rub_number": {
+          "rub_el_hizb_number": {
             "type": "integer"
           },
           "page_number": {
@@ -15202,7 +15202,7 @@
           "id",
           "juz_number",
           "page_number",
-          "rub_number",
+          "rub_el_hizb_number",
           "verse_key",
           "verse_number"
         ],
@@ -15252,7 +15252,7 @@
           "hizb_number": {
             "type": "integer"
           },
-          "rub_number": {
+          "rub_el_hizb_number": {
             "type": "integer"
           },
           "page_number": {
@@ -15587,6 +15587,7 @@
           },
           "next_page": {
             "type": "integer",
+            "nullable": true,
             "description": "Next page in paginated result"
           },
           "total_pages": {
@@ -16748,7 +16749,7 @@
           },
           "total": {
             "type": "number",
-            "example": "10 // works also with swagger setup"
+            "example": 10
           }
         },
         "required": [
