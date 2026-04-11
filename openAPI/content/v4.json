@@ -15980,6 +15980,306 @@
           }
         }
       }
+    },
+    "/answers/by_ayah/{ayah_key}": {
+      "get": {
+        "tags": [
+          "Answers"
+        ],
+        "summary": "Get answers for specific Ayah",
+        "description": "Get the published questions and answers shown under a specific ayah. Non-Arabic languages resolve to English upstream. If `page` is omitted, pagination is not applied even when `pageSize` is provided.",
+        "operationId": "list-ayah-answers",
+        "parameters": [
+          {
+            "name": "ayah_key",
+            "in": "path",
+            "description": "Ayah key in `chapter:verse` format, for example `2:255`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "1-based page number. When omitted, pagination is not applied.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size when `page` is provided. Maximum 10.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Requested language. `ar` returns Arabic; every other language resolves to English upstream.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswersByAyahResponse"
+                },
+                "example": {
+                  "questions": [
+                    {
+                      "id": "question-1",
+                      "body": "What is the context of this ayah?",
+                      "type": "CLARIFICATION",
+                      "ranges": [
+                        "2:255"
+                      ],
+                      "surah": 2,
+                      "theme": [
+                        "Faith"
+                      ],
+                      "summary": "A short summary",
+                      "references": [
+                        "Tafsir al-Tabari"
+                      ],
+                      "language": "en",
+                      "status": "Published",
+                      "answers": [
+                        {
+                          "id": "answer-1",
+                          "body": "This ayah is known as Ayat al-Kursi.",
+                          "answeredBy": "Scholar",
+                          "status": "Published",
+                          "language": "en"
+                        }
+                      ]
+                    }
+                  ],
+                  "totalCount": 1
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/answersInvalidParameter"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/answers/{question_id}": {
+      "get": {
+        "tags": [
+          "Answers"
+        ],
+        "summary": "Get answer thread by question ID",
+        "description": "Get a single published question with its published answers. This endpoint does not accept a language filter and preserves the internal answers payload without extra language filtering.",
+        "operationId": "get-answer-by-id",
+        "parameters": [
+          {
+            "name": "question_id",
+            "in": "path",
+            "description": "Question identifier from the answers payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswersQuestionDto"
+                },
+                "example": {
+                  "id": "question-1",
+                  "body": "What is the context of this ayah?",
+                  "type": "CLARIFICATION",
+                  "ranges": [
+                    "2:255"
+                  ],
+                  "surah": 2,
+                  "theme": [
+                    "Faith"
+                  ],
+                  "summary": "A short summary",
+                  "references": [
+                    "Tafsir al-Tabari"
+                  ],
+                  "language": "en",
+                  "status": "Published",
+                  "answers": [
+                    {
+                      "id": "answer-1",
+                      "body": "This ayah is known as Ayat al-Kursi.",
+                      "answeredBy": "Scholar",
+                      "status": "Published",
+                      "language": "en"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/answersNotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/answers/count_within_range": {
+      "get": {
+        "tags": [
+          "Answers"
+        ],
+        "summary": "Count answers within a verse range",
+        "description": "Get per-verse counts of published questions within a range. Non-Arabic languages resolve to English upstream. This endpoint preserves the internal range-limit behavior exactly: it rejects ranges where `to_index - from_index > 30`.",
+        "operationId": "count-answers-within-range",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Starting ayah key in `chapter:verse` format.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Ending ayah key in `chapter:verse` format.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Requested language. `ar` returns Arabic; every other language resolves to English upstream.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswersCountWithinRangeResponse"
+                },
+                "example": {
+                  "2:255": {
+                    "types": {
+                      "CLARIFICATION": 1,
+                      "TAFSIR": 1
+                    },
+                    "total": 2
+                  },
+                  "2:256": {
+                    "types": {
+                      "TAFSIR": 1
+                    },
+                    "total": 1
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/answersInvalidParameter"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -18169,6 +18469,296 @@
             }
           }
         }
+      },
+      "AnswersAnswerDto": {
+        "title": "AnswerDTO",
+        "type": "object",
+        "required": [
+          "id",
+          "body",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Answer identifier."
+          },
+          "body": {
+            "type": "string",
+            "description": "Published answer body."
+          },
+          "answeredBy": {
+            "type": "string",
+            "description": "Display name of the responder."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Draft",
+              "Published"
+            ]
+          },
+          "language": {
+            "type": "string",
+            "description": "Answer language ISO code when present."
+          }
+        },
+        "example": {
+          "id": "answer-1",
+          "body": "This ayah is known as Ayat al-Kursi.",
+          "answeredBy": "Scholar",
+          "status": "Published",
+          "language": "en"
+        }
+      },
+      "AnswersQuestionDto": {
+        "title": "QuestionDTO",
+        "type": "object",
+        "required": [
+          "id",
+          "body",
+          "type",
+          "ranges",
+          "surah",
+          "status",
+          "answers"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Question identifier."
+          },
+          "body": {
+            "type": "string",
+            "description": "Question text."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "CLARIFICATION",
+              "TAFSIR",
+              "COMMUNITY"
+            ]
+          },
+          "ranges": {
+            "type": "array",
+            "description": "Verse ranges returned by the internal DTO, e.g. 2:255-2:257.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "surah": {
+            "type": "integer",
+            "description": "Surah number associated with the question."
+          },
+          "theme": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "summary": {
+            "type": "string"
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "language": {
+            "type": "string",
+            "description": "Question language ISO code when present."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "New",
+              "Draft",
+              "Published",
+              "Answered"
+            ]
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnswersAnswerDto"
+            }
+          }
+        },
+        "example": {
+          "id": "question-1",
+          "body": "What is the context of this ayah?",
+          "type": "CLARIFICATION",
+          "ranges": [
+            "2:255"
+          ],
+          "surah": 2,
+          "theme": [
+            "Faith"
+          ],
+          "summary": "A short summary",
+          "references": [
+            "Tafsir al-Tabari"
+          ],
+          "language": "en",
+          "status": "Published",
+          "answers": [
+            {
+              "id": "answer-1",
+              "body": "This ayah is known as Ayat al-Kursi.",
+              "answeredBy": "Scholar",
+              "status": "Published",
+              "language": "en"
+            }
+          ]
+        }
+      },
+      "AnswersByAyahResponse": {
+        "title": "AnswersByAyahResponse",
+        "type": "object",
+        "required": [
+          "questions",
+          "totalCount"
+        ],
+        "properties": {
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnswersQuestionDto"
+            }
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "Total number of matching questions before pagination."
+          }
+        },
+        "example": {
+          "questions": [
+            {
+              "id": "question-1",
+              "body": "What is the context of this ayah?",
+              "type": "CLARIFICATION",
+              "ranges": [
+                "2:255"
+              ],
+              "surah": 2,
+              "theme": [
+                "Faith"
+              ],
+              "summary": "A short summary",
+              "references": [
+                "Tafsir al-Tabari"
+              ],
+              "language": "en",
+              "status": "Published",
+              "answers": [
+                {
+                  "id": "answer-1",
+                  "body": "This ayah is known as Ayat al-Kursi.",
+                  "answeredBy": "Scholar",
+                  "status": "Published",
+                  "language": "en"
+                }
+              ]
+            }
+          ],
+          "totalCount": 1
+        }
+      },
+      "AnswersCountWithinRangeEntry": {
+        "title": "AnswersCountWithinRangeEntry",
+        "type": "object",
+        "required": [
+          "types",
+          "total"
+        ],
+        "properties": {
+          "types": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "Per-question-type counts for the verse."
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of questions touching the verse."
+          }
+        },
+        "example": {
+          "types": {
+            "CLARIFICATION": 1,
+            "TAFSIR": 1
+          },
+          "total": 2
+        }
+      },
+      "AnswersCountWithinRangeResponse": {
+        "title": "AnswersCountWithinRangeResponse",
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/AnswersCountWithinRangeEntry"
+        },
+        "example": {
+          "2:255": {
+            "types": {
+              "CLARIFICATION": 1,
+              "TAFSIR": 1
+            },
+            "total": 2
+          },
+          "2:256": {
+            "types": {
+              "TAFSIR": 1
+            },
+            "total": 1
+          }
+        }
+      },
+      "AnswersQdcErrorDetail": {
+        "title": "AnswersQdcErrorDetail",
+        "type": "object",
+        "additionalProperties": true
+      },
+      "AnswersQdcError": {
+        "title": "AnswersQdcError",
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "INVALID_PARAMETER",
+              "NOT_FOUND"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "$ref": "#/components/schemas/AnswersQdcErrorDetail"
+          }
+        }
+      },
+      "AnswersQdcErrorResponse": {
+        "title": "AnswersQdcErrorResponse",
+        "type": "object",
+        "required": [
+          "status",
+          "error"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "error": {
+            "$ref": "#/components/schemas/AnswersQdcError"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -18332,6 +18922,45 @@
               "message": "Too many requests, please try again later",
               "type": "rate_limit_exceeded",
               "success": false
+            }
+          }
+        }
+      },
+      "answersInvalidParameter": {
+        "description": "Invalid parameter. Returned for malformed ayah keys, invalid ranges, or invalid pagination values.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AnswersQdcErrorResponse"
+            },
+            "example": {
+              "status": 400,
+              "error": {
+                "code": "INVALID_PARAMETER",
+                "message": "Invalid ayah_key format. Expected format: chapter:verse (e.g., 12:12)",
+                "details": {
+                  "parameter": "ayah_key",
+                  "provided": "2-255",
+                  "expected": "12:12"
+                }
+              }
+            }
+          }
+        }
+      },
+      "answersNotFound": {
+        "description": "Not Found. Returned when the requested published question does not exist.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AnswersQdcErrorResponse"
+            },
+            "example": {
+              "status": 404,
+              "error": {
+                "code": "NOT_FOUND",
+                "message": "Question not found"
+              }
             }
           }
         }
