@@ -14515,7 +14515,7 @@
             "in": "query",
             "style": "form",
             "explode": false,
-            "description": "Comma-separated Quran Reflect post type IDs. Use `1` to return reflections, `2` to return lessons, or include both values to search both content types.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
+            "description": "Comma-separated Quran Reflect post type IDs. Use `1` to return reflections, `2` to return lessons, or include both values to search both content types. `1` means Reflection, a personal and heart-centered response to an ayah; see https://quranreflect.com/faq. `2` means Lesson, a knowledge-based takeaway from an ayah focused on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
