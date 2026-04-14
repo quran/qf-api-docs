@@ -202,7 +202,7 @@ cursor.execute("""
 | `sub`          | Unique user ID (stable, never changes)  | **Primary key** for linking to your DB |
 | `email`        | User's email (if `email` scope granted) | Display, notifications                 |
 | `first_name`   | User's first name                       | Personalization                        |
-| `name`         | Full name                               | Display                                |
+| `last_name`    | User's last name                        | Personalization, display               |
 
 :::warning Don't use email as primary key
 Always use `sub` as the foreign key to link users. Email addresses can change, but `sub` is permanent and unique.
