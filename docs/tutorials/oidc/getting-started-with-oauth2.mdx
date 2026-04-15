@@ -200,7 +200,7 @@ cursor.execute("""
 | ID Token Claim | Description                             | Use For                                |
 | -------------- | --------------------------------------- | -------------------------------------- |
 | `sub`          | Unique user ID (stable, never changes)  | **Primary key** for linking to your DB |
-| `email`        | User's email (if `email` scope granted) | Display, notifications                 |
+| `email`        | User's email (when available)           | Display, notifications                 |
 | `first_name`   | User's first name                       | Personalization                        |
 | `last_name`    | User's last name                        | Personalization, display               |
 
