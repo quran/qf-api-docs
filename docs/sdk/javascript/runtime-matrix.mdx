@@ -1,0 +1,29 @@
+---
+title: "Runtime Matrix"
+description: "Decide which SDK runtime to use and whether you need a backend."
+slug: /sdk/javascript/runtime-matrix
+sidebar_position: 2
+---
+
+# Runtime Matrix
+
+Purpose: Decide which SDK runtime to use.  
+Use this when: You are not sure whether you need `server` or `public`.  
+Do not use this when: You already know your runtime and only need endpoint examples.  
+Backend required: See table below.  
+Allowed runtimes: Node.js, serverless functions, workers, browser apps, mobile apps.  
+Required credentials: Depends on runtime.  
+Minimal import: `@quranjs/api/server` or `@quranjs/api/public`.
+
+| Consumer type | Import | Backend required | Can use Content? | Can use Search? | Can use User APIs? | Can use OAuth2? | Needs `client_secret`? |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Backend integrator | `@quranjs/api/server` | Yes | Yes | Yes | Yes | Yes | Yes |
+| Full-stack app frontend | `@quranjs/api/public` | Yes | No | No | Yes | Yes | No |
+| Full-stack app backend | `@quranjs/api/server` | Yes | Yes | Yes | Yes | Yes | Yes |
+| Frontend-only public client | `@quranjs/api/public` | No | No | No | Limited | Limited | No |
+
+## Short Answer
+
+- If you have a backend, use `server`.
+- If you are in browser or mobile, use `public`.
+- If you need Content or Search, you need `server`.

@@ -17,13 +17,29 @@ const BASE_URL = 'https://api-docs.quran.foundation';
 
 const SECTION_ORDER = [
   'Getting Started',
+  'JavaScript SDK',
   'Content APIs v4',
   'User-Related APIs v1',
   'User-Related APIs v1 (Pre-live)',
   'OAuth2 APIs v1',
   'Search APIs v1',
   'Tutorials',
-  'JavaScript SDK',
+];
+
+const URL_PRIORITY = [
+  `${BASE_URL}/docs/sdk/javascript`,
+  `${BASE_URL}/docs/sdk/javascript/app-shapes`,
+  `${BASE_URL}/docs/sdk/javascript/runtime-matrix`,
+  `${BASE_URL}/docs/sdk/javascript/auth-matrix`,
+  `${BASE_URL}/docs/sdk/javascript/entrypoint-matrix`,
+  `${BASE_URL}/docs/sdk/javascript/apis-by-runtime`,
+  `${BASE_URL}/docs/sdk/javascript/server-quickstart`,
+  `${BASE_URL}/docs/sdk/javascript/public-quickstart`,
+  `${BASE_URL}/docs/sdk/javascript/full-stack`,
+  `${BASE_URL}/docs/sdk/javascript/common-errors`,
+  `${BASE_URL}/docs/sdk/javascript/migration-cheat-sheet`,
+  `${BASE_URL}/docs/tutorials/oidc/user-apis-quickstart`,
+  `${BASE_URL}/docs/tutorials/oidc/getting-started-with-oauth2`,
 ];
 
 // Directories to skip during the docs walk
@@ -82,8 +98,10 @@ function getTitle(fm, content, relpath) {
  */
 function getUrl(relpath, fm) {
   if (fm.slug) {
-    const slug = fm.slug;
-    return slug.startsWith('/') ? `${BASE_URL}${slug}` : `${BASE_URL}/${slug}`;
+    const slug = fm.slug.startsWith('/') ? fm.slug : `/${fm.slug}`;
+    const normalizedSlug =
+      slug === '/docs' || slug.startsWith('/docs/') ? slug : `/docs${slug}`;
+    return `${BASE_URL}${normalizedSlug}`;
   }
   // Strip .api.mdx / .info.mdx / .tag.mdx / .mdx / .md
   let rel = relpath.replace(/(?:\.(api|info|tag))?\.mdx?$/, '');
@@ -160,6 +178,22 @@ function generateLlmsTxt(docsDir) {
     if (sections[section]) {
       sections[section].push({ title, url });
     }
+  }
+
+  for (const entries of Object.values(sections)) {
+    entries.sort((left, right) => {
+      const leftPriority = URL_PRIORITY.indexOf(left.url);
+      const rightPriority = URL_PRIORITY.indexOf(right.url);
+
+      if (leftPriority !== -1 || rightPriority !== -1) {
+        return (
+          (leftPriority === -1 ? Number.MAX_SAFE_INTEGER : leftPriority) -
+          (rightPriority === -1 ? Number.MAX_SAFE_INTEGER : rightPriority)
+        );
+      }
+
+      return left.title.localeCompare(right.title);
+    });
   }
 
   const lines = [OPENAPI_HEADER];

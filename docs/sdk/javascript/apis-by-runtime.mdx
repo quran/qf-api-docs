@@ -1,0 +1,26 @@
+---
+title: "APIs By Runtime"
+description: "See which API families are available from each runtime."
+slug: /sdk/javascript/apis-by-runtime
+sidebar_position: 5
+---
+
+# APIs By Runtime
+
+Purpose: Map API families to runtimes.  
+Use this when: You want a yes or no answer for a specific API family.  
+Do not use this when: You need endpoint-specific examples.  
+Backend required: Often yes.  
+Allowed runtimes: Server and public runtimes.  
+Required credentials: Depends on API family.  
+Minimal import: `@quranjs/api/server` or `@quranjs/api/public`.
+
+| API family | `server` | `public` |
+| --- | --- | --- |
+| Content | Yes | No |
+| Search | Yes | No |
+| User APIs with existing session | Yes | Yes |
+| OAuth2 authorize URL | Yes | Yes |
+| OAuth2 code exchange for confidential clients | Yes | No |
+| OAuth2 code exchange for approved public clients | No need | Yes |
+| OAuth2 token introspection | Yes | No |

@@ -4,6 +4,7 @@
   "private": true,
   "packageManager": "yarn@1.22.19",
   "scripts": {
+    "test": "node --test tests/*.test.cjs",
     "deploy:pages": "yarn run build && wrangler pages deploy build",
     "docusaurus": "npx docusaurus",
     "llms:sync": "node scripts/sync-static-llms-txt.js",

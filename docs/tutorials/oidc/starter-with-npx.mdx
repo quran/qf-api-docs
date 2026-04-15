@@ -1,0 +1,49 @@
+---
+sidebar_position: 2
+displayed_sidebar: APIsSidebar
+title: "Starter With NPX"
+description: "Fastest public path to scaffold a production-shaped Quran Foundation app with @quranjs/create-app."
+---
+
+# Starter With NPX
+
+Purpose: Start a production-shaped Quran Foundation app in minutes.
+Use this when: You want the fastest external onboarding path with the official starter.
+Do not use this when: You are maintaining SDK internals or template internals.
+Backend required: Yes.
+Allowed runtimes: Frontend + backend (recommended).
+Required credentials: `CLIENT_ID`, `CLIENT_SECRET`, and app URLs.
+Minimal command: `npx @quranjs/create-app@latest`.
+
+## Primary Command
+
+```bash
+npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
+```
+
+## What You Get
+
+- Next.js starter app with Quran Foundation SDK wiring
+- OAuth2/OIDC login/logout flow with server-side session architecture
+- Reader, search, and signed-in user feature surfaces
+- Production-shaped backend boundary that keeps `client_secret` server-side
+
+## Required Environment Variables
+
+Set these in your deployment environment:
+
+- `APP_BASE_URL`
+- `CLIENT_ID`
+- `CLIENT_SECRET`
+- `SESSION_SECRET`
+
+## Production-Minded Next Steps
+
+1. Build and verify the app with `npm run build`.
+2. Deploy to your platform.
+3. Configure OAuth2 client redirect URIs and post-logout redirect URIs to match deployed URLs.
+4. Validate login, callback, token refresh behavior, and logout redirect chain.
+
+## Important Note
+
+Local SDK/template workflows are maintainer-only and intentionally omitted from this public onboarding tutorial.

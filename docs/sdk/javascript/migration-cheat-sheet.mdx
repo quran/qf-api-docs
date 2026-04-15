@@ -1,0 +1,30 @@
+---
+title: "Migration Cheat Sheet"
+description: "Short migration guide from the old universal client to the new runtime-specific entrypoints."
+slug: /sdk/javascript/migration-cheat-sheet
+sidebar_position: 16
+---
+
+# Migration Cheat Sheet
+
+Purpose: Migrate old SDK usage quickly.  
+Use this when: Your code still uses `QuranClient`.  
+Do not use this when: You are starting a new integration.  
+Backend required: Depends on your API family.  
+Allowed runtimes: Server and public runtimes.  
+Required credentials: `client_id` always. `client_secret` only on the server.  
+Minimal import: `@quranjs/api/server` or `@quranjs/api/public`.
+
+| Old code | New code |
+| --- | --- |
+| `import { QuranClient } from "@quranjs/api"` | `import { createServerClient } from "@quranjs/api/server"` |
+| `new QuranClient({ clientId, clientSecret })` | `createServerClient({ clientId, clientSecret })` |
+| `client.chapters.findAll()` | `client.content.v4.chapters.list()` |
+| `client.search.search("mercy", { mode })` | `client.search.v1.query({ query: "mercy", mode })` |
+| frontend with `clientSecret` | `createPublicClient({ clientId, clientType: "confidential-proxy" })` |
+
+## Rule of Thumb
+
+- Server work uses `server`.
+- Browser or mobile work uses `public`.
+- Content and Search stay on the server.

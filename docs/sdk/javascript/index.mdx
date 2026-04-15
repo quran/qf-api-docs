@@ -1,130 +1,230 @@
 ---
-title: JavaScript SDK
-description: Install and configure @quranjs/api - the official TypeScript/JavaScript SDK for the Quran.Foundation API.
+title: "JavaScript SDK"
+description: "Use the Quran Foundation JavaScript SDK with the correct runtime entrypoint. Start here before reading any endpoint-specific page."
 slug: /sdk/javascript
+sidebar_position: 1
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+# JavaScript SDK
 
-The official JavaScript/TypeScript SDK for the Quran.Foundation API. Works in Node.js and browsers.
+Purpose: Choose the correct SDK entrypoint before you write code.
+Use this when: You want to use Quran Foundation APIs from JavaScript or TypeScript.
+Do not use this when: You only need raw HTTP examples and do not want an SDK.
+Backend required: Depends on the API family and your client type.
+Allowed runtimes: Node.js, serverless functions, workers, browser apps, mobile apps.
+Required credentials: `client_id` always. `client_secret` only on the server.
+Minimal import: `@quranjs/api/server` or `@quranjs/api/public`.
 
-<p>
-  <a
-    href="https://www.npmjs.com/package/@quranjs/api"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    View on NPM
-  </a>{" "}
-  ·{" "}
-  <a
-    href="https://github.com/quran/api-js"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    GitHub Repository
-  </a>
-</p>
+The SDK now has **two runtime entrypoints**:
 
-## Installation
+- `@quranjs/api/server`
+- `@quranjs/api/public`
 
-<Tabs groupId="sdk-install" queryString>
-  <TabItem value="npm" label="npm">
+There is **no single universal client constructor** anymore. That is intentional. It makes the safe path obvious.
 
-```bash
-npm install @quranjs/api
-```
+If you are still asking "what kind of app am I building?" start with [App Shapes](/docs/sdk/javascript/app-shapes). It is the shortest path to the right architecture.
 
-  </TabItem>
-  <TabItem value="pnpm" label="pnpm">
+Production defaults are built in. If you are maintaining the SDK itself and need local smoke or local docs instructions, use the maintainer guide in the [`api-js` repo](https://github.com/quran/api-js/tree/main/packages/api#local-development).
+
+If you use the full-stack OAuth2 example, remember that it is an interactive React SPA shell backed by server-side sessions. For serious multi-instance production deployments, use a shared session store such as Redis.
+
+## Quick Start With Scaffold
+
+Use the official NPX scaffold for the fastest external onboarding path:
 
 ```bash
-pnpm install @quranjs/api
+npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
 ```
 
-  </TabItem>
-  <TabItem value="yarn" label="yarn">
+Then follow:
 
-```bash
-yarn add @quranjs/api
-```
+- [Starter With NPX](/docs/tutorials/oidc/starter-with-npx)
 
-  </TabItem>
-  <TabItem value="bun" label="bun">
+## Two Token Paths
 
-```bash
-bun add @quranjs/api
-```
+There are two different tokens in the system:
 
-  </TabItem>
-</Tabs>
+- The **user token** is for personal actions like notes, bookmarks, collections, and QuranReflect user data.
+- The **app token** is for app-level reads like Quran content and search.
 
-## Quick Start
+They solve different jobs, so they can expire at different times. That is why Content can still work even when User APIs start failing. Content and Search use a separate app token that `@quranjs/api/server` gets with `client_credentials`. User APIs use the signed-in user's session token.
+
+The browser never gets the `client_secret`. The secret stays on the backend so the backend can exchange codes, refresh user sessions, and ask for app tokens safely.
+
+## PKCE + Backend
+
+PKCE is the "proof" the app sends during login. It helps the app prove the same login request came back to it.
+
+For most clients, PKCE is only half the story:
+
+- The frontend or mobile app starts login with PKCE.
+- The backend or BFF finishes the confidential parts, like code exchange and refresh.
+- The backend stores the session server-side.
+
+That is why modern edge or serverless frontends still usually need a backend layer. The edge can host the UI, but the confidential token work and shared session storage still belong in a backend or BFF.
+
+## Pick Your Setup
+
+If you want the very short version, use this:
+
+- **SPA only**: User APIs only, and only if Quran Foundation approved your app as a public client.
+- **Mobile only**: same as SPA only.
+- **Frontend + backend**: the normal path for Content, Search, and apps that mix user features with Quran data.
+
+### I have a backend
+
+Use `@quranjs/api/server`.
+
+This is the right choice for:
+
+- Content APIs
+- Search APIs
+- Confidential OAuth2 token exchange
+- Cron jobs
+- Workers
+- Server-side rendering
+
+### I have frontend + backend
+
+Use both:
+
+- frontend: `@quranjs/api/public`
+- backend: `@quranjs/api/server`
+
+This is the recommended setup for most apps.
+
+### I only have frontend or mobile
+
+Use `@quranjs/api/public`.
+
+This only works safely for:
+
+- PKCE login
+- user-session flows
+- clients that Quran Foundation explicitly provisioned as **public**
+
+It does **not** support `client_secret`.
+
+## Do I Need a Backend?
+
+| API family                               | Backend required? | Notes                                                          |
+| ---------------------------------------- | ----------------- | -------------------------------------------------------------- |
+| Content                                  | Yes               | Use `@quranjs/api/server`                                      |
+| Search                                   | Yes               | Use `@quranjs/api/server`                                      |
+| User APIs                                | Usually yes       | Most clients are confidential by default                       |
+| OAuth2 login                             | Usually yes       | Frontend starts PKCE, backend exchanges code                   |
+| OAuth2 login for approved public clients | No                | Only if Quran Foundation explicitly says your client is public |
+
+If your app is deployed as an edge frontend, keep the confidential exchange, refresh, and shared session store in a backend or BFF layer. The edge can still be the entrypoint for users.
+
+## Use the Right Import
+
+### Server
 
 ```ts
-import { Language, QuranClient } from "@quranjs/api";
+import { createServerClient } from "@quranjs/api/server";
 
-// Initialize the client
-const client = new QuranClient({
-  clientId: process.env.QURAN_CLIENT_ID!,
-  clientSecret: process.env.QURAN_CLIENT_SECRET!,
-  defaults: {
-    language: Language.ENGLISH,
-  },
+const client = createServerClient({
+  clientId: process.env.CLIENT_ID!,
+  clientSecret: process.env.CLIENT_SECRET!,
 });
 
-// Fetch all chapters
-const chapters = await client.chapters.findAll();
+const chapters = await client.content.v4.chapters.list();
+```
 
-// Get a specific verse
-const verse = await client.verses.findByKey("2:255", {
-  translations: [20],
-  words: true,
+### Public
+
+```ts
+import { createPublicClient } from "@quranjs/api/public";
+
+const client = createPublicClient({
+  clientId: "your-client-id",
+  clientType: "confidential-proxy",
 });
 
-// Search
-const results = await client.search.search("light", {
+const authUrl = client.oauth2.v1.authorizeUrl({
+  client_id: "your-client-id",
+  redirect_uri: "http://localhost:3000/callback",
+  response_type: "code",
+  scope: "openid offline_access user bookmark",
+  state: "random-state",
+});
+```
+
+## First Working Examples
+
+### Server example
+
+```ts
+import { createServerClient } from "@quranjs/api/server";
+import { SearchMode } from "@quranjs/api";
+
+const client = createServerClient({
+  clientId: process.env.CLIENT_ID!,
+  clientSecret: process.env.CLIENT_SECRET!,
+});
+
+const chapters = await client.content.v4.chapters.list();
+const results = await client.search.v1.query({
+  query: "mercy",
   mode: SearchMode.Quick,
-  language: Language.ENGLISH,
 });
 ```
 
-## Environment Variables
+### Full-stack example
 
-```bash
-# .env
-QURAN_CLIENT_ID=your_client_id
-QURAN_CLIENT_SECRET=your_client_secret
-```
+Frontend:
 
 ```ts
-const client = new QuranClient({
-  clientId: process.env.QURAN_CLIENT_ID!,
-  clientSecret: process.env.QURAN_CLIENT_SECRET!,
+import { createPublicClient } from "@quranjs/api/public";
+
+const client = createPublicClient({
+  clientId: "your-client-id",
+  clientType: "confidential-proxy",
 });
 ```
 
-## Runtime Configuration
+Backend:
 
 ```ts
-// Get current config
-const config = client.getConfig();
+import { createServerClient } from "@quranjs/api/server";
 
-// Update config
-client.updateConfig({
-  defaults: { language: Language.ARABIC },
+const client = createServerClient({
+  clientId: process.env.CLIENT_ID!,
+  clientSecret: process.env.CLIENT_SECRET!,
 });
-
-// Clear auth token
-client.clearCachedToken();
 ```
 
-## Next Steps
+## Common Mistakes
 
-- [Chapters API](/docs/sdk/javascript/chapters)
-- [Verses API](/docs/sdk/javascript/verses)
-- [Audio API](/docs/sdk/javascript/audio)
-- [Resources API](/docs/sdk/javascript/resources)
-- [Search API](/docs/sdk/javascript/search)
-- [Migration Guide](/docs/sdk/javascript/migration)
+- Putting `client_secret` in browser or mobile code.
+- Calling Content or Search from `@quranjs/api/public`.
+- Assuming every client can exchange OAuth2 codes directly.
+- Using the root package as if it exports one universal client.
+
+## AI Handoff Prompt
+
+```text
+Scaffold a Quran Foundation production-ready app using the official starter and then implement required product features.
+
+Scaffold command
+- npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
+
+Reference docs
+- https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx
+- https://api-docs.quran.foundation/docs/sdk/javascript
+- https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2
+```
+
+## Read Next
+
+- [App Shapes](/docs/sdk/javascript/app-shapes)
+- [Runtime Matrix](/docs/sdk/javascript/runtime-matrix)
+- [Auth Matrix](/docs/sdk/javascript/auth-matrix)
+- [SDK Entrypoint Matrix](/docs/sdk/javascript/entrypoint-matrix)
+- [APIs By Runtime](/docs/sdk/javascript/apis-by-runtime)
+- [Server Quickstart](/docs/sdk/javascript/server-quickstart)
+- [Public Quickstart](/docs/sdk/javascript/public-quickstart)
+- [Full-Stack Quickstart](/docs/sdk/javascript/full-stack)
+- [Common Errors](/docs/sdk/javascript/common-errors)
+- [Migration Cheat Sheet](/docs/sdk/javascript/migration-cheat-sheet)
