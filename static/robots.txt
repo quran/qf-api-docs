@@ -1,25 +1,34 @@
-# Allow search and user-directed AI retrieval for the public docs, but opt out of AI training.
+# Allow documented search/indexing bots, but opt out of training and live AI input.
 User-agent: OAI-SearchBot
-User-agent: Claude-Web
-User-agent: ClaudeBot
-User-agent: Amazonbot
-Content-Signal: ai-train=no, search=yes, ai-input=yes
+User-agent: Claude-SearchBot
+User-agent: Amzn-SearchBot
+User-agent: Applebot
+Content-Signal: ai-train=no, search=yes, ai-input=no
 Allow: /
 Disallow: /search
 Disallow: /request-scopes
 
-# Block training and extended-use crawlers from fetching site content.
+# Block documented training, grounding, and user-fetch bots.
 User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: Amazonbot
+User-agent: Amzn-User
 User-agent: Google-Extended
-User-agent: anthropic-ai
-User-agent: Bytespider
-User-agent: CCBot
 User-agent: Applebot-Extended
 Content-Signal: ai-train=no, search=no, ai-input=no
 Disallow: /
 
+# Block legacy or compatibility AI crawler tokens explicitly.
+User-agent: Claude-Web
+User-agent: anthropic-ai
+User-agent: Bytespider
+User-agent: CCBot
+Content-Signal: ai-train=no, search=no, ai-input=no
+Disallow: /
+
 User-agent: *
-Content-Signal: ai-train=no, search=yes, ai-input=yes
+Content-Signal: ai-train=no, search=yes, ai-input=no
 Allow: /
 Disallow: /search
 Disallow: /request-scopes
