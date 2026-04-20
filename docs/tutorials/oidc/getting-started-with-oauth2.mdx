@@ -826,7 +826,7 @@ Implementation requirements (server-side)
 - Build a client wrapper that automatically:
   - injects x-auth-token and x-client-id on every request
   - targets the correct API base URL from getQfOAuthConfig()
-- For web apps, prefer making the resource call from your backend or proxy layer rather than page JavaScript.
+- For web apps, prefer making the resource call from your backend or proxy layer rather than from page JavaScript.
 - If you intentionally make the resource call from browser code, the browser origin must still be accepted by the target service.
 
 User API base

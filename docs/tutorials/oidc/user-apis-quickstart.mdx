@@ -42,7 +42,7 @@ For web apps, the recommended shape is:
 - keep the app's user session in secure server storage or `httpOnly` cookies
 - have your backend or serverless proxy send `x-auth-token` and `x-client-id` when calling Quran Foundation User APIs
 
-Direct browser calls from third-party origins are not the recommended web pattern and may be rejected by service origin policies.
+Direct browser calls from third-party origins are not the recommended web pattern and may be rejected by CORS allowlisting or other origin allowlist checks.
 
 ## Choose Your Platform
 
