@@ -15,10 +15,18 @@ function withHeaders(response, headers, method) {
   });
 }
 
+function shouldRewriteMarkdownContentType(response) {
+  return response.ok && !isHtmlContentType(response.headers.get("Content-Type"));
+}
+
 async function negotiateMarkdownResponse({ assetsFetch, request, response }) {
   const url = new URL(request.url);
 
   if (isMarkdownPath(url.pathname)) {
+    if (!shouldRewriteMarkdownContentType(response)) {
+      return response;
+    }
+
     const headers = new Headers(response.headers);
     headers.set("Content-Type", MARKDOWN_CONTENT_TYPE);
     return withHeaders(response, headers, request.method);

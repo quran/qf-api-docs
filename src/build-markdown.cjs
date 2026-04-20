@@ -302,8 +302,19 @@ function renderCodeBlock(node, context) {
     return "";
   }
 
+  const fence = createCodeFence(code);
   const languageSuffix = language || "";
-  return `\`\`\`${languageSuffix}\n${code}\n\`\`\`\n\n`;
+  return `${fence}${languageSuffix}\n${code}\n${fence}\n\n`;
+}
+
+function createCodeFence(code) {
+  const backtickRuns = code.match(/`+/g) || [];
+  const longestRun = backtickRuns.reduce(
+    (maxLength, run) => Math.max(maxLength, run.length),
+    0,
+  );
+
+  return "`".repeat(Math.max(3, longestRun + 1));
 }
 
 function renderList(node, ordered, context) {

@@ -77,6 +77,27 @@ test("builds markdown from article content and preserves code blocks", () => {
   assert.doesNotMatch(markdown, /Ignore me/);
 });
 
+test("uses a longer outer fence when code blocks contain triple backticks", () => {
+  const markdown = buildMarkdown.buildMarkdownDocument({
+    html: [
+      "<!doctype html>",
+      "<html>",
+      "  <body>",
+      "    <article>",
+      "      <h1>Markdown Example</h1>",
+      "      <pre><code>```md",
+      "# Nested fence",
+      "```</code></pre>",
+      "    </article>",
+      "  </body>",
+      "</html>",
+    ].join("\n"),
+    sourceUrl: "https://api-docs.quran.foundation/docs/markdown-example/",
+  });
+
+  assert.match(markdown, /````\n```md\n# Nested fence\n```\n````/);
+});
+
 test("exports markdown siblings next to generated html files", () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "qf-markdown-"));
   const docsDir = path.join(tempDir, "docs", "quickstart");
@@ -126,6 +147,31 @@ test("serves markdown with the negotiated content type while preserving HTML by 
   assert.match(response.headers.get("Vary"), /Accept/);
   assert.equal(response.headers.get("x-markdown-tokens"), "42");
   assert.equal(await response.text(), "# Quickstart\n");
+});
+
+test("keeps direct .md requests as HTML when the response is an HTML error page", async () => {
+  const request = new Request("https://api-docs.quran.foundation/docs/missing/index.md");
+  const html404 = new Response("<html><body><h1>Not Found</h1></body></html>", {
+    status: 404,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+    },
+  });
+
+  const response = await runtime.negotiateMarkdownResponse({
+    assetsFetch: async () => {
+      throw new Error("assets fetch should not run for direct .md requests");
+    },
+    request,
+    response: html404,
+  });
+
+  assert.equal(response.status, 404);
+  assert.equal(response.headers.get("Content-Type"), "text/html; charset=utf-8");
+  assert.equal(
+    await response.text(),
+    "<html><body><h1>Not Found</h1></body></html>",
+  );
 });
 
 test("keeps HTML as the default response for non-markdown clients", async () => {
