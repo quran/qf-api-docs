@@ -11,6 +11,7 @@
 /docs/search_apis_versioned/1.0.0/ /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
 /docs/user_related_apis_versioned /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
 /docs/user_related_apis_versioned/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
+# Keep scopes on the non-versioned URL to avoid redirect loops with the generic user API rule.
 /docs/user_related_apis_versioned/scopes /docs/user_related_apis_versioned/scopes/ 301
 /docs/user_related_apis_versioned/1.0.0 /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
 /docs/user_related_apis_versioned/1.0.0/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
@@ -158,7 +159,6 @@
 /docs/search_apis_versioned/1.0.0/:slug /docs/search_apis_versioned/1.0.0/:slug/ 301
 /docs/user_related_apis_prelive/:slug /docs/user_related_apis_prelive/:slug/ 301
 /docs/user_related_apis_versioned/:slug /docs/user_related_apis_versioned/1.0.0/:slug/ 301
-/docs/user_related_apis_versioned/:slug/ /docs/user_related_apis_versioned/1.0.0/:slug/ 301
 /docs/user_related_apis_versioned/1.0.0/:slug /docs/user_related_apis_versioned/1.0.0/:slug/ 301
 /docs/oauth2_apis_versioned/:slug /docs/oauth2_apis_versioned/1.0.0/:slug/ 301
 /docs/oauth2_apis_versioned/:slug/ /docs/oauth2_apis_versioned/1.0.0/:slug/ 301
