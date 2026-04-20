@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /search
+Disallow: /request-scopes
+
+Sitemap: https://api-docs.quran.foundation/sitemap.xml
