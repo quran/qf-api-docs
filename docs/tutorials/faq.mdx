@@ -26,7 +26,13 @@ Submit an [application](/request-access) to receive your `client_id` and `client
 
 Include your OAuth2 access token in the `x-auth-token` header and your client ID in the `x-client-id` header when calling authenticated endpoints.
 
-If the call is made directly from browser JavaScript, the browser origin must also be allowed by the target service. If your app origin is not allowlisted, proxy the request through your backend.
+For web apps, the recommended pattern is to store the user session in your backend or secure `httpOnly` cookies and have your backend or serverless proxy send `x-auth-token` and `x-client-id` to Quran Foundation.
+
+## Why does the same request work in curl but fail in the browser?
+
+`curl` usually sends no browser `Origin` header, while browser JavaScript does. If you call a User API directly from page code on a third-party origin, the request can be rejected by the target service's browser-origin policy even when the token itself is valid.
+
+For confidential web integrations, route the resource request through your backend or serverless proxy instead of calling Quran Foundation directly from the page.
 
 ## What are the best practices for refresh tokens?
 

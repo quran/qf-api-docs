@@ -76,7 +76,7 @@ const response = await fetch(
 const bookmarks = await response.json();
 ```
 
-Because this example keeps the session and API call flow on the server, it is not subject to browser-origin allowlisting. If you move the resource call into frontend browser code, the app origin must be allowed by the target service or the call should be proxied through your backend.
+This example keeps the user session on the server and uses the server to send `x-auth-token` and `x-client-id` to Quran Foundation. That is the recommended pattern for confidential web clients. If you move the resource call into frontend browser code, you leave that server-side pattern and may run into browser-origin restrictions.
 
 ## Accessing Resources
 

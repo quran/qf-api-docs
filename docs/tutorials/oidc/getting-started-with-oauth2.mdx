@@ -232,8 +232,10 @@ sequenceDiagram
     Auth-->>Backend: Token Response<br/>(access_token, refresh_token)
     Backend-->>App: Session or token payload
 
-    App->>API: Use token to call Quran.Foundation's API
-    API-->>App: Requested resource
+    App->>Backend: Request resource
+    Backend->>API: Use token to call Quran.Foundation's API
+    API-->>Backend: Requested resource
+    Backend-->>App: Requested resource
 
     Note over App,Backend: Access token expires (1 hour)
 
@@ -757,7 +759,7 @@ x-client-id: YOUR_CLIENT_ID
 
 Note: the collections examples below require the `collection` scope, and other User API endpoints may require additional scopes such as `user`. A token granted only `openid offline_access` is sufficient for login and refresh, but not for every User API call.
 
-If you call User APIs directly from browser JavaScript, the calling page origin must be allowed by the target service. If your app origin is not allowlisted, send the resource request through your backend instead.
+For confidential web clients, the recommended pattern is to have your backend or serverless proxy send these headers on outbound requests to Quran Foundation. Your app can keep the user session in a server session or secure `httpOnly` cookies while the backend injects `x-auth-token` and `x-client-id`.
 
 <details>
 <summary><b>cURL — Get collections</b></summary>
@@ -824,7 +826,8 @@ Implementation requirements (server-side)
 - Build a client wrapper that automatically:
   - injects x-auth-token and x-client-id on every request
   - targets the correct API base URL from getQfOAuthConfig()
-- If your app makes the resource call from browser code instead of the backend, ensure that the browser origin is allowlisted by the target service or proxy the request through your backend.
+- For web apps, prefer making the resource call from your backend or proxy layer rather than page JavaScript.
+- If you intentionally make the resource call from browser code, the browser origin must still be accepted by the target service.
 
 User API base
 - Use apiBaseUrl from config:
@@ -1058,7 +1061,7 @@ Acceptance checklist
 | `redirect_uri_mismatch`   | Redirect URI not exact match               | Align with registered value                          |
 | `invalid_scope`           | Scope misspelled or not allowed            | Use valid scopes; request incrementally              |
 | `401 Unauthorized` (APIs) | Missing/expired token                      | Send `x-auth-token` and `x-client-id`, refresh token |
-| `403 Forbidden` (APIs)    | Browser origin is not allowlisted, or scope/permission is not granted | Use an allowed browser origin, proxy the request through your backend, or request the correct scope |
+| `403 Forbidden` (APIs)    | Direct browser call from a restricted origin, or scope/permission is not granted | For web apps, route the request through your backend or proxy; otherwise use a supported browser origin and request the correct scope |
 
 <details>
 <summary><b>AI prompt: troubleshooting + safe logs</b></summary>
@@ -1138,7 +1141,7 @@ x-auth-token: YOUR_ACCESS_TOKEN
 x-client-id: YOUR_CLIENT_ID
 ```
 
-See [Step 4: Call User APIs with Headers](#step-4-call-user-apis-with-headers) for complete examples in cURL, JavaScript, and Python.
+For web apps, your backend or serverless proxy should usually be the component that sends these headers to Quran Foundation. See [Step 4: Call User APIs with Headers](#step-4-call-user-apis-with-headers) for complete examples in cURL, JavaScript, and Python.
 
 ### I'm getting `invalid_client` — what's wrong?
 
