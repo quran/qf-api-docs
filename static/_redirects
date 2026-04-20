@@ -1,165 +1,29 @@
 # Cloudflare Pages redirects configuration
 
-# Canonical API landing pages
-/docs/content_apis_versioned /docs/content_apis_versioned/4.0.0/content-apis/ 301
-/docs/content_apis_versioned/ /docs/content_apis_versioned/4.0.0/content-apis/ 301
-/docs/content_apis_versioned/4.0.0 /docs/content_apis_versioned/4.0.0/content-apis/ 301
-/docs/content_apis_versioned/4.0.0/ /docs/content_apis_versioned/4.0.0/content-apis/ 301
-/docs/search_apis_versioned /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
-/docs/search_apis_versioned/ /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
-/docs/search_apis_versioned/1.0.0 /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
-/docs/search_apis_versioned/1.0.0/ /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
-/docs/user_related_apis_versioned /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/scopes /docs/user_related_apis_versioned/scopes/ 301
-/docs/user_related_apis_versioned/1.0.0 /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/scopes /docs/user_related_apis_versioned/scopes/ 301
-/docs/user_related_apis_versioned/1.0.0/scopes/ /docs/user_related_apis_versioned/scopes/ 301
-/docs/oauth2_apis_versioned /docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ 301
-/docs/oauth2_apis_versioned/ /docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ 301
-/docs/oauth2_apis_versioned/1.0.0 /docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ 301
-/docs/oauth2_apis_versioned/1.0.0/ /docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ 301
+# https://developers.cloudflare.com/pages/platform/redirects/
 
-# Legacy tutorial and SDK routes
-/docs/category/mobile-apps /docs/tutorials/oidc/mobile-apps/ 301
-/docs/category/mobile-apps/ /docs/tutorials/oidc/mobile-apps/ 301
-/docs/tutorials/oidc/request-access /request-access/ 301
-/docs/tutorials/oidc/request-access/ /request-access/ 301
-/docs/sdk/search /docs/sdk/javascript/search/ 301
-/docs/sdk/search/ /docs/sdk/javascript/search/ 301
-/docs/sdk/chapters /docs/sdk/javascript/chapters/ 301
-/docs/sdk/chapters/ /docs/sdk/javascript/chapters/ 301
-/docs/sdk/juzs /docs/sdk/javascript/juzs/ 301
-/docs/sdk/juzs/ /docs/sdk/javascript/juzs/ 301
-/docs/sdk/verses /docs/sdk/javascript/verses/ 301
-/docs/sdk/verses/ /docs/sdk/javascript/verses/ 301
-/docs/sdk/audio /docs/sdk/javascript/audio/ 301
-/docs/sdk/audio/ /docs/sdk/javascript/audio/ 301
-/docs/sdk/resources /docs/sdk/javascript/resources/ 301
-/docs/sdk/resources/ /docs/sdk/javascript/resources/ 301
-/docs/sdk/migration /docs/sdk/javascript/v1-migration-guide/ 301
-/docs/sdk/migration/ /docs/sdk/javascript/v1-migration-guide/ 301
+# Redirect trailing slashes to non-trailing slash URLs (optional)
 
-# Legacy intro aliases
-/docs/search_apis_versioned/search-apis /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
-/docs/search_apis_versioned/search-apis/ /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
-/docs/search_apis_versioned/1.0.0/search-apis /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
-/docs/search_apis_versioned/1.0.0/search-apis/ /docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ 301
-/docs/oauth2_apis_versioned/oauth2_apis /docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ 301
-/docs/oauth2_apis_versioned/oauth2_apis/ /docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ 301
-/docs/oauth2_apis_versioned/1.0.0/oauth2_apis /docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ 301
-/docs/oauth2_apis_versioned/1.0.0/oauth2_apis/ /docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ 301
+# Uncomment if you want to enforce no trailing slashes:
 
-# Legacy Content API slugs
-/docs/content_apis_versioned/search /docs/search_apis_versioned/1.0.0/search-controller-search/ 301
-/docs/content_apis_versioned/search/ /docs/search_apis_versioned/1.0.0/search-controller-search/ 301
-/docs/content_apis_versioned/4.0.0/search /docs/search_apis_versioned/1.0.0/search-controller-search/ 301
-/docs/content_apis_versioned/4.0.0/search/ /docs/search_apis_versioned/1.0.0/search-controller-search/ 301
-/docs/content_apis_versioned/info /docs/content_apis_versioned/4.0.0/get-chapter-info/ 301
-/docs/content_apis_versioned/info/ /docs/content_apis_versioned/4.0.0/get-chapter-info/ 301
-/docs/content_apis_versioned/juzs /docs/content_apis_versioned/4.0.0/list-juzs/ 301
-/docs/content_apis_versioned/juzs/ /docs/content_apis_versioned/4.0.0/list-juzs/ 301
-/docs/content_apis_versioned/4.0.0/juzs /docs/content_apis_versioned/4.0.0/list-juzs/ 301
-/docs/content_apis_versioned/4.0.0/juzs/ /docs/content_apis_versioned/4.0.0/list-juzs/ 301
+# /*/ /:splat 301
 
-# Legacy User-related API slugs
-/docs/user_related_apis_versioned/add-a-comment /docs/user_related_apis_versioned/1.0.0/comments-controller-create/ 301
-/docs/user_related_apis_versioned/add-a-comment/ /docs/user_related_apis_versioned/1.0.0/comments-controller-create/ 301
-/docs/user_related_apis_versioned/1.0.0/add-a-comment /docs/user_related_apis_versioned/1.0.0/comments-controller-create/ 301
-/docs/user_related_apis_versioned/1.0.0/add-a-comment/ /docs/user_related_apis_versioned/1.0.0/comments-controller-create/ 301
-/docs/user_related_apis_versioned/add-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-create/ 301
-/docs/user_related_apis_versioned/add-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-create/ 301
-/docs/user_related_apis_versioned/1.0.0/add-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-create/ 301
-/docs/user_related_apis_versioned/1.0.0/add-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-create/ 301
-/docs/user_related_apis_versioned/comments-controller-success /docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/ 301
-/docs/user_related_apis_versioned/comments-controller-success/ /docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/ 301
-/docs/user_related_apis_versioned/1.0.0/comments-controller-success /docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/ 301
-/docs/user_related_apis_versioned/1.0.0/comments-controller-success/ /docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/ 301
-/docs/user_related_apis_versioned/delete-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-delete/ 301
-/docs/user_related_apis_versioned/delete-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-delete/ 301
-/docs/user_related_apis_versioned/1.0.0/delete-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-delete/ 301
-/docs/user_related_apis_versioned/1.0.0/delete-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-delete/ 301
-/docs/user_related_apis_versioned/get-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-find-one/ 301
-/docs/user_related_apis_versioned/get-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-find-one/ 301
-/docs/user_related_apis_versioned/1.0.0/get-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-find-one/ 301
-/docs/user_related_apis_versioned/1.0.0/get-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-find-one/ 301
-/docs/user_related_apis_versioned/get-group-settings /docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/ 301
-/docs/user_related_apis_versioned/get-group-settings/ /docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/ 301
-/docs/user_related_apis_versioned/1.0.0/get-group-settings /docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/ 301
-/docs/user_related_apis_versioned/1.0.0/get-group-settings/ /docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/ 301
-/docs/user_related_apis_versioned/get-mutations /docs/user_related_apis_prelive/get-mutations/ 301
-/docs/user_related_apis_versioned/get-mutations/ /docs/user_related_apis_prelive/get-mutations/ 301
-/docs/user_related_apis_versioned/1.0.0/get-mutations /docs/user_related_apis_prelive/get-mutations/ 301
-/docs/user_related_apis_versioned/1.0.0/get-mutations/ /docs/user_related_apis_prelive/get-mutations/ 301
-/docs/user_related_apis_versioned/get-posts /docs/user_related_apis_versioned/1.0.0/posts-controller-feed/ 301
-/docs/user_related_apis_versioned/get-posts/ /docs/user_related_apis_versioned/1.0.0/posts-controller-feed/ 301
-/docs/user_related_apis_versioned/1.0.0/get-posts /docs/user_related_apis_versioned/1.0.0/posts-controller-feed/ 301
-/docs/user_related_apis_versioned/1.0.0/get-posts/ /docs/user_related_apis_versioned/1.0.0/posts-controller-feed/ 301
-/docs/user_related_apis_versioned/get-posts-comments /docs/user_related_apis_versioned/1.0.0/posts-controller-get-comments/ 301
-/docs/user_related_apis_versioned/get-posts-comments/ /docs/user_related_apis_versioned/1.0.0/posts-controller-get-comments/ 301
-/docs/user_related_apis_versioned/1.0.0/get-posts-comments /docs/user_related_apis_versioned/1.0.0/posts-controller-get-comments/ 301
-/docs/user_related_apis_versioned/1.0.0/get-posts-comments/ /docs/user_related_apis_versioned/1.0.0/posts-controller-get-comments/ 301
-/docs/user_related_apis_versioned/get-user-notifications /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/get-user-notifications/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/get-user-notifications /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/get-user-notifications/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/get-user-profile /docs/user_related_apis_versioned/1.0.0/users-controller-profile/ 301
-/docs/user_related_apis_versioned/get-user-profile/ /docs/user_related_apis_versioned/1.0.0/users-controller-profile/ 301
-/docs/user_related_apis_versioned/1.0.0/get-user-profile /docs/user_related_apis_versioned/1.0.0/users-controller-profile/ 301
-/docs/user_related_apis_versioned/1.0.0/get-user-profile/ /docs/user_related_apis_versioned/1.0.0/users-controller-profile/ 301
-/docs/user_related_apis_versioned/invite-user-to-group /docs/user_related_apis_versioned/1.0.0/rooms-controller-invite-user-to-room/ 301
-/docs/user_related_apis_versioned/invite-user-to-group/ /docs/user_related_apis_versioned/1.0.0/rooms-controller-invite-user-to-room/ 301
-/docs/user_related_apis_versioned/1.0.0/invite-user-to-group /docs/user_related_apis_versioned/1.0.0/rooms-controller-invite-user-to-room/ 301
-/docs/user_related_apis_versioned/1.0.0/invite-user-to-group/ /docs/user_related_apis_versioned/1.0.0/rooms-controller-invite-user-to-room/ 301
-/docs/user_related_apis_versioned/log-a-post-view /docs/user_related_apis_versioned/1.0.0/posts-controller-view-tracking/ 301
-/docs/user_related_apis_versioned/log-a-post-view/ /docs/user_related_apis_versioned/1.0.0/posts-controller-view-tracking/ 301
-/docs/user_related_apis_versioned/1.0.0/log-a-post-view /docs/user_related_apis_versioned/1.0.0/posts-controller-view-tracking/ 301
-/docs/user_related_apis_versioned/1.0.0/log-a-post-view/ /docs/user_related_apis_versioned/1.0.0/posts-controller-view-tracking/ 301
-/docs/user_related_apis_versioned/posts-controller-legacy-feed-endpoint /docs/user_related_apis_versioned/1.0.0/posts-controller-feed/ 301
-/docs/user_related_apis_versioned/posts-controller-legacy-feed-endpoint/ /docs/user_related_apis_versioned/1.0.0/posts-controller-feed/ 301
-/docs/user_related_apis_versioned/1.0.0/posts-controller-legacy-feed-endpoint /docs/user_related_apis_versioned/1.0.0/posts-controller-feed/ 301
-/docs/user_related_apis_versioned/1.0.0/posts-controller-legacy-feed-endpoint/ /docs/user_related_apis_versioned/1.0.0/posts-controller-feed/ 301
-/docs/user_related_apis_versioned/register-android-device /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/register-android-device/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/register-android-device /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/register-android-device/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/send-account-confirmation-email /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/send-account-confirmation-email/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/send-account-confirmation-email /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/send-account-confirmation-email/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/send-reset-password-email /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/send-reset-password-email/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/send-reset-password-email /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/send-reset-password-email/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/toggle-following-a-user /docs/user_related_apis_versioned/1.0.0/users-controller-toggle-follow/ 301
-/docs/user_related_apis_versioned/toggle-following-a-user/ /docs/user_related_apis_versioned/1.0.0/users-controller-toggle-follow/ 301
-/docs/user_related_apis_versioned/1.0.0/toggle-following-a-user /docs/user_related_apis_versioned/1.0.0/users-controller-toggle-follow/ 301
-/docs/user_related_apis_versioned/1.0.0/toggle-following-a-user/ /docs/user_related_apis_versioned/1.0.0/users-controller-toggle-follow/ 301
-/docs/user_related_apis_versioned/toggle-like-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-like/ 301
-/docs/user_related_apis_versioned/toggle-like-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-like/ 301
-/docs/user_related_apis_versioned/1.0.0/toggle-like-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-like/ 301
-/docs/user_related_apis_versioned/1.0.0/toggle-like-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-like/ 301
-/docs/user_related_apis_versioned/update-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-edit/ 301
-/docs/user_related_apis_versioned/update-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-edit/ 301
-/docs/user_related_apis_versioned/1.0.0/update-a-post /docs/user_related_apis_versioned/1.0.0/posts-controller-edit/ 301
-/docs/user_related_apis_versioned/1.0.0/update-a-post/ /docs/user_related_apis_versioned/1.0.0/posts-controller-edit/ 301
-/docs/user_related_apis_versioned/update-user-notification-settings /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/update-user-notification-settings/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/update-user-notification-settings /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
-/docs/user_related_apis_versioned/1.0.0/update-user-notification-settings/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
+# Handle SPA-style fallback for 404s (already handled by Docusaurus static build)
 
-# Canonicalize current doc families onto the versioned URLs
-/docs/content_apis_versioned/:slug /docs/content_apis_versioned/4.0.0/:slug/ 301
-/docs/content_apis_versioned/:slug/ /docs/content_apis_versioned/4.0.0/:slug/ 301
-/docs/content_apis_versioned/4.0.0/:slug /docs/content_apis_versioned/4.0.0/:slug/ 301
-/docs/search_apis_versioned/:slug /docs/search_apis_versioned/1.0.0/:slug/ 301
-/docs/search_apis_versioned/:slug/ /docs/search_apis_versioned/1.0.0/:slug/ 301
-/docs/search_apis_versioned/1.0.0/:slug /docs/search_apis_versioned/1.0.0/:slug/ 301
-/docs/user_related_apis_prelive/:slug /docs/user_related_apis_prelive/:slug/ 301
-/docs/user_related_apis_versioned/:slug /docs/user_related_apis_versioned/1.0.0/:slug/ 301
-/docs/user_related_apis_versioned/:slug/ /docs/user_related_apis_versioned/1.0.0/:slug/ 301
-/docs/user_related_apis_versioned/1.0.0/:slug /docs/user_related_apis_versioned/1.0.0/:slug/ 301
-/docs/oauth2_apis_versioned/:slug /docs/oauth2_apis_versioned/1.0.0/:slug/ 301
-/docs/oauth2_apis_versioned/:slug/ /docs/oauth2_apis_versioned/1.0.0/:slug/ 301
-/docs/oauth2_apis_versioned/1.0.0/:slug /docs/oauth2_apis_versioned/1.0.0/:slug/ 301
+# /docs/* /docs/:splat 200
+
+# Example: Redirect old URLs to new ones
+
+# /old-path /new-path 301
+
+# /api-v1/* /api/:splat 301
+
+# Example: Redirect external URLs
+
+# /github https://github.com/quran/qf-api-docs 301
+
+# Note: Docusaurus generates all pages statically, so most redirects
+
+# should be handled in docusaurus.config.js using the redirects plugin
+
+# if more complex redirect logic is needed.
