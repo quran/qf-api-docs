@@ -36,6 +36,8 @@ Quran Foundation User APIs use OAuth2 Authorization Code flow with PKCE and Open
 
 This pattern gives you OAuth2 and OpenID Connect without embedding secrets in a mobile app or browser app. It also keeps the integration aligned with how most Request Access clients are provisioned today.
 
+If you call User APIs directly from browser JavaScript after login, the browser app's origin must be allowed by the target service. If your browser origin is not allowlisted, proxy the resource request through your backend instead of calling the API directly from the page.
+
 ## Choose Your Platform
 
 Use the quickstart guidance on this page for the architecture decision, then jump to the guide that matches your stack.
@@ -87,6 +89,8 @@ const response = await fetch(
 const bookmarks = await response.json();
 ```
 
+If this request runs in a browser, the page origin must be allowlisted by the target service. If the request runs on your backend, this browser-origin restriction does not apply.
+
 ## Quick Reference
 
 ### Common scopes
@@ -120,6 +124,7 @@ Request only the scopes your app actually needs.
 - Mixing prelive and production OAuth2 environments.
 - Requesting more scopes than your app needs.
 - Treating the `id_token` as an API access token instead of using the `access_token`.
+- Calling User APIs directly from a browser origin that has not been allowlisted by the target service.
 
 ## AI Handoff Prompt
 

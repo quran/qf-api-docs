@@ -26,6 +26,8 @@ Submit an [application](/request-access) to receive your `client_id` and `client
 
 Include your OAuth2 access token in the `x-auth-token` header and your client ID in the `x-client-id` header when calling authenticated endpoints.
 
+If the call is made directly from browser JavaScript, the browser origin must also be allowed by the target service. If your app origin is not allowlisted, proxy the request through your backend.
+
 ## What are the best practices for refresh tokens?
 
 Store refresh tokens securely and reuse them until they expire. Refresh tokens allow you to obtain new access tokens without asking the user to re-authorize.

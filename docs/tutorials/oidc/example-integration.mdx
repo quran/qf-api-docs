@@ -76,6 +76,8 @@ const response = await fetch(
 const bookmarks = await response.json();
 ```
 
+Because this example keeps the session and API call flow on the server, it is not subject to browser-origin allowlisting. If you move the resource call into frontend browser code, the app origin must be allowed by the target service or the call should be proxied through your backend.
+
 ## Accessing Resources
 
 Once authenticated, explore the [User APIs](/docs/category/user-related-apis):

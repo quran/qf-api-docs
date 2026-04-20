@@ -757,6 +757,8 @@ x-client-id: YOUR_CLIENT_ID
 
 Note: the collections examples below require the `collection` scope, and other User API endpoints may require additional scopes such as `user`. A token granted only `openid offline_access` is sufficient for login and refresh, but not for every User API call.
 
+If you call User APIs directly from browser JavaScript, the calling page origin must be allowed by the target service. If your app origin is not allowlisted, send the resource request through your backend instead.
+
 <details>
 <summary><b>cURL — Get collections</b></summary>
 
@@ -822,6 +824,7 @@ Implementation requirements (server-side)
 - Build a client wrapper that automatically:
   - injects x-auth-token and x-client-id on every request
   - targets the correct API base URL from getQfOAuthConfig()
+- If your app makes the resource call from browser code instead of the backend, ensure that the browser origin is allowlisted by the target service or proxy the request through your backend.
 
 User API base
 - Use apiBaseUrl from config:
@@ -1007,6 +1010,7 @@ Acceptance checklist
 - Scopes: Use `openid offline_access user collection`. Add more scopes only as needed.
 - Scopes note: Quran.Foundation expects `offline_access` (not `offline`).
 - Token storage: Store `refresh_token` securely; rotate if compromised.
+- Browser-origin policy: Direct browser calls to User APIs require the calling origin to be allowlisted by the target service. If your origin is not allowlisted, call the API from your backend instead.
 - Clock skew: Ensure system time is correct (e.g., via NTP) to avoid `invalid_grant` due to time drift.
 
 > Do not mix tokens across environments. A token from Pre-Production will not work on Production, and vice versa.
@@ -1054,6 +1058,7 @@ Acceptance checklist
 | `redirect_uri_mismatch`   | Redirect URI not exact match               | Align with registered value                          |
 | `invalid_scope`           | Scope misspelled or not allowed            | Use valid scopes; request incrementally              |
 | `401 Unauthorized` (APIs) | Missing/expired token                      | Send `x-auth-token` and `x-client-id`, refresh token |
+| `403 Forbidden` (APIs)    | Browser origin is not allowlisted, or scope/permission is not granted | Use an allowed browser origin, proxy the request through your backend, or request the correct scope |
 
 <details>
 <summary><b>AI prompt: troubleshooting + safe logs</b></summary>
@@ -1071,6 +1076,8 @@ User API errors
 - 401: missing/expired token:
   - refresh once (if refresh_token exists), retry once
   - if still failing, require re-auth (do not loop)
+- 403: browser origin not allowlisted:
+  - move the resource call to your backend, or use an origin the target service allows
 - 403: scope/permission not granted:
   - hide/disable feature and prompt user for correct consent
 
