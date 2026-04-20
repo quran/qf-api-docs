@@ -1,4 +1,55 @@
+# Allow search and user-directed AI retrieval for the public docs, but opt out of AI training.
+User-agent: OAI-SearchBot
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Allow: /
+Disallow: /search
+Disallow: /request-scopes
+
+User-agent: Claude-Web
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Allow: /
+Disallow: /search
+Disallow: /request-scopes
+
+User-agent: ClaudeBot
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Allow: /
+Disallow: /search
+Disallow: /request-scopes
+
+User-agent: Amazonbot
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Allow: /
+Disallow: /search
+Disallow: /request-scopes
+
+# Block training and extended-use crawlers from fetching site content.
+User-agent: GPTBot
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Disallow: /
+
+User-agent: Google-Extended
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Disallow: /
+
+User-agent: anthropic-ai
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Disallow: /
+
+User-agent: Bytespider
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Disallow: /
+
+User-agent: CCBot
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Disallow: /
+
+User-agent: Applebot-Extended
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Disallow: /
+
 User-agent: *
+Content-Signal: ai-train=no, search=yes, ai-input=yes
 Allow: /
 Disallow: /search
 Disallow: /request-scopes
