@@ -150,16 +150,3 @@
 /docs/user_related_apis_versioned/1.0.0/update-user-notification-settings /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
 /docs/user_related_apis_versioned/1.0.0/update-user-notification-settings/ /docs/user_related_apis_versioned/1.0.0/user-related-apis/ 301
 
-# Canonicalize current doc families onto the versioned URLs
-/docs/content_apis_versioned/:slug /docs/content_apis_versioned/4.0.0/:slug/ 301
-/docs/content_apis_versioned/:slug/ /docs/content_apis_versioned/4.0.0/:slug/ 301
-/docs/content_apis_versioned/4.0.0/:slug /docs/content_apis_versioned/4.0.0/:slug/ 301
-/docs/search_apis_versioned/:slug /docs/search_apis_versioned/1.0.0/:slug/ 301
-/docs/search_apis_versioned/:slug/ /docs/search_apis_versioned/1.0.0/:slug/ 301
-/docs/search_apis_versioned/1.0.0/:slug /docs/search_apis_versioned/1.0.0/:slug/ 301
-/docs/user_related_apis_prelive/:slug /docs/user_related_apis_prelive/:slug/ 301
-/docs/user_related_apis_versioned/:slug /docs/user_related_apis_versioned/1.0.0/:slug/ 301
-/docs/user_related_apis_versioned/1.0.0/:slug /docs/user_related_apis_versioned/1.0.0/:slug/ 301
-/docs/oauth2_apis_versioned/:slug /docs/oauth2_apis_versioned/1.0.0/:slug/ 301
-/docs/oauth2_apis_versioned/:slug/ /docs/oauth2_apis_versioned/1.0.0/:slug/ 301
-/docs/oauth2_apis_versioned/1.0.0/:slug /docs/oauth2_apis_versioned/1.0.0/:slug/ 301
