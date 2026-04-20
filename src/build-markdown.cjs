@@ -286,7 +286,7 @@ function renderInlineCode(node) {
     return "";
   }
 
-  const fence = code.includes("`") ? "``" : "`";
+  const fence = createInlineCodeFence(code);
   return `${fence}${code}${fence}`;
 }
 
@@ -315,6 +315,16 @@ function createCodeFence(code) {
   );
 
   return "`".repeat(Math.max(3, longestRun + 1));
+}
+
+function createInlineCodeFence(code) {
+  const backtickRuns = code.match(/`+/g) || [];
+  const longestRun = backtickRuns.reduce(
+    (maxLength, run) => Math.max(maxLength, run.length),
+    0,
+  );
+
+  return "`".repeat(Math.max(1, longestRun + 1));
 }
 
 function renderList(node, ordered, context) {

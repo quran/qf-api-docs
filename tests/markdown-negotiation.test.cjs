@@ -77,6 +77,24 @@ test("builds markdown from article content and preserves code blocks", () => {
   assert.doesNotMatch(markdown, /Ignore me/);
 });
 
+test("uses a longer inline fence when inline code contains repeated backticks", () => {
+  const markdown = buildMarkdown.buildMarkdownDocument({
+    html: [
+      "<!doctype html>",
+      "<html>",
+      "  <body>",
+      "    <article>",
+      "      <p><code>a``b</code></p>",
+      "    </article>",
+      "  </body>",
+      "</html>",
+    ].join("\n"),
+    sourceUrl: "https://api-docs.quran.foundation/docs/inline-code-example/",
+  });
+
+  assert.match(markdown, /```a``b```/);
+});
+
 test("uses a longer outer fence when code blocks contain triple backticks", () => {
   const markdown = buildMarkdown.buildMarkdownDocument({
     html: [
