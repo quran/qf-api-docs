@@ -13,6 +13,10 @@
   # Cache-Control for HTML pages: no long-term cache
   Cache-Control: public, max-age=0, must-revalidate
 
+# Homepage discovery links for agents and API consumers
+/
+  Link: </llms.txt>; rel="describedby"; type="text/plain", </openAPI/content/v4.json>; rel="service-desc"; type="application/json", </openAPI/oauth2-apis/v1.json>; rel="service-desc"; type="application/json", </openAPI/search/v1.json>; rel="service-desc"; type="application/json", </openAPI/user-related-apis/v1.json>; rel="service-desc"; type="application/json", </docs/content_apis_versioned/content-apis/>; rel="service-doc"; type="text/html", </docs/oauth2_apis_versioned/oauth-2-apis/>; rel="service-doc"; type="text/html", </docs/search_apis_versioned/quran-foundation-search-api/>; rel="service-doc"; type="text/html", </docs/user_related_apis_versioned/user-related-apis/>; rel="service-doc"; type="text/html", </docs/tutorials/oidc/getting-started-with-oauth2/>; rel="service-doc"; type="text/html", </docs/quickstart/>; rel="service-doc"; type="text/html", </docs/tutorials/oidc/user-apis-quickstart/>; rel="service-doc"; type="text/html", </docs/user_related_apis_versioned/scopes/>; rel="service-doc"; type="text/html", </request-access/>; rel="service-doc"; type="text/html"
+
 # Cache hashed JavaScript and CSS files for 1 year (they have content hash in filename)
 /assets/js/*.js
   Cache-Control: public, max-age=31536000, immutable
@@ -39,6 +43,10 @@
 
 # Sitemap and OpenSearch: cache for 1 day
 /sitemap.xml
+  Cache-Control: public, max-age=86400
+
+/robots.txt
+  ! Cache-Control
   Cache-Control: public, max-age=86400
 
 /opensearch.xml
