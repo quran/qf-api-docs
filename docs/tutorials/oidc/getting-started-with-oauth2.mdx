@@ -232,8 +232,10 @@ sequenceDiagram
     Auth-->>Backend: Token Response<br/>(access_token, refresh_token)
     Backend-->>App: Session or token payload
 
-    App->>API: Use token to call Quran.Foundation's API
-    API-->>App: Requested resource
+    App->>Backend: Request resource
+    Backend->>API: Use token to call Quran.Foundation's API
+    API-->>Backend: Requested resource
+    Backend-->>App: Requested resource
 
     Note over App,Backend: Access token expires (1 hour)
 
@@ -757,6 +759,8 @@ x-client-id: YOUR_CLIENT_ID
 
 Note: the collections examples below require the `collection` scope, and other User API endpoints may require additional scopes such as `user`. A token granted only `openid offline_access` is sufficient for login and refresh, but not for every User API call.
 
+For confidential web clients, the recommended pattern is to have your backend or serverless proxy send these headers on outbound requests to Quran Foundation. Your app can keep the user session in a server session or secure `httpOnly` cookies while the backend injects `x-auth-token` and `x-client-id`.
+
 <details>
 <summary><b>cURL — Get collections</b></summary>
 
@@ -822,6 +826,8 @@ Implementation requirements (server-side)
 - Build a client wrapper that automatically:
   - injects x-auth-token and x-client-id on every request
   - targets the correct API base URL from getQfOAuthConfig()
+- For web apps, prefer making the resource call from your backend or proxy layer rather than from page JavaScript.
+- If you intentionally make the resource call from browser code, the browser origin must still be accepted by the target service.
 
 User API base
 - Use apiBaseUrl from config:
@@ -1007,6 +1013,7 @@ Acceptance checklist
 - Scopes: Use `openid offline_access user collection`. Add more scopes only as needed.
 - Scopes note: Quran.Foundation expects `offline_access` (not `offline`).
 - Token storage: Store `refresh_token` securely; rotate if compromised.
+- Browser-origin policy: Direct browser calls to User APIs require the calling origin to be allowlisted by the target service. If your origin is not allowlisted, call the API from your backend instead.
 - Clock skew: Ensure system time is correct (e.g., via NTP) to avoid `invalid_grant` due to time drift.
 
 > Do not mix tokens across environments. A token from Pre-Production will not work on Production, and vice versa.
@@ -1054,6 +1061,7 @@ Acceptance checklist
 | `redirect_uri_mismatch`   | Redirect URI not exact match               | Align with registered value                          |
 | `invalid_scope`           | Scope misspelled or not allowed            | Use valid scopes; request incrementally              |
 | `401 Unauthorized` (APIs) | Missing/expired token                      | Send `x-auth-token` and `x-client-id`, refresh token |
+| `403 Forbidden` (APIs)    | Direct browser call from a restricted origin, or scope/permission is not granted | For web apps, route the request through your backend or proxy; otherwise use a supported browser origin and request the correct scope |
 
 <details>
 <summary><b>AI prompt: troubleshooting + safe logs</b></summary>
@@ -1071,6 +1079,8 @@ User API errors
 - 401: missing/expired token:
   - refresh once (if refresh_token exists), retry once
   - if still failing, require re-auth (do not loop)
+- 403: browser origin not allowlisted:
+  - move the resource call to your backend, or use an origin the target service allows
 - 403: scope/permission not granted:
   - hide/disable feature and prompt user for correct consent
 
@@ -1131,7 +1141,7 @@ x-auth-token: YOUR_ACCESS_TOKEN
 x-client-id: YOUR_CLIENT_ID
 ```
 
-See [Step 4: Call User APIs with Headers](#step-4-call-user-apis-with-headers) for complete examples in cURL, JavaScript, and Python.
+For web apps, your backend or serverless proxy should usually be the component that sends these headers to Quran Foundation. See [Step 4: Call User APIs with Headers](#step-4-call-user-apis-with-headers) for complete examples in cURL, JavaScript, and Python.
 
 ### I'm getting `invalid_client` — what's wrong?
 
