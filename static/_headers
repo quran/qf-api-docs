@@ -16,6 +16,7 @@
 # Homepage discovery links for agents and API consumers
 /
   Link: </llms.txt>; rel="describedby"; type="text/plain"
+  Link: </.well-known/mcp/server-card.json>; rel="service-desc"; type="application/json"
   Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
   Link: </openAPI/content/v4.json>; rel="service-desc"; type="application/json"
   Link: </openAPI/oauth2-apis/v1.json>; rel="service-desc"; type="application/json"
@@ -87,6 +88,13 @@
 
 /opensearch.xml
   Cache-Control: public, max-age=86400
+
+/.well-known/mcp/server-card.json
+  ! Cache-Control
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET
+  Access-Control-Allow-Headers: Content-Type
+  Cache-Control: public, max-age=3600
 
 # API documentation pages: no long-term cache (content may update)
 /docs/*

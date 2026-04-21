@@ -1,0 +1,84 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/mcp-server-card/v1.json",
+  "version": "1.0",
+  "protocolVersion": "2025-11-25",
+  "serverInfo": {
+    "name": "api-docs.quran.foundation",
+    "title": "Quran Foundation API Docs",
+    "version": "1.0.0"
+  },
+  "description": "Discovery metadata for the Quran Foundation API documentation portal and related machine-readable API resources.",
+  "documentationUrl": "https://api-docs.quran.foundation/",
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "/mcp"
+  },
+  "capabilities": {
+    "resources": {}
+  },
+  "resources": [
+    {
+      "name": "llms_txt",
+      "title": "LLMs.txt",
+      "uri": "https://api-docs.quran.foundation/llms.txt",
+      "description": "Machine-readable overview of the Quran Foundation API docs and OpenAPI specifications.",
+      "mimeType": "text/plain"
+    },
+    {
+      "name": "content_api_openapi",
+      "title": "Content API OpenAPI",
+      "uri": "https://api-docs.quran.foundation/openAPI/content/v4.json",
+      "description": "OpenAPI specification for Quran Foundation content APIs.",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "oauth2_api_openapi",
+      "title": "OAuth2 API OpenAPI",
+      "uri": "https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json",
+      "description": "OpenAPI specification for Quran Foundation OAuth2 and OIDC APIs.",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "search_api_openapi",
+      "title": "Search API OpenAPI",
+      "uri": "https://api-docs.quran.foundation/openAPI/search/v1.json",
+      "description": "OpenAPI specification for Quran Foundation search APIs.",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "user_api_openapi",
+      "title": "User API OpenAPI",
+      "uri": "https://api-docs.quran.foundation/openAPI/user-related-apis/v1.json",
+      "description": "OpenAPI specification for Quran Foundation user-related APIs.",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "developer_quickstart",
+      "title": "Developer Quick Start",
+      "uri": "https://api-docs.quran.foundation/docs/quickstart/",
+      "description": "Primary quick start guide for integrating with Quran Foundation APIs.",
+      "mimeType": "text/html"
+    },
+    {
+      "name": "oauth2_quickstart",
+      "title": "OAuth2 Quick Start",
+      "uri": "https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/",
+      "description": "OAuth2 and OIDC integration quick start for obtaining tokens and authenticating requests.",
+      "mimeType": "text/html"
+    },
+    {
+      "name": "user_api_quickstart",
+      "title": "User APIs Quick Start",
+      "uri": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+      "description": "End-to-end quick start for building against Quran Foundation user APIs.",
+      "mimeType": "text/html"
+    },
+    {
+      "name": "request_access",
+      "title": "Request Access",
+      "uri": "https://api-docs.quran.foundation/request-access/",
+      "description": "Access request page for developers onboarding to Quran Foundation APIs.",
+      "mimeType": "text/html"
+    }
+  ]
+}
