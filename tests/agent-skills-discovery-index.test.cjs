@@ -23,7 +23,7 @@ test('publishes an Agent Skills discovery index with the v0.2.0 schema', () => {
   assert.ok(index.skills.length > 0);
 });
 
-test('limits Agent Skills discovery entries to the RFC v0.2.0 fields', () => {
+test('validates required RFC v0.2.0 skill entry fields', () => {
   for (const skill of index.skills) {
     assert.equal(typeof skill.name, 'string');
     assert.match(skill.name, /^(?!-)(?!.*--)[a-z0-9-]{1,64}(?<!-)$/);
