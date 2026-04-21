@@ -16,6 +16,7 @@
 # Homepage discovery links for agents and API consumers
 /
   Link: </llms.txt>; rel="describedby"; type="text/plain"
+  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
   Link: </openAPI/content/v4.json>; rel="service-desc"; type="application/json"
   Link: </openAPI/oauth2-apis/v1.json>; rel="service-desc"; type="application/json"
   Link: </openAPI/search/v1.json>; rel="service-desc"; type="application/json"
@@ -27,8 +28,26 @@
   Link: </docs/tutorials/oidc/getting-started-with-oauth2/>; rel="service-doc"; type="text/html"
   Link: </docs/quickstart/>; rel="service-doc"; type="text/html"
   Link: </docs/tutorials/oidc/user-apis-quickstart/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/faq/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/fonts/font-rendering/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/fonts/page-layout/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/oidc/client-setup/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/oidc/example-integration/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/oidc/mobile-apps/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/oidc/mobile-apps/android/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/oidc/mobile-apps/iOS/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/oidc/mobile-apps/react-native/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/oidc/openid-connect/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/sync/getting-started/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/sync/handling-conflicts/>; rel="service-doc"; type="text/html"
+  Link: </docs/tutorials/sync/offline-first-patterns/>; rel="service-doc"; type="text/html"
   Link: </docs/user_related_apis_versioned/scopes/>; rel="service-doc"; type="text/html"
   Link: </request-access/>; rel="service-doc"; type="text/html"
+
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"
+  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
+  Cache-Control: public, max-age=0, must-revalidate
 
 # Cache hashed JavaScript and CSS files for 1 year (they have content hash in filename)
 /assets/js/*.js
