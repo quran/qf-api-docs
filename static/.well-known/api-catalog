@@ -1,0 +1,869 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://apis.quran.foundation/content/api/v4",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/content/v4.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/fonts/font-rendering/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/fonts/page-layout/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis.quran.foundation/content/api/v4/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis-prelive.quran.foundation/content/api/v4",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/content/v4.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/fonts/font-rendering/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/fonts/page-layout/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis-prelive.quran.foundation/content/api/v4/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis.quran.foundation/search",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/search/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/search_apis_versioned/quran-foundation-search-api/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis.quran.foundation/search/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis-prelive.quran.foundation/search",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/search/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/search_apis_versioned/quran-foundation-search-api/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis-prelive.quran.foundation/search/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://oauth2.quran.foundation",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/oauth2_apis_versioned/oauth-2-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://oauth2.quran.foundation/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://prelive-oauth2.quran.foundation",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/oauth2_apis_versioned/oauth-2-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://prelive-oauth2.quran.foundation/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://staging-oauth2.quran.foundation",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/oauth2_apis_versioned/oauth-2-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://staging-oauth2.quran.foundation/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis.quran.foundation/auth",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/user-related-apis/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/getting-started/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/handling-conflicts/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/offline-first-patterns/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis.quran.foundation/auth/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis-prelive.quran.foundation/auth",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/user-related-apis/pre-live/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/getting-started/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/handling-conflicts/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/offline-first-patterns/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis-prelive.quran.foundation/auth/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis.quran.foundation/quran-reflect",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/user-related-apis/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/content/v4.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/getting-started/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/handling-conflicts/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/offline-first-patterns/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-feed/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-find-one/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-user-post/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-comments/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-all-comment/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis.quran.foundation/quran-reflect/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis-prelive.quran.foundation/quran-reflect",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/user-related-apis/pre-live/v1.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/content/v4.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/getting-started/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/handling-conflicts/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/sync/offline-first-patterns/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-feed/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-find-one/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-user-post/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-comments/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-all-comment/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis-prelive.quran.foundation/quran-reflect/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis.quran.foundation/quran-reflect/v1",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/content/v4.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-feed/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-find-one/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-user-post/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-comments/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-all-comment/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis.quran.foundation/quran-reflect/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://apis-prelive.quran.foundation/quran-reflect/v1",
+      "service-desc": [
+        {
+          "href": "https://api-docs.quran.foundation/openAPI/content/v4.json",
+          "type": "application/vnd.oai.openapi+json;version=3.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-feed/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-find-one/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-user-post/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-comments/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-all-comment/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/request-access/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://api-docs.quran.foundation/docs/tutorials/faq/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://apis-prelive.quran.foundation/quran-reflect/health",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}
