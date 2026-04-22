@@ -1,12 +1,14 @@
 const PROD_CATEGORY_PATH = '/docs/category/user-related-apis';
 const PRELIVE_CATEGORY_PATH = '/docs/category/user-related-apis-pre-live';
+const PROD_INTRO_PATH = '/docs/user_related_apis_versioned/user-related-apis';
+const PRELIVE_INTRO_PATH = '/docs/user_related_apis_prelive/user-related-apis';
 const PROD_LATEST_PREFIX = '/docs/user_related_apis_versioned/';
 const PRELIVE_PREFIX = '/docs/user_related_apis_prelive/';
 const PROD_VERSION_PREFIX_REGEX = /^\d+\.\d+\.\d+(\/|$)/;
 
 const stripPrefix = (value, prefix) => value.slice(prefix.length);
 const getFallbackPath = (environment) =>
-  environment === 'production' ? PROD_CATEGORY_PATH : PRELIVE_CATEGORY_PATH;
+  environment === 'production' ? PROD_INTRO_PATH : PRELIVE_INTRO_PATH;
 
 function getUserRelatedDocsAvailablePaths(allDocsData) {
   const paths = new Set();

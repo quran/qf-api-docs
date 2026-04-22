@@ -25,13 +25,64 @@ const getCopy = (environment: "production" | "pre-live") => {
   if (environment === "pre-live") {
     return {
       title: "Pre-live user-related API docs",
-      body: "",
+      body: (
+        <>
+          <p>
+            Pre-live user APIs run on a separate user stack. Keep auth, API
+            calls, and manual verification in pre-live when testing this
+            environment.
+          </p>
+          <ul className={styles.list}>
+            <li>
+              Use{" "}
+              <a
+                href="https://prelive.quran.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                prelive.quran.com
+              </a>{" "}
+              for auth paths and auth-backed user data checks.
+            </li>
+            <li>
+              Use{" "}
+              <a
+                href="https://prelive.quranreflect.org"
+                target="_blank"
+                rel="noreferrer"
+              >
+                prelive.quranreflect.org
+              </a>{" "}
+              for Quran Reflect paths and data checks.
+            </li>
+            <li>Do not mix production sessions or production user data with pre-live testing.</li>
+          </ul>
+        </>
+      ),
     };
   }
 
   return {
     title: "Production user-related API docs",
-    body: "",
+    body: (
+      <p>
+        These pages describe the production user stack. If you need to test
+        pre-live, switch environments above and keep auth, API calls, and
+        manual checks in pre-live, including{" "}
+        <a href="https://prelive.quran.com" target="_blank" rel="noreferrer">
+          prelive.quran.com
+        </a>{" "}
+        for auth paths and{" "}
+        <a
+          href="https://prelive.quranreflect.org"
+          target="_blank"
+          rel="noreferrer"
+        >
+          prelive.quranreflect.org
+        </a>{" "}
+        for Quran Reflect paths.
+      </p>
+    ),
   };
 };
 
@@ -108,7 +159,7 @@ export default function UserRelatedApiEnvironmentNotice({
           })}
         </nav>
       </div>
-      <p className={styles.body}>{copy.body}</p>
+      <div className={styles.body}>{copy.body}</div>
     </div>
   );
 }
