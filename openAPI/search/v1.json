@@ -157,7 +157,7 @@
   },
   "info": {
     "title": "Quran.Foundation Search API",
-    "description": "Quran.Foundation Search API provides programmatic access to search Quran content including verses, chapters, juz, pages, and translations. This is distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n## How to get access\n\nWe are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). The required scope is [`search`](/docs/user_related_apis_versioned/scopes#search).",
+    "description": "Quran.Foundation Search API provides programmatic access to search Quran content including verses, chapters, juz, pages, and translations. This is distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n## How to get access\n\nWe are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). The required scope is [`search`](/docs/user_related_apis_versioned/scopes#search).\n\nUse the canonical base URL `https://apis.quran.foundation/search/api` (or `https://apis-prelive.quran.foundation/search/api` in pre-production). The legacy base URL without `/api` remains supported for backward compatibility.",
     "version": "1.0",
     "contact": {}
   },
@@ -169,11 +169,11 @@
   ],
   "servers": [
     {
-      "url": "https://apis-prelive.quran.foundation/search",
+      "url": "https://apis-prelive.quran.foundation/search/api",
       "description": "Pre-production Server"
     },
     {
-      "url": "https://apis.quran.foundation/search",
+      "url": "https://apis.quran.foundation/search/api",
       "description": "Production Server"
     }
   ],
