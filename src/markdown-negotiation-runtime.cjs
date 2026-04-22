@@ -21,8 +21,31 @@ function shouldRewriteMarkdownContentType(response) {
   return response.ok && !isHtmlContentType(response.headers.get("Content-Type"));
 }
 
+const PASSTHROUGH_406_HEADERS = [
+  "Access-Control-Allow-Origin",
+  "Access-Control-Allow-Credentials",
+  "Access-Control-Expose-Headers",
+  "Content-Security-Policy",
+  "Link",
+  "Permissions-Policy",
+  "Referrer-Policy",
+  "Report-To",
+  "Strict-Transport-Security",
+  "X-Content-Type-Options",
+  "X-Frame-Options",
+  "X-Robots-Tag",
+  "X-XSS-Protection",
+];
+
 function notAcceptableResponse({ acceptHeader, method, response }) {
-  const headers = new Headers(response.headers);
+  const headers = new Headers();
+  for (const headerName of PASSTHROUGH_406_HEADERS) {
+    const headerValue = response.headers.get(headerName);
+    if (headerValue) {
+      headers.set(headerName, headerValue);
+    }
+  }
+
   headers.set("Cache-Control", "no-store");
   headers.set("Content-Type", "text/plain; charset=utf-8");
   appendHeaderValue(headers, "Vary", "Accept");

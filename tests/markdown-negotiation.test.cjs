@@ -289,7 +289,11 @@ test("returns 406 when the Accept header rejects both HTML and markdown", async 
   });
   const htmlResponse = new Response("<html><body><h1>Quickstart</h1></body></html>", {
     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Encoding": "gzip",
       "Content-Type": "text/html; charset=utf-8",
+      ETag: "\"html-etag\"",
+      Link: "</llms.txt>; rel=\"describedby\"; type=\"text/plain\"",
       "x-frame-options": "SAMEORIGIN",
     },
   });
@@ -303,8 +307,16 @@ test("returns 406 when the Accept header rejects both HTML and markdown", async 
   });
 
   assert.equal(response.status, 406);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");
   assert.equal(response.headers.get("Content-Type"), "text/plain; charset=utf-8");
   assert.equal(response.headers.get("Cache-Control"), "no-store");
+  assert.equal(response.headers.get("Content-Encoding"), null);
+  assert.equal(response.headers.get("Content-Length"), null);
+  assert.equal(response.headers.get("ETag"), null);
+  assert.equal(
+    response.headers.get("Link"),
+    "</llms.txt>; rel=\"describedby\"; type=\"text/plain\"",
+  );
   assert.equal(response.headers.get("x-frame-options"), "SAMEORIGIN");
   assert.match(response.headers.get("Vary"), /Accept/);
 
