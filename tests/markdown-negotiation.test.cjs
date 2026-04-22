@@ -229,6 +229,42 @@ test("keeps direct .md requests as HTML when the response is an HTML error page"
   );
 });
 
+test("preserves origin 404 responses when markdown-only negotiation hits a missing route", async () => {
+  const request = new Request("https://api-docs.quran.foundation/docs/missing/", {
+    headers: {
+      Accept: "text/markdown",
+    },
+  });
+  const html404 = new Response("<html><body><h1>Not Found</h1></body></html>", {
+    status: 404,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+    },
+  });
+
+  const response = await runtime.negotiateMarkdownResponse({
+    assetsFetch: async (assetRequest) => {
+      assert.equal(assetRequest.url, "https://api-docs.quran.foundation/docs/missing/index.md");
+      return new Response("missing markdown sibling", {
+        status: 404,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+        },
+      });
+    },
+    request,
+    response: html404,
+  });
+
+  assert.equal(response.status, 404);
+  assert.equal(response.headers.get("Content-Type"), "text/html; charset=utf-8");
+  assert.match(response.headers.get("Vary"), /Accept/);
+  assert.equal(
+    await response.text(),
+    "<html><body><h1>Not Found</h1></body></html>",
+  );
+});
+
 test("keeps HTML as the default response for non-markdown clients", async () => {
   const request = new Request("https://api-docs.quran.foundation/docs/quickstart/");
   const htmlResponse = new Response("<html><body><h1>Quickstart</h1></body></html>", {

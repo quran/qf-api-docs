@@ -125,6 +125,10 @@ async function negotiateMarkdownResponse({ assetsFetch, request, response }) {
   const markdownResponse = await assetsFetch(markdownRequest);
 
   if (!markdownResponse.ok) {
+    if (!response.ok) {
+      return withHeaders(response, htmlHeaders, request.method);
+    }
+
     if (preferredRepresentations.includes(HTML_MEDIA_TYPE)) {
       return withHeaders(response, htmlHeaders, request.method);
     }
