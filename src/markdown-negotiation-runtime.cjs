@@ -1,9 +1,11 @@
 const {
+  HTML_MEDIA_TYPE,
   MARKDOWN_CONTENT_TYPE,
-  acceptsMarkdown,
+  MARKDOWN_MEDIA_TYPE,
   appendHeaderValue,
   isHtmlContentType,
   isMarkdownPath,
+  rankRepresentationTypes,
   toMarkdownAssetPath,
 } = require("./markdown-negotiation-shared.cjs");
 
@@ -19,8 +21,32 @@ function shouldRewriteMarkdownContentType(response) {
   return response.ok && !isHtmlContentType(response.headers.get("Content-Type"));
 }
 
+function notAcceptableResponse({ acceptHeader, method, response }) {
+  const headers = new Headers(response.headers);
+  headers.set("Cache-Control", "no-store");
+  headers.set("Content-Type", "text/plain; charset=utf-8");
+  appendHeaderValue(headers, "Vary", "Accept");
+
+  const lines = [
+    "This resource is available in:",
+    `- ${HTML_MEDIA_TYPE}`,
+    `- ${MARKDOWN_MEDIA_TYPE}`,
+  ];
+
+  if (acceptHeader) {
+    lines.push("", `You requested: ${acceptHeader}`);
+  }
+
+  return new Response(method === "HEAD" ? null : lines.join("\n"), {
+    headers,
+    status: 406,
+    statusText: "Not Acceptable",
+  });
+}
+
 async function negotiateMarkdownResponse({ assetsFetch, request, response }) {
   const url = new URL(request.url);
+  const acceptHeader = request.headers.get("Accept");
 
   if (isMarkdownPath(url.pathname)) {
     if (!shouldRewriteMarkdownContentType(response)) {
@@ -36,16 +62,37 @@ async function negotiateMarkdownResponse({ assetsFetch, request, response }) {
     return response;
   }
 
+  const preferredRepresentations = rankRepresentationTypes(
+    acceptHeader,
+    [HTML_MEDIA_TYPE, MARKDOWN_MEDIA_TYPE],
+    HTML_MEDIA_TYPE,
+  );
+  if (!preferredRepresentations.length) {
+    return notAcceptableResponse({
+      acceptHeader,
+      method: request.method,
+      response,
+    });
+  }
+
   const htmlHeaders = new Headers(response.headers);
   appendHeaderValue(htmlHeaders, "Vary", "Accept");
 
-  if (!acceptsMarkdown(request.headers.get("Accept"))) {
+  if (preferredRepresentations[0] === HTML_MEDIA_TYPE) {
     return withHeaders(response, htmlHeaders, request.method);
   }
 
   const markdownAssetPath = toMarkdownAssetPath(url.pathname);
   if (!markdownAssetPath) {
-    return withHeaders(response, htmlHeaders, request.method);
+    if (preferredRepresentations.includes(HTML_MEDIA_TYPE)) {
+      return withHeaders(response, htmlHeaders, request.method);
+    }
+
+    return notAcceptableResponse({
+      acceptHeader,
+      method: request.method,
+      response,
+    });
   }
 
   const markdownRequest = new Request(new URL(markdownAssetPath, url), {
@@ -55,7 +102,15 @@ async function negotiateMarkdownResponse({ assetsFetch, request, response }) {
   const markdownResponse = await assetsFetch(markdownRequest);
 
   if (!markdownResponse.ok) {
-    return withHeaders(response, htmlHeaders, request.method);
+    if (preferredRepresentations.includes(HTML_MEDIA_TYPE)) {
+      return withHeaders(response, htmlHeaders, request.method);
+    }
+
+    return notAcceptableResponse({
+      acceptHeader,
+      method: request.method,
+      response,
+    });
   }
 
   const markdownHeaders = new Headers(markdownResponse.headers);

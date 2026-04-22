@@ -23,10 +23,47 @@ const runtime = require(path.join(
   "markdown-negotiation-runtime.cjs",
 ));
 
-test("detects explicit markdown negotiation requests", () => {
-  assert.equal(shared.acceptsMarkdown("text/html, text/markdown"), true);
-  assert.equal(shared.acceptsMarkdown("text/markdown;q=0"), false);
-  assert.equal(shared.acceptsMarkdown("text/html, application/xhtml+xml"), false);
+test("ranks supported representations from the Accept header", () => {
+  assert.deepEqual(
+    shared.rankRepresentationTypes(
+      "text/markdown, text/html;q=0.8",
+      [shared.HTML_MEDIA_TYPE, shared.MARKDOWN_MEDIA_TYPE],
+      shared.HTML_MEDIA_TYPE,
+    ),
+    [shared.MARKDOWN_MEDIA_TYPE, shared.HTML_MEDIA_TYPE],
+  );
+  assert.deepEqual(
+    shared.rankRepresentationTypes(
+      "text/html, text/markdown;q=0.5",
+      [shared.HTML_MEDIA_TYPE, shared.MARKDOWN_MEDIA_TYPE],
+      shared.HTML_MEDIA_TYPE,
+    ),
+    [shared.HTML_MEDIA_TYPE, shared.MARKDOWN_MEDIA_TYPE],
+  );
+  assert.deepEqual(
+    shared.rankRepresentationTypes(
+      "text/*;q=0.7, text/html;q=0",
+      [shared.HTML_MEDIA_TYPE, shared.MARKDOWN_MEDIA_TYPE],
+      shared.HTML_MEDIA_TYPE,
+    ),
+    [shared.MARKDOWN_MEDIA_TYPE],
+  );
+  assert.deepEqual(
+    shared.rankRepresentationTypes(
+      "application/x-content-negotiation-probe",
+      [shared.HTML_MEDIA_TYPE, shared.MARKDOWN_MEDIA_TYPE],
+      shared.HTML_MEDIA_TYPE,
+    ),
+    [],
+  );
+  assert.deepEqual(
+    shared.rankRepresentationTypes(
+      undefined,
+      [shared.HTML_MEDIA_TYPE, shared.MARKDOWN_MEDIA_TYPE],
+      shared.HTML_MEDIA_TYPE,
+    ),
+    [shared.HTML_MEDIA_TYPE, shared.MARKDOWN_MEDIA_TYPE],
+  );
 });
 
 test("maps routed pages to sibling markdown assets", () => {
@@ -214,4 +251,66 @@ test("keeps HTML as the default response for non-markdown clients", async () => 
     await response.text(),
     "<html><body><h1>Quickstart</h1></body></html>",
   );
+});
+
+test("honors q-values when HTML is preferred over markdown", async () => {
+  const request = new Request("https://api-docs.quran.foundation/docs/quickstart/", {
+    headers: {
+      Accept: "text/html, text/markdown;q=0.5",
+    },
+  });
+  const htmlResponse = new Response("<html><body><h1>Quickstart</h1></body></html>", {
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+    },
+  });
+
+  const response = await runtime.negotiateMarkdownResponse({
+    assetsFetch: async () => {
+      throw new Error("assets fetch should not run when HTML is preferred");
+    },
+    request,
+    response: htmlResponse,
+  });
+
+  assert.equal(response.headers.get("Content-Type"), "text/html; charset=utf-8");
+  assert.match(response.headers.get("Vary"), /Accept/);
+  assert.equal(
+    await response.text(),
+    "<html><body><h1>Quickstart</h1></body></html>",
+  );
+});
+
+test("returns 406 when the Accept header rejects both HTML and markdown", async () => {
+  const request = new Request("https://api-docs.quran.foundation/docs/quickstart/", {
+    headers: {
+      Accept: "application/x-content-negotiation-probe",
+    },
+  });
+  const htmlResponse = new Response("<html><body><h1>Quickstart</h1></body></html>", {
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "x-frame-options": "SAMEORIGIN",
+    },
+  });
+
+  const response = await runtime.negotiateMarkdownResponse({
+    assetsFetch: async () => {
+      throw new Error("assets fetch should not run for unsupported Accept types");
+    },
+    request,
+    response: htmlResponse,
+  });
+
+  assert.equal(response.status, 406);
+  assert.equal(response.headers.get("Content-Type"), "text/plain; charset=utf-8");
+  assert.equal(response.headers.get("Cache-Control"), "no-store");
+  assert.equal(response.headers.get("x-frame-options"), "SAMEORIGIN");
+  assert.match(response.headers.get("Vary"), /Accept/);
+
+  const body = await response.text();
+  assert.match(body, /This resource is available in:/);
+  assert.match(body, /text\/html/);
+  assert.match(body, /text\/markdown/);
+  assert.match(body, /application\/x-content-negotiation-probe/);
 });
