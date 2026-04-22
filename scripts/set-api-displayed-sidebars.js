@@ -6,6 +6,7 @@ const path = require('path');
 const siteDir = path.resolve(__dirname, '..');
 const docsDirs = [
   'docs/content_apis_versioned',
+  'docs/user_related_apis_prelive',
   'docs/user_related_apis_versioned',
   'docs/oauth2_apis_versioned',
   'docs/search_apis_versioned',
@@ -33,6 +34,15 @@ function walk(dir) {
   }
 
   return results;
+}
+
+function getDocId(filePath) {
+  return path
+    .relative(siteDir, filePath)
+    .split(path.sep)
+    .join('/')
+    .replace(/^docs\//, '')
+    .replace(/\.(api|info|tag)\.mdx$/, '');
 }
 
 function getDisplayedSidebarId(filePath) {
@@ -107,10 +117,55 @@ function dedupeSidebarItems(items) {
   }, []);
 }
 
-function normalizeGeneratedSidebar(filePath) {
+function filterMissingSidebarItems(items, validDocIds) {
+  return items.reduce((accumulator, item) => {
+    if (!item || typeof item !== 'object') {
+      accumulator.push(item);
+      return accumulator;
+    }
+
+    if (item.type === 'doc') {
+      if (validDocIds.has(item.id)) {
+        accumulator.push(item);
+      }
+
+      return accumulator;
+    }
+
+    if (item.type === 'category' && Array.isArray(item.items)) {
+      const filteredItems = filterMissingSidebarItems(item.items, validDocIds);
+      const hasValidDocLink =
+        !item.link ||
+        item.link.type !== 'doc' ||
+        validDocIds.has(item.link.id);
+
+      if (!hasValidDocLink && filteredItems.length === 0) {
+        return accumulator;
+      }
+
+      const normalizedItem = {
+        ...item,
+        items: filteredItems,
+      };
+
+      if (!hasValidDocLink) {
+        delete normalizedItem.link;
+      }
+
+      accumulator.push(normalizedItem);
+      return accumulator;
+    }
+
+    accumulator.push(item);
+    return accumulator;
+  }, []);
+}
+
+function normalizeGeneratedSidebar(filePath, validDocIds) {
   delete require.cache[require.resolve(filePath)];
   const sidebarItems = require(filePath);
-  const dedupedSidebarItems = dedupeSidebarItems(sidebarItems);
+  const filteredSidebarItems = filterMissingSidebarItems(sidebarItems, validDocIds);
+  const dedupedSidebarItems = dedupeSidebarItems(filteredSidebarItems);
   const serializedSidebar = `module.exports = ${JSON.stringify(dedupedSidebarItems)};`;
 
   return normalizeGeneratedLabels(serializedSidebar);
@@ -118,8 +173,23 @@ function normalizeGeneratedSidebar(filePath) {
 
 let updatedFiles = 0;
 let checkedFiles = 0;
+const validDocIds = new Set();
 
 for (const docsDir of docsDirs) {
+  if (!fs.existsSync(docsDir)) {
+    continue;
+  }
+
+  for (const filePath of walk(docsDir)) {
+    validDocIds.add(getDocId(filePath));
+  }
+}
+
+for (const docsDir of docsDirs) {
+  if (!fs.existsSync(docsDir)) {
+    continue;
+  }
+
   const generatedDocs = walk(docsDir);
   const generatedSidebars = [
     path.join(docsDir, 'sidebar.js'),
@@ -135,7 +205,7 @@ for (const docsDir of docsDirs) {
 
     const originalContent = fs.readFileSync(filePath, 'utf8');
     const normalizedContent = generatedSidebarPattern.test(filePath)
-      ? normalizeGeneratedSidebar(filePath)
+      ? normalizeGeneratedSidebar(filePath, validDocIds)
       : normalizeGeneratedLabels(originalContent);
     const updatedContent = generatedApiDocPattern.test(filePath)
       ? upsertDisplayedSidebar(
