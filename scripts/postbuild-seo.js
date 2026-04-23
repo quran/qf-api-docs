@@ -4,14 +4,17 @@ const fs = require("fs");
 const path = require("path");
 
 const BUILD_DIR = path.join(__dirname, "..", "build");
+const DOCS_DIR = path.join(__dirname, "..", "docs");
 const SITEMAP_PATH = path.join(BUILD_DIR, "sitemap.xml");
 const SITE_ORIGIN = "https://api-docs.quran.foundation";
-const versionedApiRoots = {
-  content_apis_versioned: "4.0.0",
-  oauth2_apis_versioned: "1.0.0",
-  search_apis_versioned: "1.0.0",
-  user_related_apis_versioned: "1.0.0",
-};
+const versionedApiFamilies = [
+  "content_apis_versioned",
+  "oauth2_apis_versioned",
+  "search_apis_versioned",
+  "user_related_apis_versioned",
+];
+const versionDirPattern = /^\d+\.\d+\.\d+$/;
+const versionedApiRoots = getVersionedApiRoots();
 
 const dropPathsFromSitemap = new Set([
   "/search",
@@ -30,6 +33,46 @@ function normalizePathname(pathname) {
   }
 
   return pathname;
+}
+
+function readJsonFile(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (error) {
+    throw new Error(`Failed to read ${filePath}: ${error.message}`);
+  }
+}
+
+function getVersionedApiRoot(family) {
+  const versionsPath = path.join(DOCS_DIR, family, "versions.json");
+  if (!fs.existsSync(versionsPath)) {
+    throw new Error(`Missing generated API versions file: ${versionsPath}`);
+  }
+
+  const versions = readJsonFile(versionsPath);
+  if (!Array.isArray(versions) || versions.length === 0) {
+    throw new Error(`No API versions found in ${versionsPath}`);
+  }
+
+  const currentVersion = versions[0]?.version;
+  if (!currentVersion || !versionDirPattern.test(currentVersion)) {
+    throw new Error(`Invalid current API version in ${versionsPath}`);
+  }
+
+  const versionPath = path.join(DOCS_DIR, family, currentVersion);
+  if (!fs.existsSync(versionPath)) {
+    throw new Error(
+      `Resolved API version ${currentVersion} for ${family}, but ${versionPath} does not exist.`,
+    );
+  }
+
+  return currentVersion;
+}
+
+function getVersionedApiRoots() {
+  return Object.fromEntries(
+    versionedApiFamilies.map((family) => [family, getVersionedApiRoot(family)]),
+  );
 }
 
 function normalizeSiteUrl(rawUrl, pathnameOverride) {
@@ -142,7 +185,15 @@ function rewriteHtmlCanonicals() {
 
 function rewriteSitemap() {
   const source = fs.readFileSync(SITEMAP_PATH, "utf8");
-  const urlEntries = [...source.matchAll(/<url><loc>([^<]+)<\/loc>[\s\S]*?<\/url>/g)];
+  const urlEntries = [
+    ...source.matchAll(/<url>\s*<loc>([^<]+)<\/loc>[\s\S]*?<\/url>/g),
+  ];
+
+  if (urlEntries.length === 0) {
+    throw new Error(
+      `Failed to parse any sitemap entries from ${SITEMAP_PATH}; refusing to overwrite the sitemap.`,
+    );
+  }
 
   const filteredEntries = urlEntries
     .map((match) => {
