@@ -466,6 +466,7 @@ const buildTutorialsSidebarItems = () => [
     collapsed: false,
     items: [
       "tutorials/oidc/getting-started-with-oauth2",
+      "tutorials/oidc/user-apis-quickstart",
       "tutorials/oidc/openid-connect",
       "tutorials/oidc/example-integration",
       "tutorials/oidc/client-setup",
@@ -580,6 +581,7 @@ const sidebars = {
   ],
 
   tutorialsSidebar: [
+    "tutorials/faq",
     ...buildTutorialsSidebarItems(),
   ],
 

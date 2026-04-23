@@ -124,8 +124,9 @@ When the user creates data offline, push mutations to the server using `POST /v1
 
 ### API References
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/auth-get-v-1-sync)
-- [POST /v1/sync (Sync local mutations)](/docs/user_related_apis_prelive/auth-post-v-1-sync)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/get-mutations)
+- [POST /v1/sync (Sync local mutations)](/docs/user_related_apis_versioned/sync-local-mutations)
+- [POST /v1/bookmarks (Add bookmark)](/docs/user_related_apis_versioned/auth-post-v-1-bookmarks) — for bookmark field requirements
 
 ## Using metadataOnly for Efficiency
 
@@ -139,7 +140,7 @@ This is significantly faster than a full sync (single DB query vs multiple joins
 
 For the full request/response schema, see:
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/auth-get-v-1-sync)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/get-mutations)
 
 ## Filtering & Pagination
 
@@ -154,6 +155,7 @@ When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagina
 ## Important Notes
 
 - **Mutation limits** — `POST /v1/sync` accepts a maximum of 100 mutations per request.
+- **Direct endpoints** — Direct mutation endpoints (e.g. `POST /v1/bookmarks`) require `lastMutationAt` as a query param and return the `X-Mutation-At` header for updating `lastMutationAt`.
 
 ## Next Steps
 

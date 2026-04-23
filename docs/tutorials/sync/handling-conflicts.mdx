@@ -117,7 +117,19 @@ This quickly retrieves the current `lastMutationAt` without fetching all mutatio
 
 See the full request/response schema in the API reference:
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/auth-get-v-1-sync)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/get-mutations)
+
+## Direct Mutation Endpoints
+
+When using direct mutation endpoints (e.g., `POST /v1/bookmarks`), the same conflict rules apply:
+
+1. Include `lastMutationAt` as a query parameter
+2. Check for 409 responses
+3. Update `lastMutationAt` from the `X-Mutation-At` response header
+
+:::tip Always Capture the Header
+Store the `X-Mutation-At` header value after every successful mutation. If you miss it, use `metadataOnly=true` to recover.
+:::
 
 ## Best Practices
 
