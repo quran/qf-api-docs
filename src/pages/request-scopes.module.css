@@ -2,17 +2,17 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  --scope-surface: #f8fafc;
-  --scope-surface-alt: #ffffff;
-  --scope-border: #e2e8f0;
-  --scope-text: #0f172a;
-  --scope-text-strong: #1e293b;
-  --scope-muted: #475569;
+  --scope-surface: var(--qf-surface-hero);
+  --scope-surface-alt: var(--qf-surface-card);
+  --scope-border: var(--qf-border-card);
+  --scope-text: var(--qf-text-primary);
+  --scope-text-strong: var(--qf-text-primary);
+  --scope-muted: var(--qf-text-muted);
   --scope-parent: #eef2ff;
-  --scope-badge-text: #1d4ed8;
-  --scope-badge-bg: #e0e7ff;
-  --scope-hover-border: rgba(59, 130, 246, 0.35);
-  --scope-hover-shadow: rgba(59, 130, 246, 0.15);
+  --scope-badge-text: var(--ifm-color-primary-darkest);
+  --scope-badge-bg: rgba(44, 164, 171, 0.12);
+  --scope-hover-border: rgba(44, 164, 171, 0.35);
+  --scope-hover-shadow: rgba(44, 164, 171, 0.15);
   --scope-card-shadow: rgba(15, 23, 42, 0.06);
 }
 
@@ -23,11 +23,11 @@
   --scope-text: #e2e8f0;
   --scope-text-strong: #f1f5f9;
   --scope-muted: #94a3b8;
-  --scope-parent: rgba(59, 130, 246, 0.18);
-  --scope-badge-text: #93c5fd;
-  --scope-badge-bg: rgba(59, 130, 246, 0.2);
-  --scope-hover-border: rgba(59, 130, 246, 0.5);
-  --scope-hover-shadow: rgba(59, 130, 246, 0.25);
+  --scope-parent: rgba(44, 164, 171, 0.18);
+  --scope-badge-text: var(--ifm-color-primary-lightest);
+  --scope-badge-bg: rgba(44, 164, 171, 0.2);
+  --scope-hover-border: rgba(44, 164, 171, 0.5);
+  --scope-hover-shadow: rgba(44, 164, 171, 0.25);
   --scope-card-shadow: rgba(0, 0, 0, 0.3);
 }
 

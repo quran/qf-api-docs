@@ -1,5 +1,6 @@
 ---
 id: scopes
+displayed_sidebar: APIsSidebar
 ---
 
 # OAuth2 Scopes
@@ -8,6 +9,13 @@ Quran.Foundations's OAuth 2.0 scopes provide a way to limit the amount of access
 an access token. When requesting an accessing token, clients should also request the scopes they are
 interested in getting access to. If the APIs are user-related, the user will need to consent to
 granting access to the scopes your app is requesting first.
+
+## Standard OAuth2
+
+| Scope          | Description                    |
+| -------------- | ------------------------------ |
+| openid         | OpenID Connect authentication  |
+| offline_access | Allows obtaining refresh tokens |
 
 ## Content
 

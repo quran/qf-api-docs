@@ -3,6 +3,7 @@ id: faq
 title: Frequently Asked Questions
 sidebar_label: FAQ
 sidebar_position: 0
+displayed_sidebar: APIsSidebar
 ---
 
 # Frequently Asked Questions
@@ -11,7 +12,7 @@ This FAQ answers common questions developers have when working with Quran.Founda
 
 ## Why should I block automatic translation on Quran text returned by the API?
 
-The API already delivers peer-reviewed translations. Auto-translating them can distort meaning and create theological inaccuracies. Disable auto-translation using the HTML/CSP techniques linked in the Quick Start guide.
+The API already delivers peer-reviewed translations. Auto-translating them can distort meaning and create theological inaccuracies. Disable auto-translation using the HTML/CSP techniques linked in the [Content APIs Quickstart Guide](/docs/quickstart).
 
 ## How do I obtain OAuth2 credentials?
 
@@ -24,6 +25,14 @@ Submit an [application](/request-access) to receive your `client_id` and `client
 ## How do I use `x-auth-token` and `x-client-id` headers?
 
 Include your OAuth2 access token in the `x-auth-token` header and your client ID in the `x-client-id` header when calling authenticated endpoints.
+
+For web apps, the recommended pattern is to store the user session in your backend or secure `httpOnly` cookies and have your backend or serverless proxy send `x-auth-token` and `x-client-id` to Quran Foundation.
+
+## Why does the same request work in curl but fail in the browser?
+
+`curl` usually sends no browser `Origin` header, while browser JavaScript does. If you call a User API directly from page code on a third-party origin, the request can be rejected by the target service's browser-origin policy even when the token itself is valid.
+
+For confidential web integrations, route the resource request through your backend or serverless proxy instead of calling Quran Foundation directly from the page.
 
 ## What are the best practices for refresh tokens?
 

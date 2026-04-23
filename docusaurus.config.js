@@ -3,11 +3,12 @@
 
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const enableGtag = process.env.NODE_ENV === "production";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "QuranFoundation API Documentation Portal",
-  tagline: "Build Quran-related apps in no time!",
+  title: "Quran Foundation Documentation Portal",
+  tagline: "Our API documentation is clear, concise, easy to understand and will help you create innovative and engaging Quran-related apps.",
   // Set the production url of your site here
   url: "https://api-docs.quran.foundation",
   baseUrl: "/",
@@ -50,15 +51,20 @@ const config = {
           priority: 0.5,
           filename: "sitemap.xml",
         },
-        gtag: {
-          trackingID: "G-8986R74P88",
-          anonymizeIP: true,
-        },
+        ...(enableGtag
+          ? {
+              gtag: {
+                trackingID: "G-8986R74P88",
+                anonymizeIP: true,
+              },
+            }
+          : {}),
       }),
     ],
   ],
 
   plugins: [
+    "./plugins/llms-txt-plugin.js",
     [
       "docusaurus-plugin-openapi-docs",
       {
@@ -83,6 +89,14 @@ const config = {
                 baseUrl:
                   "/docs/user_related_apis_versioned/1.0.0/user-related-apis", // Leading slash is important
               },
+            },
+          },
+          user_related_apis_prelive: {
+            specPath: "openAPI/user-related-apis/pre-live/v1.json",
+            outputDir: "docs/user_related_apis_prelive",
+            sidebarOptions: {
+              groupPathsBy: "tag",
+              categoryLinkSource: "tag",
             },
           },
           content_apis_versioned: {
@@ -119,7 +133,7 @@ const config = {
                 specPath: "openAPI/oauth2-apis/v1.json",
                 outputDir: "docs/oauth2_apis_versioned/1.0.0", // No trailing slash
                 label: "v1.0.0",
-                baseUrl: "/docs/oauth2_apis_versioned/1.0.0/oauth2_apis", // Leading slash is important
+                baseUrl: "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis", // Must match the generated intro doc slug
               },
             },
           },
@@ -138,7 +152,8 @@ const config = {
                 specPath: "openAPI/search/v1.json",
                 outputDir: "docs/search_apis_versioned/1.0.0", // No trailing slash
                 label: "v1.0.0",
-                baseUrl: "/docs/search_apis_versioned/1.0.0/search-apis", // Leading slash is important
+                baseUrl:
+                  "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api", // Must match the generated intro doc slug
               },
             },
           },
@@ -168,26 +183,26 @@ const config = {
       ],
       docs: {
         sidebar: {
-          hideable: true,
-          autoCollapseCategories: true,
+          hideable: false,
+          autoCollapseCategories: false,
         },
       },
       // Replace with your project's social card
       // image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: "QuranFoundation API Docs portal",
+        title: "Quran Foundation API Docs",
         items: [
           {
             type: "doc",
-            docId: "quickstart/index", // Points to your /docs/quickstart/index.md
+            docId: "tutorials/oidc/user-apis-quickstart",
             position: "left",
-            label: "🚀 Quick Start",
+            label: "User Quickstart",
           },
           {
             type: "doc",
             docId: "updates/index",
             position: "left",
-            label: "📢 Updates",
+            label: "Updates",
           },
 
           {
@@ -225,19 +240,23 @@ const config = {
             items: [
               {
                 label: "Content APIs",
-                to: "docs/category/content-apis",
+                to: "/docs/content_apis_versioned/content-apis",
               },
               {
                 label: "Search APIs",
-                to: "docs/search_apis_versioned/quran-foundation-search-api",
+                to: "/docs/search_apis_versioned/quran-foundation-search-api",
               },
               {
                 label: "User-related APIs",
-                to: "docs/category/user-related-apis",
+                to: "/docs/user_related_apis_versioned/user-related-apis",
+              },
+              {
+                label: "User-related APIs (Pre-live)",
+                to: "docs/category/user-related-apis-pre-live",
               },
               {
                 label: "OAuth2 APIs",
-                to: "docs/category/oauth2_apis",
+                to: "/docs/oauth2_apis_versioned/oauth-2-apis",
               },
             ],
           },
@@ -263,23 +282,23 @@ const config = {
             items: [
               {
                 label: "Content APIs",
-                to: "/docs/category/content-apis",
+                to: "/docs/content_apis_versioned/content-apis",
+              },
+              {
+                label: "OAuth2 / OIDC APIs",
+                to: "/docs/oauth2_apis_versioned/oauth-2-apis",
+              },
+              {
+                label: "User-related APIs",
+                to: "/docs/user_related_apis_versioned/user-related-apis",
+              },
+              {
+                label: "User-related APIs (Pre-live)",
+                to: "/docs/category/user-related-apis-pre-live",
               },
               {
                 label: "Search APIs",
                 to: "/docs/search_apis_versioned/quran-foundation-search-api",
-              },
-              {
-                label: "JavaScript SDK",
-                to: "/docs/sdk/javascript",
-              },
-              {
-                label: "User-related APIs",
-                to: "docs/category/user-related-apis",
-              },
-              {
-                label: "OAuth2 APIs",
-                to: "docs/category/oauth2_apis",
               },
             ],
           },
@@ -300,25 +319,8 @@ const config = {
                 to: "https://donate.quran.foundation",
               },
               {
-                label: "Updates",
-                to: "/docs/updates",
-              },
-              {
                 label: "GitHub",
                 href: "https://github.com/quran",
-              },
-            ],
-          },
-          {
-            title: "Legal",
-            items: [
-              {
-                label: "Developer Terms of Service",
-                to: "/legal/developer-terms",
-              },
-              {
-                label: "Developer Privacy Policy Requirements",
-                to: "/legal/developer-privacy",
               },
             ],
           },
@@ -332,4 +334,3 @@ const config = {
 };
 
 module.exports = config;
-

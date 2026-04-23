@@ -1,8 +1,7 @@
 import React from "react";
 import clsx from "clsx";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
-import Link from "@docusaurus/Link"; // ✅ Import Link for the button
+import Link from "@docusaurus/Link";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import {
   DeveloperBenefitsModal,
@@ -12,7 +11,6 @@ import {
 import styles from "./index.module.css";
 
 function HomepageHeader() {
-  const { siteConfig } = useDocusaurusContext();
   const [activeModal, setActiveModal] = React.useState<
     "benefits" | "disclaimers" | null
   >(null);
@@ -37,96 +35,53 @@ function HomepageHeader() {
     };
   }, []);
 
-  const renderModal = (
-    title: string,
-    points: string[],
-    ctaLabel: string
-  ) => {
-    if (activeModal === null) return null;
-    return (
-      <div
-        className={styles.modalOverlay}
-        role="dialog"
-        aria-modal="true"
-        onClick={closeModal}
-      >
-        <div
-          className={styles.modalCard}
-          onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-            event.stopPropagation()
-          }
-        >
-          <div className={styles.modalHeader}>
-            <h3 className={styles.modalTitle}>{title}</h3>
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={closeModal}
-              aria-label="Close dialog"
-            >
-              ×
-            </button>
-          </div>
-          <ul className={styles.modalList}>
-            {points.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-          <button
-            type="button"
-            className={clsx("button button--primary button--md", styles.modalCta)}
-            onClick={closeModal}
-          >
-            {ctaLabel}
-          </button>
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <header className={clsx("hero hero--primary", styles.heroBanner)}>
-      <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+    <header className={styles.heroBanner}>
+      <div className={styles.heroContent}>
+        <h1 className={styles.heroTitle}>
+          Quran.Foundation Documentation Portal
+        </h1>
+        <p className={styles.heroSubtitle}>
+          Our API documentation is clear, concise, easy to understand and will
+          help you create innovative and engaging Quran-related apps.
+        </p>
 
         <div className={styles.heroButtonRow}>
+          <Link
+            className={clsx("button button--lg", styles.mobileRequestAccess)}
+            to="/request-access"
+          >
+            Request Access
+          </Link>
+          <Link
+            className={clsx("button button--lg", styles.primaryButton)}
+            to="/docs/tutorials/oidc/user-apis-quickstart"
+          >
+            Start with User APIs
+          </Link>
           <button
             type="button"
             className={clsx("button button--lg", styles.outlineButton)}
             onClick={() => setActiveModal("benefits")}
           >
-            💎 Dev Benefits
+            Explore Dev Benefits
           </button>
           <button
             type="button"
-            className={clsx("button button--lg", styles.ghostButton)}
+            className={clsx("button button--lg", styles.outlineButton)}
             onClick={() => setActiveModal("disclaimers")}
           >
-            ⚠️ Dev Disclaimers
+            Read Dev Disclaimers
           </button>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/quickstart"
-          >
-            🚀 Quick Start Guide
-          </Link>
-          <Link
-            className="button button--primary button--lg"
-            to="/docs/category/content-apis"
-          >
-            📂 API Reference
-          </Link>
         </div>
-        <div className={styles.mobileRequestAccess}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/request-access"
-          >
-            📨 Request Access
-          </Link>
-        </div>
+
+        <p className={clsx(styles.heroSubtitle, styles.heroLlmsCallout)}>
+          <strong>AI agents / LLMs</strong> - see{" "}
+          <a href="/llms.txt">/llms.txt</a> for machine-readable OpenAPI
+          specs.
+        </p>
       </div>
+
       <DeveloperBenefitsModal
         isOpen={activeModal === "benefits"}
         onClose={closeModal}
@@ -140,10 +95,8 @@ function HomepageHeader() {
 }
 
 export default function Home(): JSX.Element {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={siteConfig.title}
       description="QuranFoundation API Docs portal that will help Muslim developers get the Ummah closer to the Quran by seamlessly develop apps on top of Quran.Foundation's APIs."
     >
       <HomepageHeader />

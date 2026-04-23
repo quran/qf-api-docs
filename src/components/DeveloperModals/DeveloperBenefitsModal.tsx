@@ -17,7 +17,7 @@ const benefitPoints: React.ReactNode[] = [
       target="_blank"
       rel="noopener noreferrer"
     >
-      Quran App Portal
+      Connected Quran Apps
     </Link>
     .
   </>,

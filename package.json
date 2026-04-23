@@ -6,6 +6,8 @@
   "scripts": {
     "deploy:pages": "yarn run build && wrangler pages deploy build",
     "docusaurus": "npx docusaurus",
+    "llms:sync": "node scripts/sync-static-llms-txt.js",
+    "postgen-api-sidebars": "node scripts/set-api-displayed-sidebars.js",
     "start": "yarn gen-all && npx docusaurus start",
     "build": "yarn gen-all && npx docusaurus build",
     "swizzle": "npx docusaurus swizzle",
@@ -19,7 +21,7 @@
     "clean-api-docs": "npx docusaurus clean-api-docs",
     "gen-api-docs:version": "npx docusaurus gen-api-docs:version",
     "clean-api-docs:version": "npx docusaurus clean-api-docs:version",
-    "gen-all": "npx docusaurus gen-api-docs all && npx docusaurus gen-api-docs:version content_apis_versioned:all && npx docusaurus gen-api-docs:version user_related_apis_versioned:all && npx docusaurus gen-api-docs:version oauth2_apis_versioned:all && npx docusaurus gen-api-docs:version search_apis_versioned:all",
+    "gen-all": "npx docusaurus gen-api-docs all && npx docusaurus gen-api-docs:version content_apis_versioned:all && npx docusaurus gen-api-docs:version user_related_apis_versioned:all && npx docusaurus gen-api-docs:version oauth2_apis_versioned:all && npx docusaurus gen-api-docs:version search_apis_versioned:all && yarn postgen-api-sidebars",
     "clean-all": "npx docusaurus clean-api-docs all && npx docusaurus clean-api-docs:version content_apis_versioned:all && npx docusaurus clean-api-docs:version user_related_apis_versioned:all && npx docusaurus clean-api-docs:version oauth2_apis_versioned:all && npx docusaurus clean-api-docs:version search_apis_versioned:all",
     "re-gen": "yarn clean-all && yarn gen-all"
   },
@@ -42,6 +44,8 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.4.1",
     "@tsconfig/docusaurus": "^1.0.5",
+    "domutils": "^3.0.1",
+    "htmlparser2": "^8.0.1",
     "typescript": "^4.7.4",
     "wrangler": "^4.42.0"
   },

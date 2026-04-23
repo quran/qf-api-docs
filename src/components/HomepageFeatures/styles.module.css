@@ -1,11 +1,123 @@
+/**
+ * HomepageFeatures – API card grid styles.
+ */
+
 .features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+  padding: 3rem 0 4rem;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+/* ── Section header ── */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--qf-text-primary);
+  margin: 0;
+}
+
+.sectionLink {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ifm-color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.sectionLink:hover {
+  color: var(--ifm-color-primary-dark);
+}
+
+/* ── Card grid ── */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+/* ── Individual card ── */
+.card {
+  background: var(--qf-surface-card);
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--qf-radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.card:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: var(--qf-shadow-md);
+  transform: translateY(-2px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardIcon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--qf-text-primary);
+  margin: 0;
+}
+
+.cardDescription {
+  font-size: 0.9rem;
+  color: var(--qf-text-secondary);
+  line-height: 1.6;
+  flex: 1;
+  margin: 0 0 1rem;
+}
+
+.cardLink {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.cardLink:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: underline;
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
+  .features {
+    padding: 2rem 0 3rem;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 996px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

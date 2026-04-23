@@ -118,7 +118,7 @@ Apply local changes immediately, then enqueue mutations for sync. When the serve
 
 ### Handling Sync Results
 
-When the server returns mutation results, update local records with server IDs and timestamps, then dequeue the synced mutations. For direct mutation endpoints (e.g., `POST /v1/bookmarks`), read `X-Mutation-At` from the response header and persist it as your new `lastMutationAt`.
+When the server returns mutation results, update local records with server IDs and timestamps, then dequeue the synced mutations and persist the new cursor. Use the returned `lastMutationAt` for `/v1/sync` responses, and read `X-Mutation-At` from direct mutation endpoints such as `POST /v1/bookmarks`.
 
 ## Error Handling & Retry
 

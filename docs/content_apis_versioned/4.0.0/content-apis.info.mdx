@@ -6,6 +6,7 @@ sidebar_label: Introduction
 sidebar_position: 0
 hide_title: true
 custom_edit_url: null
+displayed_sidebar: APIsVersionedSidebar
 ---
 
 import ApiLogo from "@theme/ApiLogo";
@@ -47,7 +48,7 @@ sequenceDiagram
     Auth-->>App: New access_token
 ```
 
- After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`.
+ After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`. This spec also includes a small subset of Quran Reflect post-read endpoints that are compatible with the `client_credentials` grant. These operations still require `x-auth-token` and `x-client-id`, but they do not use the `content` scope. Use `post.read` for `/quran-reflect/v1/posts/feed`, `/quran-reflect/v1/posts/{id}`, and `/quran-reflect/v1/posts/user-posts/{id}`. Use `comment.read` for `/quran-reflect/v1/posts/{id}/comments` and `/quran-reflect/v1/posts/{id}/all-comments`. These are Quran Reflect gateway endpoints, not `/content/api/v4/...` endpoints.
 
 <div style={{"marginBottom":"2rem"}}><h2 id={"authentication"} style={{"marginBottom":"1rem"}}>Authentication</h2><SchemaTabs className={"openapi-tabs__security-schemes"}><TabItem label={"API Key: x-auth-token"} value={"x-auth-token"}>
 

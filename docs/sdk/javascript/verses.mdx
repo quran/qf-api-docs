@@ -16,6 +16,12 @@ const firstVerse = await client.verses.findByKey("1:1");
 const lastVerse = await client.verses.findByKey("114:6");
 ```
 
+## Get Verses by Range
+
+```ts
+const verses = await client.verses.findByRange("1:1", "1:7");
+```
+
 ### Verse Type
 
 | Field             | Type               | Notes                                                                               |

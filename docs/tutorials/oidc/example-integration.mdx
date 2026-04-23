@@ -1,5 +1,6 @@
 ---
 sidebar_position: 4
+displayed_sidebar: APIsSidebar
 ---
 
 # OAuth2 Web Integration Example
@@ -30,7 +31,7 @@ BASE_PATH=http://localhost:3000
 TOKEN_HOST=https://oauth2.quran.foundation
 CLIENT_ID=your_client_id
 CLIENT_SECRET=your_client_secret
-SCOPES=openid offline_access profile email bookmark collection user
+SCOPES=openid offline_access bookmark collection user
 SESSION_SECRET=your_random_session_secret
 NODE_ENV=development
 ```
@@ -70,17 +71,19 @@ const response = await fetch(
       "x-auth-token": access_token,
       "x-client-id": process.env.CLIENT_ID,
     },
-  },
+  }
 );
 const bookmarks = await response.json();
 ```
+
+This example keeps the user session on the server and uses the server to send `x-auth-token` and `x-client-id` to Quran Foundation. That is the recommended pattern for confidential web clients. If you move the resource call into frontend browser code, you leave that server-side pattern and may run into browser-origin restrictions.
 
 ## Accessing Resources
 
 Once authenticated, explore the [User APIs](/docs/category/user-related-apis):
 
-- **[Collections](/docs/user_related_apis_versioned/add-collection)** — Create and manage verse collections
-- **[Bookmarks](/docs/user_related_apis_versioned/get-all-collections)** — Save and retrieve bookmarked verses
+- **[Collections](/docs/user_related_apis_versioned/auth-get-v-1-collections)** — Create and manage verse collections
+- **[Bookmarks](/docs/user_related_apis_versioned/auth-get-v-1-bookmarks)** — Save and retrieve bookmarked verses
 - **Reading Sessions** — Track reading progress
 - **Goals & Streaks** — User reading goals
 
@@ -232,6 +235,7 @@ fly deploy
 
 ## Next Steps
 
-- **[Full OAuth2 Guide](/docs/tutorials/oidc/getting-started-with-oauth2)** — Detailed walkthrough with AI prompts
-- **[SDK](/docs/sdk)** — Client SDK for mobile and web apps
-- **[User APIs Reference](/docs/category/user-related-apis)** — All available endpoints
+- **[Full OAuth2 Guide](/docs/tutorials/oidc/getting-started-with-oauth2)** - Detailed walkthrough with AI prompts
+- **[SDK](/docs/sdk)** - Client SDK for mobile and web apps
+- **[Mobile Apps](/docs/tutorials/oidc/mobile-apps)** - iOS, Android, React Native guides
+- **[User APIs Reference](/docs/category/user-related-apis)** - All available endpoints
