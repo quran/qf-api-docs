@@ -20,6 +20,8 @@ function walk(dir) {
       continue;
     }
 
+    // The OpenAPI plugin prefixes user API aliases with auth- because the spec
+    // servers use /auth; these generated aliases are the only files normalized.
     if (entry.isFile() && /^auth-.*\.api\.mdx$/i.test(entry.name)) {
       results.push(fullPath);
     }
@@ -68,6 +70,7 @@ function getLegacySlug(content) {
     getFrontMatterValue(content, "sidebar_label");
 
   if (!title) {
+    // Missing labels should fail the build instead of shipping duplicate auth-* URLs.
     throw new Error("Could not resolve title for generated auth API doc");
   }
 
@@ -128,6 +131,7 @@ function walkAllFiles(dir) {
 
 let normalized = 0;
 const replacements = [];
+const claimedTargetPaths = new Map();
 
 for (const docsDir of docsDirs) {
   if (!fs.existsSync(docsDir)) {
@@ -147,6 +151,16 @@ for (const docsDir of docsDirs) {
     const normalizedContent = replaceFrontMatterId(content, legacySlug);
     const oldDocId = getDocId(resolvedPath);
     const newDocId = getDocId(targetPath);
+    const normalizedTargetPath = path.resolve(targetPath);
+    const claimedBy = claimedTargetPaths.get(normalizedTargetPath);
+
+    if (claimedBy) {
+      throw new Error(
+        `Generated auth API docs collide on ${normalizedTargetPath}: ${claimedBy} and ${resolvedPath}`,
+      );
+    }
+
+    claimedTargetPaths.set(normalizedTargetPath, resolvedPath);
 
     fs.writeFileSync(targetPath, normalizedContent, "utf8");
     fs.unlinkSync(resolvedPath);

@@ -13,6 +13,12 @@ const versionedApiFamilies = [
   "search_apis_versioned",
   "user_related_apis_versioned",
 ];
+const categoryAliasTargets = {
+  "content-apis": "content_apis_versioned",
+  oauth2_apis: "oauth2_apis_versioned",
+  "search-apis": "search_apis_versioned",
+  "user-related-apis": "user_related_apis_versioned",
+};
 const versionDirPattern = /^\d+\.\d+\.\d+$/;
 const versionedApiRoots = getVersionedApiRoots();
 
@@ -88,6 +94,16 @@ function normalizeSiteUrl(rawUrl, pathnameOverride) {
 }
 
 function getCanonicalPathOverride(pathname) {
+  const currentCategoryAlias = pathname.match(
+    /^\/docs\/category\/(content-apis|oauth2_apis|search-apis|user-related-apis)\/?$/,
+  );
+
+  if (currentCategoryAlias) {
+    const [, categorySlug] = currentCategoryAlias;
+    const family = categoryAliasTargets[categorySlug];
+    return `/docs/category/${categorySlug}-${versionedApiRoots[family]}/`;
+  }
+
   const singleSegmentApiFamily = pathname.match(
     /^\/docs\/(content_apis_versioned|user_related_apis_versioned|oauth2_apis_versioned|search_apis_versioned)\/([^/]+)\/?$/,
   );
@@ -98,6 +114,7 @@ function getCanonicalPathOverride(pathname) {
 
   const [, family, slug] = singleSegmentApiFamily;
 
+  // Scopes is a standalone unversioned OAuth reference, not a generated API alias.
   if (family === "user_related_apis_versioned" && slug === "scopes") {
     return normalizePathname(pathname);
   }
@@ -107,6 +124,14 @@ function getCanonicalPathOverride(pathname) {
 
 function shouldDropSitemapPath(pathname) {
   if (dropPathsFromSitemap.has(pathname)) {
+    return true;
+  }
+
+  if (
+    /^\/docs\/category\/(content-apis|oauth2_apis|search-apis|user-related-apis)\/?$/.test(
+      pathname,
+    )
+  ) {
     return true;
   }
 
@@ -120,6 +145,7 @@ function shouldDropSitemapPath(pathname) {
 
   const [, family, slug] = singleSegmentApiFamily;
 
+  // Scopes is a standalone unversioned OAuth reference, not a generated API alias.
   if (family === "user_related_apis_versioned" && slug === "scopes") {
     return false;
   }
@@ -227,4 +253,12 @@ function main() {
   rewriteSitemap();
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  getCanonicalPathOverride,
+  normalizeSiteUrl,
+  shouldDropSitemapPath,
+};
