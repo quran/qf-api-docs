@@ -1,0 +1,40 @@
+# Allow documented search and user-fetch bots for major AI assistants.
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Amzn-SearchBot
+User-agent: Amzn-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Applebot
+User-agent: MistralAI-User
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Allow: /
+Disallow: /search
+Disallow: /request-scopes
+
+# Allow Gemini grounding/search while signaling a no-training preference.
+User-agent: Google-Extended
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Allow: /
+Disallow: /search
+Disallow: /request-scopes
+
+# Block documented training-only bots.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Amazonbot
+User-agent: Applebot-Extended
+Content-Signal: ai-train=no, search=no, ai-input=no
+Disallow: /
+
+# Default to public search and live retrieval for other compliant agents,
+# including providers that have not published stable robots.txt bot tokens yet.
+User-agent: *
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Allow: /
+Disallow: /search
+Disallow: /request-scopes
+
+Sitemap: https://api-docs.quran.foundation/sitemap.xml

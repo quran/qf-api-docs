@@ -189,27 +189,9 @@ const ensureDocsInCategory = (items, categoryLabel, docsToEnsure, afterDocId) =>
   ];
 };
 
-const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
-  const withUsersEndpoints = insertDocsIntoCategory(
+const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) =>
+  insertDocsIntoCategory(
     items,
-    "Users",
-    [
-      makeApiDocSidebarItem(
-        `${baseDocIdPrefix}/users-controller-get-featured-users`,
-        "Get featured users for follow recommendation",
-        "api-method get",
-      ),
-      makeApiDocSidebarItem(
-        `${baseDocIdPrefix}/users-controller-follow-featured-users`,
-        "Follow all featured users",
-        "api-method post",
-      ),
-    ],
-    `${baseDocIdPrefix}/users-controller-search`,
-  );
-
-  return insertDocsIntoCategory(
-    withUsersEndpoints,
     "Posts",
     [
       makeApiDocSidebarItem(
@@ -220,7 +202,6 @@ const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
     ],
     `${baseDocIdPrefix}/posts-controller-find-one`,
   );
-};
 
 const extendContentApisSidebarItems = (items, baseDocIdPrefix) =>
   ensureDocsInCategory(
