@@ -728,7 +728,7 @@
           "Chapters"
         ],
         "summary": "Get Chapter Info",
-        "description": "Get Chapter Info in specific language. Default to `English`. Supports selecting a specific resource via `resource_id` and listing available resources via `include_resources=true`. Use this to fetch author-specific surah info, such as Ibn Ashur, after discovering the resource id or slug from [`/resources/chapter_infos`](/docs/content_apis_versioned/chapter-info) or from `include_resources=true`.",
+        "description": "Get Chapter Info in specific language. Default to `English`. Supports selecting a specific resource via `resource_id` and listing available resources via `include_resources=true`. Use `include_resources=true` to discover the resource ids or slugs that actually have chapter-info content for the resolved chapter and language. The [`/resources/chapter_infos`](/docs/content_apis_versioned/chapter-info) endpoint is a global catalog of chapter-info resources and may include resources that return `chapter_info: null` for a specific chapter.",
         "operationId": "get-chapter-info",
         "parameters": [
           {
@@ -765,7 +765,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Resource id or slug of the chapter info resource to fetch. Use this to request a specific author, such as Ibn Ashur, after discovering the identifier from [`/resources/chapter_infos`](/docs/content_apis_versioned/chapter-info) or from `include_resources=true`."
+            "description": "Resource id or slug of the chapter info resource to fetch. Prefer identifiers returned by `include_resources=true` for the current chapter. The [`/resources/chapter_infos`](/docs/content_apis_versioned/chapter-info) endpoint is a global catalog and may include resources that do not have chapter-info content for this specific chapter, which would return `chapter_info: null`."
           },
           {
             "name": "include_resources",
@@ -778,7 +778,7 @@
                 "false"
               ]
             },
-            "description": "Include the ordered list of available chapter info resources for the resolved language. This is useful for discovering the id or slug to pass as `resource_id` for a specific author such as Ibn Ashur."
+            "description": "Include the ordered list of available chapter info resources that actually have content for the resolved chapter and language. This is the safest discovery path for the id or slug to pass as `resource_id` for a specific author such as Ibn Ashur."
           }
         ],
         "responses": {
@@ -796,10 +796,10 @@
                         }
                       ],
                       "nullable": true,
-                      "description": "Resolved chapter info resource. Returns `null` when the requested `resource_id` does not match an approved chapter info resource for the resolved language."
+                      "description": "Resolved chapter info resource. Returns `null` when the requested `resource_id` does not match an approved chapter info resource for the resolved chapter and language, or when the selected resource has no chapter-info content for that chapter after language resolution."
                     },
                     "resources": {
-                      "description": "Only returned when `include_resources=true`. Contains approved chapter info resources for the resolved language, ordered by the API's preferred resource order for selection.",
+                      "description": "Only returned when `include_resources=true`. Contains approved chapter info resources that have chapter-info content for the resolved chapter and language, ordered by the API's preferred resource order for selection.",
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/resource"
@@ -9829,7 +9829,7 @@
           "Resources"
         ],
         "summary": "Chapter Infos",
-        "description": "Get list of chapter info we've in different languages.",
+        "description": "Get the global catalog of chapter info resources in different languages. This endpoint lists resource definitions and is not filtered by chapter, so some returned ids may not have chapter-info content for a specific surah.",
         "operationId": "chapter-info",
         "responses": {
           "200": {
