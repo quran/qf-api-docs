@@ -1,11 +1,17 @@
 const PROD_CATEGORY_PATH = '/docs/category/user-related-apis';
 const PRELIVE_CATEGORY_PATH = '/docs/category/user-related-apis-pre-live';
-const PROD_LATEST_PREFIX = '/docs/user_related_apis_versioned/';
-const PRELIVE_PREFIX = '/docs/user_related_apis_prelive/';
+const PROD_LATEST_ROOT = '/docs/user_related_apis_versioned';
+const PRELIVE_ROOT = '/docs/user_related_apis_prelive';
+const PROD_LATEST_PREFIX = `${PROD_LATEST_ROOT}/`;
+const PRELIVE_PREFIX = `${PRELIVE_ROOT}/`;
 const PROD_VERSION_PREFIX_REGEX = /^\d+\.\d+\.\d+(\/|$)/;
 
 const normalizePath = (value) =>
   value && value !== '/' ? value.replace(/\/+$/, '') : value;
+const isPathInTree = (pathname, rootPath) =>
+  pathname === rootPath || pathname.startsWith(`${rootPath}/`);
+const isApiTreeRoot = (pathname) =>
+  pathname === PROD_LATEST_ROOT || pathname === PRELIVE_ROOT;
 const hasAvailablePath = (availablePaths, targetPath) => {
   const normalizedTargetPath = normalizePath(targetPath);
 
@@ -39,14 +45,14 @@ function getUserRelatedDocsEnvironment(pathname) {
 
   if (
     normalizedPathname === PROD_CATEGORY_PATH ||
-    normalizedPathname.startsWith(PROD_LATEST_PREFIX)
+    isPathInTree(normalizedPathname, PROD_LATEST_ROOT)
   ) {
     return 'production';
   }
 
   if (
     normalizedPathname === PRELIVE_CATEGORY_PATH ||
-    normalizedPathname.startsWith(PRELIVE_PREFIX)
+    isPathInTree(normalizedPathname, PRELIVE_ROOT)
   ) {
     return 'pre-live';
   }
@@ -70,17 +76,25 @@ function getTargetPath(pathname, targetEnvironment) {
   if (targetEnvironment === 'production') {
     if (normalizedPathname === PRELIVE_CATEGORY_PATH) {
       targetPath = PROD_CATEGORY_PATH;
-    } else if (normalizedPathname.startsWith(PRELIVE_PREFIX)) {
-      targetPath = `${PROD_LATEST_PREFIX}${stripPrefix(normalizedPathname, PRELIVE_PREFIX)}`;
+    } else if (isPathInTree(normalizedPathname, PRELIVE_ROOT)) {
+      targetPath =
+        normalizedPathname === PRELIVE_ROOT
+          ? PROD_LATEST_ROOT
+          : `${PROD_LATEST_PREFIX}${stripPrefix(normalizedPathname, PRELIVE_PREFIX)}`;
     }
   } else if (targetEnvironment === 'pre-live') {
     if (normalizedPathname === PROD_CATEGORY_PATH) {
       targetPath = PRELIVE_CATEGORY_PATH;
-    } else if (normalizedPathname.startsWith(PROD_LATEST_PREFIX)) {
-      const relativePath = stripPrefix(normalizedPathname, PROD_LATEST_PREFIX);
+    } else if (isPathInTree(normalizedPathname, PROD_LATEST_ROOT)) {
+      const relativePath =
+        normalizedPathname === PROD_LATEST_ROOT
+          ? ''
+          : stripPrefix(normalizedPathname, PROD_LATEST_PREFIX);
       const normalizedRelativePath = relativePath.replace(PROD_VERSION_PREFIX_REGEX, '');
 
-      targetPath = `${PRELIVE_PREFIX}${normalizedRelativePath}`;
+      targetPath = normalizedRelativePath
+        ? `${PRELIVE_PREFIX}${normalizedRelativePath}`
+        : PRELIVE_ROOT;
     }
   } else {
     return {
@@ -97,7 +111,7 @@ function getTargetPath(pathname, targetEnvironment) {
 
 function getUserRelatedDocsTarget(pathname, targetEnvironment, options = {}) {
   const { fallbackPath, targetPath } = getTargetPath(pathname, targetEnvironment);
-  const hasExplicitDocTarget = targetPath !== fallbackPath;
+  const hasExplicitDocTarget = targetPath !== fallbackPath && !isApiTreeRoot(targetPath);
   const hasEquivalentDoc = !hasExplicitDocTarget || !options.availablePaths
     ? true
     : hasAvailablePath(options.availablePaths, targetPath);
