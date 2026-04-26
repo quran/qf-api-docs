@@ -728,7 +728,7 @@
           "Chapters"
         ],
         "summary": "Get Chapter Info",
-        "description": "Get Chapter Info in specific language. Default to `English`. Supports selecting a specific resource via `resource_id` and listing available resources via `include_resources=true`. Use this to fetch author-specific surah info, such as Ibn Ashur, after discovering the resource id or slug from `/resources/chapter_infos` or from `include_resources=true`.",
+        "description": "Get Chapter Info in specific language. Default to `English`. Supports selecting a specific resource via `resource_id` and listing available resources via `include_resources=true`. Use this to fetch author-specific surah info, such as Ibn Ashur, after discovering the resource id or slug from [`/resources/chapter_infos`](/docs/content_apis_versioned/chapter-info) or from `include_resources=true`.",
         "operationId": "get-chapter-info",
         "parameters": [
           {
@@ -765,7 +765,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Resource id or slug of the chapter info resource to fetch. Use this to request a specific author, such as Ibn Ashur, after discovering the identifier from `/resources/chapter_infos` or from `include_resources=true`."
+            "description": "Resource id or slug of the chapter info resource to fetch. Use this to request a specific author, such as Ibn Ashur, after discovering the identifier from [`/resources/chapter_infos`](/docs/content_apis_versioned/chapter-info) or from `include_resources=true`."
           },
           {
             "name": "include_resources",
