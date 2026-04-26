@@ -2443,7 +2443,7 @@
         "tags": [
           "Verses"
         ],
-        "summary": "By Rub el Hizb number (alias: /by_rub_el_hizb)",
+        "summary": "By Rub el Hizb number",
         "description": "Get all verses of a specific Rub el Hizb number(1-240).",
         "operationId": "verses-by_rub_el_hizb_number",
         "parameters": [
@@ -11055,7 +11055,7 @@
         "tags": [
           "Translations"
         ],
-        "summary": "Get translations for specific Rub el Hizb (alias: /by_rub)",
+        "summary": "Get translations for specific Rub el Hizb",
         "description": "Get list of translations for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-translations",
         "parameters": [
@@ -12520,7 +12520,7 @@
         "tags": [
           "Tafsirs"
         ],
-        "summary": "Get tafsirs for specific Rub el Hizb (alias: /by_rub)",
+        "summary": "Get tafsirs for specific Rub el Hizb",
         "description": "Get list of tafsirs for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-tafsirs",
         "parameters": [
@@ -15817,7 +15817,7 @@
         "tags": [
           "Verses"
         ],
-        "summary": "By Rub el Hizb number",
+        "summary": "By Rub el Hizb number (alias: /by_rub_el_hizb)",
         "description": "Get all verses of a specific Rub el Hizb number(1-240). Alias route for the same rub el hizb filter.",
         "operationId": "verses-by_rub_el_hizb_number-rub-el-hizb",
         "parameters": [
@@ -16026,7 +16026,7 @@
         "tags": [
           "Translations"
         ],
-        "summary": "Get translations for specific Rub el Hizb",
+        "summary": "Get translations for specific Rub el Hizb (alias: /by_rub)",
         "description": "Get list of translations for a specific Rub el Hizb. Alias route for the same rub el hizb filter.",
         "operationId": "list-rub-el-hizb-translations-rub",
         "parameters": [
@@ -16159,7 +16159,7 @@
         "tags": [
           "Tafsirs"
         ],
-        "summary": "Get tafsirs for specific Rub el Hizb",
+        "summary": "Get tafsirs for specific Rub el Hizb (alias: /by_rub)",
         "description": "Get list of tafsirs for a specific Rub el Hizb. Alias route for the same rub el hizb filter.",
         "operationId": "list-rub-el-hizb-tafsirs-rub",
         "parameters": [
