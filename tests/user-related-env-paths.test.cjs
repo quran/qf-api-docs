@@ -190,6 +190,22 @@ test('falls back to the environment intro doc when the target doc does not exist
   );
   assert.equal(rootTarget.path, '/docs/user_related_apis_prelive');
   assert.equal(rootTarget.hasEquivalentDoc, true);
+
+  const categoryToPreliveTarget = getUserRelatedDocsTarget(
+    '/docs/category/user-related-apis',
+    'pre-live',
+    { availablePaths },
+  );
+  assert.equal(categoryToPreliveTarget.path, '/docs/category/user-related-apis-pre-live');
+  assert.equal(categoryToPreliveTarget.hasEquivalentDoc, true);
+
+  const categoryToProductionTarget = getUserRelatedDocsTarget(
+    '/docs/category/user-related-apis-pre-live',
+    'production',
+    { availablePaths },
+  );
+  assert.equal(categoryToProductionTarget.path, '/docs/category/user-related-apis');
+  assert.equal(categoryToProductionTarget.hasEquivalentDoc, true);
 });
 
 test('collects available docs paths from Docusaurus docs data', () => {

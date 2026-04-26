@@ -14,6 +14,8 @@ const isPathInTree = (pathname, rootPath) =>
   pathname === rootPath || pathname.startsWith(`${rootPath}/`);
 const isApiTreeRoot = (pathname) =>
   pathname === PROD_LATEST_ROOT || pathname === PRELIVE_ROOT;
+const isCategoryPath = (pathname) =>
+  pathname === PROD_CATEGORY_PATH || pathname === PRELIVE_CATEGORY_PATH;
 const hasAvailablePath = (availablePaths, targetPath) => {
   const normalizedTargetPath = normalizePath(targetPath);
 
@@ -113,8 +115,11 @@ function getTargetPath(pathname, targetEnvironment) {
 
 function getUserRelatedDocsTarget(pathname, targetEnvironment, options = {}) {
   const { fallbackPath, targetPath } = getTargetPath(pathname, targetEnvironment);
-  const hasExplicitDocTarget = targetPath !== fallbackPath && !isApiTreeRoot(targetPath);
-  const hasEquivalentDoc = !hasExplicitDocTarget || !options.availablePaths
+  const needsAvailableDoc =
+    targetPath !== fallbackPath &&
+    !isApiTreeRoot(targetPath) &&
+    !isCategoryPath(targetPath);
+  const hasEquivalentDoc = !needsAvailableDoc || !options.availablePaths
     ? true
     : hasAvailablePath(options.availablePaths, targetPath);
   const path = hasEquivalentDoc ? targetPath : fallbackPath;
