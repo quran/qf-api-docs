@@ -4,6 +4,8 @@ const path = require('node:path');
 
 const {
   filterMissingSidebarItems,
+  normalizeRubElHizbDocLabels,
+  normalizeRubElHizbSidebarLabels,
 } = require(path.join(__dirname, '..', 'scripts', 'set-api-displayed-sidebars.js'));
 
 test('drops empty categories that have no surviving items and no link', () => {
@@ -90,4 +92,76 @@ test('keeps non-empty categories but strips invalid doc links', () => {
       },
     ],
   );
+});
+
+test('normalizes Rub el Hizb alias labels in generated API docs', () => {
+  const filePath = path.join(
+    __dirname,
+    '..',
+    'docs',
+    'content_apis_versioned',
+    'verses-by-rub-el-hizb-number.api.mdx',
+  );
+  const content = `---
+id: verses-by-rub-el-hizb-number
+title: "By Rub el Hizb number (alias: /by_rub_el_hizb)"
+sidebar_label: "By Rub el Hizb number (alias: /by_rub_el_hizb)"
+api: {"postman":{"name":"By Rub el Hizb number (alias: /by_rub_el_hizb)"}}
+---
+
+## By Rub el Hizb number (alias: /by_rub_el_hizb)
+`;
+
+  assert.equal(
+    normalizeRubElHizbDocLabels(filePath, content),
+    `---
+id: verses-by-rub-el-hizb-number
+title: "By Rub el Hizb number"
+sidebar_label: "By Rub el Hizb number"
+api: {"postman":{"name":"By Rub el Hizb number"}}
+---
+
+## By Rub el Hizb number
+`,
+  );
+});
+
+test('normalizes Rub el Hizb alias labels in versioned sidebars', () => {
+  const items = [
+    {
+      type: 'category',
+      label: 'Translations',
+      items: [
+        {
+          type: 'doc',
+          id: 'content_apis_versioned/4.0.0/list-rub-el-hizb-translations',
+          label: 'Get translations for specific Rub el Hizb (alias: /by_rub)',
+        },
+        {
+          type: 'doc',
+          id: 'content_apis_versioned/4.0.0/list-rub-el-hizb-translations-rub',
+          label: 'Get translations for specific Rub el Hizb',
+        },
+      ],
+    },
+  ];
+
+  assert.deepEqual(normalizeRubElHizbSidebarLabels(items), [
+    {
+      type: 'category',
+      label: 'Translations',
+      items: [
+        {
+          type: 'doc',
+          id: 'content_apis_versioned/4.0.0/list-rub-el-hizb-translations',
+          label: 'Get translations for specific Rub el Hizb',
+        },
+        {
+          type: 'doc',
+          id: 'content_apis_versioned/4.0.0/list-rub-el-hizb-translations-rub',
+          label: 'Get translations for specific Rub el Hizb (alias: /by_rub)',
+        },
+      ],
+    },
+  ]);
 });

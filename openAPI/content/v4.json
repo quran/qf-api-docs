@@ -871,6 +871,448 @@
         ]
       }
     },
+    "/hadith_references/by_ayah/{ayah_key}": {
+      "get": {
+        "tags": [
+          "Hadith"
+        ],
+        "summary": "Get hadith references for a specific Ayah",
+        "description": "Get the ordered hadith reference records linked to a specific ayah.",
+        "operationId": "hadith-references-by-ayah",
+        "parameters": [
+          {
+            "name": "ayah_key",
+            "in": "path",
+            "description": "Ayah key in `chapter:verse` format, for example `12:12`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code used for the `language` and `direction` metadata fields in the response. Defaults to `en`.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-references-by-ayah-response"
+                },
+                "example": {
+                  "verse_key": "12:12",
+                  "verse_number": 12,
+                  "chapter_number": 12,
+                  "language": "en",
+                  "direction": "ltr",
+                  "hadith_references": [
+                    {
+                      "id": 10,
+                      "collection": "bukhari",
+                      "hadith_number": "1",
+                      "our_hadith_number": 1,
+                      "arabic_urn": 111,
+                      "english_urn": 211,
+                      "surah_number": 12,
+                      "ayah_start_number": 11,
+                      "ayah_end_number": 12
+                    },
+                    {
+                      "id": 11,
+                      "collection": "muslim",
+                      "hadith_number": "3",
+                      "our_hadith_number": 1,
+                      "arabic_urn": 113,
+                      "english_urn": 213,
+                      "surah_number": 12,
+                      "ayah_start_number": 12,
+                      "ayah_end_number": 14
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Returned when `ayah_key` is missing or invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 400,
+                  "error": {
+                    "code": "INVALID_PARAMETER",
+                    "message": "Invalid ayah_key format. Expected format: chapter:verse (e.g., 12:12)",
+                    "details": {
+                      "parameter": "ayah_key",
+                      "provided": "12-12",
+                      "expected": "12:12"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "description": "Returned when the ayah does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 404,
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Verse 999:999 not found",
+                    "details": {}
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/hadith_references/by_ayah/{ayah_key}/hadiths": {
+      "get": {
+        "tags": [
+          "Hadith"
+        ],
+        "summary": "Get hadiths for a specific Ayah",
+        "description": "Get paginated hadith payloads for a specific ayah.",
+        "operationId": "hadiths-by-ayah",
+        "parameters": [
+          {
+            "name": "ayah_key",
+            "in": "path",
+            "description": "Ayah key in `chapter:verse` format, for example `12:12`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Hadith language. Use `ar` for Arabic. Any non-`ar` value behaves like English and returns English hadith content.",
+            "schema": {
+              "type": "string",
+              "default": "en",
+              "example": "en"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for the hadith result set. Defaults to `1`.",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of hadith records per page. Defaults to `4` and is capped at `5`.",
+            "schema": {
+              "type": "integer",
+              "default": 4,
+              "minimum": 1,
+              "maximum": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-by-ayah-response"
+                },
+                "example": {
+                  "hadiths": [
+                    {
+                      "urn": 201,
+                      "collection": "bukhari",
+                      "bookNumber": "1",
+                      "chapterId": "1",
+                      "hadithNumber": "1",
+                      "name": "Sahih al-Bukhari",
+                      "hadith": [
+                        {
+                          "lang": "en",
+                          "chapterNumber": "1",
+                          "chapterTitle": "Revelation",
+                          "body": "Narrated Umar bin Al-Khattab:...",
+                          "urn": 31,
+                          "grades": [
+                            {
+                              "graded_by": "Ahmad Muhammad Shakir",
+                              "grade": "Sahih"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "urn": 202,
+                      "collection": "muslim",
+                      "bookNumber": "1",
+                      "chapterId": "2",
+                      "hadithNumber": "1",
+                      "name": "Sahih Muslim",
+                      "hadith": [
+                        {
+                          "lang": "en",
+                          "chapterNumber": "2",
+                          "chapterTitle": "Faith",
+                          "body": "Narrated Abu Huraira:...",
+                          "urn": 33,
+                          "grades": []
+                        }
+                      ]
+                    }
+                  ],
+                  "page": 1,
+                  "limit": 4,
+                  "has_more": true,
+                  "language": "en",
+                  "direction": "ltr"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Returned when `ayah_key` is missing or invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 400,
+                  "error": {
+                    "code": "INVALID_PARAMETER",
+                    "message": "Invalid ayah_key format. Expected format: chapter:verse (e.g., 12:12)",
+                    "details": {
+                      "parameter": "ayah_key",
+                      "provided": "12-12",
+                      "expected": "12:12"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "description": "Returned when the ayah does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 404,
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Verse 999:999 not found",
+                    "details": {}
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "description": "Returned when Sunnah API configuration is missing on the server.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 500,
+                  "error": {
+                    "code": "CONFIGURATION_ERROR",
+                    "message": "SUNNAH_API_KEY is required",
+                    "details": {}
+                  }
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Returned when the upstream Sunnah service fails.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 502,
+                  "error": {
+                    "code": "UPSTREAM_ERROR",
+                    "message": "Too Many Requests.",
+                    "details": {
+                      "status": 429
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/hadith_references/count_within_range": {
+      "get": {
+        "tags": [
+          "Hadith"
+        ],
+        "summary": "Get hadith counts within a verse range",
+        "description": "Get a map of verse keys to hadith counts within an inclusive ayah range. The optional `language` query parameter is accepted for parity with internal consumers, but the count response itself is language-independent.",
+        "operationId": "hadith-count-within-range",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Starting ayah key in `chapter:verse` format.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "12:12"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Ending ayah key in `chapter:verse` format.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "12:13"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Optional language code. The response data is not language-dependent.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-count-within-range-response"
+                },
+                "example": {
+                  "12:12": 2,
+                  "12:13": 2
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Returned when the range parameters are missing, malformed, invalid, or reversed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 400,
+                  "error": {
+                    "code": "INVALID_PARAMETER",
+                    "message": "Missing required parameters: from and to",
+                    "details": {
+                      "required": [
+                        "from",
+                        "to"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
     "/verses/by_chapter/{chapter_number}": {
       "get": {
         "tags": [
@@ -2001,7 +2443,7 @@
         "tags": [
           "Verses"
         ],
-        "summary": "By Rub el Hizb number (alias: /by_rub_el_hizb)",
+        "summary": "By Rub el Hizb number",
         "description": "Get all verses of a specific Rub el Hizb number(1-240).",
         "operationId": "verses-by_rub_el_hizb_number",
         "parameters": [
@@ -10613,7 +11055,7 @@
         "tags": [
           "Translations"
         ],
-        "summary": "Get translations for specific Rub el Hizb (alias: /by_rub)",
+        "summary": "Get translations for specific Rub el Hizb",
         "description": "Get list of translations for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-translations",
         "parameters": [
@@ -12078,7 +12520,7 @@
         "tags": [
           "Tafsirs"
         ],
-        "summary": "Get tafsirs for specific Rub el Hizb (alias: /by_rub)",
+        "summary": "Get tafsirs for specific Rub el Hizb",
         "description": "Get list of tafsirs for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-tafsirs",
         "parameters": [
@@ -15375,7 +15817,7 @@
         "tags": [
           "Verses"
         ],
-        "summary": "By Rub el Hizb number",
+        "summary": "By Rub el Hizb number (alias: /by_rub_el_hizb)",
         "description": "Get all verses of a specific Rub el Hizb number(1-240). Alias route for the same rub el hizb filter.",
         "operationId": "verses-by_rub_el_hizb_number-rub-el-hizb",
         "parameters": [
@@ -15584,7 +16026,7 @@
         "tags": [
           "Translations"
         ],
-        "summary": "Get translations for specific Rub el Hizb",
+        "summary": "Get translations for specific Rub el Hizb (alias: /by_rub)",
         "description": "Get list of translations for a specific Rub el Hizb. Alias route for the same rub el hizb filter.",
         "operationId": "list-rub-el-hizb-translations-rub",
         "parameters": [
@@ -15717,7 +16159,7 @@
         "tags": [
           "Tafsirs"
         ],
-        "summary": "Get tafsirs for specific Rub el Hizb",
+        "summary": "Get tafsirs for specific Rub el Hizb (alias: /by_rub)",
         "description": "Get list of tafsirs for a specific Rub el Hizb. Alias route for the same rub el hizb filter.",
         "operationId": "list-rub-el-hizb-tafsirs-rub",
         "parameters": [
@@ -17167,6 +17609,316 @@
       },
       "rateLimitExceededResponse": {
         "$ref": "#/components/schemas/commonErrorResponse"
+      },
+      "hadith-error-response": {
+        "title": "Hadith Error Response",
+        "type": "object",
+        "required": [
+          "status",
+          "error"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "example": {
+          "status": 400,
+          "error": {
+            "code": "INVALID_PARAMETER",
+            "message": "Invalid ayah_key format. Expected format: chapter:verse (e.g., 12:12)",
+            "details": {
+              "parameter": "ayah_key",
+              "provided": "12-12",
+              "expected": "12:12"
+            }
+          }
+        }
+      },
+      "hadith-grade": {
+        "title": "Hadith Grade",
+        "type": "object",
+        "required": [
+          "graded_by",
+          "grade"
+        ],
+        "properties": {
+          "graded_by": {
+            "type": "string"
+          },
+          "grade": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "graded_by": "Ahmad Muhammad Shakir",
+          "grade": "Sahih"
+        }
+      },
+      "hadith-text": {
+        "title": "Hadith Text",
+        "type": "object",
+        "required": [
+          "lang",
+          "chapterNumber",
+          "chapterTitle",
+          "body",
+          "urn",
+          "grades"
+        ],
+        "properties": {
+          "lang": {
+            "type": "string"
+          },
+          "chapterNumber": {
+            "type": "string"
+          },
+          "chapterTitle": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "urn": {
+            "type": "integer"
+          },
+          "grades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/hadith-grade"
+            }
+          }
+        },
+        "example": {
+          "lang": "en",
+          "chapterNumber": "1",
+          "chapterTitle": "Revelation",
+          "body": "Narrated Umar bin Al-Khattab:...",
+          "urn": 31,
+          "grades": [
+            {
+              "graded_by": "Ahmad Muhammad Shakir",
+              "grade": "Sahih"
+            }
+          ]
+        }
+      },
+      "hadith-collection": {
+        "title": "Hadith Collection",
+        "type": "object",
+        "required": [
+          "urn",
+          "collection",
+          "bookNumber",
+          "chapterId",
+          "hadithNumber",
+          "name",
+          "hadith"
+        ],
+        "properties": {
+          "urn": {
+            "type": "integer"
+          },
+          "collection": {
+            "type": "string"
+          },
+          "bookNumber": {
+            "type": "string"
+          },
+          "chapterId": {
+            "type": "string"
+          },
+          "hadithNumber": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hadith": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/hadith-text"
+            }
+          }
+        },
+        "example": {
+          "urn": 201,
+          "collection": "bukhari",
+          "bookNumber": "1",
+          "chapterId": "1",
+          "hadithNumber": "1",
+          "name": "Sahih al-Bukhari",
+          "hadith": [
+            {
+              "lang": "en",
+              "chapterNumber": "1",
+              "chapterTitle": "Revelation",
+              "body": "Narrated Umar bin Al-Khattab:...",
+              "urn": 31,
+              "grades": [
+                {
+                  "graded_by": "Ahmad Muhammad Shakir",
+                  "grade": "Sahih"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "hadith-reference": {
+        "title": "Hadith Reference",
+        "type": "object",
+        "required": [
+          "id",
+          "collection",
+          "hadith_number",
+          "our_hadith_number",
+          "arabic_urn",
+          "english_urn",
+          "surah_number",
+          "ayah_start_number",
+          "ayah_end_number"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "collection": {
+            "type": "string"
+          },
+          "hadith_number": {
+            "type": "string"
+          },
+          "our_hadith_number": {
+            "type": "integer"
+          },
+          "arabic_urn": {
+            "type": "integer"
+          },
+          "english_urn": {
+            "type": "integer"
+          },
+          "surah_number": {
+            "type": "integer"
+          },
+          "ayah_start_number": {
+            "type": "integer"
+          },
+          "ayah_end_number": {
+            "type": "integer"
+          }
+        },
+        "example": {
+          "id": 10,
+          "collection": "bukhari",
+          "hadith_number": "1",
+          "our_hadith_number": 1,
+          "arabic_urn": 111,
+          "english_urn": 211,
+          "surah_number": 12,
+          "ayah_start_number": 11,
+          "ayah_end_number": 12
+        }
+      },
+      "hadith-references-by-ayah-response": {
+        "title": "Hadith References By Ayah Response",
+        "type": "object",
+        "required": [
+          "verse_key",
+          "verse_number",
+          "chapter_number",
+          "language",
+          "direction",
+          "hadith_references"
+        ],
+        "properties": {
+          "verse_key": {
+            "type": "string"
+          },
+          "verse_number": {
+            "type": "integer"
+          },
+          "chapter_number": {
+            "type": "integer"
+          },
+          "language": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "hadith_references": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/hadith-reference"
+            }
+          }
+        }
+      },
+      "hadith-by-ayah-response": {
+        "title": "Hadith By Ayah Response",
+        "type": "object",
+        "required": [
+          "hadiths",
+          "page",
+          "limit",
+          "has_more",
+          "language",
+          "direction"
+        ],
+        "properties": {
+          "hadiths": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/hadith-collection"
+            }
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          }
+        }
+      },
+      "hadith-count-within-range-response": {
+        "title": "Hadith Count Within Range Response",
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "example": {
+          "12:12": 2,
+          "12:13": 2
+        }
       },
       "hizb": {
         "title": "Hizb",

@@ -15,6 +15,26 @@ const docsDirs = [
 const versionDirPattern = /^\d+\.\d+\.\d+$/;
 const generatedApiDocPattern = /\.(api|info|tag)\.mdx$/;
 const generatedSidebarPattern = /(?:^|[\\/])sidebar\.js$/;
+const rubElHizbLabelOverrides = new Map([
+  ['verses-by-rub-el-hizb-number', 'By Rub el Hizb number'],
+  [
+    'verses-by-rub-el-hizb-number-rub-el-hizb',
+    'By Rub el Hizb number (alias: /by_rub_el_hizb)',
+  ],
+  [
+    'list-rub-el-hizb-translations',
+    'Get translations for specific Rub el Hizb',
+  ],
+  [
+    'list-rub-el-hizb-translations-rub',
+    'Get translations for specific Rub el Hizb (alias: /by_rub)',
+  ],
+  ['list-rub-el-hizb-tafsirs', 'Get tafsirs for specific Rub el Hizb'],
+  [
+    'list-rub-el-hizb-tafsirs-rub',
+    'Get tafsirs for specific Rub el Hizb (alias: /by_rub)',
+  ],
+]);
 
 function walk(dir) {
   /** @type {string[]} */
@@ -83,6 +103,54 @@ function normalizeGeneratedLabels(content) {
   return content
     .replace(/Foot Note/g, 'Footnote')
     .replace(/foot note/g, 'footnote');
+}
+
+function getDocSlugFromId(docId) {
+  return String(docId).split('/').pop();
+}
+
+function getDocSlugFromPath(filePath) {
+  return path.basename(filePath).replace(/\.(api|info|tag)\.mdx$/, '');
+}
+
+function normalizeRubElHizbDocLabels(filePath, content) {
+  const label = rubElHizbLabelOverrides.get(getDocSlugFromPath(filePath));
+
+  if (!label) {
+    return content;
+  }
+
+  return content
+    .replace(/^title:\s*"[^"]*"\s*$/m, `title: "${label}"`)
+    .replace(/^sidebar_label:\s*"[^"]*"\s*$/m, `sidebar_label: "${label}"`)
+    .replace(/^## .+$/m, `## ${label}`)
+    .replace(/("postman":\{"name":)"[^"]+"/, (_match, prefix) => {
+      return `${prefix}${JSON.stringify(label)}`;
+    });
+}
+
+function normalizeRubElHizbSidebarLabels(items) {
+  return items.map((item) => {
+    if (!item || typeof item !== 'object') {
+      return item;
+    }
+
+    const normalizedItem = { ...item };
+
+    if (normalizedItem.type === 'doc') {
+      const label = rubElHizbLabelOverrides.get(getDocSlugFromId(normalizedItem.id));
+
+      if (label) {
+        normalizedItem.label = label;
+      }
+    }
+
+    if (Array.isArray(normalizedItem.items)) {
+      normalizedItem.items = normalizeRubElHizbSidebarLabels(normalizedItem.items);
+    }
+
+    return normalizedItem;
+  });
 }
 
 function dedupeSidebarItems(items) {
@@ -175,7 +243,8 @@ function normalizeGeneratedSidebar(filePath, validDocIds) {
   const sidebarItems = require(filePath);
   const filteredSidebarItems = filterMissingSidebarItems(sidebarItems, validDocIds);
   const dedupedSidebarItems = dedupeSidebarItems(filteredSidebarItems);
-  const serializedSidebar = `module.exports = ${JSON.stringify(dedupedSidebarItems)};`;
+  const normalizedSidebarItems = normalizeRubElHizbSidebarLabels(dedupedSidebarItems);
+  const serializedSidebar = `module.exports = ${JSON.stringify(normalizedSidebarItems)};`;
 
   return normalizeGeneratedLabels(serializedSidebar);
 }
@@ -216,7 +285,10 @@ function main() {
       const originalContent = fs.readFileSync(filePath, 'utf8');
       const normalizedContent = generatedSidebarPattern.test(filePath)
         ? normalizeGeneratedSidebar(filePath, validDocIds)
-        : normalizeGeneratedLabels(originalContent);
+        : normalizeRubElHizbDocLabels(
+            filePath,
+            normalizeGeneratedLabels(originalContent),
+          );
       const updatedContent = generatedApiDocPattern.test(filePath)
         ? upsertDisplayedSidebar(
             normalizedContent,
@@ -243,5 +315,7 @@ if (require.main === module) {
 module.exports = {
   filterMissingSidebarItems,
   hasUsableSidebarLink,
+  normalizeRubElHizbDocLabels,
+  normalizeRubElHizbSidebarLabels,
   main,
 };
