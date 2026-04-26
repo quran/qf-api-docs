@@ -16478,7 +16478,7 @@
           "Answers"
         ],
         "summary": "Get answers for specific Ayah",
-        "description": "Get the published questions and answers shown under a specific ayah. Non-Arabic languages resolve to English upstream. If `page` is omitted, pagination is not applied even when `pageSize` is provided.",
+        "description": "Get the published questions and answers shown under a specific ayah. Non-Arabic languages resolve to English upstream. This upstream endpoint uses the query parameter name `pageSize` instead of the API-wide `per_page` convention. If `page` is omitted, pagination is not applied even when `pageSize` is provided.",
         "operationId": "list-ayah-answers",
         "parameters": [
           {
@@ -16502,7 +16502,7 @@
           {
             "name": "pageSize",
             "in": "query",
-            "description": "Page size when `page` is provided. Maximum 10.",
+            "description": "Page size when `page` is provided. This upstream endpoint uses `pageSize` instead of the API-wide `per_page` convention. Maximum 10.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -16540,7 +16540,6 @@
                       "theme": [
                         "Faith"
                       ],
-                      "summary": "A short summary",
                       "references": [
                         "Tafsir al-Tabari"
                       ],
@@ -16630,7 +16629,6 @@
                   "theme": [
                     "Faith"
                   ],
-                  "summary": "A short summary",
                   "references": [
                     "Tafsir al-Tabari"
                   ],
@@ -19308,13 +19306,6 @@
             "type": "string",
             "description": "Answer language ISO code when present."
           }
-        },
-        "example": {
-          "id": "answer-1",
-          "body": "This ayah is known as Ayat al-Kursi.",
-          "answeredBy": "Scholar",
-          "status": "Published",
-          "language": "en"
         }
       },
       "AnswersQuestionDto": {
@@ -19391,33 +19382,6 @@
               "$ref": "#/components/schemas/AnswersAnswerDto"
             }
           }
-        },
-        "example": {
-          "id": "question-1",
-          "body": "What is the context of this ayah?",
-          "type": "CLARIFICATION",
-          "ranges": [
-            "2:255"
-          ],
-          "surah": 2,
-          "theme": [
-            "Faith"
-          ],
-          "summary": "A short summary",
-          "references": [
-            "Tafsir al-Tabari"
-          ],
-          "language": "en",
-          "status": "Published",
-          "answers": [
-            {
-              "id": "answer-1",
-              "body": "This ayah is known as Ayat al-Kursi.",
-              "answeredBy": "Scholar",
-              "status": "Published",
-              "language": "en"
-            }
-          ]
         }
       },
       "AnswersByAyahResponse": {
@@ -19438,38 +19402,6 @@
             "type": "integer",
             "description": "Total number of matching questions before pagination."
           }
-        },
-        "example": {
-          "questions": [
-            {
-              "id": "question-1",
-              "body": "What is the context of this ayah?",
-              "type": "CLARIFICATION",
-              "ranges": [
-                "2:255"
-              ],
-              "surah": 2,
-              "theme": [
-                "Faith"
-              ],
-              "summary": "A short summary",
-              "references": [
-                "Tafsir al-Tabari"
-              ],
-              "language": "en",
-              "status": "Published",
-              "answers": [
-                {
-                  "id": "answer-1",
-                  "body": "This ayah is known as Ayat al-Kursi.",
-                  "answeredBy": "Scholar",
-                  "status": "Published",
-                  "language": "en"
-                }
-              ]
-            }
-          ],
-          "totalCount": 1
         }
       },
       "AnswersCountWithinRangeEntry": {
@@ -19491,13 +19423,6 @@
             "type": "integer",
             "description": "Total number of questions touching the verse."
           }
-        },
-        "example": {
-          "types": {
-            "CLARIFICATION": 1,
-            "TAFSIR": 1
-          },
-          "total": 2
         }
       },
       "AnswersCountWithinRangeResponse": {
@@ -19505,21 +19430,6 @@
         "type": "object",
         "additionalProperties": {
           "$ref": "#/components/schemas/AnswersCountWithinRangeEntry"
-        },
-        "example": {
-          "2:255": {
-            "types": {
-              "CLARIFICATION": 1,
-              "TAFSIR": 1
-            },
-            "total": 2
-          },
-          "2:256": {
-            "types": {
-              "TAFSIR": 1
-            },
-            "total": 1
-          }
         }
       },
       "AnswersQdcErrorDetail": {
