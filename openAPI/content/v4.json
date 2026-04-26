@@ -799,6 +799,7 @@
                       "description": "Resolved chapter info resource. Returns `null` when the requested `resource_id` does not match an approved chapter info resource for the resolved language."
                     },
                     "resources": {
+                      "description": "Only returned when `include_resources=true`. Contains approved chapter info resources for the resolved language, ordered by the API's preferred resource order for selection.",
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/resource"
