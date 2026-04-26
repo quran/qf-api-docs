@@ -990,6 +990,12 @@
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
           "503": {
             "$ref": "#/components/responses/serviceUnavailable"
           },
@@ -1291,6 +1297,12 @@
           },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
           },
           "503": {
             "$ref": "#/components/responses/serviceUnavailable"
