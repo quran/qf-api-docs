@@ -877,7 +877,7 @@
           "Hadith"
         ],
         "summary": "Get hadith references for a specific Ayah",
-        "description": "Get the ordered hadith reference records linked to a specific ayah. This public v4 endpoint intentionally mirrors the existing QDC hadith references response shape.",
+        "description": "Get the ordered hadith reference records linked to a specific ayah.",
         "operationId": "hadith-references-by-ayah",
         "parameters": [
           {
@@ -1011,7 +1011,7 @@
           "Hadith"
         ],
         "summary": "Get hadiths for a specific Ayah",
-        "description": "Get paginated hadith payloads for a specific ayah. This public v4 endpoint intentionally mirrors the existing QDC hadith response shape, including pagination fields and QDC-style error bodies.",
+        "description": "Get paginated hadith payloads for a specific ayah.",
         "operationId": "hadiths-by-ayah",
         "parameters": [
           {
@@ -1244,7 +1244,7 @@
           {
             "name": "language",
             "in": "query",
-            "description": "Accepted for parity with internal QDC callers. The response data is not language-dependent.",
+            "description": "Optional language code. The response data is not language-dependent.",
             "schema": {
               "type": "string",
               "default": "en"
