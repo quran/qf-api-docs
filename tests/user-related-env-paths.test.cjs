@@ -125,7 +125,7 @@ test('maps the current doc route between production and pre-live trees', () => {
   );
 });
 
-test('falls back to the environment category when the target doc does not exist', () => {
+test('falls back to the environment intro doc when the target doc does not exist', () => {
   const availablePaths = new Set([
     '/docs/user_related_apis_versioned/get-user-profile',
     '/docs/user_related_apis_versioned/1.1.0/get-user-profile',
@@ -138,7 +138,7 @@ test('falls back to the environment category when the target doc does not exist'
     'production',
     { availablePaths },
   );
-  assert.equal(noEquivalentTarget.path, '/docs/category/user-related-apis');
+  assert.equal(noEquivalentTarget.path, '/docs/user_related_apis_versioned/user-related-apis');
   assert.equal(noEquivalentTarget.hasEquivalentDoc, false);
 
   assert.equal(
@@ -147,7 +147,7 @@ test('falls back to the environment category when the target doc does not exist'
       'production',
       { availablePaths },
     ),
-    '/docs/category/user-related-apis',
+    '/docs/user_related_apis_versioned/user-related-apis',
   );
 
   assert.equal(
@@ -190,6 +190,22 @@ test('falls back to the environment category when the target doc does not exist'
   );
   assert.equal(rootTarget.path, '/docs/user_related_apis_prelive');
   assert.equal(rootTarget.hasEquivalentDoc, true);
+
+  const categoryToPreliveTarget = getUserRelatedDocsTarget(
+    '/docs/category/user-related-apis',
+    'pre-live',
+    { availablePaths },
+  );
+  assert.equal(categoryToPreliveTarget.path, '/docs/category/user-related-apis-pre-live');
+  assert.equal(categoryToPreliveTarget.hasEquivalentDoc, true);
+
+  const categoryToProductionTarget = getUserRelatedDocsTarget(
+    '/docs/category/user-related-apis-pre-live',
+    'production',
+    { availablePaths },
+  );
+  assert.equal(categoryToProductionTarget.path, '/docs/category/user-related-apis');
+  assert.equal(categoryToProductionTarget.hasEquivalentDoc, true);
 });
 
 test('collects available docs paths from Docusaurus docs data', () => {

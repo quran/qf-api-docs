@@ -23,6 +23,17 @@ sidebar_label: "User APIs Quickstart"
 
 Quran Foundation User APIs use OAuth2 Authorization Code flow with PKCE and OpenID Connect. For most newly issued Request Access clients, the safest default is a confidential-client setup: your app handles the login redirect, but your backend keeps `CLIENT_SECRET` and exchanges the code for tokens.
 
+## Production vs Pre-live
+
+:::warning Pre-live uses a separate user stack
+If you are testing User APIs in pre-live, keep the entire flow in pre-live.
+
+- Use the [Pre-live User-related APIs reference](/docs/user_related_apis_prelive/user-related-apis) when testing pre-live endpoints.
+- Use [prelive.quran.com](https://prelive.quran.com) for auth paths and auth-backed user data checks.
+- Use [prelive.quranreflect.org](https://prelive.quranreflect.org) for Quran Reflect paths and data checks.
+- Do not mix production login state, production user data, or production docs with pre-live testing.
+:::
+
 ## Recommended Architecture
 
 :::important Default integration shape
@@ -127,7 +138,7 @@ Request only the scopes your app actually needs.
 - Embedding `CLIENT_SECRET` in a mobile app or browser app.
 - Calling `/oauth2/token` directly from a confidential client without backend client authentication.
 - Skipping OAuth2 `state` validation, or `nonce` validation when you rely on `id_token`.
-- Mixing prelive and production OAuth2 environments.
+- Mixing pre-live and production OAuth2 environments, sessions, or manual test surfaces.
 - Requesting more scopes than your app needs.
 - Treating the `id_token` as an API access token instead of using the `access_token`.
 - Calling User APIs directly from browser JavaScript in a confidential web integration instead of routing the request through your backend or proxy.

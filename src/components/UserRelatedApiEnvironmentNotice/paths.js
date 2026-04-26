@@ -2,6 +2,8 @@ const PROD_CATEGORY_PATH = '/docs/category/user-related-apis';
 const PRELIVE_CATEGORY_PATH = '/docs/category/user-related-apis-pre-live';
 const PROD_LATEST_ROOT = '/docs/user_related_apis_versioned';
 const PRELIVE_ROOT = '/docs/user_related_apis_prelive';
+const PROD_INTRO_PATH = `${PROD_LATEST_ROOT}/user-related-apis`;
+const PRELIVE_INTRO_PATH = `${PRELIVE_ROOT}/user-related-apis`;
 const PROD_LATEST_PREFIX = `${PROD_LATEST_ROOT}/`;
 const PRELIVE_PREFIX = `${PRELIVE_ROOT}/`;
 const PROD_VERSION_PREFIX_REGEX = /^\d+\.\d+\.\d+(\/|$)/;
@@ -12,6 +14,8 @@ const isPathInTree = (pathname, rootPath) =>
   pathname === rootPath || pathname.startsWith(`${rootPath}/`);
 const isApiTreeRoot = (pathname) =>
   pathname === PROD_LATEST_ROOT || pathname === PRELIVE_ROOT;
+const isCategoryPath = (pathname) =>
+  pathname === PROD_CATEGORY_PATH || pathname === PRELIVE_CATEGORY_PATH;
 const hasAvailablePath = (availablePaths, targetPath) => {
   const normalizedTargetPath = normalizePath(targetPath);
 
@@ -22,7 +26,7 @@ const hasAvailablePath = (availablePaths, targetPath) => {
 };
 const stripPrefix = (value, prefix) => value.slice(prefix.length);
 const getFallbackPath = (environment) =>
-  environment === 'production' ? PROD_CATEGORY_PATH : PRELIVE_CATEGORY_PATH;
+  environment === 'production' ? PROD_INTRO_PATH : PRELIVE_INTRO_PATH;
 
 function getUserRelatedDocsAvailablePaths(allDocsData) {
   const paths = new Set();
@@ -111,8 +115,11 @@ function getTargetPath(pathname, targetEnvironment) {
 
 function getUserRelatedDocsTarget(pathname, targetEnvironment, options = {}) {
   const { fallbackPath, targetPath } = getTargetPath(pathname, targetEnvironment);
-  const hasExplicitDocTarget = targetPath !== fallbackPath && !isApiTreeRoot(targetPath);
-  const hasEquivalentDoc = !hasExplicitDocTarget || !options.availablePaths
+  const needsAvailableDoc =
+    targetPath !== fallbackPath &&
+    !isApiTreeRoot(targetPath) &&
+    !isCategoryPath(targetPath);
+  const hasEquivalentDoc = !needsAvailableDoc || !options.availablePaths
     ? true
     : hasAvailablePath(options.availablePaths, targetPath);
   const path = hasEquivalentDoc ? targetPath : fallbackPath;
