@@ -34,7 +34,7 @@
           {
             "name": "reciter_id",
             "in": "path",
-            "description": "The Id of the reciter",
+            "description": "Chapter-reciter ID from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters). Do not use ayah-by-ayah recitation IDs from [/resources/recitations](/docs/content_apis_versioned/recitations) here.",
             "required": true,
             "schema": {
               "type": "integer"
@@ -208,7 +208,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get timestamp range using the Quran Foundation API.\n\nEndpoint: GET /audio/reciters/{reciter_id}/timestamp\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  reciter_id: The Id of the reciter (e.g., \"7\")\nOptional Query Parameters:\n  chapter_number: Chapter number (1 - 114). Required unless you provide `verse_key` or `verse_id`.\n  verse_key: Verse key (e.g., 2:255). If provided, returns the verse timing range.\n  verse_id: Verse id. If provided, returns the verse timing range.\n  word: 1-based word index within the verse. Only applies when a verse is selected.\n  word_from: 1-based start word index within the verse. Use with `word_to`.\n  word_to: 1-based end word index within the verse. Use with `word_from`.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/audio/reciters/{reciter_id}/timestamp?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts reciter_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get timestamp range using the Quran Foundation API.\n\nEndpoint: GET /audio/reciters/{reciter_id}/timestamp\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  reciter_id: Chapter-reciter ID from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters). Do not use ayah-by-ayah recitation IDs from [/resources/recitations](/docs/content_apis_versioned/recitations) here. (e.g., \"7\")\nOptional Query Parameters:\n  chapter_number: Chapter number (1 - 114). Required unless you provide `verse_key` or `verse_id`.\n  verse_key: Verse key (e.g., 2:255). If provided, returns the verse timing range.\n  verse_id: Verse id. If provided, returns the verse timing range.\n  word: 1-based word index within the verse. Only applies when a verse is selected.\n  word_from: 1-based start word index within the verse. Use with `word_to`.\n  word_to: 1-based end word index within the verse. Use with `word_from`.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/audio/reciters/{reciter_id}/timestamp?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts reciter_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -225,7 +225,7 @@
           {
             "name": "reciter_id",
             "in": "path",
-            "description": "The Id of the reciter",
+            "description": "Chapter-reciter ID from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters). Do not use ayah-by-ayah recitation IDs from [/resources/recitations](/docs/content_apis_versioned/recitations) here.",
             "required": true,
             "schema": {
               "type": "integer"
@@ -420,7 +420,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to lookup verse by timestamp using the Quran Foundation API.\n\nEndpoint: GET /audio/reciters/{reciter_id}/lookup\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  reciter_id: The Id of the reciter (e.g., \"7\")\nOptional Query Parameters:\n  chapter_number: Chapter number (1 - 114). Required unless you provide `verse_key` or `verse_id`.\n  verse_key: Verse key (e.g., 2:255). Used only to derive the chapter when `chapter_number` is omitted.\n  verse_id: Verse id. Used only to derive the chapter when `chapter_number` is omitted.\n  timestamp: Timestamp in milliseconds to look up.\n  segments: If true, include word-level timing segments for the verse.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/audio/reciters/{reciter_id}/lookup?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts reciter_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to lookup verse by timestamp using the Quran Foundation API.\n\nEndpoint: GET /audio/reciters/{reciter_id}/lookup\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  reciter_id: Chapter-reciter ID from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters). Do not use ayah-by-ayah recitation IDs from [/resources/recitations](/docs/content_apis_versioned/recitations) here. (e.g., \"7\")\nOptional Query Parameters:\n  chapter_number: Chapter number (1 - 114). Required unless you provide `verse_key` or `verse_id`.\n  verse_key: Verse key (e.g., 2:255). Used only to derive the chapter when `chapter_number` is omitted.\n  verse_id: Verse id. Used only to derive the chapter when `chapter_number` is omitted.\n  timestamp: Timestamp in milliseconds to look up.\n  segments: If true, include word-level timing segments for the verse.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/audio/reciters/{reciter_id}/lookup?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts reciter_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -918,6 +918,448 @@
         ]
       }
     },
+    "/hadith_references/by_ayah/{ayah_key}": {
+      "get": {
+        "tags": [
+          "Hadith"
+        ],
+        "summary": "Get hadith references for a specific Ayah",
+        "description": "Get the ordered hadith reference records linked to a specific ayah.",
+        "operationId": "hadith-references-by-ayah",
+        "parameters": [
+          {
+            "name": "ayah_key",
+            "in": "path",
+            "description": "Ayah key in `chapter:verse` format, for example `12:12`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code used for the `language` and `direction` metadata fields in the response. Defaults to `en`.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-references-by-ayah-response"
+                },
+                "example": {
+                  "verse_key": "12:12",
+                  "verse_number": 12,
+                  "chapter_number": 12,
+                  "language": "en",
+                  "direction": "ltr",
+                  "hadith_references": [
+                    {
+                      "id": 10,
+                      "collection": "bukhari",
+                      "hadith_number": "1",
+                      "our_hadith_number": 1,
+                      "arabic_urn": 111,
+                      "english_urn": 211,
+                      "surah_number": 12,
+                      "ayah_start_number": 11,
+                      "ayah_end_number": 12
+                    },
+                    {
+                      "id": 11,
+                      "collection": "muslim",
+                      "hadith_number": "3",
+                      "our_hadith_number": 1,
+                      "arabic_urn": 113,
+                      "english_urn": 213,
+                      "surah_number": 12,
+                      "ayah_start_number": 12,
+                      "ayah_end_number": 14
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Returned when `ayah_key` is missing or invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 400,
+                  "error": {
+                    "code": "INVALID_PARAMETER",
+                    "message": "Invalid ayah_key format. Expected format: chapter:verse (e.g., 12:12)",
+                    "details": {
+                      "parameter": "ayah_key",
+                      "provided": "12-12",
+                      "expected": "12:12"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "description": "Returned when the ayah does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 404,
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Verse 999:999 not found",
+                    "details": {}
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/hadith_references/by_ayah/{ayah_key}/hadiths": {
+      "get": {
+        "tags": [
+          "Hadith"
+        ],
+        "summary": "Get hadiths for a specific Ayah",
+        "description": "Get paginated hadith payloads for a specific ayah.",
+        "operationId": "hadiths-by-ayah",
+        "parameters": [
+          {
+            "name": "ayah_key",
+            "in": "path",
+            "description": "Ayah key in `chapter:verse` format, for example `12:12`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Hadith language. Use `ar` for Arabic. Any non-`ar` value behaves like English and returns English hadith content.",
+            "schema": {
+              "type": "string",
+              "default": "en",
+              "example": "en"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for the hadith result set. Defaults to `1`.",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of hadith records per page. Defaults to `4` and is capped at `5`.",
+            "schema": {
+              "type": "integer",
+              "default": 4,
+              "minimum": 1,
+              "maximum": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-by-ayah-response"
+                },
+                "example": {
+                  "hadiths": [
+                    {
+                      "urn": 201,
+                      "collection": "bukhari",
+                      "bookNumber": "1",
+                      "chapterId": "1",
+                      "hadithNumber": "1",
+                      "name": "Sahih al-Bukhari",
+                      "hadith": [
+                        {
+                          "lang": "en",
+                          "chapterNumber": "1",
+                          "chapterTitle": "Revelation",
+                          "body": "Narrated Umar bin Al-Khattab:...",
+                          "urn": 31,
+                          "grades": [
+                            {
+                              "graded_by": "Ahmad Muhammad Shakir",
+                              "grade": "Sahih"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "urn": 202,
+                      "collection": "muslim",
+                      "bookNumber": "1",
+                      "chapterId": "2",
+                      "hadithNumber": "1",
+                      "name": "Sahih Muslim",
+                      "hadith": [
+                        {
+                          "lang": "en",
+                          "chapterNumber": "2",
+                          "chapterTitle": "Faith",
+                          "body": "Narrated Abu Huraira:...",
+                          "urn": 33,
+                          "grades": []
+                        }
+                      ]
+                    }
+                  ],
+                  "page": 1,
+                  "limit": 4,
+                  "has_more": true,
+                  "language": "en",
+                  "direction": "ltr"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Returned when `ayah_key` is missing or invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 400,
+                  "error": {
+                    "code": "INVALID_PARAMETER",
+                    "message": "Invalid ayah_key format. Expected format: chapter:verse (e.g., 12:12)",
+                    "details": {
+                      "parameter": "ayah_key",
+                      "provided": "12-12",
+                      "expected": "12:12"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "description": "Returned when the ayah does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 404,
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Verse 999:999 not found",
+                    "details": {}
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "description": "Returned when Sunnah API configuration is missing on the server.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 500,
+                  "error": {
+                    "code": "CONFIGURATION_ERROR",
+                    "message": "SUNNAH_API_KEY is required",
+                    "details": {}
+                  }
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Returned when the upstream Sunnah service fails.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 502,
+                  "error": {
+                    "code": "UPSTREAM_ERROR",
+                    "message": "Too Many Requests.",
+                    "details": {
+                      "status": 429
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/hadith_references/count_within_range": {
+      "get": {
+        "tags": [
+          "Hadith"
+        ],
+        "summary": "Get hadith counts within a verse range",
+        "description": "Get a map of verse keys to hadith counts within an inclusive ayah range. The optional `language` query parameter is accepted for parity with internal consumers, but the count response itself is language-independent.",
+        "operationId": "hadith-count-within-range",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Starting ayah key in `chapter:verse` format.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "12:12"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Ending ayah key in `chapter:verse` format.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "12:13"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Optional language code. The response data is not language-dependent.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-count-within-range-response"
+                },
+                "example": {
+                  "12:12": 2,
+                  "12:13": 2
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Returned when the range parameters are missing, malformed, invalid, or reversed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hadith-error-response"
+                },
+                "example": {
+                  "status": 400,
+                  "error": {
+                    "code": "INVALID_PARAMETER",
+                    "message": "Missing required parameters: from and to",
+                    "details": {
+                      "required": [
+                        "from",
+                        "to"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
     "/verses/by_chapter/{chapter_number}": {
       "get": {
         "tags": [
@@ -971,7 +1413,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -1194,7 +1636,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by chapter using the Quran Foundation API.\n\nEndpoint: GET /verses/by_chapter/{chapter_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  chapter_number: Chapter number ( 1  - 114 ) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Id of recitation if you want to load audio of each ayah.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_chapter/{chapter_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts chapter_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by chapter using the Quran Foundation API.\n\nEndpoint: GET /verses/by_chapter/{chapter_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  chapter_number: Chapter number ( 1  - 114 ) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_chapter/{chapter_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts chapter_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -1254,7 +1696,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -1477,7 +1919,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by page using the Quran Foundation API.\n\nEndpoint: GET /verses/by_page/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  page_number: Madani Mushaf page number. Valid range is 1-604  (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Id of recitation if you want to load audio of each ayah.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_page/{page_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts page_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by page using the Quran Foundation API.\n\nEndpoint: GET /verses/by_page/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  page_number: Madani Mushaf page number. Valid range is 1-604  (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_page/{page_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts page_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -1534,7 +1976,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -1757,7 +2199,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by juz using the Quran Foundation API.\n\nEndpoint: GET /verses/by_juz/{juz_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  juz_number: Required parameter (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Id of recitation if you want to load audio of each ayah.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_juz/{juz_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts juz_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by juz using the Quran Foundation API.\n\nEndpoint: GET /verses/by_juz/{juz_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  juz_number: Required parameter (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_juz/{juz_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts juz_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -1815,7 +2257,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -2038,7 +2480,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by hizb number using the Quran Foundation API.\n\nEndpoint: GET /verses/by_hizb/{hizb_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  hizb_number: Hizb number(1-60) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Id of recitation if you want to load audio of each ayah.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_hizb/{hizb_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts hizb_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by hizb number using the Quran Foundation API.\n\nEndpoint: GET /verses/by_hizb/{hizb_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  hizb_number: Hizb number(1-60) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_hizb/{hizb_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts hizb_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -2048,7 +2490,7 @@
         "tags": [
           "Verses"
         ],
-        "summary": "By Rub el Hizb number (alias: /by_rub_el_hizb)",
+        "summary": "By Rub el Hizb number",
         "description": "Get all verses of a specific Rub el Hizb number(1-240).",
         "operationId": "verses-by_rub_el_hizb_number",
         "parameters": [
@@ -2096,7 +2538,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -2299,7 +2741,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by rub el hizb number using the Quran Foundation API.\n\nEndpoint: GET /verses/by_rub/{rub_el_hizb_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  rub_el_hizb_number: Rub el Hizb number(1-240) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Id of recitation if you want to load audio of each ayah.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_rub/{rub_el_hizb_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts rub_el_hizb_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by rub el hizb number using the Quran Foundation API.\n\nEndpoint: GET /verses/by_rub/{rub_el_hizb_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  rub_el_hizb_number: Rub el Hizb number(1-240) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_rub/{rub_el_hizb_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts rub_el_hizb_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -2357,7 +2799,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -2582,7 +3024,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by manzil using the Quran Foundation API.\n\nEndpoint: GET /verses/by_manzil/{manzil_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  manzil_number: Manzil number (1-7) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Id of recitation if you want to load audio of each ayah.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_manzil/{manzil_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts manzil_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by manzil using the Quran Foundation API.\n\nEndpoint: GET /verses/by_manzil/{manzil_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  manzil_number: Manzil number (1-7) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_manzil/{manzil_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts manzil_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -2640,7 +3082,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -3279,7 +3721,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by ruku using the Quran Foundation API.\n\nEndpoint: GET /verses/by_ruku/{ruku_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  ruku_number: Ruku number (1-558) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Id of recitation if you want to load audio of each ayah.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_ruku/{ruku_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts ruku_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by ruku using the Quran Foundation API.\n\nEndpoint: GET /verses/by_ruku/{ruku_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  ruku_number: Ruku number (1-558) (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_ruku/{ruku_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts ruku_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -3344,7 +3786,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -3623,7 +4065,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -3814,7 +4256,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by specific verse by key using the Quran Foundation API.\n\nEndpoint: GET /verses/by_key/{verse_key}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  verse_key: Verse key ( chapter:verse)  (e.g., \"2:255\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translations in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Id of recitation if you want to load audio of each ayah.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_key/{verse_key}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts verse_key and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by specific verse by key using the Quran Foundation API.\n\nEndpoint: GET /verses/by_key/{verse_key}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  verse_key: Verse key ( chapter:verse)  (e.g., \"2:255\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translations in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_key/{verse_key}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts verse_key and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -3930,7 +4372,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -5796,7 +6238,7 @@
           "Audio"
         ],
         "summary": "Recitations",
-        "description": "Get list of available Recitations.",
+        "description": "Get list of available ayah-by-ayah recitations. Use these IDs with `/quran/recitations/{recitation_id}`, `/resources/recitations/{recitation_id}/info`, `/recitations/{recitation_id}/...`, and the `audio` query parameter on verse endpoints. These IDs are not interchangeable with chapter-reciter IDs from `/resources/chapter_reciters`.",
         "operationId": "recitations",
         "parameters": [
           {
@@ -5924,7 +6366,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to recitations using the Quran Foundation API.\n\nEndpoint: GET /resources/recitations\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nOptional Query Parameters:\n  language: Name of reciters in specific language. Will fallback to English if we don't have names in specific language.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/resources/recitations?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to recitations using the Quran Foundation API.\n\nEndpoint: GET /resources/recitations\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nOptional Query Parameters:\n  language: Name of reciters in specific language. Will fallback to English if we don't have names in specific language.\n\nNotes:\n  This endpoint returns ayah-by-ayah recitation IDs.\n  Use these IDs with `/quran/recitations/{recitation_id}`, `/resources/recitations/{recitation_id}/info`, `/recitations/{recitation_id}/...`, and verse `audio` query parameters.\n  These IDs are not interchangeable with chapter-reciter IDs from `/resources/chapter_reciters`.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/resources/recitations?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -5935,13 +6377,13 @@
           "Audio"
         ],
         "summary": "Get list of Audio files of single recitation",
-        "description": "Get list of AudioFile for a single recitation. See [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint to fetch available recitations.\n\nYou can also include more fields of audio files using `fields` query string.",
+        "description": "Get list of AudioFile for a single ayah-by-ayah recitation. Use a `recitation_id` from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.\n\nYou can also include more fields of audio files using `fields` query string.",
         "operationId": "recitation-audio-files",
         "parameters": [
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation id",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -6180,7 +6622,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get list of audio files of single recitation using the Quran Foundation API.\n\nEndpoint: GET /quran/recitations/{recitation_id}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation id (e.g., \"1\")\nOptional Query Parameters:\n  fields: comma separated field of audio files.\n  chapter_number: If you want to get audio file of a specific surah.\n  juz_number: If you want to get audio file of a specific juz.\n  page_number: If you want to get audio file of a Madani Mushaf page\n  hizb_number: If you want to get audio file of a specific hizb.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/quran/recitations/{recitation_id}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get list of audio files of single recitation using the Quran Foundation API.\n\nEndpoint: GET /quran/recitations/{recitation_id}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\nOptional Query Parameters:\n  fields: comma separated field of audio files.\n  chapter_number: If you want to get audio file of a specific surah.\n  juz_number: If you want to get audio file of a specific juz.\n  page_number: If you want to get audio file of a Madani Mushaf page\n  hizb_number: If you want to get audio file of a specific hizb.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/quran/recitations/{recitation_id}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -6438,7 +6880,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get a single translation using the Quran Foundation API.\n\nEndpoint: GET /quran/translations/{translation_id}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  translation_id: Recitation id (e.g., \"131\")\nOptional Query Parameters:\n  fields: comma separated fields of translation.\n  foot_notes: If true, includes a foot_notes map keyed by footnote IDs (from &lt;sup&gt; tags) to their text.\n  chapter_number: If you want to get translation of a specific surah.\n  juz_number: If you want to get translation of a specific juz.\n  page_number: If you want to get translation of a Madani Mushaf page\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/quran/translations/{translation_id}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts translation_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get a single translation using the Quran Foundation API.\n\nEndpoint: GET /quran/translations/{translation_id}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  translation_id: Translation resource ID. Use `/resources/translations` to discover available translations. (e.g., \"131\")\nOptional Query Parameters:\n  fields: comma separated fields of translation.\n  foot_notes: If true, includes a foot_notes map keyed by footnote IDs (from &lt;sup&gt; tags) to their text.\n  chapter_number: If you want to get translation of a specific surah.\n  juz_number: If you want to get translation of a specific juz.\n  page_number: If you want to get translation of a Madani Mushaf page\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/quran/translations/{translation_id}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts translation_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -6449,7 +6891,7 @@
           "Audio"
         ],
         "summary": "List of Chapter Reciters",
-        "description": "Get list of Chapter Reciter.",
+        "description": "Get list of available chapter reciters. Use these IDs with `/chapter_recitations/{reciter_id}`, `/chapter_recitations/{reciter_id}/{chapter_number}`, `/audio/reciters/{reciter_id}/timestamp`, and `/audio/reciters/{reciter_id}/lookup`. These IDs are not interchangeable with ayah-by-ayah recitation IDs from `/resources/recitations`.",
         "operationId": "chapter-reciters",
         "parameters": [
           {
@@ -6584,7 +7026,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to list of chapter reciters using the Quran Foundation API.\n\nEndpoint: GET /resources/chapter_reciters\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nOptional Query Parameters:\n  language: Name of reciters in specific language. Will fallback to English if we don't have names in specific language.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/resources/chapter_reciters?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to list of chapter reciters using the Quran Foundation API.\n\nEndpoint: GET /resources/chapter_reciters\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nOptional Query Parameters:\n  language: Name of reciters in specific language. Will fallback to English if we don't have names in specific language.\n\nNotes:\n  This endpoint returns chapter-reciter IDs.\n  Use these IDs with `/chapter_recitations/{reciter_id}`, `/chapter_recitations/{reciter_id}/{chapter_number}`, `/audio/reciters/{reciter_id}/timestamp`, and `/audio/reciters/{reciter_id}/lookup`.\n  These IDs are not interchangeable with ayah-by-ayah recitation IDs from `/resources/recitations`.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/resources/chapter_reciters?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -7259,7 +7701,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -7452,7 +7894,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get ayah recitations for specific surah using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_chapter/{chapter_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint (e.g., \"1\")\n  chapter_number: Required parameter (e.g., \"1\")\nOptional Query Parameters:\n  page: For paginating within the result\n  per_page: records per api call, you can get maximum 50 records.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_chapter/{chapter_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, chapter_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get ayah recitations for specific surah using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_chapter/{chapter_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\n  chapter_number: Required parameter (e.g., \"1\")\nOptional Query Parameters:\n  page: For paginating within the result\n  per_page: records per api call, you can get maximum 50 records.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_chapter/{chapter_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, chapter_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -7469,7 +7911,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -7643,7 +8085,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get ayah recitations for specific juz using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_juz/{juz_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint (e.g., \"1\")\n  juz_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_juz/{juz_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, juz_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get ayah recitations for specific juz using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_juz/{juz_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\n  juz_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_juz/{juz_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, juz_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -7660,7 +8102,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -7834,7 +8276,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get ayah recitations for specific madani mushaf page using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_page/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint (e.g., \"1\")\n  page_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_page/{page_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, page_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get ayah recitations for specific madani mushaf page using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_page/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\n  page_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_page/{page_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, page_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -7851,7 +8293,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -8025,7 +8467,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get ayah recitations for specific rub el hizb using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_rub/{rub_el_hizb_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint (e.g., \"1\")\n  rub_el_hizb_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_rub/{rub_el_hizb_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, rub_el_hizb_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get ayah recitations for specific rub el hizb using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_rub/{rub_el_hizb_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\n  rub_el_hizb_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_rub/{rub_el_hizb_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, rub_el_hizb_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -8042,7 +8484,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -8216,7 +8658,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get ayah recitations for specific hizb using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_hizb/{hizb_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint (e.g., \"1\")\n  hizb_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_hizb/{hizb_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, hizb_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get ayah recitations for specific hizb using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_hizb/{hizb_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\n  hizb_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_hizb/{hizb_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, hizb_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -8233,7 +8675,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -8406,7 +8848,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get ayah recitations for specific ayah using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_ayah/{ayah_key}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint (e.g., \"1\")\n  ayah_key: Ayah key is combination of surah number and  ayah number. e.g 1:1 will be first Ayah of first Surah (e.g., \"value\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_ayah/{ayah_key}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, ayah_key and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get ayah recitations for specific ayah using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_ayah/{ayah_key}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\n  ayah_key: Ayah key is combination of surah number and  ayah number. e.g 1:1 will be first Ayah of first Surah (e.g., \"value\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_ayah/{ayah_key}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, ayah_key and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -8417,12 +8859,13 @@
           "Resources"
         ],
         "summary": "Recitation Info",
-        "description": "Get information of a specific recitation. Could include detail about the reciter, recitation style. When and who recorded it etc.",
+        "description": "Get information for a specific ayah-by-ayah recitation. Use a `recitation_id` from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. Could include detail about the reciter, recitation style, and recording.",
         "operationId": "recitation-info",
         "parameters": [
           {
             "name": "recitation_id",
             "in": "path",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "string"
@@ -8544,7 +8987,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to recitation info using the Quran Foundation API.\n\nEndpoint: GET /resources/recitations/{recitation_id}/info\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Required parameter (e.g., \"value\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/resources/recitations/{recitation_id}/info\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to recitation info using the Quran Foundation API.\n\nEndpoint: GET /resources/recitations/{recitation_id}/info\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"value\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/resources/recitations/{recitation_id}/info\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -9750,7 +10193,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -9916,7 +10359,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get ayah recitations for specific manzil using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_manzil/{manzil_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint (e.g., \"1\")\n  manzil_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_manzil/{manzil_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, manzil_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get ayah recitations for specific manzil using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_manzil/{manzil_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\n  manzil_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_manzil/{manzil_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, manzil_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -9933,7 +10376,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -10099,7 +10542,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get ayah recitations for specific ruku using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_ruku/{ruku_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint (e.g., \"1\")\n  ruku_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_ruku/{ruku_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, ruku_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get ayah recitations for specific ruku using the Quran Foundation API.\n\nEndpoint: GET /recitations/{recitation_id}/by_ruku/{ruku_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  recitation_id: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. (e.g., \"1\")\n  ruku_number: Required parameter (e.g., \"1\")\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/recitations/{recitation_id}/by_ruku/{ruku_number}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts recitation_id, ruku_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -10659,7 +11102,7 @@
         "tags": [
           "Translations"
         ],
-        "summary": "Get translations for specific Rub el Hizb (alias: /by_rub)",
+        "summary": "Get translations for specific Rub el Hizb",
         "description": "Get list of translations for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-translations",
         "parameters": [
@@ -12124,7 +12567,7 @@
         "tags": [
           "Tafsirs"
         ],
-        "summary": "Get tafsirs for specific Rub el Hizb (alias: /by_rub)",
+        "summary": "Get tafsirs for specific Rub el Hizb",
         "description": "Get list of tafsirs for a specific Rub el Hizb.",
         "operationId": "list-rub-el-hizb-tafsirs",
         "parameters": [
@@ -14562,7 +15005,7 @@
             "in": "query",
             "style": "form",
             "explode": false,
-            "description": "Comma-separated Quran Reflect post type IDs. Use `1` to return reflections, `2` to return lessons, or include both values to search both content types.\n\n- `1` = Reflection: A personal, heart-centered response to an ayah, how it affects, reminds, or changes a person; it is broader and can come from any thoughtful contributor. To learn more, please visit [https://quranreflect.com/faq](https://quranreflect.com/faq).\n- `2` = Lesson: A knowledge-based takeaway from an ayah, closer to a scholarly insight, focused more on explaining a benefit or point of understanding.",
+            "description": "Comma-separated Quran Reflect post type IDs. Use `1` to return reflections, `2` to return lessons, or include both values to search both content types. `1` means Reflection, a personal and heart-centered response to an ayah; see https://quranreflect.com/faq. `2` means Lesson, a knowledge-based takeaway from an ayah focused on explaining a benefit or point of understanding.",
             "schema": {
               "type": "array",
               "items": {
@@ -15023,7 +15466,7 @@
           {
             "name": "reciter_id",
             "in": "path",
-            "description": "The ID of the reciter",
+            "description": "Chapter-reciter ID from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters). Do not use ayah-by-ayah recitation IDs from [/resources/recitations](/docs/content_apis_versioned/recitations) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -15115,7 +15558,7 @@
           {
             "name": "reciter_id",
             "in": "path",
-            "description": "The ID of the reciter",
+            "description": "Chapter-reciter ID from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters). Do not use ayah-by-ayah recitation IDs from [/resources/recitations](/docs/content_apis_versioned/recitations) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -15421,7 +15864,7 @@
         "tags": [
           "Verses"
         ],
-        "summary": "By Rub el Hizb number",
+        "summary": "By Rub el Hizb number (alias: /by_rub_el_hizb)",
         "description": "Get all verses of a specific Rub el Hizb number(1-240). Alias route for the same rub el hizb filter.",
         "operationId": "verses-by_rub_el_hizb_number-rub-el-hizb",
         "parameters": [
@@ -15469,7 +15912,7 @@
           {
             "name": "audio",
             "in": "query",
-            "description": "Id of recitation if you want to load audio of each ayah.",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.",
             "schema": {
               "type": "integer"
             }
@@ -15630,7 +16073,7 @@
         "tags": [
           "Translations"
         ],
-        "summary": "Get translations for specific Rub el Hizb",
+        "summary": "Get translations for specific Rub el Hizb (alias: /by_rub)",
         "description": "Get list of translations for a specific Rub el Hizb. Alias route for the same rub el hizb filter.",
         "operationId": "list-rub-el-hizb-translations-rub",
         "parameters": [
@@ -15763,7 +16206,7 @@
         "tags": [
           "Tafsirs"
         ],
-        "summary": "Get tafsirs for specific Rub el Hizb",
+        "summary": "Get tafsirs for specific Rub el Hizb (alias: /by_rub)",
         "description": "Get list of tafsirs for a specific Rub el Hizb. Alias route for the same rub el hizb filter.",
         "operationId": "list-rub-el-hizb-tafsirs-rub",
         "parameters": [
@@ -15901,7 +16344,7 @@
           {
             "name": "recitation_id",
             "in": "path",
-            "description": "Recitation Id, you can get list of all ayah by ayah recitations using the [/resources/recitations](/docs/content_apis_versioned/recitations) endpoint",
+            "description": "Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
             "required": true,
             "schema": {
               "type": "number"
@@ -17218,6 +17661,316 @@
       },
       "rateLimitExceededResponse": {
         "$ref": "#/components/schemas/commonErrorResponse"
+      },
+      "hadith-error-response": {
+        "title": "Hadith Error Response",
+        "type": "object",
+        "required": [
+          "status",
+          "error"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "details": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "example": {
+          "status": 400,
+          "error": {
+            "code": "INVALID_PARAMETER",
+            "message": "Invalid ayah_key format. Expected format: chapter:verse (e.g., 12:12)",
+            "details": {
+              "parameter": "ayah_key",
+              "provided": "12-12",
+              "expected": "12:12"
+            }
+          }
+        }
+      },
+      "hadith-grade": {
+        "title": "Hadith Grade",
+        "type": "object",
+        "required": [
+          "graded_by",
+          "grade"
+        ],
+        "properties": {
+          "graded_by": {
+            "type": "string"
+          },
+          "grade": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "graded_by": "Ahmad Muhammad Shakir",
+          "grade": "Sahih"
+        }
+      },
+      "hadith-text": {
+        "title": "Hadith Text",
+        "type": "object",
+        "required": [
+          "lang",
+          "chapterNumber",
+          "chapterTitle",
+          "body",
+          "urn",
+          "grades"
+        ],
+        "properties": {
+          "lang": {
+            "type": "string"
+          },
+          "chapterNumber": {
+            "type": "string"
+          },
+          "chapterTitle": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "urn": {
+            "type": "integer"
+          },
+          "grades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/hadith-grade"
+            }
+          }
+        },
+        "example": {
+          "lang": "en",
+          "chapterNumber": "1",
+          "chapterTitle": "Revelation",
+          "body": "Narrated Umar bin Al-Khattab:...",
+          "urn": 31,
+          "grades": [
+            {
+              "graded_by": "Ahmad Muhammad Shakir",
+              "grade": "Sahih"
+            }
+          ]
+        }
+      },
+      "hadith-collection": {
+        "title": "Hadith Collection",
+        "type": "object",
+        "required": [
+          "urn",
+          "collection",
+          "bookNumber",
+          "chapterId",
+          "hadithNumber",
+          "name",
+          "hadith"
+        ],
+        "properties": {
+          "urn": {
+            "type": "integer"
+          },
+          "collection": {
+            "type": "string"
+          },
+          "bookNumber": {
+            "type": "string"
+          },
+          "chapterId": {
+            "type": "string"
+          },
+          "hadithNumber": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hadith": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/hadith-text"
+            }
+          }
+        },
+        "example": {
+          "urn": 201,
+          "collection": "bukhari",
+          "bookNumber": "1",
+          "chapterId": "1",
+          "hadithNumber": "1",
+          "name": "Sahih al-Bukhari",
+          "hadith": [
+            {
+              "lang": "en",
+              "chapterNumber": "1",
+              "chapterTitle": "Revelation",
+              "body": "Narrated Umar bin Al-Khattab:...",
+              "urn": 31,
+              "grades": [
+                {
+                  "graded_by": "Ahmad Muhammad Shakir",
+                  "grade": "Sahih"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "hadith-reference": {
+        "title": "Hadith Reference",
+        "type": "object",
+        "required": [
+          "id",
+          "collection",
+          "hadith_number",
+          "our_hadith_number",
+          "arabic_urn",
+          "english_urn",
+          "surah_number",
+          "ayah_start_number",
+          "ayah_end_number"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "collection": {
+            "type": "string"
+          },
+          "hadith_number": {
+            "type": "string"
+          },
+          "our_hadith_number": {
+            "type": "integer"
+          },
+          "arabic_urn": {
+            "type": "integer"
+          },
+          "english_urn": {
+            "type": "integer"
+          },
+          "surah_number": {
+            "type": "integer"
+          },
+          "ayah_start_number": {
+            "type": "integer"
+          },
+          "ayah_end_number": {
+            "type": "integer"
+          }
+        },
+        "example": {
+          "id": 10,
+          "collection": "bukhari",
+          "hadith_number": "1",
+          "our_hadith_number": 1,
+          "arabic_urn": 111,
+          "english_urn": 211,
+          "surah_number": 12,
+          "ayah_start_number": 11,
+          "ayah_end_number": 12
+        }
+      },
+      "hadith-references-by-ayah-response": {
+        "title": "Hadith References By Ayah Response",
+        "type": "object",
+        "required": [
+          "verse_key",
+          "verse_number",
+          "chapter_number",
+          "language",
+          "direction",
+          "hadith_references"
+        ],
+        "properties": {
+          "verse_key": {
+            "type": "string"
+          },
+          "verse_number": {
+            "type": "integer"
+          },
+          "chapter_number": {
+            "type": "integer"
+          },
+          "language": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "hadith_references": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/hadith-reference"
+            }
+          }
+        }
+      },
+      "hadith-by-ayah-response": {
+        "title": "Hadith By Ayah Response",
+        "type": "object",
+        "required": [
+          "hadiths",
+          "page",
+          "limit",
+          "has_more",
+          "language",
+          "direction"
+        ],
+        "properties": {
+          "hadiths": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/hadith-collection"
+            }
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          }
+        }
+      },
+      "hadith-count-within-range-response": {
+        "title": "Hadith Count Within Range Response",
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "example": {
+          "12:12": 2,
+          "12:13": 2
+        }
       },
       "hizb": {
         "title": "Hizb",

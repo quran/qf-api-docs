@@ -124,8 +124,8 @@ When the user creates data offline, push mutations to the server using `POST /v1
 
 ### API References
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations)
-- [POST /v1/sync (Sync local mutations)](/docs/user_related_apis_prelive/sync-local-mutations)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations/)
+- [POST /v1/sync (Sync local mutations)](/docs/user_related_apis_prelive/sync-local-mutations/)
 
 ## Using metadataOnly for Efficiency
 
@@ -139,7 +139,7 @@ This is significantly faster than a full sync (single DB query vs multiple joins
 
 For the full request/response schema, see:
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations/)
 
 ## Filtering & Pagination
 
@@ -157,5 +157,5 @@ When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagina
 
 ## Next Steps
 
-- [Handling Conflicts](./handling-conflicts) — Learn how to handle 409 errors and resolve conflicts
-- [Offline-First Patterns](./offline-first-patterns) — Best practices for client-side architecture
+- [Handling Conflicts](/docs/tutorials/sync/handling-conflicts/) — Learn how to handle 409 errors and resolve conflicts
+- [Offline-First Patterns](/docs/tutorials/sync/offline-first-patterns/) — Best practices for client-side architecture

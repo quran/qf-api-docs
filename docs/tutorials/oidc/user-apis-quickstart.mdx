@@ -36,6 +36,14 @@ Quran Foundation User APIs use OAuth2 Authorization Code flow with PKCE and Open
 
 This pattern gives you OAuth2 and OpenID Connect without embedding secrets in a mobile app or browser app. It also keeps the integration aligned with how most Request Access clients are provisioned today.
 
+For web apps, the recommended shape is:
+
+- keep token exchange and refresh on your backend
+- keep the app's user session in secure server storage or `httpOnly` cookies
+- have your backend or serverless proxy send `x-auth-token` and `x-client-id` when calling Quran Foundation User APIs
+
+Direct browser calls from third-party origins are not the recommended web pattern and may be rejected by CORS allowlisting or other origin allowlist checks.
+
 ## Choose Your Platform
 
 Use the quickstart guidance on this page for the architecture decision, then jump to the guide that matches your stack.
@@ -87,6 +95,8 @@ const response = await fetch(
 const bookmarks = await response.json();
 ```
 
+For web apps, this request is typically made by your backend or serverless proxy, not by page JavaScript. Cookies are for your app's own session; `x-auth-token` and `x-client-id` are the headers your server sends to Quran Foundation.
+
 ## Quick Reference
 
 ### Common scopes
@@ -120,6 +130,7 @@ Request only the scopes your app actually needs.
 - Mixing prelive and production OAuth2 environments.
 - Requesting more scopes than your app needs.
 - Treating the `id_token` as an API access token instead of using the `access_token`.
+- Calling User APIs directly from browser JavaScript in a confidential web integration instead of routing the request through your backend or proxy.
 
 ## AI Handoff Prompt
 
