@@ -28,9 +28,13 @@ const getCopy = (environment: "production" | "pre-live") => {
       body: (
         <>
           <p>
-            Pre-live user APIs run on a separate user stack. Keep auth, API
-            calls, and manual verification in pre-live when testing this
-            environment.
+            These pages describe the Pre-live user-related API stack.
+          </p>
+          <p>
+            Use pre-live OAuth credentials, pre-live API base URLs, and
+            pre-live app URLs when following this documentation. Keep your
+            OAuth flow, API requests, callback URLs, and manual testing within
+            the pre-live environment.
           </p>
           <ul className={styles.list}>
             <li>
@@ -42,7 +46,7 @@ const getCopy = (environment: "production" | "pre-live") => {
               >
                 prelive.quran.com
               </a>{" "}
-              for auth paths and auth-backed user data checks.
+              for auth-related testing.
             </li>
             <li>
               Use{" "}
@@ -53,9 +57,12 @@ const getCopy = (environment: "production" | "pre-live") => {
               >
                 prelive.quranreflect.org
               </a>{" "}
-              for Quran Reflect paths and data checks.
+              for Quran Reflect paths where applicable.
             </li>
-            <li>Do not mix production sessions or production user data with pre-live testing.</li>
+            <li>
+              Do not mix production sessions or production user data with
+              pre-live testing.
+            </li>
           </ul>
         </>
       ),
@@ -65,23 +72,17 @@ const getCopy = (environment: "production" | "pre-live") => {
   return {
     title: "Production user-related API docs",
     body: (
-      <p>
-        These pages describe the production user stack. If you need to test
-        pre-live, switch environments above and keep auth, API calls, and
-        manual checks in pre-live, including{" "}
-        <a href="https://prelive.quran.com" target="_blank" rel="noreferrer">
-          prelive.quran.com
-        </a>{" "}
-        for auth paths and{" "}
-        <a
-          href="https://prelive.quranreflect.org"
-          target="_blank"
-          rel="noreferrer"
-        >
-          prelive.quranreflect.org
-        </a>{" "}
-        for Quran Reflect paths.
-      </p>
+      <>
+        <p>These pages describe the Production user-related API stack.</p>
+        <p>
+          Use production OAuth credentials, production API base URLs, and
+          production app URLs when following this documentation.
+        </p>
+        <p>
+          Need to test before going live? Switch to the Pre-live docs using the
+          environment switcher above.
+        </p>
+      </>
     ),
   };
 };
