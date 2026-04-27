@@ -12,6 +12,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { exportMarkdownFiles } = require('../src/build-markdown.cjs');
 
 const BASE_URL = 'https://api-docs.quran.foundation';
 
@@ -271,6 +272,14 @@ function llmsTxtPlugin(context) {
       fs.writeFileSync(outFile, content, 'utf8');
       console.log(
         `[llms-txt-plugin] Generated ${outFile} with ${linkCount} links`,
+      );
+
+      // 3. Emit markdown siblings for every generated HTML page so Cloudflare
+      //    Pages middleware can negotiate `Accept: text/markdown` without
+      //    changing the default HTML experience for browsers.
+      const exportedCount = exportMarkdownFiles(outDir);
+      console.log(
+        `[llms-txt-plugin] Generated ${exportedCount} markdown page variants`,
       );
     },
   };

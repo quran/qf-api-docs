@@ -25,13 +25,65 @@ const getCopy = (environment: "production" | "pre-live") => {
   if (environment === "pre-live") {
     return {
       title: "Pre-live user-related API docs",
-      body: "",
+      body: (
+        <>
+          <p>
+            These pages describe the Pre-live user-related API stack.
+          </p>
+          <p>
+            Use pre-live OAuth credentials, pre-live API base URLs, and
+            pre-live app URLs when following this documentation. Keep your
+            OAuth flow, API requests, callback URLs, and manual testing within
+            the pre-live environment.
+          </p>
+          <ul className={styles.list}>
+            <li>
+              Use{" "}
+              <a
+                href="https://prelive.quran.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                prelive.quran.com
+              </a>{" "}
+              for auth-related testing.
+            </li>
+            <li>
+              Use{" "}
+              <a
+                href="https://prelive.quranreflect.org"
+                target="_blank"
+                rel="noreferrer"
+              >
+                prelive.quranreflect.org
+              </a>{" "}
+              for Quran Reflect paths where applicable.
+            </li>
+            <li>
+              Do not mix production sessions or production user data with
+              pre-live testing.
+            </li>
+          </ul>
+        </>
+      ),
     };
   }
 
   return {
     title: "Production user-related API docs",
-    body: "",
+    body: (
+      <>
+        <p>These pages describe the Production user-related API stack.</p>
+        <p>
+          Use production OAuth credentials, production API base URLs, and
+          production app URLs when following this documentation.
+        </p>
+        <p>
+          Need to test before going live? Switch to the Pre-live docs using the
+          environment switcher above.
+        </p>
+      </>
+    ),
   };
 };
 
@@ -108,7 +160,7 @@ export default function UserRelatedApiEnvironmentNotice({
           })}
         </nav>
       </div>
-      <p className={styles.body}>{copy.body}</p>
+      <div className={styles.body}>{copy.body}</div>
     </div>
   );
 }

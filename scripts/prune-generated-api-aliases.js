@@ -20,6 +20,8 @@ function walk(dir) {
       continue;
     }
 
+    // The OpenAPI plugin prefixes user API aliases with auth- because the spec
+    // servers use /auth; these generated aliases are the only files normalized.
     if (entry.isFile() && /^auth-.*\.api\.mdx$/i.test(entry.name)) {
       results.push(fullPath);
     }
@@ -68,6 +70,7 @@ function getLegacySlug(content) {
     getFrontMatterValue(content, "sidebar_label");
 
   if (!title) {
+    // Missing labels should fail the build instead of shipping duplicate auth-* URLs.
     throw new Error("Could not resolve title for generated auth API doc");
   }
 
@@ -76,25 +79,6 @@ function getLegacySlug(content) {
 
 function replaceFrontMatterId(content, id) {
   return content.replace(/^id:\s*.*$/m, `id: ${id}`);
-}
-
-function walkAllFiles(dir) {
-  const results = [];
-
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const fullPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) {
-      results.push(...walkAllFiles(fullPath));
-      continue;
-    }
-
-    if (entry.isFile()) {
-      results.push(fullPath);
-    }
-  }
-
-  return results;
 }
 
 function rewriteSidebarDocIds(replacements) {
@@ -124,6 +108,25 @@ function rewriteSidebarDocIds(replacements) {
       fs.writeFileSync(sidebarFile, content, "utf8");
     }
   }
+}
+
+function walkAllFiles(dir) {
+  const results = [];
+
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      results.push(...walkAllFiles(fullPath));
+      continue;
+    }
+
+    if (entry.isFile()) {
+      results.push(fullPath);
+    }
+  }
+
+  return results;
 }
 
 let normalized = 0;

@@ -114,6 +114,7 @@ function getCanonicalPathOverride(pathname) {
 
   const [, family, slug] = singleSegmentApiFamily;
 
+  // Scopes is a standalone unversioned OAuth reference, not a generated API alias.
   if (family === "user_related_apis_versioned" && slug === "scopes") {
     return normalizePathname(pathname);
   }
@@ -144,6 +145,7 @@ function shouldDropSitemapPath(pathname) {
 
   const [, family, slug] = singleSegmentApiFamily;
 
+  // Scopes is a standalone unversioned OAuth reference, not a generated API alias.
   if (family === "user_related_apis_versioned" && slug === "scopes") {
     return false;
   }

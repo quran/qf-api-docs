@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/v1/search": {
+    "/api/v1/search": {
       "get": {
         "operationId": "SearchController_search",
         "summary": "Search Quran content",
-        "description": "\nSearch for verses, chapters, juz, pages, and other Quran content. This is the primary search API used by Quran.com.\n\n## Use Cases\n\n### 1. Command Bar / Search-as-you-type (Quick Mode)\nUsed in Quran.com's command bar for instant navigation. Returns both navigational results (chapters, juz, pages) and verse matches.\n\n```\nGET /v1/search?mode=quick&query=fatiha&navigationalResultsNumber=5&versesResultsNumber=10\n```\n\n### 2. Search Results Page (Advanced Mode)\nUsed for the full search results page with pagination and detailed verse results.\n\n```\nGET /v1/search?mode=advanced&query=mercy&page=1&size=20&translation_ids=131,20\n```\n\n### 3. Search with Exact Matching\nFor precise search queries, use exact_matches_only in advanced mode.\n\n```\nGET /v1/search?mode=advanced&query=الرحمن&exact_matches_only=1\n```\n\n## Response Structure\n- **navigation**: Quick links to chapters, juz, pages matching the query\n- **verses**: Individual verse matches with optional highlighting\n- **pagination**: Standard pagination info for result sets\n    ",
+        "description": "\nSearch for verses, chapters, juz, pages, and other Quran content. This is the primary search API used by Quran.com.\n\n## Use Cases\n\n### 1. Command Bar / Search-as-you-type (Quick Mode)\nUsed in Quran.com's command bar for instant navigation. Returns both navigational results (chapters, juz, pages) and verse matches.\n\n```\nGET /api/v1/search?mode=quick&query=fatiha&navigationalResultsNumber=5&versesResultsNumber=10\n```\n\n### 2. Search Results Page (Advanced Mode)\nUsed for the full search results page with pagination and detailed verse results.\n\n```\nGET /api/v1/search?mode=advanced&query=mercy&page=1&size=20&translation_ids=131,20\n```\n\n### 3. Search with Exact Matching\nFor precise search queries, use exact_matches_only in advanced mode.\n\n```\nGET /api/v1/search?mode=advanced&query=الرحمن&exact_matches_only=1\n```\n\n## Response Structure\n- **navigation**: Quick links to chapters, juz, pages matching the query\n- **verses**: Individual verse matches with optional highlighting\n- **pagination**: Standard pagination info for result sets\n\nLegacy GET /v1/search remains supported for existing integrations. New integrations should use GET /api/v1/search.\n    ",
         "parameters": [
           {
             "name": "mode",
