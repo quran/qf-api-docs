@@ -12,6 +12,8 @@ keywords:
 sidebar_label: "User APIs Quickstart"
 ---
 
+import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
+
 # Quran Foundation User APIs OAuth2 Quickstart
 
 :::info Quick Summary
@@ -21,9 +23,11 @@ sidebar_label: "User APIs Quickstart"
 **Outcome:** Your app can authenticate users, read OpenID Connect identity data from the `id_token`, and call User APIs with an `access_token`.
 :::
 
+<AgentPromptCallout />
+
 Quran Foundation User APIs use OAuth2 Authorization Code flow with PKCE and OpenID Connect. For most newly issued Request Access clients, the safest default is a confidential-client setup: your app handles the login redirect, but your backend keeps `QF_CLIENT_ID` and `QF_CLIENT_SECRET` as server-only environment variables and exchanges the code for tokens.
 
-For the JavaScript SDK, the recommended split is `@quranjs/api/public` in the app or mobile client and `@quranjs/api/server` on the backend. To start from a complete template instead of wiring that manually, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
+For JavaScript and TypeScript apps, use `@quranjs/api/public` in app, browser, or mobile-facing code and `@quranjs/api/server` on the backend. To start from a complete template instead of wiring that manually, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
 
 ## Production vs Pre-live
 

@@ -5,6 +5,8 @@ slug: /sdk/javascript
 sidebar_position: 1
 ---
 
+import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
+
 # JavaScript SDK
 
 Purpose: Choose the correct SDK entrypoint before you write code.
@@ -27,6 +29,8 @@ For backwards compatibility, `@quranjs/api` still exports the legacy `QuranClien
 If you are still asking "what kind of app am I building?" start with [App Shapes](/docs/sdk/javascript/app-shapes). It is the shortest path to the right architecture.
 
 Production defaults are built in. If you are maintaining the SDK itself and need local smoke or local docs instructions, use the maintainer guide in the [`api-js` repo](https://github.com/quran/api-js/tree/main/packages/api#local-development).
+
+<AgentPromptCallout />
 
 If you use the full-stack OAuth2 example, remember that it is an interactive React SPA shell backed by server-side sessions. For serious multi-instance production deployments, use a shared session store such as Redis.
 
@@ -206,19 +210,10 @@ const client = createServerClient({
 
 ## AI Handoff Prompt
 
-Canonical prompt ID: QF_NPX_STARTER_PROMPT_V1
+The copyable prompt above is published as `QF_NPX_STARTER_PROMPT_V1`:
 
-```text
-Scaffold a Quran Foundation production-ready app using the official starter and then implement required product features.
-
-Scaffold command
-- npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
-
-Reference docs
-- https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx
-- https://api-docs.quran.foundation/docs/sdk/javascript
-- https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2
-```
+- [Raw prompt](/agent-prompts/qf-next-starter.md)
+- [Prompt registry](/.well-known/agent-prompts/index.json)
 
 ## Read Next
 

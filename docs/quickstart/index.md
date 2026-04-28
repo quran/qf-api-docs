@@ -13,6 +13,8 @@ sidebar_label: "Content APIs Quickstart"
 displayed_sidebar: "APIsSidebar"
 ---
 
+import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
+
 Use this quickstart to make your first authenticated request to the Quran Foundation Content APIs without exposing your credentials.
 
 :::tip Quick Summary
@@ -24,6 +26,8 @@ Recommended path: use the official JS/TS SDK when possible. Otherwise, implement
 
 Outcome: a working `/chapters` request with the correct auth flow, headers, and environment URLs.
 :::
+
+<AgentPromptCallout />
 
 :::info Naming convention used in this quickstart
 The manual examples in this section use `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, and `QF_ENV` as the canonical environment variable names. If your project already uses `QURAN_CLIENT_ID` and `QURAN_CLIENT_SECRET`, keep one naming scheme consistently across your codebase.
@@ -61,17 +65,14 @@ npm install @quranjs/api
 ```
 
 ```ts
-import { Language, QuranClient } from "@quranjs/api";
+import { createServerClient } from "@quranjs/api/server";
 
-const client = new QuranClient({
+const client = createServerClient({
   clientId,
   clientSecret,
-  defaults: {
-    language: Language.ENGLISH,
-  },
 });
 
-const chapters = await client.chapters.findAll();
+const chapters = await client.content.v4.chapters.list();
 ```
 
 Continue with the [JavaScript SDK quick start](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.

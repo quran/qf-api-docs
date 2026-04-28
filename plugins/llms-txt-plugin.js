@@ -28,6 +28,7 @@ const SECTION_ORDER = [
 ];
 
 const URL_PRIORITY = [
+  `${BASE_URL}/docs/tutorials/oidc/starter-with-npx`,
   `${BASE_URL}/docs/sdk/javascript`,
   `${BASE_URL}/docs/sdk/javascript/app-shapes`,
   `${BASE_URL}/docs/sdk/javascript/runtime-matrix`,
@@ -58,6 +59,13 @@ const OPENAPI_HEADER = [
   '- [User APIs v1 (Pre-live)](https://api-docs.quran.foundation/openAPI/user-related-apis/pre-live/v1.json): Upcoming pre-live documentation for unreleased user API changes',
   '- [OAuth2 APIs v1](https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json): Authentication and authorization',
   '- [Search APIs v1](https://api-docs.quran.foundation/openAPI/search/v1.json): Quran text search',
+  '',
+  '## Agent Prompts and Starters',
+  '',
+  '- [QF_NPX_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md): Copyable prompt for the official Next.js starter app',
+  '- [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog',
+  '- [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold',
+  '- [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code',
   '',
 ].join('\n');
 

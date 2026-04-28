@@ -11,6 +11,8 @@ keywords:
   - quran user api access token
 ---
 
+import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
+
 # Using OAuth 2.0 to Access Quran.Foundation APIs
 
 :::info Quick Summary
@@ -33,6 +35,8 @@ This guide walks you through OAuth2 Authorization Code flow step-by-step.
 
 ## Fastest Way To Start
 
+<AgentPromptCallout />
+
 For a production-style JavaScript starter with the SDK, OAuth2, reader, search, notes, and bookmarks already wired together, use the official scaffold:
 
 ```bash
@@ -40,8 +44,6 @@ npx @quranjs/create-app@latest my-quran-app --template next --package-manager np
 ```
 
 See [Starter With NPX](/docs/tutorials/oidc/starter-with-npx) for the scaffold walkthrough, or continue below for the underlying OAuth2 flow.
-
-Canonical prompt ID: QF_NPX_STARTER_PROMPT_V1
 
 > Flow split: Use **Client Credentials** for **Content APIs** (see [Content APIs Quickstart Guide](/docs/quickstart)). Use **Authorization Code (+PKCE)** for **User Related APIs** (this page).
 

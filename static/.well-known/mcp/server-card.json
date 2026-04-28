@@ -25,6 +25,20 @@
       "mimeType": "text/plain"
     },
     {
+      "name": "agent_prompt_registry",
+      "title": "Agent Prompt Registry",
+      "uri": "https://api-docs.quran.foundation/.well-known/agent-prompts/index.json",
+      "description": "Machine-readable registry of copyable prompts for Quran Foundation app onboarding.",
+      "mimeType": "application/json"
+    },
+    {
+      "name": "nextjs_starter_prompt",
+      "title": "Next.js Starter Prompt",
+      "uri": "https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md",
+      "description": "Copyable prompt for scaffolding the official Quran Foundation Next.js starter with the JavaScript SDK.",
+      "mimeType": "text/markdown"
+    },
+    {
       "name": "content_api_openapi",
       "title": "Content API OpenAPI",
       "uri": "https://api-docs.quran.foundation/openAPI/content/v4.json",
@@ -57,6 +71,20 @@
       "title": "Developer Quick Start",
       "uri": "https://api-docs.quran.foundation/docs/quickstart/",
       "description": "Primary quick start guide for integrating with Quran Foundation APIs.",
+      "mimeType": "text/html"
+    },
+    {
+      "name": "javascript_sdk",
+      "title": "JavaScript SDK",
+      "uri": "https://api-docs.quran.foundation/docs/sdk/javascript/",
+      "description": "Runtime-split JavaScript and TypeScript SDK guidance for public and server code.",
+      "mimeType": "text/html"
+    },
+    {
+      "name": "starter_with_npx",
+      "title": "Starter With NPX",
+      "uri": "https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/",
+      "description": "One-command onboarding path for a production-shaped Quran Foundation Next.js starter app.",
       "mimeType": "text/html"
     },
     {
