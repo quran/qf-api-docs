@@ -125,8 +125,8 @@ If your app is deployed as an edge frontend, keep the confidential exchange, ref
 import { createServerClient } from "@quranjs/api/server";
 
 const client = createServerClient({
-  clientId: process.env.CLIENT_ID!,
-  clientSecret: process.env.CLIENT_SECRET!,
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
 });
 
 const chapters = await client.content.v4.chapters.list();
@@ -160,8 +160,8 @@ import { createServerClient } from "@quranjs/api/server";
 import { SearchMode } from "@quranjs/api";
 
 const client = createServerClient({
-  clientId: process.env.CLIENT_ID!,
-  clientSecret: process.env.CLIENT_SECRET!,
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
 });
 
 const chapters = await client.content.v4.chapters.list();
@@ -190,8 +190,8 @@ Backend:
 import { createServerClient } from "@quranjs/api/server";
 
 const client = createServerClient({
-  clientId: process.env.CLIENT_ID!,
-  clientSecret: process.env.CLIENT_SECRET!,
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
 });
 ```
 
