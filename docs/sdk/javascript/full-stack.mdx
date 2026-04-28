@@ -32,8 +32,8 @@ export const authClient = createPublicClient({
 import { createServerClient } from "@quranjs/api/server";
 
 export const apiClient = createServerClient({
-  clientId: process.env.CLIENT_ID!,
-  clientSecret: process.env.CLIENT_SECRET!,
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
 });
 ```
 

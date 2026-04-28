@@ -21,7 +21,7 @@ sidebar_label: "User APIs Quickstart"
 **Outcome:** Your app can authenticate users, read OpenID Connect identity data from the `id_token`, and call User APIs with an `access_token`.
 :::
 
-Quran Foundation User APIs use OAuth2 Authorization Code flow with PKCE and OpenID Connect. For most newly issued Request Access clients, the safest default is a confidential-client setup: your app handles the login redirect, but your backend keeps `CLIENT_SECRET` and exchanges the code for tokens.
+Quran Foundation User APIs use OAuth2 Authorization Code flow with PKCE and OpenID Connect. For most newly issued Request Access clients, the safest default is a confidential-client setup: your app handles the login redirect, but your backend keeps `QF_CLIENT_ID` and `QF_CLIENT_SECRET` as server-only environment variables and exchanges the code for tokens.
 
 For the JavaScript SDK, the recommended split is `@quranjs/api/public` in the app or mobile client and `@quranjs/api/server` on the backend. To start from a complete template instead of wiring that manually, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
 
@@ -43,7 +43,7 @@ If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 - Generate PKCE in the app or browser client.
 - After login, receive the authorization `code` at your redirect URI.
 - Send `code + code_verifier + redirect_uri` to your backend.
-- Keep `CLIENT_SECRET` on the backend and perform the `/oauth2/token` exchange there.
+- Keep `QF_CLIENT_SECRET` on the backend and perform the `/oauth2/token` exchange there.
 - Refresh tokens on the backend unless Quran Foundation explicitly confirms that your client is public.
 :::
 
@@ -131,13 +131,13 @@ Request only the scopes your app actually needs.
 ### Token refresh
 
 - Request `offline_access` if you need refresh tokens.
-- For confidential clients, keep refresh on the backend together with `CLIENT_SECRET`.
+- For confidential clients, keep refresh on the backend together with `QF_CLIENT_SECRET`.
 - For public clients, refresh can happen in the app.
 - Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) for deeper token lifetime and validation details.
 
 ### Common mistakes
 
-- Embedding `CLIENT_SECRET` in a mobile app or browser app.
+- Embedding `QF_CLIENT_SECRET` in a mobile app or browser app.
 - Calling `/oauth2/token` directly from a confidential client without backend client authentication.
 - Skipping OAuth2 `state` validation, or `nonce` validation when you rely on `id_token`.
 - Mixing pre-live and production OAuth2 environments, sessions, or manual test surfaces.
@@ -157,7 +157,7 @@ Requirements
 - Generate PKCE, OAuth2 state, and OpenID Connect nonce in the client.
 - Receive the authorization code at the redirect URI.
 - Send code + code_verifier + redirect_uri to the backend.
-- Keep CLIENT_SECRET on the backend for confidential clients.
+- Keep QF_CLIENT_SECRET on the backend for confidential clients.
 - Exchange the code and refresh tokens on the backend by default.
 - Use access_token for User APIs such as bookmarks, collections, reading progress, and preferences.
 - Read user identity claims such as sub from the id_token.
