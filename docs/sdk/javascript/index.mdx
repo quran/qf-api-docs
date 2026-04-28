@@ -20,7 +20,9 @@ The SDK now has **two runtime entrypoints**:
 - `@quranjs/api/server`
 - `@quranjs/api/public`
 
-There is **no single universal client constructor** anymore. That is intentional. It makes the safe path obvious.
+Use these entrypoints for new code. They make the safe runtime boundary obvious by separating server-only API access from browser and mobile flows.
+
+For backwards compatibility, `@quranjs/api` still exports the legacy `QuranClient`, so existing integrations do not need to migrate immediately. Moving to `@quranjs/api/server` or `@quranjs/api/public` is recommended cleanup, not a breaking upgrade requirement.
 
 If you are still asking "what kind of app am I building?" start with [App Shapes](/docs/sdk/javascript/app-shapes). It is the shortest path to the right architecture.
 
@@ -200,7 +202,7 @@ const client = createServerClient({
 - Putting `client_secret` in browser or mobile code.
 - Calling Content or Search from `@quranjs/api/public`.
 - Assuming every client can exchange OAuth2 codes directly.
-- Using the root package as if it exports one universal client.
+- Starting new code with the legacy root `QuranClient` instead of choosing the runtime-specific client for your app shape.
 
 ## AI Handoff Prompt
 

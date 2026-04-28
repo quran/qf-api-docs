@@ -1,31 +1,33 @@
 ---
 title: "Legacy Migration Guide"
-description: "Move from the old universal client to the new runtime-specific SDK entrypoints."
+description: "Recommended migration from the legacy QuranClient to runtime-specific SDK entrypoints."
 slug: /sdk/javascript/v1-migration-guide
 sidebar_position: 14
 ---
 
 # Legacy Migration Guide
 
-Purpose: Move from the old `QuranClient` shape to the new runtime-specific entrypoints.  
-Use this when: Your code still imports `QuranClient` from `@quranjs/api`.  
+Purpose: Move from the legacy `QuranClient` shape to the recommended runtime-specific entrypoints.
+Use this when: Your code still imports `QuranClient` from `@quranjs/api` and you want clearer runtime boundaries.
 Do not use this when: You are starting a new integration.  
 Backend required: Depends on your API family.  
 Allowed runtimes: Node.js, serverless functions, workers, browser apps, mobile apps.  
 Required credentials: `client_id` always. `client_secret` only on the server.  
 Minimal import: `@quranjs/api/server` or `@quranjs/api/public`.
 
+Existing `QuranClient` imports remain supported for backwards compatibility. This migration is recommended cleanup, not a breaking upgrade requirement.
+
 Read the short version here:
 
 - [Migration Cheat Sheet](/docs/sdk/javascript/migration-cheat-sheet)
 
-Old:
+Still supported legacy shape:
 
 ```ts
 import { QuranClient } from "@quranjs/api";
 ```
 
-New:
+Recommended runtime-specific shape:
 
 ```ts
 import { createServerClient } from "@quranjs/api/server";

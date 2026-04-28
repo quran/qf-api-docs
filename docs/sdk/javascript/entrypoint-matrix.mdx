@@ -17,6 +17,6 @@ Minimal import: Listed below.
 
 | Import | Use it for | Do not use it for |
 | --- | --- | --- |
-| `@quranjs/api` | Shared types, enums, constants | Creating a client |
+| `@quranjs/api` | Shared types, enums, constants, and legacy `QuranClient` compatibility | New integrations that can choose a runtime-specific client |
 | `@quranjs/api/server` | Content, Search, backend OAuth2, server jobs | Browser or mobile code |
 | `@quranjs/api/public` | PKCE login, public-client flows, frontend user-session flows | Content, Search, `client_secret` |

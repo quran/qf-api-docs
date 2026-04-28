@@ -1,19 +1,21 @@
 ---
 title: "Migration Cheat Sheet"
-description: "Short migration guide from the old universal client to the new runtime-specific entrypoints."
+description: "Short optional migration guide from the legacy QuranClient to the recommended runtime-specific entrypoints."
 slug: /sdk/javascript/migration-cheat-sheet
 sidebar_position: 16
 ---
 
 # Migration Cheat Sheet
 
-Purpose: Migrate old SDK usage quickly.  
-Use this when: Your code still uses `QuranClient`.  
+Purpose: Optionally migrate old SDK usage quickly.
+Use this when: Your code still uses `QuranClient` and you want the recommended runtime-specific client shape.
 Do not use this when: You are starting a new integration.  
 Backend required: Depends on your API family.  
 Allowed runtimes: Server and public runtimes.  
 Required credentials: `client_id` always. `client_secret` only on the server.  
 Minimal import: `@quranjs/api/server` or `@quranjs/api/public`.
+
+Existing `import { QuranClient } from "@quranjs/api"` integrations remain supported for backwards compatibility. This guide is recommended cleanup, not a breaking upgrade requirement.
 
 | Old code | New code |
 | --- | --- |
