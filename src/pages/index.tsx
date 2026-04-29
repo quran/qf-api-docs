@@ -1,11 +1,9 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import DeveloperJourneyMap from "@site/src/components/DeveloperJourneyMap";
+import { NEXT_JS_STARTER_COMMAND } from "@site/src/lib/onboarding";
 
 import styles from "./index.module.css";
-
-const SCAFFOLD_COMMAND =
-  "npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes";
 
 const copyText = async (text: string) => {
   if (navigator.clipboard?.writeText) {
@@ -55,7 +53,7 @@ function HomepageHeader() {
 
   const handleCopyCommand = React.useCallback(async () => {
     try {
-      await copyText(SCAFFOLD_COMMAND);
+      await copyText(NEXT_JS_STARTER_COMMAND);
       setCopyState("copied");
     } catch {
       setCopyState("failed");
@@ -92,7 +90,7 @@ function HomepageHeader() {
             <span className={styles.scaffoldMeta}>~5 min</span>
           </div>
           <div className={styles.commandRow}>
-            <code className={styles.command}>{SCAFFOLD_COMMAND}</code>
+            <code className={styles.command}>{NEXT_JS_STARTER_COMMAND}</code>
             <button
               type="button"
               className={styles.copyCommandButton}

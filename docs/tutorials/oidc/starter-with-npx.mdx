@@ -14,7 +14,7 @@ Use this when: You want the fastest external onboarding path with the official s
 Do not use this when: You are maintaining SDK internals or template internals.
 Backend required: Yes.
 Allowed runtimes: Frontend + backend (recommended).
-Required credentials: `CLIENT_ID`, `CLIENT_SECRET`, and app URLs.
+Required credentials: Quran Foundation client credentials (`QF_CLIENT_ID` / `QF_CLIENT_SECRET`; scaffold env names are `CLIENT_ID` / `CLIENT_SECRET`) and app URLs.
 Minimal command: `npx @quranjs/create-app@latest`.
 
 <AgentPromptCallout />
@@ -41,7 +41,7 @@ Set these in your deployment environment:
 - `CLIENT_SECRET`
 - `SESSION_SECRET`
 
-The scaffolded starter uses `CLIENT_ID` and `CLIENT_SECRET` in its generated `.env` files. Manual API quickstarts use the broader docs convention `QF_CLIENT_ID` and `QF_CLIENT_SECRET`; keep one naming scheme consistently in your own app.
+The scaffolded starter uses `CLIENT_ID` and `CLIENT_SECRET` in its generated `.env` files. These map to the same Quran Foundation credentials that manual API quickstarts call `QF_CLIENT_ID` and `QF_CLIENT_SECRET`; keep one naming scheme consistently in your own app.
 
 ## Production-Minded Next Steps
 

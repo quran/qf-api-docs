@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import clsx from "clsx";
+import { NEXT_JS_STARTER_COMMAND } from "@site/src/lib/onboarding";
 
 import styles from "./styles.module.css";
 
@@ -15,7 +16,7 @@ const pathItems = [
     time: "~10 min",
     body: "Use this for verses, chapters, translations, tafsir, audio, and search when users do not need to sign in.",
     outcome: "A backend call that reads Quran content with app credentials.",
-    code: "client.content.v4.chapters.list()",
+    code: "GET /content/api/v4/chapters",
     href: "/docs/quickstart",
     cta: "Start Content Quickstart",
   },
@@ -25,7 +26,7 @@ const pathItems = [
     time: "~5 min",
     body: "Use the scaffold when you want OAuth2, reader, search, notes, bookmarks, and SDK runtime boundaries already wired.",
     outcome: "A local app with login, content reads, search, and user features.",
-    code: "npx @quranjs/create-app@latest",
+    code: NEXT_JS_STARTER_COMMAND,
     href: "/docs/tutorials/oidc/starter-with-npx",
     cta: "Use Starter With NPX",
   },
