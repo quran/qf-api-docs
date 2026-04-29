@@ -30,55 +30,9 @@
   margin: 0 auto 1.5rem;
 }
 
-.heroButtonRow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-
-.primaryButton {
-  background: var(--ifm-color-primary) !important;
-  color: #ffffff !important;
-  border: 2px solid var(--ifm-color-primary) !important;
-  border-radius: var(--ifm-global-radius);
-  font-weight: 700;
-  padding: 0.65rem 1.7rem;
-  transition: background 150ms ease, transform 100ms ease, box-shadow 150ms ease;
-}
-
-.primaryButton:hover {
-  background: var(--ifm-color-primary-dark) !important;
-  border-color: var(--ifm-color-primary-dark) !important;
-  color: #ffffff !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(44, 164, 171, 0.25);
-  text-decoration: none;
-}
-
-.outlineButton {
-  background: transparent !important;
-  color: var(--qf-text-primary) !important;
-  border: 1.5px solid var(--qf-border-card) !important;
-  border-radius: var(--ifm-global-radius);
-  font-weight: 600;
-  padding: 0.65rem 1.7rem;
-  transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
-}
-
-.outlineButton:hover {
-  background: var(--ifm-color-emphasis-100) !important;
-  border-color: var(--ifm-color-primary) !important;
-  color: var(--ifm-color-primary) !important;
-  transform: translateY(-1px);
-  text-decoration: none;
-}
-
 .scaffoldCard {
   max-width: 860px;
-  margin: 0 auto;
+  margin: 1.5rem auto 0;
   padding: 1.1rem;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 10px;
@@ -150,7 +104,7 @@
   align-items: center;
   justify-content: center;
   min-height: 2.35rem;
-  padding: 0.45rem 0.85rem;
+  padding: 0.45rem 0.95rem;
   border: 1px solid var(--ifm-color-primary);
   border-radius: 8px;
   background: var(--ifm-color-primary);
@@ -215,16 +169,6 @@
 
   .heroSubtitle {
     font-size: 0.95rem;
-  }
-
-  .heroButtonRow {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .heroButtonRow > * {
-    width: 100%;
-    max-width: 320px;
   }
 
   .scaffoldCard {

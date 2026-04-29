@@ -35,7 +35,7 @@ const pathItems = [
     time: "~15 min",
     body: "Use this when your app already exists and needs bookmarks, collections, notes, reading progress, goals, or preferences.",
     outcome: "A backend-safe user session that can call User APIs.",
-    code: 'fetch("/auth/v1/bookmarks")',
+    code: "GET /auth/v1/bookmarks",
     href: "/docs/tutorials/oidc/user-apis-quickstart",
     cta: "Open User APIs Quickstart",
   },

@@ -186,7 +186,7 @@ const config = {
       docs: {
         sidebar: {
           hideable: false,
-          autoCollapseCategories: false,
+          autoCollapseCategories: true,
         },
       },
       // Replace with your project's social card
@@ -194,12 +194,6 @@ const config = {
       navbar: {
         title: "Quran Foundation API Docs",
         items: [
-          {
-            type: "doc",
-            docId: "developer-journey",
-            position: "left",
-            label: "Start Here",
-          },
           {
             type: "doc",
             docId: "updates/index",

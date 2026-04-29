@@ -1,7 +1,5 @@
 import React from "react";
-import clsx from "clsx";
 import Layout from "@theme/Layout";
-import Link from "@docusaurus/Link";
 import DeveloperJourneyMap from "@site/src/components/DeveloperJourneyMap";
 
 import styles from "./index.module.css";
@@ -83,21 +81,6 @@ function HomepageHeader() {
           Foundation APIs using the official docs, SDK, and starter app.
         </p>
 
-        <div className={styles.heroButtonRow}>
-          <Link
-            className={clsx("button button--lg", styles.primaryButton)}
-            to="/request-access"
-          >
-            Request Access
-          </Link>
-          <Link
-            className={clsx("button button--lg", styles.outlineButton)}
-            to="/docs/tutorials/oidc/starter-with-npx"
-          >
-            View Starter Guide
-          </Link>
-        </div>
-
         <div className={styles.scaffoldCard}>
           <div className={styles.scaffoldHeader}>
             <div>
@@ -115,7 +98,7 @@ function HomepageHeader() {
               className={styles.copyCommandButton}
               onClick={handleCopyCommand}
             >
-              {copyState === "copied" ? "Copied" : "Copy"}
+              {copyState === "copied" ? "Copied" : "Copy command"}
             </button>
           </div>
           <p className={styles.scaffoldText}>
