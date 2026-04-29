@@ -16,6 +16,11 @@ const { exportMarkdownFiles } = require('../src/build-markdown.cjs');
 
 const BASE_URL = 'https://api-docs.quran.foundation';
 
+function canonicalDocsUrl(url) {
+  if (!url.startsWith(`${BASE_URL}/docs`)) return url;
+  return url.endsWith('/') ? url : `${url}/`;
+}
+
 const SECTION_ORDER = [
   'Getting Started',
   'JavaScript SDK',
@@ -28,23 +33,23 @@ const SECTION_ORDER = [
 ];
 
 const URL_PRIORITY = [
-  `${BASE_URL}/docs/developer-journey`,
-  `${BASE_URL}/docs/api-reference`,
-  `${BASE_URL}/docs/tutorials/oidc/starter-with-npx`,
-  `${BASE_URL}/docs/sdk/javascript`,
-  `${BASE_URL}/docs/sdk/javascript/app-shapes`,
-  `${BASE_URL}/docs/sdk/javascript/runtime-matrix`,
-  `${BASE_URL}/docs/sdk/javascript/auth-matrix`,
-  `${BASE_URL}/docs/sdk/javascript/entrypoint-matrix`,
-  `${BASE_URL}/docs/sdk/javascript/apis-by-runtime`,
-  `${BASE_URL}/docs/sdk/javascript/server-quickstart`,
-  `${BASE_URL}/docs/sdk/javascript/public-quickstart`,
-  `${BASE_URL}/docs/sdk/javascript/full-stack`,
-  `${BASE_URL}/docs/sdk/javascript/common-errors`,
-  `${BASE_URL}/docs/sdk/javascript/migration-cheat-sheet`,
-  `${BASE_URL}/docs/tutorials/oidc/user-apis-quickstart`,
-  `${BASE_URL}/docs/tutorials/oidc/getting-started-with-oauth2`,
-];
+  `${BASE_URL}/docs/developer-journey/`,
+  `${BASE_URL}/docs/api-reference/`,
+  `${BASE_URL}/docs/tutorials/oidc/starter-with-npx/`,
+  `${BASE_URL}/docs/sdk/javascript/`,
+  `${BASE_URL}/docs/sdk/javascript/app-shapes/`,
+  `${BASE_URL}/docs/sdk/javascript/runtime-matrix/`,
+  `${BASE_URL}/docs/sdk/javascript/auth-matrix/`,
+  `${BASE_URL}/docs/sdk/javascript/entrypoint-matrix/`,
+  `${BASE_URL}/docs/sdk/javascript/apis-by-runtime/`,
+  `${BASE_URL}/docs/sdk/javascript/server-quickstart/`,
+  `${BASE_URL}/docs/sdk/javascript/public-quickstart/`,
+  `${BASE_URL}/docs/sdk/javascript/full-stack/`,
+  `${BASE_URL}/docs/sdk/javascript/common-errors/`,
+  `${BASE_URL}/docs/sdk/javascript/migration-cheat-sheet/`,
+  `${BASE_URL}/docs/tutorials/oidc/user-apis-quickstart/`,
+  `${BASE_URL}/docs/tutorials/oidc/getting-started-with-oauth2/`,
+].map(canonicalDocsUrl);
 
 // Directories to skip during the docs walk
 const VERSIONED_DIR_RE = /^\d+\.\d+\.\d+$/;
@@ -114,7 +119,7 @@ function getUrl(relpath, fm) {
     const slug = fm.slug.startsWith('/') ? fm.slug : `/${fm.slug}`;
     const normalizedSlug =
       slug === '/docs' || slug.startsWith('/docs/') ? slug : `/docs${slug}`;
-    return `${BASE_URL}${normalizedSlug}`;
+    return canonicalDocsUrl(`${BASE_URL}${normalizedSlug}`);
   }
   // Strip .api.mdx / .info.mdx / .tag.mdx / .mdx / .md
   let rel = relpath.replace(/(?:\.(api|info|tag))?\.mdx?$/, '');
@@ -124,7 +129,7 @@ function getUrl(relpath, fm) {
   } else if (rel === 'index') {
     rel = '';
   }
-  return rel ? `${BASE_URL}/docs/${rel}` : `${BASE_URL}/docs`;
+  return canonicalDocsUrl(rel ? `${BASE_URL}/docs/${rel}` : `${BASE_URL}/docs`);
 }
 
 /** Map a docs-relative file path to one of the known sections. */
@@ -177,6 +182,11 @@ function walkDocs(dir, relBase) {
 /** Generate the full llms.txt content from the docs/ directory. */
 function generateLlmsTxt(docsDir) {
   const files = walkDocs(docsDir, '');
+  const seenUrls = new Set(
+    Array.from(OPENAPI_HEADER.matchAll(/\]\((https?:\/\/[^)]+)\)/g), (match) =>
+      canonicalDocsUrl(match[1]),
+    ),
+  );
 
   // Group entries by section
   /** @type {Record<string, Array<{title: string, url: string}>>} */
@@ -215,11 +225,17 @@ function generateLlmsTxt(docsDir) {
   for (const sectionName of SECTION_ORDER) {
     const entries = sections[sectionName];
     if (!entries || entries.length === 0) continue;
-    lines.push(`## ${sectionName}\n`);
+    const sectionLines = [];
     for (const { title, url } of entries) {
-      lines.push(`- [${title}](${url})`);
+      const canonicalUrl = canonicalDocsUrl(url);
+      if (seenUrls.has(canonicalUrl)) continue;
+      seenUrls.add(canonicalUrl);
+      sectionLines.push(`- [${title}](${canonicalUrl})`);
       linkCount++;
     }
+    if (sectionLines.length === 0) continue;
+    lines.push(`## ${sectionName}\n`);
+    lines.push(...sectionLines);
     lines.push('');
   }
 

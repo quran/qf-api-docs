@@ -29,6 +29,12 @@ For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openi
 
 For a production-style JavaScript starter with OAuth2, reader, search, notes, and bookmarks already wired together, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
 
+```bash
+npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
+```
+
+Canonical prompt ID: QF_NPX_STARTER_PROMPT_V1
+
 Use this page when you need to implement the OAuth2/OIDC flow manually, adapt it for a mobile app, or understand the underlying token behavior.
 
 > Flow split: Use **Client Credentials** for **Content APIs** (see [Content APIs Quickstart Guide](/docs/quickstart)). Use **Authorization Code (+PKCE)** for **User Related APIs** (this page).
