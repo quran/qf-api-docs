@@ -528,6 +528,11 @@ const makeSharedDocsSidebar = (apiFamilies) => [
     collapsible: true,
     collapsed: false,
     items: [
+      {
+        type: "doc",
+        id: "api-reference",
+        label: "API Reference",
+      },
       ...apiFamilies.map(makeSharedApiFamilyCategory),
       {
         type: "doc",

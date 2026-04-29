@@ -10,6 +10,12 @@ type Props = {
 
 const journeyItems = [
   {
+    title: "Request access",
+    body: "Get client credentials, confirm your redirect URIs, and make sure your app has the scopes it needs before implementation work starts.",
+    href: "/request-access",
+    cta: "Request Access",
+  },
+  {
     title: "Full app with login",
     body: "Start from the production-shaped Next.js scaffold with reader, search, notes, bookmarks, OAuth2, and SDK wiring already in place.",
     href: "/docs/tutorials/oidc/starter-with-npx",
@@ -36,7 +42,7 @@ const journeyItems = [
   {
     title: "Endpoint lookup",
     body: "Go directly to endpoint reference pages once you know the API family and authentication model you need.",
-    href: "/docs/category/content-apis",
+    href: "/docs/api-reference",
     cta: "Browse API Reference",
   },
 ];
@@ -53,8 +59,9 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
           <p className={styles.eyebrow}>Developer journey</p>
           <h2 className={styles.title}>Choose the shortest path to your integration</h2>
           <p className={styles.description}>
-            Start with the path that matches what you are building, then use
-            the API reference only after the authentication shape is clear.
+            Start by requesting access, then choose the path that matches what
+            you are building. Use the API reference after the authentication
+            shape is clear.
           </p>
         </div>
 

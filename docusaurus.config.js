@@ -247,6 +247,10 @@ const config = {
             position: "left",
             items: [
               {
+                label: "API Reference",
+                to: "/docs/api-reference",
+              },
+              {
                 label: "Content APIs",
                 to: "/docs/content_apis_versioned/4.0.0/content-apis/",
               },
@@ -260,7 +264,7 @@ const config = {
               },
               {
                 label: "User-related APIs (Pre-live)",
-                to: "docs/category/user-related-apis-pre-live",
+                to: "/docs/category/user-related-apis-pre-live",
               },
               {
                 label: "OAuth2 APIs",
@@ -288,6 +292,10 @@ const config = {
           {
             title: "API Docs",
             items: [
+              {
+                label: "API Reference",
+                to: "/docs/api-reference",
+              },
               {
                 label: "Content APIs",
                 to: "/docs/content_apis_versioned/4.0.0/content-apis/",

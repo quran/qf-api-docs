@@ -44,6 +44,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - Agent prompt registry: `https://api-docs.quran.foundation/.well-known/agent-prompts/index.json`
 - Next.js starter prompt: `https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md`
 - Developer Journey: `https://api-docs.quran.foundation/docs/developer-journey/`
+- API Reference: `https://api-docs.quran.foundation/docs/api-reference/`
 - JavaScript SDK: `https://api-docs.quran.foundation/docs/sdk/javascript/`
 - Starter With NPX: `https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/`
 - User APIs OIDC quickstart: `https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/`
@@ -85,6 +86,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - "Bookmarks, collections, notes, reading sessions, profile, rooms, posts" -> User-related APIs v1
 - "Create a Quran app, starter app, scaffold, copy prompt, AI prompt, build with agents" -> Starter With NPX plus QF_NPX_STARTER_PROMPT_V1
 - "Where should I start, what path should I follow, developer journey" -> Developer Journey
+- "API reference, endpoint lookup, endpoint docs, all APIs" -> API Reference first, then the exact API family page
 - "JavaScript SDK, TypeScript SDK, server/public imports, runtime split" -> JavaScript SDK docs
 - "Web login flow, PKCE, callback, mobile auth, redirect URIs" -> OIDC tutorial pages plus OAuth2 APIs
 - "Fonts, glyph codes, Mushaf pages, script rendering, Tajweed display" -> Font rendering and page-layout tutorials plus relevant content endpoints

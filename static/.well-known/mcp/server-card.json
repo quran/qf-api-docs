@@ -46,6 +46,13 @@
       "mimeType": "text/html"
     },
     {
+      "name": "api_reference",
+      "title": "API Reference",
+      "uri": "https://api-docs.quran.foundation/docs/api-reference/",
+      "description": "Landing page for choosing between Content, Search, User-related, OAuth2, and pre-live endpoint references.",
+      "mimeType": "text/html"
+    },
+    {
       "name": "content_api_openapi",
       "title": "Content API OpenAPI",
       "uri": "https://api-docs.quran.foundation/openAPI/content/v4.json",
