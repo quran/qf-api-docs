@@ -117,10 +117,6 @@
 }
 
 .cardHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
   margin-bottom: 0.45rem;
 }
 
@@ -130,20 +126,6 @@
   font-size: 0.78rem;
   font-weight: 800;
   line-height: 1.35;
-}
-
-.time {
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.45rem;
-  padding: 0.1rem 0.5rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 999px;
-  color: var(--ifm-color-emphasis-800);
-  background: var(--ifm-background-color);
-  font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
 }
 
 .cardTitle {

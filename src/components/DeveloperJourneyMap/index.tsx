@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import clsx from "clsx";
-import { NEXT_JS_STARTER_COMMAND } from "@site/src/lib/onboarding";
-
 import styles from "./styles.module.css";
 
 type Props = {
@@ -11,41 +9,37 @@ type Props = {
 
 const pathItems = [
   {
-    question: "Need Quran content only?",
+    question: "Need Quran data without login?",
     title: "Content APIs",
-    time: "~10 min",
-    body: "Use the server SDK or raw HTTP for verses, chapters, translations, tafsir, audio, and search when users do not need to sign in.",
-    outcome: "An app-level content read that does not require a signed-in user session.",
+    body: "Read verses, chapters, translations, tafsir, audio, and search with app credentials. No Quran.com user account or OAuth user session is involved.",
+    outcome: "Call from your backend with the SDK or raw HTTP.",
     code: "GET /content/api/v4/chapters",
     href: "/docs/quickstart",
     cta: "Start Content Quickstart",
   },
   {
-    question: "Need login and want to ship fast?",
-    title: "Next.js starter",
-    time: "~5 min",
-    body: "Use the scaffold when you want OAuth2, reader, search, notes, bookmarks, and the SDK runtime boundaries already wired.",
-    outcome: "A local app with login, content reads, search, and user features.",
-    code: NEXT_JS_STARTER_COMMAND,
-    href: "/docs/tutorials/oidc/starter-with-npx",
-    cta: "Use Starter With NPX",
+    question: "Prefer typed clients over raw HTTP?",
+    title: "JavaScript SDK",
+    body: "Use the SDK when you are building in JavaScript or TypeScript and want typed clients for Content, Search, OAuth helpers, and User APIs.",
+    outcome: "Use the server entrypoint for backend/API calls and the public entrypoint only for browser or mobile-safe OAuth helpers.",
+    code: 'import { createServerClient } from "@quranjs/api/server";',
+    href: "/docs/sdk/javascript",
+    cta: "Open JavaScript SDK",
   },
   {
-    question: "Have your own UI and backend?",
-    title: "SDK in your app",
-    time: "~15 min",
-    body: "Use the JavaScript server SDK with your OAuth session when an existing app needs bookmarks, collections, notes, goals, or preferences.",
-    outcome: "Your UI stays yours; your backend owns sessions and SDK calls User APIs.",
-    code: "serverClient.auth.v1.bookmarks.list({ first: 10 })",
+    question: "Need signed-in user data?",
+    title: "User APIs",
+    body: "Add Quran.com user features to an existing app: bookmarks, collections, notes, reading progress, goals, and preferences.",
+    outcome: "Requires OAuth login/session; call from your backend with the SDK or raw HTTP.",
+    code: "GET /auth/v1/bookmarks",
     href: "/docs/tutorials/oidc/user-apis-quickstart",
     cta: "Open User APIs Quickstart",
   },
   {
-    question: "Building custom OAuth or mobile?",
+    question: "Need to implement auth yourself?",
     title: "Manual OAuth2",
-    time: "~30 min",
-    body: "Use this for non-JS stacks, custom token handling, React Native, Android, iOS, or any case where you need protocol details.",
-    outcome: "Authorization Code with PKCE, token exchange, refresh, and OIDC validation.",
+    body: "Use this for custom token handling, non-JS stacks, mobile apps, or debugging OAuth2/OIDC behavior.",
+    outcome: "Protocol guide for PKCE, token exchange, refresh, scopes, and OIDC validation.",
     code: "POST /oauth2/token",
     href: "/docs/tutorials/oidc/getting-started-with-oauth2",
     cta: "Open OAuth2 Tutorial",
@@ -64,8 +58,9 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
           <p className={styles.eyebrow}>Pick your path</p>
           <h2 className={styles.title}>Start with the route that matches your app</h2>
           <p className={styles.description}>
-            Request access first, then choose one path: starter app, SDK in your
-            own app, manual OAuth2, or raw API reference lookup.
+            Request access first. Then choose by what you need: content without
+            login, SDK clients in your own app, signed-in user data, or manual
+            OAuth2 implementation.
           </p>
         </div>
 
@@ -88,7 +83,6 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
             <li className={styles.card} key={item.href}>
               <div className={styles.cardHeader}>
                 <p className={styles.question}>{item.question}</p>
-                <span className={styles.time}>{item.time}</span>
               </div>
               <h3 className={styles.cardTitle}>{item.title}</h3>
               <p className={styles.cardText}>{item.body}</p>

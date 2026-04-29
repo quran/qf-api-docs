@@ -30,110 +30,6 @@
   margin: 0 auto 1.5rem;
 }
 
-.scaffoldCard {
-  max-width: 860px;
-  margin: 1.5rem auto 0;
-  padding: 1.1rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 10px;
-  background: var(--ifm-background-surface-color);
-  box-shadow: var(--qf-shadow-sm);
-  text-align: left;
-}
-
-.scaffoldHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.85rem;
-}
-
-.scaffoldEyebrow {
-  margin: 0 0 0.25rem;
-  color: var(--ifm-color-primary-dark);
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.scaffoldTitle {
-  margin: 0;
-  color: var(--ifm-heading-color);
-  font-size: 1.15rem;
-  line-height: 1.35;
-}
-
-.scaffoldMeta {
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.6rem;
-  padding: 0.15rem 0.6rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 999px;
-  color: var(--ifm-color-emphasis-800);
-  background: var(--ifm-background-color);
-  font-size: 0.8rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.commandRow {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.5rem;
-  align-items: stretch;
-}
-
-.command {
-  display: block;
-  min-width: 0;
-  padding: 0.6rem 0.7rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 8px;
-  overflow-x: auto;
-  white-space: nowrap;
-  background: var(--ifm-code-background);
-  color: var(--ifm-code-color);
-  font-size: 0.82rem;
-}
-
-.copyCommandButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.35rem;
-  padding: 0.45rem 0.95rem;
-  border: 1px solid var(--ifm-color-primary);
-  border-radius: 8px;
-  background: var(--ifm-color-primary);
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 0.86rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.copyCommandButton:hover {
-  background: var(--ifm-color-primary-dark);
-  border-color: var(--ifm-color-primary-dark);
-}
-
-.scaffoldText {
-  margin: 0.75rem 0 0;
-  color: var(--ifm-color-emphasis-800);
-  font-size: 0.92rem;
-  line-height: 1.55;
-}
-
-.copyStatus {
-  min-height: 1rem;
-  margin: 0.3rem 0 0;
-  color: var(--ifm-color-danger-dark);
-  font-size: 0.78rem;
-}
-
 .heroResourceLinks {
   display: flex;
   justify-content: center;
@@ -154,10 +50,6 @@
   color: var(--ifm-color-primary-dark);
 }
 
-[data-theme='dark'] .scaffoldEyebrow {
-  color: var(--ifm-color-primary-light);
-}
-
 @media screen and (max-width: 768px) {
   .heroBanner {
     padding: 2.5rem 1rem 2rem;
@@ -171,22 +63,6 @@
     font-size: 0.95rem;
   }
 
-  .scaffoldCard {
-    padding: 0.95rem;
-  }
-
-  .scaffoldHeader {
-    flex-direction: column;
-    gap: 0.45rem;
-  }
-
-  .commandRow {
-    grid-template-columns: 1fr;
-  }
-
-  .copyCommandButton {
-    width: 100%;
-  }
 }
 
 @media screen and (min-width: 769px) and (max-width: 996px) {

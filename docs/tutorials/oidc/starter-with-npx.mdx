@@ -5,19 +5,19 @@ title: "Starter With NPX"
 description: "Fastest public path to scaffold a production-shaped Quran Foundation app with @quranjs/create-app."
 ---
 
-import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
-
 # Starter With NPX
 
-Purpose: Start a production-shaped Quran Foundation app in minutes.
-Use this when: You want the fastest external onboarding path with the official starter.
-Do not use this when: You are maintaining SDK internals or template internals.
-Backend required: Yes.
-Allowed runtimes: Frontend + backend (recommended).
-Required credentials: Quran Foundation client credentials (`QF_CLIENT_ID` / `QF_CLIENT_SECRET`; scaffold env names are `CLIENT_ID` / `CLIENT_SECRET`) and app URLs.
-Recommended command: `npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes`.
+:::info Quick Summary
+**Audience:** Developers who want a complete Next.js app instead of wiring OAuth2, sessions, reader/search, and user features from scratch.
 
-<AgentPromptCallout />
+**Prerequisites:** Quran Foundation client credentials, app URLs, and approved scopes for the user features you keep.
+
+**Recommended path:** Run the scaffold, configure environment variables, then customize the generated Next.js code.
+
+**Outcome:** A local app with login, Quran content, search, and signed-in user feature surfaces already wired through the SDK.
+:::
+
+Use this page when the starter app is a useful base for your product. If you already have your own UI and backend, use the [JavaScript SDK guide](/docs/sdk/javascript) and [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) instead.
 
 ## Primary Command
 
@@ -31,17 +31,6 @@ npx @quranjs/create-app@latest my-quran-app --template next --package-manager np
 - OAuth2/OIDC login/logout flow with server-side session architecture
 - Reader, search, and signed-in user feature surfaces
 - Production-shaped backend boundary that keeps `client_secret` server-side
-
-## Starter App vs SDK
-
-The starter is a generated Next.js application. It uses the JavaScript SDK
-inside a ready app so you can see the recommended OAuth2, session, backend, and
-User API patterns working together.
-
-The SDK is the lower-level library. Use the SDK directly when you already have
-your own app UI and only want Quran Foundation API clients. In that case, read
-the [JavaScript SDK guide](/docs/sdk/javascript) and the
-[User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart).
 
 ## Required Environment Variables
 
@@ -93,6 +82,17 @@ To customize the app:
 If you only want your own UI, treat the starter as a reference implementation:
 keep the OAuth callback, session store, refresh behavior, and SDK client pattern,
 then replace the visible pages and components.
+
+## Starter App vs SDK
+
+The starter is a generated Next.js application. It uses the JavaScript SDK
+inside a ready app so you can see the recommended OAuth2, session, backend, and
+User API patterns working together.
+
+The SDK is the lower-level library. Use the SDK directly when you already have
+your own app UI and only want Quran Foundation API clients. In that case, read
+the [JavaScript SDK guide](/docs/sdk/javascript) and the
+[User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart).
 
 ## Production-Minded Next Steps
 

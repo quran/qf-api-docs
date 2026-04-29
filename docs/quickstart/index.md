@@ -13,21 +13,17 @@ sidebar_label: "Content APIs Quickstart"
 displayed_sidebar: "APIsSidebar"
 ---
 
-import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
+Use this quickstart after choosing Content APIs from the [Developer Journey](/docs/developer-journey). It gets you to your first authenticated Content API request without exposing credentials.
 
-Use this quickstart to make your first authenticated request to the Quran Foundation Content APIs without exposing your credentials.
+:::info Quick Summary
+**Audience:** Backend teams, server-rendered apps, and web apps that proxy Content API calls through a server.
 
-:::tip Quick Summary
-Audience: backend teams, server-rendered apps, and web apps that proxy Content API calls through a server.
+**Prerequisites:** A `client_id` and `client_secret` from [Request Access](/request-access), plus a choice of `prelive` or `production`.
 
-Prerequisites: a `client_id` and `client_secret` from [Request Access](/request-access), plus a choice of `prelive` or `production`.
+**Recommended path:** Use the official JS/TS SDK for JavaScript or TypeScript backends. Use raw HTTP for non-JS stacks or when you want to inspect the OAuth2 Client Credentials flow directly.
 
-Recommended path: use the official JS/TS SDK when possible. Otherwise, implement OAuth2 Client Credentials on your backend, cache tokens, add the required headers, and call `/content/api/v4/...`.
-
-Outcome: a working `/chapters` request with the correct auth flow, headers, and environment URLs.
+**Outcome:** A working `/chapters` request with the correct auth flow, headers, and environment URLs.
 :::
-
-<AgentPromptCallout />
 
 :::info Naming convention used in this quickstart
 The manual examples in this section use `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, and `QF_ENV` as the canonical environment variable names. If your project already uses `QURAN_CLIENT_ID` and `QURAN_CLIENT_SECRET`, keep one naming scheme consistently across your codebase.
@@ -45,20 +41,9 @@ For Content APIs, the default and safest architecture is:
 
 This is an OAuth2 Client Credentials integration, so there is no `refresh_token`. When the token expires, request a new one from the same token endpoint.
 
-## Choose Your Path
+## First SDK Request
 
-| Goal | Start here | What it covers |
-| --- | --- | --- |
-| Fastest path for JavaScript or TypeScript | [Official JS/TS SDK](/docs/sdk/javascript) | Install `@quranjs/api`, create a client, and let the SDK handle token management and headers. |
-| Manual OAuth2 setup | [Manual authentication](/docs/quickstart/manual-authentication) | Credentials, environment URLs, token request, and sample token response. |
-| Token reuse and retry behavior | [Token management](/docs/quickstart/token-management) | Caching, early re-requesting, 401 retry-once behavior, and stampede prevention. |
-| First authenticated request | [First API call](/docs/quickstart/first-api-call) | Required headers, `GET /chapters`, backend proxy pattern, and verification. |
-| Migration from `api.quran.com` | [Migration guide](/docs/quickstart/migration) | Base URL changes, OAuth2 auth requirements, and compatibility notes. |
-| Full endpoint reference | [Content API reference](/docs/category/content-apis) | All available endpoints, parameters, and response shapes. |
-
-## Fastest Path for JS/TS: Official SDK
-
-If you are building with JavaScript or TypeScript, start with [`@quranjs/api`](https://github.com/quran/api-js). It already handles OAuth2 token retrieval, caching, early re-requesting, and the required headers.
+If you are building a JavaScript or TypeScript backend, start with [`@quranjs/api`](https://github.com/quran/api-js). It gives you typed Content/Search clients and handles OAuth2 token retrieval, caching, early re-requesting, and the required headers.
 
 ```bash
 npm install @quranjs/api
@@ -68,16 +53,16 @@ npm install @quranjs/api
 import { createServerClient } from "@quranjs/api/server";
 
 const client = createServerClient({
-  clientId,
-  clientSecret,
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
 });
 
 const chapters = await client.content.v4.chapters.list();
 ```
 
-Continue with the [JavaScript SDK quick start](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
+This example is for backend/server code because it uses `client_secret`. Continue with the [JavaScript SDK guide](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
 
-## Minimal Manual Example
+## First Raw HTTP Request
 
 If you are not using the SDK, the smallest successful manual flow is:
 
@@ -127,33 +112,13 @@ For the complete backend-safe version, continue with [manual authentication](/do
 - Do not mix prelive and production tokens.
 - If you render Quranic text in a browser, add `<meta name="google" content="notranslate">` and mark Quranic text containers with `translate="no"`.
 
-## AI Handoff Prompt
-
-Use this prompt when you want an AI coding tool to implement the recommended flow in your codebase:
-
-```text
-Implement Quran Foundation Content APIs using the recommended backend-safe OAuth2 Client Credentials flow.
-
-Requirements
-- Use server-side credentials only.
-- Request tokens from POST {authBaseUrl}/oauth2/token with grant_type=client_credentials&scope=content.
-- Cache the access token and re-request it before expiry. Do not implement refresh_token logic.
-- Add x-auth-token and x-client-id to every request to {apiBaseUrl}/content/api/v4/...
-- On 401, clear the cached token, re-request once, and retry once.
-- Verify the integration with GET /content/api/v4/chapters.
-
-Documentation to follow
-- Quickstart hub: https://api-docs.quran.foundation/docs/quickstart/
-- Manual auth: https://api-docs.quran.foundation/docs/quickstart/manual-authentication
-- Token management: https://api-docs.quran.foundation/docs/quickstart/token-management
-- First API call: https://api-docs.quran.foundation/docs/quickstart/first-api-call
-- Migration: https://api-docs.quran.foundation/docs/quickstart/migration
-- JS/TS SDK: https://api-docs.quran.foundation/docs/sdk/javascript
-```
-
 ## Next Steps
 
 - Explore the [Content API reference](/docs/category/content-apis) after your first successful call.
-- Use the [JS/TS SDK docs](/docs/sdk/javascript) if you want the fastest production-ready integration path.
+- Use the [JS/TS SDK docs](/docs/sdk/javascript) if you are building in JavaScript or TypeScript and want typed clients.
+- Read [manual authentication](/docs/quickstart/manual-authentication), [token management](/docs/quickstart/token-management), and [first API call](/docs/quickstart/first-api-call) if you are using raw HTTP.
 - Use the [migration guide](/docs/quickstart/migration) if you are moving from `https://api.quran.com/api/v4/...`.
-- Contact `developers@quran.com` if you need help with access, environment setup, or permissions.
+
+## Need Help?
+
+Email [developers@quran.com](mailto:developers@quran.com) if you need help with access, environment setup, or permissions.

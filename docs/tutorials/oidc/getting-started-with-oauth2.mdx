@@ -25,27 +25,11 @@ Quran.Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow wit
 
 For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
-## Use This Page When
+Use this tutorial when you need to implement OAuth2/OIDC manually, adapt it for a mobile app, support a non-JS stack, or debug token exchange, refresh, scopes, and OpenID Connect validation.
 
-Use this tutorial when you need to implement the OAuth2/OIDC flow manually, adapt it for a mobile app, or debug token exchange, refresh, scopes, and OpenID Connect validation.
+If you want a generated JavaScript app, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx). If you already have a JavaScript app and only need signed-in user API calls, use the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) with the [JavaScript SDK guide](/docs/sdk/javascript). If you only need Quran content without user login, start with the [Content APIs Quickstart](/docs/quickstart).
 
-Do not start here if you only need a working JavaScript app or the SDK path for an existing app. For those paths, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx), the [JavaScript SDK guide](/docs/sdk/javascript), or the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart).
-
-## Fastest Way To Start
-
-Choose the shortest path for your app:
-
-- Full JavaScript app: use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
-- Existing JavaScript app with your own UI: use the [JavaScript SDK guide](/docs/sdk/javascript) and [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart).
-- Manual OAuth2, non-JS stacks, mobile adaptation, or debugging: stay on this page.
-
-```bash
-npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
-```
-
-Canonical prompt ID: QF_NPX_STARTER_PROMPT_V1
-
-> Flow split: Use **Client Credentials** for **Content APIs** (see [Content APIs Quickstart Guide](/docs/quickstart)). Use **Authorization Code (+PKCE)** for **User APIs** (this page).
+> Flow split: Use **Client Credentials** for **Content APIs**. Use **Authorization Code with PKCE** for **User APIs**.
 
 ## Client Types {#client-types}
 
@@ -64,15 +48,7 @@ Quran Foundation issues two types of OAuth2 clients. This distinction affects ho
 If you call `/oauth2/token` without client authentication on a confidential client, Hydra returns `invalid_client`.
 :::
 
-## Manual Role Of This Page
-
-This page owns the protocol details. The [Starter With NPX](/docs/tutorials/oidc/starter-with-npx) page owns the complete generated app path, and the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) owns the SDK-backed path for existing apps.
-
-If you only need app-level Quran content, start with the [Content APIs Quickstart](/docs/quickstart).
-
-Quran Foundation OAuth2 lets users sign in with Quran.com identity and lets your app call User APIs for synced features such as bookmarks, collections, notes, reading sessions, preferences, goals, and streaks.
-
-### How to Link QF Users to Your Data {#how-to-link-qf-users-to-your-data}
+## Link QF Users To Your Data {#how-to-link-qf-users-to-your-data}
 
 After OAuth2 login, validate the ID token according to your OIDC library and use the `sub` claim as the user's stable Quran Foundation identifier. Store `sub` as the foreign key in your own database so you can attach your app's custom records to the same user.
 
@@ -125,8 +101,6 @@ sequenceDiagram
 ```
 
 > If Quran Foundation explicitly confirms that your client is public, the app can exchange the code directly. For the current Request Access flow, use the backend exchange pattern shown above.
-
-> **Ready to code?** Use the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) for the recommended architecture and minimal API call, or see the [Web Integration Example](/docs/tutorials/oidc/example-integration) and the [hosted demo](https://oauth2-client-prelive.quran.foundation/).
 
 ## Manual OAuth Implementation Prompt
 

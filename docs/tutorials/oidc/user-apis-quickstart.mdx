@@ -21,33 +21,9 @@ sidebar_label: "User APIs Quickstart"
 **Outcome:** One backend-safe User API call with an OAuth2 `access_token`.
 :::
 
-Use this page to choose the recommended integration shape and make the first successful User API call. Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) when you need the full manual flow, client-type details, token exchange examples, refresh handling, scopes, and troubleshooting.
+Use this quickstart after choosing User APIs from the [Developer Journey](/docs/developer-journey). It gets you to the recommended backend architecture and one successful signed-in User API call.
 
-## Recommended JavaScript Paths
-
-For a complete JavaScript app with OAuth2, reader, search, notes, bookmarks, and SDK runtime boundaries already wired together, start with [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
-
-```bash
-npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
-```
-
-For an existing JavaScript or TypeScript app, keep your own UI and use the SDK:
-
-- `@quranjs/api/public` for browser or mobile-safe OAuth helper flows.
-- `@quranjs/api/server` for backend token exchange, refresh, Content/Search,
-  and User API calls.
-
-Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2)
-only when you need manual protocol details, non-JS examples, mobile-specific
-adaptation, or debugging help.
-
-## Use This Page When
-
-- You are adding signed-in Quran.com user features to an existing app.
-- You need the recommended architecture for bookmarks, collections, notes, reading progress, goals, or preferences.
-- You want the shortest path to one successful User API call.
-
-If you need to implement or debug authorization URLs, PKCE, token exchange, refresh, OIDC validation, or client-type behavior, go to the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2).
+Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) when you need the full manual flow, client-type details, token exchange examples, refresh handling, scopes, and troubleshooting.
 
 ## Production vs Pre-live
 
@@ -77,17 +53,7 @@ Most Request Access clients are confidential clients by default. Direct browser 
 If Quran Foundation explicitly confirms that your client is public, you can complete token exchange and refresh in the app with PKCE only. If you did not receive that confirmation, assume your client is confidential.
 :::
 
-## Choose Your Platform
-
-| Platform | Recommended pattern | Start here |
-| --- | --- | --- |
-| Web | Server-side session or backend token exchange | [Web integration example](/docs/tutorials/oidc/example-integration) |
-| React Native | Hosted login + PKCE in the app, backend token exchange | [React Native guide](/docs/tutorials/oidc/mobile-apps/react-native) |
-| Android | Hosted login + PKCE in the app, backend token exchange | [Android guide](/docs/tutorials/oidc/mobile-apps/android) |
-| iOS | Hosted login + PKCE in the app, backend token exchange | [iOS guide](/docs/tutorials/oidc/mobile-apps/iOS) |
-| Full OAuth2 and OIDC details | Step-by-step flow, validation, refresh, scopes, and troubleshooting | [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) |
-
-## Minimal API Call
+## First SDK Request
 
 Once your backend has a signed-in user session, the SDK can call User APIs from
 server code:
@@ -109,7 +75,9 @@ const bookmarks = await serverClient.auth.v1.bookmarks.list({ first: 10 });
 ```
 
 In production, add SDK `storage` so refreshed user sessions are persisted in
-your server-side session store.
+your server-side session store. Continue with the [JavaScript SDK guide](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
+
+## First Raw HTTP Request
 
 Raw HTTP works too. Once your backend has an `access_token`, it can call a User
 API endpoint like this:
@@ -135,6 +103,16 @@ serverless proxy, not by page JavaScript. Cookies are for your app's own
 session; `x-auth-token` and `x-client-id` are the headers your server sends to
 Quran Foundation.
 
+## Platform Guides
+
+| Platform | Recommended pattern | Start here |
+| --- | --- | --- |
+| Web | Server-side session or backend token exchange | [Web integration example](/docs/tutorials/oidc/example-integration) |
+| React Native | Hosted login + PKCE in the app, backend token exchange | [React Native guide](/docs/tutorials/oidc/mobile-apps/react-native) |
+| Android | Hosted login + PKCE in the app, backend token exchange | [Android guide](/docs/tutorials/oidc/mobile-apps/android) |
+| iOS | Hosted login + PKCE in the app, backend token exchange | [iOS guide](/docs/tutorials/oidc/mobile-apps/iOS) |
+| Full OAuth2 and OIDC details | Step-by-step flow, validation, refresh, scopes, and troubleshooting | [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) |
+
 ## Scope And Token Details
 
 Request only the scopes your app needs. Start with `openid` for identity, add `offline_access` when you need refresh tokens, then add feature scopes such as `bookmark`, `collection`, `note`, `reading_session`, `preference`, `goal`, or `streak` as needed.
@@ -147,9 +125,9 @@ Use these references for the details:
 
 ## Next Steps
 
+- [JavaScript SDK guide](/docs/sdk/javascript) if you want typed SDK clients in an existing JS/TS backend.
 - [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) for the full Authorization Code with PKCE flow.
 - [Web integration example](/docs/tutorials/oidc/example-integration) for a working server-side implementation.
-- [Starter With NPX](/docs/tutorials/oidc/starter-with-npx) for a complete Next.js starter app.
 - [User APIs reference](/docs/category/user-related-apis) for endpoint-by-endpoint API details.
 
 ## Need Help?
