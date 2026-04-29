@@ -196,6 +196,12 @@ const config = {
         items: [
           {
             type: "doc",
+            docId: "developer-journey",
+            position: "left",
+            label: "Start Here",
+          },
+          {
+            type: "doc",
             docId: "tutorials/oidc/user-apis-quickstart",
             position: "left",
             label: "User Quickstart",

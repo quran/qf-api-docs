@@ -11,7 +11,7 @@
 }
 
 .heroContent {
-  max-width: 800px;
+  max-width: 920px;
   margin: 0 auto;
 }
 
@@ -32,8 +32,29 @@
   margin: 0 auto 2rem;
 }
 
-.heroLlmsCallout {
-  margin: 2rem auto 0;
+.heroAgentPrompt {
+  margin: 1.5rem auto;
+  text-align: left;
+}
+
+.heroResourceLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 1.25rem auto 0;
+  color: var(--qf-text-muted);
+  font-size: 0.88rem;
+}
+
+.heroResourceLinks a {
+  color: var(--qf-text-muted);
+  font-weight: 600;
+}
+
+.heroResourceLinks a:hover {
+  color: var(--ifm-color-primary-dark);
 }
 
 /* ── Buttons ── */

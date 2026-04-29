@@ -28,6 +28,7 @@ const SECTION_ORDER = [
 ];
 
 const URL_PRIORITY = [
+  `${BASE_URL}/docs/developer-journey`,
   `${BASE_URL}/docs/tutorials/oidc/starter-with-npx`,
   `${BASE_URL}/docs/sdk/javascript`,
   `${BASE_URL}/docs/sdk/javascript/app-shapes`,
@@ -64,6 +65,7 @@ const OPENAPI_HEADER = [
   '',
   '- [QF_NPX_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md): Copyable prompt for the official Next.js starter app',
   '- [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog',
+  '- [Developer Journey](https://api-docs.quran.foundation/docs/developer-journey/): Choose the right starting point by app shape',
   '- [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold',
   '- [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code',
   '',

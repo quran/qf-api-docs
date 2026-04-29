@@ -1,0 +1,131 @@
+.section {
+  margin: 2rem 0;
+}
+
+.homepage {
+  margin: 0;
+  padding: 3rem 1.5rem;
+  background: var(--ifm-background-color);
+}
+
+.inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.header {
+  max-width: 760px;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--ifm-color-primary-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--ifm-heading-color);
+  font-size: 1.8rem;
+  line-height: 1.25;
+}
+
+.description {
+  margin: 0.6rem 0 0;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  gap: 0.75rem;
+  min-width: 0;
+  min-height: 100%;
+  padding: 1rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--qf-shadow-sm);
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.cardBody {
+  min-width: 0;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.cardText {
+  margin: 0.45rem 0 0;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.cardLink {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  color: var(--ifm-color-primary-dark);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.cardLink:hover {
+  color: var(--ifm-color-primary-darker);
+}
+
+[data-theme='dark'] .eyebrow,
+[data-theme='dark'] .cardLink {
+  color: var(--ifm-color-primary-light);
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .homepage {
+    padding: 2.25rem 1rem;
+  }
+
+  .title {
+    font-size: 1.45rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

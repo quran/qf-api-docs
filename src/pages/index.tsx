@@ -2,6 +2,8 @@ import React from "react";
 import clsx from "clsx";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
+import DeveloperJourneyMap from "@site/src/components/DeveloperJourneyMap";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import {
   DeveloperBenefitsModal,
@@ -46,6 +48,8 @@ function HomepageHeader() {
           help you create innovative and engaging Quran-related apps.
         </p>
 
+        <AgentPromptCallout className={styles.heroAgentPrompt} />
+
         <div className={styles.heroButtonRow}>
           <Link
             className={clsx("button button--lg", styles.mobileRequestAccess)}
@@ -75,11 +79,14 @@ function HomepageHeader() {
           </button>
         </div>
 
-        <p className={clsx(styles.heroSubtitle, styles.heroLlmsCallout)}>
-          <strong>AI agents / LLMs</strong> - see{" "}
-          <a href="/llms.txt">/llms.txt</a> for machine-readable OpenAPI
-          specs.
-        </p>
+        <nav
+          className={styles.heroResourceLinks}
+          aria-label="Machine-readable developer resources"
+        >
+          <a href="/llms.txt">LLMs.txt</a>
+          <a href="/.well-known/agent-prompts/index.json">Prompt registry</a>
+          <a href="/openAPI/content/v4.json">OpenAPI specs</a>
+        </nav>
       </div>
 
       <DeveloperBenefitsModal
@@ -101,6 +108,7 @@ export default function Home(): JSX.Element {
     >
       <HomepageHeader />
       <main>
+        <DeveloperJourneyMap variant="homepage" />
         <HomepageFeatures />
       </main>
     </Layout>

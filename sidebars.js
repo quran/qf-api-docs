@@ -513,6 +513,11 @@ const buildTutorialsSidebarItems = () => [
 const makeSharedDocsSidebar = (apiFamilies) => [
   {
     type: "doc",
+    id: "developer-journey",
+    label: "Developer Journey",
+  },
+  {
+    type: "doc",
     id: "tutorials/oidc/user-apis-quickstart",
     label: "User APIs Quickstart",
   },

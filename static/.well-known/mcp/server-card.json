@@ -39,6 +39,13 @@
       "mimeType": "text/markdown"
     },
     {
+      "name": "developer_journey",
+      "title": "Developer Journey",
+      "uri": "https://api-docs.quran.foundation/docs/developer-journey/",
+      "description": "Starting-point guide for choosing between the starter app, Content APIs, User APIs, OAuth2, and API reference docs.",
+      "mimeType": "text/html"
+    },
+    {
       "name": "content_api_openapi",
       "title": "Content API OpenAPI",
       "uri": "https://api-docs.quran.foundation/openAPI/content/v4.json",
