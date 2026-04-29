@@ -100,9 +100,9 @@ function HomepageHeader() {
             </button>
           </div>
           <p className={styles.scaffoldText}>
-            Includes OAuth2, reader, search, notes, bookmarks, and the
-            runtime-split JavaScript SDK. Use this when you want a working app
-            before reading lower-level OAuth details.
+            Includes OAuth2, reader, search, notes, bookmarks, and SDK wiring.
+            Use this for the fastest working app. If you already have your own
+            UI, start with the JavaScript SDK path below.
           </p>
           <p className={styles.copyStatus} aria-live="polite">
             {copyState === "failed" ? "Copy failed. Select the command manually." : ""}
@@ -113,6 +113,7 @@ function HomepageHeader() {
           className={styles.heroResourceLinks}
           aria-label="Secondary developer resources"
         >
+          <a href="/docs/sdk/javascript">JavaScript SDK</a>
           <a href="/agent-prompts/qf-next-starter.md">AI starter prompt</a>
           <a href="/llms.txt">LLMs.txt</a>
           <a href="/docs/api-reference">API reference</a>

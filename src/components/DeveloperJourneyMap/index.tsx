@@ -14,8 +14,8 @@ const pathItems = [
     question: "Need Quran content only?",
     title: "Content APIs",
     time: "~10 min",
-    body: "Use this for verses, chapters, translations, tafsir, audio, and search when users do not need to sign in.",
-    outcome: "A backend call that reads Quran content with app credentials.",
+    body: "Use the server SDK or raw HTTP for verses, chapters, translations, tafsir, audio, and search when users do not need to sign in.",
+    outcome: "An app-level content read that does not require a signed-in user session.",
     code: "GET /content/api/v4/chapters",
     href: "/docs/quickstart",
     cta: "Start Content Quickstart",
@@ -24,19 +24,19 @@ const pathItems = [
     question: "Need login and want to ship fast?",
     title: "Next.js starter",
     time: "~5 min",
-    body: "Use the scaffold when you want OAuth2, reader, search, notes, bookmarks, and SDK runtime boundaries already wired.",
+    body: "Use the scaffold when you want OAuth2, reader, search, notes, bookmarks, and the SDK runtime boundaries already wired.",
     outcome: "A local app with login, content reads, search, and user features.",
     code: NEXT_JS_STARTER_COMMAND,
     href: "/docs/tutorials/oidc/starter-with-npx",
     cta: "Use Starter With NPX",
   },
   {
-    question: "Adding signed-in features to an app?",
-    title: "User APIs",
+    question: "Have your own UI and backend?",
+    title: "SDK in your app",
     time: "~15 min",
-    body: "Use this when your app already exists and needs bookmarks, collections, notes, reading progress, goals, or preferences.",
-    outcome: "A backend-safe user session that can call User APIs.",
-    code: "GET /auth/v1/bookmarks",
+    body: "Use the JavaScript server SDK with your OAuth session when an existing app needs bookmarks, collections, notes, goals, or preferences.",
+    outcome: "Your UI stays yours; your backend owns sessions and SDK calls User APIs.",
+    code: "serverClient.auth.v1.bookmarks.list({ first: 10 })",
     href: "/docs/tutorials/oidc/user-apis-quickstart",
     cta: "Open User APIs Quickstart",
   },
@@ -44,7 +44,7 @@ const pathItems = [
     question: "Building custom OAuth or mobile?",
     title: "Manual OAuth2",
     time: "~30 min",
-    body: "Use this for custom backends, React Native, Android, iOS, or any case where you need the token flow details.",
+    body: "Use this for non-JS stacks, custom token handling, React Native, Android, iOS, or any case where you need protocol details.",
     outcome: "Authorization Code with PKCE, token exchange, refresh, and OIDC validation.",
     code: "POST /oauth2/token",
     href: "/docs/tutorials/oidc/getting-started-with-oauth2",
@@ -64,8 +64,8 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
           <p className={styles.eyebrow}>Pick your path</p>
           <h2 className={styles.title}>Start with the route that matches your app</h2>
           <p className={styles.description}>
-            Request access first, then choose one path. The API reference is for
-            endpoint lookup after your authentication model is clear.
+            Request access first, then choose one path: starter app, SDK in your
+            own app, manual OAuth2, or raw API reference lookup.
           </p>
         </div>
 

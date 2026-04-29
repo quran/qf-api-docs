@@ -23,7 +23,7 @@ sidebar_label: "User APIs Quickstart"
 
 Use this page to choose the recommended integration shape and make the first successful User API call. Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) when you need the full manual flow, client-type details, token exchange examples, refresh handling, scopes, and troubleshooting.
 
-## Fastest Path
+## Recommended JavaScript Paths
 
 For a complete JavaScript app with OAuth2, reader, search, notes, bookmarks, and SDK runtime boundaries already wired together, start with [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
 
@@ -31,7 +31,15 @@ For a complete JavaScript app with OAuth2, reader, search, notes, bookmarks, and
 npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
 ```
 
-For custom JavaScript or TypeScript apps, use `@quranjs/api/public` in app, browser, or mobile-facing code and `@quranjs/api/server` on the backend.
+For an existing JavaScript or TypeScript app, keep your own UI and use the SDK:
+
+- `@quranjs/api/public` for browser or mobile-safe OAuth helper flows.
+- `@quranjs/api/server` for backend token exchange, refresh, Content/Search,
+  and User API calls.
+
+Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2)
+only when you need manual protocol details, non-JS examples, mobile-specific
+adaptation, or debugging help.
 
 ## Use This Page When
 
@@ -81,7 +89,30 @@ If Quran Foundation explicitly confirms that your client is public, you can comp
 
 ## Minimal API Call
 
-Once your backend has an `access_token`, it can call a User API endpoint like this:
+Once your backend has a signed-in user session, the SDK can call User APIs from
+server code:
+
+```ts
+import { createServerClient } from "@quranjs/api/server";
+
+const serverClient = createServerClient({
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
+  userSession: {
+    accessToken: session.accessToken,
+    refreshToken: session.refreshToken,
+    expiresAt: session.expiresAt,
+  },
+});
+
+const bookmarks = await serverClient.auth.v1.bookmarks.list({ first: 10 });
+```
+
+In production, add SDK `storage` so refreshed user sessions are persisted in
+your server-side session store.
+
+Raw HTTP works too. Once your backend has an `access_token`, it can call a User
+API endpoint like this:
 
 ```javascript
 const accessToken = session.accessToken; // OAuth2 access token stored server-side
@@ -99,7 +130,10 @@ const response = await fetch(
 const bookmarks = await response.json();
 ```
 
-For web apps, this request is usually made by your backend or serverless proxy, not by page JavaScript. Cookies are for your app's own session; `x-auth-token` and `x-client-id` are the headers your server sends to Quran Foundation.
+For web apps, SDK or raw HTTP requests are usually made by your backend or
+serverless proxy, not by page JavaScript. Cookies are for your app's own
+session; `x-auth-token` and `x-client-id` are the headers your server sends to
+Quran Foundation.
 
 ## Scope And Token Details
 

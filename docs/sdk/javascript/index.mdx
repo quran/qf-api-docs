@@ -30,13 +30,29 @@ If you are still asking "what kind of app am I building?" start with [App Shapes
 
 Production defaults are built in. If you are maintaining the SDK itself and need local smoke or local docs instructions, use the maintainer guide in the [`api-js` repo](https://github.com/quran/api-js/tree/main/packages/api#local-development).
 
+## SDK vs Starter App
+
+The SDK is the library: import `@quranjs/api/server` in backend code and
+`@quranjs/api/public` in browser or mobile-facing code.
+
+The starter is a generated Next.js app built with the SDK. It gives you a
+working reader, search, OAuth2 session, notes, bookmarks, collections, goals,
+preferences, and QuranReflect-related surfaces. Use the starter when you want a
+working app to customize. Use the SDK directly when you already have your own UI
+and backend.
+
+User APIs can be called with the SDK, but your app still needs OAuth2 login,
+session storage, token refresh, and approved scopes. The starter includes those
+pieces; SDK-only integrations must wire them in their own backend.
+
 <AgentPromptCallout />
 
 If you use the full-stack OAuth2 example, remember that it is an interactive React SPA shell backed by server-side sessions. For serious multi-instance production deployments, use a shared session store such as Redis.
 
 ## Quick Start With Scaffold
 
-Use the official NPX scaffold for the fastest external onboarding path:
+Use the official NPX scaffold when you want a complete app before customizing
+the UI or reading lower-level OAuth2 details:
 
 ```bash
 npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
