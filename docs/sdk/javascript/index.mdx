@@ -206,6 +206,7 @@ const client = createServerClient({
 - Putting `client_secret` in browser or mobile code.
 - Calling Content or Search from `@quranjs/api/public`.
 - Assuming every client can exchange OAuth2 codes directly.
+- Treating `word.audioUrl` as a Content API path. Resolve word-by-word audio against `https://audio.qurancdn.com/` instead.
 - Starting new code with the legacy root `QuranClient` instead of choosing the runtime-specific client for your app shape.
 
 ## AI Handoff Prompt

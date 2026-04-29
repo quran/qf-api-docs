@@ -29,6 +29,16 @@ const chapterAudio = await client.content.v4.audio.chapterRecitation.list("7");
 const verseAudio = await client.content.v4.audio.verseRecitation.byKey("1:1", "7");
 ```
 
+## Choose the Right Audio Source
+
+| Use case | Fetch from | Returned shape | Notes |
+| --- | --- | --- | --- |
+| Single-word pronunciation | `word.audioUrl` from the [Verses API](/docs/sdk/javascript/verses) | Relative `wbw/...` asset path | Resolve it against `https://audio.qurancdn.com/` before playing it in the browser. |
+| Chapter playback | `client.content.v4.audio.chapterRecitation` | Full chapter recitation URL | Use this for continuous chapter playback. |
+| Ayah playback with timing | `client.content.v4.audio.verseRecitation` | Verse recitation URL plus optional timing metadata | Use this for ayah recitations and highlighting. This is distinct from `word.audioUrl`. |
+
 ## Common Mistake
 
 Do not assume audio is browser-safe just because the final result is a media URL. The API request still uses server credentials.
+
+Also do not append `word.audioUrl` to `/content/api/v4`. Word-by-word audio files are public CDN assets, not authenticated Content API endpoints.
