@@ -8,42 +8,46 @@ type Props = {
   variant?: "homepage" | "docs";
 };
 
-const journeyItems = [
+const pathItems = [
   {
-    title: "Request access",
-    body: "Get client credentials, confirm your redirect URIs, and make sure your app has the scopes it needs before implementation work starts.",
-    href: "/request-access",
-    cta: "Request Access",
+    question: "Need Quran content only?",
+    title: "Content APIs",
+    time: "~10 min",
+    body: "Use this for verses, chapters, translations, tafsir, audio, and search when users do not need to sign in.",
+    outcome: "A backend call that reads Quran content with app credentials.",
+    code: "client.content.v4.chapters.list()",
+    href: "/docs/quickstart",
+    cta: "Start Content Quickstart",
   },
   {
-    title: "Full app with login",
-    body: "Start from the production-shaped Next.js scaffold with reader, search, notes, bookmarks, OAuth2, and SDK wiring already in place.",
+    question: "Need login and want to ship fast?",
+    title: "Next.js starter",
+    time: "~5 min",
+    body: "Use the scaffold when you want OAuth2, reader, search, notes, bookmarks, and SDK runtime boundaries already wired.",
+    outcome: "A local app with login, content reads, search, and user features.",
+    code: "npx @quranjs/create-app@latest",
     href: "/docs/tutorials/oidc/starter-with-npx",
     cta: "Use Starter With NPX",
   },
   {
-    title: "Content-only backend",
-    body: "Use Client Credentials from your backend to read Quran content, translations, tafsir, audio, and search data.",
-    href: "/docs/quickstart",
-    cta: "Open Content Quickstart",
-  },
-  {
-    title: "Signed-in user features",
-    body: "Add bookmarks, collections, notes, reading progress, goals, preferences, and Quran.com synced user data.",
+    question: "Adding signed-in features to an app?",
+    title: "User APIs",
+    time: "~15 min",
+    body: "Use this when your app already exists and needs bookmarks, collections, notes, reading progress, goals, or preferences.",
+    outcome: "A backend-safe user session that can call User APIs.",
+    code: 'fetch("/auth/v1/bookmarks")',
     href: "/docs/tutorials/oidc/user-apis-quickstart",
-    cta: "Open User Quickstart",
+    cta: "Open User APIs Quickstart",
   },
   {
-    title: "Custom OAuth or mobile",
-    body: "Implement Authorization Code with PKCE and OpenID Connect manually for custom backend, React Native, Android, or iOS flows.",
+    question: "Building custom OAuth or mobile?",
+    title: "Manual OAuth2",
+    time: "~30 min",
+    body: "Use this for custom backends, React Native, Android, iOS, or any case where you need the token flow details.",
+    outcome: "Authorization Code with PKCE, token exchange, refresh, and OIDC validation.",
+    code: "POST /oauth2/token",
     href: "/docs/tutorials/oidc/getting-started-with-oauth2",
     cta: "Open OAuth2 Tutorial",
-  },
-  {
-    title: "Endpoint lookup",
-    body: "Go directly to endpoint reference pages once you know the API family and authentication model you need.",
-    href: "/docs/api-reference",
-    cta: "Browse API Reference",
   },
 ];
 
@@ -56,29 +60,50 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
     >
       <div className={styles.inner}>
         <div className={styles.header}>
-          <p className={styles.eyebrow}>Developer journey</p>
-          <h2 className={styles.title}>Choose the shortest path to your integration</h2>
+          <p className={styles.eyebrow}>Pick your path</p>
+          <h2 className={styles.title}>Start with the route that matches your app</h2>
           <p className={styles.description}>
-            Start by requesting access, then choose the path that matches what
-            you are building. Use the API reference after the authentication
-            shape is clear.
+            Request access first, then choose one path. The API reference is for
+            endpoint lookup after your authentication model is clear.
           </p>
         </div>
 
-        <ol className={styles.grid}>
-          {journeyItems.map((item, index) => (
+        <div className={styles.prerequisite}>
+          <div>
+            <p className={styles.prerequisiteLabel}>Required first</p>
+            <h3 className={styles.prerequisiteTitle}>Request access</h3>
+            <p className={styles.prerequisiteText}>
+              Get a client ID, confirm redirect URIs, and request the scopes
+              your app needs before implementation work starts.
+            </p>
+          </div>
+          <Link className={styles.prerequisiteLink} to="/request-access">
+            Request Access
+          </Link>
+        </div>
+
+        <ul className={styles.grid}>
+          {pathItems.map((item) => (
             <li className={styles.card} key={item.href}>
-              <div className={styles.step}>{index + 1}</div>
-              <div className={styles.cardBody}>
-                <h3 className={styles.cardTitle}>{item.title}</h3>
-                <p className={styles.cardText}>{item.body}</p>
-                <Link className={styles.cardLink} to={item.href}>
-                  {item.cta}
-                </Link>
+              <div className={styles.cardHeader}>
+                <p className={styles.question}>{item.question}</p>
+                <span className={styles.time}>{item.time}</span>
               </div>
+              <h3 className={styles.cardTitle}>{item.title}</h3>
+              <p className={styles.cardText}>{item.body}</p>
+              <p className={styles.outcome}>{item.outcome}</p>
+              <code className={styles.code}>{item.code}</code>
+              <Link className={styles.cardLink} to={item.href}>
+                {item.cta}
+              </Link>
             </li>
           ))}
-        </ol>
+        </ul>
+
+        <div className={styles.referenceRow}>
+          <span>Already know the API family?</span>
+          <Link to="/docs/api-reference">Browse API Reference</Link>
+        </div>
       </div>
     </section>
   );

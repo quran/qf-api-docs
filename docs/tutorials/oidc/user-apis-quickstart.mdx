@@ -29,12 +29,20 @@ Quran Foundation User APIs use OAuth2 Authorization Code flow with PKCE and Open
 
 For JavaScript and TypeScript apps, use `@quranjs/api/public` in app, browser, or mobile-facing code and `@quranjs/api/server` on the backend. To start from a complete template instead of wiring that manually, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
 
+## Use This Page When
+
+- You are adding signed-in Quran.com user features to an existing app.
+- You need the recommended architecture for bookmarks, collections, notes, reading progress, goals, or preferences.
+- You want the shortest path to one successful User API call.
+
+Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) instead when you need to implement the manual token flow, compare public and confidential clients in detail, or debug authorization, token exchange, refresh, and OIDC validation.
+
 ## Production vs Pre-live
 
 :::warning Pre-live uses a separate user stack
 If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 
-- Use the [Pre-live User-related APIs reference](/docs/user_related_apis_prelive/user-related-apis) when testing pre-live endpoints.
+- Use the [Pre-live User APIs reference](/docs/user_related_apis_prelive/user-related-apis) when testing pre-live endpoints.
 - Use [prelive.quran.com](https://prelive.quran.com) for auth paths and auth-backed user data checks.
 - Use [prelive.quranreflect.org](https://prelive.quranreflect.org) for Quran Reflect paths and data checks.
 - Do not mix production login state, production user data, or production docs with pre-live testing.
@@ -73,24 +81,22 @@ Use the quickstart guidance on this page for the architecture decision, then jum
 | iOS | Hosted login + PKCE in the app, backend token exchange | [iOS guide](/docs/tutorials/oidc/mobile-apps/iOS) |
 | Full OAuth2 and OIDC details | Step-by-step flow, client types, validation, and token behavior | [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) |
 
-## OAuth2 Flow
+## Integration Shape
 
-For most Quran Foundation User APIs integrations, the end-to-end flow looks like this:
+For most Quran Foundation User APIs integrations, keep this shape:
 
-1. Generate PKCE parameters and a cryptographically random OAuth2 `state` value, and if you rely on `id_token` for identity, an OIDC `nonce`, then redirect the user to the Quran Foundation OAuth2 authorization endpoint.
-2. Let the user sign in and approve the requested scopes.
-3. Receive an authorization `code` at your registered redirect URI and verify that the returned `state` exactly matches the value you generated before trusting the callback.
-4. Send `code + code_verifier + redirect_uri` from the client to your backend.
-5. Exchange the code on the backend for `access_token`, `refresh_token`, and `id_token`.
-6. Use the `access_token` to call User APIs such as bookmarks, collections, and reading progress.
-7. Use the `id_token` for user identity claims such as `sub`.
-8. Refresh tokens on the backend for confidential clients.
+- The app opens the Quran Foundation hosted login screen.
+- The app generates PKCE, `state`, and `nonce`.
+- The redirect URI receives an authorization `code`.
+- The app sends `code + code_verifier + redirect_uri` to your backend.
+- The backend exchanges and refreshes tokens for confidential clients.
+- The backend or serverless proxy calls User APIs with `x-auth-token` and `x-client-id`.
 
 :::tip Public-client exception
 If Quran Foundation explicitly confirms that your client is public, you can complete the token exchange and refresh flow in the app with PKCE only. If you did not receive that confirmation, assume your client is confidential.
 :::
 
-If you use an OAuth2 or OIDC client library, make sure it generates and validates `state` automatically, and `nonce` as well when you rely on `id_token`. Do not disable those checks.
+For step-by-step PKCE, state, nonce, token exchange, and refresh examples, use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2).
 
 ## Minimal API Call
 

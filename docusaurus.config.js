@@ -202,12 +202,6 @@ const config = {
           },
           {
             type: "doc",
-            docId: "tutorials/oidc/user-apis-quickstart",
-            position: "left",
-            label: "User Quickstart",
-          },
-          {
-            type: "doc",
             docId: "updates/index",
             position: "left",
             label: "Updates",
@@ -259,11 +253,11 @@ const config = {
                 to: "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/",
               },
               {
-                label: "User-related APIs",
+                label: "User APIs",
                 to: "/docs/user_related_apis_versioned/1.0.0/user-related-apis/",
               },
               {
-                label: "User-related APIs (Pre-live)",
+                label: "User APIs (Pre-live)",
                 to: "/docs/category/user-related-apis-pre-live",
               },
               {
@@ -305,11 +299,11 @@ const config = {
                 to: "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/",
               },
               {
-                label: "User-related APIs",
+                label: "User APIs",
                 to: "/docs/user_related_apis_versioned/1.0.0/user-related-apis/",
               },
               {
-                label: "User-related APIs (Pre-live)",
+                label: "User APIs (Pre-live)",
                 to: "/docs/category/user-related-apis-pre-live",
               },
               {

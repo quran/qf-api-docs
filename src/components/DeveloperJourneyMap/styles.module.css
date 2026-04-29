@@ -41,9 +41,65 @@
   line-height: 1.6;
 }
 
+.prerequisite {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 10px;
+  background: rgba(62, 193, 201, 0.08);
+}
+
+.prerequisiteLabel {
+  margin: 0 0 0.25rem;
+  color: var(--ifm-color-primary-dark);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.prerequisiteTitle {
+  margin: 0;
+  color: var(--ifm-heading-color);
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+
+.prerequisiteText {
+  margin: 0.35rem 0 0;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.prerequisiteLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  background: var(--ifm-color-primary);
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.prerequisiteLink:hover {
+  background: var(--ifm-color-primary-dark);
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.85rem;
   margin: 0;
   padding: 0;
@@ -51,69 +107,113 @@
 }
 
 .card {
-  display: flex;
-  gap: 0.75rem;
   min-width: 0;
   min-height: 100%;
   padding: 1rem;
   border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--ifm-background-surface-color);
   box-shadow: var(--qf-shadow-sm);
 }
 
-.step {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 1.7rem;
-  height: 1.7rem;
-  border-radius: 999px;
-  background: var(--ifm-color-primary);
-  color: #ffffff;
-  font-size: 0.82rem;
-  font-weight: 800;
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.45rem;
 }
 
-.cardBody {
-  min-width: 0;
+.question {
+  margin: 0;
+  color: var(--ifm-color-primary-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.time {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.45rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  color: var(--ifm-color-emphasis-800);
+  background: var(--ifm-background-color);
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .cardTitle {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.05rem;
   line-height: 1.3;
 }
 
-.cardText {
-  margin: 0.45rem 0 0;
+.cardText,
+.outcome {
   color: var(--ifm-color-emphasis-800);
   font-size: 0.9rem;
   line-height: 1.5;
 }
 
+.cardText {
+  margin: 0.45rem 0 0;
+}
+
+.outcome {
+  margin: 0.55rem 0 0;
+  font-weight: 650;
+}
+
+.code {
+  display: block;
+  width: 100%;
+  margin-top: 0.7rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+  background: var(--ifm-code-background);
+  color: var(--ifm-code-color);
+  font-size: 0.8rem;
+}
+
 .cardLink {
   display: inline-flex;
-  margin-top: 0.75rem;
+  margin-top: 0.8rem;
   color: var(--ifm-color-primary-dark);
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .cardLink:hover {
   color: var(--ifm-color-primary-darker);
 }
 
-[data-theme='dark'] .eyebrow,
-[data-theme='dark'] .cardLink {
-  color: var(--ifm-color-primary-light);
+.referenceRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.92rem;
 }
 
-@media (max-width: 1100px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.referenceRow a {
+  font-weight: 800;
+}
+
+[data-theme='dark'] .eyebrow,
+[data-theme='dark'] .question,
+[data-theme='dark'] .cardLink,
+[data-theme='dark'] .prerequisiteLabel {
+  color: var(--ifm-color-primary-light);
 }
 
 @media (max-width: 760px) {
@@ -123,6 +223,11 @@
 
   .title {
     font-size: 1.45rem;
+  }
+
+  .prerequisite {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .grid {

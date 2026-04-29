@@ -1,25 +1,22 @@
 ---
 title: "Developer Journey"
-description: "Choose the right Quran Foundation docs path for request access, full apps, content-only integrations, signed-in user features, custom OAuth flows, and endpoint reference lookups."
+description: "Choose the right Quran Foundation docs path for request access, content-only integrations, full apps, signed-in user features, custom OAuth flows, and endpoint reference lookups."
 sidebar_label: "Developer Journey"
 displayed_sidebar: "APIsSidebar"
 ---
 
 import DeveloperJourneyMap from "@site/src/components/DeveloperJourneyMap";
-import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
 
 # Developer Journey
 
-Use this page to request access, choose the right starting point, and avoid jumping into endpoint reference pages before the authentication shape is clear.
-
-<AgentPromptCallout />
+Start with [Request Access](/request-access), then choose the path that matches what you are building. These are alternatives, not steps to complete in order.
 
 <DeveloperJourneyMap />
 
-## Recommended Order
+## How To Choose
 
-1. Request access and confirm the client, redirect URI, and scopes your app needs.
-2. Pick the path that matches your app shape.
-3. Set up the correct authentication flow.
-4. Use the JavaScript SDK when you are building with JavaScript or TypeScript.
-5. Move to endpoint reference pages only after the auth and runtime boundary are clear.
+- If users do not need to sign in, use the [Content APIs Quickstart](/docs/quickstart).
+- If you want a production-shaped JavaScript app quickly, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx).
+- If you are adding signed-in features to an existing app, use the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart).
+- If you need custom OAuth2, mobile, or token-flow details, use the [OAuth2 Tutorial](/docs/tutorials/oidc/getting-started-with-oauth2).
+- If you already know the API family and need endpoint details, use the [API Reference](/docs/api-reference).

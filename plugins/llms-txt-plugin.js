@@ -25,8 +25,8 @@ const SECTION_ORDER = [
   'Getting Started',
   'JavaScript SDK',
   'Content APIs v4',
-  'User-Related APIs v1',
-  'User-Related APIs v1 (Pre-live)',
+  'User APIs v1',
+  'User APIs v1 (Pre-live)',
   'OAuth2 APIs v1',
   'Search APIs v1',
   'Tutorials',
@@ -72,7 +72,7 @@ const OPENAPI_HEADER = [
   '- [QF_NPX_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md): Copyable prompt for the official Next.js starter app',
   '- [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog',
   '- [Developer Journey](https://api-docs.quran.foundation/docs/developer-journey/): Choose the right starting point by app shape',
-  '- [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User-related, OAuth2, and pre-live endpoint references',
+  '- [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User APIs, OAuth2, and pre-live endpoint references',
   '- [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold',
   '- [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code',
   '',
@@ -136,13 +136,13 @@ function getUrl(relpath, fm) {
 function getSection(relpath) {
   if (relpath.startsWith('content_apis_versioned/')) return 'Content APIs v4';
   if (relpath.startsWith('user_related_apis_prelive/')) {
-    return 'User-Related APIs v1 (Pre-live)';
+    return 'User APIs v1 (Pre-live)';
   }
   if (
     relpath.startsWith('user_related_apis_versioned/') ||
     relpath.startsWith('user-related-apis/')
   )
-    return 'User-Related APIs v1';
+    return 'User APIs v1';
   if (relpath.startsWith('oauth2_apis_versioned/')) return 'OAuth2 APIs v1';
   if (relpath.startsWith('search_apis_versioned/')) return 'Search APIs v1';
   if (relpath.startsWith('tutorials/')) return 'Tutorials';

@@ -15,7 +15,7 @@
 - [QF_NPX_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md): Copyable prompt for the official Next.js starter app
 - [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog
 - [Developer Journey](https://api-docs.quran.foundation/docs/developer-journey/): Choose the right starting point by app shape
-- [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User-related, OAuth2, and pre-live endpoint references
+- [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User APIs, OAuth2, and pre-live endpoint references
 - [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold
 - [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code
 
@@ -144,7 +144,7 @@
 - [Translations](https://api-docs.quran.foundation/docs/content_apis_versioned/translations/)
 - [Verse Media](https://api-docs.quran.foundation/docs/content_apis_versioned/verse-media/)
 
-## User-Related APIs v1
+## User APIs v1
 
 - [Accept room invite](https://api-docs.quran.foundation/docs/user_related_apis_versioned/rooms-controller-accept-invite/)
 - [Accept room invite by private token](https://api-docs.quran.foundation/docs/user_related_apis_versioned/rooms-controller-accept-by-private-token/)
@@ -247,7 +247,7 @@
 - [Update user profile](https://api-docs.quran.foundation/docs/user_related_apis_versioned/users-controller-update-profile/)
 - [User-related APIs](https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/)
 
-## User-Related APIs v1 (Pre-live)
+## User APIs v1 (Pre-live)
 
 - [Accept room invite](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-accept-invite/)
 - [Accept room invite by private token](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-accept-by-private-token/)

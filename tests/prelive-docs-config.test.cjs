@@ -44,7 +44,7 @@ test('adds pre-live user-related docs to navigation and sidebars', () => {
   assert.ok(
     apiDropdown.items.some(
       (item) =>
-        item.label === 'User-related APIs (Pre-live)' &&
+        item.label === 'User APIs (Pre-live)' &&
         item.to === '/docs/category/user-related-apis-pre-live',
     ),
     'expected a pre-live user-related navbar link',
@@ -77,7 +77,7 @@ test('publishes both production and pre-live user-related raw spec links', () =>
 test('includes pre-live user-related endpoint docs in llms.txt', () => {
   const { content } = generateLlmsTxt(docsDir);
 
-  assert.match(content, /## User-Related APIs v1 \(Pre-live\)/);
+  assert.match(content, /## User APIs v1 \(Pre-live\)/);
   assert.match(
     content,
     /\[Get mutations\]\(https:\/\/api-docs\.quran\.foundation\/docs\/user_related_apis_prelive\/get-mutations\/\)/,

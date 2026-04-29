@@ -302,23 +302,23 @@ const contentApisVersionedConfig = {
 };
 
 const userRelatedApisLatestConfig = {
-  label: "User-related APIs",
+  label: "User APIs",
   introDocId: "user_related_apis_versioned/user-related-apis",
   versionLabel: "v1.0.0",
   versions: userRelatedAPIsVersions,
-  generatedIndexTitle: "User-related (latest)",
-  generatedIndexDescription: "User-related APIs",
+  generatedIndexTitle: "User APIs (latest)",
+  generatedIndexDescription: "User APIs",
   generatedIndexSlug: "/category/user-related-apis",
   itemsBuilder: buildUserRelatedApisLatestItems,
 };
 
 const userRelatedApisVersionedConfig = {
-  label: "User-related APIs",
+  label: "User APIs",
   introDocId: "user_related_apis_versioned/1.0.0/user-related-apis",
   versionLabel: "v1.0.0",
   versions: userRelatedAPIsVersions,
-  generatedIndexTitle: "User-related APIs (v1.0.0)",
-  generatedIndexDescription: "User-related APIs",
+  generatedIndexTitle: "User APIs (v1.0.0)",
+  generatedIndexDescription: "User APIs",
   generatedIndexSlug: "/category/user-related-apis-1.0.0",
   itemsBuilder: buildUserRelatedApisVersionedItems,
 };
@@ -616,11 +616,11 @@ const sidebars = {
   "user-related-apis-pre-live": [
     {
       type: "category",
-      label: "User-related APIs (Pre-live)",
+      label: "User APIs (Pre-live)",
       link: {
         type: "generated-index",
-        title: "User-related APIs (Pre-live)",
-        description: "User-related APIs from the pre-live branch.",
+        title: "User APIs (Pre-live)",
+        description: "User APIs from the pre-live branch.",
         slug: "/category/user-related-apis-pre-live",
       },
       items: buildUserRelatedApisPreLiveItems(),
