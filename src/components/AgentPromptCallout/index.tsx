@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import clsx from "clsx";
+import { copyToClipboard } from "@site/src/lib/clipboard";
 
 import styles from "./styles.module.css";
 
@@ -60,30 +61,6 @@ Acceptance checks:
   },
 };
 
-const copyText = async (text: string) => {
-  if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  textarea.setAttribute("readonly", "");
-  textarea.style.position = "fixed";
-  textarea.style.opacity = "0";
-  document.body.appendChild(textarea);
-  textarea.select();
-
-  try {
-    const copied = document.execCommand("copy");
-    if (!copied) {
-      throw new Error("Copy command was rejected");
-    }
-  } finally {
-    document.body.removeChild(textarea);
-  }
-};
-
 export default function AgentPromptCallout({
   className,
   promptId = "QF_NPX_STARTER_PROMPT_V1",
@@ -105,7 +82,7 @@ export default function AgentPromptCallout({
 
   const handleCopy = React.useCallback(async () => {
     try {
-      await copyText(prompt.promptText);
+      await copyToClipboard(prompt.promptText);
       setCopyState("copied");
     } catch {
       setCopyState("failed");

@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { copyToClipboard } from "@site/src/lib/clipboard";
 import { NEXT_JS_STARTER_COMMAND } from "@site/src/lib/onboarding";
 import styles from "./styles.module.css";
 
@@ -9,30 +10,6 @@ type Props = {
   eyebrow?: string;
   meta?: string;
   title?: string;
-};
-
-const copyText = async (text: string) => {
-  if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  textarea.setAttribute("readonly", "");
-  textarea.style.position = "fixed";
-  textarea.style.opacity = "0";
-  document.body.appendChild(textarea);
-  textarea.select();
-
-  try {
-    const copied = document.execCommand("copy");
-    if (!copied) {
-      throw new Error("Copy command was rejected");
-    }
-  } finally {
-    document.body.removeChild(textarea);
-  }
 };
 
 export default function StarterCommandCard({
@@ -58,7 +35,7 @@ export default function StarterCommandCard({
 
   const handleCopyCommand = React.useCallback(async () => {
     try {
-      await copyText(NEXT_JS_STARTER_COMMAND);
+      await copyToClipboard(NEXT_JS_STARTER_COMMAND);
       setCopyState("copied");
     } catch {
       setCopyState("failed");
