@@ -7,6 +7,9 @@ const {
   normalizeRubElHizbDocLabels,
   normalizeRubElHizbSidebarLabels,
 } = require(path.join(__dirname, '..', 'scripts', 'set-api-displayed-sidebars.js'));
+const {
+  createRedirectsForReplacement,
+} = require(path.join(__dirname, '..', 'scripts', 'prune-generated-api-aliases.js'));
 
 test('drops empty categories that have no surviving items and no link', () => {
   const items = [
@@ -164,4 +167,25 @@ test('normalizes Rub el Hizb alias labels in versioned sidebars', () => {
       ],
     },
   ]);
+});
+
+test('records both slash variants when auth aliases are normalized', () => {
+  assert.deepEqual(
+    createRedirectsForReplacement(
+      'user_related_apis_prelive/auth-post-v-1-reading-sessions',
+      'user_related_apis_prelive/add-or-update-user-reading-session',
+    ),
+    [
+      {
+        source: '/docs/user_related_apis_prelive/auth-post-v-1-reading-sessions',
+        target:
+          '/docs/user_related_apis_prelive/add-or-update-user-reading-session/',
+      },
+      {
+        source: '/docs/user_related_apis_prelive/auth-post-v-1-reading-sessions/',
+        target:
+          '/docs/user_related_apis_prelive/add-or-update-user-reading-session/',
+      },
+    ],
+  );
 });
