@@ -1,0 +1,44 @@
+---
+title: "Server Quickstart"
+description: "Start using the SDK from a backend or worker."
+slug: /sdk/javascript/server-quickstart
+sidebar_position: 6
+---
+
+# Server Quickstart
+
+Purpose: Get the SDK working on the server in a few minutes.  
+Use this when: You have a backend, worker, or cron job.  
+Do not use this when: You only have browser or mobile code.  
+Backend required: Yes.  
+Allowed runtimes: Node.js, serverless functions, workers.  
+Required credentials: `client_id`, `client_secret`.  
+Minimal import: `@quranjs/api/server`.
+
+## Install
+
+```bash
+npm install @quranjs/api
+```
+
+## Minimal Example
+
+```ts
+import { SearchMode } from "@quranjs/api";
+import { createServerClient } from "@quranjs/api/server";
+
+const client = createServerClient({
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
+});
+
+const chapters = await client.content.v4.chapters.list();
+const results = await client.search.v1.query({
+  query: "mercy",
+  mode: SearchMode.Quick,
+});
+```
+
+## Common Mistake
+
+Do not import `@quranjs/api/public` from backend code unless you are explicitly testing public-client behavior. Production defaults are already built in; local maintainer testing instructions live in the SDK repo.

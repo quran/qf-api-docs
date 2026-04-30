@@ -44,8 +44,8 @@ test('adds pre-live user-related docs to navigation and sidebars', () => {
   assert.ok(
     apiDropdown.items.some(
       (item) =>
-        item.label === 'User-related APIs (Pre-live)' &&
-        item.to === 'docs/category/user-related-apis-pre-live',
+        item.label === 'User APIs (Pre-live)' &&
+        item.to === '/docs/category/user-related-apis-pre-live',
     ),
     'expected a pre-live user-related navbar link',
   );
@@ -77,9 +77,29 @@ test('publishes both production and pre-live user-related raw spec links', () =>
 test('includes pre-live user-related endpoint docs in llms.txt', () => {
   const { content } = generateLlmsTxt(docsDir);
 
-  assert.match(content, /## User-Related APIs v1 \(Pre-live\)/);
+  assert.match(content, /## User APIs v1 \(Pre-live\)/);
   assert.match(
     content,
-    /\[Get mutations\]\(https:\/\/api-docs\.quran\.foundation\/docs\/user_related_apis_prelive\/get-mutations\)/,
+    /\[Get mutations\]\(https:\/\/api-docs\.quran\.foundation\/docs\/user_related_apis_prelive\/get-mutations\/\)/,
   );
+});
+
+test('keeps llms docs URLs canonical and unique', () => {
+  const { content } = generateLlmsTxt(docsDir);
+  const urls = Array.from(
+    content.matchAll(/\]\((https?:\/\/[^)]+)\)/g),
+    (match) => match[1],
+  );
+  const duplicateUrls = urls.filter((url, index) => urls.indexOf(url) !== index);
+
+  assert.deepEqual(duplicateUrls, []);
+
+  for (const url of urls) {
+    if (url.startsWith('https://api-docs.quran.foundation/docs')) {
+      assert.equal(url.endsWith('/'), true, `expected trailing slash for ${url}`);
+    }
+  }
+
+  assert.equal((content.match(/\[Developer Journey\]\(/g) || []).length, 1);
+  assert.equal((content.match(/\[API Reference\]\(/g) || []).length, 1);
 });

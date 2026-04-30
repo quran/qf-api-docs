@@ -16,16 +16,40 @@ const { exportMarkdownFiles } = require('../src/build-markdown.cjs');
 
 const BASE_URL = 'https://api-docs.quran.foundation';
 
+function canonicalDocsUrl(url) {
+  if (!url.startsWith(`${BASE_URL}/docs`)) return url;
+  return url.endsWith('/') ? url : `${url}/`;
+}
+
 const SECTION_ORDER = [
   'Getting Started',
+  'JavaScript SDK',
   'Content APIs v4',
-  'User-Related APIs v1',
-  'User-Related APIs v1 (Pre-live)',
+  'User APIs v1',
+  'User APIs v1 (Pre-live)',
   'OAuth2 APIs v1',
   'Search APIs v1',
   'Tutorials',
-  'JavaScript SDK',
 ];
+
+const URL_PRIORITY = [
+  `${BASE_URL}/docs/developer-journey/`,
+  `${BASE_URL}/docs/api-reference/`,
+  `${BASE_URL}/docs/tutorials/oidc/starter-with-npx/`,
+  `${BASE_URL}/docs/sdk/javascript/`,
+  `${BASE_URL}/docs/sdk/javascript/app-shapes/`,
+  `${BASE_URL}/docs/sdk/javascript/runtime-matrix/`,
+  `${BASE_URL}/docs/sdk/javascript/auth-matrix/`,
+  `${BASE_URL}/docs/sdk/javascript/entrypoint-matrix/`,
+  `${BASE_URL}/docs/sdk/javascript/apis-by-runtime/`,
+  `${BASE_URL}/docs/sdk/javascript/server-quickstart/`,
+  `${BASE_URL}/docs/sdk/javascript/public-quickstart/`,
+  `${BASE_URL}/docs/sdk/javascript/full-stack/`,
+  `${BASE_URL}/docs/sdk/javascript/common-errors/`,
+  `${BASE_URL}/docs/sdk/javascript/migration-cheat-sheet/`,
+  `${BASE_URL}/docs/tutorials/oidc/user-apis-quickstart/`,
+  `${BASE_URL}/docs/tutorials/oidc/getting-started-with-oauth2/`,
+].map(canonicalDocsUrl);
 
 // Directories to skip during the docs walk
 const VERSIONED_DIR_RE = /^\d+\.\d+\.\d+$/;
@@ -42,6 +66,15 @@ const OPENAPI_HEADER = [
   '- [User APIs v1 (Pre-live)](https://api-docs.quran.foundation/openAPI/user-related-apis/pre-live/v1.json): Upcoming pre-live documentation for unreleased user API changes',
   '- [OAuth2 APIs v1](https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json): Authentication and authorization',
   '- [Search APIs v1](https://api-docs.quran.foundation/openAPI/search/v1.json): Quran text search',
+  '',
+  '## Agent Prompts and Starters',
+  '',
+  '- [QF_NPX_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md): Copyable prompt for the official Next.js starter app',
+  '- [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog',
+  '- [Developer Journey](https://api-docs.quran.foundation/docs/developer-journey/): Choose the right starting point by app shape',
+  '- [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User APIs, OAuth2, and pre-live endpoint references',
+  '- [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold',
+  '- [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code',
   '',
 ].join('\n');
 
@@ -83,8 +116,10 @@ function getTitle(fm, content, relpath) {
  */
 function getUrl(relpath, fm) {
   if (fm.slug) {
-    const slug = fm.slug;
-    return slug.startsWith('/') ? `${BASE_URL}${slug}` : `${BASE_URL}/${slug}`;
+    const slug = fm.slug.startsWith('/') ? fm.slug : `/${fm.slug}`;
+    const normalizedSlug =
+      slug === '/docs' || slug.startsWith('/docs/') ? slug : `/docs${slug}`;
+    return canonicalDocsUrl(`${BASE_URL}${normalizedSlug}`);
   }
   // Strip .api.mdx / .info.mdx / .tag.mdx / .mdx / .md
   let rel = relpath.replace(/(?:\.(api|info|tag))?\.mdx?$/, '');
@@ -94,20 +129,20 @@ function getUrl(relpath, fm) {
   } else if (rel === 'index') {
     rel = '';
   }
-  return rel ? `${BASE_URL}/docs/${rel}` : `${BASE_URL}/docs`;
+  return canonicalDocsUrl(rel ? `${BASE_URL}/docs/${rel}` : `${BASE_URL}/docs`);
 }
 
 /** Map a docs-relative file path to one of the known sections. */
 function getSection(relpath) {
   if (relpath.startsWith('content_apis_versioned/')) return 'Content APIs v4';
   if (relpath.startsWith('user_related_apis_prelive/')) {
-    return 'User-Related APIs v1 (Pre-live)';
+    return 'User APIs v1 (Pre-live)';
   }
   if (
     relpath.startsWith('user_related_apis_versioned/') ||
     relpath.startsWith('user-related-apis/')
   )
-    return 'User-Related APIs v1';
+    return 'User APIs v1';
   if (relpath.startsWith('oauth2_apis_versioned/')) return 'OAuth2 APIs v1';
   if (relpath.startsWith('search_apis_versioned/')) return 'Search APIs v1';
   if (relpath.startsWith('tutorials/')) return 'Tutorials';
@@ -147,6 +182,11 @@ function walkDocs(dir, relBase) {
 /** Generate the full llms.txt content from the docs/ directory. */
 function generateLlmsTxt(docsDir) {
   const files = walkDocs(docsDir, '');
+  const seenUrls = new Set(
+    Array.from(OPENAPI_HEADER.matchAll(/\]\((https?:\/\/[^)]+)\)/g), (match) =>
+      canonicalDocsUrl(match[1]),
+    ),
+  );
 
   // Group entries by section
   /** @type {Record<string, Array<{title: string, url: string}>>} */
@@ -163,17 +203,39 @@ function generateLlmsTxt(docsDir) {
     }
   }
 
+  for (const entries of Object.values(sections)) {
+    entries.sort((left, right) => {
+      const leftPriority = URL_PRIORITY.indexOf(left.url);
+      const rightPriority = URL_PRIORITY.indexOf(right.url);
+
+      if (leftPriority !== -1 || rightPriority !== -1) {
+        return (
+          (leftPriority === -1 ? Number.MAX_SAFE_INTEGER : leftPriority) -
+          (rightPriority === -1 ? Number.MAX_SAFE_INTEGER : rightPriority)
+        );
+      }
+
+      return left.title.localeCompare(right.title);
+    });
+  }
+
   const lines = [OPENAPI_HEADER];
   let linkCount = 0;
 
   for (const sectionName of SECTION_ORDER) {
     const entries = sections[sectionName];
     if (!entries || entries.length === 0) continue;
-    lines.push(`## ${sectionName}\n`);
+    const sectionLines = [];
     for (const { title, url } of entries) {
-      lines.push(`- [${title}](${url})`);
+      const canonicalUrl = canonicalDocsUrl(url);
+      if (seenUrls.has(canonicalUrl)) continue;
+      seenUrls.add(canonicalUrl);
+      sectionLines.push(`- [${title}](${canonicalUrl})`);
       linkCount++;
     }
+    if (sectionLines.length === 0) continue;
+    lines.push(`## ${sectionName}\n`);
+    lines.push(...sectionLines);
     lines.push('');
   }
 

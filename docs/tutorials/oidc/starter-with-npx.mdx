@@ -1,0 +1,106 @@
+---
+sidebar_position: 2
+displayed_sidebar: APIsSidebar
+title: "Starter With NPX"
+description: "Fastest public path to scaffold a production-shaped Quran Foundation app with @quranjs/create-app."
+---
+
+# Starter With NPX
+
+:::info Quick Summary
+**Audience:** Developers who want a complete Next.js app instead of wiring OAuth2, sessions, reader/search, and user features from scratch.
+
+**Prerequisites:** Quran Foundation client credentials, app URLs, and approved scopes for the user features you keep.
+
+**Recommended path:** Run the scaffold, configure environment variables, then customize the generated Next.js code.
+
+**Outcome:** A local app with login, Quran content, search, and signed-in user feature surfaces already wired through the SDK.
+:::
+
+Use this page when the starter app is a useful base for your product. If you already have your own UI and backend, use the [JavaScript SDK guide](/docs/sdk/javascript) and [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) instead.
+
+## Primary Command
+
+```bash
+npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
+```
+
+## What You Get
+
+- Next.js starter app with Quran Foundation SDK wiring
+- OAuth2/OIDC login/logout flow with server-side session architecture
+- Reader, search, and signed-in user feature surfaces
+- Production-shaped backend boundary that keeps `client_secret` server-side
+
+## Required Environment Variables
+
+Set these in your deployment environment:
+
+- `APP_BASE_URL`
+- `CLIENT_ID`
+- `CLIENT_SECRET`
+- `SESSION_SECRET`
+
+The scaffolded starter uses `CLIENT_ID` and `CLIENT_SECRET` in its generated `.env` files. These map to the same Quran Foundation credentials that manual API quickstarts call `QF_CLIENT_ID` and `QF_CLIENT_SECRET`; keep one naming scheme consistently in your own app.
+
+## Customize Scopes And Features
+
+The generated app is normal Next.js code: pages, components, API routes,
+sessions, and SDK clients. You can keep the backend/auth pattern and replace the
+UI, remove features, or add new feature routes as your product requires.
+
+The starter requests these scopes by default:
+
+```env
+SCOPES=openid offline_access user note collection bookmark goal preference post comment
+```
+
+Every requested scope still needs to be approved for your OAuth client. Adding a
+scope to `SCOPES` only asks for that permission during login; it does not create
+new pages, buttons, API routes, or product behavior by itself.
+
+| Scope | Starter surface |
+| --- | --- |
+| `openid`, `offline_access` | Sign-in session, identity, refresh |
+| `user` | User profile and OIDC user info |
+| `note` | Notes |
+| `bookmark` | Bookmarks |
+| `collection` | Collections |
+| `goal` | Goals |
+| `preference` | Preferences/settings payloads |
+| `post`, `comment` | QuranReflect-related surfaces, depending on the UI you keep or add |
+
+To customize the app:
+
+1. Edit `SCOPES` in `.env.local` and in your deployment environment.
+2. Confirm the requested scopes are approved for your OAuth client.
+3. Keep, remove, or replace the matching pages, navigation items, and `/api/*`
+   routes.
+4. Keep Quran Foundation calls on the backend with `@quranjs/api/server`; use
+   `@quranjs/api/public` only for browser/mobile-safe OAuth helper flows.
+
+If you only want your own UI, treat the starter as a reference implementation:
+keep the OAuth callback, session store, refresh behavior, and SDK client pattern,
+then replace the visible pages and components.
+
+## Starter App vs SDK
+
+The starter is a generated Next.js application. It uses the JavaScript SDK
+inside a ready app so you can see the recommended OAuth2, session, backend, and
+User API patterns working together.
+
+The SDK is the lower-level library. Use the SDK directly when you already have
+your own app UI and only want Quran Foundation API clients. In that case, read
+the [JavaScript SDK guide](/docs/sdk/javascript) and the
+[User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart).
+
+## Production-Minded Next Steps
+
+1. Build and verify the app with `npm run build`.
+2. Deploy to your platform.
+3. Configure OAuth2 client redirect URIs and post-logout redirect URIs to match deployed URLs.
+4. Validate login, callback, token refresh behavior, and logout redirect chain.
+
+## Important Note
+
+Local SDK/template workflows are maintainer-only and intentionally omitted from this public onboarding tutorial.

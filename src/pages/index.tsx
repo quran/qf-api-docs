@@ -1,33 +1,11 @@
 import React from "react";
-import clsx from "clsx";
 import Layout from "@theme/Layout";
-import Link from "@docusaurus/Link";
-import HomepageFeatures from "@site/src/components/HomepageFeatures";
-import {
-  DeveloperBenefitsModal,
-  DeveloperDisclaimersModal,
-} from "@site/src/components/DeveloperModals";
+import DeveloperJourneyMap from "@site/src/components/DeveloperJourneyMap";
+import StarterCommandCard from "@site/src/components/StarterCommandCard";
 
 import styles from "./index.module.css";
 
 function HomepageHeader() {
-  const [activeModal, setActiveModal] = React.useState<
-    "benefits" | "disclaimers" | null
-  >(null);
-
-  const closeModal = React.useCallback(() => setActiveModal(null), []);
-
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeModal();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [closeModal]);
-
   React.useEffect(() => {
     document.body.classList.add("home-page");
     return () => {
@@ -42,54 +20,22 @@ function HomepageHeader() {
           Quran.Foundation Documentation Portal
         </h1>
         <p className={styles.heroSubtitle}>
-          Our API documentation is clear, concise, easy to understand and will
-          help you create innovative and engaging Quran-related apps.
+          Request access, pick the right integration path, and build with Quran
+          Foundation APIs using the official docs, SDK, and starter app.
         </p>
 
-        <div className={styles.heroButtonRow}>
-          <Link
-            className={clsx("button button--lg", styles.mobileRequestAccess)}
-            to="/request-access"
-          >
-            Request Access
-          </Link>
-          <Link
-            className={clsx("button button--lg", styles.primaryButton)}
-            to="/docs/tutorials/oidc/user-apis-quickstart"
-          >
-            Start with User APIs
-          </Link>
-          <button
-            type="button"
-            className={clsx("button button--lg", styles.outlineButton)}
-            onClick={() => setActiveModal("benefits")}
-          >
-            Explore Dev Benefits
-          </button>
-          <button
-            type="button"
-            className={clsx("button button--lg", styles.outlineButton)}
-            onClick={() => setActiveModal("disclaimers")}
-          >
-            Read Dev Disclaimers
-          </button>
-        </div>
+        <StarterCommandCard />
 
-        <p className={clsx(styles.heroSubtitle, styles.heroLlmsCallout)}>
-          <strong>AI agents / LLMs</strong> - see{" "}
-          <a href="/llms.txt">/llms.txt</a> for machine-readable OpenAPI
-          specs.
-        </p>
+        <nav
+          className={styles.heroResourceLinks}
+          aria-label="Secondary developer resources"
+        >
+          <a href="/docs/sdk/javascript">JavaScript SDK</a>
+          <a href="/agent-prompts/qf-next-starter.md">AI starter prompt</a>
+          <a href="/llms.txt">LLMs.txt</a>
+          <a href="/docs/api-reference">API reference</a>
+        </nav>
       </div>
-
-      <DeveloperBenefitsModal
-        isOpen={activeModal === "benefits"}
-        onClose={closeModal}
-      />
-      <DeveloperDisclaimersModal
-        isOpen={activeModal === "disclaimers"}
-        onClose={closeModal}
-      />
     </header>
   );
 }
@@ -101,7 +47,7 @@ export default function Home(): JSX.Element {
     >
       <HomepageHeader />
       <main>
-        <HomepageFeatures />
+        <DeveloperJourneyMap variant="homepage" />
       </main>
     </Layout>
   );

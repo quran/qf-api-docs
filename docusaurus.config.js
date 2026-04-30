@@ -186,7 +186,7 @@ const config = {
       docs: {
         sidebar: {
           hideable: false,
-          autoCollapseCategories: false,
+          autoCollapseCategories: true,
         },
       },
       // Replace with your project's social card
@@ -194,12 +194,6 @@ const config = {
       navbar: {
         title: "Quran Foundation API Docs",
         items: [
-          {
-            type: "doc",
-            docId: "tutorials/oidc/user-apis-quickstart",
-            position: "left",
-            label: "User Quickstart",
-          },
           {
             type: "doc",
             docId: "updates/index",
@@ -241,6 +235,10 @@ const config = {
             position: "left",
             items: [
               {
+                label: "API Reference",
+                to: "/docs/api-reference",
+              },
+              {
                 label: "Content APIs",
                 to: "/docs/content_apis_versioned/4.0.0/content-apis/",
               },
@@ -249,12 +247,12 @@ const config = {
                 to: "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/",
               },
               {
-                label: "User-related APIs",
+                label: "User APIs",
                 to: "/docs/user_related_apis_versioned/1.0.0/user-related-apis/",
               },
               {
-                label: "User-related APIs (Pre-live)",
-                to: "docs/category/user-related-apis-pre-live",
+                label: "User APIs (Pre-live)",
+                to: "/docs/category/user-related-apis-pre-live",
               },
               {
                 label: "OAuth2 APIs",
@@ -283,6 +281,10 @@ const config = {
             title: "API Docs",
             items: [
               {
+                label: "API Reference",
+                to: "/docs/api-reference",
+              },
+              {
                 label: "Content APIs",
                 to: "/docs/content_apis_versioned/4.0.0/content-apis/",
               },
@@ -291,11 +293,11 @@ const config = {
                 to: "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/",
               },
               {
-                label: "User-related APIs",
+                label: "User APIs",
                 to: "/docs/user_related_apis_versioned/1.0.0/user-related-apis/",
               },
               {
-                label: "User-related APIs (Pre-live)",
+                label: "User APIs (Pre-live)",
                 to: "/docs/category/user-related-apis-pre-live",
               },
               {

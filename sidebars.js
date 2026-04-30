@@ -302,23 +302,23 @@ const contentApisVersionedConfig = {
 };
 
 const userRelatedApisLatestConfig = {
-  label: "User-related APIs",
+  label: "User APIs",
   introDocId: "user_related_apis_versioned/user-related-apis",
   versionLabel: "v1.0.0",
   versions: userRelatedAPIsVersions,
-  generatedIndexTitle: "User-related (latest)",
-  generatedIndexDescription: "User-related APIs",
+  generatedIndexTitle: "User APIs (latest)",
+  generatedIndexDescription: "User APIs",
   generatedIndexSlug: "/category/user-related-apis",
   itemsBuilder: buildUserRelatedApisLatestItems,
 };
 
 const userRelatedApisVersionedConfig = {
-  label: "User-related APIs",
+  label: "User APIs",
   introDocId: "user_related_apis_versioned/1.0.0/user-related-apis",
   versionLabel: "v1.0.0",
   versions: userRelatedAPIsVersions,
-  generatedIndexTitle: "User-related APIs (v1.0.0)",
-  generatedIndexDescription: "User-related APIs",
+  generatedIndexTitle: "User APIs (v1.0.0)",
+  generatedIndexDescription: "User APIs",
   generatedIndexSlug: "/category/user-related-apis-1.0.0",
   itemsBuilder: buildUserRelatedApisVersionedItems,
 };
@@ -418,12 +418,22 @@ const buildSdkSidebarItems = () => [
     collapsible: true,
     collapsed: false,
     items: [
+      "sdk/javascript/app-shapes",
+      "sdk/javascript/runtime-matrix",
+      "sdk/javascript/auth-matrix",
+      "sdk/javascript/entrypoint-matrix",
+      "sdk/javascript/apis-by-runtime",
+      "sdk/javascript/server-quickstart",
+      "sdk/javascript/public-quickstart",
+      "sdk/javascript/full-stack",
       "sdk/javascript/chapters",
       "sdk/javascript/verses",
       "sdk/javascript/audio",
       "sdk/javascript/resources",
       "sdk/javascript/juzs",
       "sdk/javascript/search",
+      "sdk/javascript/common-errors",
+      "sdk/javascript/migration-cheat-sheet",
       "sdk/javascript/v1-migration-guide",
     ],
   },
@@ -466,6 +476,7 @@ const buildTutorialsSidebarItems = () => [
     collapsed: false,
     items: [
       "tutorials/oidc/getting-started-with-oauth2",
+      "tutorials/oidc/starter-with-npx",
       "tutorials/oidc/openid-connect",
       "tutorials/oidc/example-integration",
       "tutorials/oidc/client-setup",
@@ -502,6 +513,11 @@ const buildTutorialsSidebarItems = () => [
 const makeSharedDocsSidebar = (apiFamilies) => [
   {
     type: "doc",
+    id: "developer-journey",
+    label: "Developer Journey",
+  },
+  {
+    type: "doc",
     id: "tutorials/oidc/user-apis-quickstart",
     label: "User APIs Quickstart",
   },
@@ -512,6 +528,11 @@ const makeSharedDocsSidebar = (apiFamilies) => [
     collapsible: true,
     collapsed: false,
     items: [
+      {
+        type: "doc",
+        id: "api-reference",
+        label: "API Reference",
+      },
       ...apiFamilies.map(makeSharedApiFamilyCategory),
       {
         type: "doc",
@@ -595,11 +616,11 @@ const sidebars = {
   "user-related-apis-pre-live": [
     {
       type: "category",
-      label: "User-related APIs (Pre-live)",
+      label: "User APIs (Pre-live)",
       link: {
         type: "generated-index",
-        title: "User-related APIs (Pre-live)",
-        description: "User-related APIs from the pre-live branch.",
+        title: "User APIs (Pre-live)",
+        description: "User APIs from the pre-live branch.",
         slug: "/category/user-related-apis-pre-live",
       },
       items: buildUserRelatedApisPreLiveItems(),

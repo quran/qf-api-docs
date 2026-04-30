@@ -1,80 +1,35 @@
 ---
-title: Chapters API
-description: Access Quran chapter (surah) information and metadata.
+title: "Chapters API"
+description: "Read chapter data from the Content APIs with the server SDK entrypoint."
 slug: /sdk/javascript/chapters
+sidebar_position: 8
 ---
 
-import Link from "@docusaurus/Link";
+# Chapters API
 
-The Chapters API provides access to information about the 114 chapters (surahs) of the Quran.
+Purpose: Read chapter lists and chapter details.  
+Use this when: You have a backend and need chapter metadata.  
+Do not use this when: You only have frontend or mobile code with no backend.  
+Backend required: Yes.  
+Allowed runtimes: Node.js, serverless functions, workers.  
+Required credentials: `client_id`, `client_secret`, Content API access.  
+Minimal import: `@quranjs/api/server`.
 
-## Get All Chapters
-
-```ts
-const chapters = await client.chapters.findAll();
-
-chapters.forEach((chapter) => {
-  console.log(`${chapter.id}. ${chapter.nameSimple} (${chapter.nameArabic})`);
-  console.log(`   Verses: ${chapter.versesCount}`);
-  console.log(`   Revelation: ${chapter.revelationPlace}`);
-});
-```
-
-### Chapter Type
-
-| Field                | Type             | Notes                                          |
-| -------------------- | ---------------- | ---------------------------------------------- |
-| `id`                 | `number`         | Sequential chapter identifier.                 |
-| `versesCount`        | `number`         | Total verses in the chapter.                   |
-| `bismillahPre`       | `boolean`        | Indicates if Bismillah precedes the chapter.   |
-| `revelationOrder`    | `number`         | Order of revelation.                           |
-| `revelationPlace`    | `string`         | `meccan` or `medinan`.                         |
-| `pages`              | `number[]`       | Mushaf page range for the chapter.             |
-| `nameComplex`        | `string`         | Full transliterated name (e.g., `Al-Baqarah`). |
-| `nameSimple`         | `string`         | Common English name.                           |
-| `transliteratedName` | `string`         | Transliteration suitable for URLs.             |
-| `nameArabic`         | `string`         | Arabic chapter name.                           |
-| `translatedName`     | `TranslatedName` | Localized name with language metadata.         |
-
-### With Language Options
+Use `@quranjs/api/server`.
 
 ```ts
-import { Language } from "@quranjs/api";
+import { createServerClient } from "@quranjs/api/server";
 
-const arabicChapters = await client.chapters.findAll({
-  language: Language.ARABIC,
+const client = createServerClient({
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
 });
 
-const urduChapters = await client.chapters.findAll({
-  language: Language.URDU,
-});
+const chapters = await client.content.v4.chapters.list();
+const chapter = await client.content.v4.chapters.get("1");
+const info = await client.content.v4.chapters.getInfo("1");
 ```
 
-## Get Chapter by ID
+## Common Mistake
 
-```ts
-const alFatiha = await client.chapters.findById("1");
-const alBaqarah = await client.chapters.findById("2");
-const anNas = await client.chapters.findById("114");
-```
-
-## Get Chapter Info
-
-```ts
-const info = await client.chapters.findInfoById("1");
-
-console.log(info.shortText); // Brief description
-console.log(info.text); // Full description
-console.log(info.source); // Source attribution
-```
-
-### ChapterInfo Type
-
-| Field          | Type     | Notes                                        |
-| -------------- | -------- | -------------------------------------------- |
-| `id`           | `number` | Unique identifier for the info record.       |
-| `chapterId`    | `number` | Chapter the info is associated with.         |
-| `text`         | `string` | Full descriptive text.                       |
-| `shortText`    | `string` | Condensed overview for quick display.        |
-| `source`       | `string` | Attribution for the content.                 |
-| `languageName` | `string` | Language of the info text (e.g., `english`). |
+Do not call Chapters from `@quranjs/api/public`. Content APIs are server-side for confidential clients. Production defaults are already built in.

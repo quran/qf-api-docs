@@ -1,0 +1,55 @@
+---
+title: "Public Quickstart"
+description: "Start using the public SDK entrypoint for frontend or mobile code."
+slug: /sdk/javascript/public-quickstart
+sidebar_position: 7
+---
+
+# Public Quickstart
+
+Purpose: Start PKCE and user-session flows from frontend or mobile code.  
+Use this when: You are writing browser or mobile code.  
+Do not use this when: You need Content, Search, or `client_secret`.  
+Backend required: Usually yes.  
+Allowed runtimes: Browser apps, mobile apps.  
+Required credentials: `client_id`.  
+Minimal import: `@quranjs/api/public`.
+
+## Minimal Example
+
+```ts
+import { createPublicClient } from "@quranjs/api/public";
+
+const client = createPublicClient({
+  clientId: "your-client-id",
+  clientType: "confidential-proxy",
+});
+
+const authUrl = client.oauth2.v1.authorizeUrl({
+  client_id: "your-client-id",
+  redirect_uri: "http://localhost:3000/callback",
+  response_type: "code",
+  scope: "openid offline_access user bookmark collection",
+  state: "random-state",
+});
+```
+
+## If You Already Have a User Session
+
+```ts
+const client = createPublicClient({
+  clientId: "your-client-id",
+  clientType: "confidential-proxy",
+  userSession: {
+    accessToken: "user-access-token",
+  },
+});
+
+const collections = await client.auth.v1.collections.list();
+```
+
+## Common Mistakes
+
+- Putting `client_secret` in frontend code.
+- Calling Content or Search from `public`.
+- Calling `oauth2/token` directly for a confidential client.

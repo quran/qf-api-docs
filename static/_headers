@@ -96,6 +96,22 @@
   Access-Control-Allow-Headers: Content-Type
   Cache-Control: public, max-age=3600
 
+/.well-known/agent-prompts/index.json
+  ! Cache-Control
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET
+  Access-Control-Allow-Headers: Content-Type
+  Cache-Control: public, max-age=3600
+
+/agent-prompts/*.md
+  ! Cache-Control
+  Content-Type: text/markdown; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET
+  Access-Control-Allow-Headers: Content-Type
+  Cache-Control: public, max-age=3600
+
 # API documentation pages: no long-term cache (content may update)
 /docs/*
   Cache-Control: public, max-age=0, must-revalidate
