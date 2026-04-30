@@ -10,7 +10,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/content-apis/",
           "type": "text/html"
         },
         {
@@ -55,7 +55,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/content-apis/",
           "type": "text/html"
         },
         {
@@ -100,7 +100,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/search_apis_versioned/quran-foundation-search-api/",
+          "href": "https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/",
           "type": "text/html"
         },
         {
@@ -137,7 +137,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/search_apis_versioned/quran-foundation-search-api/",
+          "href": "https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/",
           "type": "text/html"
         },
         {
@@ -174,7 +174,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/oauth2_apis_versioned/oauth-2-apis/",
+          "href": "https://api-docs.quran.foundation/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/",
           "type": "text/html"
         },
         {
@@ -243,7 +243,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/oauth2_apis_versioned/oauth-2-apis/",
+          "href": "https://api-docs.quran.foundation/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/",
           "type": "text/html"
         },
         {
@@ -312,7 +312,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/",
+          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/user-related-apis/",
           "type": "text/html"
         },
         {
@@ -393,7 +393,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/",
+          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/user-related-apis/",
           "type": "text/html"
         },
         {
@@ -478,7 +478,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/",
+          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/user-related-apis/",
           "type": "text/html"
         },
         {
@@ -542,27 +542,27 @@
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/content-apis/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-feed/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-feed/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-find-one/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-find-one/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-user-post/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-user-post/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-comments/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-comments/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-all-comment/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-all-comment/",
           "type": "text/html"
         }
       ],
@@ -587,7 +587,7 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/",
+          "href": "https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/user-related-apis/",
           "type": "text/html"
         },
         {
@@ -651,27 +651,27 @@
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/content-apis/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-feed/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-feed/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-find-one/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-find-one/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-user-post/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-user-post/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-comments/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-comments/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-all-comment/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-all-comment/",
           "type": "text/html"
         }
       ],
@@ -692,27 +692,27 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/content-apis/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-feed/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-feed/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-find-one/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-find-one/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-user-post/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-user-post/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-comments/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-comments/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-all-comment/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-all-comment/",
           "type": "text/html"
         },
         {
@@ -749,27 +749,27 @@
       ],
       "service-doc": [
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/content-apis/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-feed/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-feed/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-find-one/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-find-one/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-user-post/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-user-post/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-comments/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-comments/",
           "type": "text/html"
         },
         {
-          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/posts-controller-get-all-comment/",
+          "href": "https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/posts-controller-get-all-comment/",
           "type": "text/html"
         },
         {

@@ -102,4 +102,8 @@ test('keeps llms docs URLs canonical and unique', () => {
 
   assert.equal((content.match(/\[Developer Journey\]\(/g) || []).length, 1);
   assert.equal((content.match(/\[API Reference\]\(/g) || []).length, 1);
+  assert.doesNotMatch(
+    content,
+    /https:\/\/api-docs\.quran\.foundation\/docs\/(?:content_apis_versioned|oauth2_apis_versioned|search_apis_versioned|user_related_apis_versioned)\/(?!\d+\.\d+\.\d+\/|scopes\/)[^)\s]+/,
+  );
 });

@@ -15,10 +15,31 @@ const path = require('path');
 const { exportMarkdownFiles } = require('../src/build-markdown.cjs');
 
 const BASE_URL = 'https://api-docs.quran.foundation';
+const API_VERSION_ROOTS = {
+  content_apis_versioned: '4.0.0',
+  oauth2_apis_versioned: '1.0.0',
+  search_apis_versioned: '1.0.0',
+  user_related_apis_versioned: '1.0.0',
+};
 
 function canonicalDocsUrl(url) {
   if (!url.startsWith(`${BASE_URL}/docs`)) return url;
   return url.endsWith('/') ? url : `${url}/`;
+}
+
+function canonicalApiDocPath(rel) {
+  const [family, slug, ...rest] = rel.split('/');
+  const currentVersion = API_VERSION_ROOTS[family];
+
+  if (!currentVersion || slug === currentVersion || rest.length > 0) {
+    return rel;
+  }
+
+  if (family === 'user_related_apis_versioned' && slug === 'scopes') {
+    return rel;
+  }
+
+  return `${family}/${currentVersion}/${slug}`;
 }
 
 const SECTION_ORDER = [
@@ -129,6 +150,7 @@ function getUrl(relpath, fm) {
   } else if (rel === 'index') {
     rel = '';
   }
+  rel = canonicalApiDocPath(rel);
   return canonicalDocsUrl(rel ? `${BASE_URL}/docs/${rel}` : `${BASE_URL}/docs`);
 }
 
