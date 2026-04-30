@@ -4,6 +4,11 @@ const fs = require("fs");
 const path = require("path");
 
 const siteDir = path.resolve(__dirname, "..");
+const generatedRedirectsPath = path.join(
+  siteDir,
+  ".docusaurus",
+  "generated-auth-api-redirects.json",
+);
 const docsDirs = [
   "docs/user_related_apis_prelive",
   "docs/user_related_apis_versioned",
@@ -81,6 +86,37 @@ function replaceFrontMatterId(content, id) {
   return content.replace(/^id:\s*.*$/m, `id: ${id}`);
 }
 
+function docIdToDocsPath(docId) {
+  return `/docs/${docId}/`;
+}
+
+function createRedirectsForReplacement(oldDocId, newDocId) {
+  const oldPath = docIdToDocsPath(oldDocId);
+  const newPath = docIdToDocsPath(newDocId);
+  const oldPathWithoutSlash = oldPath.replace(/\/$/, "");
+
+  return [
+    { source: oldPathWithoutSlash, target: newPath },
+    { source: oldPath, target: newPath },
+  ];
+}
+
+function writeGeneratedRedirects(redirects) {
+  fs.mkdirSync(path.dirname(generatedRedirectsPath), { recursive: true });
+  fs.writeFileSync(
+    generatedRedirectsPath,
+    `${JSON.stringify(
+      {
+        generatedBy: "scripts/prune-generated-api-aliases.js",
+        redirects,
+      },
+      null,
+      2,
+    )}\n`,
+    "utf8",
+  );
+}
+
 function rewriteSidebarDocIds(replacements) {
   const sidebarFiles = [];
 
@@ -129,46 +165,63 @@ function walkAllFiles(dir) {
   return results;
 }
 
-let normalized = 0;
-const replacements = [];
-const claimedTargetPaths = new Map();
+function main() {
+  let normalized = 0;
+  const replacements = [];
+  const redirects = [];
+  const claimedTargetPaths = new Map();
 
-for (const docsDir of docsDirs) {
-  if (!fs.existsSync(docsDir)) {
-    continue;
-  }
-
-  for (const filePath of walk(docsDir)) {
-    const resolvedPath = path.resolve(filePath);
-
-    if (!resolvedPath.startsWith(docsDir + path.sep)) {
-      throw new Error(`Refusing to delete path outside docs dir: ${resolvedPath}`);
+  for (const docsDir of docsDirs) {
+    if (!fs.existsSync(docsDir)) {
+      continue;
     }
 
-    const content = fs.readFileSync(resolvedPath, "utf8");
-    const legacySlug = getLegacySlug(content);
-    const targetPath = path.join(path.dirname(resolvedPath), `${legacySlug}.api.mdx`);
-    const normalizedContent = replaceFrontMatterId(content, legacySlug);
-    const oldDocId = getDocId(resolvedPath);
-    const newDocId = getDocId(targetPath);
-    const normalizedTargetPath = path.resolve(targetPath);
-    const claimedBy = claimedTargetPaths.get(normalizedTargetPath);
+    for (const filePath of walk(docsDir)) {
+      const resolvedPath = path.resolve(filePath);
 
-    if (claimedBy) {
-      throw new Error(
-        `Generated auth API docs collide on ${normalizedTargetPath}: ${claimedBy} and ${resolvedPath}`,
-      );
+      if (!resolvedPath.startsWith(docsDir + path.sep)) {
+        throw new Error(`Refusing to delete path outside docs dir: ${resolvedPath}`);
+      }
+
+      const content = fs.readFileSync(resolvedPath, "utf8");
+      const legacySlug = getLegacySlug(content);
+      const targetPath = path.join(path.dirname(resolvedPath), `${legacySlug}.api.mdx`);
+      const normalizedContent = replaceFrontMatterId(content, legacySlug);
+      const oldDocId = getDocId(resolvedPath);
+      const newDocId = getDocId(targetPath);
+      const normalizedTargetPath = path.resolve(targetPath);
+      const claimedBy = claimedTargetPaths.get(normalizedTargetPath);
+
+      if (claimedBy) {
+        throw new Error(
+          `Generated auth API docs collide on ${normalizedTargetPath}: ${claimedBy} and ${resolvedPath}`,
+        );
+      }
+
+      claimedTargetPaths.set(normalizedTargetPath, resolvedPath);
+
+      fs.writeFileSync(targetPath, normalizedContent, "utf8");
+      fs.unlinkSync(resolvedPath);
+      replacements.push([oldDocId, newDocId]);
+      redirects.push(...createRedirectsForReplacement(oldDocId, newDocId));
+      normalized += 1;
     }
-
-    claimedTargetPaths.set(normalizedTargetPath, resolvedPath);
-
-    fs.writeFileSync(targetPath, normalizedContent, "utf8");
-    fs.unlinkSync(resolvedPath);
-    replacements.push([oldDocId, newDocId]);
-    normalized += 1;
   }
+
+  rewriteSidebarDocIds(replacements);
+  writeGeneratedRedirects(redirects);
+
+  console.log(
+    `[api-cleanup] Normalized ${normalized} generated auth API docs and recorded ${redirects.length} redirects`,
+  );
 }
 
-rewriteSidebarDocIds(replacements);
+if (require.main === module) {
+  main();
+}
 
-console.log(`[api-cleanup] Normalized ${normalized} generated auth API docs`);
+module.exports = {
+  createRedirectsForReplacement,
+  getLegacySlug,
+  slugify,
+};

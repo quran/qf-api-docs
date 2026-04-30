@@ -3,9 +3,15 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const {
+  createRedirectRegistry,
   getCanonicalPathOverride,
+  getGeneratedAuthRedirectsFromDoc,
+  normalizeRedirectPath,
   normalizeSiteUrl,
+  operationIdToGeneratedSlug,
   shouldDropSitemapPath,
+  stripGeneratedRedirectsSection,
+  validateNoRedirectLoops,
 } = require(path.join(__dirname, '..', 'scripts', 'postbuild-seo.js'));
 
 test('canonicalizes current generated API operation aliases to versioned paths', () => {
@@ -56,5 +62,164 @@ test('normalizes canonical URLs with path overrides', () => {
       '/docs/category/content-apis-4.0.0/',
     ),
     'https://api-docs.quran.foundation/docs/category/content-apis-4.0.0/',
+  );
+});
+
+test('normalizes redirect paths defensively', () => {
+  assert.equal(
+    normalizeRedirectPath('http://api-docs.quran.foundation/docs/sdk'),
+    '/docs/sdk',
+  );
+  assert.throws(
+    () => normalizeRedirectPath('https://api-docs.quran.foundation/docs/sdk?from=gsc'),
+    /query strings or hashes/,
+  );
+  assert.throws(
+    () => normalizeRedirectPath('https://example.com/docs/sdk'),
+    /same-host redirects/,
+  );
+});
+
+test('maps generated auth POST operation aliases to normalized docs routes', () => {
+  const filePath = path.join(
+    __dirname,
+    '..',
+    'docs',
+    'user_related_apis_prelive',
+    'add-or-update-user-reading-session.api.mdx',
+  );
+  const content = `---
+id: add-or-update-user-reading-session
+title: Add or update user reading session
+api: {"operationId":"authPostV1ReadingSessions"}
+---
+`;
+
+  assert.equal(
+    operationIdToGeneratedSlug('authPostV1ReadingSessions'),
+    'auth-post-v-1-reading-sessions',
+  );
+  assert.deepEqual(getGeneratedAuthRedirectsFromDoc(filePath, content), [
+    {
+      source: '/docs/user_related_apis_prelive/auth-post-v-1-reading-sessions',
+      target:
+        '/docs/user_related_apis_prelive/add-or-update-user-reading-session/',
+    },
+    {
+      source: '/docs/user_related_apis_prelive/auth-post-v-1-reading-sessions/',
+      target:
+        '/docs/user_related_apis_prelive/add-or-update-user-reading-session/',
+    },
+  ]);
+});
+
+test('maps generated auth GET operation aliases to normalized docs routes', () => {
+  const filePath = path.join(
+    __dirname,
+    '..',
+    'docs',
+    'user_related_apis_prelive',
+    'get-user-reading-sessions.api.mdx',
+  );
+  const content = `---
+id: get-user-reading-sessions
+title: Get user reading sessions
+api: {"operationId":"authGetV1ReadingSessions"}
+---
+`;
+
+  assert.deepEqual(getGeneratedAuthRedirectsFromDoc(filePath, content), [
+    {
+      source: '/docs/user_related_apis_prelive/auth-get-v-1-reading-sessions',
+      target: '/docs/user_related_apis_prelive/get-user-reading-sessions/',
+    },
+    {
+      source: '/docs/user_related_apis_prelive/auth-get-v-1-reading-sessions/',
+      target: '/docs/user_related_apis_prelive/get-user-reading-sessions/',
+    },
+  ]);
+});
+
+test('generated redirect registry rejects loops', () => {
+  const registry = createRedirectRegistry();
+  registry.addRedirect('/old-page', '/new-page/');
+  registry.addRedirect('/new-page', '/canonical-page/');
+
+  assert.doesNotThrow(() => validateNoRedirectLoops(registry.redirects));
+
+  const loopRegistry = createRedirectRegistry();
+  loopRegistry.addRedirect('/a', '/b/');
+  loopRegistry.addRedirect('/b', '/a/');
+
+  assert.throws(
+    () => validateNoRedirectLoops(loopRegistry.redirects),
+    /Redirect loop detected/,
+  );
+});
+
+test('redirect registry rejects malformed and duplicate existing redirects', () => {
+  assert.throws(
+    () => createRedirectRegistry('/old-only\n'),
+    /Malformed redirect/,
+  );
+  assert.throws(
+    () => createRedirectRegistry('/old /new/ 301 extra\n'),
+    /Malformed redirect/,
+  );
+  assert.throws(
+    () => createRedirectRegistry('/old /new/ 301\n/old /other/ 301\n'),
+    /Duplicate redirect source/,
+  );
+});
+
+test('redirect registry defaults two-token existing redirects to 301', () => {
+  const registry = createRedirectRegistry('/old /new/\n');
+
+  assert.deepEqual(registry.redirects.get('/old'), {
+    target: '/new/',
+    status: '301',
+  });
+});
+
+test('strips generated redirects sections with CRLF newlines', () => {
+  assert.equal(
+    stripGeneratedRedirectsSection(
+      [
+        '# Manual',
+        '# BEGIN generated-search-console-redirects',
+        '/old /new/ 301',
+        '# END generated-search-console-redirects',
+        '/kept /target/ 301',
+      ].join('\r\n'),
+    ),
+    '# Manual\n/kept /target/ 301',
+  );
+});
+
+test('redirect registry sends unversioned API operation targets to current version', () => {
+  const registry = createRedirectRegistry();
+  registry.addRedirect(
+    '/docs/user_related_apis_versioned/auth-post-v-1-reading-sessions',
+    '/docs/user_related_apis_versioned/add-or-update-user-reading-session/',
+  );
+
+  assert.equal(
+    registry.redirects.get(
+      '/docs/user_related_apis_versioned/auth-post-v-1-reading-sessions',
+    ).target,
+    '/docs/user_related_apis_versioned/1.0.0/add-or-update-user-reading-session/',
+  );
+});
+
+test('redirect registry keeps scopes unversioned', () => {
+  const registry = createRedirectRegistry();
+  registry.addRedirect(
+    '/docs/user_related_apis_versioned/1.0.0/scopes',
+    '/docs/user_related_apis_versioned/scopes/',
+  );
+
+  assert.equal(
+    registry.redirects.get('/docs/user_related_apis_versioned/1.0.0/scopes').target,
+    '/docs/user_related_apis_versioned/scopes/',
   );
 });
