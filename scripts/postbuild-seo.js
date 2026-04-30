@@ -353,13 +353,22 @@ function getCanonicalRedirectTarget(target) {
 function parseRedirects(content) {
   const redirects = new Map();
 
-  for (const line of content.split(/\r?\n/)) {
+  for (const [index, line] of content.split(/\r?\n/).entries()) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith("#")) {
       continue;
     }
 
-    const [source, target, status = "302"] = trimmed.split(/\s+/);
+    const tokens = trimmed.split(/\s+/);
+    if (tokens.length < 2 || tokens.length > 3) {
+      throw new Error(`Malformed redirect on line ${index + 1}: ${line}`);
+    }
+
+    const [source, target, status = "301"] = tokens;
+    if (redirects.has(source)) {
+      throw new Error(`Duplicate redirect source on line ${index + 1}: ${source}`);
+    }
+
     redirects.set(source, { target, status });
   }
 
@@ -368,7 +377,7 @@ function parseRedirects(content) {
 
 function stripGeneratedRedirectsSection(content) {
   const sectionPattern = new RegExp(
-    `\\n?${generatedRedirectsStart}[\\s\\S]*?${generatedRedirectsEnd}\\n?`,
+    `(?:\\r?\\n)?${generatedRedirectsStart}[\\s\\S]*?${generatedRedirectsEnd}(?:\\r?\\n)?`,
     "g",
   );
 
@@ -766,5 +775,6 @@ module.exports = {
   normalizeSiteUrl,
   operationIdToGeneratedSlug,
   shouldDropSitemapPath,
+  stripGeneratedRedirectsSection,
   validateNoRedirectLoops,
 };

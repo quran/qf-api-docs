@@ -10,6 +10,7 @@ const {
   normalizeSiteUrl,
   operationIdToGeneratedSlug,
   shouldDropSitemapPath,
+  stripGeneratedRedirectsSection,
   validateNoRedirectLoops,
 } = require(path.join(__dirname, '..', 'scripts', 'postbuild-seo.js'));
 
@@ -153,6 +154,45 @@ test('generated redirect registry rejects loops', () => {
   assert.throws(
     () => validateNoRedirectLoops(loopRegistry.redirects),
     /Redirect loop detected/,
+  );
+});
+
+test('redirect registry rejects malformed and duplicate existing redirects', () => {
+  assert.throws(
+    () => createRedirectRegistry('/old-only\n'),
+    /Malformed redirect/,
+  );
+  assert.throws(
+    () => createRedirectRegistry('/old /new/ 301 extra\n'),
+    /Malformed redirect/,
+  );
+  assert.throws(
+    () => createRedirectRegistry('/old /new/ 301\n/old /other/ 301\n'),
+    /Duplicate redirect source/,
+  );
+});
+
+test('redirect registry defaults two-token existing redirects to 301', () => {
+  const registry = createRedirectRegistry('/old /new/\n');
+
+  assert.deepEqual(registry.redirects.get('/old'), {
+    target: '/new/',
+    status: '301',
+  });
+});
+
+test('strips generated redirects sections with CRLF newlines', () => {
+  assert.equal(
+    stripGeneratedRedirectsSection(
+      [
+        '# Manual',
+        '# BEGIN generated-search-console-redirects',
+        '/old /new/ 301',
+        '# END generated-search-console-redirects',
+        '/kept /target/ 301',
+      ].join('\r\n'),
+    ),
+    '# Manual\n/kept /target/ 301',
   );
 });
 
