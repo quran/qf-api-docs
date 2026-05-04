@@ -2117,10 +2117,7 @@
             "description": "Page number in the selected mushaf.",
             "required": true,
             "schema": {
-              "maximum": 604,
-              "exclusiveMaximum": false,
               "minimum": 1,
-              "exclusiveMinimum": true,
               "type": "integer"
             }
           },

@@ -232,4 +232,4 @@ Example page metadata:
 - `verses/by_page/{page_number}` is the page-content endpoint.
 - The selected `mushaf` affects both page boundaries and the returned word layout.
 
-For related rendering details, see the [Font Rendering guide](./font-rendering).
+For related rendering details, see the [Font Rendering guide](./font-rendering.md).
