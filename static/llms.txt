@@ -41,6 +41,7 @@
 - [Full-Stack Quickstart](https://api-docs.quran.foundation/docs/sdk/javascript/full-stack/)
 - [Common Errors](https://api-docs.quran.foundation/docs/sdk/javascript/common-errors/)
 - [Migration Cheat Sheet](https://api-docs.quran.foundation/docs/sdk/javascript/migration-cheat-sheet/)
+- [Answers API](https://api-docs.quran.foundation/docs/sdk/javascript/answers/)
 - [Audio API](https://api-docs.quran.foundation/docs/sdk/javascript/audio/)
 - [Chapters API](https://api-docs.quran.foundation/docs/sdk/javascript/chapters/)
 - [Hadith References API](https://api-docs.quran.foundation/docs/sdk/javascript/hadith-references/)
