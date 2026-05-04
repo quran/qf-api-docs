@@ -11,8 +11,8 @@
       "description": "Production Server"
     },
     {
-      "url": "https://staging-oauth2.quran.foundation",
-      "description": "Staging Server"
+      "url": "https://prelive-oauth2.quran.foundation",
+      "description": "Pre-production Server"
     }
   ],
   "components": {

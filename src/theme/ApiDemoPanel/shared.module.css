@@ -1,0 +1,313 @@
+.panelBody {
+  background: var(--openapi-card-background-color);
+  border-radius: var(--openapi-card-border-radius);
+  color: var(--ifm-pre-color);
+  margin-bottom: var(--ifm-spacing-vertical);
+  padding: var(--ifm-pre-padding);
+}
+
+.section + .section {
+  border-top: 1px solid var(--qf-border-card);
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.sectionTitle {
+  margin: 0 0 0.35rem;
+  color: var(--qf-text-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sectionDescription {
+  margin: 0 0 0.8rem;
+  color: var(--qf-text-muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.fieldHeader {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.fieldLabel {
+  color: var(--qf-text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.fieldType {
+  border-radius: 999px;
+  background: var(--ifm-color-emphasis-100);
+  color: var(--qf-text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.18rem 0.48rem;
+  text-transform: uppercase;
+}
+
+.requiredBadge {
+  border-radius: 999px;
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.18rem 0.48rem;
+  text-transform: uppercase;
+}
+
+[data-theme="dark"] .requiredBadge {
+  background: rgba(248, 113, 113, 0.16);
+  color: #fca5a5;
+}
+
+.fieldDescription {
+  margin: 0;
+  color: var(--qf-text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.fieldBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fieldHelp {
+  margin: 0;
+  color: var(--qf-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.control,
+.selectControl {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--ifm-global-radius);
+  background: var(--openapi-input-background);
+  color: var(--qf-text-primary);
+  font: inherit;
+  padding: 0.75rem 0.9rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+.control::placeholder {
+  color: var(--qf-text-muted);
+}
+
+.control:focus,
+.selectControl:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 3px rgba(44, 164, 171, 0.15);
+}
+
+.control[disabled],
+.control[readonly],
+.selectControl[disabled] {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--qf-text-secondary);
+}
+
+.selectControl {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 1.15rem) calc(50% - 3px),
+    calc(100% - 0.8rem) calc(50% - 3px);
+  background-repeat: no-repeat;
+  background-size: 8px 8px, 8px 8px;
+  padding-right: 2.8rem;
+}
+
+.readOnlyValue {
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-emphasis-100);
+  color: var(--qf-text-primary);
+  font-weight: 600;
+  padding: 0.75rem 0.9rem;
+}
+
+.urlPreview {
+  margin-top: 0.5rem;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-emphasis-100);
+  color: var(--qf-text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  padding: 0.75rem 0.9rem;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.summaryCopy {
+  min-width: 0;
+}
+
+.summaryText {
+  margin: 0.35rem 0 0;
+  color: var(--qf-text-muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.actionStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.actionButton {
+  justify-content: center;
+  min-width: 13rem;
+  box-shadow: var(--qf-shadow-sm);
+}
+
+.actionButton:disabled {
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+.actionHint {
+  margin: 0;
+  color: var(--qf-text-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  max-width: 16rem;
+  text-align: right;
+}
+
+.referenceList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: var(--ifm-pre-padding);
+}
+
+.referenceCard {
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.9rem 1rem;
+}
+
+.referenceTitle {
+  color: var(--qf-text-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.referenceTitle:hover {
+  text-decoration: underline;
+}
+
+.referenceMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+}
+
+.referenceChip {
+  border: 1px solid var(--qf-border-card);
+  border-radius: 999px;
+  background: var(--qf-surface-card);
+  color: var(--qf-text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.referenceText {
+  margin: 0.65rem 0 0;
+  color: var(--qf-text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.referenceGrid {
+  display: grid;
+  gap: 0.65rem 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-top: 0.75rem;
+}
+
+.referenceGridItem dt {
+  color: var(--qf-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.referenceGridItem dd {
+  margin: 0.2rem 0 0;
+  color: var(--qf-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.referenceCode {
+  margin-top: 0.75rem;
+  border-radius: var(--ifm-global-radius);
+  background: var(--qf-surface-card);
+  color: var(--qf-text-secondary);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 0.75rem 0.9rem;
+  white-space: pre-wrap;
+}
+
+@media screen and (max-width: 996px) {
+  .summaryRow {
+    flex-direction: column;
+  }
+
+  .actionStack {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .actionButton {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .actionHint {
+    max-width: none;
+    text-align: left;
+  }
+}

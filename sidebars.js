@@ -189,27 +189,9 @@ const ensureDocsInCategory = (items, categoryLabel, docsToEnsure, afterDocId) =>
   ];
 };
 
-const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
-  const withUsersEndpoints = insertDocsIntoCategory(
+const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) =>
+  insertDocsIntoCategory(
     items,
-    "Users",
-    [
-      makeApiDocSidebarItem(
-        `${baseDocIdPrefix}/users-controller-get-featured-users`,
-        "Get featured users for follow recommendation",
-        "api-method get",
-      ),
-      makeApiDocSidebarItem(
-        `${baseDocIdPrefix}/users-controller-follow-featured-users`,
-        "Follow all featured users",
-        "api-method post",
-      ),
-    ],
-    `${baseDocIdPrefix}/users-controller-search`,
-  );
-
-  return insertDocsIntoCategory(
-    withUsersEndpoints,
     "Posts",
     [
       makeApiDocSidebarItem(
@@ -220,7 +202,6 @@ const extendUserRelatedApisSidebarItems = (items, baseDocIdPrefix) => {
     ],
     `${baseDocIdPrefix}/posts-controller-find-one`,
   );
-};
 
 const extendContentApisSidebarItems = (items, baseDocIdPrefix) => {
   const withPages = ensureDocsInCategory(
@@ -248,31 +229,31 @@ const extendContentApisSidebarItems = (items, baseDocIdPrefix) => {
 
   return ensureDocsInCategory(
     withPages,
-    "Quran Reflect Posts",
+    "Quran Reflect Lessons and Reflections",
     [
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-feed`,
-        "Get posts feed",
+        "Quran Reflect Lessons and Reflections Feed",
         "api-method get",
       ),
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-find-one`,
-        "Get post by ID",
+        "Get Quran Reflect Lesson or Reflection by ID",
         "api-method get",
       ),
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-get-user-post`,
-        "Get user posts",
+        "Get Quran Reflect Lessons and Reflections by User",
         "api-method get",
       ),
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-get-comments`,
-        "Get post comments",
+        "Get Comments for a Quran Reflect Lesson or Reflection",
         "api-method get",
       ),
       makeApiDocSidebarItem(
         `${baseDocIdPrefix}/posts-controller-get-all-comment`,
-        "Get all post comments",
+        "Get All Comments for a Quran Reflect Lesson or Reflection",
         "api-method get",
       ),
     ],
@@ -472,8 +453,26 @@ const buildSdkSidebarItems = () => [
   },
 ];
 
+const contentQuickstartDocIds = [
+  "quickstart/manual-authentication",
+  "quickstart/token-management",
+  "quickstart/first-api-call",
+  "quickstart/migration",
+];
+
+const makeContentQuickstartSidebarItem = (collapsed = false) => ({
+  type: "category",
+  label: "Content APIs Quickstart",
+  link: {
+    type: "doc",
+    id: "quickstart/index",
+  },
+  collapsible: true,
+  collapsed,
+  items: contentQuickstartDocIds,
+});
+
 const buildTutorialsSidebarItems = () => [
-  "tutorials/faq",
   {
     type: "category",
     label: "Font & Page Rendering",
@@ -511,68 +510,72 @@ const buildTutorialsSidebarItems = () => [
       },
     ],
   },
+  {
+    type: "category",
+    label: "Offline-first Sync",
+    collapsible: true,
+    collapsed: false,
+    items: [
+      "tutorials/sync/getting-started",
+      "tutorials/sync/handling-conflicts",
+      "tutorials/sync/offline-first-patterns",
+    ],
+  },
 ];
 
 const makeSharedDocsSidebar = (apiFamilies) => [
   {
+    type: "doc",
+    id: "tutorials/oidc/user-apis-quickstart",
+    label: "User APIs Quickstart",
+  },
+  makeContentQuickstartSidebarItem(false),
+  {
     type: "category",
-    label: "QF",
-    collapsible: false,
+    label: "API",
+    collapsible: true,
     collapsed: false,
     items: [
+      ...apiFamilies.map(makeSharedApiFamilyCategory),
       {
         type: "doc",
-        id: "tutorials/oidc/user-apis-quickstart",
-        label: "User APIs Quickstart",
-      },
-      {
-        type: "doc",
-        id: "quickstart/index",
-        label: "Content APIs Quickstart",
-      },
-      {
-        type: "category",
-        label: "API",
-        collapsible: true,
-        collapsed: false,
-        items: [
-          ...apiFamilies.map(makeSharedApiFamilyCategory),
-          {
-            type: "doc",
-            id: "api/field-reference",
-            label: "Field Reference",
-          },
-          {
-            type: "doc",
-            id: "user_related_apis_versioned/scopes",
-            label: "OAuth2 Scopes",
-          },
-        ],
-      },
-      {
-        type: "category",
-        label: "SDKs",
-        link: {
-          type: "doc",
-          id: "sdk/index",
-        },
-        collapsible: true,
-        collapsed: false,
-        items: buildSdkSidebarItems(),
+        id: "api/field-reference",
+        label: "Field Reference",
       },
       {
         type: "doc",
-        id: "updates/index",
-        label: "Updates",
-      },
-      {
-        type: "category",
-        label: "Tutorials",
-        collapsible: true,
-        collapsed: false,
-        items: buildTutorialsSidebarItems(),
+        id: "user_related_apis_versioned/scopes",
+        label: "OAuth2 Scopes",
       },
     ],
+  },
+  {
+    type: "category",
+    label: "SDKs",
+    link: {
+      type: "doc",
+      id: "sdk/index",
+    },
+    collapsible: true,
+    collapsed: false,
+    items: buildSdkSidebarItems(),
+  },
+  {
+    type: "doc",
+    id: "updates/index",
+    label: "Updates",
+  },
+  {
+    type: "doc",
+    id: "tutorials/faq",
+    label: "FAQ",
+  },
+  {
+    type: "category",
+    label: "Tutorials",
+    collapsible: true,
+    collapsed: false,
+    items: buildTutorialsSidebarItems(),
   },
 ];
 
@@ -581,11 +584,7 @@ const makeSharedDocsSidebar = (apiFamilies) => [
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   gettingStartedSidebar: [
-    {
-      type: "doc",
-      id: "quickstart/index",
-      label: "Content APIs Quickstart",
-    },
+    makeContentQuickstartSidebarItem(false),
   ],
 
   updatesSidebar: [

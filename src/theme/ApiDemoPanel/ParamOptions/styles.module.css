@@ -1,0 +1,98 @@
+.toggleButton {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0;
+}
+
+.toggleButton:hover {
+  color: var(--ifm-color-primary-dark);
+}
+
+.toggleIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 160ms ease;
+}
+
+.toggleIconExpanded {
+  composes: toggleIcon;
+  transform: rotate(45deg);
+}
+
+.optionalContent {
+  display: block;
+  margin-top: 0.85rem;
+}
+
+.optionalContentHidden {
+  display: none;
+}
+
+.arrayRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.arrayControl {
+  flex: 1 1 auto;
+}
+
+.iconButton {
+  appearance: none;
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-emphasis-100);
+  color: var(--qf-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  min-width: 46px;
+  padding: 0;
+  transition: border-color 150ms ease, color 150ms ease,
+    background-color 150ms ease;
+}
+
+.iconButton:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.secondaryButton {
+  appearance: none;
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--ifm-global-radius);
+  background: transparent;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  min-height: 42px;
+  padding: 0.65rem 0.95rem;
+  transition: border-color 150ms ease, color 150ms ease,
+    background-color 150ms ease;
+}
+
+.secondaryButton:hover {
+  border-color: var(--ifm-color-primary);
+  background: rgba(44, 164, 171, 0.08);
+  color: var(--ifm-color-primary-dark);
+}

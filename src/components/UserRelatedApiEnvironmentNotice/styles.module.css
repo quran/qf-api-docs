@@ -38,6 +38,27 @@
   color: var(--ifm-color-emphasis-800);
 }
 
+.body p {
+  margin: 0;
+}
+
+.body > * + * {
+  margin-top: 0.75rem;
+}
+
+.body a {
+  font-weight: 600;
+}
+
+.list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.list li + li {
+  margin-top: 0.35rem;
+}
+
 .switcher {
   display: inline-flex;
   align-items: center;

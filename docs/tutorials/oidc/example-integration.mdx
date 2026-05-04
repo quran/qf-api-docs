@@ -31,7 +31,7 @@ BASE_PATH=http://localhost:3000
 TOKEN_HOST=https://oauth2.quran.foundation
 CLIENT_ID=your_client_id
 CLIENT_SECRET=your_client_secret
-SCOPES=openid offline_access profile email bookmark collection user
+SCOPES=openid offline_access bookmark collection user
 SESSION_SECRET=your_random_session_secret
 NODE_ENV=development
 ```
@@ -76,12 +76,14 @@ const response = await fetch(
 const bookmarks = await response.json();
 ```
 
+This example keeps the user session on the server and uses the server to send `x-auth-token` and `x-client-id` to Quran Foundation. That is the recommended pattern for confidential web clients. If you move the resource call into frontend browser code, you leave that server-side pattern and may run into browser-origin restrictions.
+
 ## Accessing Resources
 
 Once authenticated, explore the [User APIs](/docs/category/user-related-apis):
 
-- **[Collections](/docs/user_related_apis_versioned/add-collection)** — Create and manage verse collections
-- **[Bookmarks](/docs/user_related_apis_versioned/get-all-collections)** — Save and retrieve bookmarked verses
+- **[Collections](/docs/user_related_apis_versioned/1.0.0/get-all-collections/)** — Create and manage verse collections
+- **[Bookmarks](/docs/user_related_apis_versioned/1.0.0/get-user-bookmarks/)** — Save and retrieve bookmarked verses
 - **Reading Sessions** — Track reading progress
 - **Goals & Streaks** — User reading goals
 

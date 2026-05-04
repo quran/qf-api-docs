@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "quran-foundation-api-docs",
+      "type": "skill-md",
+      "description": "Use Quran Foundation docs and tutorials to choose the correct API family, authentication flow, endpoint, font rendering approach, request-access prerequisite, and official references for content, search, OAuth2/OIDC, user-related, and Quran Reflect integrations.",
+      "url": "/.well-known/agent-skills/quran-foundation-api-docs/SKILL.md",
+      "digest": "sha256:df258de3417829586f3ccbd6176558df239d89240396719ceba7c2f5388d9253"
+    }
+  ]
+}
