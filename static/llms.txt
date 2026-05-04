@@ -43,6 +43,7 @@
 - [Migration Cheat Sheet](https://api-docs.quran.foundation/docs/sdk/javascript/migration-cheat-sheet/)
 - [Audio API](https://api-docs.quran.foundation/docs/sdk/javascript/audio/)
 - [Chapters API](https://api-docs.quran.foundation/docs/sdk/javascript/chapters/)
+- [Hadith References API](https://api-docs.quran.foundation/docs/sdk/javascript/hadith-references/)
 - [Juzs API](https://api-docs.quran.foundation/docs/sdk/javascript/juzs/)
 - [Legacy Migration Guide](https://api-docs.quran.foundation/docs/sdk/javascript/v1-migration-guide/)
 - [Resources API](https://api-docs.quran.foundation/docs/sdk/javascript/resources/)

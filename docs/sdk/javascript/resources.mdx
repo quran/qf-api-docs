@@ -28,4 +28,8 @@ const client = createServerClient({
 const translations = await client.content.v4.resources.translations.list();
 const tafsirs = await client.content.v4.resources.tafsirs.list();
 const languages = await client.content.v4.resources.languages.list();
+const chapterInfoResources =
+  await client.content.v4.resources.chapterInfos.list();
 ```
+
+Use `chapterInfos.list()` as the global chapter-info resource catalog. For chapter-specific resource availability, prefer `client.content.v4.chapters.getInfoResponse(chapterId, { includeResources: true })`.

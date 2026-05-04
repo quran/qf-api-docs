@@ -430,6 +430,7 @@ const buildSdkSidebarItems = () => [
       "sdk/javascript/verses",
       "sdk/javascript/audio",
       "sdk/javascript/resources",
+      "sdk/javascript/hadith-references",
       "sdk/javascript/juzs",
       "sdk/javascript/search",
       "sdk/javascript/common-errors",

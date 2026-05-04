@@ -28,6 +28,33 @@ const client = createServerClient({
 const chapters = await client.content.v4.chapters.list();
 const chapter = await client.content.v4.chapters.get("1");
 const info = await client.content.v4.chapters.getInfo("1");
+const infoResponse = await client.content.v4.chapters.getInfoResponse("1", {
+  includeResources: true,
+  resourceId: 58,
+});
+```
+
+## Chapter Info Resources
+
+Use `getInfo` when you only need the resolved chapter info body. Use `getInfoResponse` when you also need to inspect the optional `resources` list returned by `includeResources: true`, or when you need to handle `chapterInfo: null` for a resource that has no content for the selected chapter.
+
+```ts
+const { chapterInfo, resources } =
+  await client.content.v4.chapters.getInfoResponse("1", {
+    includeResources: true,
+  });
+
+const ibnAshur = resources?.find(
+  (resource) => resource.slug === "en-tafsir-ibn-ashur",
+);
+
+const selected = await client.content.v4.chapters.getInfoResponse("1", {
+  resourceId: ibnAshur?.slug,
+});
+
+if (selected.chapterInfo) {
+  console.log(selected.chapterInfo.resourceId, selected.chapterInfo.text);
+}
 ```
 
 ## Common Mistake

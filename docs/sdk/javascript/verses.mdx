@@ -30,6 +30,19 @@ const chapterVerses = await client.content.v4.verses.byChapter("1");
 const randomVerse = await client.content.v4.verses.random();
 ```
 
+## Tafsirs In Verse Lists
+
+Pass `tafsirs` when a verse response should include tafsir snippets. Grouped tafsir resources now return populated text on v4 list endpoints such as `byChapter`, `byPage`, `byJuz`, `byHizb`, and `byRub`.
+
+```ts
+const verses = await client.content.v4.verses.byChapter("1", {
+  tafsirs: [169],
+});
+
+const firstTafsir = verses[0]?.tafsirs?.[0];
+console.log(firstTafsir?.resourceId, firstTafsir?.text);
+```
+
 ## Word Audio Paths
 
 Requesting word data can include `word.audioUrl` for each word. That value is a relative word-by-word asset path such as `wbw/001_001_001.mp3`, not a `/content/api/v4/...` endpoint.

@@ -21,6 +21,7 @@ const expectedSdkDocIds = [
   'sdk/javascript/server-quickstart',
   'sdk/javascript/public-quickstart',
   'sdk/javascript/full-stack',
+  'sdk/javascript/hadith-references',
   'sdk/javascript/common-errors',
   'sdk/javascript/migration-cheat-sheet',
 ];
