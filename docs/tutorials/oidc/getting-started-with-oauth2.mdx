@@ -178,6 +178,11 @@ https://prelive-oauth2.quran.foundation/oauth2/auth?response_type=code
 
 Least privilege: Add scopes only as you need them.
 
+Use the exact scopes approved for your client. If Quran Foundation approved a parent scope such as
+`note`, `post`, or `collection`, request that parent scope in the authorization URL. Do not also
+request child scopes such as `note.read` or `post.create` unless those child scopes were separately
+approved for the client. See [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes#parent-and-child-scopes).
+
 > Tip: Always persist your `code_verifier` **before** redirecting to `/oauth2/auth`. For current Request Access clients, keep it either in app state until callback and send it to your backend exchange endpoint, or keep it in a server-side session if the backend initiates the login flow. Public native/mobile clients should only redeem the code directly if Quran Foundation explicitly confirms that the client is public.
 
 For example, request `collection` only when the user actually creates or manages a collection.
@@ -673,6 +678,7 @@ def refresh_access_token(refresh_token: str):
 - PKCE: Use for public clients (SPAs/mobile). Do not ship `client_secret` to browsers/mobile apps.
 - Provisioning mode: See [Confidential vs Public Clients](#client-types) — the default is confidential.
 - Scopes: Use `openid offline_access user collection`. Add more scopes only as needed.
+- Parent scopes: If your client is approved for a parent scope like `note`, request `note` in the authorization URL; do not request `note.read`, `note.create`, or other child scopes unless they were approved separately.
 - Scopes note: Quran.Foundation expects `offline_access` (not `offline`).
 - Token storage: Store `refresh_token` securely; rotate if compromised.
 - Browser-origin policy: Direct browser calls to User APIs require the calling origin to be allowlisted by the target service. If your origin is not allowlisted, call the API from your backend instead.
@@ -695,7 +701,7 @@ def refresh_access_token(refresh_token: str):
 | `invalid_client`          | Wrong client type, using the public-client flow with a confidential client, missing secret for a confidential client, or wrong environment | Verify whether the client is public or confidential, confirm `client_id/secret`, and confirm the environment. If the client came from Request Access, switch to the server-side exchange unless QF explicitly confirmed the client is public |
 | `invalid_grant`           | Bad/expired/used `code` or `refresh_token` | Ensure one-time use, check clock skew                |
 | `redirect_uri_mismatch`   | Redirect URI not exact match               | Align with registered value                          |
-| `invalid_scope`           | Scope misspelled or not allowed            | Use valid scopes; request incrementally              |
+| `invalid_scope`           | Scope misspelled, not approved for the client, or a child scope was requested when only the parent scope was approved | Request the exact approved scopes. If approved for `note`, request `note`, not `note.read` or `note.create` unless those child scopes were separately approved |
 | `401 Unauthorized` (APIs) | Missing/expired token                      | Send `x-auth-token` and `x-client-id`, refresh token |
 | `403 Forbidden` (APIs)    | Direct browser call from a restricted origin, or scope/permission is not granted | For web apps, route the request through your backend or proxy; otherwise use a supported browser origin and request the correct scope |
 
@@ -706,7 +712,9 @@ def refresh_access_token(refresh_token: str):
 
 ### What scopes should I request for Quran Foundation OAuth2?
 
-Use `openid offline_access` for authentication-only flows. If your app will call User APIs like the collections examples in this guide, request the corresponding API scopes as well, such as `user` and `collection`. Follow the principle of least privilege — only request additional scopes for things like user profile, bookmarks, collections, and similar features when your app actually needs them.
+Use `openid offline_access` for authentication-only flows. If your app will call User APIs like the collections examples in this guide, request the corresponding API scopes as well, such as `user` and `collection`. Follow the principle of least privilege - only request additional scopes for things like user profile, bookmarks, collections, and similar features when your app actually needs them.
+
+Request the exact scopes approved for your client. If your client is approved for a parent scope such as `note`, request `note`; do not request `note.read`, `note.create`, or other child scopes unless they were separately approved. See [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes#parent-and-child-scopes).
 
 ### How long do Quran Foundation access tokens last?
 
