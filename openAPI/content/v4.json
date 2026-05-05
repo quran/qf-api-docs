@@ -2385,7 +2385,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by page using the Quran Foundation API.\n\nEndpoint: GET /verses/by_page/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  page_number: Madani Mushaf page number. Valid range is 1-604  (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_page/{page_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts page_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by page using the Quran Foundation API.\n\nEndpoint: GET /verses/by_page/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  page_number: Page number in the selected mushaf (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  mushaf: Optional mushaf id. When provided, page boundaries and line layout are resolved from the selected mushaf.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_page/{page_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts page_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -17779,9 +17779,9 @@
             "type": "integer"
           },
           "page_number": {
-            "maximum": 604,
             "minimum": 1,
-            "type": "integer"
+            "type": "integer",
+            "description": "Page number for the returned verse. For mushaf-aware by_page responses, this follows the selected mushaf layout and can exceed 604."
           },
           "ruku_number": {
             "type": "integer"
@@ -17903,9 +17903,9 @@
             "type": "string"
           },
           "page_number": {
-            "maximum": 604,
             "minimum": 1,
-            "type": "integer"
+            "type": "integer",
+            "description": "Page number for the returned word. For mushaf-aware by_page responses, this follows the selected mushaf layout and can exceed 604."
           },
           "line_number": {
             "type": "integer",
