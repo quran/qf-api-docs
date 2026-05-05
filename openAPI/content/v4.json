@@ -1396,10 +1396,12 @@
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "integer"
+                            "type": "integer",
+                            "description": "Internal Mushaf page record id. Use `page_number` for Mushaf page navigation."
                           },
                           "page_number": {
-                            "type": "integer"
+                            "type": "integer",
+                            "description": "Page number in the selected mushaf."
                           },
                           "verse_mapping": {
                             "type": "object",
@@ -1482,7 +1484,7 @@
           },
           {
             "lang": "text",
-            "label": "AI Prompt",
+            "label": "🤖 AI Prompt",
             "source": "Implement a function to list pages using the Quran Foundation API.\n\nEndpoint: GET /pages\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/pages\n2. Inject both required headers on every request\n3. Handle 401, 403, and 429 responses gracefully"
           }
         ]
@@ -1494,7 +1496,7 @@
           "Pages"
         ],
         "summary": "Lookup Pages",
-        "description": "Get page boundaries for a chapter, juz, page, or verse range in the selected mushaf.",
+        "description": "Get page boundaries for a chapter, juz, page, manzil, hizb, rub el hizb, ruku, or verse range in the selected mushaf.",
         "operationId": "get-pages-lookup",
         "parameters": [
           {
@@ -1683,13 +1685,13 @@
           },
           {
             "lang": "text",
-            "label": "AI Prompt",
+            "label": "🤖 AI Prompt",
             "source": "Implement a function to lookup pages using the Quran Foundation API.\n\nEndpoint: GET /pages/lookup\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/pages/lookup\n2. Inject both required headers on every request\n3. Handle 401, 403, and 429 responses gracefully"
           }
         ]
       }
     },
-    "/pages/{id}": {
+    "/pages/{page_number}": {
       "get": {
         "tags": [
           "Pages"
@@ -1699,7 +1701,7 @@
         "operationId": "get-pages-page-number",
         "parameters": [
           {
-            "name": "id",
+            "name": "page_number",
             "in": "path",
             "description": "Page number in the selected mushaf.",
             "required": true,
@@ -1732,10 +1734,12 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Internal Mushaf page record id. Use `page_number` for Mushaf page navigation."
                         },
                         "page_number": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Page number in the selected mushaf."
                         },
                         "verse_mapping": {
                           "type": "object",
@@ -1806,7 +1810,7 @@
           {
             "lang": "javascript",
             "label": "Node.js",
-            "source": "// Get Page\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(id, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/pages/${id}`,\n    {\n    headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi(\"507\", {\"mushaf\":\"2\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
+            "source": "// Get Page\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(page_number, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/pages/${page_number}`,\n    {\n    headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi(\"507\", {\"mushaf\":\"2\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
           },
           {
             "lang": "bash",
@@ -1815,8 +1819,8 @@
           },
           {
             "lang": "text",
-            "label": "AI Prompt",
-            "source": "Implement a function to get page using the Quran Foundation API.\n\nEndpoint: GET /pages/{id}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/pages/{id}\n2. Inject both required headers on every request\n3. Handle 401, 403, and 429 responses gracefully"
+            "label": "🤖 AI Prompt",
+            "source": "Implement a function to get page using the Quran Foundation API.\n\nEndpoint: GET /pages/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/pages/{page_number}\n2. Inject both required headers on every request\n3. Handle 401, 403, and 429 responses gracefully"
           }
         ]
       }
