@@ -4,27 +4,32 @@ description: How to choose between Reading Sessions and Activity Days when a use
 displayed_sidebar: apiVersionedSidebar
 ---
 
-Both are updated when a user reads, but they serve different product use cases.
+Most Quran reader clients should use both concepts when a signed-in user reads, but they answer different product questions.
 
 ## Reading Sessions
 
-Tracks the user's most recent reading location (`chapterNumber` + `verseNumber`) for "Continue reading" and "Recently read" UX.
+Reading Sessions answer: **where should this user resume reading?**
 
-- POST `/v1/reading-sessions` creates a new session unless the latest session was updated within the last 20 minutes, in which case it updates the latest session.
-- GET `/v1/reading-sessions` returns the user's reading session history (most recent first).
+Use them for "Continue reading" and "Recently read" UX. They store the latest Surah/Ayah location and recent reading history, not daily progress totals. The backend updates the latest recent session when it was touched within the last 20 minutes; otherwise, it creates a new session.
 
 ## Activity Days
 
-Tracks daily activity/progress (by date + type). This powers streaks, goals, and calendar-style progress views.
+Activity Days answer: **what reading progress should count for this day?**
 
-- POST `/v1/activity-days` creates/updates one activity day per date per type. For `type=QURAN`, it accepts `seconds`, `ranges`, and `mushafId` (and optional `date` for backfill) and enqueues progress updates.
-- GET `/v1/activity-days` fetches activity days for a date range (calendar/history).
-- GET `/v1/activity-days/estimate-reading-time` estimates seconds from verse ranges.
+Use them for streaks, goals, and calendar-style progress. For Quran reading, the client credits active reading time and read ranges to an activity day. The endpoint docs below are the source of truth for the current request fields and examples.
 
 ## When A User Reads (Qur'an)
 
 - Use **Reading Sessions** to save the user's current position for resume/recently-read UX (Surah/Ayah location).
 - Use **Activity Days** to credit time/ranges toward streaks, goals, and activity calendar progress.
+
+Quran.com's reader implementation follows this high-level pattern:
+
+1. When a verse becomes visible, queue the verse key and debounce `POST /v1/reading-sessions` with the latest `chapterNumber` and `verseNumber`.
+2. Track active reading seconds while the reader tab is focused.
+3. Every few seconds, merge queued verse keys into valid ranges.
+4. Send `POST /v1/activity-days` to credit the active reading time and read ranges.
+5. Clear local reading-progress caches after the sync so streak/activity views can refetch current data.
 
 ## Related API Docs (v1.0.0)
 
@@ -33,4 +38,3 @@ Tracks daily activity/progress (by date + type). This powers streaks, goals, and
 - [Add/update activity day](/docs/user_related_apis_versioned/1.0.0/add-update-activity-day/)
 - [Get activity days](/docs/user_related_apis_versioned/1.0.0/get-activity-days/)
 - [Estimate reading time](/docs/user_related_apis_versioned/1.0.0/estimate-reading-time/)
-
