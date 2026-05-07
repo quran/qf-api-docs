@@ -10,7 +10,7 @@ Most Quran reader clients should use both concepts when a signed-in user reads, 
 
 Reading Sessions answer: **where should this user resume reading?**
 
-Use them for "Continue reading" and "Recently read" UX. They store the latest Surah/Ayah location and recent reading history, not daily progress totals. The backend updates the latest recent session when it was touched within the last 20 minutes; otherwise, it creates a new session.
+Use them for "Continue reading" and "Recently read" UX. They store the latest Surah/Ayah location and recent reading history, not daily progress totals. The backend updates the most recent session when it was touched within the last 20 minutes; otherwise, it creates a new session.
 
 ## Activity Days
 
@@ -18,7 +18,7 @@ Activity Days answer: **what reading progress should count for this day?**
 
 Use them for streaks, goals, and calendar-style progress. For Quran reading, the client credits active reading time and read ranges to an activity day. The endpoint docs below are the source of truth for the current request fields and examples.
 
-## When A User Reads (Qur'an)
+## When A User Reads Quran
 
 - Use **Reading Sessions** to save the user's current position for resume/recently-read UX (Surah/Ayah location).
 - Use **Activity Days** to credit time/ranges toward streaks, goals, and activity calendar progress.
