@@ -252,7 +252,7 @@ const config = {
               },
               {
                 label: "User APIs (Pre-live)",
-                to: "/docs/category/user-related-apis-pre-live",
+                to: "/docs/user_related_apis_prelive/user-related-apis/",
               },
               {
                 label: "OAuth2 APIs",
@@ -298,7 +298,7 @@ const config = {
               },
               {
                 label: "User APIs (Pre-live)",
-                to: "/docs/category/user-related-apis-pre-live",
+                to: "/docs/user_related_apis_prelive/user-related-apis/",
               },
               {
                 label: "Search APIs",

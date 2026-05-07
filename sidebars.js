@@ -323,6 +323,16 @@ const userRelatedApisVersionedConfig = {
   itemsBuilder: buildUserRelatedApisVersionedItems,
 };
 
+const userRelatedApisPreLiveConfig = {
+  label: "User APIs (Pre-live)",
+  introDocId: "user_related_apis_prelive/user-related-apis",
+  versionLabel: "pre-live",
+  generatedIndexTitle: "User APIs (Pre-live)",
+  generatedIndexDescription: "User APIs from the pre-live branch.",
+  generatedIndexSlug: "/category/user-related-apis-pre-live",
+  itemsBuilder: buildUserRelatedApisPreLiveItems,
+};
+
 const oauth2ApisLatestConfig = {
   label: "OAuth2 APIs",
   introDocId: "oauth2_apis_versioned/oauth-2-apis",
@@ -370,6 +380,7 @@ const searchApisVersionedConfig = {
 const latestApiFamilies = [
   contentApisLatestConfig,
   userRelatedApisLatestConfig,
+  userRelatedApisPreLiveConfig,
   oauth2ApisLatestConfig,
   searchApisLatestConfig,
 ];
@@ -615,19 +626,9 @@ const sidebars = {
   "user-related-apis-1.0.0": makeApiFamilySidebar(
     userRelatedApisVersionedConfig,
   ),
-  "user-related-apis-pre-live": [
-    {
-      type: "category",
-      label: "User APIs (Pre-live)",
-      link: {
-        type: "generated-index",
-        title: "User APIs (Pre-live)",
-        description: "User APIs from the pre-live branch.",
-        slug: "/category/user-related-apis-pre-live",
-      },
-      items: buildUserRelatedApisPreLiveItems(),
-    },
-  ],
+  "user-related-apis-pre-live": makeApiFamilySidebar(
+    userRelatedApisPreLiveConfig,
+  ),
   oauth2_apis: makeApiFamilySidebar(oauth2ApisLatestConfig),
   "oauth2_apis-1.0.0": makeApiFamilySidebar(oauth2ApisVersionedConfig),
   search_apis: makeApiFamilySidebar(searchApisLatestConfig),
