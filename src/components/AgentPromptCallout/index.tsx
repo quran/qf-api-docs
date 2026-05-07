@@ -73,7 +73,7 @@ export default function AgentPromptCallout({
 
   React.useEffect(
     () => () => {
-      if (resetTimeoutRef.current) {
+      if (resetTimeoutRef.current !== undefined) {
         window.clearTimeout(resetTimeoutRef.current);
       }
     },
@@ -88,7 +88,7 @@ export default function AgentPromptCallout({
       setCopyState("failed");
     }
 
-    if (resetTimeoutRef.current) {
+    if (resetTimeoutRef.current !== undefined) {
       window.clearTimeout(resetTimeoutRef.current);
     }
 

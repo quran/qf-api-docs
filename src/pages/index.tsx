@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
 import DeveloperJourneyMap from "@site/src/components/DeveloperJourneyMap";
 import StarterCommandCard from "@site/src/components/StarterCommandCard";
 
@@ -30,10 +31,10 @@ function HomepageHeader() {
           className={styles.heroResourceLinks}
           aria-label="Secondary developer resources"
         >
-          <a href="/docs/sdk/javascript">JavaScript SDK</a>
+          <Link to="/docs/sdk/javascript/">JavaScript SDK</Link>
           <a href="/agent-prompts/qf-next-starter.md">AI starter prompt</a>
           <a href="/llms.txt">LLMs.txt</a>
-          <a href="/docs/api-reference">API reference</a>
+          <Link to="/docs/api-reference/">API reference</Link>
         </nav>
       </div>
     </header>

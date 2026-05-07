@@ -32,7 +32,7 @@ const ApiCards: ApiCard[] = [
     link: "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/",
   },
   {
-    title: "User-related APIs",
+    title: "User APIs",
     icon: "👤",
     description:
       "Manage user data including bookmarks, reading sessions, preferences, goals, notes, and collections. Build personalized Quran experiences.",
@@ -61,7 +61,7 @@ export default function HomepageFeatures(): JSX.Element {
       <div className="container">
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Get started with our APIs:</h2>
-          <Link className={styles.sectionLink} to="/docs/api-reference">
+          <Link className={styles.sectionLink} to="/docs/api-reference/">
             See API References
           </Link>
         </div>

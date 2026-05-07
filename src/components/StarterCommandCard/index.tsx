@@ -26,7 +26,7 @@ export default function StarterCommandCard({
 
   React.useEffect(
     () => () => {
-      if (resetTimeoutRef.current) {
+      if (resetTimeoutRef.current !== undefined) {
         window.clearTimeout(resetTimeoutRef.current);
       }
     },
@@ -41,7 +41,7 @@ export default function StarterCommandCard({
       setCopyState("failed");
     }
 
-    if (resetTimeoutRef.current) {
+    if (resetTimeoutRef.current !== undefined) {
       window.clearTimeout(resetTimeoutRef.current);
     }
 
