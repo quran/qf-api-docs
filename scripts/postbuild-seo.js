@@ -17,6 +17,7 @@ const SEARCH_CONSOLE_REDIRECT_OVERRIDES_PATH = path.join(
   __dirname,
   "search-console-redirect-overrides.json",
 );
+const PUBLIC_ROUTE_LOCK_PATH = path.join(__dirname, "public-route-lock.json");
 const SITE_ORIGIN = "https://api-docs.quran.foundation";
 const SITE_HOST = new URL(SITE_ORIGIN).host;
 const STATIC_REDIRECT_LIMIT = 2000;
@@ -569,6 +570,20 @@ function readSearchConsoleRedirectOverrides() {
   return manifest.redirects;
 }
 
+function readPublicRouteLock() {
+  if (!fs.existsSync(PUBLIC_ROUTE_LOCK_PATH)) {
+    return [];
+  }
+
+  const manifest = readJsonFile(PUBLIC_ROUTE_LOCK_PATH);
+  const routes = Array.isArray(manifest) ? manifest : manifest.routes;
+  if (!Array.isArray(routes)) {
+    throw new Error(`Invalid public route lock manifest: ${PUBLIC_ROUTE_LOCK_PATH}`);
+  }
+
+  return routes;
+}
+
 function collectVersionedApiAliasRedirects() {
   const redirects = [];
 
@@ -641,6 +656,33 @@ function validateGeneratedRedirectTargets(generatedRedirects) {
   }
 }
 
+function validatePublicRouteLock(redirects, routes = readPublicRouteLock()) {
+  const missingRoutes = [];
+
+  for (const route of routes) {
+    const pathname = normalizePathname(normalizeRedirectPath(route));
+    if (fs.existsSync(getBuildPathForTarget(pathname))) {
+      continue;
+    }
+
+    const sourceVariants = getRedirectSourceVariants(pathname);
+    const missingVariants = sourceVariants.filter((source) => !redirects.has(source));
+    if (missingVariants.length > 0) {
+      missingRoutes.push(
+        `${pathname} is not built and is missing redirects for ${missingVariants.join(", ")}`,
+      );
+    }
+  }
+
+  if (missingRoutes.length > 0) {
+    throw new Error(
+      `Public route lock failed. Add explicit redirects before removing published routes:\n${missingRoutes
+        .slice(0, 30)
+        .join("\n")}`,
+    );
+  }
+}
+
 function validateRedirectLimits(redirects) {
   let staticRedirects = 0;
   let dynamicRedirects = 0;
@@ -683,15 +725,18 @@ function writeRedirects() {
   const baseContent = stripGeneratedRedirectsSection(existingContent);
   const registry = createRedirectRegistry(baseContent);
 
-  const exactRedirectSources = [
-    ...readSearchConsoleRedirectOverrides(),
+  for (const redirect of readSearchConsoleRedirectOverrides()) {
+    registry.addRedirect(redirect.source, redirect.target);
+  }
+
+  const generatedRedirectSources = [
     ...readGeneratedAuthRedirectManifest(),
     ...collectGeneratedAuthRedirectsFromDocs(),
     ...collectVersionedApiAliasRedirects(),
   ];
 
-  for (const redirect of exactRedirectSources) {
-    registry.addRedirect(redirect.source, redirect.target);
+  for (const redirect of generatedRedirectSources) {
+    registry.addRedirect(redirect.source, redirect.target, { skipExisting: true });
   }
 
   for (const redirect of collectSlashRedirectsFromBuild()) {
@@ -699,6 +744,7 @@ function writeRedirects() {
   }
 
   validateGeneratedRedirectTargets(registry.generated);
+  validatePublicRouteLock(registry.redirects);
   validateNoRedirectLoops(registry.redirects);
   validateRedirectLimits(registry.redirects);
 
@@ -771,10 +817,13 @@ module.exports = {
   createRedirectRegistry,
   getCanonicalPathOverride,
   getGeneratedAuthRedirectsFromDoc,
+  getRedirectSourceVariants,
   normalizeRedirectPath,
   normalizeSiteUrl,
   operationIdToGeneratedSlug,
   shouldDropSitemapPath,
   stripGeneratedRedirectsSection,
+  validateGeneratedRedirectTargets,
   validateNoRedirectLoops,
+  validatePublicRouteLock,
 };

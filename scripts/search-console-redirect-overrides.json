@@ -101,6 +101,18 @@
       "target": "/request-access/"
     },
     {
+      "source": "/docs/tutorials/sync/getting-started",
+      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
+    },
+    {
+      "source": "/docs/tutorials/sync/handling-conflicts",
+      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
+    },
+    {
+      "source": "/docs/tutorials/sync/offline-first-patterns",
+      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
+    },
+    {
       "source": "/docs/user_related_apis_versioned",
       "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
     },
@@ -119,6 +131,18 @@
     {
       "source": "/docs/user_related_apis_versioned/1.0.0/comments-controller-success",
       "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/users-controller-delete-account",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/users-controller-follow-featured-users",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/users-controller-get-featured-users",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
     },
     {
       "source": "/docs/user_related_apis_versioned/1.0.0/delete-a-post",
@@ -209,6 +233,18 @@
       "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/"
     },
     {
+      "source": "/docs/user_related_apis_versioned/users-controller-delete-account",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/users-controller-follow-featured-users",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/users-controller-get-featured-users",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
       "source": "/docs/user_related_apis_versioned/delete-a-post",
       "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-delete/"
     },
@@ -283,6 +319,18 @@
     {
       "source": "/docs/user_related_apis_versioned/update-user-notification-settings",
       "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_prelive/users-controller-delete-account",
+      "target": "/docs/user_related_apis_prelive/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_prelive/users-controller-follow-featured-users",
+      "target": "/docs/user_related_apis_prelive/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_prelive/users-controller-get-featured-users",
+      "target": "/docs/user_related_apis_prelive/user-related-apis/"
     },
     {
       "source": "/sdk",
