@@ -123,6 +123,77 @@ console.log(info.bio);
 | `id`   | `number` | Tafsir identifier.                 |
 | `info` | `string` | Detailed description or biography. |
 
+
+## Content Resource Sync
+
+Use content resource sync when a client needs to keep a local cache of public tafsirs, translations, recitations, or articles up to date without polling every resource row.
+
+### Bootstrap Current Resources
+
+```ts
+const response = await client.resources.sync({
+  bootstrap: true,
+  resources: "articles:*;recitations:*;tafsirs:*;translations:*",
+  perPage: 100,
+});
+
+for (const mutation of response.sync.mutations) {
+  if (mutation.snapshotUrl) {
+    const snapshot = await client.resources.findSnapshot(
+      mutation.resourceGroup,
+      mutation.resourceId,
+    );
+
+    console.log(snapshot.records.length);
+  }
+}
+
+const nextSyncToken = response.sync.nextSyncToken;
+```
+
+The `resources` filter uses plural group names (`articles`, `recitations`, `tafsirs`, `translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `translations:19,20;tafsirs:14`.
+
+### Poll Incremental Changes
+
+```ts
+const response = await client.resources.sync({
+  syncToken: nextSyncToken,
+  resources: "translations:19",
+  perPage: 100,
+});
+
+for (const mutation of response.sync.mutations) {
+  switch (mutation.type) {
+    case "ROW_CREATE":
+    case "ROW_UPDATE":
+      // Upsert mutation.data by resourceGroup/resourceId/recordType/recordKey.
+      break;
+    case "ROW_DELETE":
+      // Delete one local row by recordKey.
+      break;
+    case "RESOURCE_CREATE":
+    case "RESOURCE_INVALIDATE":
+      // Fetch mutation.snapshotUrl or call findSnapshot() and replace the resource.
+      break;
+    case "RESOURCE_DELETE":
+      // Remove or disable the local resource.
+      break;
+  }
+}
+```
+
+If `response.sync.hasMore` is true, request `response.sync.nextPageUrl` through the raw client or call `sync({ cursor })` with the cursor from the URL. Store `nextSyncToken` only after the final page.
+
+### Fetch A Snapshot
+
+```ts
+const snapshot = await client.resources.findSnapshot("translations", 19);
+
+console.log(snapshot.resourceGroup);
+console.log(snapshot.records.length);
+```
+
+Snapshots return the current full resource payload. They are not sequence-bound, so later row mutations should still be handled idempotently.
 ## Languages
 
 ```ts
