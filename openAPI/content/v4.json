@@ -17318,6 +17318,18 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
           "410": {
             "description": "The token or cursor is invalid, incompatible, or requires a fresh bootstrap.",
             "content": {
@@ -17337,6 +17349,21 @@
                 }
               }
             }
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
           }
         }
       }
@@ -17366,7 +17393,8 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "format": "int64"
             }
           }
         ],
@@ -17390,6 +17418,15 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Resource snapshot is unavailable or not public.",
             "content": {
@@ -17399,6 +17436,24 @@
                 }
               }
             }
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
           }
         }
       }
@@ -20138,13 +20193,7 @@
           "resource_group",
           "resource_id",
           "resource_content_id",
-          "record_type",
-          "record_key",
-          "source_record_id",
-          "changed_at",
-          "data",
-          "snapshot_url",
-          "unavailable_reason"
+          "changed_at"
         ],
         "properties": {
           "sequence": {
@@ -20174,12 +20223,13 @@
           "record_key": {
             "type": "string",
             "nullable": true,
-            "description": "Client row key within the resource."
+            "description": "Present for row mutations. Client row key within the resource."
           },
           "source_record_id": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "description": "Present for row mutations when a source record ID is available."
           },
           "changed_at": {
             "type": "string",
@@ -20332,11 +20382,11 @@
             "properties": {
               "code": {
                 "type": "string",
-                "example": "resync_required"
+                "example": "content_sync_error"
               },
               "message": {
                 "type": "string",
-                "example": "The sync token is invalid or incompatible. Bootstrap again."
+                "example": "The request could not be completed."
               }
             }
           }

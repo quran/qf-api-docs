@@ -131,24 +131,37 @@ Use content resource sync when a client needs to keep a local cache of public ta
 ### Bootstrap Current Resources
 
 ```ts
-const response = await client.resources.sync({
-  bootstrap: true,
-  resources: "articles:*;recitations:*;tafsirs:*;translations:*",
-  perPage: 100,
-});
+const resourcesFilter = "articles:*;recitations:*;tafsirs:*;translations:*";
+let cursor;
+let nextSyncToken;
 
-for (const mutation of response.sync.mutations) {
-  if (mutation.snapshotUrl) {
-    const snapshot = await client.resources.findSnapshot(
-      mutation.resourceGroup,
-      mutation.resourceId,
-    );
+do {
+  const response = await client.resources.sync(
+    cursor
+      ? { cursor }
+      : { bootstrap: true, resources: resourcesFilter, perPage: 100 },
+  );
 
-    console.log(snapshot.records.length);
+  for (const mutation of response.sync.mutations) {
+    if (mutation.snapshotUrl) {
+      const snapshot = await client.resources.findSnapshot(
+        mutation.resourceGroup,
+        mutation.resourceId,
+      );
+
+      console.log(snapshot.records.length);
+    }
   }
-}
 
-const nextSyncToken = response.sync.nextSyncToken;
+  if (response.sync.hasMore && response.sync.nextPageUrl) {
+    cursor =
+      new URL(response.sync.nextPageUrl, "https://apis.quran.foundation")
+        .searchParams.get("cursor") ?? undefined;
+  } else {
+    cursor = undefined;
+    nextSyncToken = response.sync.nextSyncToken;
+  }
+} while (cursor);
 ```
 
 The `resources` filter uses plural group names (`articles`, `recitations`, `tafsirs`, `translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `translations:19,20;tafsirs:14`.
@@ -158,7 +171,7 @@ The `resources` filter uses plural group names (`articles`, `recitations`, `tafs
 ```ts
 const response = await client.resources.sync({
   syncToken: nextSyncToken,
-  resources: "translations:19",
+  resources: resourcesFilter, // Same canonical filter used during bootstrap.
   perPage: 100,
 });
 
