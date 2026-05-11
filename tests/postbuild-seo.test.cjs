@@ -6,12 +6,15 @@ const {
   createRedirectRegistry,
   getCanonicalPathOverride,
   getGeneratedAuthRedirectsFromDoc,
+  getRedirectSourceVariants,
   normalizeRedirectPath,
   normalizeSiteUrl,
   operationIdToGeneratedSlug,
   shouldDropSitemapPath,
   stripGeneratedRedirectsSection,
+  validateGeneratedRedirectTargets,
   validateNoRedirectLoops,
+  validatePublicRouteLock,
 } = require(path.join(__dirname, '..', 'scripts', 'postbuild-seo.js'));
 
 test('canonicalizes current generated API operation aliases to versioned paths', () => {
@@ -181,6 +184,86 @@ test('redirect registry defaults two-token existing redirects to 301', () => {
   });
 });
 
+test('redirect registry adds slash variants for retired routes', () => {
+  const registry = createRedirectRegistry();
+  registry.addRedirect(
+    '/docs/tutorials/sync/getting-started',
+    '/docs/tutorials/oidc/user-apis-quickstart/',
+  );
+
+  assert.deepEqual(getRedirectSourceVariants('/docs/tutorials/sync/getting-started/'), [
+    '/docs/tutorials/sync/getting-started',
+    '/docs/tutorials/sync/getting-started/',
+  ]);
+  assert.equal(
+    registry.redirects.get('/docs/tutorials/sync/getting-started').target,
+    '/docs/tutorials/oidc/user-apis-quickstart/',
+  );
+  assert.equal(
+    registry.redirects.get('/docs/tutorials/sync/getting-started/').target,
+    '/docs/tutorials/oidc/user-apis-quickstart/',
+  );
+});
+
+test('public route lock fails deleted routes without redirects', () => {
+  assert.throws(
+    () =>
+      validatePublicRouteLock(new Map(), ['/docs/removed-public-page/'], {
+        pathExists: () => false,
+      }),
+    /Public route lock failed/,
+  );
+});
+
+test('public route lock passes built routes without redirects', () => {
+  assert.doesNotThrow(() =>
+    validatePublicRouteLock(new Map(), ['/docs/existing-public-page/'], {
+      pathExists: () => true,
+    }),
+  );
+});
+
+test('public route lock passes deleted routes with slash redirects', () => {
+  const registry = createRedirectRegistry();
+  registry.addRedirect('/docs/removed-public-page', '/docs/api/field-reference/');
+
+  assert.doesNotThrow(() =>
+    validatePublicRouteLock(registry.redirects, ['/docs/removed-public-page/'], {
+      pathExists: () => false,
+    }),
+  );
+});
+
+test('generated redirect target validation rejects missing build targets', () => {
+  assert.throws(
+    () =>
+      validateGeneratedRedirectTargets(
+        new Map([
+          [
+            '/docs/removed-public-page',
+            { target: '/docs/definitely-missing-target/', status: '301' },
+          ],
+        ]),
+        { pathExists: () => false },
+      ),
+    /Generated redirects point at missing build targets/,
+  );
+});
+
+test('generated redirect target validation passes existing build targets', () => {
+  assert.doesNotThrow(() =>
+    validateGeneratedRedirectTargets(
+      new Map([
+        [
+          '/docs/old-public-page',
+          { target: '/docs/existing-target/', status: '301' },
+        ],
+      ]),
+      { pathExists: () => true },
+    ),
+  );
+});
+
 test('strips generated redirects sections with CRLF newlines', () => {
   assert.equal(
     stripGeneratedRedirectsSection(
@@ -221,5 +304,25 @@ test('redirect registry keeps scopes unversioned', () => {
   assert.equal(
     registry.redirects.get('/docs/user_related_apis_versioned/1.0.0/scopes').target,
     '/docs/user_related_apis_versioned/scopes/',
+  );
+});
+
+test('manual redirects can override generated alias redirects', () => {
+  const registry = createRedirectRegistry();
+  registry.addRedirect(
+    '/docs/user_related_apis_versioned/users-controller-delete-account',
+    '/docs/user_related_apis_versioned/1.0.0/user-related-apis/',
+  );
+  registry.addRedirect(
+    '/docs/user_related_apis_versioned/users-controller-delete-account',
+    '/docs/user_related_apis_versioned/1.0.0/users-controller-delete-account/',
+    { skipExisting: true },
+  );
+
+  assert.equal(
+    registry.redirects.get(
+      '/docs/user_related_apis_versioned/users-controller-delete-account',
+    ).target,
+    '/docs/user_related_apis_versioned/1.0.0/user-related-apis/',
   );
 });
