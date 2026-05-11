@@ -104,6 +104,31 @@ test('live audit fails direct 404 URLs', async () => {
   assert.equal(result.finalStatus, 404);
 });
 
+test('live audit falls back to GET when HEAD is unsupported', async () => {
+  for (const statusCode of [405, 501]) {
+    const result = await resolveHttpUrl(
+      'https://api-docs.quran.foundation/docs/get-only-page/',
+      {
+        origin,
+        requestHead: mockHead(
+          new Map([
+            [`${origin}/docs/get-only-page/`, { statusCode }],
+          ]),
+        ),
+        requestGet: mockHead(
+          new Map([
+            [`${origin}/docs/get-only-page/`, { statusCode: 200 }],
+          ]),
+        ),
+      },
+    );
+
+    assert.equal(result.ok, true);
+    assert.equal(result.outcome, 'ok');
+    assert.equal(result.finalStatus, 200);
+  }
+});
+
 test('live audit fails request errors and timeouts', async () => {
   const result = await resolveHttpUrl(
     'https://api-docs.quran.foundation/docs/slow-page/',
@@ -170,6 +195,35 @@ test('local audit fails missing build paths without redirects', () => {
   assert.equal(result.ok, false);
   assert.equal(result.outcome, 'not-found');
   assert.equal(result.finalStatus, 404);
+});
+
+test('local audit reports external redirect targets without aborting', () => {
+  const redirects = new Map([
+    ['/docs/external-page', {
+      status: '301',
+      target: 'https://developers.example.com/docs/external-page/',
+    }],
+  ]);
+  const result = resolveLocalUrl(
+    'https://api-docs.quran.foundation/docs/external-page',
+    {
+      redirects,
+      pathExists: () => false,
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.outcome, 'external-redirect');
+  assert.equal(result.initialStatus, 301);
+  assert.equal(result.finalStatus, 'external');
+  assert.equal(result.finalUrl, 'https://developers.example.com/docs/external-page/');
+  assert.deepEqual(result.chain, [
+    {
+      source: '/docs/external-page',
+      status: '301',
+      target: 'https://developers.example.com/docs/external-page/',
+    },
+  ]);
 });
 
 test('parseArgs accepts positive integer numeric options', () => {

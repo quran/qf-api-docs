@@ -253,11 +253,11 @@ function localRedirectTarget(target) {
     ? new URL(target)
     : new URL(target, siteOrigin);
 
-  if (url.host !== siteHost) {
-    throw new Error(`Cannot resolve external redirect locally: ${target}`);
-  }
-
-  return url.pathname;
+  return {
+    external: url.host !== siteHost,
+    href: url.toString(),
+    pathname: url.pathname,
+  };
 }
 
 function resolveLocalUrl(rawUrl, options = {}) {
@@ -303,26 +303,37 @@ function resolveLocalUrl(rawUrl, options = {}) {
       };
     }
 
-    const targetPathname = localRedirectTarget(redirect.target);
+    const target = localRedirectTarget(redirect.target);
     chain.push({
       source: pathname,
       status: redirect.status || "301",
-      target: targetPathname,
+      target: target.external ? target.href : target.pathname,
     });
 
-    if (seen.has(targetPathname)) {
+    if (target.external) {
+      return {
+        ok: false,
+        outcome: "external-redirect",
+        initialStatus: Number(chain[0].status) || 301,
+        finalStatus: "external",
+        finalUrl: target.href,
+        chain,
+      };
+    }
+
+    if (seen.has(target.pathname)) {
       return {
         ok: false,
         outcome: "redirect-loop",
         initialStatus: Number(chain[0].status) || 301,
         finalStatus: "loop",
-        finalUrl: `${siteOrigin}${targetPathname}`,
+        finalUrl: `${siteOrigin}${target.pathname}`,
         chain,
       };
     }
 
     seen.add(pathname);
-    pathname = targetPathname;
+    pathname = target.pathname;
   }
 
   throw new Error("Unreachable local URL resolution state");
@@ -337,14 +348,14 @@ function urlAtOrigin(rawUrl, origin) {
   return target.toString();
 }
 
-function requestHead(urlString, timeoutMs = defaultTimeoutMs) {
+function requestWithMethod(urlString, method, timeoutMs = defaultTimeoutMs) {
   return new Promise((resolve) => {
     const url = new URL(urlString);
     const client = url.protocol === "http:" ? http : https;
     const request = client.request(
       url,
       {
-        method: "HEAD",
+        method,
         timeout: timeoutMs,
         headers: {
           "User-Agent": "qf-api-docs-search-console-audit/1.0",
@@ -369,17 +380,26 @@ function requestHead(urlString, timeoutMs = defaultTimeoutMs) {
   });
 }
 
+function requestHead(urlString, timeoutMs = defaultTimeoutMs) {
+  return requestWithMethod(urlString, "HEAD", timeoutMs);
+}
+
+function requestGet(urlString, timeoutMs = defaultTimeoutMs) {
+  return requestWithMethod(urlString, "GET", timeoutMs);
+}
+
 async function resolveHttpUrl(rawUrl, options = {}) {
   const origin = options.origin || siteOrigin;
   const maxRedirects = options.maxRedirects || defaultMaxRedirects;
   const timeoutMs = options.timeoutMs || defaultTimeoutMs;
-  const request = options.requestHead || requestHead;
+  const headRequest = options.requestHead || requestHead;
+  const getRequest = options.requestGet || requestGet;
   const chain = [];
   const seen = new Set();
   let currentUrl = urlAtOrigin(rawUrl, origin);
 
   for (let redirectCount = 0; redirectCount <= maxRedirects; redirectCount += 1) {
-    const response = await request(currentUrl, timeoutMs);
+    let response = await headRequest(currentUrl, timeoutMs);
     if (response.error) {
       return {
         ok: false,
@@ -390,6 +410,21 @@ async function resolveHttpUrl(rawUrl, options = {}) {
         error: response.error,
         chain,
       };
+    }
+
+    if (response.statusCode === 405 || response.statusCode === 501) {
+      response = await getRequest(currentUrl, timeoutMs);
+      if (response.error) {
+        return {
+          ok: false,
+          outcome: "request-error",
+          initialStatus: chain[0]?.status || "error",
+          finalStatus: "error",
+          finalUrl: currentUrl,
+          error: response.error,
+          chain,
+        };
+      }
     }
 
     const status = response.statusCode;
