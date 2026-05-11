@@ -188,6 +188,9 @@ for (const mutation of response.sync.mutations) {
     case "RESOURCE_INVALIDATE":
       // Fetch mutation.snapshotUrl or call findSnapshot() and replace the resource.
       break;
+    case "RESOURCE_UPDATE":
+      // Resource freshness changed. Keep local rows unless row events or invalidation change them.
+      break;
     case "RESOURCE_DELETE":
       // Remove or disable the local resource.
       break;

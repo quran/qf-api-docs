@@ -17245,7 +17245,7 @@
           "Resources"
         ],
         "summary": "Sync public content resources",
-        "description": "Bootstrap current public resources or poll ordered content mutations for syncable resources.\n\nUse `bootstrap=true` with `resources` for the initial sync. The final bootstrap page returns `next_sync_token`.\nUse `sync_token` with the same canonical `resources` filter for incremental sync.\n`cursor` is used only for `next_page_url` pagination and is bound to the original filter and page size.\n\nSync responses are not cacheable and return `Cache-Control: no-store`.",
+        "description": "Bootstrap current public resources or poll ordered content mutations for syncable resources.\n\nUse `bootstrap=true` with `resources` for the initial sync. The final bootstrap page returns `next_sync_token`.\nUse `sync_token` with the same canonical `resources` filter for incremental sync.\n`cursor` is used only for `next_page_url` pagination and is bound to the original filter and page size.\n\nSync responses are not cacheable and return `Cache-Control: no-store`.\n`RESOURCE_UPDATE` is a resource-level freshness marker. It does not include `snapshot_url`; clients should keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.",
         "operationId": "resources-sync",
         "parameters": [
           {
@@ -20201,7 +20201,8 @@
             "format": "int64"
           },
           "type": {
-            "$ref": "#/components/schemas/ContentSyncMutationType"
+            "$ref": "#/components/schemas/ContentSyncMutationType",
+            "description": "Mutation type. `RESOURCE_UPDATE` is a resource-level freshness marker without `snapshot_url`; clients should keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them."
           },
           "resource_group": {
             "$ref": "#/components/schemas/ContentSyncResourceGroup"
@@ -20244,7 +20245,7 @@
           "snapshot_url": {
             "type": "string",
             "nullable": true,
-            "description": "Present for `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` mutations."
+            "description": "Present for `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` mutations. `RESOURCE_UPDATE` does not include a snapshot URL; clients should keep existing local rows."
           },
           "unavailable_reason": {
             "type": "string",
