@@ -126,7 +126,15 @@ console.log(info.bio);
 
 ## Content Resource Sync
 
-Use content resource sync when a client needs to keep a local cache of public tafsirs, translations, recitations, or articles up to date without polling every resource row.
+Use content resource sync when your app keeps a local copy of public tafsirs, translations, recitations, or articles and needs to update it without downloading every row again.
+
+The flow is:
+
+1. Bootstrap once with `sync({ bootstrap: true, resources })`.
+2. Page until `hasMore` is false, then store the final `nextSyncToken`.
+3. Poll later with `sync({ syncToken, resources })` using the same resources filter.
+4. Apply row mutations directly.
+5. When a mutation has a non-null `snapshotUrl`, call `findSnapshot(resourceGroup, resourceId)` and replace that local resource.
 
 ### Bootstrap Current Resources
 
@@ -209,7 +217,8 @@ console.log(snapshot.resourceGroup);
 console.log(snapshot.records.length);
 ```
 
-Snapshots return the current full resource payload. They are not sequence-bound, so later row mutations should still be handled idempotently.
+Snapshots return the current full resource payload. They are the companion to sync: use them when sync returns a `snapshotUrl` for `RESOURCE_CREATE` or `RESOURCE_INVALIDATE`. They are not sequence-bound, so later row mutations should still be handled idempotently.
+
 ## Languages
 
 ```ts
