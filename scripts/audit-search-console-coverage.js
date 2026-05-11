@@ -530,6 +530,15 @@ async function auditSearchConsoleExports(files, options = {}) {
   return { reports, failedUrls };
 }
 
+function parsePositiveIntegerOption(name, rawValue) {
+  const value = Number(rawValue);
+  if (!Number.isInteger(value) || value <= 0) {
+    throw new Error(`${name} must be a positive integer`);
+  }
+
+  return value;
+}
+
 function parseArgs(argv) {
   const options = {
     mode: "local",
@@ -548,11 +557,20 @@ function parseArgs(argv) {
     } else if (arg.startsWith("--origin=")) {
       options.origin = arg.slice("--origin=".length);
     } else if (arg.startsWith("--timeout-ms=")) {
-      options.timeoutMs = Number(arg.slice("--timeout-ms=".length));
+      options.timeoutMs = parsePositiveIntegerOption(
+        "--timeout-ms",
+        arg.slice("--timeout-ms=".length),
+      );
     } else if (arg.startsWith("--max-redirects=")) {
-      options.maxRedirects = Number(arg.slice("--max-redirects=".length));
+      options.maxRedirects = parsePositiveIntegerOption(
+        "--max-redirects",
+        arg.slice("--max-redirects=".length),
+      );
     } else if (arg.startsWith("--concurrency=")) {
-      options.concurrency = Number(arg.slice("--concurrency=".length));
+      options.concurrency = parsePositiveIntegerOption(
+        "--concurrency",
+        arg.slice("--concurrency=".length),
+      );
     } else {
       files.push(arg);
     }
@@ -593,6 +611,7 @@ if (require.main === module) {
 module.exports = {
   auditSearchConsoleExports,
   buildPathExists,
+  parseArgs,
   pathnameFromUrl,
   readRedirectSources,
   readSearchConsoleExport,

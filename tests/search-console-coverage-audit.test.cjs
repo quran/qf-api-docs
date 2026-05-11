@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const {
+  parseArgs,
   resolveHttpUrl,
   resolveLocalUrl,
 } = require(path.join(__dirname, '..', 'scripts', 'audit-search-console-coverage.js'));
@@ -169,4 +170,35 @@ test('local audit fails missing build paths without redirects', () => {
   assert.equal(result.ok, false);
   assert.equal(result.outcome, 'not-found');
   assert.equal(result.finalStatus, 404);
+});
+
+test('parseArgs accepts positive integer numeric options', () => {
+  const { options, files } = parseArgs([
+    '--mode=live',
+    '--timeout-ms=5000',
+    '--max-redirects=4',
+    '--concurrency=3',
+    'coverage.xlsx',
+  ]);
+
+  assert.equal(options.mode, 'live');
+  assert.equal(options.timeoutMs, 5000);
+  assert.equal(options.maxRedirects, 4);
+  assert.equal(options.concurrency, 3);
+  assert.deepEqual(files, ['coverage.xlsx']);
+});
+
+test('parseArgs rejects invalid numeric options with clear errors', () => {
+  assert.throws(
+    () => parseArgs(['--timeout-ms=abc', 'coverage.xlsx']),
+    /--timeout-ms must be a positive integer/,
+  );
+  assert.throws(
+    () => parseArgs(['--max-redirects=0', 'coverage.xlsx']),
+    /--max-redirects must be a positive integer/,
+  );
+  assert.throws(
+    () => parseArgs(['--concurrency=-2', 'coverage.xlsx']),
+    /--concurrency must be a positive integer/,
+  );
 });
