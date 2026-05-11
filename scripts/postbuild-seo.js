@@ -637,12 +637,14 @@ function getBuildPathForTarget(targetPath) {
   return path.join(BUILD_DIR, relativePath, "index.html");
 }
 
-function validateGeneratedRedirectTargets(generatedRedirects) {
+function validateGeneratedRedirectTargets(generatedRedirects, options = {}) {
+  const pathExists = options.pathExists || fs.existsSync;
+  const buildPathForTarget = options.getBuildPathForTarget || getBuildPathForTarget;
   const missingTargets = [];
 
   for (const { target } of generatedRedirects.values()) {
-    const targetPath = getBuildPathForTarget(target);
-    if (!fs.existsSync(targetPath)) {
+    const targetPath = buildPathForTarget(target);
+    if (!pathExists(targetPath)) {
       missingTargets.push(`${target} -> ${targetPath}`);
     }
   }
@@ -656,12 +658,14 @@ function validateGeneratedRedirectTargets(generatedRedirects) {
   }
 }
 
-function validatePublicRouteLock(redirects, routes = readPublicRouteLock()) {
+function validatePublicRouteLock(redirects, routes = readPublicRouteLock(), options = {}) {
+  const pathExists = options.pathExists || fs.existsSync;
+  const buildPathForTarget = options.getBuildPathForTarget || getBuildPathForTarget;
   const missingRoutes = [];
 
   for (const route of routes) {
     const pathname = normalizePathname(normalizeRedirectPath(route));
-    if (fs.existsSync(getBuildPathForTarget(pathname))) {
+    if (pathExists(buildPathForTarget(pathname))) {
       continue;
     }
 

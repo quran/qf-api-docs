@@ -207,8 +207,19 @@ test('redirect registry adds slash variants for retired routes', () => {
 
 test('public route lock fails deleted routes without redirects', () => {
   assert.throws(
-    () => validatePublicRouteLock(new Map(), ['/docs/removed-public-page/']),
+    () =>
+      validatePublicRouteLock(new Map(), ['/docs/removed-public-page/'], {
+        pathExists: () => false,
+      }),
     /Public route lock failed/,
+  );
+});
+
+test('public route lock passes built routes without redirects', () => {
+  assert.doesNotThrow(() =>
+    validatePublicRouteLock(new Map(), ['/docs/existing-public-page/'], {
+      pathExists: () => true,
+    }),
   );
 });
 
@@ -217,7 +228,9 @@ test('public route lock passes deleted routes with slash redirects', () => {
   registry.addRedirect('/docs/removed-public-page', '/docs/api/field-reference/');
 
   assert.doesNotThrow(() =>
-    validatePublicRouteLock(registry.redirects, ['/docs/removed-public-page/']),
+    validatePublicRouteLock(registry.redirects, ['/docs/removed-public-page/'], {
+      pathExists: () => false,
+    }),
   );
 });
 
@@ -231,8 +244,23 @@ test('generated redirect target validation rejects missing build targets', () =>
             { target: '/docs/definitely-missing-target/', status: '301' },
           ],
         ]),
+        { pathExists: () => false },
       ),
     /Generated redirects point at missing build targets/,
+  );
+});
+
+test('generated redirect target validation passes existing build targets', () => {
+  assert.doesNotThrow(() =>
+    validateGeneratedRedirectTargets(
+      new Map([
+        [
+          '/docs/old-public-page',
+          { target: '/docs/existing-target/', status: '301' },
+        ],
+      ]),
+      { pathExists: () => true },
+    ),
   );
 });
 
