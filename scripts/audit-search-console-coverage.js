@@ -232,7 +232,7 @@ function buildPathForPathname(pathname) {
     return path.join(buildDir, relativePath);
   }
 
-  return path.join(buildDir, `${relativePath}.html`);
+  return path.join(buildDir, relativePath, "index.html");
 }
 
 function buildPathExists(pathname) {
@@ -670,6 +670,7 @@ if (require.main === module) {
 
 module.exports = {
   auditSearchConsoleExports,
+  buildPathForPathname,
   buildPathExists,
   parseArgs,
   pathnameFromUrl,

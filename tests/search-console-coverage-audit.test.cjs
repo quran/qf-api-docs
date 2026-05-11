@@ -4,6 +4,7 @@ const path = require('node:path');
 
 const {
   parseArgs,
+  buildPathForPathname,
   resolveHttpUrl,
   resolveLocalUrl,
 } = require(path.join(__dirname, '..', 'scripts', 'audit-search-console-coverage.js'));
@@ -181,6 +182,21 @@ test('local audit resolves redirects against build paths', () => {
   assert.equal(result.ok, true);
   assert.equal(result.outcome, 'redirected');
   assert.equal(result.finalStatus, 200);
+});
+
+test('local audit maps pretty URL routes to index.html build paths', () => {
+  assert.equal(
+    buildPathForPathname('/docs/existing-page'),
+    path.join(__dirname, '..', 'build', 'docs', 'existing-page', 'index.html'),
+  );
+  assert.equal(
+    buildPathForPathname('/docs/existing-page/'),
+    path.join(__dirname, '..', 'build', 'docs', 'existing-page', 'index.html'),
+  );
+  assert.equal(
+    buildPathForPathname('/assets/app.js'),
+    path.join(__dirname, '..', 'build', 'assets', 'app.js'),
+  );
 });
 
 test('local audit fails missing build paths without redirects', () => {
