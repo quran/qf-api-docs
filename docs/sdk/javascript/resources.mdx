@@ -197,7 +197,7 @@ for (const mutation of response.sync.mutations) {
 
 If `response.sync.hasMore` is true, request `response.sync.nextPageUrl` through the raw client or call `sync({ cursor })` with the cursor from the URL. Store `nextSyncToken` only after the final page.
 
-### Fetch A Snapshot
+### Fetch a Snapshot
 
 ```ts
 const snapshot = await client.resources.findSnapshot("translations", 19);
