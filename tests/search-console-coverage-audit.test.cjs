@@ -242,6 +242,15 @@ test('parseArgs accepts positive integer numeric options', () => {
   assert.deepEqual(files, ['coverage.xlsx']);
 });
 
+test('parseArgs accepts valid http origin options', () => {
+  const { options } = parseArgs([
+    '--origin=https://preview.example.com/',
+    'coverage.xlsx',
+  ]);
+
+  assert.equal(options.origin, 'https://preview.example.com');
+});
+
 test('parseArgs rejects invalid numeric options with clear errors', () => {
   assert.throws(
     () => parseArgs(['--timeout-ms=abc', 'coverage.xlsx']),
@@ -254,5 +263,20 @@ test('parseArgs rejects invalid numeric options with clear errors', () => {
   assert.throws(
     () => parseArgs(['--concurrency=-2', 'coverage.xlsx']),
     /--concurrency must be a positive integer/,
+  );
+});
+
+test('parseArgs rejects invalid origin options with clear errors', () => {
+  assert.throws(
+    () => parseArgs(['--origin=preview', 'coverage.xlsx']),
+    /--origin must be an http\(s\) URL origin/,
+  );
+  assert.throws(
+    () => parseArgs(['--origin=ftp://preview.example.com', 'coverage.xlsx']),
+    /--origin must be an http\(s\) URL origin/,
+  );
+  assert.throws(
+    () => parseArgs(['--origin=https://preview.example.com/docs', 'coverage.xlsx']),
+    /--origin must be an http\(s\) URL origin/,
   );
 });

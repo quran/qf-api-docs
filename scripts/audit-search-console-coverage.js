@@ -574,6 +574,28 @@ function parsePositiveIntegerOption(name, rawValue) {
   return value;
 }
 
+function parseHttpOriginOption(name, rawValue) {
+  let url;
+  try {
+    url = new URL(rawValue);
+  } catch {
+    throw new Error(`${name} must be an http(s) URL origin`);
+  }
+
+  if (
+    !["http:", "https:"].includes(url.protocol) ||
+    url.username ||
+    url.password ||
+    url.pathname !== "/" ||
+    url.search ||
+    url.hash
+  ) {
+    throw new Error(`${name} must be an http(s) URL origin`);
+  }
+
+  return url.origin;
+}
+
 function parseArgs(argv) {
   const options = {
     mode: "local",
@@ -590,7 +612,10 @@ function parseArgs(argv) {
     } else if (arg === "--mode=live" || arg === "--live") {
       options.mode = "live";
     } else if (arg.startsWith("--origin=")) {
-      options.origin = arg.slice("--origin=".length);
+      options.origin = parseHttpOriginOption(
+        "--origin",
+        arg.slice("--origin=".length),
+      );
     } else if (arg.startsWith("--timeout-ms=")) {
       options.timeoutMs = parsePositiveIntegerOption(
         "--timeout-ms",
