@@ -123,6 +123,102 @@ console.log(info.bio);
 | `id`   | `number` | Tafsir identifier.                 |
 | `info` | `string` | Detailed description or biography. |
 
+
+## Content Resource Sync
+
+Use content resource sync when your app keeps a local copy of public tafsirs, translations, recitations, or articles and needs to update it without downloading every row again.
+
+The flow is:
+
+1. Bootstrap once with `sync({ bootstrap: true, resources })`.
+2. Page until `hasMore` is false, then store the final `nextSyncToken`.
+3. Poll later with `sync({ syncToken, resources })` using the same resources filter.
+4. Apply row mutations directly.
+5. When a mutation has a non-null `snapshotUrl`, call `findSnapshot(resourceGroup, resourceId)` and replace that local resource.
+
+### Bootstrap Current Resources
+
+```ts
+const resourcesFilter = "articles:*;recitations:*;tafsirs:*;translations:*";
+let cursor;
+let nextSyncToken;
+
+do {
+  const response = await client.resources.sync(
+    cursor
+      ? { cursor }
+      : { bootstrap: true, resources: resourcesFilter, perPage: 100 },
+  );
+
+  for (const mutation of response.sync.mutations) {
+    if (mutation.snapshotUrl) {
+      const snapshot = await client.resources.findSnapshot(
+        mutation.resourceGroup,
+        mutation.resourceId,
+      );
+
+      console.log(snapshot.records.length);
+    }
+  }
+
+  if (response.sync.hasMore && response.sync.nextPageUrl) {
+    cursor =
+      new URL(response.sync.nextPageUrl, "https://apis.quran.foundation")
+        .searchParams.get("cursor") ?? undefined;
+  } else {
+    cursor = undefined;
+    nextSyncToken = response.sync.nextSyncToken;
+  }
+} while (cursor);
+```
+
+The `resources` filter uses plural group names (`articles`, `recitations`, `tafsirs`, `translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `translations:19,20;tafsirs:14`.
+
+### Poll Incremental Changes
+
+```ts
+const response = await client.resources.sync({
+  syncToken: nextSyncToken,
+  resources: resourcesFilter, // Same canonical filter used during bootstrap.
+  perPage: 100,
+});
+
+for (const mutation of response.sync.mutations) {
+  switch (mutation.type) {
+    case "ROW_CREATE":
+    case "ROW_UPDATE":
+      // Upsert mutation.data by resourceGroup/resourceId/recordType/recordKey.
+      break;
+    case "ROW_DELETE":
+      // Delete one local row by recordKey.
+      break;
+    case "RESOURCE_CREATE":
+    case "RESOURCE_INVALIDATE":
+      // Fetch mutation.snapshotUrl or call findSnapshot() and replace the resource.
+      break;
+    case "RESOURCE_UPDATE":
+      // Resource freshness changed. Keep local rows unless row events or invalidation change them.
+      break;
+    case "RESOURCE_DELETE":
+      // Remove or disable the local resource.
+      break;
+  }
+}
+```
+
+If `response.sync.hasMore` is true, request `response.sync.nextPageUrl` through the raw client or call `sync({ cursor })` with the cursor from the URL. Store `nextSyncToken` only after the final page.
+
+### Fetch a Snapshot
+
+```ts
+const snapshot = await client.resources.findSnapshot("translations", 19);
+
+console.log(snapshot.resourceGroup);
+console.log(snapshot.records.length);
+```
+
+Snapshots return the current full resource payload. They are the companion to sync: use them when sync returns a `snapshotUrl` for `RESOURCE_CREATE` or `RESOURCE_INVALIDATE`. They are not sequence-bound, so later row mutations should still be handled idempotently.
+
 ## Languages
 
 ```ts

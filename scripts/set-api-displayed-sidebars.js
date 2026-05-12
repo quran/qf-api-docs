@@ -99,8 +99,15 @@ function upsertDisplayedSidebar(content, displayedSidebarId) {
   );
 }
 
-function normalizeGeneratedLabels(content) {
-  return content
+function normalizeGeneratedLabels(content, filePath = '') {
+  const shouldNormalizeDetailsCollapseAttribute =
+    /[\\/]resources-(sync|snapshot)\.api\.mdx$/.test(filePath);
+
+  const normalizedContent = shouldNormalizeDetailsCollapseAttribute
+    ? content.replace(/data-collaposed=/g, 'data-collapsed=')
+    : content;
+
+  return normalizedContent
     .replace(/Foot Note/g, 'Footnote')
     .replace(/foot note/g, 'footnote');
 }
@@ -287,7 +294,7 @@ function main() {
         ? normalizeGeneratedSidebar(filePath, validDocIds)
         : normalizeRubElHizbDocLabels(
             filePath,
-            normalizeGeneratedLabels(originalContent),
+            normalizeGeneratedLabels(originalContent, filePath),
           );
       const updatedContent = generatedApiDocPattern.test(filePath)
         ? upsertDisplayedSidebar(
