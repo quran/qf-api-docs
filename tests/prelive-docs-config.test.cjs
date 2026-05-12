@@ -59,6 +59,15 @@ test('adds pre-live user-related docs to navigation and sidebars', () => {
     (item) => item.type === 'category',
   );
   assert.equal(generatedIndex.link.slug, '/category/user-related-apis-pre-live');
+  assert.ok(
+    generatedIndex.items.some(
+      (item) =>
+        item.type === 'doc' &&
+        item.id === 'user_related_apis_prelive/scopes' &&
+        item.label === 'OAuth2 Scopes',
+    ),
+    'expected pre-live sidebar to link to the pre-live OAuth2 scopes doc',
+  );
 });
 
 test('publishes both production and pre-live user-related raw spec links', () => {

@@ -290,8 +290,42 @@ const buildUserRelatedApisVersionedItems = () =>
     ),
     "user-related-apis/1.0.0/reading-sessions-vs-activity-days",
   );
-const buildUserRelatedApisPreLiveItems = () =>
-  cloneSidebarItems(safeRequire("./docs/user_related_apis_prelive/sidebar.js", []));
+const buildUserRelatedApisPreLiveItems = () => {
+  const items = cloneSidebarItems(
+    safeRequire("./docs/user_related_apis_prelive/sidebar.js", []),
+  );
+  const scopesDoc = makeApiDocSidebarItem(
+    "user_related_apis_prelive/scopes",
+    "OAuth2 Scopes",
+  );
+
+  if (
+    items.some(
+      (item) =>
+        item &&
+        typeof item === "object" &&
+        item.type === "doc" &&
+        item.id === scopesDoc.id,
+    )
+  ) {
+    return items;
+  }
+
+  const introIndex = items.findIndex(
+    (item) =>
+      item &&
+      typeof item === "object" &&
+      item.type === "doc" &&
+      item.id === "user_related_apis_prelive/user-related-apis",
+  );
+  const insertAt = introIndex >= 0 ? introIndex + 1 : 0;
+
+  return [
+    ...items.slice(0, insertAt),
+    scopesDoc,
+    ...items.slice(insertAt),
+  ];
+};
 
 const buildOAuth2ApisLatestItems = () =>
   cloneSidebarItems(require("./docs/oauth2_apis_versioned/sidebar.js"));
