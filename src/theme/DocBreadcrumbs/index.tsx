@@ -148,6 +148,12 @@ export default function DocBreadcrumbs(): JSX.Element | null {
   ];
   const schemaEntries = getSchemaEntries(entries);
   const useBreadcrumbListMicrodata = schemaEntries.length >= 2;
+  const schemaEntriesByDisplayIndex = new Map(
+    schemaEntries.map((schemaEntry) => [
+      schemaEntry.displayIndex,
+      schemaEntry,
+    ]),
+  );
 
   return (
     <nav
@@ -168,9 +174,7 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         })}>
         {entries.map((entry, displayIndex) => {
           const isLast = displayIndex === entries.length - 1;
-          const schemaEntry = schemaEntries.find(
-            (item) => item.displayIndex === displayIndex,
-          );
+          const schemaEntry = schemaEntriesByDisplayIndex.get(displayIndex);
           const useMicrodata =
             useBreadcrumbListMicrodata && Boolean(schemaEntry);
 
