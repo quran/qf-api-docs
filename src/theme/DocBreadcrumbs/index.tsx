@@ -75,7 +75,7 @@ function BreadcrumbsItemLink({
     <>
       <Link
         aria-label={isHome ? schemaName : undefined}
-        className={clsx(className, isHome && styles.breadcrumbsItemLink)}
+        className={className}
         href={href}
         {...(useMicrodata && { itemProp: "item" })}>
         {isHome || !useMicrodata ? (
