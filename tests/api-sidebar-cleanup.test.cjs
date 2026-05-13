@@ -4,6 +4,7 @@ const path = require('node:path');
 
 const {
   filterMissingSidebarItems,
+  getDisplayedSidebarId,
   normalizeRubElHizbDocLabels,
   normalizeRubElHizbSidebarLabels,
 } = require(path.join(__dirname, '..', 'scripts', 'set-api-displayed-sidebars.js'));
@@ -126,6 +127,50 @@ api: {"postman":{"name":"By Rub el Hizb number"}}
 
 ## By Rub el Hizb number
 `,
+  );
+});
+
+test('uses the dedicated pre-live sidebar for pre-live API docs', () => {
+  assert.equal(
+    getDisplayedSidebarId(
+      path.join(
+        __dirname,
+        '..',
+        'docs',
+        'user_related_apis_prelive',
+        'delete-note-by-id.api.mdx',
+      ),
+    ),
+    'user-related-apis-pre-live',
+  );
+});
+
+test('keeps shared sidebars for latest and versioned generated API docs', () => {
+  assert.equal(
+    getDisplayedSidebarId(
+      path.join(
+        __dirname,
+        '..',
+        'docs',
+        'user_related_apis_versioned',
+        'delete-note-by-id.api.mdx',
+      ),
+    ),
+    'APIsSidebar',
+  );
+
+  assert.equal(
+    getDisplayedSidebarId(
+      path.join(
+        __dirname,
+        '..',
+        'docs',
+        'user_related_apis_versioned',
+        '1.0.0',
+        'delete-note-by-id.api.mdx',
+      ),
+    ),
+    'APIsVersionedSidebar',
   );
 });
 
