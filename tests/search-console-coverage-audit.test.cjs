@@ -3,8 +3,12 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const {
+  applySearchConsoleIssueChecks,
+  formatFailure,
   parseArgs,
   buildPathForPathname,
+  isPathBlockedByRobots,
+  parseSitemapUrls,
   resolveHttpUrl,
   resolveLocalUrl,
 } = require(path.join(__dirname, '..', 'scripts', 'audit-search-console-coverage.js'));
@@ -167,6 +171,198 @@ test('live audit fails redirect loops', async () => {
   assert.equal(result.finalStatus, 'loop');
 });
 
+test('issue checks require redirected source URLs to be absent from sitemap', async () => {
+  const result = await applySearchConsoleIssueChecks(
+    'https://api-docs.quran.foundation/docs/old-page',
+    'Page with redirect',
+    {
+      ok: true,
+      outcome: 'redirected',
+      finalStatus: 200,
+      finalUrl: 'https://preview.example.com/docs/new-page/',
+    },
+    {
+      robotsTxt: 'User-agent: *\nAllow: /\n',
+      sitemapUrls: new Set([
+        'https://api-docs.quran.foundation/docs/old-page/',
+        'https://api-docs.quran.foundation/docs/new-page/',
+      ]),
+    },
+    {
+      mode: 'live',
+      readIndexSignals: async () => ({
+        canonical: 'https://api-docs.quran.foundation/docs/new-page/',
+        contentType: 'text/html',
+        metaRobots: '',
+        xRobotsTag: '',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.outcome, 'redirect-source-in-sitemap');
+  assert.deepEqual(result.diagnostics, {
+    sourceSitemapUrls: ['https://api-docs.quran.foundation/docs/old-page/'],
+  });
+});
+
+test('formatted audit failures include SEO diagnostics', () => {
+  assert.deepEqual(
+    formatFailure('https://api-docs.quran.foundation/docs/page/', {
+      outcome: 'canonical-url-mismatch',
+      initialStatus: 200,
+      finalStatus: 200,
+      finalUrl: 'https://api-docs.quran.foundation/docs/page/',
+      diagnostics: {
+        canonical: 'https://api-docs.quran.foundation/docs/page',
+        expected: 'https://api-docs.quran.foundation/docs/page/',
+      },
+      chain: [],
+    }),
+    {
+      url: 'https://api-docs.quran.foundation/docs/page/',
+      outcome: 'canonical-url-mismatch',
+      initialStatus: 200,
+      finalStatus: 200,
+      finalUrl: 'https://api-docs.quran.foundation/docs/page/',
+      error: undefined,
+      diagnostics: {
+        canonical: 'https://api-docs.quran.foundation/docs/page',
+        expected: 'https://api-docs.quran.foundation/docs/page/',
+      },
+      chain: [],
+    },
+  );
+});
+
+test('issue checks require final canonical URL to match the exact sitemap URL', async () => {
+  const result = await applySearchConsoleIssueChecks(
+    'https://api-docs.quran.foundation/docs/category/content-apis',
+    'Page with redirect',
+    {
+      ok: true,
+      outcome: 'redirected',
+      finalStatus: 200,
+      finalUrl: 'https://preview.example.com/docs/category/content-apis/',
+    },
+    {
+      robotsTxt: 'User-agent: *\nAllow: /\n',
+      sitemapUrls: new Set([
+        'https://api-docs.quran.foundation/docs/category/content-apis-4.0.0/',
+      ]),
+    },
+    {
+      mode: 'live',
+      readIndexSignals: async () => ({
+        canonical: 'https://api-docs.quran.foundation/docs/category/content-apis-4.0.0/',
+        contentType: 'text/html',
+        metaRobots: '',
+        xRobotsTag: '',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.outcome, 'final-url-not-in-sitemap');
+});
+
+test('indexed-but-blocked issue passes only after robots allow crawl and noindex is visible', async () => {
+  const result = await applySearchConsoleIssueChecks(
+    'https://api-docs.quran.foundation/search/',
+    'Indexed, though blocked by robots.txt',
+    {
+      ok: true,
+      outcome: 'ok',
+      finalStatus: 200,
+      finalUrl: 'https://preview.example.com/search/',
+    },
+    {
+      robotsTxt: 'User-agent: *\nAllow: /\n',
+      sitemapUrls: new Set(),
+    },
+    {
+      mode: 'live',
+      readIndexSignals: async () => ({
+        canonical: 'https://api-docs.quran.foundation/search/',
+        contentType: 'text/html',
+        metaRobots: 'noindex,follow',
+        xRobotsTag: '',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, true);
+});
+
+test('indexed-but-blocked issue fails while robots still disallows the page', async () => {
+  const result = await applySearchConsoleIssueChecks(
+    'https://api-docs.quran.foundation/search/',
+    'Indexed, though blocked by robots.txt',
+    {
+      ok: true,
+      outcome: 'ok',
+      finalStatus: 200,
+      finalUrl: 'https://preview.example.com/search/',
+    },
+    {
+      robotsTxt: 'User-agent: *\nDisallow: /search\n',
+      sitemapUrls: new Set(),
+    },
+    {
+      mode: 'live',
+      readIndexSignals: async () => ({
+        canonical: 'https://api-docs.quran.foundation/search/',
+        contentType: 'text/html',
+        metaRobots: 'noindex,follow',
+        xRobotsTag: '',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.outcome, 'blocked-by-robots');
+});
+
+test('robots parser applies the longest matching allow or disallow rule', () => {
+  assert.equal(
+    isPathBlockedByRobots(
+      'User-agent: *\nDisallow: /search\nAllow: /search/public\n',
+      '/search/private/',
+    ),
+    true,
+  );
+  assert.equal(
+    isPathBlockedByRobots(
+      'User-agent: *\nDisallow: /search\nAllow: /search/public\n',
+      '/search/public/',
+    ),
+    false,
+  );
+});
+
+test('robots parser prefers specific user-agent groups over wildcard groups', () => {
+  assert.equal(
+    isPathBlockedByRobots(
+      [
+        'User-agent: Googlebot',
+        'Allow: /search',
+        '',
+        'User-agent: *',
+        'Disallow: /search',
+      ].join('\n'),
+      '/search/',
+    ),
+    false,
+  );
+});
+
+test('sitemap parser decodes loc entries', () => {
+  assert.deepEqual(
+    [...parseSitemapUrls('<url><loc>https://api-docs.quran.foundation/docs/a&amp;b/</loc></url>')],
+    ['https://api-docs.quran.foundation/docs/a&b/'],
+  );
+});
+
 test('local audit resolves redirects against build paths', () => {
   const redirects = new Map([
     ['/docs/old-page', { status: '301', target: '/docs/new-page/' }],
@@ -182,6 +378,28 @@ test('local audit resolves redirects against build paths', () => {
   assert.equal(result.ok, true);
   assert.equal(result.outcome, 'redirected');
   assert.equal(result.finalStatus, 200);
+});
+
+test('local audit applies redirects before built source files', () => {
+  const redirects = new Map([
+    ['/docs/unversioned-page/', {
+      status: '301',
+      target: '/docs/versioned-page/',
+    }],
+  ]);
+  const result = resolveLocalUrl(
+    'https://api-docs.quran.foundation/docs/unversioned-page/',
+    {
+      redirects,
+      pathExists: (pathname) =>
+        pathname === '/docs/unversioned-page/' ||
+        pathname === '/docs/versioned-page/',
+    },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.outcome, 'redirected');
+  assert.equal(result.finalUrl, 'https://api-docs.quran.foundation/docs/versioned-page/');
 });
 
 test('local audit maps pretty URL routes to index.html build paths', () => {

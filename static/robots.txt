@@ -11,14 +11,12 @@ User-agent: Applebot
 User-agent: MistralAI-User
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 Allow: /
-Disallow: /search
 Disallow: /request-scopes
 
 # Allow Gemini grounding/search while signaling a no-training preference.
 User-agent: Google-Extended
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 Allow: /
-Disallow: /search
 Disallow: /request-scopes
 
 # Block documented training-only bots.
@@ -34,7 +32,6 @@ Disallow: /
 User-agent: *
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 Allow: /
-Disallow: /search
 Disallow: /request-scopes
 
 Sitemap: https://api-docs.quran.foundation/sitemap.xml
