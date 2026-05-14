@@ -356,6 +356,50 @@ test('robots parser prefers specific user-agent groups over wildcard groups', ()
   );
 });
 
+test('robots parser uses only the most specific matching user-agent token', () => {
+  const robotsTxt = [
+    'User-agent: Googlebot',
+    'Disallow: /search',
+    '',
+    'User-agent: Googlebot-News',
+    'Allow: /search',
+    '',
+    'User-agent: *',
+    'Disallow: /search',
+  ].join('\n');
+
+  assert.equal(
+    isPathBlockedByRobots(robotsTxt, '/search/', 'Googlebot-News'),
+    false,
+  );
+  assert.equal(
+    isPathBlockedByRobots(robotsTxt, '/search/', 'Googlebot'),
+    true,
+  );
+});
+
+test('robots parser merges duplicate groups for the selected user-agent token', () => {
+  const robotsTxt = [
+    'User-agent: Googlebot-News',
+    'Disallow: /search',
+    '',
+    'User-agent: Googlebot-News',
+    'Allow: /search/public',
+    '',
+    'User-agent: Googlebot',
+    'Disallow: /',
+  ].join('\n');
+
+  assert.equal(
+    isPathBlockedByRobots(robotsTxt, '/search/private/', 'Googlebot-News'),
+    true,
+  );
+  assert.equal(
+    isPathBlockedByRobots(robotsTxt, '/search/public/', 'Googlebot-News'),
+    false,
+  );
+});
+
 test('sitemap parser decodes loc entries', () => {
   assert.deepEqual(
     [...parseSitemapUrls('<url><loc>https://api-docs.quran.foundation/docs/a&amp;b/</loc></url>')],

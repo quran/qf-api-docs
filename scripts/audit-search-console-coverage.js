@@ -294,7 +294,7 @@ function getRobotsGroups(robotsTxt) {
         currentGroup = { agents: [], rules: [] };
         groups.push(currentGroup);
       }
-      currentGroup.agents.push(value.toLowerCase());
+      currentGroup.agents.push(normalizeRobotsAgentToken(value));
       continue;
     }
 
@@ -306,18 +306,54 @@ function getRobotsGroups(robotsTxt) {
   return groups;
 }
 
+function normalizeRobotsAgentToken(value) {
+  const token = String(value || "").trim().toLowerCase();
+  return token === "*" ? token : token.replace(/\*+$/, "");
+}
+
 function robotsAgentMatches(agentToken, userAgent) {
-  return agentToken === "*" || userAgent.toLowerCase().includes(agentToken);
+  if (agentToken === "*") {
+    return true;
+  }
+
+  const crawlerToken = normalizeRobotsAgentToken(userAgent);
+  return (
+    crawlerToken === agentToken ||
+    crawlerToken.startsWith(`${agentToken}-`) ||
+    crawlerToken.startsWith(`${agentToken}/`)
+  );
+}
+
+function getMatchingRobotsAgentTokens(groups, userAgent) {
+  const matchingTokens = new Set();
+  for (const group of groups) {
+    for (const agentToken of group.agents) {
+      if (robotsAgentMatches(agentToken, userAgent)) {
+        matchingTokens.add(agentToken);
+      }
+    }
+  }
+
+  const specificTokens = [...matchingTokens].filter((agentToken) => agentToken !== "*");
+  if (specificTokens.length === 0) {
+    return matchingTokens.has("*") ? new Set(["*"]) : new Set();
+  }
+
+  const longestSpecificLength = Math.max(
+    ...specificTokens.map((agentToken) => agentToken.length),
+  );
+  return new Set(
+    specificTokens.filter((agentToken) => agentToken.length === longestSpecificLength),
+  );
 }
 
 function isPathBlockedByRobots(robotsTxt, pathname, userAgent = "Googlebot") {
-  const matchingGroups = getRobotsGroups(robotsTxt).filter((group) =>
-    group.agents.some((agentToken) => robotsAgentMatches(agentToken, userAgent)),
-  );
-  const specificGroups = matchingGroups.filter((group) =>
-    group.agents.some((agentToken) => agentToken !== "*"),
-  );
-  const matchingRules = (specificGroups.length > 0 ? specificGroups : matchingGroups)
+  const groups = getRobotsGroups(robotsTxt);
+  const matchingAgentTokens = getMatchingRobotsAgentTokens(groups, userAgent);
+  const matchingRules = groups
+    .filter((group) =>
+      group.agents.some((agentToken) => matchingAgentTokens.has(agentToken)),
+    )
     .flatMap((group) => group.rules)
     .filter((rule) => rule.path && pathname.startsWith(rule.path));
 
