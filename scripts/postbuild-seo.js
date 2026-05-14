@@ -50,6 +50,7 @@ const dropPathsFromSitemap = new Set([
   "/request-scopes",
   "/request-scopes/",
 ]);
+let searchConsoleRedirectSourcePaths = null;
 
 function isStaticAsset(pathname) {
   return /\.[a-z0-9]+$/i.test(pathname);
@@ -153,6 +154,10 @@ function shouldDropSitemapPath(pathname) {
     return true;
   }
 
+  if (getSearchConsoleRedirectSourcePaths().has(pathname)) {
+    return true;
+  }
+
   if (
     /^\/docs\/category\/(content-apis|oauth2_apis|search-apis|user-related-apis)\/?$/.test(
       pathname,
@@ -177,6 +182,24 @@ function shouldDropSitemapPath(pathname) {
   }
 
   return true;
+}
+
+function getSearchConsoleRedirectSourcePaths() {
+  if (searchConsoleRedirectSourcePaths) {
+    return searchConsoleRedirectSourcePaths;
+  }
+
+  searchConsoleRedirectSourcePaths = new Set();
+  for (const redirect of readSearchConsoleRedirectOverrides()) {
+    const target = getCanonicalRedirectTarget(redirect.target);
+    for (const source of getRedirectSourceVariants(redirect.source)) {
+      if (source !== target) {
+        searchConsoleRedirectSourcePaths.add(source);
+      }
+    }
+  }
+
+  return searchConsoleRedirectSourcePaths;
 }
 
 function walkFiles(dir, predicate = () => true) {
@@ -608,6 +631,13 @@ function collectVersionedApiAliasRedirects() {
   return redirects;
 }
 
+function collectCategoryAliasRedirects() {
+  return Object.entries(categoryAliasTargets).map(([categorySlug, family]) => ({
+    source: `/docs/category/${categorySlug}/`,
+    target: `/docs/category/${categorySlug}-${versionedApiRoots[family]}/`,
+  }));
+}
+
 function collectSlashRedirectsFromBuild() {
   return walkFiles(BUILD_DIR, (filePath) => filePath.endsWith(".html"))
     .map((htmlPath) => getBuiltHtmlPathname(htmlPath))
@@ -736,6 +766,7 @@ function writeRedirects() {
   const generatedRedirectSources = [
     ...readGeneratedAuthRedirectManifest(),
     ...collectGeneratedAuthRedirectsFromDocs(),
+    ...collectCategoryAliasRedirects(),
     ...collectVersionedApiAliasRedirects(),
   ];
 
@@ -819,6 +850,7 @@ if (require.main === module) {
 
 module.exports = {
   createRedirectRegistry,
+  collectCategoryAliasRedirects,
   getCanonicalPathOverride,
   getGeneratedAuthRedirectsFromDoc,
   getRedirectSourceVariants,

@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const {
+  collectCategoryAliasRedirects,
   createRedirectRegistry,
   getCanonicalPathOverride,
   getGeneratedAuthRedirectsFromDoc,
@@ -46,6 +47,20 @@ test('canonicalizes current generated category aliases to versioned category pag
   );
 });
 
+test('generates redirects from current category aliases to versioned category pages', () => {
+  assert.deepEqual(
+    collectCategoryAliasRedirects().filter((redirect) =>
+      redirect.source.includes('/docs/category/content-apis/'),
+    ),
+    [
+      {
+        source: '/docs/category/content-apis/',
+        target: '/docs/category/content-apis-4.0.0/',
+      },
+    ],
+  );
+});
+
 test('drops current generated API and category aliases from the sitemap', () => {
   assert.equal(
     shouldDropSitemapPath('/docs/user_related_apis_versioned/get-user-bookmarks/'),
@@ -54,6 +69,19 @@ test('drops current generated API and category aliases from the sitemap', () => 
   assert.equal(shouldDropSitemapPath('/docs/category/content-apis/'), true);
   assert.equal(
     shouldDropSitemapPath('/docs/category/content-apis-4.0.0/'),
+    false,
+  );
+});
+
+test('drops explicit Search Console redirect sources from the sitemap', () => {
+  assert.equal(
+    shouldDropSitemapPath(
+      '/docs/user_related_apis_versioned/1.0.0/users-controller-delete-account/',
+    ),
+    true,
+  );
+  assert.equal(
+    shouldDropSitemapPath('/docs/user_related_apis_versioned/scopes/'),
     false,
   );
 });
