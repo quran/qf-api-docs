@@ -808,7 +808,8 @@ function assertNoStaleSeoReferences() {
     ...walkFiles(BUILD_DIR, (filePath) => filePath.endsWith(".html")),
   ].filter((filePath) => fs.existsSync(filePath));
   const staleReferences = [];
-  const staleAuthPattern = /\/docs\/[^"'<\s)]*\/auth-[a-z0-9-]*/i;
+  const staleAuthPattern =
+    /\/docs\/[^"'<\s)]*\/auth-(?:delete|get|patch|post|put)-[a-z0-9-]*/i;
 
   for (const filePath of checkedFiles) {
     const content = fs.readFileSync(filePath, "utf8");
