@@ -3,20 +3,24 @@ import { useLocation } from "@docusaurus/router";
 import ApiItemLayout from "@theme-original/ApiItem/Layout";
 
 import UserRelatedApiEnvironmentNotice from "@site/src/components/UserRelatedApiEnvironmentNotice";
+import { useUserRelatedApiEnvironmentNoticeRendered } from "@site/src/components/UserRelatedApiEnvironmentNotice/renderContext";
 
 type ApiItemLayoutProps = React.ComponentProps<typeof ApiItemLayout>;
 
 export default function ApiItemLayoutWrapper(props: ApiItemLayoutProps) {
   const { children, ...restProps } = props;
   const location = useLocation();
+  const isNoticeAlreadyRendered = useUserRelatedApiEnvironmentNoticeRendered();
 
   return (
     <ApiItemLayout {...restProps}>
-      <UserRelatedApiEnvironmentNotice
-        hash={location.hash}
-        pathname={location.pathname}
-        search={location.search}
-      />
+      {!isNoticeAlreadyRendered && (
+        <UserRelatedApiEnvironmentNotice
+          hash={location.hash}
+          pathname={location.pathname}
+          search={location.search}
+        />
+      )}
       {children}
     </ApiItemLayout>
   );
