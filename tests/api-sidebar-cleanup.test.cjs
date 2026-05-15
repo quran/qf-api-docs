@@ -130,7 +130,7 @@ api: {"postman":{"name":"By Rub el Hizb number"}}
   );
 });
 
-test('uses the dedicated pre-live sidebar for pre-live API docs', () => {
+test('keeps the shared sidebar for pre-live API docs', () => {
   assert.equal(
     getDisplayedSidebarId(
       path.join(
@@ -141,7 +141,7 @@ test('uses the dedicated pre-live sidebar for pre-live API docs', () => {
         'delete-note-by-id.api.mdx',
       ),
     ),
-    'user-related-apis-pre-live',
+    'APIsSidebar',
   );
 });
 

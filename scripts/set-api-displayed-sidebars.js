@@ -72,10 +72,6 @@ function getDisplayedSidebarId(filePath) {
     versionDirPattern.test(segment),
   );
 
-  if (pathSegments.join('/').startsWith('docs/user_related_apis_prelive/')) {
-    return 'user-related-apis-pre-live';
-  }
-
   return isVersionedDoc ? 'APIsVersionedSidebar' : 'APIsSidebar';
 }
 
