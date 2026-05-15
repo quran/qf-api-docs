@@ -37,6 +37,18 @@ test('detects production and pre-live user-related docs routes', () => {
   assert.equal(getUserRelatedDocsEnvironment('/docs/user_related_apis_versioned/'), 'production');
   assert.equal(getUserRelatedDocsEnvironment('/docs/user_related_apis_prelive'), 'pre-live');
   assert.equal(getUserRelatedDocsEnvironment('/docs/user_related_apis_prelive/'), 'pre-live');
+  assert.equal(
+    getUserRelatedDocsEnvironment('/docs/user_related_apis_versioned/activity-days'),
+    'production',
+  );
+  assert.equal(
+    getUserRelatedDocsEnvironment('/docs/user_related_apis_versioned/1.0.0/activity-days'),
+    'production',
+  );
+  assert.equal(
+    getUserRelatedDocsEnvironment('/docs/user_related_apis_prelive/activity-days'),
+    'pre-live',
+  );
   assert.equal(getUserRelatedDocsEnvironment('/docs/category/user-related-apis'), 'production');
   assert.equal(
     getUserRelatedDocsEnvironment('/docs/category/user-related-apis/'),
@@ -123,14 +135,37 @@ test('maps the current doc route between production and pre-live trees', () => {
     getUserRelatedDocsPath('/docs/category/user-related-apis-pre-live', 'production'),
     '/docs/category/user-related-apis',
   );
+  assert.equal(
+    getUserRelatedDocsPath(
+      '/docs/user_related_apis_versioned/activity-days',
+      'pre-live',
+    ),
+    '/docs/user_related_apis_prelive/activity-days',
+  );
+  assert.equal(
+    getUserRelatedDocsPath(
+      '/docs/user_related_apis_versioned/1.0.0/activity-days',
+      'pre-live',
+    ),
+    '/docs/user_related_apis_prelive/activity-days',
+  );
+  assert.equal(
+    getUserRelatedDocsPath(
+      '/docs/user_related_apis_prelive/activity-days',
+      'production',
+    ),
+    '/docs/user_related_apis_versioned/activity-days',
+  );
 });
 
 test('falls back to the environment intro doc when the target doc does not exist', () => {
   const availablePaths = new Set([
     '/docs/user_related_apis_versioned/get-user-profile',
     '/docs/user_related_apis_versioned/1.1.0/get-user-profile',
+    '/docs/user_related_apis_versioned/activity-days',
     '/docs/user_related_apis_versioned/scopes',
     '/docs/user_related_apis_prelive/get-user-profile',
+    '/docs/user_related_apis_prelive/activity-days',
     '/docs/user_related_apis_prelive/get-sync-mutations',
     '/docs/user_related_apis_prelive/scopes',
   ]);
@@ -216,6 +251,39 @@ test('falls back to the environment intro doc when the target doc does not exist
   );
   assert.equal(categoryToProductionTarget.path, '/docs/category/user-related-apis');
   assert.equal(categoryToProductionTarget.hasEquivalentDoc, true);
+
+  const productionCategoryOverviewTarget = getUserRelatedDocsTarget(
+    '/docs/user_related_apis_versioned/activity-days',
+    'pre-live',
+    { availablePaths },
+  );
+  assert.equal(
+    productionCategoryOverviewTarget.path,
+    '/docs/user_related_apis_prelive/activity-days',
+  );
+  assert.equal(productionCategoryOverviewTarget.hasEquivalentDoc, true);
+
+  const versionedCategoryOverviewTarget = getUserRelatedDocsTarget(
+    '/docs/user_related_apis_versioned/1.1.0/activity-days',
+    'pre-live',
+    { availablePaths },
+  );
+  assert.equal(
+    versionedCategoryOverviewTarget.path,
+    '/docs/user_related_apis_prelive/activity-days',
+  );
+  assert.equal(versionedCategoryOverviewTarget.hasEquivalentDoc, true);
+
+  const preliveCategoryOverviewTarget = getUserRelatedDocsTarget(
+    '/docs/user_related_apis_prelive/activity-days',
+    'production',
+    { availablePaths },
+  );
+  assert.equal(
+    preliveCategoryOverviewTarget.path,
+    '/docs/user_related_apis_versioned/activity-days',
+  );
+  assert.equal(preliveCategoryOverviewTarget.hasEquivalentDoc, true);
 });
 
 test('collects available docs paths from Docusaurus docs data', () => {
