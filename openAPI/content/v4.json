@@ -1361,6 +1361,470 @@
         }
       }
     },
+    "/pages": {
+      "get": {
+        "tags": [
+          "Pages"
+        ],
+        "summary": "List Pages",
+        "description": "Get all pages for the selected mushaf.",
+        "operationId": "list-pages",
+        "parameters": [
+          {
+            "name": "mushaf",
+            "in": "query",
+            "description": "Optional mushaf id. Defaults to the system default mushaf.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "pages"
+                  ],
+                  "properties": {
+                    "pages": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Internal Mushaf page record id. Use `page_number` for Mushaf page navigation."
+                          },
+                          "page_number": {
+                            "type": "integer",
+                            "description": "Page number in the selected mushaf."
+                          },
+                          "verse_mapping": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "string"
+                            }
+                          },
+                          "first_verse_id": {
+                            "type": "integer"
+                          },
+                          "last_verse_id": {
+                            "type": "integer"
+                          },
+                          "verses_count": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "pages": [
+                    {
+                      "id": 1,
+                      "page_number": 507,
+                      "verse_mapping": {
+                        "47:1": "47:3"
+                      },
+                      "first_verse_id": 4787,
+                      "last_verse_id": 4789,
+                      "verses_count": 3
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "javascript",
+            "label": "Node.js",
+            "source": "// List Pages\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/pages`,\n    {\n    headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi({\"mushaf\":\"2\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL",
+            "source": "# List Pages\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/pages?mushaf=2' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
+          },
+          {
+            "lang": "text",
+            "label": "🤖 AI Prompt",
+            "source": "Implement a function to list pages using the Quran Foundation API.\n\nEndpoint: GET /pages\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/pages\n2. Inject both required headers on every request\n3. Handle 401, 403, and 429 responses gracefully"
+          }
+        ]
+      }
+    },
+    "/pages/lookup": {
+      "get": {
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Lookup Pages",
+        "description": "Get page boundaries for a chapter, juz, page, manzil, hizb, rub el hizb, ruku, or verse range in the selected mushaf.",
+        "operationId": "get-pages-lookup",
+        "parameters": [
+          {
+            "name": "mushaf",
+            "in": "query",
+            "description": "Optional mushaf id. Defaults to the system default mushaf.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "chapter_number",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "juz_number",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_number",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "manzil_number",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "rub_el_hizb_number",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "hizb_number",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ruku_number",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Starting verse key or verse id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Ending verse key or verse id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_page": {
+                      "type": "integer"
+                    },
+                    "lookup_range": {
+                      "type": "object",
+                      "properties": {
+                        "from": {
+                          "type": "string"
+                        },
+                        "to": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "pages": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "first_verse_key": {
+                            "type": "string"
+                          },
+                          "last_verse_key": {
+                            "type": "string"
+                          },
+                          "from": {
+                            "type": "string"
+                          },
+                          "to": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "total_page": 2,
+                  "lookup_range": {
+                    "from": "47:1",
+                    "to": "47:5"
+                  },
+                  "pages": {
+                    "507": {
+                      "first_verse_key": "47:1",
+                      "last_verse_key": "47:3",
+                      "from": "47:1",
+                      "to": "47:3"
+                    },
+                    "508": {
+                      "first_verse_key": "47:4",
+                      "last_verse_key": "47:5",
+                      "from": "47:4",
+                      "to": "47:5"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "javascript",
+            "label": "Node.js",
+            "source": "// Lookup Pages\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/pages/lookup`,\n    {\n    headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi({\"mushaf\":\"2\",\"from\":\"47:1\",\"to\":\"47:5\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL",
+            "source": "# Lookup Pages\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/pages/lookup?mushaf=2&from=47%3A1&to=47%3A5' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
+          },
+          {
+            "lang": "text",
+            "label": "🤖 AI Prompt",
+            "source": "Implement a function to lookup pages using the Quran Foundation API.\n\nEndpoint: GET /pages/lookup\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/pages/lookup\n2. Inject both required headers on every request\n3. Handle 401, 403, and 429 responses gracefully"
+          }
+        ]
+      }
+    },
+    "/pages/{page_number}": {
+      "get": {
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Get Page",
+        "description": "Get metadata for a single page in the selected mushaf.",
+        "operationId": "get-pages-page-number",
+        "parameters": [
+          {
+            "name": "page_number",
+            "in": "path",
+            "description": "Page number in the selected mushaf.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "mushaf",
+            "in": "query",
+            "description": "Optional mushaf id. Defaults to the system default mushaf.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "page"
+                  ],
+                  "properties": {
+                    "page": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "Internal Mushaf page record id. Use `page_number` for Mushaf page navigation."
+                        },
+                        "page_number": {
+                          "type": "integer",
+                          "description": "Page number in the selected mushaf."
+                        },
+                        "verse_mapping": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        "first_verse_id": {
+                          "type": "integer"
+                        },
+                        "last_verse_id": {
+                          "type": "integer"
+                        },
+                        "verses_count": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "page": {
+                    "id": 1,
+                    "page_number": 507,
+                    "verse_mapping": {
+                      "47:1": "47:3"
+                    },
+                    "first_verse_id": 4787,
+                    "last_verse_id": 4789,
+                    "verses_count": 3
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "javascript",
+            "label": "Node.js",
+            "source": "// Get Page\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(page_number, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/pages/${page_number}`,\n    {\n    headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi(\"507\", {\"mushaf\":\"2\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL",
+            "source": "# Get Page\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/pages/507?mushaf=2' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
+          },
+          {
+            "lang": "text",
+            "label": "🤖 AI Prompt",
+            "source": "Implement a function to get page using the Quran Foundation API.\n\nEndpoint: GET /pages/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/pages/{page_number}\n2. Inject both required headers on every request\n3. Handle 401, 403, and 429 responses gracefully"
+          }
+        ]
+      }
+    },
     "/verses/by_chapter/{chapter_number}": {
       "get": {
         "tags": [
@@ -1648,19 +2112,16 @@
           "Verses"
         ],
         "summary": "By Page",
-        "description": "Get all verses of a specific Madani Mushaf page (1 to 604)",
+        "description": "Get all verses of a specific page in the selected mushaf.",
         "operationId": "verses-by_page_number",
         "parameters": [
           {
             "name": "page_number",
             "in": "path",
-            "description": "Madani Mushaf page number. Valid range is 1-604 ",
+            "description": "Page number in the selected mushaf.",
             "required": true,
             "schema": {
-              "maximum": 604,
-              "exclusiveMaximum": false,
               "minimum": 1,
-              "exclusiveMinimum": true,
               "type": "integer"
             }
           },
@@ -1671,6 +2132,14 @@
             "schema": {
               "type": "string",
               "default": "en"
+            }
+          },
+          {
+            "name": "mushaf",
+            "in": "query",
+            "description": "Optional mushaf id. When provided, page boundaries and line layout are resolved from the selected mushaf.",
+            "schema": {
+              "type": "integer"
             }
           },
           {
@@ -1920,7 +2389,7 @@
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to by page using the Quran Foundation API.\n\nEndpoint: GET /verses/by_page/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  page_number: Madani Mushaf page number. Valid range is 1-604  (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_page/{page_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts page_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to by page using the Quran Foundation API.\n\nEndpoint: GET /verses/by_page/{page_number}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  page_number: Page number in the selected mushaf (e.g., \"1\")\nOptional Query Parameters:\n  language: Language to fetch word-by-word translation in a specific language.\n  mushaf: Optional mushaf id. When provided, page boundaries and line layout are resolved from the selected mushaf.\n  words: Include words of each ayah? Use this to fetch word-by-word translation and transliteration.\n\n0 or false will not include words.\n\n1 or true will include the words.\n\nDefault is false.\n  translations: comma separated ids of translations to load for each ayah. See [/resources/translations](/docs/content_apis_versioned/translations) for available ids. Use translations=57 to include full-ayah transliteration.\n  audio: Ayah-by-ayah recitation ID from [/resources/recitations](/docs/content_apis_versioned/recitations). Chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) are not supported.\n  tafsirs: Comma separated ids of tafsirs to load for each ayah if you want to load tafsirs. See [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) for available ids.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/verses/by_page/{page_number}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts page_number and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
@@ -16769,6 +17238,225 @@
           }
         }
       }
+    },
+    "/resources/sync": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Sync public content resources",
+        "description": "Use this endpoint when your app keeps a local copy of public Quran.Foundation content, such as translations, tafsirs, recitations, or articles, and needs to know what changed without downloading everything again.\n\nRecommended flow:\n1. Start with `bootstrap=true` and a `resources` filter to get the current public resources.\n2. Follow `next_page_url` or pass its `cursor` until `has_more` is `false`.\n3. Store `next_sync_token` from the final page.\n4. Later, call this endpoint with `sync_token` and the same `resources` filter to receive only new changes.\n5. Apply row mutations directly. When a mutation has a non-null `snapshot_url`, fetch the full resource from the [snapshot endpoint](../resources-snapshot/) and replace that local resource.\n\n`RESOURCE_UPDATE` is a resource-level freshness marker. It does not include `snapshot_url`; clients should keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.\n\nSync responses are not cacheable and return `Cache-Control: no-store`.",
+        "operationId": "resources-sync",
+        "parameters": [
+          {
+            "name": "resources",
+            "in": "query",
+            "description": "Resource filter. Required unless `cursor` is supplied. Format: `group:*` or `group:id,id`; groups are separated by semicolons, for example `articles:*;tafsirs:151;translations:1,6`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "articles:*;recitations:10;tafsirs:151;translations:1,6"
+          },
+          {
+            "name": "bootstrap",
+            "in": "query",
+            "description": "Set to `true` for the first sync to page current public resource state.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sync_token",
+            "in": "query",
+            "description": "Opaque token returned by the final bootstrap or incremental page. Use for incremental sync.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Opaque pagination cursor from `next_page_url`. Do not construct manually.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Maximum mutations/resources per page. Defaults to 50 and cannot exceed 100.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful sync response",
+            "headers": {
+              "Cache-Control": {
+                "description": "Always `no-store` for sync responses.",
+                "schema": {
+                  "type": "string",
+                  "example": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentSyncResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "410": {
+            "description": "The token or cursor is invalid, incompatible, or requires a fresh bootstrap.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentSyncErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid resources filter, cursor, token, or page size.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentSyncErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/resources/snapshots/{resource_group}/{id}": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Get content resource snapshot",
+        "description": "Use this endpoint to fetch a full replacement copy of one public content resource.\n\nThis is the companion endpoint for [GET /resources/sync](../resources-sync/): sync tells you that a full replacement is needed by returning `snapshot_url` on `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` mutations.\n\nTypical flow:\n1. Bootstrap or poll with [GET /resources/sync](../resources-sync/).\n2. If a mutation has a non-null `snapshot_url`, call this endpoint with that mutation's `resource_group` and `resource_id`.\n3. Replace all local records for that resource with the returned `records`.\n4. Continue applying later sync mutations normally.\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
+        "operationId": "resources-snapshot",
+        "parameters": [
+          {
+            "name": "resource_group",
+            "in": "path",
+            "description": "Sync resource group.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ContentSyncResourceGroup"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Resource ID within the selected group.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful snapshot response",
+            "headers": {
+              "Cache-Control": {
+                "description": "Always `no-store` for snapshot responses.",
+                "schema": {
+                  "type": "string",
+                  "example": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentResourceSnapshot"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/invalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "description": "Resource snapshot is unavailable or not public.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentSyncErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/unprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -17314,9 +18002,9 @@
             "type": "integer"
           },
           "page_number": {
-            "maximum": 604,
             "minimum": 1,
-            "type": "integer"
+            "type": "integer",
+            "description": "Page number for the returned verse. For mushaf-aware by_page responses, this follows the selected mushaf layout and can exceed 604."
           },
           "ruku_number": {
             "type": "integer"
@@ -17438,9 +18126,9 @@
             "type": "string"
           },
           "page_number": {
-            "maximum": 604,
             "minimum": 1,
-            "type": "integer"
+            "type": "integer",
+            "description": "Page number for the returned word. For mushaf-aware by_page responses, this follows the selected mushaf layout and can exceed 604."
           },
           "line_number": {
             "type": "integer",
@@ -19473,6 +20161,235 @@
           },
           "error": {
             "$ref": "#/components/schemas/AnswersQdcError"
+          }
+        }
+      },
+      "ContentSyncResourceGroup": {
+        "type": "string",
+        "enum": [
+          "articles",
+          "recitations",
+          "tafsirs",
+          "translations"
+        ]
+      },
+      "ContentSyncMutationType": {
+        "type": "string",
+        "enum": [
+          "RESOURCE_CREATE",
+          "RESOURCE_UPDATE",
+          "RESOURCE_DELETE",
+          "ROW_CREATE",
+          "ROW_UPDATE",
+          "ROW_DELETE",
+          "RESOURCE_INVALIDATE"
+        ]
+      },
+      "ContentSyncMutation": {
+        "type": "object",
+        "required": [
+          "sequence",
+          "type",
+          "resource_group",
+          "resource_id",
+          "resource_content_id",
+          "changed_at"
+        ],
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ContentSyncMutationType",
+            "description": "Mutation type. `RESOURCE_UPDATE` is a resource-level freshness marker without `snapshot_url`; clients should keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them."
+          },
+          "resource_group": {
+            "$ref": "#/components/schemas/ContentSyncResourceGroup"
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "resource_content_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "record_type": {
+            "type": "string",
+            "nullable": true,
+            "description": "Present for row mutations."
+          },
+          "record_key": {
+            "type": "string",
+            "nullable": true,
+            "description": "Present for row mutations. Client row key within the resource."
+          },
+          "source_record_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "Present for row mutations when a source record ID is available."
+          },
+          "changed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true,
+            "description": "Present for `ROW_CREATE` and `ROW_UPDATE` mutations."
+          },
+          "snapshot_url": {
+            "type": "string",
+            "nullable": true,
+            "description": "Present for `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` mutations. Use it with the snapshot endpoint to replace the local resource. `RESOURCE_UPDATE` does not include a snapshot URL; clients should keep existing local rows."
+          },
+          "unavailable_reason": {
+            "type": "string",
+            "nullable": true,
+            "description": "Present for `RESOURCE_DELETE` mutations."
+          }
+        },
+        "example": {
+          "sequence": 98100,
+          "type": "ROW_UPDATE",
+          "resource_group": "translations",
+          "resource_id": 19,
+          "resource_content_id": 19,
+          "record_type": "translation",
+          "record_key": "85108",
+          "source_record_id": 85108,
+          "changed_at": "2026-05-05T10:00:00Z",
+          "data": {
+            "id": 85108,
+            "verse_key": "26:153",
+            "text": "They said: Thou art but one of the bewitched;"
+          },
+          "snapshot_url": null,
+          "unavailable_reason": null
+        }
+      },
+      "ContentSyncResponse": {
+        "type": "object",
+        "required": [
+          "sync"
+        ],
+        "properties": {
+          "sync": {
+            "type": "object",
+            "required": [
+              "sync_until_sequence",
+              "has_more",
+              "next_page_url",
+              "next_sync_token",
+              "mutations"
+            ],
+            "properties": {
+              "sync_until_sequence": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "has_more": {
+                "type": "boolean"
+              },
+              "next_page_url": {
+                "type": "string",
+                "nullable": true
+              },
+              "next_sync_token": {
+                "type": "string",
+                "nullable": true
+              },
+              "mutations": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContentSyncMutation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ContentResourceSnapshot": {
+        "type": "object",
+        "required": [
+          "resource_group",
+          "resource_id",
+          "resource_content_id",
+          "schema_version",
+          "sync_sequence",
+          "records"
+        ],
+        "properties": {
+          "resource_group": {
+            "$ref": "#/components/schemas/ContentSyncResourceGroup"
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "resource_content_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "schema_version": {
+            "type": "integer",
+            "example": 1
+          },
+          "sync_sequence": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "records": {
+            "type": "array",
+            "description": "Current records for the resource. Shape depends on `resource_group`.",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        "example": {
+          "resource_group": "translations",
+          "resource_id": 19,
+          "resource_content_id": 19,
+          "schema_version": 1,
+          "sync_sequence": 98234,
+          "records": [
+            {
+              "id": 85108,
+              "verse_key": "26:153",
+              "text": "They said: Thou art but one of the bewitched;"
+            }
+          ]
+        }
+      },
+      "ContentSyncErrorResponse": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "content_sync_error"
+              },
+              "message": {
+                "type": "string",
+                "example": "The request could not be completed."
+              }
+            }
           }
         }
       }

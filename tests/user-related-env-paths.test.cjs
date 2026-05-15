@@ -129,8 +129,10 @@ test('falls back to the environment intro doc when the target doc does not exist
   const availablePaths = new Set([
     '/docs/user_related_apis_versioned/get-user-profile',
     '/docs/user_related_apis_versioned/1.1.0/get-user-profile',
+    '/docs/user_related_apis_versioned/scopes',
     '/docs/user_related_apis_prelive/get-user-profile',
     '/docs/user_related_apis_prelive/get-sync-mutations',
+    '/docs/user_related_apis_prelive/scopes',
   ]);
 
   const noEquivalentTarget = getUserRelatedDocsTarget(
@@ -174,6 +176,14 @@ test('falls back to the environment intro doc when the target doc does not exist
   );
   assert.equal(versionedProdToPreliveTarget.path, '/docs/user_related_apis_prelive/get-user-profile');
   assert.equal(versionedProdToPreliveTarget.hasEquivalentDoc, true);
+
+  const scopesTarget = getUserRelatedDocsTarget(
+    '/docs/user_related_apis_versioned/scopes',
+    'pre-live',
+    { availablePaths },
+  );
+  assert.equal(scopesTarget.path, '/docs/user_related_apis_prelive/scopes');
+  assert.equal(scopesTarget.hasEquivalentDoc, true);
 
   const trailingSlashTarget = getUserRelatedDocsTarget(
     '/docs/user_related_apis_prelive/get-user-profile/',

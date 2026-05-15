@@ -33,3 +33,51 @@ const chapterInfoResources =
 ```
 
 Use `chapterInfos.list()` as the global chapter-info resource catalog. For chapter-specific resource availability, prefer `client.content.v4.chapters.getInfoResponse(chapterId, { includeResources: true })`.
+
+## Resource Catalog Helpers
+
+The server SDK exposes typed helpers for the public Content API resource catalogs.
+
+```ts
+const recitations = await client.content.v4.resources.recitations.list();
+const recitationInfo =
+  await client.content.v4.resources.recitations.getInfo("7");
+
+const translations = await client.content.v4.resources.translations.list();
+const translationInfo =
+  await client.content.v4.resources.translations.getInfo("131");
+
+const tafsirs = await client.content.v4.resources.tafsirs.list();
+const tafsirInfo = await client.content.v4.resources.tafsirs.getInfo("169");
+
+const chapterReciters =
+  await client.content.v4.resources.chapterReciters.list();
+const recitationStyles =
+  await client.content.v4.resources.recitationStyles.list();
+const verseMedia = await client.content.v4.resources.verseMedia.list();
+```
+
+## Content Resource Sync
+
+Use content resource sync when your app keeps a local copy of public tafsirs, translations, recitations, or articles and needs to update it without downloading every row again.
+
+The flow is:
+
+1. Bootstrap once with `bootstrap=true` and a `resources` filter.
+2. Page until `has_more` is false, then store the final `next_sync_token`.
+3. Poll later with `sync_token` and the same `resources` filter.
+4. Apply row mutations directly.
+5. When a mutation has a non-null `snapshot_url`, fetch the snapshot for that `resource_group` and `resource_id` and replace that local resource.
+
+The `resources` filter uses plural group names (`articles`, `recitations`, `tafsirs`, `translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `translations:19,20;tafsirs:14`.
+
+`RESOURCE_UPDATE` is only a resource-level freshness marker. It does not include `snapshot_url`; keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.
+
+Use the Content API reference for the sync endpoints:
+
+- [Sync public content resources](/docs/content_apis_versioned/resources-sync)
+- [Get content resource snapshot](/docs/content_apis_versioned/resources-snapshot)
+
+## Common Mistake
+
+Do not call Resources from `@quranjs/api/public`. Content APIs are server-side for confidential clients.

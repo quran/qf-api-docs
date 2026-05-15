@@ -8,6 +8,8 @@
     "docusaurus": "npx docusaurus",
     "llms:sync": "node scripts/sync-static-llms-txt.js",
     "test": "node --test tests/",
+    "audit:search-console:local": "node scripts/audit-search-console-coverage.js --mode=local",
+    "audit:search-console:live": "node scripts/audit-search-console-coverage.js --mode=live",
     "postbuild:seo": "node scripts/postbuild-seo.js",
     "postgen-api-cleanup": "node scripts/prune-generated-api-aliases.js",
     "postgen-api-sidebars": "node scripts/set-api-displayed-sidebars.js",

@@ -4,9 +4,13 @@ const path = require('node:path');
 
 const {
   filterMissingSidebarItems,
+  getDisplayedSidebarId,
   normalizeRubElHizbDocLabels,
   normalizeRubElHizbSidebarLabels,
 } = require(path.join(__dirname, '..', 'scripts', 'set-api-displayed-sidebars.js'));
+const {
+  createRedirectsForReplacement,
+} = require(path.join(__dirname, '..', 'scripts', 'prune-generated-api-aliases.js'));
 
 test('drops empty categories that have no surviving items and no link', () => {
   const items = [
@@ -126,6 +130,50 @@ api: {"postman":{"name":"By Rub el Hizb number"}}
   );
 });
 
+test('uses the dedicated pre-live sidebar for pre-live API docs', () => {
+  assert.equal(
+    getDisplayedSidebarId(
+      path.join(
+        __dirname,
+        '..',
+        'docs',
+        'user_related_apis_prelive',
+        'delete-note-by-id.api.mdx',
+      ),
+    ),
+    'user-related-apis-pre-live',
+  );
+});
+
+test('keeps shared sidebars for latest and versioned generated API docs', () => {
+  assert.equal(
+    getDisplayedSidebarId(
+      path.join(
+        __dirname,
+        '..',
+        'docs',
+        'user_related_apis_versioned',
+        'delete-note-by-id.api.mdx',
+      ),
+    ),
+    'APIsSidebar',
+  );
+
+  assert.equal(
+    getDisplayedSidebarId(
+      path.join(
+        __dirname,
+        '..',
+        'docs',
+        'user_related_apis_versioned',
+        '1.0.0',
+        'delete-note-by-id.api.mdx',
+      ),
+    ),
+    'APIsVersionedSidebar',
+  );
+});
+
 test('normalizes Rub el Hizb alias labels in versioned sidebars', () => {
   const items = [
     {
@@ -164,4 +212,25 @@ test('normalizes Rub el Hizb alias labels in versioned sidebars', () => {
       ],
     },
   ]);
+});
+
+test('records both slash variants when auth aliases are normalized', () => {
+  assert.deepEqual(
+    createRedirectsForReplacement(
+      'user_related_apis_prelive/auth-post-v-1-reading-sessions',
+      'user_related_apis_prelive/add-or-update-user-reading-session',
+    ),
+    [
+      {
+        source: '/docs/user_related_apis_prelive/auth-post-v-1-reading-sessions',
+        target:
+          '/docs/user_related_apis_prelive/add-or-update-user-reading-session/',
+      },
+      {
+        source: '/docs/user_related_apis_prelive/auth-post-v-1-reading-sessions/',
+        target:
+          '/docs/user_related_apis_prelive/add-or-update-user-reading-session/',
+      },
+    ],
+  );
 });

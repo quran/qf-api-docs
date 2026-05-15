@@ -82,6 +82,12 @@
   ! Cache-Control
   Cache-Control: public, max-age=86400
 
+/search
+  X-Robots-Tag: noindex, follow
+
+/search/
+  X-Robots-Tag: noindex, follow
+
 /.well-known/http-message-signatures-directory
   Content-Type: application/http-message-signatures-directory+json
   Cache-Control: public, max-age=86400

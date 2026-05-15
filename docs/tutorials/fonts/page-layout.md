@@ -22,7 +22,7 @@ The Pages Lookup API provides information about how Quranic content is paginated
 | You Want To... | Use This Endpoint | Example |
 |---------------|-------------------|---------|
 | Get pages for a chapter | `/pages/lookup?chapter_number=2&mushaf=1` | Al-Baqarah in QCF V2 |
-| Get pages for a Juz | `/pages/lookup?juz_number=1&mushaf=1` | Juz Amma |
+| Get pages for a Juz | `/pages/lookup?juz_number=1&mushaf=1` | Juz 1 |
 | Get verses for a specific page | `/verses/by_page/50?mushaf=1` | Page 50 |
 | Get verse range on a page | Use Pages Lookup response | See examples |
 
@@ -53,21 +53,20 @@ const API_BASE = 'https://apis.quran.foundation/content/api/v4';
 
 const response = await fetch(
   `${API_BASE}/pages/lookup?chapter_number=2&mushaf=1`,
-  { headers: { 'Authorization': `Bearer ${accessToken}` } }
+  { headers: { 'x-auth-token': accessToken, 'x-client-id': clientId } }
 );
 const data = await response.json();
 
-console.log(data.totalPage);  // 48 (Al-Baqarah spans 48 pages in this Mushaf)
-console.log(data.pages['2']); // { from: "2:1", to: "2:5", ... }
+console.log(data.total_page); // 48 (Al-Baqarah spans 48 pages in this Mushaf)
+console.log(data.pages['2']); // { from: "2:1", to: "2:5", first_verse_key: "2:1", ... }
 ```
 
 ### 3. Fetch Verses for a Page
 
 ```javascript
-const pageData = data.pages['2'];  // Page 2 of the Mushaf
 const versesResponse = await fetch(
-  `${API_BASE}/verses/by_page/2?mushaf=1&from=${pageData.from}&to=${pageData.to}`,
-  { headers: { 'Authorization': `Bearer ${accessToken}` } }
+  `${API_BASE}/verses/by_page/2?mushaf=1&words=true`,
+  { headers: { 'x-auth-token': accessToken, 'x-client-id': clientId } }
 );
 ```
 
@@ -119,13 +118,13 @@ Verse 2:255 (Ayatul Kursi):
 GET https://apis.quran.foundation/content/api/v4/pages/lookup
 ```
 
-> **Authentication Required**: Include `Authorization: Bearer <token>` header
+> **Authentication Required**: Include `x-auth-token` and `x-client-id` headers
 
 ### Request Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `mushaf` | number | **Yes** | Mushaf ID (see table above) |
+| `mushaf` | number | No | Mushaf ID (defaults if omitted; specify it for layout accuracy) |
 | `chapter_number` | number | No* | Chapter number (1-114) |
 | `juz_number` | number | No* | Juz number (1-30) |
 | `hizb_number` | number | No* | Hizb number (1-60) |
@@ -140,7 +139,7 @@ GET https://apis.quran.foundation/content/api/v4/pages/lookup
 
 ```typescript
 interface PagesLookupResponse {
-  lookupRange: {
+  lookup_range: {
     from: string;  // First verse key in range
     to: string;    // Last verse key in range
   };
@@ -148,18 +147,19 @@ interface PagesLookupResponse {
     [pageNumber: string]: {
       from: string;          // First verse on this page
       to: string;            // Last verse on this page
-      firstVerseKey: string; // Same as 'from'
-      lastVerseKey: string;  // Same as 'to'
+      first_verse_key: string; // Same as 'from'
+      last_verse_key: string;  // Same as 'to'
     };
   };
-  totalPage: number;  // Total pages for this resource
+  total_page: number;  // Total pages for this resource
 }
 ```
 
 ### Example Request: Chapter
 
 ```bash
-curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+curl -H "x-auth-token: $ACCESS_TOKEN" \
+  -H "x-client-id: $CLIENT_ID" \
   "https://apis.quran.foundation/content/api/v4/pages/lookup?chapter_number=2&mushaf=1"
 ```
 
@@ -167,7 +167,7 @@ curl -H "Authorization: Bearer $ACCESS_TOKEN" \
 
 ```json
 {
-  "lookupRange": {
+  "lookup_range": {
     "from": "2:1",
     "to": "2:286"
   },
@@ -175,37 +175,39 @@ curl -H "Authorization: Bearer $ACCESS_TOKEN" \
     "2": {
       "from": "2:1",
       "to": "2:5",
-      "firstVerseKey": "2:1",
-      "lastVerseKey": "2:5"
+      "first_verse_key": "2:1",
+      "last_verse_key": "2:5"
     },
     "3": {
       "from": "2:6",
       "to": "2:16",
-      "firstVerseKey": "2:6",
-      "lastVerseKey": "2:16"
+      "first_verse_key": "2:6",
+      "last_verse_key": "2:16"
     },
     "4": {
       "from": "2:17",
       "to": "2:24",
-      "firstVerseKey": "2:17",
-      "lastVerseKey": "2:24"
+      "first_verse_key": "2:17",
+      "last_verse_key": "2:24"
     }
   },
-  "totalPage": 48
+  "total_page": 48
 }
 ```
 
 ### Query by Juz
 
 ```bash
-curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+curl -H "x-auth-token: $ACCESS_TOKEN" \
+  -H "x-client-id: $CLIENT_ID" \
   "https://apis.quran.foundation/content/api/v4/pages/lookup?juz_number=1&mushaf=1"
 ```
 
 ### Query by Verse Range
 
 ```bash
-curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+curl -H "x-auth-token: $ACCESS_TOKEN" \
+  -H "x-client-id: $CLIENT_ID" \
   "https://apis.quran.foundation/content/api/v4/pages/lookup?mushaf=1&from=2:255&to=2:260"
 ```
 
@@ -219,18 +221,20 @@ Once you have the page boundaries from Pages Lookup, fetch the actual verses:
 
 ```bash
 # Get verses for page 3 of Mushaf 1
-curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+curl -H "x-auth-token: $ACCESS_TOKEN" \
+  -H "x-client-id: $CLIENT_ID" \
   "https://apis.quran.foundation/content/api/v4/verses/by_page/3?mushaf=1&words=true"
 ```
 
-### Using from/to Parameters
+### Using Pages Lookup Ranges
 
-For precise verse fetching within a page:
+`verses/by_page/{page_number}` does not accept `from` / `to` query parameters. Use Pages Lookup to decide which page numbers to fetch, then filter the returned verses client-side if you need the exact lookup range:
 
 ```javascript
 const API_BASE = 'https://apis.quran.foundation/content/api/v4';
 const pageInfo = pagesLookup.pages['3'];
-const url = `${API_BASE}/verses/by_page/3?mushaf=1&from=${pageInfo.from}&to=${pageInfo.to}&words=true`;
+const url = `${API_BASE}/verses/by_page/3?mushaf=1&words=true`;
+// Use pageInfo.from and pageInfo.to to filter returned verses if needed.
 ```
 
 ### Word-Level Data
@@ -276,9 +280,10 @@ Display Mushaf pages like a book:
 const API_BASE = 'https://apis.quran.foundation/content/api/v4';
 
 class MushafNavigator {
-  constructor(mushafId, accessToken) {
+  constructor(mushafId, accessToken, clientId) {
     this.mushafId = mushafId;
     this.accessToken = accessToken;
+    this.clientId = clientId;
     this.pagesLookup = null;
     this.currentPage = 1;
   }
@@ -286,7 +291,7 @@ class MushafNavigator {
   async loadChapter(chapterNumber) {
     const response = await fetch(
       `${API_BASE}/pages/lookup?chapter_number=${chapterNumber}&mushaf=${this.mushafId}`,
-      { headers: { 'Authorization': `Bearer ${this.accessToken}` } }
+      { headers: { 'x-auth-token': this.accessToken, 'x-client-id': this.clientId } }
     );
     this.pagesLookup = await response.json();
     this.currentPage = parseInt(Object.keys(this.pagesLookup.pages)[0]);
@@ -298,8 +303,8 @@ class MushafNavigator {
     if (!pageInfo) return null;
 
     const response = await fetch(
-      `${API_BASE}/verses/by_page/${pageNumber}?mushaf=${this.mushafId}&words=true&from=${pageInfo.from}&to=${pageInfo.to}`,
-      { headers: { 'Authorization': `Bearer ${this.accessToken}` } }
+      `${API_BASE}/verses/by_page/${pageNumber}?mushaf=${this.mushafId}&words=true`,
+      { headers: { 'x-auth-token': this.accessToken, 'x-client-id': this.clientId } }
     );
     return response.json();
   }
@@ -331,8 +336,12 @@ Show a range of verses across multiple pages:
 ```javascript
 const API_BASE = 'https://apis.quran.foundation/content/api/v4';
 
-async function getVersesInRange(from, to, mushafId, accessToken) {
-  const headers = { 'Authorization': `Bearer ${accessToken}` };
+async function getVersesInRange(from, to, mushafId, accessToken, clientId) {
+  const headers = { 'x-auth-token': accessToken, 'x-client-id': clientId };
+  const verseKeyToNumber = (verseKey) => {
+    const [chapter, verse] = verseKey.split(':').map(Number);
+    return chapter * 1000 + verse;
+  };
 
   // 1. Get pages for the range
   const lookupResponse = await fetch(
@@ -346,11 +355,16 @@ async function getVersesInRange(from, to, mushafId, accessToken) {
   for (const pageNum of Object.keys(lookup.pages)) {
     const pageInfo = lookup.pages[pageNum];
     const versesResponse = await fetch(
-      `${API_BASE}/verses/by_page/${pageNum}?mushaf=${mushafId}&from=${pageInfo.from}&to=${pageInfo.to}&words=true`,
+      `${API_BASE}/verses/by_page/${pageNum}?mushaf=${mushafId}&words=true`,
       { headers }
     );
     const data = await versesResponse.json();
-    allVerses.push(...data.verses);
+    const start = verseKeyToNumber(pageInfo.from);
+    const end = verseKeyToNumber(pageInfo.to);
+    allVerses.push(...(data.verses || []).filter((verse) => {
+      const current = verseKeyToNumber(verse.verse_key);
+      return current >= start && current <= end;
+    }));
   }
 
   return allVerses;
@@ -369,7 +383,7 @@ Renders words grouped by lines to match the physical Mushaf layout.
 The API returns verses, but a single Mushaf line often contains words from multiple verses. We must group by line (not verse) for accurate physical layout.
 
 **Word Layout Metadata:**
-Each word includes `page_number` (1-604), `line_number` (1-15), and `position` (order within verse).
+Each word includes `page_number` (selected Mushaf page), `line_number` (line within the page), and `position` (order within verse).
 
 **Transformation Pipeline (Pseudo-code):**
 
@@ -428,7 +442,7 @@ ChapterReader:
   3. Render MushafPage with pageInfo from lookup.pages[currentPage]
 
 MushafPage:
-  1. Fetch verses for page with from/to range from pageInfo
+  1. Fetch verses for page with mushaf and filter to pageInfo range if needed
   2. Group words by line_number
   3. Render lines RTL with words in order
 ```
@@ -439,17 +453,17 @@ MushafPage:
 
 **Key Classes:**
 
-1. **PagesLookup:** Model for API response with `lookupRange`, `pages` map, and `totalPage`
+1. **PagesLookup:** Model for API response with `lookup_range`, `pages` map, and `total_page`
 2. **PageInfo:** Model for individual page with `from` and `to` verse keys
 3. **QuranApiService:** API client with `getPagesLookup()` and `getPageVerses()` methods
 
 **Pseudo-code flow:**
 
 ```text
-1. Create QuranApiService with accessToken
+1. Create QuranApiService with accessToken and clientId
 2. Call getPagesLookup(mushafId, chapterNumber) → PagesLookup
 3. Get first page number from pages.keys
-4. Call getPageVerses(pageNumber, mushafId, from, to) → List<Verse>
+4. Call getPageVerses(pageNumber, mushafId) → List<Verse>
 5. Group verse.words by line_number for rendering
 ```
 
@@ -526,7 +540,7 @@ Pseudo-code:
 1. Get currentVerseKey from current reading position
 2. Call pages/lookup for new Mushaf with from=currentVerseKey&to=currentVerseKey
 3. Get target page from lookup.pages
-4. Fetch verses for target page with from/to from pageInfo
+4. Fetch verses for target page and filter to pageInfo range if needed
 5. Return new page, pageInfo, and verses
 ```
 
@@ -606,7 +620,7 @@ Different Mushafs have different page counts. Validate page numbers against:
 
 **Cause**: Invalid resource identifier or Mushaf ID
 
-**Solution**: Verify your parameters - use valid `mushaf` ID (1-7) and valid `chapter_number` (1-114)
+**Solution**: Verify your parameters - use a valid `mushaf` ID from the table above and valid `chapter_number` (1-114)
 
 ### Issue: Wrong Page Numbers
 
@@ -630,7 +644,7 @@ Different Mushafs have different page counts. Validate page numbers against:
 
 **Cause**: Using pages lookup range vs chapter verse count
 
-**Solution**: The `lookupRange` in the response gives the actual verse range (e.g., `{ from: "2:1", to: "2:286" }`).
+**Solution**: The `lookup_range` in the response gives the actual verse range (e.g., `{ from: "2:1", to: "2:286" }`).
 
 ---
 

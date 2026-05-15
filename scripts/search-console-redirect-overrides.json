@@ -1,0 +1,372 @@
+{
+  "redirects": [
+    {
+      "source": "/docs/category/mobile-apps",
+      "target": "/docs/tutorials/oidc/mobile-apps/"
+    },
+    {
+      "source": "/docs/content_apis_versioned",
+      "target": "/docs/content_apis_versioned/4.0.0/content-apis/"
+    },
+    {
+      "source": "/docs/content_apis_versioned/4.0.0",
+      "target": "/docs/content_apis_versioned/4.0.0/content-apis/"
+    },
+    {
+      "source": "/docs/content_apis_versioned/4.0.0/juzs",
+      "target": "/docs/content_apis_versioned/4.0.0/list-juzs/"
+    },
+    {
+      "source": "/docs/content_apis_versioned/4.0.0/search",
+      "target": "/docs/search_apis_versioned/1.0.0/search-controller-search/"
+    },
+    {
+      "source": "/docs/content_apis_versioned/info",
+      "target": "/docs/content_apis_versioned/4.0.0/get-chapter-info/"
+    },
+    {
+      "source": "/docs/content_apis_versioned/juzs",
+      "target": "/docs/content_apis_versioned/4.0.0/list-juzs/"
+    },
+    {
+      "source": "/docs/content_apis_versioned/list-rub-el-hizb-recitaiton",
+      "target": "/docs/content_apis_versioned/4.0.0/list-rub-el-hizb-recitation/"
+    },
+    {
+      "source": "/docs/content_apis_versioned/search",
+      "target": "/docs/search_apis_versioned/1.0.0/search-controller-search/"
+    },
+    {
+      "source": "/docs/oauth2_apis_versioned",
+      "target": "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/"
+    },
+    {
+      "source": "/docs/oauth2_apis_versioned/1.0.0",
+      "target": "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/"
+    },
+    {
+      "source": "/docs/oauth2_apis_versioned/1.0.0/oauth2_apis",
+      "target": "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/"
+    },
+    {
+      "source": "/docs/oauth2_apis_versioned/oauth2_apis",
+      "target": "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/"
+    },
+    {
+      "source": "/docs/sdk/audio",
+      "target": "/docs/sdk/javascript/audio/"
+    },
+    {
+      "source": "/docs/sdk/chapters",
+      "target": "/docs/sdk/javascript/chapters/"
+    },
+    {
+      "source": "/docs/sdk/juzs",
+      "target": "/docs/sdk/javascript/juzs/"
+    },
+    {
+      "source": "/docs/sdk/migration",
+      "target": "/docs/sdk/javascript/"
+    },
+    {
+      "source": "/docs/sdk/resources",
+      "target": "/docs/sdk/javascript/resources/"
+    },
+    {
+      "source": "/docs/sdk/search",
+      "target": "/docs/sdk/javascript/search/"
+    },
+    {
+      "source": "/docs/sdk/verses",
+      "target": "/docs/sdk/javascript/verses/"
+    },
+    {
+      "source": "/docs/search_apis_versioned",
+      "target": "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/"
+    },
+    {
+      "source": "/docs/search_apis_versioned/1.0.0",
+      "target": "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/"
+    },
+    {
+      "source": "/docs/search_apis_versioned/1.0.0/search-apis",
+      "target": "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/"
+    },
+    {
+      "source": "/docs/search_apis_versioned/search-apis",
+      "target": "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/"
+    },
+    {
+      "source": "/docs/tutorials/oidc/request-access",
+      "target": "/request-access/"
+    },
+    {
+      "source": "/docs/tutorials/sync/getting-started",
+      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
+    },
+    {
+      "source": "/docs/tutorials/sync/handling-conflicts",
+      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
+    },
+    {
+      "source": "/docs/tutorials/sync/offline-first-patterns",
+      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/add-a-comment",
+      "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-create/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/add-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-create/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/comments-controller-success",
+      "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/users-controller-delete-account",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/users-controller-follow-featured-users",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/users-controller-get-featured-users",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/delete-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-delete/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/get-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-find-one/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/get-group-settings",
+      "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/get-mutations",
+      "target": "/docs/user_related_apis_prelive/get-mutations/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/get-posts",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-feed/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/get-posts-comments",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-get-comments/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/get-user-notifications",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/get-user-profile",
+      "target": "/docs/user_related_apis_versioned/1.0.0/users-controller-profile/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/invite-user-to-group",
+      "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-invite-user-to-room/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/log-a-post-view",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-view-tracking/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/posts-controller-legacy-feed-endpoint",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-feed/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/register-android-device",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/scopes",
+      "target": "/docs/user_related_apis_versioned/scopes/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/send-account-confirmation-email",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/send-reset-password-email",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/toggle-following-a-user",
+      "target": "/docs/user_related_apis_versioned/1.0.0/users-controller-toggle-follow/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/toggle-like-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-like/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/update-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-edit/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/update-user-notification-settings",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/add-a-comment",
+      "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-create/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/add-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-create/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/comments-controller-success",
+      "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/users-controller-delete-account",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/users-controller-follow-featured-users",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/users-controller-get-featured-users",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/delete-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-delete/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/get-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-find-one/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/get-group-settings",
+      "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/get-mutations",
+      "target": "/docs/user_related_apis_prelive/get-mutations/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/get-posts",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-feed/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/get-posts-comments",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-get-comments/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/get-user-notifications",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/get-user-profile",
+      "target": "/docs/user_related_apis_versioned/1.0.0/users-controller-profile/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/invite-user-to-group",
+      "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-invite-user-to-room/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/log-a-post-view",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-view-tracking/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/posts-controller-legacy-feed-endpoint",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-feed/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/register-android-device",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/scopes",
+      "target": "/docs/user_related_apis_versioned/scopes/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/send-account-confirmation-email",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/send-reset-password-email",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/toggle-following-a-user",
+      "target": "/docs/user_related_apis_versioned/1.0.0/users-controller-toggle-follow/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/toggle-like-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-like/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/update-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-edit/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/update-user-notification-settings",
+      "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_prelive/users-controller-delete-account",
+      "target": "/docs/user_related_apis_prelive/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_prelive/users-controller-follow-featured-users",
+      "target": "/docs/user_related_apis_prelive/user-related-apis/"
+    },
+    {
+      "source": "/docs/user_related_apis_prelive/users-controller-get-featured-users",
+      "target": "/docs/user_related_apis_prelive/user-related-apis/"
+    },
+    {
+      "source": "/sdk",
+      "target": "/docs/sdk/"
+    },
+    {
+      "source": "/sdk/javascript",
+      "target": "/docs/sdk/javascript/"
+    },
+    {
+      "source": "/sdk/javascript/audio",
+      "target": "/docs/sdk/javascript/audio/"
+    },
+    {
+      "source": "/sdk/javascript/chapters",
+      "target": "/docs/sdk/javascript/chapters/"
+    },
+    {
+      "source": "/sdk/javascript/juzs",
+      "target": "/docs/sdk/javascript/juzs/"
+    },
+    {
+      "source": "/sdk/javascript/migration",
+      "target": "/docs/sdk/javascript/"
+    },
+    {
+      "source": "/sdk/javascript/resources",
+      "target": "/docs/sdk/javascript/resources/"
+    },
+    {
+      "source": "/sdk/javascript/search",
+      "target": "/docs/sdk/javascript/search/"
+    },
+    {
+      "source": "/sdk/javascript/verses",
+      "target": "/docs/sdk/javascript/verses/"
+    }
+  ]
+}

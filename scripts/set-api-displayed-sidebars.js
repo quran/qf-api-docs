@@ -72,6 +72,10 @@ function getDisplayedSidebarId(filePath) {
     versionDirPattern.test(segment),
   );
 
+  if (pathSegments.join('/').startsWith('docs/user_related_apis_prelive/')) {
+    return 'user-related-apis-pre-live';
+  }
+
   return isVersionedDoc ? 'APIsVersionedSidebar' : 'APIsSidebar';
 }
 
@@ -99,8 +103,15 @@ function upsertDisplayedSidebar(content, displayedSidebarId) {
   );
 }
 
-function normalizeGeneratedLabels(content) {
-  return content
+function normalizeGeneratedLabels(content, filePath = '') {
+  const shouldNormalizeDetailsCollapseAttribute =
+    /[\\/]resources-(sync|snapshot)\.api\.mdx$/.test(filePath);
+
+  const normalizedContent = shouldNormalizeDetailsCollapseAttribute
+    ? content.replace(/data-collaposed=/g, 'data-collapsed=')
+    : content;
+
+  return normalizedContent
     .replace(/Foot Note/g, 'Footnote')
     .replace(/foot note/g, 'footnote');
 }
@@ -287,7 +298,7 @@ function main() {
         ? normalizeGeneratedSidebar(filePath, validDocIds)
         : normalizeRubElHizbDocLabels(
             filePath,
-            normalizeGeneratedLabels(originalContent),
+            normalizeGeneratedLabels(originalContent, filePath),
           );
       const updatedContent = generatedApiDocPattern.test(filePath)
         ? upsertDisplayedSidebar(
@@ -314,6 +325,7 @@ if (require.main === module) {
 
 module.exports = {
   filterMissingSidebarItems,
+  getDisplayedSidebarId,
   hasUsableSidebarLink,
   normalizeRubElHizbDocLabels,
   normalizeRubElHizbSidebarLabels,
