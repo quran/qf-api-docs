@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "prompts": [
+    {
+      "id": "QF_NPX_STARTER_PROMPT_V1",
+      "title": "Start with the official Quran Foundation Next.js scaffold",
+      "description": "Scaffold a production-shaped Next.js app with OAuth2, reader, search, notes, bookmarks, and the runtime-split Quran Foundation SDK.",
+      "targetStack": "Next.js",
+      "status": "recommended",
+      "command": "npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes",
+      "sdkEntrypoints": [
+        "@quranjs/api/public",
+        "@quranjs/api/server"
+      ],
+      "docsUrl": "https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/",
+      "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md"
+    }
+  ]
+}

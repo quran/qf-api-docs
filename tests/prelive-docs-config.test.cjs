@@ -13,6 +13,32 @@ const { generateLlmsTxt } = require(path.join(
 
 const docsDir = path.join(__dirname, '..', 'docs');
 
+const sidebarContainsDoc = (items, docId) =>
+  items.some((item) => {
+    if (typeof item === 'string') {
+      return item === docId;
+    }
+
+    if (!item || typeof item !== 'object') {
+      return false;
+    }
+
+    if (item.type === 'doc' && item.id === docId) {
+      return true;
+    }
+
+    return Array.isArray(item.items) && sidebarContainsDoc(item.items, docId);
+  });
+
+const findSidebarCategory = (items, label) =>
+  items.find(
+    (item) =>
+      item &&
+      typeof item === 'object' &&
+      item.type === 'category' &&
+      item.label === label,
+  );
+
 const getOpenApiConfig = () => {
   const entry = config.plugins.find(
     (plugin) => Array.isArray(plugin) && plugin[0] === 'docusaurus-plugin-openapi-docs',
@@ -44,10 +70,23 @@ test('adds pre-live user-related docs to navigation and sidebars', () => {
   assert.ok(
     apiDropdown.items.some(
       (item) =>
-        item.label === 'User-related APIs (Pre-live)' &&
-        item.to === 'docs/category/user-related-apis-pre-live',
+        item.label === 'User APIs (Pre-live)' &&
+        item.to === '/docs/user_related_apis_prelive/user-related-apis/',
     ),
-    'expected a pre-live user-related navbar link',
+    'expected the pre-live navbar link to open the intro doc',
+  );
+
+  const footerApiLinks = config.themeConfig.footer.links.find(
+    (section) => section.title === 'API Docs',
+  );
+  assert.ok(footerApiLinks, 'expected the API Docs footer section');
+  assert.ok(
+    footerApiLinks.items.some(
+      (item) =>
+        item.label === 'User APIs (Pre-live)' &&
+        item.to === '/docs/user_related_apis_prelive/user-related-apis/',
+    ),
+    'expected the pre-live footer link to open the intro doc',
   );
 
   assert.ok(
@@ -68,6 +107,30 @@ test('adds pre-live user-related docs to navigation and sidebars', () => {
     ),
     'expected pre-live sidebar to link to the pre-live OAuth2 scopes doc',
   );
+
+  const sharedApiSection = findSidebarCategory(sidebars.APIsSidebar, 'API');
+  assert.ok(sharedApiSection, 'expected the shared API sidebar section');
+
+  const sharedPreliveCategory = findSidebarCategory(
+    sharedApiSection.items,
+    'User APIs (Pre-live)',
+  );
+  assert.ok(
+    sharedPreliveCategory,
+    'expected pre-live user APIs in the shared API sidebar',
+  );
+  assert.deepEqual(sharedPreliveCategory.link, {
+    type: 'doc',
+    id: 'user_related_apis_prelive/user-related-apis',
+  });
+  assert.equal(
+    sidebarContainsDoc(
+      sharedPreliveCategory.items,
+      'user_related_apis_prelive/get-mutations',
+    ),
+    true,
+    'expected pre-live endpoint docs in the shared API sidebar',
+  );
 });
 
 test('publishes both production and pre-live user-related raw spec links', () => {
@@ -86,9 +149,33 @@ test('publishes both production and pre-live user-related raw spec links', () =>
 test('includes pre-live user-related endpoint docs in llms.txt', () => {
   const { content } = generateLlmsTxt(docsDir);
 
-  assert.match(content, /## User-Related APIs v1 \(Pre-live\)/);
+  assert.match(content, /## User APIs v1 \(Pre-live\)/);
   assert.match(
     content,
-    /\[Get mutations\]\(https:\/\/api-docs\.quran\.foundation\/docs\/user_related_apis_prelive\/get-mutations\)/,
+    /\[Get mutations\]\(https:\/\/api-docs\.quran\.foundation\/docs\/user_related_apis_prelive\/get-mutations\/\)/,
+  );
+});
+
+test('keeps llms docs URLs canonical and unique', () => {
+  const { content } = generateLlmsTxt(docsDir);
+  const urls = Array.from(
+    content.matchAll(/\]\((https?:\/\/[^)]+)\)/g),
+    (match) => match[1],
+  );
+  const duplicateUrls = urls.filter((url, index) => urls.indexOf(url) !== index);
+
+  assert.deepEqual(duplicateUrls, []);
+
+  for (const url of urls) {
+    if (url.startsWith('https://api-docs.quran.foundation/docs')) {
+      assert.equal(url.endsWith('/'), true, `expected trailing slash for ${url}`);
+    }
+  }
+
+  assert.equal((content.match(/\[Developer Journey\]\(/g) || []).length, 1);
+  assert.equal((content.match(/\[API Reference\]\(/g) || []).length, 1);
+  assert.doesNotMatch(
+    content,
+    /https:\/\/api-docs\.quran\.foundation\/docs\/(?:content_apis_versioned|oauth2_apis_versioned|search_apis_versioned|user_related_apis_versioned)\/(?!\d+\.\d+\.\d+\/|scopes\/)[^)\s]+/,
   );
 });

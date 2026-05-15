@@ -1,0 +1,59 @@
+---
+title: "Full-Stack Quickstart"
+description: "Recommended pattern for most apps: public client in the frontend and server client in the backend."
+slug: /sdk/javascript/full-stack
+sidebar_position: 8
+---
+
+# Full-Stack Quickstart
+
+Purpose: Show the recommended setup for most teams.
+Use this when: You have frontend code and backend code.
+Do not use this when: You only have a backend or only have an approved public client.
+Backend required: Yes.
+Allowed runtimes: Browser + backend, mobile + backend.
+Required credentials: `client_id` in the frontend, `client_id` and `client_secret` in the backend.
+Minimal import: `@quranjs/api/public` in frontend, `@quranjs/api/server` in backend.
+
+## Frontend
+
+```ts
+import { createPublicClient } from "@quranjs/api/public";
+
+export const authClient = createPublicClient({
+  clientId: "your-client-id",
+  clientType: "confidential-proxy",
+});
+```
+
+## Backend
+
+```ts
+import { createServerClient } from "@quranjs/api/server";
+
+export const apiClient = createServerClient({
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
+});
+```
+
+## Short Flow
+
+1. Frontend creates the authorize URL and sends the user to Quran Foundation login.
+2. Frontend receives the authorization code.
+3. Frontend sends `code + code_verifier + redirect_uri` to the backend.
+4. Backend exchanges the code.
+5. Backend calls Content, Search, or User APIs as needed.
+
+Think of it like this:
+
+- The frontend starts login with PKCE.
+- The backend does the secret parts.
+- The backend keeps the session.
+- The frontend never sees `client_secret`.
+
+Content and Search can still keep working even if the user session expires, because they use a separate app token. User APIs use the signed-in user's token, so they may need refresh sooner.
+
+For serious multi-instance production deployments, keep the user session in a shared server-side store such as Redis. Edge or serverless frontends still typically need a backend or BFF layer for confidential token exchange and session management.
+
+For a fuller reference, use the standalone `quran-oauth2-sdk-e2e-example` repo. It acts as a broader interactive playground with a same-origin React SPA shell over an Express backend/BFF, and demonstrates login, refresh, logout, app-authenticated search, server-side Quran content reads, notes, bookmarks, collections, and QuranReflect calls in one place.

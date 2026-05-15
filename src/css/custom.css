@@ -130,13 +130,6 @@ a.navbar__item--request-access:hover {
   border-bottom-color: var(--qf-border-card);
 }
 
-/* On mobile homepage, hide Request Access from navbar — it's in the hero instead */
-@media screen and (max-width: 768px) {
-  body.home-page .navbar__item--request-access {
-    display: none;
-  }
-}
-
 @media screen and (max-width: 996px) {
   .navbar-sidebar .navbar__item--request-access,
   .navbar-sidebar .navbar__item--request-access .navbar__link,
@@ -159,6 +152,81 @@ a.navbar__item--request-access:hover {
     background: transparent !important;
     transform: none;
   }
+}
+
+/* Docs sidebar hierarchy */
+.theme-doc-sidebar-container .menu {
+  font-size: 0.9rem;
+}
+
+.theme-doc-sidebar-container .menu__list-item {
+  margin-top: 0.08rem;
+}
+
+.theme-doc-sidebar-container
+  .menu
+  > .menu__list
+  > .menu__list-item
+  > .menu__link,
+.theme-doc-sidebar-container
+  .menu
+  > .menu__list
+  > .menu__list-item
+  > .menu__list-item-collapsible
+  > .menu__link {
+  color: var(--qf-text-primary);
+  font-weight: 700;
+}
+
+.theme-doc-sidebar-container .menu__list .menu__list {
+  margin: 0.18rem 0 0.45rem 0.45rem;
+  padding-left: 0.7rem;
+  border-left: 1px solid var(--qf-border-card);
+}
+
+.theme-doc-sidebar-container .menu__list .menu__list .menu__link,
+.theme-doc-sidebar-container .menu__list .menu__list .menu__list-item-collapsible {
+  font-size: 0.85rem;
+}
+
+.theme-doc-sidebar-container .menu__list .menu__list .menu__link {
+  color: var(--ifm-color-emphasis-800);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.theme-doc-sidebar-container .menu__list .menu__list .menu__list .menu__link {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.8rem;
+  font-weight: 450;
+}
+
+.theme-doc-sidebar-container .menu__list .menu__list .menu__list {
+  margin-left: 0.35rem;
+  padding-left: 0.6rem;
+  border-left-style: dashed;
+}
+
+.theme-doc-sidebar-container .menu__link--sublist {
+  color: var(--qf-text-primary);
+  font-weight: 700;
+}
+
+.theme-doc-sidebar-container .menu__link--active:not(.menu__link--sublist) {
+  background: rgba(62, 193, 201, 0.12);
+  color: var(--ifm-color-primary-dark);
+  font-weight: 700;
+}
+
+.theme-doc-sidebar-container .menu__list-item-collapsible--active {
+  background: var(--ifm-color-emphasis-100);
+  border-radius: var(--ifm-global-radius);
+}
+
+[data-theme='dark']
+  .theme-doc-sidebar-container
+  .menu__link--active:not(.menu__link--sublist) {
+  color: var(--ifm-color-primary-light);
 }
 
 /* ─── Footer ──────────────────────────────────────────────── */

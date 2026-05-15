@@ -1,0 +1,22 @@
+---
+title: "SDK Entrypoint Matrix"
+description: "Quick reference for which import to use."
+slug: /sdk/javascript/entrypoint-matrix
+sidebar_position: 4
+---
+
+# SDK Entrypoint Matrix
+
+Purpose: Show which package import to use.  
+Use this when: You want the shortest possible answer.  
+Do not use this when: You need a full OAuth2 tutorial.  
+Backend required: Depends on import.  
+Allowed runtimes: Server and public runtimes.  
+Required credentials: Depends on import.  
+Minimal import: Listed below.
+
+| Import | Use it for | Do not use it for |
+| --- | --- | --- |
+| `@quranjs/api` | Shared types, enums, constants, and legacy `QuranClient` compatibility | New integrations that can choose a runtime-specific client |
+| `@quranjs/api/server` | Content, Search, backend OAuth2, server jobs | Browser or mobile code |
+| `@quranjs/api/public` | PKCE login, public-client flows, frontend user-session flows | Content, Search, `client_secret` |

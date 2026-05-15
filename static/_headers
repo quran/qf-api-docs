@@ -22,10 +22,10 @@
   Link: </openAPI/oauth2-apis/v1.json>; rel="service-desc"; type="application/json"
   Link: </openAPI/search/v1.json>; rel="service-desc"; type="application/json"
   Link: </openAPI/user-related-apis/v1.json>; rel="service-desc"; type="application/json"
-  Link: </docs/content_apis_versioned/content-apis/>; rel="service-doc"; type="text/html"
-  Link: </docs/oauth2_apis_versioned/oauth-2-apis/>; rel="service-doc"; type="text/html"
-  Link: </docs/search_apis_versioned/quran-foundation-search-api/>; rel="service-doc"; type="text/html"
-  Link: </docs/user_related_apis_versioned/user-related-apis/>; rel="service-doc"; type="text/html"
+  Link: </docs/content_apis_versioned/4.0.0/content-apis/>; rel="service-doc"; type="text/html"
+  Link: </docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/>; rel="service-doc"; type="text/html"
+  Link: </docs/search_apis_versioned/1.0.0/quran-foundation-search-api/>; rel="service-doc"; type="text/html"
+  Link: </docs/user_related_apis_versioned/1.0.0/user-related-apis/>; rel="service-doc"; type="text/html"
   Link: </docs/tutorials/oidc/getting-started-with-oauth2/>; rel="service-doc"; type="text/html"
   Link: </docs/quickstart/>; rel="service-doc"; type="text/html"
   Link: </docs/tutorials/oidc/user-apis-quickstart/>; rel="service-doc"; type="text/html"
@@ -97,6 +97,22 @@
 
 /.well-known/mcp/server-card.json
   ! Cache-Control
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET
+  Access-Control-Allow-Headers: Content-Type
+  Cache-Control: public, max-age=3600
+
+/.well-known/agent-prompts/index.json
+  ! Cache-Control
+  Content-Type: application/json; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET
+  Access-Control-Allow-Headers: Content-Type
+  Cache-Control: public, max-age=3600
+
+/agent-prompts/*.md
+  ! Cache-Control
+  Content-Type: text/markdown; charset=utf-8
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET
   Access-Control-Allow-Headers: Content-Type

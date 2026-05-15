@@ -1,0 +1,24 @@
+---
+title: "Common Errors"
+description: "Plain-English explanations for the most common SDK mistakes."
+slug: /sdk/javascript/common-errors
+sidebar_position: 15
+---
+
+# Common Errors
+
+Purpose: Decode the most common mistakes quickly.  
+Use this when: You hit an SDK error and want the short answer.  
+Do not use this when: You need a full OAuth2 tutorial.  
+Backend required: Depends on the error.  
+Allowed runtimes: Server and public runtimes.  
+Required credentials: Depends on the error.  
+Minimal import: Depends on the error.
+
+| Error or symptom | What it means | Fix |
+| --- | --- | --- |
+| `client_secret is server-only` | You passed a secret into the public client | Use `@quranjs/api/server` |
+| `This API requires @quranjs/api/server` | You tried to call Content or Search from `public` | Move the call to the backend |
+| `This OAuth2 exchange requires a backend` | Your client is confidential | Exchange the code on the backend |
+| `This operation requires a user session` | You called a user API with no access token | Sign in first or inject a session |
+| `401 Unauthorized` | Token is missing, expired, or wrong for that API | Check token type, scopes, and environment |

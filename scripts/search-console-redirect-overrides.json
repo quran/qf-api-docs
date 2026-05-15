@@ -354,7 +354,11 @@
     },
     {
       "source": "/sdk/javascript/migration",
-      "target": "/docs/sdk/javascript/"
+      "target": "/docs/sdk/javascript/migration-cheat-sheet/"
+    },
+    {
+      "source": "/docs/sdk/javascript/migration",
+      "target": "/docs/sdk/javascript/migration-cheat-sheet/"
     },
     {
       "source": "/sdk/javascript/resources",

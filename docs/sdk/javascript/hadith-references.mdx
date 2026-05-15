@@ -1,0 +1,59 @@
+---
+title: "Hadith References API"
+description: "Read hadith references linked to ayahs with the server SDK entrypoint."
+slug: /sdk/javascript/hadith-references
+sidebar_position: 12
+---
+
+# Hadith References API
+
+Purpose: Read hadith references and hadith payloads linked to Quran ayahs.  
+Use this when: You have a backend and need to show hadith connections for an ayah or range.  
+Do not use this when: You only have frontend or mobile code with no backend.  
+Backend required: Yes.  
+Allowed runtimes: Node.js, serverless functions, workers.  
+Required credentials: `client_id`, `client_secret`, Content API access.  
+Minimal import: `@quranjs/api/server`.
+
+Use `@quranjs/api/server`.
+
+```ts
+import { createServerClient } from "@quranjs/api/server";
+
+const client = createServerClient({
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
+});
+
+const references = await client.content.v4.hadithReferences.byAyah("12:12");
+const hadiths = await client.content.v4.hadithReferences.hadithsByAyah(
+  "12:12",
+  {
+    language: "en",
+    limit: 4,
+  },
+);
+const counts = await client.content.v4.hadithReferences.countWithinRange(
+  "12:12",
+  "12:13",
+);
+```
+
+The same methods are also available from the root content client:
+
+```ts
+const references = await client.hadithReferences.findByAyah("12:12");
+const hadiths = await client.hadithReferences.findHadithsByAyah("12:12");
+const counts = await client.hadithReferences.countWithinRange(
+  "12:12",
+  "12:13",
+);
+```
+
+## Response Shape
+
+`byAyah` returns verse metadata plus `hadithReferences`. `hadithsByAyah` returns paginated hadith payloads and `hasMore`. `countWithinRange` returns a map whose keys are verse keys and whose values are counts.
+
+## Common Mistake
+
+Do not call Hadith References from `@quranjs/api/public`. These are Content API reads and require the server SDK entrypoint.

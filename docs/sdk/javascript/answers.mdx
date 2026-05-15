@@ -1,0 +1,71 @@
+---
+title: "Answers API"
+description: "Read published Quran Answers questions and answers linked to ayahs with the server SDK entrypoint."
+slug: /sdk/javascript/answers
+sidebar_position: 13
+---
+
+# Answers API
+
+Purpose: Read published Quran Answers questions and answer threads linked to Quran ayahs.  
+Use this when: You have a backend and need to show answer threads for an ayah or count answer coverage across a short range.  
+Do not use this when: You only have frontend or mobile code with no backend.  
+Backend required: Yes.  
+Allowed runtimes: Node.js, serverless functions, workers.  
+Required credentials: `client_id`, `client_secret`, Content API access.  
+Minimal import: `@quranjs/api/server`.
+
+Use `@quranjs/api/server`.
+
+```ts
+import { createServerClient } from "@quranjs/api/server";
+
+const client = createServerClient({
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
+});
+
+const questions = await client.content.v4.answers.byAyah("1:1", {
+  language: "en",
+  page: 1,
+  pageSize: 2,
+});
+
+const firstQuestion = questions.questions[0];
+const answerThread = firstQuestion
+  ? await client.content.v4.answers.get(firstQuestion.id)
+  : null;
+
+const counts = await client.content.v4.answers.countWithinRange(
+  "1:1",
+  "1:1",
+  { language: "en" },
+);
+```
+
+The same methods are also available from the root content client:
+
+```ts
+const questions = await client.answers.findByAyah("1:1", {
+  language: "en",
+  page: 1,
+  pageSize: 2,
+});
+
+const answerThread = await client.answers.findByQuestionId("64");
+const counts = await client.answers.countWithinRange("1:1", "1:1", {
+  language: "en",
+});
+```
+
+## Response Shape
+
+`byAyah` returns `{ questions, totalCount }`. Each question contains its linked `answers`. `get` returns one published question with its published answers. `countWithinRange` returns a map whose keys are verse keys and whose values include `total` plus per-type counts such as `TAFSIR` and `CLARIFICATION`.
+
+## Query Parameters
+
+Use `pageSize`, not `page_size`, for `byAyah`. This endpoint's public API contract uses camelCase for that pagination parameter, and the SDK preserves that casing.
+
+## Common Mistake
+
+Do not call Answers from `@quranjs/api/public`. These are Content API reads and require the server SDK entrypoint.

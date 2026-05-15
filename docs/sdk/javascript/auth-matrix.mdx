@@ -1,0 +1,29 @@
+---
+title: "Auth Matrix"
+description: "Understand confidential clients, public clients, and when backend token exchange is required."
+slug: /sdk/javascript/auth-matrix
+sidebar_position: 3
+---
+
+# Auth Matrix
+
+Purpose: Explain client types in plain English.  
+Use this when: You need to decide whether code exchange happens in the app or on the backend.  
+Do not use this when: You only need Content or Search examples.  
+Backend required: Usually yes.  
+Allowed runtimes: Node.js, serverless functions, workers, browser apps, mobile apps.  
+Required credentials: `client_id` always. `client_secret` only for confidential clients.  
+Minimal import: `@quranjs/api/server` and `@quranjs/api/public`.
+
+| Client type | What it means | Can hold `client_secret`? | Where code exchange happens | Typical SDK use |
+| --- | --- | --- | --- | --- |
+| Confidential client | Default Quran Foundation client type | Yes, on the backend only | Backend | frontend uses `public`, backend uses `server` |
+| Public client | Explicitly approved by Quran Foundation | No | App or browser with PKCE | `public` only |
+| Confidential-proxy app | Frontend app backed by your own server | Backend only | Backend | frontend uses `public`, backend uses `server` |
+
+## Short Answer
+
+- Most clients are confidential by default.
+- Most apps should do PKCE in the frontend and token exchange on the backend.
+- Never put `client_secret` in frontend or mobile code.
+- If you are choosing between SPA only, mobile only, or frontend plus backend, read [App Shapes](/docs/sdk/javascript/app-shapes).

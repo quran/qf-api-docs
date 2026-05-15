@@ -5,10 +5,28 @@ displayed_sidebar: APIsSidebar
 
 # OAuth2 Scopes
 
-Quran.Foundations's OAuth 2.0 scopes provide a way to limit the amount of access that is granted to
-an access token. When requesting an accessing token, clients should also request the scopes they are
-interested in getting access to. If the APIs are user-related, the user will need to consent to
-granting access to the scopes your app is requesting first.
+Quran.Foundation's OAuth 2.0 scopes limit the access granted to an access token. When requesting an
+access token, clients should request only the scopes they need. For User APIs, the user must consent
+to grant access to the scopes your app is requesting.
+
+## Parent and Child Scopes
+
+Some API areas have a parent scope and more specific child scopes. For example, `note` is the parent
+scope for `note.read`, `note.create`, `note.update`, `note.delete`, and `note.publish`. A parent scope
+authorizes the matching child actions when calling Quran Foundation APIs.
+
+When building an OAuth authorization URL, request the exact scopes approved for your client. If your
+client is approved for a parent scope such as `note` or `post`, request that parent scope directly.
+Do not also request child scopes unless those child scopes were separately approved for the client.
+
+| If your client is approved for | Request in the OAuth URL | Do not request unless separately approved |
+| ------------------------------ | ------------------------ | ----------------------------------------- |
+| `note`                         | `note`                   | `note.read note.create note.update note.delete note.publish` |
+| `post`                         | `post`                   | `post.read post.create post.update post.delete post.save post.like post.report post.log post.export` |
+| `collection`                   | `collection`             | `collection.read collection.create collection.update collection.delete` |
+
+Requesting a scope that is not approved for your client can cause the authorization server to return
+`invalid_scope`, even when a parent scope would be enough for the API call.
 
 ## Standard OAuth2
 
