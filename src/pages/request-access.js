@@ -2,75 +2,58 @@ import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import styles from './request-access.module.css';
 import {
     DeveloperBenefitsModal,
     DeveloperDisclaimersModal,
 } from '@site/src/components/DeveloperModals';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import requestAccessUtils from './request-access-utils.cjs';
 
 const REQUEST_ACCESS_FORM_STORAGE_KEY = 'qf:request-access-form:v1';
-
-const DEFAULT_FORM_VALUES = {
-    appName: '',
-    email: '',
-    callbackUrl: '',
-    logoUri: '',
-    clientUri: '',
-    policyUri: '',
-    tosUri: '',
-    postLogoutRedirectUris: '',
-    agreementsAccepted: false,
-};
-
-const normalizeOptionalValue = (value) => {
-    if (typeof value !== 'string') {
-        return undefined;
-    }
-    const trimmed = value.trim();
-    return trimmed ? trimmed : undefined;
-};
-
-function sanitizeFormValues(values) {
-    if (!values || typeof values !== 'object') {
-        return { ...DEFAULT_FORM_VALUES };
-    }
-
-    return {
-        ...DEFAULT_FORM_VALUES,
-        appName: typeof values.appName === 'string' ? values.appName : '',
-        email: typeof values.email === 'string' ? values.email : '',
-        callbackUrl: typeof values.callbackUrl === 'string' ? values.callbackUrl : '',
-        logoUri: typeof values.logoUri === 'string' ? values.logoUri : '',
-        clientUri: typeof values.clientUri === 'string' ? values.clientUri : '',
-        policyUri: typeof values.policyUri === 'string' ? values.policyUri : '',
-        tosUri: typeof values.tosUri === 'string' ? values.tosUri : '',
-        postLogoutRedirectUris:
-            typeof values.postLogoutRedirectUris === 'string'
-                ? values.postLogoutRedirectUris
-                : '',
-        agreementsAccepted: Boolean(values.agreementsAccepted),
-    };
-}
-
-function isEmptyFormValues(values) {
-    return (
-        !values.appName &&
-        !values.email &&
-        !values.callbackUrl &&
-        !values.logoUri &&
-        !values.clientUri &&
-        !values.policyUri &&
-        !values.tosUri &&
-        !values.postLogoutRedirectUris &&
-        !values.agreementsAccepted
-    );
-}
+const {
+    createDefaultFormValues,
+    createEmptyUriField,
+    dedupeUriValues,
+    isEmptyFormValues,
+    normalizeOptionalValue,
+    normalizeUriList,
+    parsePastedUriValues,
+    sanitizeFormValues,
+    validateSingleUri,
+    valuesFromUriField,
+} = requestAccessUtils;
 
 export default function RequestAccess() {
-    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({
-        defaultValues: DEFAULT_FORM_VALUES,
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+        getValues,
+        reset,
+        watch,
+    } = useForm({
+        defaultValues: createDefaultFormValues(),
+    });
+    const {
+        fields: redirectUriFields,
+        append: appendRedirectUri,
+        remove: removeRedirectUri,
+        replace: replaceRedirectUris,
+    } = useFieldArray({
+        control,
+        name: 'redirectUris',
+    });
+    const {
+        fields: postLogoutRedirectUriFields,
+        append: appendPostLogoutRedirectUri,
+        remove: removePostLogoutRedirectUri,
+        replace: replacePostLogoutRedirectUris,
+    } = useFieldArray({
+        control,
+        name: 'postLogoutRedirectUris',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
@@ -82,7 +65,6 @@ export default function RequestAccess() {
     const apiBaseUrl =
         siteConfig.customFields?.scopeRequestApiBaseUrl ||
         'https://qf-form-handler.fly.dev';
-    
 
     useEffect(() => {
         if (typeof window === 'undefined') {
@@ -123,22 +105,55 @@ export default function RequestAccess() {
 
     const closeModal = useCallback(() => setActiveModal(null), []);
 
+    const handleUriPaste = useCallback(
+        (event, fieldName, index, replaceRows) => {
+            const pastedText = event.clipboardData?.getData('text');
+            const pastedValues = parsePastedUriValues(pastedText);
+            if (pastedValues.length <= 1) {
+                return;
+            }
+
+            event.preventDefault();
+            const currentValues = getValues(fieldName);
+            const existingValues = valuesFromUriField(currentValues);
+            const nextValues = dedupeUriValues([
+                ...existingValues.slice(0, index),
+                ...pastedValues,
+                ...existingValues.slice(index + 1),
+            ]);
+            replaceRows(
+                nextValues.length
+                    ? nextValues.map((uri) => ({ value: uri }))
+                    : [createEmptyUriField()]
+            );
+        },
+        [getValues]
+    );
+
+    const removeUriRow = useCallback((fields, removeRow, replaceRows, index) => {
+        if (fields.length <= 1) {
+            replaceRows([createEmptyUriField()]);
+            return;
+        }
+        removeRow(index);
+    }, []);
+
     const onSubmit = async (data) => {
         setIsSubmitting(true);
         setSubmitError('');
-        const redirectUri = normalizeOptionalValue(data.callbackUrl);
-        const postLogoutRedirectUri = normalizeOptionalValue(data.postLogoutRedirectUris);
+        const redirectUris = normalizeUriList(data.redirectUris);
+        const postLogoutRedirectUris = normalizeUriList(data.postLogoutRedirectUris);
         const payload = {
             appName: data.appName,
             email: data.email,
-            callbackUrl: redirectUri,
+            callbackUrl: redirectUris[0],
             agreementsAccepted: data.agreementsAccepted,
             logo_uri: normalizeOptionalValue(data.logoUri),
             client_uri: normalizeOptionalValue(data.clientUri),
             policy_uri: normalizeOptionalValue(data.policyUri),
             tos_uri: normalizeOptionalValue(data.tosUri),
-            redirect_uris: redirectUri,
-            post_logout_redirect_uris: postLogoutRedirectUri,
+            redirect_uris: redirectUris,
+            post_logout_redirect_uris: postLogoutRedirectUris,
         };
         try {
             const response = await fetch(`${apiBaseUrl}/api/v1/webhook`, {
@@ -146,7 +161,7 @@ export default function RequestAccess() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             });
 
             if (!response.ok) {
@@ -160,7 +175,7 @@ export default function RequestAccess() {
             }
 
             setSubmitStatus('success');
-            reset();
+            reset(createDefaultFormValues());
             if (typeof window !== 'undefined') {
                 window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
             }
@@ -250,18 +265,64 @@ export default function RequestAccess() {
                                 </p>
                             </div>
                             <div className="margin-bottom--md">
-                                <label htmlFor="callbackUrl" className="form-label">
-                                    Redirect URI
-                                </label>
-                                <input
-                                    type="url"
-                                    id="callbackUrl"
-                                    className="form-input"
-                                    placeholder="https://your-app.com/callback"
-                                    {...register('callbackUrl')}
-                                />
+                                <label className="form-label">Redirect URIs</label>
+                                <div className={styles.uriList}>
+                                    {redirectUriFields.map((field, index) => {
+                                        const fieldError = errors.redirectUris?.[index]?.value;
+                                        return (
+                                            <div key={field.id} className={styles.uriRow}>
+                                                <div className={styles.uriInput}>
+                                                    <input
+                                                        type="url"
+                                                        id={`redirectUris-${index}`}
+                                                        className={`form-input ${fieldError ? 'form-input-error' : ''}`}
+                                                        placeholder="https://your-app.com/callback"
+                                                        aria-label={`Redirect URI ${index + 1}`}
+                                                        {...register(`redirectUris.${index}.value`, {
+                                                            validate: validateSingleUri,
+                                                        })}
+                                                        onPaste={(event) =>
+                                                            handleUriPaste(
+                                                                event,
+                                                                'redirectUris',
+                                                                index,
+                                                                replaceRedirectUris
+                                                            )
+                                                        }
+                                                    />
+                                                    {fieldError && (
+                                                        <div className="error-message">
+                                                            {fieldError.message}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    className={styles.removeUriButton}
+                                                    onClick={() =>
+                                                        removeUriRow(
+                                                            redirectUriFields,
+                                                            removeRedirectUri,
+                                                            replaceRedirectUris,
+                                                            index
+                                                        )
+                                                    }
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <button
+                                    type="button"
+                                    className={styles.addUriButton}
+                                    onClick={() => appendRedirectUri(createEmptyUriField())}
+                                >
+                                    Add redirect URI
+                                </button>
                                 <small className="text-muted">
-                                    OAuth callback URL. Example: https://your-app.com/callback or http://localhost:3000/callback.
+                                    OAuth callback URLs. Add each callback URL in its own row.
                                 </small>
                             </div>
 
@@ -318,19 +379,71 @@ export default function RequestAccess() {
                             </div>
 
                             <div className="margin-bottom--md">
-                                <label htmlFor="postLogoutRedirectUris" className="form-label">
-                                    Post-logout Redirect URI
-                                </label>
-                                <input
-                                    type="url"
-                                    id="postLogoutRedirectUris"
-                                    className="form-input"
-                                    placeholder="https://your-app.com/"
-                                    {...register('postLogoutRedirectUris')}
-                                />
+                                <label className="form-label">Post-logout Redirect URIs</label>
+                                <div className={styles.uriList}>
+                                    {postLogoutRedirectUriFields.map((field, index) => {
+                                        const fieldError =
+                                            errors.postLogoutRedirectUris?.[index]?.value;
+                                        return (
+                                            <div key={field.id} className={styles.uriRow}>
+                                                <div className={styles.uriInput}>
+                                                    <input
+                                                        type="url"
+                                                        id={`postLogoutRedirectUris-${index}`}
+                                                        className={`form-input ${fieldError ? 'form-input-error' : ''}`}
+                                                        placeholder="https://your-app.com/"
+                                                        aria-label={`Post-logout Redirect URI ${index + 1}`}
+                                                        {...register(
+                                                            `postLogoutRedirectUris.${index}.value`,
+                                                            {
+                                                                validate: validateSingleUri,
+                                                            }
+                                                        )}
+                                                        onPaste={(event) =>
+                                                            handleUriPaste(
+                                                                event,
+                                                                'postLogoutRedirectUris',
+                                                                index,
+                                                                replacePostLogoutRedirectUris
+                                                            )
+                                                        }
+                                                    />
+                                                    {fieldError && (
+                                                        <div className="error-message">
+                                                            {fieldError.message}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    className={styles.removeUriButton}
+                                                    onClick={() =>
+                                                        removeUriRow(
+                                                            postLogoutRedirectUriFields,
+                                                            removePostLogoutRedirectUri,
+                                                            replacePostLogoutRedirectUris,
+                                                            index
+                                                        )
+                                                    }
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <button
+                                    type="button"
+                                    className={styles.addUriButton}
+                                    onClick={() =>
+                                        appendPostLogoutRedirectUri(createEmptyUriField())
+                                    }
+                                >
+                                    Add post-logout URI
+                                </button>
                                 <small className="text-muted">
-                                    Optional: Must match Redirect URI scheme, domain, and port.
-                                    Example: https://your-app.com/logout or http://localhost:3000/logout.
+                                    Optional. Each post-logout URI must match the scheme, domain,
+                                    and port of one redirect URI.
                                 </small>
                             </div>
 
