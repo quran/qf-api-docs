@@ -75,6 +75,18 @@
   border-top: 1px solid var(--qf-border-card);
 }
 
+.uriFieldset {
+  border: 0;
+  margin-left: 0;
+  margin-right: 0;
+  min-inline-size: 0;
+  padding: 0;
+}
+
+.uriLegend {
+  padding: 0;
+}
+
 .uriList {
   display: flex;
   flex-direction: column;

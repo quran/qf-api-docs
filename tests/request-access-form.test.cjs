@@ -172,3 +172,24 @@ test("request access page uses clearer add uri button copy", () => {
   assert.match(page, /uriHelpText/);
   assert.match(styles, /\.uriHelpText/);
 });
+
+test("request access page uses fieldset legends for uri groups", () => {
+  const page = read("src", "pages", "request-access.js");
+  const styles = read("src", "pages", "request-access.module.css");
+
+  assert.match(
+    page,
+    /<fieldset className=\{clsx\('margin-bottom--md', styles\.uriFieldset\)\}>[\s\S]*<legend className=\{clsx\('form-label', styles\.uriLegend\)\}>[\s\S]*Redirect URIs/
+  );
+  assert.match(
+    page,
+    /<fieldset className=\{clsx\('margin-bottom--md', styles\.uriFieldset\)\}>[\s\S]*<legend className=\{clsx\('form-label', styles\.uriLegend\)\}>[\s\S]*Post-logout Redirect URIs/
+  );
+  assert.doesNotMatch(page, /<label className="form-label">Redirect URIs<\/label>/);
+  assert.doesNotMatch(
+    page,
+    /<label className="form-label">Post-logout Redirect URIs<\/label>/
+  );
+  assert.match(styles, /\.uriFieldset/);
+  assert.match(styles, /\.uriLegend/);
+});

@@ -277,8 +277,10 @@ export default function RequestAccess() {
                                     Only needed if you plan to use OAuth2 flows or user-related APIs
                                 </p>
                             </div>
-                            <div className="margin-bottom--md">
-                                <label className="form-label">Redirect URIs</label>
+                            <fieldset className={clsx('margin-bottom--md', styles.uriFieldset)}>
+                                <legend className={clsx('form-label', styles.uriLegend)}>
+                                    Redirect URIs
+                                </legend>
                                 <div className={styles.uriList}>
                                     {redirectUriFields.map((field, index) => {
                                         const fieldError = errors.redirectUris?.[index]?.value;
@@ -337,7 +339,7 @@ export default function RequestAccess() {
                                 <small className={clsx('text-muted', styles.uriHelpText)}>
                                     OAuth callback URLs. Add each callback URL in its own row.
                                 </small>
-                            </div>
+                            </fieldset>
 
                             <div className="margin-bottom--md">
                                 <label htmlFor="logoUri" className="form-label">
@@ -391,8 +393,10 @@ export default function RequestAccess() {
                                 />
                             </div>
 
-                            <div className="margin-bottom--md">
-                                <label className="form-label">Post-logout Redirect URIs</label>
+                            <fieldset className={clsx('margin-bottom--md', styles.uriFieldset)}>
+                                <legend className={clsx('form-label', styles.uriLegend)}>
+                                    Post-logout Redirect URIs
+                                </legend>
                                 <div className={styles.uriList}>
                                     {postLogoutRedirectUriFields.map((field, index) => {
                                         const fieldError =
@@ -458,7 +462,7 @@ export default function RequestAccess() {
                                     Optional. Each post-logout URI must match the scheme, domain,
                                     and port of one redirect URI.
                                 </small>
-                            </div>
+                            </fieldset>
 
                             <div className="margin-bottom--md">
                                 <div>
