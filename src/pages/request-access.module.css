@@ -145,6 +145,19 @@
   margin-top: 0.5rem;
 }
 
+.uriHelpText p {
+  margin: 0;
+}
+
+.uriExamples {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.uriExamples li {
+  margin: 0.1rem 0;
+}
+
 @media (max-width: 480px) {
   .uriRow {
     align-items: stretch;

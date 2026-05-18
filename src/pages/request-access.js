@@ -336,9 +336,16 @@ export default function RequestAccess() {
                                 >
                                     Add another redirect URI
                                 </button>
-                                <small className={clsx('text-muted', styles.uriHelpText)}>
-                                    OAuth callback URLs. Add each callback URL in its own row.
-                                </small>
+                                <div className={clsx('text-muted', styles.uriHelpText)}>
+                                    <p>
+                                        Add every callback URL your app will use, one per row.
+                                    </p>
+                                    <ul className={styles.uriExamples}>
+                                        <li>Local development: http://localhost:3000/callback</li>
+                                        <li>Staging or preview: https://your-app-staging.vercel.app/callback</li>
+                                        <li>Production: https://your-app.com/callback</li>
+                                    </ul>
+                                </div>
                             </fieldset>
 
                             <div className="margin-bottom--md">
@@ -458,10 +465,18 @@ export default function RequestAccess() {
                                 >
                                     Add another post-logout URI
                                 </button>
-                                <small className={clsx('text-muted', styles.uriHelpText)}>
-                                    Optional. Each post-logout URI must match the scheme, domain,
-                                    and port of one redirect URI.
-                                </small>
+                                <div className={clsx('text-muted', styles.uriHelpText)}>
+                                    <p>
+                                        Add every URL users may return to after logout, one per row.
+                                        Each one must match the scheme, domain, and port of one
+                                        redirect URI.
+                                    </p>
+                                    <ul className={styles.uriExamples}>
+                                        <li>Local development: http://localhost:3000</li>
+                                        <li>Staging or preview: https://your-app-staging.vercel.app</li>
+                                        <li>Production: https://your-app.com</li>
+                                    </ul>
+                                </div>
                             </fieldset>
 
                             <div className="margin-bottom--md">
