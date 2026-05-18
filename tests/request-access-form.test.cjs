@@ -56,6 +56,28 @@ test("request access sanitizer preserves new uri arrays and dedupes values", () 
   ]);
 });
 
+test("request access sanitizer preserves commas inside single row uri values", () => {
+  const sanitized = sanitizeFormValues({
+    redirectUris: [
+      { value: "https://app.example.com/callback?aud=mobile,web" },
+    ],
+    postLogoutRedirectUris: [
+      { value: "https://app.example.com/logout?next=/one,/two" },
+    ],
+  });
+
+  assert.equal(
+    sanitized.callbackUrl,
+    "https://app.example.com/callback?aud=mobile,web"
+  );
+  assert.deepEqual(sanitized.redirectUris, [
+    { value: "https://app.example.com/callback?aud=mobile,web" },
+  ]);
+  assert.deepEqual(sanitized.postLogoutRedirectUris, [
+    { value: "https://app.example.com/logout?next=/one,/two" },
+  ]);
+});
+
 test("request access paste parser splits common multi-uri snippets", () => {
   assert.deepEqual(
     parsePastedUriValues(
@@ -66,9 +88,33 @@ test("request access paste parser splits common multi-uri snippets", () => {
 
   assert.deepEqual(
     parsePastedUriValues(
+      '"https://app.example.com/callback", "http://localhost:3000/callback"'
+    ),
+    ["https://app.example.com/callback", "http://localhost:3000/callback"]
+  );
+
+  assert.deepEqual(
+    parsePastedUriValues(
       '["https://app.example.com/logout", "http://localhost:3000/logout"]'
     ),
     ["https://app.example.com/logout", "http://localhost:3000/logout"]
+  );
+});
+
+test("request access paste parser preserves commas inside a single uri", () => {
+  assert.deepEqual(
+    parsePastedUriValues("https://app.example.com/callback?aud=mobile,web"),
+    ["https://app.example.com/callback?aud=mobile,web"]
+  );
+
+  assert.deepEqual(
+    parsePastedUriValues(
+      '["https://app.example.com/callback?aud=mobile,web", "http://localhost:3000/callback"]'
+    ),
+    [
+      "https://app.example.com/callback?aud=mobile,web",
+      "http://localhost:3000/callback",
+    ]
   );
 });
 

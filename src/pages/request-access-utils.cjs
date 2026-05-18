@@ -1,4 +1,5 @@
 const URI_PATTERN = /[a-z][a-z0-9+.-]*:\/\/[^\s"',\]]+/gi;
+const QUOTED_URI_SEPARATOR_PATTERN = /["']\s*,\s*["']/;
 
 const createEmptyUriField = () => ({ value: '' });
 
@@ -53,6 +54,19 @@ const dedupeUriValues = (values) => {
     return deduped;
 };
 
+const isValidSingleUriValue = (value) => {
+    if (!value || /\s/.test(value)) {
+        return false;
+    }
+
+    try {
+        new URL(value);
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
+
 const parsePastedUriValues = (value) => {
     if (typeof value !== 'string') {
         return [];
@@ -74,12 +88,32 @@ const parsePastedUriValues = (value) => {
         }
     }
 
+    const cleanedValue = cleanUriToken(trimmed);
+    if (!/[\r\n]/.test(trimmed) && !QUOTED_URI_SEPARATOR_PATTERN.test(trimmed)) {
+        return isValidSingleUriValue(cleanedValue) ? [cleanedValue] : [];
+    }
+
+    if (/[\r\n]/.test(trimmed)) {
+        return dedupeUriValues(trimmed.split(/[\r\n]+/));
+    }
+
+    if (QUOTED_URI_SEPARATOR_PATTERN.test(trimmed)) {
+        try {
+            const parsedValue = JSON.parse(`[${trimmed}]`);
+            if (Array.isArray(parsedValue)) {
+                return dedupeUriValues(parsedValue);
+            }
+        } catch (error) {
+            // Fall through to URI matching for JSON-ish snippets.
+        }
+    }
+
     const urlMatches = trimmed.match(URI_PATTERN);
     if (urlMatches?.length) {
         return dedupeUriValues(urlMatches);
     }
 
-    return dedupeUriValues(trimmed.split(/[\r\n,]+/));
+    return [];
 };
 
 const valuesFromUriField = (value) => {
@@ -106,16 +140,18 @@ const valuesFromUriField = (value) => {
     return [];
 };
 
-const normalizeUriList = (value) =>
+const normalizeUriList = (value) => dedupeUriValues(valuesFromUriField(value));
+
+const normalizeLegacyUriList = (value) =>
     dedupeUriValues(
         valuesFromUriField(value).flatMap((entry) => {
             const parsedValues = parsePastedUriValues(entry);
-            return parsedValues.length ? parsedValues : [entry];
+            return parsedValues.length > 1 ? parsedValues : [entry];
         })
     );
 
-const toUriFields = (value) => {
-    const uris = normalizeUriList(value);
+const toUriFields = (value, parseLegacyValue = false) => {
+    const uris = parseLegacyValue ? normalizeLegacyUriList(value) : normalizeUriList(value);
     return uris.length ? uris.map((uri) => ({ value: uri })) : [createEmptyUriField()];
 };
 
@@ -124,11 +160,16 @@ function sanitizeFormValues(values) {
         return createDefaultFormValues();
     }
 
+    const redirectUriSource = values.redirectUris || values.redirect_uris || values.callbackUrl;
+    const postLogoutRedirectUriSource =
+        values.postLogoutRedirectUris || values.post_logout_redirect_uris;
     const redirectUris = toUriFields(
-        values.redirectUris || values.redirect_uris || values.callbackUrl
+        redirectUriSource,
+        typeof redirectUriSource === 'string'
     );
     const postLogoutRedirectUris = toUriFields(
-        values.postLogoutRedirectUris || values.post_logout_redirect_uris
+        postLogoutRedirectUriSource,
+        typeof postLogoutRedirectUriSource === 'string'
     );
 
     return {
