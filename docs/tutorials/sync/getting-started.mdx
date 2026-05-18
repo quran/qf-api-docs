@@ -11,6 +11,12 @@ draft: true
 The Quran.Foundation Sync API enables **offline-first mobile applications** to synchronize user data
 across devices. This guide covers the core concepts and helps you implement your first sync flow.
 
+:::warning Pre-live only
+The mutation-based Sync API (`GET /auth/v1/sync` and `POST /auth/v1/sync`) is currently available in pre-live only. Production clients should continue using the direct User API endpoints until the Sync API is promoted to production.
+
+For Quran.com Favorites/default collection bookmarks in production, use `POST /auth/v1/collections/__default__/bookmarks`.
+:::
+
 ## Overview
 
 The Sync Layer provides:
@@ -64,6 +70,14 @@ The Sync API currently tracks these resources. All `/v1/sync` calls also require
 :::note Resource IDs vs composite keys
 For `BOOKMARK`, `COLLECTION`, and `NOTE`, sync mutations include a single `resourceId`.
 For `COLLECTION_BOOKMARK`, there is no single ID; use `data.collectionId` and `data.bookmarkId` instead and omit `resourceId` in your mutation.
+:::
+
+:::note Favorites/default collection
+The Quran.com Favorites collection uses the virtual collection ID `__default__`.
+
+After the pre-live backend support is deployed, push Favorites changes through `POST /auth/v1/sync` as `COLLECTION_BOOKMARK` mutations with `data.collectionId: "__default__"`. The virtual collection does not create a real `CollectionBookmark` row, so pull-sync clients should read default collection membership from `BOOKMARK.isInDefaultCollection`, not from a separate `COLLECTION_BOOKMARK` mutation.
+
+Production clients should keep using the direct endpoint `POST /auth/v1/collections/__default__/bookmarks` until `/auth/v1/sync` is promoted to production.
 :::
 
 ## Key Concepts
@@ -155,6 +169,8 @@ When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagina
 ## Important Notes
 
 - **Mutation limits** — `POST /v1/sync` accepts a maximum of 100 mutations per request.
+- **Pre-live references** - The API reference links above intentionally point to the pre-live Sync API pages while `/auth/v1/sync` remains pre-live-only.
+- **Favorites/default collection** - Use `COLLECTION_BOOKMARK` with `collectionId: "__default__"` to push default collection membership in pre-live. Pull default membership from `BOOKMARK.isInDefaultCollection`.
 
 ## Next Steps
 
