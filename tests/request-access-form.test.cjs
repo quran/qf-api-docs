@@ -144,9 +144,16 @@ test("request access paste parser preserves commas inside a single uri", () => {
 test("request access page submits uri arrays with callbackUrl compatibility", () => {
   const page = read("src", "pages", "request-access.js");
 
-  assert.match(page, /callbackUrl: redirectUris\[0\]/);
-  assert.match(page, /redirect_uris: redirectUris/);
-  assert.match(page, /post_logout_redirect_uris: postLogoutRedirectUris/);
+  assert.match(
+    page,
+    /if \(redirectUris\.length\) \{[\s\S]*payload\.callbackUrl = redirectUris\[0\];[\s\S]*payload\.redirect_uris = redirectUris;[\s\S]*\}/
+  );
+  assert.match(
+    page,
+    /if \(postLogoutRedirectUris\.length\) \{[\s\S]*payload\.post_logout_redirect_uris = postLogoutRedirectUris;[\s\S]*\}/
+  );
+  assert.doesNotMatch(page, /redirect_uris: redirectUris/);
+  assert.doesNotMatch(page, /post_logout_redirect_uris: postLogoutRedirectUris/);
 });
 
 test("request access page cleans single pasted uri rows", () => {

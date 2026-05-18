@@ -155,15 +155,19 @@ export default function RequestAccess() {
         const payload = {
             appName: data.appName,
             email: data.email,
-            callbackUrl: redirectUris[0],
             agreementsAccepted: data.agreementsAccepted,
             logo_uri: normalizeOptionalValue(data.logoUri),
             client_uri: normalizeOptionalValue(data.clientUri),
             policy_uri: normalizeOptionalValue(data.policyUri),
             tos_uri: normalizeOptionalValue(data.tosUri),
-            redirect_uris: redirectUris,
-            post_logout_redirect_uris: postLogoutRedirectUris,
         };
+        if (redirectUris.length) {
+            payload.callbackUrl = redirectUris[0];
+            payload.redirect_uris = redirectUris;
+        }
+        if (postLogoutRedirectUris.length) {
+            payload.post_logout_redirect_uris = postLogoutRedirectUris;
+        }
         try {
             const response = await fetch(`${apiBaseUrl}/api/v1/webhook`, {
                 method: 'POST',
