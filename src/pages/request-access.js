@@ -12,6 +12,18 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import requestAccessUtils from './request-access-utils.cjs';
 
 const REQUEST_ACCESS_FORM_STORAGE_KEY = 'qf:request-access-form:v1';
+const REDIRECT_URI_PLACEHOLDERS = [
+    'http://localhost:3000/callback',
+    'https://your-app-staging.vercel.app/callback',
+    'https://your-app.com/callback',
+];
+const POST_LOGOUT_REDIRECT_URI_PLACEHOLDERS = [
+    'http://localhost:3000',
+    'https://your-app-staging.vercel.app',
+    'https://your-app.com',
+];
+const getUriPlaceholder = (placeholders, index) =>
+    placeholders[index] || placeholders[placeholders.length - 1];
 const {
     createDefaultFormValues,
     createEmptyUriField,
@@ -281,6 +293,12 @@ export default function RequestAccess() {
                                 <legend className={clsx('form-label', styles.uriLegend)}>
                                     Redirect URIs
                                 </legend>
+                                <div className={clsx('text-muted', styles.uriHelpText)}>
+                                    <p>
+                                        Add every callback URL your app will use, such as local
+                                        development, staging/preview, and production.
+                                    </p>
+                                </div>
                                 <div className={styles.uriList}>
                                     {redirectUriFields.map((field, index) => {
                                         const fieldError = errors.redirectUris?.[index]?.value;
@@ -291,7 +309,10 @@ export default function RequestAccess() {
                                                         type="url"
                                                         id={`redirectUris-${index}`}
                                                         className={`form-input ${fieldError ? 'form-input-error' : ''}`}
-                                                        placeholder="https://your-app.com/callback"
+                                                        placeholder={getUriPlaceholder(
+                                                            REDIRECT_URI_PLACEHOLDERS,
+                                                            index
+                                                        )}
                                                         aria-label={`Redirect URI ${index + 1}`}
                                                         {...register(`redirectUris.${index}.value`, {
                                                             validate: validateSingleUri,
@@ -336,9 +357,6 @@ export default function RequestAccess() {
                                 >
                                     Add another redirect URI
                                 </button>
-                                <small className={clsx('text-muted', styles.uriHelpText)}>
-                                    OAuth callback URLs. Add each callback URL in its own row.
-                                </small>
                             </fieldset>
 
                             <div className="margin-bottom--md">
@@ -397,6 +415,14 @@ export default function RequestAccess() {
                                 <legend className={clsx('form-label', styles.uriLegend)}>
                                     Post-logout Redirect URIs
                                 </legend>
+                                <div className={clsx('text-muted', styles.uriHelpText)}>
+                                    <p>
+                                        Optional. Add every URL users may return to after logout,
+                                        such as local development, staging/preview, and production.
+                                        Each one must match the scheme, domain, and port of one
+                                        redirect URI.
+                                    </p>
+                                </div>
                                 <div className={styles.uriList}>
                                     {postLogoutRedirectUriFields.map((field, index) => {
                                         const fieldError =
@@ -408,7 +434,10 @@ export default function RequestAccess() {
                                                         type="url"
                                                         id={`postLogoutRedirectUris-${index}`}
                                                         className={`form-input ${fieldError ? 'form-input-error' : ''}`}
-                                                        placeholder="https://your-app.com/"
+                                                        placeholder={getUriPlaceholder(
+                                                            POST_LOGOUT_REDIRECT_URI_PLACEHOLDERS,
+                                                            index
+                                                        )}
                                                         aria-label={`Post-logout Redirect URI ${index + 1}`}
                                                         {...register(
                                                             `postLogoutRedirectUris.${index}.value`,
@@ -458,10 +487,6 @@ export default function RequestAccess() {
                                 >
                                     Add another post-logout URI
                                 </button>
-                                <small className={clsx('text-muted', styles.uriHelpText)}>
-                                    Optional. Each post-logout URI must match the scheme, domain,
-                                    and port of one redirect URI.
-                                </small>
                             </fieldset>
 
                             <div className="margin-bottom--md">

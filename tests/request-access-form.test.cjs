@@ -4,12 +4,28 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const {
+  createDefaultFormValues,
   parsePastedUriValues,
   sanitizeFormValues,
 } = require("../src/pages/request-access-utils.cjs");
 
 const read = (...segments) =>
   fs.readFileSync(path.join(__dirname, "..", ...segments), "utf-8");
+
+test("request access defaults show three blank uri rows", () => {
+  const defaults = createDefaultFormValues();
+
+  assert.deepEqual(defaults.redirectUris, [
+    { value: "" },
+    { value: "" },
+    { value: "" },
+  ]);
+  assert.deepEqual(defaults.postLogoutRedirectUris, [
+    { value: "" },
+    { value: "" },
+    { value: "" },
+  ]);
+});
 
 test("request access sanitizer migrates legacy callbackUrl session data", () => {
   const sanitized = sanitizeFormValues({
@@ -170,7 +186,16 @@ test("request access page uses clearer add uri button copy", () => {
   assert.match(page, /Add another redirect URI/);
   assert.match(page, /Add another post-logout URI/);
   assert.match(page, /uriHelpText/);
+  assert.match(page, /http:\/\/localhost:3000\/callback/);
+  assert.match(page, /https:\/\/your-app-staging\.vercel\.app\/callback/);
+  assert.match(page, /https:\/\/your-app\.com\/callback/);
+  assert.match(page, /'http:\/\/localhost:3000'/);
+  assert.match(page, /'https:\/\/your-app-staging\.vercel\.app'/);
+  assert.match(page, /'https:\/\/your-app\.com'/);
+  assert.match(page, /Optional\. Add every URL users may return to after logout/);
+  assert.match(page, /scheme, domain, and port/);
   assert.match(styles, /\.uriHelpText/);
+  assert.match(styles, /font-size: var\(--ifm-font-size-small, 0\.875rem\)/);
 });
 
 test("request access page uses fieldset legends for uri groups", () => {
