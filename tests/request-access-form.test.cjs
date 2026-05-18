@@ -193,3 +193,12 @@ test("request access page uses fieldset legends for uri groups", () => {
   assert.match(styles, /\.uriFieldset/);
   assert.match(styles, /\.uriLegend/);
 });
+
+test("client setup docs point to request access form without manual request text", () => {
+  const doc = read("docs", "tutorials", "oidc", "client-setup.mdx");
+
+  assert.match(doc, /What The Request Access Form Asks For/);
+  assert.match(doc, /Use \[Request Access\]\(\/request-access\) to submit these details/);
+  assert.match(doc, /add each URL in its own row/);
+  assert.doesNotMatch(doc, /Please provision our Quran Foundation OAuth2 client/);
+});
