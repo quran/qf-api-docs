@@ -189,8 +189,9 @@ test("request access page uses clearer add uri button copy", () => {
   assert.match(page, /http:\/\/localhost:3000\/callback/);
   assert.match(page, /https:\/\/your-app-staging\.vercel\.app\/callback/);
   assert.match(page, /https:\/\/your-app\.com\/callback/);
-  assert.match(page, /http:\/\/localhost:3000/);
-  assert.match(page, /https:\/\/your-app-staging\.vercel\.app/);
+  assert.match(page, /'http:\/\/localhost:3000'/);
+  assert.match(page, /'https:\/\/your-app-staging\.vercel\.app'/);
+  assert.match(page, /'https:\/\/your-app\.com'/);
   assert.match(page, /Optional\. Add every URL users may return to after logout/);
   assert.match(page, /scheme, domain, and port/);
   assert.match(styles, /\.uriHelpText/);
