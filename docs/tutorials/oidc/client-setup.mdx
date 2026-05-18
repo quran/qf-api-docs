@@ -36,23 +36,3 @@ Ask this clearly:
 If Quran Foundation does not explicitly say your client is public, assume it is confidential and plan for backend token exchange.
 
 For a confidential client, the browser should never hold `client_secret`. The backend or BFF keeps it, exchanges the code, refreshes the session, and stores tokens server-side. That is true even if your frontend runs on the edge.
-
-## Good Default Request
-
-When using [Request Access](/request-access), enter each redirect URI and each
-post-logout redirect URI in its own row. Do not put multiple callback URLs into
-one field.
-
-```text
-Please provision our Quran Foundation OAuth2 client.
-
-We need:
-- client_id
-- clarification on whether the client is confidential or public
-- these redirect URIs:
-  - http://localhost:3000/callback
-  - https://app.example.com/callback
-- these post-logout redirect URIs:
-  - http://localhost:3000
-  - https://app.example.com
-```
