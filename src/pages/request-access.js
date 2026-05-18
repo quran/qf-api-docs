@@ -33,6 +33,7 @@ export default function RequestAccess() {
         formState: { errors },
         getValues,
         reset,
+        setValue,
         watch,
     } = useForm({
         defaultValues: createDefaultFormValues(),
@@ -109,11 +110,19 @@ export default function RequestAccess() {
         (event, fieldName, index, replaceRows) => {
             const pastedText = event.clipboardData?.getData('text');
             const pastedValues = parsePastedUriValues(pastedText);
-            if (pastedValues.length <= 1) {
+            if (!pastedValues.length) {
                 return;
             }
 
             event.preventDefault();
+            if (pastedValues.length === 1) {
+                setValue(`${fieldName}.${index}.value`, pastedValues[0], {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                });
+                return;
+            }
+
             const currentValues = getValues(fieldName);
             const existingValues = valuesFromUriField(currentValues);
             const nextValues = dedupeUriValues([
@@ -127,7 +136,7 @@ export default function RequestAccess() {
                     : [createEmptyUriField()]
             );
         },
-        [getValues]
+        [getValues, setValue]
     );
 
     const removeUriRow = useCallback((fields, removeRow, replaceRows, index) => {
@@ -319,9 +328,9 @@ export default function RequestAccess() {
                                     className={styles.addUriButton}
                                     onClick={() => appendRedirectUri(createEmptyUriField())}
                                 >
-                                    Add redirect URI
+                                    Add another redirect URI
                                 </button>
-                                <small className="text-muted">
+                                <small className={clsx('text-muted', styles.uriHelpText)}>
                                     OAuth callback URLs. Add each callback URL in its own row.
                                 </small>
                             </div>
@@ -439,9 +448,9 @@ export default function RequestAccess() {
                                         appendPostLogoutRedirectUri(createEmptyUriField())
                                     }
                                 >
-                                    Add post-logout URI
+                                    Add another post-logout URI
                                 </button>
-                                <small className="text-muted">
+                                <small className={clsx('text-muted', styles.uriHelpText)}>
                                     Optional. Each post-logout URI must match the scheme, domain,
                                     and port of one redirect URI.
                                 </small>

@@ -95,6 +95,20 @@ test("request access paste parser splits common multi-uri snippets", () => {
 
   assert.deepEqual(
     parsePastedUriValues(
+      "https://app.example.com/callback, https://admin.example.com/callback"
+    ),
+    ["https://app.example.com/callback", "https://admin.example.com/callback"]
+  );
+
+  assert.deepEqual(
+    parsePastedUriValues(
+      "https://app.example.com/callback,https://admin.example.com/callback"
+    ),
+    ["https://app.example.com/callback", "https://admin.example.com/callback"]
+  );
+
+  assert.deepEqual(
+    parsePastedUriValues(
       '["https://app.example.com/logout", "http://localhost:3000/logout"]'
     ),
     ["https://app.example.com/logout", "http://localhost:3000/logout"]
@@ -105,6 +119,15 @@ test("request access paste parser preserves commas inside a single uri", () => {
   assert.deepEqual(
     parsePastedUriValues("https://app.example.com/callback?aud=mobile,web"),
     ["https://app.example.com/callback?aud=mobile,web"]
+  );
+
+  assert.deepEqual(
+    parsePastedUriValues(
+      "https://app.example.com/callback?return=https://one.example,https://two.example"
+    ),
+    [
+      "https://app.example.com/callback?return=https://one.example,https://two.example",
+    ]
   );
 
   assert.deepEqual(
@@ -124,4 +147,21 @@ test("request access page submits uri arrays with callbackUrl compatibility", ()
   assert.match(page, /callbackUrl: redirectUris\[0\]/);
   assert.match(page, /redirect_uris: redirectUris/);
   assert.match(page, /post_logout_redirect_uris: postLogoutRedirectUris/);
+});
+
+test("request access page cleans single pasted uri rows", () => {
+  const page = read("src", "pages", "request-access.js");
+
+  assert.match(page, /pastedValues\.length === 1/);
+  assert.match(page, /setValue\(`\$\{fieldName\}\.\$\{index\}\.value`, pastedValues\[0\]/);
+});
+
+test("request access page uses clearer add uri button copy", () => {
+  const page = read("src", "pages", "request-access.js");
+  const styles = read("src", "pages", "request-access.module.css");
+
+  assert.match(page, /Add another redirect URI/);
+  assert.match(page, /Add another post-logout URI/);
+  assert.match(page, /uriHelpText/);
+  assert.match(styles, /\.uriHelpText/);
 });

@@ -117,13 +117,20 @@
   background: var(--ifm-color-emphasis-100);
   border: 1px solid var(--qf-border-card);
   color: var(--qf-text-primary);
-  margin-bottom: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0;
   padding: 0.5rem 0.85rem;
 }
 
 .addUriButton:hover {
   border-color: var(--ifm-color-primary);
   color: var(--ifm-color-primary);
+}
+
+.uriHelpText {
+  display: block;
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 480px) {

@@ -1,5 +1,6 @@
 const URI_PATTERN = /[a-z][a-z0-9+.-]*:\/\/[^\s"',\]]+/gi;
 const QUOTED_URI_SEPARATOR_PATTERN = /["']\s*,\s*["']/;
+const URI_LIST_SEPARATOR_PATTERN = /,\s*[a-z][a-z0-9+.-]*:\/\//i;
 
 const createEmptyUriField = () => ({ value: '' });
 
@@ -67,6 +68,16 @@ const isValidSingleUriValue = (value) => {
     }
 };
 
+const hasUriListSeparatorBeforeQuery = (value) => {
+    const separatorMatch = value.match(URI_LIST_SEPARATOR_PATTERN);
+    if (!separatorMatch || typeof separatorMatch.index !== 'number') {
+        return false;
+    }
+
+    const queryIndex = value.search(/[?#]/);
+    return queryIndex === -1 || separatorMatch.index < queryIndex;
+};
+
 const parsePastedUriValues = (value) => {
     if (typeof value !== 'string') {
         return [];
@@ -89,8 +100,13 @@ const parsePastedUriValues = (value) => {
     }
 
     const cleanedValue = cleanUriToken(trimmed);
-    if (!/[\r\n]/.test(trimmed) && !QUOTED_URI_SEPARATOR_PATTERN.test(trimmed)) {
-        return isValidSingleUriValue(cleanedValue) ? [cleanedValue] : [];
+    if (
+        !/[\r\n]/.test(trimmed) &&
+        !QUOTED_URI_SEPARATOR_PATTERN.test(trimmed) &&
+        isValidSingleUriValue(cleanedValue) &&
+        !hasUriListSeparatorBeforeQuery(cleanedValue)
+    ) {
+        return [cleanedValue];
     }
 
     if (/[\r\n]/.test(trimmed)) {
