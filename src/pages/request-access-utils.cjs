@@ -2,18 +2,23 @@ const URI_PATTERN = /[a-z][a-z0-9+.-]*:\/\/[^\s"',\]]+/gi;
 const QUOTED_URI_SEPARATOR_PATTERN = /["']\s*,\s*["']/;
 const URI_LIST_SEPARATOR_PATTERN = /,\s*[a-z][a-z0-9+.-]*:\/\//i;
 
+const DEFAULT_URI_FIELD_COUNT = 3;
+
 const createEmptyUriField = () => ({ value: '' });
+
+const createDefaultUriFields = () =>
+    Array.from({ length: DEFAULT_URI_FIELD_COUNT }, () => createEmptyUriField());
 
 const createDefaultFormValues = () => ({
     appName: '',
     email: '',
     callbackUrl: '',
-    redirectUris: [createEmptyUriField()],
+    redirectUris: createDefaultUriFields(),
     logoUri: '',
     clientUri: '',
     policyUri: '',
     tosUri: '',
-    postLogoutRedirectUris: [createEmptyUriField()],
+    postLogoutRedirectUris: createDefaultUriFields(),
     agreementsAccepted: false,
 });
 
@@ -168,7 +173,7 @@ const normalizeLegacyUriList = (value) =>
 
 const toUriFields = (value, parseLegacyValue = false) => {
     const uris = parseLegacyValue ? normalizeLegacyUriList(value) : normalizeUriList(value);
-    return uris.length ? uris.map((uri) => ({ value: uri })) : [createEmptyUriField()];
+    return uris.length ? uris.map((uri) => ({ value: uri })) : createDefaultUriFields();
 };
 
 function sanitizeFormValues(values) {
@@ -238,6 +243,7 @@ const validateSingleUri = (value) => {
 module.exports = {
     createDefaultFormValues,
     createEmptyUriField,
+    createDefaultUriFields,
     dedupeUriValues,
     isEmptyFormValues,
     normalizeOptionalValue,
