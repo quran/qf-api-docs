@@ -12,7 +12,7 @@ The Quran.Foundation Sync API enables **offline-first mobile applications** to s
 across devices. This guide covers the core concepts and helps you implement your first sync flow.
 
 :::warning Pre-live only
-The mutation-based Sync API (`GET /v1/sync` and `POST /v1/sync`) is currently available in pre-live only. Endpoint paths in this guide are relative to the User API auth base URL: `https://apis-prelive.quran.foundation/auth` for pre-live, and `https://apis.quran.foundation/auth` for production direct endpoints.
+The Sync API endpoints (`GET /v1/sync` and `POST /v1/sync`) are currently available in pre-live only. Endpoint paths in this guide are relative to the User API auth base URL: `https://apis-prelive.quran.foundation/auth` for pre-live, and `https://apis.quran.foundation/auth` for production direct endpoints.
 
 Production clients should continue using the direct User API endpoints until the Sync API is promoted to production. For Quran.com Favorites/default collection bookmarks in production, use `POST /v1/collections/__default__/bookmarks` to add Favorites, and `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` or `DELETE /v1/collections/__default__/bookmarks` to remove Favorites.
 :::
