@@ -98,6 +98,47 @@ test('keeps non-empty categories but strips invalid doc links', () => {
   );
 });
 
+test('links generated tag docs to matching sidebar categories', () => {
+  const items = [
+    {
+      type: 'category',
+      label: 'Activity Days',
+      items: [
+        {
+          type: 'doc',
+          id: 'user_related_apis_prelive/add-update-activity-day',
+        },
+      ],
+    },
+  ];
+
+  assert.deepEqual(
+    filterMissingSidebarItems(
+      items,
+      new Set([
+        'user_related_apis_prelive/activity-days',
+        'user_related_apis_prelive/add-update-activity-day',
+      ]),
+    ),
+    [
+      {
+        type: 'category',
+        label: 'Activity Days',
+        link: {
+          type: 'doc',
+          id: 'user_related_apis_prelive/activity-days',
+        },
+        items: [
+          {
+            type: 'doc',
+            id: 'user_related_apis_prelive/add-update-activity-day',
+          },
+        ],
+      },
+    ],
+  );
+});
+
 test('normalizes Rub el Hizb alias labels in generated API docs', () => {
   const filePath = path.join(
     __dirname,

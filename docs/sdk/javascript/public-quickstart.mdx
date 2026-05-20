@@ -48,6 +48,10 @@ const client = createPublicClient({
 const collections = await client.auth.v1.collections.list();
 ```
 
+With an existing user session and the `post` scope, the public client can use
+the same QuranReflect post helper shape documented in
+[QuranReflect Posts](/docs/sdk/javascript/quranreflect-posts).
+
 ## Common Mistakes
 
 - Putting `client_secret` in frontend code.

@@ -204,6 +204,62 @@ function hasUsableSidebarLink(item, validDocIds) {
   return validDocIds.has(item.link.id);
 }
 
+function slugifySidebarLabel(value) {
+  return String(value)
+    .toLowerCase()
+    .replace(/['\u2019]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function findFirstDocId(items) {
+  for (const item of items) {
+    if (!item || typeof item !== 'object') {
+      continue;
+    }
+
+    if (item.type === 'doc' && typeof item.id === 'string') {
+      return item.id;
+    }
+
+    if (item.type === 'category' && Array.isArray(item.items)) {
+      const nestedDocId = findFirstDocId(item.items);
+
+      if (nestedDocId) {
+        return nestedDocId;
+      }
+    }
+  }
+
+  return null;
+}
+
+function inferCategoryTagLink(item, validDocIds) {
+  if (
+    item.link ||
+    typeof item.label !== 'string' ||
+    !Array.isArray(item.items)
+  ) {
+    return null;
+  }
+
+  const firstDocId = findFirstDocId(item.items);
+
+  if (!firstDocId || !firstDocId.includes('/')) {
+    return null;
+  }
+
+  const docPrefix = firstDocId.split('/').slice(0, -1).join('/');
+  const candidateId = `${docPrefix}/${slugifySidebarLabel(item.label)}`;
+
+  return validDocIds.has(candidateId)
+    ? {
+        type: 'doc',
+        id: candidateId,
+      }
+    : null;
+}
+
 function filterMissingSidebarItems(items, validDocIds) {
   return items.reduce((accumulator, item) => {
     if (!item || typeof item !== 'object') {
@@ -220,19 +276,21 @@ function filterMissingSidebarItems(items, validDocIds) {
     }
 
     if (item.type === 'category' && Array.isArray(item.items)) {
-      const filteredItems = filterMissingSidebarItems(item.items, validDocIds);
-      const hasUsableLink = hasUsableSidebarLink(item, validDocIds);
+      const inferredLink = inferCategoryTagLink(item, validDocIds);
+      const linkedItem = inferredLink ? { ...item, link: inferredLink } : item;
+      const filteredItems = filterMissingSidebarItems(linkedItem.items, validDocIds);
+      const hasUsableLink = hasUsableSidebarLink(linkedItem, validDocIds);
 
       if (!hasUsableLink && filteredItems.length === 0) {
         return accumulator;
       }
 
       const normalizedItem = {
-        ...item,
+        ...linkedItem,
         items: filteredItems,
       };
 
-      if (item.link && !hasUsableLink) {
+      if (linkedItem.link && !hasUsableLink) {
         delete normalizedItem.link;
       }
 
@@ -323,6 +381,7 @@ module.exports = {
   filterMissingSidebarItems,
   getDisplayedSidebarId,
   hasUsableSidebarLink,
+  inferCategoryTagLink,
   normalizeRubElHizbDocLabels,
   normalizeRubElHizbSidebarLabels,
   main,

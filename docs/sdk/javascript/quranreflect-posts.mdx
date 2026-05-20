@@ -1,0 +1,119 @@
+---
+title: "QuranReflect Posts"
+description: "Create, edit, and read QuranReflect posts with the JavaScript SDK."
+slug: /sdk/javascript/quranreflect-posts
+sidebar_position: 15
+---
+
+# QuranReflect Posts
+
+- Purpose: Create and manage QuranReflect reflections through the SDK.
+- Use this when: You have a signed-in user session and the `post` scope.
+- Do not use this when: You only need public feed reads from Content APIs.
+- Backend required: Usually yes.
+- Allowed runtimes: Server or public runtime with an existing user session.
+- Required credentials: `client_id`; `client_secret` only on the server.
+- Minimal import: `@quranjs/api/server`.
+
+For most apps, call QuranReflect post mutations from your backend with
+`@quranjs/api/server`. Use `@quranjs/api/public` only when Quran Foundation has
+approved your client/runtime and your app already has a valid user session.
+
+The signed-in user must grant the `post` scope.
+
+## Create a Post
+
+```ts
+import { createServerClient } from "@quranjs/api/server";
+
+const client = createServerClient({
+  clientId: process.env.QF_CLIENT_ID!,
+  clientSecret: process.env.QF_CLIENT_SECRET!,
+  userSession: {
+    accessToken: "signed-in-user-access-token",
+  },
+});
+
+const response = await client.quranReflect.v1.posts.create({
+  body: "A reflection created through the SDK.",
+  draft: false,
+  mentions: [],
+  references: [{ chapterId: 1, from: 1, to: 1 }],
+});
+
+const postId = response.data?.id ?? response.post?.id;
+```
+
+The SDK wraps the payload for the REST endpoint as:
+
+```ts
+{
+  post: {
+    body: "A reflection created through the SDK.",
+    draft: false,
+    mentions: [],
+    references: [{ chapterId: 1, from: 1, to: 1 }],
+  },
+}
+```
+
+## Edit and Read a Post
+
+```ts
+await client.quranReflect.v1.posts.update(123, {
+  body: "Updated reflection text.",
+});
+
+const post = await client.quranReflect.v1.posts.get(123);
+```
+
+## Compatibility Shape
+
+Older generated SDK calls and advanced raw-operation calls use an operation
+request wrapper. That shape remains supported:
+
+```ts
+await client.quranReflect.v1.posts.create({
+  body: {
+    post: {
+      body: "A reflection created through the generated operation shape.",
+      draft: false,
+      mentions: [],
+      references: [{ chapterId: 1, from: 1, to: 1 }],
+    },
+  },
+});
+```
+
+You can always access the raw generated operation directly:
+
+```ts
+await client.quranReflect.v1.raw.postsControllerCreate({
+  body: {
+    post: {
+      body: "A reflection created through the raw operation.",
+      draft: false,
+      mentions: [],
+      references: [{ chapterId: 1, from: 1, to: 1 }],
+    },
+  },
+});
+```
+
+## Common Mistake
+
+Do not pass this shape to older generated SDK methods:
+
+```ts
+await client.quranReflect.v1.posts.create({
+  body: "A reflection body",
+});
+```
+
+In older SDK versions, that sends the raw string as the HTTP request body. Use
+the typed helper payload shown above, or use the compatibility wrapper
+`{ body: { post: ... } }`.
+
+## Related REST Reference
+
+- [Create post](/docs/user_related_apis_prelive/posts-controller-create)
