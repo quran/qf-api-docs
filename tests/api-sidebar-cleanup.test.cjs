@@ -119,6 +119,7 @@ test('links generated tag docs to matching sidebar categories', () => {
         'user_related_apis_prelive/activity-days',
         'user_related_apis_prelive/add-update-activity-day',
       ]),
+      new Set(['user_related_apis_prelive/activity-days']),
     ),
     [
       {
@@ -132,6 +133,44 @@ test('links generated tag docs to matching sidebar categories', () => {
           {
             type: 'doc',
             id: 'user_related_apis_prelive/add-update-activity-day',
+          },
+        ],
+      },
+    ],
+  );
+});
+
+test('does not infer category links from matching operation docs', () => {
+  const items = [
+    {
+      type: 'category',
+      label: 'Translations',
+      items: [
+        {
+          type: 'doc',
+          id: 'content_apis_versioned/list-ayah-translations',
+        },
+      ],
+    },
+  ];
+
+  assert.deepEqual(
+    filterMissingSidebarItems(
+      items,
+      new Set([
+        'content_apis_versioned/translations',
+        'content_apis_versioned/list-ayah-translations',
+      ]),
+      new Set(),
+    ),
+    [
+      {
+        type: 'category',
+        label: 'Translations',
+        items: [
+          {
+            type: 'doc',
+            id: 'content_apis_versioned/list-ayah-translations',
           },
         ],
       },

@@ -234,7 +234,7 @@ function findFirstDocId(items) {
   return null;
 }
 
-function inferCategoryTagLink(item, validDocIds) {
+function inferCategoryTagLink(item, tagDocIds) {
   if (
     item.link ||
     typeof item.label !== 'string' ||
@@ -252,7 +252,7 @@ function inferCategoryTagLink(item, validDocIds) {
   const docPrefix = firstDocId.split('/').slice(0, -1).join('/');
   const candidateId = `${docPrefix}/${slugifySidebarLabel(item.label)}`;
 
-  return validDocIds.has(candidateId)
+  return tagDocIds.has(candidateId)
     ? {
         type: 'doc',
         id: candidateId,
@@ -260,7 +260,7 @@ function inferCategoryTagLink(item, validDocIds) {
     : null;
 }
 
-function filterMissingSidebarItems(items, validDocIds) {
+function filterMissingSidebarItems(items, validDocIds, tagDocIds = new Set()) {
   return items.reduce((accumulator, item) => {
     if (!item || typeof item !== 'object') {
       accumulator.push(item);
@@ -276,9 +276,13 @@ function filterMissingSidebarItems(items, validDocIds) {
     }
 
     if (item.type === 'category' && Array.isArray(item.items)) {
-      const inferredLink = inferCategoryTagLink(item, validDocIds);
+      const inferredLink = inferCategoryTagLink(item, tagDocIds);
       const linkedItem = inferredLink ? { ...item, link: inferredLink } : item;
-      const filteredItems = filterMissingSidebarItems(linkedItem.items, validDocIds);
+      const filteredItems = filterMissingSidebarItems(
+        linkedItem.items,
+        validDocIds,
+        tagDocIds,
+      );
       const hasUsableLink = hasUsableSidebarLink(linkedItem, validDocIds);
 
       if (!hasUsableLink && filteredItems.length === 0) {
@@ -303,10 +307,14 @@ function filterMissingSidebarItems(items, validDocIds) {
   }, []);
 }
 
-function normalizeGeneratedSidebar(filePath, validDocIds) {
+function normalizeGeneratedSidebar(filePath, validDocIds, tagDocIds) {
   delete require.cache[require.resolve(filePath)];
   const sidebarItems = require(filePath);
-  const filteredSidebarItems = filterMissingSidebarItems(sidebarItems, validDocIds);
+  const filteredSidebarItems = filterMissingSidebarItems(
+    sidebarItems,
+    validDocIds,
+    tagDocIds,
+  );
   const dedupedSidebarItems = dedupeSidebarItems(filteredSidebarItems);
   const normalizedSidebarItems = normalizeRubElHizbSidebarLabels(dedupedSidebarItems);
   const serializedSidebar = `module.exports = ${JSON.stringify(normalizedSidebarItems)};`;
@@ -318,6 +326,7 @@ function main() {
   let updatedFiles = 0;
   let checkedFiles = 0;
   const validDocIds = new Set();
+  const tagDocIds = new Set();
 
   for (const docsDir of docsDirs) {
     if (!fs.existsSync(docsDir)) {
@@ -325,7 +334,13 @@ function main() {
     }
 
     for (const filePath of walk(docsDir)) {
-      validDocIds.add(getDocId(filePath));
+      const docId = getDocId(filePath);
+
+      validDocIds.add(docId);
+
+      if (/\.tag\.mdx$/.test(filePath)) {
+        tagDocIds.add(docId);
+      }
     }
   }
 
@@ -349,7 +364,7 @@ function main() {
 
       const originalContent = fs.readFileSync(filePath, 'utf8');
       const normalizedContent = generatedSidebarPattern.test(filePath)
-        ? normalizeGeneratedSidebar(filePath, validDocIds)
+        ? normalizeGeneratedSidebar(filePath, validDocIds, tagDocIds)
         : normalizeRubElHizbDocLabels(
             filePath,
             normalizeGeneratedLabels(originalContent, filePath),
