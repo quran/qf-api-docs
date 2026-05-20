@@ -39,6 +39,8 @@ const results = await client.search.v1.query({
 });
 ```
 
+For signed-in user post mutations, see [QuranReflect Posts](/docs/sdk/javascript/quranreflect-posts).
+
 ## Common Mistake
 
 Do not import `@quranjs/api/public` from backend code unless you are explicitly testing public-client behavior. Production defaults are already built in; local maintainer testing instructions live in the SDK repo.

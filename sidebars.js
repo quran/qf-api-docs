@@ -503,6 +503,7 @@ const buildSdkSidebarItems = () => [
       "sdk/javascript/answers",
       "sdk/javascript/juzs",
       "sdk/javascript/search",
+      "sdk/javascript/quranreflect-posts",
       "sdk/javascript/common-errors",
       "sdk/javascript/migration-cheat-sheet",
       "sdk/javascript/v1-migration-guide",

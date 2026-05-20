@@ -98,6 +98,86 @@ test('keeps non-empty categories but strips invalid doc links', () => {
   );
 });
 
+test('links generated tag docs to matching sidebar categories', () => {
+  const items = [
+    {
+      type: 'category',
+      label: 'Activity Days',
+      items: [
+        {
+          type: 'doc',
+          id: 'user_related_apis_prelive/add-update-activity-day',
+        },
+      ],
+    },
+  ];
+
+  assert.deepEqual(
+    filterMissingSidebarItems(
+      items,
+      new Set([
+        'user_related_apis_prelive/activity-days',
+        'user_related_apis_prelive/add-update-activity-day',
+      ]),
+      new Set(['user_related_apis_prelive/activity-days']),
+    ),
+    [
+      {
+        type: 'category',
+        label: 'Activity Days',
+        link: {
+          type: 'doc',
+          id: 'user_related_apis_prelive/activity-days',
+        },
+        items: [
+          {
+            type: 'doc',
+            id: 'user_related_apis_prelive/add-update-activity-day',
+          },
+        ],
+      },
+    ],
+  );
+});
+
+test('does not infer category links from matching operation docs', () => {
+  const items = [
+    {
+      type: 'category',
+      label: 'Translations',
+      items: [
+        {
+          type: 'doc',
+          id: 'content_apis_versioned/list-ayah-translations',
+        },
+      ],
+    },
+  ];
+
+  assert.deepEqual(
+    filterMissingSidebarItems(
+      items,
+      new Set([
+        'content_apis_versioned/translations',
+        'content_apis_versioned/list-ayah-translations',
+      ]),
+      new Set(),
+    ),
+    [
+      {
+        type: 'category',
+        label: 'Translations',
+        items: [
+          {
+            type: 'doc',
+            id: 'content_apis_versioned/list-ayah-translations',
+          },
+        ],
+      },
+    ],
+  );
+});
+
 test('normalizes Rub el Hizb alias labels in generated API docs', () => {
   const filePath = path.join(
     __dirname,
