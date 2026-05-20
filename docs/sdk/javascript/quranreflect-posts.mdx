@@ -57,6 +57,13 @@ The SDK wraps the payload for the REST endpoint as:
 }
 ```
 
+The typed helper does not synthesize advanced post fields. For ordinary public or
+draft reflections, pass `body`, `draft`, `mentions`, and `references`. Advanced
+fields such as `roomId`, `roomPostStatus`, `postAsAuthorId`, and `publishedAt`
+are optional passthrough fields for room posts, authorized author posting, or
+scheduled/custom publish timing. If you omit them, the SDK leaves them out and
+the API applies its server-side defaults and authorization rules.
+
 ## Edit and Read a Post
 
 ```ts
@@ -69,8 +76,9 @@ const post = await client.quranReflect.v1.posts.get(123);
 
 ## Compatibility Shape
 
-Older generated SDK calls and advanced raw-operation calls use an operation
-request wrapper. That shape remains supported:
+This guide targets the typed QuranReflect post helper added with
+`CreateQuranReflectPostPayload`. Older SDK versions and advanced raw-operation
+calls use an operation request wrapper. That shape remains supported:
 
 ```ts
 await client.quranReflect.v1.posts.create({
@@ -102,7 +110,8 @@ await client.quranReflect.v1.raw.postsControllerCreate({
 
 ## Common Mistake
 
-Do not pass this shape to older generated SDK methods:
+Do not pass this shape to older generated SDK methods or to
+`raw.postsControllerCreate`:
 
 ```ts
 await client.quranReflect.v1.posts.create({
@@ -110,9 +119,9 @@ await client.quranReflect.v1.posts.create({
 });
 ```
 
-In older SDK versions, that sends the raw string as the HTTP request body. Use
-the typed helper payload shown above, or use the compatibility wrapper
-`{ body: { post: ... } }`.
+In those generated-operation paths, that sends the raw string as the HTTP
+request body. Use the typed helper payload shown above when your installed SDK
+exposes it, or use the compatibility wrapper `{ body: { post: ... } }`.
 
 ## Related REST Reference
 
