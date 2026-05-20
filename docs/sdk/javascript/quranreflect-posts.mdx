@@ -57,12 +57,18 @@ The SDK wraps the payload for the REST endpoint as:
 }
 ```
 
-The typed helper does not synthesize advanced post fields. For ordinary public or
-draft reflections, pass `body`, `draft`, `mentions`, and `references`. Advanced
-fields such as `roomId`, `roomPostStatus`, `postAsAuthorId`, and `publishedAt`
-are optional passthrough fields for room posts, authorized author posting, or
-scheduled/custom publish timing. If you omit them, the SDK leaves them out and
-the API applies its server-side defaults and authorization rules.
+The minimal example above is runnable with the typed helper. The generated REST
+reference currently marks some advanced fields as required, but the API accepts
+omitting them for ordinary public or draft reflections:
+
+- `roomPostStatus` defaults to public visibility.
+- `publishedAt` is set by the API for non-draft posts and omitted for drafts.
+- `roomId` is only needed for room posts.
+- `postAsAuthorId` is only needed for approved post-as-author flows.
+
+The SDK does not synthesize those advanced fields. If you provide `roomId`,
+`roomPostStatus`, `postAsAuthorId`, or `publishedAt`, the helper passes them
+through inside `post` and the API applies its authorization rules.
 
 ## Edit and Read a Post
 
