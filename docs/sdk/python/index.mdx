@@ -1,0 +1,66 @@
+---
+title: "Python SDK"
+description: "Use the Quran Foundation Python SDK from server-side Python apps."
+slug: /sdk/python
+sidebar_position: 1
+---
+
+# Python SDK
+
+Use the Python SDK when you are building server-side Python apps, scripts, workers, or backend services that call Quran Foundation APIs.
+
+```bash
+pip install quran-foundation-api
+```
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="ACCESS_TOKEN")
+chapters = client.list_chapters()
+print(chapters)
+```
+
+## OAuth2 helpers
+
+Use OAuth2 helpers from server-side code only. Do not expose `CLIENT_SECRET`, access tokens, refresh tokens, or session secrets to browser code.
+
+```python
+from quran_foundation.oauth import build_authorization_url, create_pkce_pair, exchange_code
+
+verifier, challenge = create_pkce_pair()
+
+authorize_url = build_authorization_url(
+    client_id="YOUR_CLIENT_ID",
+    redirect_uri="https://your-app.com/callback",
+    scope="openid offline_access user bookmark",
+    state="random-state",
+    code_challenge=challenge,
+)
+
+tokens = exchange_code(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+    code="CODE_FROM_CALLBACK",
+    code_verifier=verifier,
+    redirect_uri="https://your-app.com/callback",
+)
+```
+
+## API families
+
+The first Python release includes a small sync client for common backend use:
+
+- Content reads such as chapters and verses
+- Search
+- Signed-in user profile calls
+- OAuth2 authorization URL, code exchange, and refresh helpers
+
+For full endpoint coverage, use the API reference directly while the Python SDK grows.
+
+## Related docs
+
+- [OAuth2 Tutorial](/docs/tutorials/oidc/getting-started-with-oauth2)
+- [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart)
+- [Content APIs Quickstart](/docs/quickstart)
+- [API Reference](/docs/api-reference)

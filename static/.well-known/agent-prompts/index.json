@@ -8,12 +8,20 @@
       "targetStack": "Next.js",
       "status": "recommended",
       "command": "npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes",
-      "sdkEntrypoints": [
-        "@quranjs/api/public",
-        "@quranjs/api/server"
-      ],
+      "sdkEntrypoints": ["@quranjs/api/public", "@quranjs/api/server"],
       "docsUrl": "https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/",
       "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md"
+    },
+    {
+      "id": "QF_SVELTEKIT_STARTER_PROMPT_V1",
+      "title": "Start with the official Quran Foundation SvelteKit scaffold",
+      "description": "Scaffold a production-shaped SvelteKit app with OAuth2, reader, search, notes, bookmarks, and the runtime-split Quran Foundation SDK.",
+      "targetStack": "SvelteKit",
+      "status": "available",
+      "command": "npx @quranjs/create-app@latest my-quran-app --template sveltekit --package-manager npm --install --git --sdk-source npm --yes",
+      "sdkEntrypoints": ["@quranjs/api/public", "@quranjs/api/server"],
+      "docsUrl": "https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/",
+      "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-sveltekit-starter.md"
     }
   ]
 }

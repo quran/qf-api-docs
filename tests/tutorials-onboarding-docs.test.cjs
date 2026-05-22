@@ -55,3 +55,12 @@ test('excludes local-only scaffold command patterns from targeted public pages',
     }
   }
 });
+
+test('documents SvelteKit scaffold command on starter page', () => {
+  const starter = readDoc('tutorials/oidc/starter-with-npx.mdx');
+
+  assert.match(
+    starter,
+    /npx @quranjs\/create-app@latest my-quran-app --template sveltekit --package-manager npm --install --git --sdk-source npm --yes/,
+  );
+});
