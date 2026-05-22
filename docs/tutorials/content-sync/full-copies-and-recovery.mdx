@@ -1,0 +1,107 @@
+---
+id: full-copies-and-recovery
+title: Full Copies and Recovery
+sidebar_label: Full Copies and Recovery
+sidebar_position: 4
+---
+
+# Full Copies and Recovery
+
+A full copy, called a `snapshot` in the API, is the complete current row list for one public resource.
+
+For example:
+
+- Full copy of `translations:19` returns all current translation rows for translation resource `19`.
+- Full copy of `tafsirs:151` returns all current tafsir rows for tafsir resource `151`.
+- Full copy of `recitations:10` returns ayah audio file rows and chapter audio file rows for recitation `10`.
+- Full copy of `articles:123` returns visible article localization rows for article `123`.
+
+## When You Need a Full Copy
+
+```mermaid
+flowchart TD
+    A["Receive sync change"] --> B{"snapshot_url present?"}
+    B -->|"Yes"| C["Fetch full copy"]
+    C --> D["Replace local rows for that resource"]
+    B -->|"No"| E{"Row change?"}
+    E -->|"Yes"| F["Apply one row"]
+    E -->|"No"| G["Apply resource-level action"]
+```
+
+`RESOURCE_CREATE` and `RESOURCE_INVALIDATE` include `snapshot_url`. Fetch it before storing the new sync token.
+
+## Full Copy Response
+
+The response has metadata plus `records`.
+
+```json
+{
+  "resource_group": "translations",
+  "resource_id": 19,
+  "resource_content_id": 19,
+  "schema_version": 1,
+  "sync_sequence": 98234,
+  "records": [
+    {
+      "id": 85108,
+      "verse_key": "26:153",
+      "text": "They said: Thou art but one of the bewitched;"
+    }
+  ]
+}
+```
+
+Client rule: `records` is the full current content for that one resource. Delete your old local rows for the resource, then insert these rows.
+
+## Unavailable Resources
+
+Public Content Sync is not an editorial audit log. It tells public clients what they need to display current public content.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Public
+    Public --> Unavailable: RESOURCE_DELETE
+    Unavailable --> Public: RESOURCE_CREATE with snapshot_url
+    Public --> NeedsReplacement: RESOURCE_INVALIDATE
+    NeedsReplacement --> Public: Fetch full copy
+```
+
+| Server change                                             | Client action                                                      |
+| --------------------------------------------------------- | ------------------------------------------------------------------ |
+| Resource becomes hidden, rejected, unapproved, or deleted | `RESOURCE_DELETE`: remove or hide the local resource.              |
+| Hidden resource changes while unavailable                 | No row changes are replayed to public clients.                     |
+| Resource becomes public again                             | `RESOURCE_CREATE`: fetch the full copy and replace local rows.     |
+| Resource needs a complete refresh                         | `RESOURCE_INVALIDATE`: fetch the full copy and replace local rows. |
+
+## Error Recovery
+
+| Error code                 | Meaning                                                   | Client recovery                                                   |
+| -------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------- |
+| `resync_required`          | Token or cursor cannot be used.                           | Discard local token and bootstrap this resource filter again.     |
+| `token_filter_mismatch`    | The token belongs to a different resource filter.         | Use the matching filter or bootstrap the new filter.              |
+| `cursor_filter_mismatch`   | The cursor belongs to a different resource filter.        | Continue with the original `next_page_url`, or restart the sync.  |
+| `cursor_per_page_mismatch` | The cursor was used with a different `per_page`.          | Use `next_page_url` exactly as returned.                          |
+| `snapshot_not_found`       | The resource full copy is not public or no longer exists. | Treat the resource as unavailable locally, then continue syncing. |
+
+## Re-Bootstrap Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Sync as Sync API
+    participant Snapshot as Snapshot API
+    participant DB as Local DB
+
+    Client->>Sync: sync_token=old token
+    Sync-->>Client: 410 resync_required
+    Client->>DB: Remove stored token for that resource filter
+    Client->>Sync: bootstrap=true with same resources filter
+    Sync-->>Client: RESOURCE_CREATE changes
+    Client->>Snapshot: Fetch full copies
+    Snapshot-->>Client: Current records
+    Client->>DB: Replace local resources
+    Sync-->>Client: Final next_sync_token
+    Client->>DB: Store new token
+```
+
+For endpoint details, see [Get content resource snapshot](/docs/content_apis_versioned/resources-snapshot/).

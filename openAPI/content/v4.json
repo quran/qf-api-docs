@@ -17245,13 +17245,13 @@
           "Resources"
         ],
         "summary": "Sync public content resources",
-        "description": "Use this endpoint when your app keeps a local copy of public Quran.Foundation content, such as translations, tafsirs, recitations, or articles, and needs to know what changed without downloading everything again.\n\nRecommended flow:\n1. Start with `bootstrap=true` and a `resources` filter to get the current public resources.\n2. Follow `next_page_url` or pass its `cursor` until `has_more` is `false`.\n3. Store `next_sync_token` from the final page.\n4. Later, call this endpoint with `sync_token` and the same `resources` filter to receive only new changes.\n5. Apply row mutations directly. When a mutation has a non-null `snapshot_url`, fetch the full resource from the [snapshot endpoint](../resources-snapshot/) and replace that local resource.\n\n`RESOURCE_UPDATE` is a resource-level freshness marker. It does not include `snapshot_url`; clients should keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.\n\nSync responses are not cacheable and return `Cache-Control: no-store`.",
+        "description": "Use this endpoint when your app keeps a local copy of public Quran.Foundation content and needs to know what changed without downloading everything again.\n\nA resource is one public content item, such as `translations:19`, `tafsirs:151`, `recitations:10`, or `articles:123`. A full copy, called a snapshot in the API, is the complete current row list for one resource.\n\nRecommended client flow:\n1. First sync: call with `bootstrap=true` and a `resources` filter.\n2. Follow `next_page_url` until `has_more` is `false`.\n3. Fetch every non-null `snapshot_url` and replace the local rows for that resource.\n4. Store `next_sync_token` from the final page only.\n5. Later syncs: call with `sync_token` and the same `resources` filter to receive only newer changes.\n\nChange handling:\n- `RESOURCE_CREATE` and `RESOURCE_INVALIDATE`: fetch `snapshot_url`, then replace all local rows for that resource.\n- `RESOURCE_DELETE`: remove or hide the full local resource.\n- `ROW_CREATE` and `ROW_UPDATE`: upsert one local row using `record_type` and `record_key`.\n- `ROW_DELETE`: delete one local row using `record_type` and `record_key`.\n- `RESOURCE_UPDATE`: freshness marker only. Keep existing local rows.\n\nBootstrap example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=translations:19;tafsirs:151&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nIncremental example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=translations:19;tafsirs:151&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSync responses are not cacheable and return `Cache-Control: no-store`.",
         "operationId": "resources-sync",
         "parameters": [
           {
             "name": "resources",
             "in": "query",
-            "description": "Resource filter. Required unless `cursor` is supplied. Format: `group:*` or `group:id,id`; groups are separated by semicolons, for example `articles:*;tafsirs:151;translations:1,6`.",
+            "description": "Which public content your app wants to track. Required unless `cursor` is supplied. Format: `group:*` or `group:id,id`; groups are separated by semicolons. Store sync tokens per exact resource filter.",
             "required": false,
             "schema": {
               "type": "string"
@@ -17261,7 +17261,7 @@
           {
             "name": "bootstrap",
             "in": "query",
-            "description": "Set to `true` for the first sync to page current public resource state.",
+            "description": "Set to `true` for first sync. The response pages current public resources as `RESOURCE_CREATE` changes with `snapshot_url` values.",
             "required": false,
             "schema": {
               "type": "boolean"
@@ -17270,7 +17270,7 @@
           {
             "name": "sync_token",
             "in": "query",
-            "description": "Opaque token returned by the final bootstrap or incremental page. Use for incremental sync.",
+            "description": "Opaque checkpoint returned by the final bootstrap or incremental page. Send it on the next sync with the same `resources` filter.",
             "required": false,
             "schema": {
               "type": "string"
@@ -17279,7 +17279,7 @@
           {
             "name": "cursor",
             "in": "query",
-            "description": "Opaque pagination cursor from `next_page_url`. Do not construct manually.",
+            "description": "Opaque pagination cursor from `next_page_url`. Use `next_page_url` exactly as returned; do not construct cursors manually.",
             "required": false,
             "schema": {
               "type": "string"
@@ -17288,7 +17288,7 @@
           {
             "name": "per_page",
             "in": "query",
-            "description": "Maximum mutations/resources per page. Defaults to 50 and cannot exceed 100.",
+            "description": "Maximum changes or bootstrap resources per page. Defaults to 50 and cannot exceed 100.",
             "required": false,
             "schema": {
               "type": "integer",
@@ -17314,6 +17314,66 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContentSyncResponse"
+                },
+                "examples": {
+                  "bootstrap_page": {
+                    "summary": "First sync page",
+                    "value": {
+                      "sync": {
+                        "sync_until_sequence": 98234,
+                        "has_more": false,
+                        "next_page_url": null,
+                        "next_sync_token": "opaque-sync-token",
+                        "mutations": [
+                          {
+                            "sequence": 98100,
+                            "type": "RESOURCE_CREATE",
+                            "resource_group": "translations",
+                            "resource_id": 19,
+                            "resource_content_id": 19,
+                            "record_type": null,
+                            "record_key": null,
+                            "source_record_id": null,
+                            "changed_at": "2026-05-05T10:00:00Z",
+                            "data": null,
+                            "snapshot_url": "/api/v4/resources/snapshots/translations/19",
+                            "unavailable_reason": null
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "row_update_page": {
+                    "summary": "Incremental row update",
+                    "value": {
+                      "sync": {
+                        "sync_until_sequence": 98240,
+                        "has_more": false,
+                        "next_page_url": null,
+                        "next_sync_token": "opaque-next-sync-token",
+                        "mutations": [
+                          {
+                            "sequence": 98240,
+                            "type": "ROW_UPDATE",
+                            "resource_group": "translations",
+                            "resource_id": 19,
+                            "resource_content_id": 19,
+                            "record_type": "translation",
+                            "record_key": "85108",
+                            "source_record_id": 85108,
+                            "changed_at": "2026-05-05T10:05:00Z",
+                            "data": {
+                              "id": 85108,
+                              "verse_key": "26:153",
+                              "text": "They said: Thou art but one of the bewitched;"
+                            },
+                            "snapshot_url": null,
+                            "unavailable_reason": null
+                          }
+                        ]
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -17336,6 +17396,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContentSyncErrorResponse"
+                },
+                "examples": {
+                  "resync_required": {
+                    "summary": "Token or cursor cannot be used",
+                    "value": {
+                      "error": {
+                        "code": "resync_required",
+                        "message": "The sync token is invalid or incompatible. Bootstrap again."
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -17346,6 +17417,26 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContentSyncErrorResponse"
+                },
+                "examples": {
+                  "token_filter_mismatch": {
+                    "summary": "Token used with the wrong resources filter",
+                    "value": {
+                      "error": {
+                        "code": "token_filter_mismatch",
+                        "message": "sync_token does not match the requested resources"
+                      }
+                    }
+                  },
+                  "invalid_per_page": {
+                    "summary": "Invalid page size",
+                    "value": {
+                      "error": {
+                        "code": "invalid_per_page",
+                        "message": "per_page cannot exceed 100"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -17374,13 +17465,13 @@
           "Resources"
         ],
         "summary": "Get content resource snapshot",
-        "description": "Use this endpoint to fetch a full replacement copy of one public content resource.\n\nThis is the companion endpoint for [GET /resources/sync](../resources-sync/): sync tells you that a full replacement is needed by returning `snapshot_url` on `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` mutations.\n\nTypical flow:\n1. Bootstrap or poll with [GET /resources/sync](../resources-sync/).\n2. If a mutation has a non-null `snapshot_url`, call this endpoint with that mutation's `resource_group` and `resource_id`.\n3. Replace all local records for that resource with the returned `records`.\n4. Continue applying later sync mutations normally.\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
+        "description": "Use this endpoint to fetch a full copy of one public content resource. The API calls this full copy a snapshot.\n\nA snapshot returns all current rows for one resource in `records`. For example, a translation snapshot returns all current translation rows for that translation resource. A recitation snapshot returns ayah audio file rows and chapter audio file rows.\n\nTypical client flow:\n1. Call [GET /resources/sync](../resources-sync/).\n2. If a change has a non-null `snapshot_url`, call this endpoint using that change's `resource_group` and `resource_id`.\n3. Delete existing local rows for that one resource.\n4. Insert the returned `records` as the new local copy.\n5. Continue applying later sync changes normally.\n\nExample:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/snapshots/translations/19\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
         "operationId": "resources-snapshot",
         "parameters": [
           {
             "name": "resource_group",
             "in": "path",
-            "description": "Sync resource group.",
+            "description": "Public content group. Supported values are `articles`, `recitations`, `tafsirs`, and `translations`.",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/ContentSyncResourceGroup"
@@ -17389,7 +17480,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Resource ID within the selected group.",
+            "description": "Resource ID within the selected group, such as translation resource `19` or tafsir resource `151`.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -17414,6 +17505,91 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContentResourceSnapshot"
+                },
+                "examples": {
+                  "translation_snapshot": {
+                    "summary": "Translation full copy",
+                    "value": {
+                      "resource_group": "translations",
+                      "resource_id": 19,
+                      "resource_content_id": 19,
+                      "schema_version": 1,
+                      "sync_sequence": 98234,
+                      "records": [
+                        {
+                          "id": 85108,
+                          "resource_content_id": 19,
+                          "verse_key": "26:153",
+                          "text": "They said: Thou art but one of the bewitched;",
+                          "foot_notes": []
+                        }
+                      ]
+                    }
+                  },
+                  "tafsir_snapshot": {
+                    "summary": "Tafsir full copy",
+                    "value": {
+                      "resource_group": "tafsirs",
+                      "resource_id": 151,
+                      "resource_content_id": 151,
+                      "schema_version": 1,
+                      "sync_sequence": 98234,
+                      "records": [
+                        {
+                          "id": 7,
+                          "resource_content_id": 151,
+                          "verse_key": "1:7",
+                          "text": "Example tafsir text"
+                        }
+                      ]
+                    }
+                  },
+                  "recitation_snapshot": {
+                    "summary": "Recitation full copy",
+                    "value": {
+                      "resource_group": "recitations",
+                      "resource_id": 10,
+                      "resource_content_id": 10,
+                      "schema_version": 1,
+                      "sync_sequence": 98234,
+                      "records": [
+                        {
+                          "record_type": "audio_file",
+                          "id": 1001,
+                          "recitation_id": 10,
+                          "verse_key": "1:1",
+                          "url": "https://example.com/audio/001001.mp3",
+                          "segments": []
+                        },
+                        {
+                          "record_type": "chapter_audio_file",
+                          "id": 2001,
+                          "audio_recitation_id": 30,
+                          "chapter_id": 1,
+                          "audio_url": "https://example.com/audio/001.mp3"
+                        }
+                      ]
+                    }
+                  },
+                  "article_snapshot": {
+                    "summary": "Article full copy",
+                    "value": {
+                      "resource_group": "articles",
+                      "resource_id": 123,
+                      "resource_content_id": null,
+                      "schema_version": 1,
+                      "sync_sequence": 98234,
+                      "records": [
+                        {
+                          "article_id": 123,
+                          "language_id": 1,
+                          "lang": "en",
+                          "title": "Example article title",
+                          "text": "Example article body"
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             }
@@ -17433,6 +17609,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContentSyncErrorResponse"
+                },
+                "examples": {
+                  "snapshot_not_found": {
+                    "summary": "Snapshot is not available",
+                    "value": {
+                      "error": {
+                        "code": "snapshot_not_found",
+                        "message": "Resource snapshot not found"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -20166,6 +20353,7 @@
       },
       "ContentSyncResourceGroup": {
         "type": "string",
+        "description": "Public content group supported by Content Sync.",
         "enum": [
           "articles",
           "recitations",
@@ -20175,6 +20363,7 @@
       },
       "ContentSyncMutationType": {
         "type": "string",
+        "description": "Type of content change the client should apply.",
         "enum": [
           "RESOURCE_CREATE",
           "RESOURCE_UPDATE",
@@ -20183,6 +20372,18 @@
           "ROW_UPDATE",
           "ROW_DELETE",
           "RESOURCE_INVALIDATE"
+        ]
+      },
+      "ContentSyncRecordType": {
+        "type": "string",
+        "nullable": true,
+        "description": "Row type inside the resource. Present for row-level changes. Current values include `translation`, `tafsir`, `audio_file`, `chapter_audio_file`, and `article_localization`.",
+        "enum": [
+          "translation",
+          "tafsir",
+          "audio_file",
+          "chapter_audio_file",
+          "article_localization"
         ]
       },
       "ContentSyncMutation": {
@@ -20198,33 +20399,35 @@
         "properties": {
           "sequence": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "description": "Monotonic server sequence for this content change."
           },
           "type": {
             "$ref": "#/components/schemas/ContentSyncMutationType",
-            "description": "Mutation type. `RESOURCE_UPDATE` is a resource-level freshness marker without `snapshot_url`; clients should keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them."
+            "description": "Change type. `RESOURCE_UPDATE` is a resource-level freshness marker without `snapshot_url`; clients should keep existing local rows unless row changes, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them."
           },
           "resource_group": {
             "$ref": "#/components/schemas/ContentSyncResourceGroup"
           },
           "resource_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "description": "Resource ID within the group, such as translation resource `19`."
           },
           "resource_content_id": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "description": "Underlying resource content ID when the resource is backed by `resource_contents`. It is `null` for article resources."
           },
           "record_type": {
-            "type": "string",
-            "nullable": true,
-            "description": "Present for row mutations."
+            "$ref": "#/components/schemas/ContentSyncRecordType",
+            "description": "Present for row-level changes. Null for resource-level changes."
           },
           "record_key": {
             "type": "string",
             "nullable": true,
-            "description": "Present for row mutations. Client row key within the resource."
+            "description": "Client row key within the resource. Use `resource_group + resource_id + record_type + record_key` as the stable local row identity."
           },
           "source_record_id": {
             "type": "integer",
@@ -20234,23 +20437,24 @@
           },
           "changed_at": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Server timestamp for when this content change was recorded."
           },
           "data": {
             "type": "object",
             "nullable": true,
             "additionalProperties": true,
-            "description": "Present for `ROW_CREATE` and `ROW_UPDATE` mutations."
+            "description": "Full row payload for `ROW_CREATE` and `ROW_UPDATE`. Null for deletes and resource-level changes."
           },
           "snapshot_url": {
             "type": "string",
             "nullable": true,
-            "description": "Present for `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` mutations. Use it with the snapshot endpoint to replace the local resource. `RESOURCE_UPDATE` does not include a snapshot URL; clients should keep existing local rows."
+            "description": "Present for `RESOURCE_CREATE` and `RESOURCE_INVALIDATE`. Fetch this full copy and replace local rows for the resource. `RESOURCE_UPDATE` does not include a snapshot URL."
           },
           "unavailable_reason": {
             "type": "string",
             "nullable": true,
-            "description": "Present for `RESOURCE_DELETE` mutations."
+            "description": "Present for `RESOURCE_DELETE` when a public resource became unavailable."
           }
         },
         "example": {
@@ -20290,18 +20494,22 @@
             "properties": {
               "sync_until_sequence": {
                 "type": "integer",
-                "format": "int64"
+                "format": "int64",
+                "description": "Upper sequence bound for this sync page set."
               },
               "has_more": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "True when the client must call `next_page_url` for another page before storing a sync token."
               },
               "next_page_url": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Next page URL when `has_more` is true. Use this URL exactly as returned."
               },
               "next_sync_token": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Checkpoint to store after the final page has been fully applied. Null on intermediate pages."
               },
               "mutations": {
                 "type": "array",
@@ -20329,24 +20537,28 @@
           },
           "resource_id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "description": "Resource ID within the selected group."
           },
           "resource_content_id": {
             "type": "integer",
             "format": "int64",
-            "nullable": true
+            "nullable": true,
+            "description": "Underlying resource content ID when available. It is `null` for article resources."
           },
           "schema_version": {
             "type": "integer",
+            "description": "Version of the snapshot payload shape.",
             "example": 1
           },
           "sync_sequence": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "description": "Current sync sequence when the snapshot was fetched. Snapshots are current-at-fetch, not pinned to the sequence of the change that requested them."
           },
           "records": {
             "type": "array",
-            "description": "Current records for the resource. Shape depends on `resource_group`.",
+            "description": "Full current row list for this resource. Replace the client's existing local rows for this resource with this array. Shape depends on `resource_group`.",
             "items": {
               "type": "object",
               "additionalProperties": true
@@ -20383,11 +20595,13 @@
             "properties": {
               "code": {
                 "type": "string",
-                "example": "content_sync_error"
+                "description": "Machine-readable Content Sync error code.",
+                "example": "resync_required"
               },
               "message": {
                 "type": "string",
-                "example": "The request could not be completed."
+                "description": "Human-readable error message.",
+                "example": "The sync token is invalid or incompatible. Bootstrap again."
               }
             }
           }

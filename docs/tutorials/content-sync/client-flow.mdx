@@ -1,0 +1,111 @@
+---
+id: client-flow
+title: Content Sync Client Flow
+sidebar_label: Client Flow
+sidebar_position: 2
+---
+
+# Content Sync Client Flow
+
+This is the recommended end-to-end flow for a client that stores public content locally.
+
+## Full Flow
+
+```mermaid
+flowchart TD
+    A["Choose resources filter"] --> B{"Has stored sync token for this exact filter?"}
+    B -->|"No"| C["Call /resources/sync with bootstrap=true"]
+    B -->|"Yes"| D["Call /resources/sync with sync_token"]
+    C --> E["Process returned changes"]
+    D --> E
+    E --> F{"has_more?"}
+    F -->|"Yes"| G["Call next_page_url"]
+    G --> E
+    F -->|"No"| H["Store next_sync_token"]
+    H --> I["Sync complete"]
+```
+
+Store one sync token per canonical resource filter. Do not reuse a token for a different filter.
+
+## Applying Changes
+
+Every change belongs to one resource, identified by:
+
+- `resource_group`, such as `translations`
+- `resource_id`, such as `19`
+
+Row-level changes also include:
+
+- `record_type`, such as `translation`
+- `record_key`, the row key inside that resource
+
+```mermaid
+flowchart TD
+    A["Receive change"] --> B{"type"}
+    B -->|"ROW_CREATE or ROW_UPDATE"| C["Upsert one local row using record_type + record_key"]
+    B -->|"ROW_DELETE"| D["Delete one local row using record_type + record_key"]
+    B -->|"RESOURCE_CREATE or RESOURCE_INVALIDATE"| E["Fetch snapshot_url"]
+    E --> F["Replace all local rows for that resource"]
+    B -->|"RESOURCE_DELETE"| G["Delete or disable the whole local resource"]
+    B -->|"RESOURCE_UPDATE"| H["Keep rows; update local freshness metadata if you track it"]
+```
+
+## Client Algorithm
+
+| Change type           | Client action                                                             |
+| --------------------- | ------------------------------------------------------------------------- |
+| `RESOURCE_CREATE`     | Fetch `snapshot_url`, then replace all local rows for that resource.      |
+| `RESOURCE_INVALIDATE` | Fetch `snapshot_url`, then replace all local rows for that resource.      |
+| `RESOURCE_DELETE`     | Remove or hide the full local resource. The resource is no longer public. |
+| `ROW_CREATE`          | Insert the row from `data`, or replace it if it already exists.           |
+| `ROW_UPDATE`          | Replace the local row with `data`.                                        |
+| `ROW_DELETE`          | Delete that one local row.                                                |
+| `RESOURCE_UPDATE`     | Keep existing rows. Treat it as a freshness marker only.                  |
+
+## Pagination Rules
+
+The sync endpoint can return multiple pages. While `has_more` is `true`, use `next_page_url`. Do not build the cursor yourself.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as Sync API
+
+    Client->>API: First sync request
+    API-->>Client: has_more=true and next_page_url
+    Client->>API: GET next_page_url
+    API-->>Client: has_more=true and next_page_url
+    Client->>API: GET next_page_url
+    API-->>Client: has_more=false and next_sync_token
+```
+
+Only the final page has the token your app should store for the next sync.
+
+## Token Rules
+
+| Rule                                             | Why it matters                                                      |
+| ------------------------------------------------ | ------------------------------------------------------------------- |
+| Store the token after the final page only.       | Earlier pages do not represent a complete sync.                     |
+| Store the token with the exact resource filter.  | Tokens are bound to the filter they were created for.               |
+| Replace the old token after each completed sync. | The latest token is your new checkpoint.                            |
+| If token recovery fails, bootstrap again.        | A fresh bootstrap rebuilds local state from current public content. |
+
+## Minimal Local State
+
+```typescript
+interface ContentSyncState {
+  resourcesFilter: string;
+  syncToken: string;
+  lastSuccessfulSyncAt: string;
+}
+
+interface LocalContentRow {
+  resourceGroup: "articles" | "recitations" | "tafsirs" | "translations";
+  resourceId: number;
+  recordType: string;
+  recordKey: string;
+  data: Record<string, unknown>;
+}
+```
+
+For the full schema, see [Sync public content resources](/docs/content_apis_versioned/resources-sync/).
