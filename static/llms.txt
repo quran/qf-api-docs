@@ -47,7 +47,6 @@
 - [Hadith References API](https://api-docs.quran.foundation/docs/sdk/javascript/hadith-references/)
 - [Juzs API](https://api-docs.quran.foundation/docs/sdk/javascript/juzs/)
 - [Legacy Migration Guide](https://api-docs.quran.foundation/docs/sdk/javascript/v1-migration-guide/)
-- [Python SDK](https://api-docs.quran.foundation/docs/sdk/python/)
 - [QuranReflect Posts](https://api-docs.quran.foundation/docs/sdk/javascript/quranreflect-posts/)
 - [Resources API](https://api-docs.quran.foundation/docs/sdk/javascript/resources/)
 - [SDKs](https://api-docs.quran.foundation/docs/sdk/)

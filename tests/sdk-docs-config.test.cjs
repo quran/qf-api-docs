@@ -67,24 +67,3 @@ test('keeps maintainer-only SDK local docs out of public llms output', () => {
 
   assert.doesNotMatch(content, /\/docs\/sdk\/javascript\/local-development/);
 });
-
-test('surfaces Python SDK docs in shared sidebars and llms output', () => {
-  for (const sidebarName of ['APIsSidebar', 'APIsVersionedSidebar']) {
-    const sharedDocsSidebar = sidebars[sidebarName];
-    const sdkCategory = sharedDocsSidebar.find(
-      (item) => item.type === 'category' && item.label === 'SDKs',
-    );
-    const pythonCategory = sdkCategory.items.find(
-      (item) => item.type === 'category' && item.label === 'Python',
-    );
-
-    assert.ok(pythonCategory, `expected ${sidebarName} to include Python SDK category`);
-    assert.deepEqual(pythonCategory.link, {
-      type: 'doc',
-      id: 'sdk/python/index',
-    });
-  }
-
-  const { content } = generateLlmsTxt(docsDir);
-  assert.match(content, /\[Python SDK\]\(https:\/\/api-docs\.quran\.foundation\/docs\/sdk\/python\/\)/);
-});
