@@ -8,11 +8,11 @@ description: "Fastest public path to scaffold a production-shaped Quran Foundati
 # Starter With NPX
 
 :::info Quick Summary
-**Audience:** Developers who want a complete Next.js app instead of wiring OAuth2, sessions, reader/search, and user features from scratch.
+**Audience:** Developers who want a complete starter app instead of wiring OAuth2, sessions, reader/search, and user features from scratch.
 
 **Prerequisites:** Quran Foundation client credentials, app URLs, and approved scopes for the user features you keep.
 
-**Recommended path:** Run the scaffold, configure environment variables, then customize the generated Next.js code.
+**Recommended path:** Start with `next` unless you specifically want SvelteKit, configure environment variables, then customize the generated app.
 
 **Outcome:** A local app with login, Quran content, search, and signed-in user feature surfaces already wired through the SDK.
 :::
@@ -25,9 +25,15 @@ Use this page when the starter app is a useful base for your product. If you alr
 npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
 ```
 
+SvelteKit template:
+
+```bash
+npx @quranjs/create-app@latest my-quran-app --template sveltekit --package-manager npm --install --git --sdk-source npm --yes
+```
+
 ## What You Get
 
-- Next.js starter app with Quran Foundation SDK wiring
+- Next.js or SvelteKit starter app with Quran Foundation SDK wiring
 - OAuth2/OIDC login/logout flow with server-side session architecture
 - Reader, search, and signed-in user feature surfaces
 - Production-shaped backend boundary that keeps `client_secret` server-side
@@ -45,7 +51,7 @@ The scaffolded starter uses `CLIENT_ID` and `CLIENT_SECRET` in its generated `.e
 
 ## Customize Scopes And Features
 
-The generated app is normal Next.js code: pages, components, API routes,
+The generated app is normal framework code: pages, components, API routes/server routes,
 sessions, and SDK clients. You can keep the backend/auth pattern and replace the
 UI, remove features, or add new feature routes as your product requires.
 
@@ -85,7 +91,7 @@ then replace the visible pages and components.
 
 ## Starter App vs SDK
 
-The starter is a generated Next.js application. It uses the JavaScript SDK
+The starter is a generated application. It uses the JavaScript SDK
 inside a ready app so you can see the recommended OAuth2, session, backend, and
 User API patterns working together.
 
