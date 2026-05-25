@@ -126,8 +126,8 @@ Quran.com supports two categories of fonts:
 | **QCF V1**         | `code_v1`       | 2         | Glyph-based | Traditional Madani Mushaf look     |
 | **QCF V2**         | `code_v2`       | 1         | Glyph-based | Modern Madani Mushaf (recommended) |
 | **QCF V4 Tajweed** | `code_v2`       | 19        | Glyph-based | Colored Tajweed rules              |
-| **QPC Hafs**       | `text_qpc_hafs` | 5         | Unicode     | Simple apps, fallback font         |
-| **Uthmani**        | `text_uthmani`  | 4         | Unicode     | Standard Uthmani script            |
+| **QPC Hafs**       | `text_qpc_hafs` | 5         | Unicode     | Use with the `UthmanicHafs` font family (`UthmanicHafs1Ver18` files) |
+| **Uthmani**        | `text_uthmani`  | 4         | Unicode     | Standard Uthmani text |
 | **IndoPak**        | `text_indopak`  | 3, 6, 7   | Unicode     | South Asian users                  |
 
 ### Choosing a Font
