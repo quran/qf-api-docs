@@ -17428,6 +17428,24 @@
                       }
                     }
                   },
+                  "cursor_filter_mismatch": {
+                    "summary": "Cursor used with the wrong resources filter",
+                    "value": {
+                      "error": {
+                        "code": "cursor_filter_mismatch",
+                        "message": "cursor does not match the requested resources"
+                      }
+                    }
+                  },
+                  "cursor_per_page_mismatch": {
+                    "summary": "Cursor used with the wrong page size",
+                    "value": {
+                      "error": {
+                        "code": "cursor_per_page_mismatch",
+                        "message": "cursor does not match the requested per_page"
+                      }
+                    }
+                  },
                   "invalid_per_page": {
                     "summary": "Invalid page size",
                     "value": {
