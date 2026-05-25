@@ -1,0 +1,8 @@
+{
+  "label": "Content Sync",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn how to keep a local copy of public Quran.Foundation content fresh without redownloading everything."
+  }
+}
