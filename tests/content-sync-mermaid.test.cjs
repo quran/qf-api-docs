@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const mermaid = require('mermaid');
 
 const contentSyncDocsDir = path.join(
   __dirname,
@@ -24,7 +25,6 @@ const extractMermaidBlocks = (content) => {
 };
 
 test('content sync tutorial sequence diagrams parse', async () => {
-  const mermaid = (await import('mermaid')).default;
   mermaid.initialize({ startOnLoad: false });
 
   const docs = fs

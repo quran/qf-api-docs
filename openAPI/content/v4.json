@@ -20404,8 +20404,12 @@
             "description": "Monotonic server sequence for this content change."
           },
           "type": {
-            "$ref": "#/components/schemas/ContentSyncMutationType",
-            "description": "Change type. `RESOURCE_UPDATE` is a resource-level freshness marker without `snapshot_url`; clients should keep existing local rows unless row changes, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them."
+            "description": "Change type. `RESOURCE_UPDATE` is a resource-level freshness marker without `snapshot_url`; clients should keep existing local rows unless row changes, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContentSyncMutationType"
+              }
+            ]
           },
           "resource_group": {
             "$ref": "#/components/schemas/ContentSyncResourceGroup"
@@ -20422,8 +20426,12 @@
             "description": "Underlying resource content ID when the resource is backed by `resource_contents`. It is `null` for article resources."
           },
           "record_type": {
-            "$ref": "#/components/schemas/ContentSyncRecordType",
-            "description": "Present for row-level changes. Null for resource-level changes."
+            "description": "Present for row-level changes. Null for resource-level changes.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContentSyncRecordType"
+              }
+            ]
           },
           "record_key": {
             "type": "string",
