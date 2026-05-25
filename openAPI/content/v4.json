@@ -17336,7 +17336,7 @@
                             "source_record_id": null,
                             "changed_at": "2026-05-05T10:00:00Z",
                             "data": null,
-                            "snapshot_url": "/api/v4/resources/snapshots/translations/19",
+                            "snapshot_url": "https://apis.quran.foundation/content/api/v4/resources/snapshots/translations/19",
                             "unavailable_reason": null
                           }
                         ]
