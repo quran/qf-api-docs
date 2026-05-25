@@ -20383,7 +20383,8 @@
           "tafsir",
           "audio_file",
           "chapter_audio_file",
-          "article_localization"
+          "article_localization",
+          null
         ]
       },
       "ContentSyncMutation": {
