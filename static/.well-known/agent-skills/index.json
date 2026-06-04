@@ -6,7 +6,7 @@
       "type": "skill-md",
       "description": "Use Quran Foundation docs and tutorials to choose the correct API family, authentication flow, endpoint, font rendering approach, request-access prerequisite, and official references for content, search, OAuth2/OIDC, user-related, and Quran Reflect integrations.",
       "url": "/.well-known/agent-skills/quran-foundation-api-docs/SKILL.md",
-      "digest": "sha256:7c907fc67bc90cd411698e66bcc55ea47179bf06e46069fcca9611c7144e968f"
+      "digest": "sha256:c73244a806f9dfb387e93eb1b95a45a435a5da3593bba9a7e5ca60fc731f6151"
     }
   ]
 }

@@ -50,7 +50,6 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - AI Agents: `https://api-docs.quran.foundation/docs/ai-agents/`
 - Developer Journey: `https://api-docs.quran.foundation/docs/developer-journey/`
 - API Reference: `https://api-docs.quran.foundation/docs/api-reference/`
-- Response Examples: `https://api-docs.quran.foundation/docs/api/response-examples/`
 - JavaScript SDK: `https://api-docs.quran.foundation/docs/sdk/javascript/`
 - Starter With NPX: `https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/`
 - User APIs OIDC quickstart: `https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/`
@@ -84,7 +83,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - For JavaScript or TypeScript apps, prefer the official SDK and choose the runtime entrypoint explicitly: `@quranjs/api/public` for app/browser/mobile-facing OAuth helpers and `@quranjs/api/server` for backend Content, Search, token exchange, refresh, and server-side User API calls.
 - For new Next.js apps, route the user to the official scaffold and prompt before hand-writing OAuth2 plumbing.
 - For SvelteKit apps, route the user to the official `--template sveltekit` scaffold and prompt before hand-writing OAuth2 plumbing.
-- For response-shape questions, prefer exact endpoint schemas and use Response Examples to explain common success and error variations.
+- For response-shape questions, prefer exact endpoint schemas and endpoint-level OpenAPI examples to explain common success and error variations.
 
 ## Fast Routing Hints
 
@@ -95,7 +94,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - "Create a Quran app, starter app, scaffold, copy prompt, AI prompt, build with agents" -> Starter With NPX plus QF_NPX_STARTER_PROMPT_V1
 - "SvelteKit starter, SvelteKit scaffold" -> Starter With NPX plus QF_SVELTEKIT_STARTER_PROMPT_V1
 - "Existing JS SDK integration, add @quranjs/api" -> JavaScript SDK docs plus QF_JS_SDK_INTEGRATION_PROMPT_V1
-- "Review an integration, check mistakes, secret exposure, SDK boundary" -> QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1 plus Response Examples
+- "Review an integration, check mistakes, secret exposure, SDK boundary" -> QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1 plus exact endpoint schemas and examples
 - "Where should I start, what path should I follow, developer journey" -> Developer Journey
 - "API reference, endpoint lookup, endpoint docs, all APIs" -> API Reference first, then the exact API family page
 - "JavaScript SDK, TypeScript SDK, server/public imports, runtime split" -> JavaScript SDK docs
