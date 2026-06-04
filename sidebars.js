@@ -622,11 +622,6 @@ const makeSharedDocsSidebar = (apiFamilies) => [
         id: "api-reference",
         label: "API Reference",
       },
-      {
-        type: "doc",
-        id: "api/response-examples",
-        label: "Response Examples",
-      },
       ...apiFamilies.map(makeSharedApiFamilyCategory),
       {
         type: "doc",

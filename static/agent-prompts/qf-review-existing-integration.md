@@ -34,4 +34,3 @@ Documentation to follow:
 
 - AI Agents: https://api-docs.quran.foundation/docs/ai-agents/
 - JavaScript SDK: https://api-docs.quran.foundation/docs/sdk/javascript/
-- Response examples: https://api-docs.quran.foundation/docs/api/response-examples/
