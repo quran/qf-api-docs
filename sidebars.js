@@ -602,6 +602,11 @@ const makeSharedDocsSidebar = (apiFamilies) => [
   },
   {
     type: "doc",
+    id: "ai-agents/index",
+    label: "AI Agents",
+  },
+  {
+    type: "doc",
     id: "tutorials/oidc/user-apis-quickstart",
     label: "User APIs Quickstart",
   },
@@ -616,6 +621,11 @@ const makeSharedDocsSidebar = (apiFamilies) => [
         type: "doc",
         id: "api-reference",
         label: "API Reference",
+      },
+      {
+        type: "doc",
+        id: "api/response-examples",
+        label: "Response Examples",
       },
       ...apiFamilies.map(makeSharedApiFamilyCategory),
       {
