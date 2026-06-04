@@ -134,9 +134,9 @@ curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SY
 | `RESOURCE_INVALIDATE` | Fetch `snapshot_url`, then replace all local rows for that resource.          |
 | `RESOURCE_DELETE`     | Remove or hide the full local resource.                                       |
 | `RESOURCE_UPDATE`     | Keep existing rows. Treat it as a resource-level freshness marker.            |
-| `ROW_CREATE`          | Upsert one local row using `resource_group`, `resource_id`, and `record_key`. |
-| `ROW_UPDATE`          | Upsert one local row using `resource_group`, `resource_id`, and `record_key`. |
-| `ROW_DELETE`          | Delete one local row using `resource_group`, `resource_id`, and `record_key`. |
+| `ROW_CREATE`          | Upsert one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
+| `ROW_UPDATE`          | Upsert one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
+| `ROW_DELETE`          | Delete one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
 
 Only `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` include `snapshot_url`.
 
