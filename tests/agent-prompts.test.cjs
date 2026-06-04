@@ -20,12 +20,14 @@ test('publishes scaffold, SDK, OAuth, and review agent prompts', () => {
   const sveltekitPrompt = promptIndex.prompts.find(
     (prompt) => prompt.id === 'QF_SVELTEKIT_STARTER_PROMPT_V1',
   );
+  assert.ok(sveltekitPrompt, 'expected SvelteKit starter prompt to be registered');
   assert.match(sveltekitPrompt.command, /--template sveltekit/);
   assert.equal(sveltekitPrompt.promptUrl, 'https://api-docs.quran.foundation/agent-prompts/qf-sveltekit-starter.md');
 
   const reviewPrompt = promptIndex.prompts.find(
     (prompt) => prompt.id === 'QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1',
   );
+  assert.ok(reviewPrompt, 'expected review integration prompt to be registered');
   assert.match(reviewPrompt.command, /doctor/);
   assert.equal(reviewPrompt.promptUrl, 'https://api-docs.quran.foundation/agent-prompts/qf-review-existing-integration.md');
 });
