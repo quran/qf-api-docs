@@ -22,7 +22,10 @@ Instead of downloading every translation, tafsir, recitation, or article again, 
 | Resource filter | The list of content your app wants to keep in sync, for example `translations:19;tafsirs:151`.               |
 | Change          | One server event telling your app what changed. The API field is called `type`.                              |
 | Full copy       | The complete current rows for one resource. The API calls this a `snapshot`.                                 |
+| Snapshot URL    | A URL returned on some changes. Fetch it to replace the full local copy for that one resource.                |
 | Sync token      | A private checkpoint returned by the API. Store it and send it next time to get only newer changes.          |
+| Sync sequence   | A server sequence number for content changes. Mutations expose this as `sequence`.                           |
+| Sync until      | The upper sequence bound for one sync run. The API field is called `sync_until_sequence`.                    |
 | Cursor          | A temporary page link. Use it only while finishing the current sync request.                                 |
 
 ## Supported Content
@@ -50,11 +53,10 @@ sequenceDiagram
     participant DB as Local database
 
     App->>Sync: bootstrap=true for translation 19 and tafsir 151
-    Sync-->>App: RESOURCE_CREATE changes with snapshot_url
+    Sync-->>App: RESOURCE_CREATE changes with snapshot_url and final next_sync_token
     App->>Snapshot: Fetch each full copy
     Snapshot-->>App: records for one resource
     App->>DB: Replace local rows for that resource
-    Sync-->>App: next_sync_token on final page
     App->>DB: Store sync token for this resource filter
 ```
 
@@ -65,6 +67,7 @@ curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true
 ```
 
 If `has_more` is `true`, call `next_page_url` until it becomes `false`. Store `next_sync_token` only from the final page.
+Fetch and apply any returned `snapshot_url` values before you mark the sync as complete locally.
 
 ## Fetching a Full Copy
 
@@ -77,6 +80,20 @@ curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/translati
 ```
 
 Client rule: replace all local rows for `translations:19` with the `records` array from the response.
+
+## How Snapshots Relate to Tokens
+
+The `sync_token` is not sent to the snapshot endpoint. The token belongs to `GET /resources/sync` only.
+
+The link between sync and snapshots is the mutation:
+
+- `GET /resources/sync?bootstrap=true...` returns `RESOURCE_CREATE` changes.
+- Each `RESOURCE_CREATE` includes a `snapshot_url`.
+- Your app fetches each `snapshot_url` and replaces local rows for that resource.
+- Your app stores the final `next_sync_token` after all returned changes have been applied.
+- Later, your app sends that token back to `GET /resources/sync` with the same `resources` filter.
+
+Snapshots are current when fetched. They are not pinned to the exact sequence of the change that asked you to fetch them.
 
 ## Next Sync
 
@@ -100,6 +117,34 @@ curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SY
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```
+
+## Sequence Fields
+
+`sequence` on a mutation is the server's increasing content-change number for that mutation. Apply mutations in ascending `sequence` order.
+
+`sync_until_sequence` on a sync response is the upper bound fixed for that sync run. If the response has more pages, every `next_page_url` continues the same run with the same upper bound. This keeps pagination stable even if newer content changes are committed while your app is paging.
+
+`sync_sequence` on a snapshot response is the current server sequence when the snapshot was fetched. Do not use snapshot `sync_sequence` as your next checkpoint. Only store `next_sync_token` from the final sync page.
+
+## Mutation Types
+
+| Type                  | Client action                                                                 |
+| --------------------- | ----------------------------------------------------------------------------- |
+| `RESOURCE_CREATE`     | Fetch `snapshot_url`, then replace all local rows for that resource.          |
+| `RESOURCE_INVALIDATE` | Fetch `snapshot_url`, then replace all local rows for that resource.          |
+| `RESOURCE_DELETE`     | Remove or hide the full local resource.                                       |
+| `RESOURCE_UPDATE`     | Keep existing rows. Treat it as a resource-level freshness marker.            |
+| `ROW_CREATE`          | Upsert one local row using `resource_group`, `resource_id`, and `record_key`. |
+| `ROW_UPDATE`          | Upsert one local row using `resource_group`, `resource_id`, and `record_key`. |
+| `ROW_DELETE`          | Delete one local row using `resource_group`, `resource_id`, and `record_key`. |
+
+Only `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` include `snapshot_url`.
+
+## Testing Sync Behavior
+
+You can always test the bootstrap flow, pagination, snapshot fetches, and no-change incremental sync with real public resources. For example, use a small `resources` filter and a low `per_page` value.
+
+Mutation scenarios such as row updates, deletes, resource deletes, restores, and invalidations require actual content changes on resources your app tracks. The public API does not expose a mutation generator for forcing those events. For full scenario testing, use Quran.Foundation-provided prelive/dev fixture resources or a local integration environment where test content can be changed between sync calls.
 
 ## API References
 
