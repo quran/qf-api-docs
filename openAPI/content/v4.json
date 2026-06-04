@@ -17373,18 +17373,6 @@
                         ]
                       }
                     }
-                  },
-                  "no_changes_page": {
-                    "summary": "No resource changes available",
-                    "value": {
-                      "sync": {
-                        "sync_until_sequence": 98240,
-                        "has_more": false,
-                        "next_page_url": null,
-                        "next_sync_token": "opaque-next-sync-token",
-                        "mutations": []
-                      }
-                    }
                   }
                 }
               }
