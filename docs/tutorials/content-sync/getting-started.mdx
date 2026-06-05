@@ -145,7 +145,7 @@ Only `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` include `snapshot_url`.
 
 You can always test the bootstrap flow, pagination, snapshot fetches, and no-change incremental sync with real public resources. For example, use a small `resources` filter and a low `per_page` value.
 
-Mutation scenarios such as row updates, deletes, resource deletes, restores, and invalidations require actual content changes on resources your app tracks. The public API does not expose a mutation generator for forcing those events. For full scenario testing, use Quran.Foundation-provided prelive/dev fixture resources or a local integration environment where test content can be changed between sync calls.
+Mutation scenarios such as row updates, deletes, resource deletes, restores, and invalidations require actual content changes on tracked resources. The public API does not expose a way to force those events on demand.
 
 ## API References
 
