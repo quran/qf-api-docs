@@ -53,10 +53,11 @@ sequenceDiagram
     participant DB as Local database
 
     App->>Sync: bootstrap=true for translation 19 and tafsir 151
-    Sync-->>App: RESOURCE_CREATE changes with snapshot_url and final next_sync_token
+    Sync-->>App: RESOURCE_CREATE changes with snapshot_url
     App->>Snapshot: Fetch each full copy
     Snapshot-->>App: records for one resource
     App->>DB: Replace local rows for that resource
+    Sync-->>App: final page includes next_sync_token
     App->>DB: Store sync token for this resource filter
 ```
 
@@ -85,7 +86,7 @@ Client rule: replace all local rows for `translations:19` with the `records` arr
 
 The `sync_token` is not sent to the snapshot endpoint. The token belongs to `GET /resources/sync` only.
 
-The link between sync and snapshots is the mutation:
+During bootstrap, the link between sync and snapshots is the `RESOURCE_CREATE` mutation:
 
 - `GET /resources/sync?bootstrap=true...` returns `RESOURCE_CREATE` changes.
 - Each `RESOURCE_CREATE` includes a `snapshot_url`.
