@@ -30,12 +30,12 @@ Instead of downloading every translation, tafsir, recitation, or article again, 
 
 ## Supported Content
 
-| Resource group | What the full copy contains                                                          | Row changes included                                                           |
-| -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `translations` | Translation rows for the resource. Footnotes are nested inside each translation row. | Translation row updates, deletes, and footnote-driven translation row updates. |
-| `tafsirs`      | Tafsir rows for the resource.                                                        | Tafsir row updates and deletes.                                                |
-| `recitations`  | Ayah audio files and chapter audio files for the recitation.                         | Ayah audio file and chapter audio file updates and deletes.                    |
-| `articles`     | Visible article localizations.                                                       | Article localization updates and resource refresh events.                      |
+| Resource group | What the full copy contains                                                          | Changes included                                                                 |
+| -------------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| `translations` | Translation rows for the resource. Footnotes are nested inside each translation row. | Translation row changes and footnote-driven translation row updates.             |
+| `tafsirs`      | Tafsir rows for the resource.                                                        | Tafsir row changes.                                                              |
+| `recitations`  | Ayah audio files and chapter audio files for the recitation.                         | Ayah audio file and chapter audio file changes.                                  |
+| `articles`     | Visible article localizations.                                                       | Article localization changes and resource-level refresh, delete, or restore events. |
 
 :::note Recitation timing coverage
 Ayah audio file fields, including the `segments` value on an audio file row, are included when that audio file row is saved. Separate chapter-level segment rows edited through the surah segment builder are not part of the V1 public sync stream yet.
@@ -143,7 +143,7 @@ Only `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` include `snapshot_url`.
 
 ## Testing Sync Behavior
 
-You can always test the bootstrap flow, pagination, snapshot fetches, and no-change incremental sync with real public resources. For example, use a small `resources` filter and a low `per_page` value.
+You can test bootstrap and snapshot fetches with real public resources. To test pagination, use a `resources` filter that returns more items than `per_page`. To observe a no-change incremental sync, call sync again with the final `next_sync_token` when no matching content changes have occurred.
 
 Mutation scenarios such as row updates, deletes, resource deletes, restores, and invalidations require actual content changes on tracked resources. The public API does not expose a way to force those events on demand.
 
