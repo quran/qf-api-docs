@@ -91,6 +91,8 @@ Recommended triggers:
 
 When a change includes `snapshot_url`, fetch the full copy and replace rows in one transaction.
 
+When `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path like `/api/v4/resources/snapshots/translations/19`. You should prefix that path with `https://apis.quran.foundation/content`.
+
 ```mermaid
 sequenceDiagram
     participant Engine as Sync engine
@@ -120,6 +122,7 @@ This prevents mixed old and new rows from appearing in the reader UI.
 ## What Not To Do
 
 - Do not construct cursors manually. Use `next_page_url`.
+- Do not treat `next_page_url` or `snapshot_url` as an absolute URL.
 - Do not store `next_sync_token` before all pages and required full copies are applied.
 - Do not reuse a token with a different `resources` filter.
 - Do not treat `RESOURCE_UPDATE` as an instruction to delete or refetch rows.

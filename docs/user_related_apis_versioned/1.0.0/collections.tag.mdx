@@ -1,0 +1,21 @@
+---
+id: collections
+title: "Collections"
+description: "Collections"
+custom_edit_url: null
+displayed_sidebar: APIsVersionedSidebar
+---
+
+
+
+Organize bookmarks into user-managed collections.
+
+
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```
+      

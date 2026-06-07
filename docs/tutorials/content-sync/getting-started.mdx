@@ -22,23 +22,29 @@ Instead of downloading every translation, tafsir, recitation, or article again, 
 | Resource filter | The list of content your app wants to keep in sync, for example `translations:19;tafsirs:151`.               |
 | Change          | One server event telling your app what changed. The API field is called `type`.                              |
 | Full copy       | The complete current rows for one resource. The API calls this a `snapshot`.                                 |
-| Snapshot URL    | A URL returned on some changes. Fetch it to replace the full local copy for that one resource.                |
+| Snapshot URL    | A relative API path returned on some changes. Fetch it to replace the full local copy for that one resource. |
 | Sync token      | A private checkpoint returned by the API. Store it and send it next time to get only newer changes.          |
 | Sync sequence   | A server sequence number for content changes. Mutations expose this as `sequence`.                           |
 | Sync until      | The upper sequence bound for one sync run. The API field is called `sync_until_sequence`.                    |
 | Cursor          | A temporary page link. Use it only while finishing the current sync request.                                 |
 
+:::note Relative API paths
+When `next_page_url` or `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/translations/19`. You should prefix that path with `https://apis.quran.foundation/content`.
+:::
+
 ## Supported Content
 
-| Resource group | What the full copy contains                                                          | Changes included                                                                 |
-| -------------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| `translations` | Translation rows for the resource. Footnotes are nested inside each translation row. | Translation row changes and footnote-driven translation row updates.             |
-| `tafsirs`      | Tafsir rows for the resource.                                                        | Tafsir row changes.                                                              |
-| `recitations`  | Ayah audio files and chapter audio files for the recitation.                         | Ayah audio file and chapter audio file changes.                                  |
+Content Sync currently supports these resource groups: `translations`, `tafsirs`, `recitations`, and `articles`.
+
+| Resource group | What the full copy contains                                                          | Changes included                                                                    |
+| -------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `translations` | Translation rows for the resource. Footnotes are nested inside each translation row. | Translation row changes and footnote-driven translation row updates.                |
+| `tafsirs`      | Tafsir rows for the resource.                                                        | Tafsir row changes.                                                                 |
+| `recitations`  | Ayah audio files and chapter audio files for the recitation.                         | Ayah audio file and chapter audio file changes.                                     |
 | `articles`     | Visible article localizations.                                                       | Article localization changes and resource-level refresh, delete, or restore events. |
 
-:::note Recitation timing coverage
-Ayah audio file fields, including the `segments` value on an audio file row, are included when that audio file row is saved. Separate chapter-level segment rows edited through the surah segment builder are not part of the V1 public sync stream yet.
+:::note Supported groups only
+If a resource group is not listed above, it is not accepted by this sync endpoint. Continue using that resource's regular API endpoint when available.
 :::
 
 ## First Sync
@@ -92,7 +98,7 @@ During bootstrap, the link between sync and snapshots is the `RESOURCE_CREATE` m
 - Each `RESOURCE_CREATE` includes a `snapshot_url`.
 - Your app fetches each `snapshot_url` and replaces local rows for that resource.
 - Your app stores the final `next_sync_token` after all returned changes have been applied.
-- Later, your app sends that token back to `GET /resources/sync` with the same `resources` filter.
+- Later, your app sends that token back to `GET /resources/sync` with the same canonical `resources` filter.
 
 Snapshots are current when fetched. They are not pinned to the exact sequence of the change that asked you to fetch them.
 
@@ -129,12 +135,12 @@ curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SY
 
 ## Mutation Types
 
-| Type                  | Client action                                                                 |
-| --------------------- | ----------------------------------------------------------------------------- |
-| `RESOURCE_CREATE`     | Fetch `snapshot_url`, then replace all local rows for that resource.          |
-| `RESOURCE_INVALIDATE` | Fetch `snapshot_url`, then replace all local rows for that resource.          |
-| `RESOURCE_DELETE`     | Remove or hide the full local resource.                                       |
-| `RESOURCE_UPDATE`     | Keep existing rows. Treat it as a resource-level freshness marker.            |
+| Type                  | Client action                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------- |
+| `RESOURCE_CREATE`     | Fetch `snapshot_url`, then replace all local rows for that resource.                         |
+| `RESOURCE_INVALIDATE` | Fetch `snapshot_url`, then replace all local rows for that resource.                         |
+| `RESOURCE_DELETE`     | Remove or hide the full local resource.                                                      |
+| `RESOURCE_UPDATE`     | Keep existing rows. Treat it as a resource-level freshness marker.                           |
 | `ROW_CREATE`          | Upsert one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
 | `ROW_UPDATE`          | Upsert one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
 | `ROW_DELETE`          | Delete one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
