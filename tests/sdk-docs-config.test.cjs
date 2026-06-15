@@ -44,6 +44,23 @@ const getSdkDocIds = (sidebarName) => {
   return jsCategory.items.filter((item) => typeof item === 'string');
 };
 
+const getSdkCategory = (sidebarName, label) => {
+  const sharedDocsSidebar = sidebars[sidebarName];
+  assert.ok(sharedDocsSidebar, `expected ${sidebarName} to exist`);
+
+  const sdkCategory = sharedDocsSidebar.find(
+    (item) => item.type === 'category' && item.label === 'SDKs',
+  );
+  assert.ok(sdkCategory, `expected ${sidebarName} to include SDKs`);
+
+  const languageCategory = sdkCategory.items.find(
+    (item) => item.type === 'category' && item.label === label,
+  );
+  assert.ok(languageCategory, `expected ${sidebarName} to include ${label}`);
+
+  return languageCategory;
+};
+
 test('surfaces the new JavaScript SDK pages in shared sidebars', () => {
   for (const sidebarName of ['APIsSidebar', 'APIsVersionedSidebar']) {
     const sdkDocIds = getSdkDocIds(sidebarName);
@@ -59,6 +76,17 @@ test('surfaces the new JavaScript SDK pages in shared sidebars', () => {
       !sdkDocIds.includes('sdk/javascript/local-development'),
       `expected ${sidebarName} to exclude sdk/javascript/local-development`,
     );
+  }
+});
+
+test('surfaces the Python SDK page in shared sidebars', () => {
+  for (const sidebarName of ['APIsSidebar', 'APIsVersionedSidebar']) {
+    const pythonCategory = getSdkCategory(sidebarName, 'Python');
+
+    assert.deepEqual(pythonCategory.link, {
+      type: 'doc',
+      id: 'sdk/python/index',
+    });
   }
 });
 
