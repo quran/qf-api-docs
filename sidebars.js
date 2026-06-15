@@ -509,6 +509,17 @@ const buildSdkSidebarItems = () => [
       "sdk/javascript/v1-migration-guide",
     ],
   },
+  {
+    type: "category",
+    label: "Python",
+    link: {
+      type: "doc",
+      id: "sdk/python/index",
+    },
+    collapsible: true,
+    collapsed: false,
+    items: [],
+  },
 ];
 
 const contentQuickstartDocIds = [

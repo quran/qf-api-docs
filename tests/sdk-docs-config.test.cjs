@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const sidebars = require(path.join(__dirname, '..', 'sidebars.js'));
+const docusaurusConfig = require(path.join(__dirname, '..', 'docusaurus.config.js'));
 const { generateLlmsTxt } = require(path.join(
   __dirname,
   '..',
@@ -44,6 +45,23 @@ const getSdkDocIds = (sidebarName) => {
   return jsCategory.items.filter((item) => typeof item === 'string');
 };
 
+const getSdkCategory = (sidebarName, label) => {
+  const sharedDocsSidebar = sidebars[sidebarName];
+  assert.ok(sharedDocsSidebar, `expected ${sidebarName} to exist`);
+
+  const sdkCategory = sharedDocsSidebar.find(
+    (item) => item.type === 'category' && item.label === 'SDKs',
+  );
+  assert.ok(sdkCategory, `expected ${sidebarName} to include SDKs`);
+
+  const languageCategory = sdkCategory.items.find(
+    (item) => item.type === 'category' && item.label === label,
+  );
+  assert.ok(languageCategory, `expected ${sidebarName} to include ${label}`);
+
+  return languageCategory;
+};
+
 test('surfaces the new JavaScript SDK pages in shared sidebars', () => {
   for (const sidebarName of ['APIsSidebar', 'APIsVersionedSidebar']) {
     const sdkDocIds = getSdkDocIds(sidebarName);
@@ -62,8 +80,44 @@ test('surfaces the new JavaScript SDK pages in shared sidebars', () => {
   }
 });
 
+test('surfaces the Python SDK page in shared sidebars', () => {
+  for (const sidebarName of ['APIsSidebar', 'APIsVersionedSidebar']) {
+    const pythonCategory = getSdkCategory(sidebarName, 'Python');
+
+    assert.deepEqual(pythonCategory.link, {
+      type: 'doc',
+      id: 'sdk/python/index',
+    });
+  }
+});
+
+test('surfaces the Python SDK page in the top SDKs dropdown', () => {
+  const sdkDropdown = docusaurusConfig.themeConfig.navbar.items.find(
+    (item) => item.type === 'dropdown' && item.label === 'SDKs',
+  );
+
+  assert.ok(sdkDropdown, 'expected navbar to include SDKs dropdown');
+  assert.ok(
+    sdkDropdown.items.some(
+      (item) => item.label === 'Python SDK' && item.to === 'docs/sdk/python',
+    ),
+    'expected SDKs dropdown to link to the Python SDK page',
+  );
+});
+
 test('keeps maintainer-only SDK local docs out of public llms output', () => {
   const { content } = generateLlmsTxt(docsDir);
 
   assert.doesNotMatch(content, /\/docs\/sdk\/javascript\/local-development/);
+});
+
+test('places SDK docs in the neutral SDKs llms section', () => {
+  const { content } = generateLlmsTxt(docsDir);
+
+  assert.match(content, /## SDKs\n/);
+  assert.match(
+    content,
+    /\[Python SDK\]\(https:\/\/api-docs\.quran\.foundation\/docs\/sdk\/python\/\)/,
+  );
+  assert.doesNotMatch(content, /## JavaScript SDK\n/);
 });
