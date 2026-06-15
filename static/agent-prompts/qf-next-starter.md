@@ -10,8 +10,10 @@ npx @quranjs/create-app@latest my-quran-app --template next --package-manager np
 
 Requirements:
 
+- Start from the generated scaffold and preserve its API route, session, callback, refresh, and logout structure unless a project requirement explicitly needs a narrow change.
 - Use `@quranjs/api/public` in app, browser, or mobile-facing code.
 - Use `@quranjs/api/server` on the backend for Content, Search, OAuth2 token exchange, refresh, and server-side User API calls.
+- Do not replace scaffolded SDK boundaries with raw browser `fetch` calls, mixed public/server entrypoints, or hand-rolled token handling.
 - Keep `CLIENT_SECRET` server-side only.
 - Use Authorization Code with PKCE and OpenID Connect for signed-in User APIs.
 - Use Client Credentials for app-level Content and Search APIs.
@@ -29,5 +31,6 @@ Documentation to follow:
 Acceptance checks:
 
 - The app runs locally after environment variables are set.
+- The generated route/session files still route through the intended SDK entrypoints after customization.
 - Login, callback, refresh, logout, Content API reads, Search API reads, and signed-in User API calls are routed through the correct SDK entrypoints.
 - No client secret, access token, refresh token, or session secret is exposed to browser JavaScript, logs, or generated client bundles.

@@ -226,10 +226,6 @@ const config = {
                 label: "JavaScript SDK",
                 to: "docs/sdk/javascript",
               },
-              {
-                label: "Python SDK",
-                to: "docs/sdk/python",
-              },
             ],
           },
           {
@@ -314,8 +310,8 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "Discord",
-                href: "https://discord.gg/SpEeJ5bWEQ",
+                label: "Developer Contact",
+                href: "mailto:developers@quran.com",
               },
             ],
           },
