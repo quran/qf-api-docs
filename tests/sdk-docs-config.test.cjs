@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const sidebars = require(path.join(__dirname, '..', 'sidebars.js'));
+const docusaurusConfig = require(path.join(__dirname, '..', 'docusaurus.config.js'));
 const { generateLlmsTxt } = require(path.join(
   __dirname,
   '..',
@@ -88,6 +89,20 @@ test('surfaces the Python SDK page in shared sidebars', () => {
       id: 'sdk/python/index',
     });
   }
+});
+
+test('surfaces the Python SDK page in the top SDKs dropdown', () => {
+  const sdkDropdown = docusaurusConfig.themeConfig.navbar.items.find(
+    (item) => item.type === 'dropdown' && item.label === 'SDKs',
+  );
+
+  assert.ok(sdkDropdown, 'expected navbar to include SDKs dropdown');
+  assert.ok(
+    sdkDropdown.items.some(
+      (item) => item.label === 'Python SDK' && item.to === 'docs/sdk/python',
+    ),
+    'expected SDKs dropdown to link to the Python SDK page',
+  );
 });
 
 test('keeps maintainer-only SDK local docs out of public llms output', () => {
