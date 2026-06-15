@@ -310,8 +310,7 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "Developer Contact",
-                href: "mailto:developers@quran.com",
+                html: "developers@quran.com",
               },
             ],
           },

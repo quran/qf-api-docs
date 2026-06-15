@@ -141,14 +141,14 @@ test('publishes developer contact in the footer', () => {
   assert.ok(communityLinks, 'expected the Community footer section');
   assert.ok(
     communityLinks.items.some(
-      (item) =>
-        item.label === 'Developer Contact' &&
-        item.href === 'mailto:developers@quran.com',
+      (item) => item.html === 'developers@quran.com',
     ),
-    'expected the footer to include the developer contact email',
+    'expected the footer to show the developer contact email',
   );
   assert.ok(
-    !communityLinks.items.some((item) => /discord/i.test(item.label || item.href || '')),
+    !communityLinks.items.some(
+      (item) => /mailto:|discord/i.test(item.label || item.href || item.html || ''),
+    ),
     'expected the footer to avoid the Discord community link',
   );
 });
