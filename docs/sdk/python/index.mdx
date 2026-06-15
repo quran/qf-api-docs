@@ -29,23 +29,25 @@ python -m pip install quran-foundation-api
 
 ## First Call
 
-Create a `QuranClient` with your Quran Foundation `client_id`. Add `access_token` when calling endpoints that require user authentication.
+Create a `QuranClient` with your Quran Foundation `client_id` and an `access_token`. Use an app access token from the client credentials flow for Content and Search API calls. Use a user access token from the OAuth2 authorization flow for signed-in User API calls.
 
 ```python
 from quran_foundation import QuranClient
 
-with QuranClient(client_id="YOUR_CLIENT_ID", access_token="ACCESS_TOKEN") as client:
+with QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN") as client:
     chapters = client.list_chapters(language="en")
     verse = client.get_verse_by_key("2:255", translations="131")
 ```
 
-`QuranClient` adds the required `x-client-id` header, adds `x-auth-token` when an access token is configured, removes `None` query parameters, parses JSON responses, and raises SDK exceptions for failed HTTP responses.
+`QuranClient` adds the required `x-client-id` header, adds `x-auth-token` from `access_token`, removes `None` query parameters, parses JSON responses, and raises SDK exceptions for failed HTTP responses.
 
 ## Content API Helpers
 
 The SDK includes explicit helpers for common Content API reads:
 
 ```python
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
 client.get_chapter(1)
 client.get_chapter_info(1)
 client.get_verses_by_chapter(1, translations="131", words=True)
@@ -75,6 +77,8 @@ Read next:
 Use `search()` for the primary Search API. Pass advanced query parameters through `params`.
 
 ```python
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
 results = client.search(
     "mercy",
     mode="advanced",
@@ -171,7 +175,7 @@ Catch SDK exceptions around API calls:
 from quran_foundation import QuranClient
 from quran_foundation.errors import QuranAuthError, QuranHttpError
 
-client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="ACCESS_TOKEN")
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="USER_ACCESS_TOKEN")
 
 try:
     profile = client.get_profile()
