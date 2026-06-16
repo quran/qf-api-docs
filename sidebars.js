@@ -518,7 +518,20 @@ const buildSdkSidebarItems = () => [
     },
     collapsible: true,
     collapsed: false,
-    items: [],
+    items: [
+      "sdk/python/authentication",
+      "sdk/python/content",
+      "sdk/python/chapters",
+      "sdk/python/verses",
+      "sdk/python/audio",
+      "sdk/python/resources",
+      "sdk/python/answers",
+      "sdk/python/hadith-references",
+      "sdk/python/juzs",
+      "sdk/python/search",
+      "sdk/python/user-apis",
+      "sdk/python/common-errors",
+    ],
   },
 ];
 

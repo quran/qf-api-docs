@@ -1,0 +1,28 @@
+---
+title: "Chapters"
+description: "Read Quran chapters and chapter info with the Python SDK."
+---
+
+# Chapters
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
+chapters = client.list_chapters(language="en")
+chapter = client.get_chapter(1)
+chapter_info = client.get_chapter_info(1, language="en")
+```
+
+Supported helpers:
+
+- `list_chapters(language="en")`
+- `get_chapter(chapter_id)`
+- `get_chapter_info(chapter_id, language="en", resource_id=None, include_resources=None, params=None)`
+
+Read next:
+
+- [List chapters](/docs/content_apis_versioned/4.0.0/list-chapters)
+- [Get chapter](/docs/content_apis_versioned/4.0.0/get-chapter)
+- [Get chapter info](/docs/content_apis_versioned/4.0.0/get-chapter-info)

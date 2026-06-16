@@ -1,0 +1,28 @@
+---
+title: "Hadith References"
+description: "Read hadith references linked to ayat with the Python SDK."
+---
+
+# Hadith References
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
+references = client.get_hadith_references_by_ayah("12:12")
+hadiths = client.get_hadiths_by_ayah("12:12", params={"limit": 4})
+counts = client.count_hadiths_within_range("12:12", "12:13")
+```
+
+Supported helpers:
+
+- `get_hadith_references_by_ayah(verse_key, params=None)`
+- `get_hadiths_by_ayah(verse_key, params=None)`
+- `count_hadiths_within_range(from_verse_key, to_verse_key, params=None)`
+
+Read next:
+
+- [Hadith references by ayah](/docs/content_apis_versioned/4.0.0/hadith-references-by-ayah)
+- [Hadiths by ayah](/docs/content_apis_versioned/4.0.0/hadiths-by-ayah)
+- [Hadith count within range](/docs/content_apis_versioned/4.0.0/hadith-count-within-range)

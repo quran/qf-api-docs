@@ -41,150 +41,20 @@ with QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN") as
 
 `QuranClient` adds the required `x-client-id` header, adds `x-auth-token` from `access_token`, removes `None` query parameters, parses JSON responses, and raises SDK exceptions for failed HTTP responses.
 
-## Content API Helpers
+## What To Read Next
 
-The SDK includes explicit helpers for common Content API reads:
-
-```python
-client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
-
-client.get_chapter(1)
-client.get_chapter_info(1)
-client.get_verses_by_chapter(1, translations="131", words=True)
-client.get_verses_by_range("1:1", "1:7", translations="131")
-client.get_verses_by_page(1)
-client.get_random_verse()
-client.list_translations()
-client.get_translation_info(131)
-client.list_recitations()
-client.get_recitations_by_ayah(7, "2:255")
-```
-
-The current helper set covers chapters, verse lookups, juzs, resources, recitations, answers, and hadith references. For less common Content endpoints, use `content_request()` with the path from the API reference:
-
-```python
-client.content_request("/verses/by_ruku/1", params={"translations": "131"})
-```
-
-Read next:
-
-- [Content APIs](/docs/category/content-apis)
-- [Content APIs Quickstart](/docs/quickstart)
-- [API Reference](/docs/api-reference)
-
-## Search API Helpers
-
-Use `search()` for the primary Search API. Pass advanced query parameters through `params`.
-
-```python
-client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
-
-results = client.search(
-    "mercy",
-    mode="advanced",
-    params={"size": 10, "translation_ids": "131,20"},
-)
-```
-
-For raw Search API calls:
-
-```python
-client.search_request("/api/v1/search", params={"query": "fatiha", "mode": "quick"})
-```
-
-Read next:
-
-- [Search APIs](/docs/category/search-apis)
-
-## User API Helpers
-
-Signed-in User APIs require a user access token issued by the OAuth2 flow and the scopes approved for your app.
-
-```python
-client = QuranClient(
-    client_id="YOUR_CLIENT_ID",
-    access_token="USER_ACCESS_TOKEN",
-)
-
-profile = client.get_profile()
-bookmarks = client.list_bookmarks()
-client.create_bookmark({"verse_key": "2:255", "mushaf_id": 1})
-client.create_collection({"name": "Reflection notes"})
-client.update_preference({"key": "theme", "value": "dark"})
-client.add_or_update_reading_session({"chapter_number": 2, "verse_number": 255})
-```
-
-The current helper set covers profile, bookmarks, collections, preferences, reading sessions, streaks, and notes. For signed-in User endpoints without dedicated helpers, use `user_request()`:
-
-```python
-client.user_request("/bookmarks", params={"page": 1})
-```
-
-Read next:
-
-- [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart)
-- [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes)
-
-## OAuth2 Helpers
-
-Use OAuth helpers on the server side. `exchange_code()` and `refresh_token()` use `client_secret`, so they must not run in browser code.
-
-```python
-from quran_foundation.oauth import (
-    build_authorization_url,
-    create_pkce_pair,
-    exchange_code,
-    refresh_token,
-)
-
-verifier, challenge = create_pkce_pair()
-
-authorize_url = build_authorization_url(
-    client_id="YOUR_CLIENT_ID",
-    redirect_uri="https://your-app.com/callback",
-    scope="openid offline_access user bookmark",
-    state="random-state",
-    code_challenge=challenge,
-)
-
-tokens = exchange_code(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-    code="CODE_FROM_CALLBACK",
-    code_verifier=verifier,
-    redirect_uri="https://your-app.com/callback",
-)
-
-new_tokens = refresh_token(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-    refresh_token_value=tokens["refresh_token"],
-)
-```
-
-Read next:
-
-- [OAuth2 / OpenID Connect](/docs/tutorials/oidc/getting-started-with-oauth2)
-- [Client Setup](/docs/tutorials/oidc/client-setup)
-
-## Error Handling
-
-Catch SDK exceptions around API calls:
-
-```python
-from quran_foundation import QuranClient
-from quran_foundation.errors import QuranAuthError, QuranHttpError
-
-client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="USER_ACCESS_TOKEN")
-
-try:
-    profile = client.get_profile()
-except QuranHttpError as error:
-    print(error.status_code)
-    print(error.payload)
-except QuranAuthError as error:
-    print(str(error))
-```
+- [Authentication](/docs/sdk/python/authentication) - app tokens, user tokens, and OAuth2 helpers
+- [Content API Helpers](/docs/sdk/python/content) - helper coverage and raw Content endpoint calls
+- [Chapters](/docs/sdk/python/chapters)
+- [Verses](/docs/sdk/python/verses)
+- [Audio](/docs/sdk/python/audio)
+- [Resources](/docs/sdk/python/resources)
+- [Answers](/docs/sdk/python/answers)
+- [Hadith References](/docs/sdk/python/hadith-references)
+- [Juzs](/docs/sdk/python/juzs)
+- [Search](/docs/sdk/python/search)
+- [User APIs](/docs/sdk/python/user-apis)
+- [Common Errors](/docs/sdk/python/common-errors)
 
 ## Runtime Guidance
 

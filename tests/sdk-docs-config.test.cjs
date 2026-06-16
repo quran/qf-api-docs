@@ -28,6 +28,21 @@ const expectedSdkDocIds = [
   'sdk/javascript/migration-cheat-sheet',
 ];
 
+const expectedPythonSdkDocIds = [
+  'sdk/python/authentication',
+  'sdk/python/content',
+  'sdk/python/chapters',
+  'sdk/python/verses',
+  'sdk/python/audio',
+  'sdk/python/resources',
+  'sdk/python/answers',
+  'sdk/python/hadith-references',
+  'sdk/python/juzs',
+  'sdk/python/search',
+  'sdk/python/user-apis',
+  'sdk/python/common-errors',
+];
+
 const getSdkDocIds = (sidebarName) => {
   const sharedDocsSidebar = sidebars[sidebarName];
   assert.ok(sharedDocsSidebar, `expected ${sidebarName} to exist`);
@@ -88,6 +103,13 @@ test('surfaces the Python SDK page in shared sidebars', () => {
       type: 'doc',
       id: 'sdk/python/index',
     });
+
+    for (const expectedDocId of expectedPythonSdkDocIds) {
+      assert.ok(
+        pythonCategory.items.includes(expectedDocId),
+        `expected ${sidebarName} to include ${expectedDocId}`,
+      );
+    }
   }
 });
 

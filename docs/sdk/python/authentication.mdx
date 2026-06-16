@@ -1,0 +1,67 @@
+---
+title: "Authentication"
+description: "Choose the right Python SDK token flow for Content, Search, and signed-in User API calls."
+---
+
+# Authentication
+
+`QuranClient` always sends `x-client-id`. When `access_token` is set, it also sends `x-auth-token`.
+
+Use an app access token from the client credentials flow for Content and Search API calls. Use a user access token from the OAuth2 authorization flow for signed-in User API calls.
+
+```python
+from quran_foundation import QuranClient
+
+content_client = QuranClient(
+    client_id="YOUR_CLIENT_ID",
+    access_token="APP_ACCESS_TOKEN",
+)
+
+user_client = QuranClient(
+    client_id="YOUR_CLIENT_ID",
+    access_token="USER_ACCESS_TOKEN",
+)
+```
+
+## OAuth2 Helpers
+
+Use OAuth helpers only from trusted server-side code. `exchange_code()` and `refresh_token()` use `client_secret`.
+
+```python
+from quran_foundation.oauth import (
+    build_authorization_url,
+    create_pkce_pair,
+    exchange_code,
+    refresh_token,
+)
+
+verifier, challenge = create_pkce_pair()
+
+authorize_url = build_authorization_url(
+    client_id="YOUR_CLIENT_ID",
+    redirect_uri="https://your-app.com/callback",
+    scope="openid offline_access user bookmark",
+    state="random-state",
+    code_challenge=challenge,
+)
+
+tokens = exchange_code(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+    code="CODE_FROM_CALLBACK",
+    code_verifier=verifier,
+    redirect_uri="https://your-app.com/callback",
+)
+
+new_tokens = refresh_token(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+    refresh_token_value=tokens["refresh_token"],
+)
+```
+
+Read next:
+
+- [OAuth2 / OpenID Connect](/docs/tutorials/oidc/getting-started-with-oauth2)
+- [Client Setup](/docs/tutorials/oidc/client-setup)
+- [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes)

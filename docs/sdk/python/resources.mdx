@@ -1,0 +1,41 @@
+---
+title: "Resources"
+description: "List translations, tafsirs, recitations, languages, and syncable resources with the Python SDK."
+---
+
+# Resources
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
+translations = client.list_translations()
+translation_info = client.get_translation_info(131)
+recitations = client.list_recitations()
+snapshot = client.get_resource_snapshot("translations", 131)
+```
+
+Supported helpers:
+
+- `list_recitations(params=None)`
+- `get_recitation_info(recitation_id, params=None)`
+- `list_translations(params=None)`
+- `get_translation_info(translation_id, params=None)`
+- `list_tafsirs(params=None)`
+- `get_tafsir_info(tafsir_id, params=None)`
+- `list_languages(params=None)`
+- `list_chapter_infos(params=None)`
+- `list_chapter_reciters(params=None)`
+- `list_recitation_styles(params=None)`
+- `list_verse_media(params=None)`
+- `sync_resources(params=None)`
+- `get_resource_snapshot(resource_group, resource_id, params=None)`
+
+Read next:
+
+- [Resources sync](/docs/content_apis_versioned/4.0.0/resources-sync)
+- [Resources snapshot](/docs/content_apis_versioned/4.0.0/resources-snapshot)
+- [Translations](/docs/content_apis_versioned/4.0.0/translations)
+- [Tafsirs](/docs/content_apis_versioned/4.0.0/tafsirs)
+- [Recitations](/docs/content_apis_versioned/4.0.0/recitations)

@@ -1,0 +1,25 @@
+---
+title: "Juzs"
+description: "Read juz metadata with the Python SDK."
+---
+
+# Juzs
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
+juzs = client.list_juzs()
+juz = client.get_juz(1)
+```
+
+Supported helpers:
+
+- `list_juzs()`
+- `get_juz(juz_id)`
+
+Read next:
+
+- [List juzs](/docs/content_apis_versioned/4.0.0/list-juzs)
+- [Get juz](/docs/content_apis_versioned/4.0.0/get-juz)
