@@ -1,0 +1,94 @@
+---
+title: "AI Agent Prompts"
+description: "Use deterministic Quran Foundation prompts with Codex, Claude Code, Cursor, and terminal coding agents."
+sidebar_label: "AI Agent Prompts"
+displayed_sidebar: "APIsSidebar"
+---
+
+export const staticAssetHref = (href) => href;
+
+# AI Agent Prompts
+
+Use this page when an AI coding agent needs to scaffold a Quran Foundation app, integrate an official SDK, implement OAuth2/User APIs, or review an existing integration. Each prompt tells the agent which official command, SDK entrypoint, docs page, endpoint family, and verification checks to use before it writes code.
+
+## Start With The CLI
+
+For new apps, use the official scaffold:
+
+```bash
+npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
+```
+
+For SvelteKit:
+
+```bash
+npx @quranjs/create-app@latest my-quran-app --template sveltekit --package-manager npm --install --git --sdk-source npm --yes
+```
+
+Agents can fetch version-matched guidance from the CLI:
+
+```bash
+npx @quranjs/create-app@latest skills list
+npx @quranjs/create-app@latest skills get quranjs
+npx @quranjs/create-app@latest skills get oauth
+```
+
+Review existing apps with:
+
+```bash
+npx @quranjs/create-app@latest doctor
+```
+
+## Deterministic Agent Rules
+
+- Start from the official scaffold or SDK docs before hand-writing integration code.
+- Read generated `AGENTS.md` and CLI skill output before editing scaffolded auth, session, callback, refresh, or logout files.
+- Map every API call to an official docs page or OpenAPI path before implementing it.
+- Use SDK helpers first. Use raw request escape hatches only when the SDK has no dedicated helper, and record the documented endpoint path, auth type, parameters, and scopes.
+- Run the prompt's acceptance checks and report any skipped checks with the reason.
+
+## Safe SDK Boundary
+
+- Use `@quranjs/create-app` for new apps.
+- Use `@quranjs/api` for existing JS/TS apps.
+- Use `quran-foundation-api` for trusted server-side Python apps, scripts, jobs, notebooks, and AI workflows.
+- Use `@quranjs/api/public` only for browser-safe OAuth initiation.
+- Use `@quranjs/api/server` for token exchange, refresh, Content APIs, Search APIs, and signed-in User APIs.
+- Never expose `CLIENT_SECRET`, `SESSION_SECRET`, access tokens, or refresh tokens to browser code.
+- Keep app-level Content/Search tokens separate from signed-in user session tokens.
+- Do not call signed-in User APIs without a valid user session.
+- Do not bypass OIDC logout.
+
+## Prompt Registry
+
+- <a href={staticAssetHref("/.well-known/agent-prompts/index.json")}>Prompt registry JSON</a>
+- <a href={staticAssetHref("/agent-prompts/qf-next-starter.md")}>Next.js starter prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-sveltekit-starter.md")}>SvelteKit starter prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-js-sdk-integration.md")}>JS SDK integration prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-python-sdk-integration.md")}>Python SDK integration prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-oauth-user-apis.md")}>OAuth/User APIs prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-review-existing-integration.md")}>Review existing integration prompt</a>
+
+## Agent Notes
+
+For Codex, prefer the CLI skills and the future Quran Foundation Codex plugin when it is available. Until the plugin is published, paste one of the prompt files above into the thread or run `skills get quranjs`.
+
+For Claude Code, Cursor, and terminal agents, paste the relevant prompt file and keep the generated app's `AGENTS.md` in context before editing routes or session code.
+
+For all agents, require verification commands before finalizing changes. The generated starters list framework-specific checks in `AGENTS.md`.
+
+## Review Checklist
+
+- Confirm the app uses the correct SDK entrypoint for each runtime.
+- Confirm secrets and tokens are not in browser files, public config, logs, or rendered HTML.
+- Confirm OAuth callback, refresh, and logout are server-side.
+- Confirm OIDC logout is preserved.
+- Confirm signed-in User API calls require a valid user session.
+- Confirm response handling covers success variations and common error status codes.
+
+## References
+
+- [Starter with NPX](/docs/tutorials/oidc/starter-with-npx/)
+- [JavaScript SDK](/docs/sdk/javascript/)
+- [User APIs quickstart](/docs/tutorials/oidc/user-apis-quickstart/)
+- [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2/)

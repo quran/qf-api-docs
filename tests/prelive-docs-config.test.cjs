@@ -133,6 +133,26 @@ test('adds pre-live user-related docs to navigation and sidebars', () => {
   );
 });
 
+test('publishes developer contact in the footer', () => {
+  const communityLinks = config.themeConfig.footer.links.find(
+    (section) => section.title === 'Community',
+  );
+
+  assert.ok(communityLinks, 'expected the Community footer section');
+  assert.ok(
+    communityLinks.items.some(
+      (item) => item.html === 'developers@quran.com',
+    ),
+    'expected the footer to show the developer contact email',
+  );
+  assert.ok(
+    !communityLinks.items.some(
+      (item) => /mailto:|discord/i.test(item.label || item.href || item.html || ''),
+    ),
+    'expected the footer to avoid the Discord community link',
+  );
+});
+
 test('publishes both production and pre-live user-related raw spec links', () => {
   const { content } = generateLlmsTxt(docsDir);
 

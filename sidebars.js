@@ -626,6 +626,11 @@ const makeSharedDocsSidebar = (apiFamilies) => [
   },
   {
     type: "doc",
+    id: "ai-agents/index",
+    label: "AI Agent Prompts",
+  },
+  {
+    type: "doc",
     id: "tutorials/oidc/user-apis-quickstart",
     label: "User APIs Quickstart",
   },

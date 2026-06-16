@@ -22,6 +22,50 @@
       "sdkEntrypoints": ["@quranjs/api/public", "@quranjs/api/server"],
       "docsUrl": "https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/",
       "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-sveltekit-starter.md"
+    },
+    {
+      "id": "QF_JS_SDK_INTEGRATION_PROMPT_V1",
+      "title": "Integrate the Quran Foundation JavaScript SDK safely",
+      "description": "Add @quranjs/api to an existing JS/TS app while preserving public/server runtime boundaries and secret handling.",
+      "targetStack": "JavaScript / TypeScript",
+      "status": "recommended",
+      "command": "npm install @quranjs/api",
+      "sdkEntrypoints": ["@quranjs/api/public", "@quranjs/api/server"],
+      "docsUrl": "https://api-docs.quran.foundation/docs/sdk/javascript/",
+      "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-js-sdk-integration.md"
+    },
+    {
+      "id": "QF_PYTHON_SDK_INTEGRATION_PROMPT_V1",
+      "title": "Integrate the Quran Foundation Python SDK safely",
+      "description": "Add quran-foundation-api to a trusted server-side Python app, script, job, notebook, or AI workflow while preserving token boundaries and documented endpoint usage.",
+      "targetStack": "Python",
+      "status": "preview",
+      "command": "git clone https://github.com/quran/api-python.git && cd api-python && python -m pip install -e .",
+      "sdkEntrypoints": ["quran_foundation.QuranClient"],
+      "docsUrl": "https://api-docs.quran.foundation/docs/sdk/python/",
+      "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-python-sdk-integration.md"
+    },
+    {
+      "id": "QF_OAUTH_USER_APIS_PROMPT_V1",
+      "title": "Implement OAuth2 and signed-in User APIs",
+      "description": "Build a secure OAuth2/OIDC user session flow and call Quran Foundation User APIs from server routes.",
+      "targetStack": "Web backend",
+      "status": "recommended",
+      "command": "npx @quranjs/create-app@latest skills get oauth",
+      "sdkEntrypoints": ["@quranjs/api/public", "@quranjs/api/server"],
+      "docsUrl": "https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/",
+      "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-oauth-user-apis.md"
+    },
+    {
+      "id": "QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1",
+      "title": "Review an existing Quran Foundation integration",
+      "description": "Audit SDK entrypoints, secret exposure, OAuth2 routes, token separation, OIDC logout, and response handling.",
+      "targetStack": "Existing integration",
+      "status": "recommended",
+      "command": "npx @quranjs/create-app@latest doctor",
+      "sdkEntrypoints": ["@quranjs/api/public", "@quranjs/api/server"],
+      "docsUrl": "https://api-docs.quran.foundation/docs/ai-agents/",
+      "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-review-existing-integration.md"
     }
   ]
 }

@@ -7,6 +7,8 @@ sidebar_position: 1
 
 import AgentPromptCallout from "@site/src/components/AgentPromptCallout";
 
+export const staticAssetHref = (href) => href;
+
 # JavaScript SDK
 
 Purpose: Choose the correct SDK entrypoint before you write code.
@@ -231,8 +233,8 @@ Canonical prompt ID: QF_NPX_STARTER_PROMPT_V1
 
 The copyable prompt above is published as `QF_NPX_STARTER_PROMPT_V1`:
 
-- <a href="/agent-prompts/qf-next-starter.md">Raw prompt</a>
-- <a href="/.well-known/agent-prompts/index.json">Prompt registry</a>
+- <a href={staticAssetHref("/agent-prompts/qf-next-starter.md")}>Raw prompt</a>
+- <a href={staticAssetHref("/.well-known/agent-prompts/index.json")}>Prompt registry</a>
 
 ## Read Next
 

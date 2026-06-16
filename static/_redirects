@@ -2,6 +2,16 @@
 
 # https://developers.cloudflare.com/pages/platform/redirects/
 
+# Docusaurus appends trailing slashes when rendering links to these static
+# prompt assets from MDX. Keep those rendered links from serving the HTML 404.
+/.well-known/agent-prompts/index.json/ /.well-known/agent-prompts/index.json 301
+/agent-prompts/qf-next-starter.md/ /agent-prompts/qf-next-starter.md 301
+/agent-prompts/qf-sveltekit-starter.md/ /agent-prompts/qf-sveltekit-starter.md 301
+/agent-prompts/qf-js-sdk-integration.md/ /agent-prompts/qf-js-sdk-integration.md 301
+/agent-prompts/qf-python-sdk-integration.md/ /agent-prompts/qf-python-sdk-integration.md 301
+/agent-prompts/qf-oauth-user-apis.md/ /agent-prompts/qf-oauth-user-apis.md 301
+/agent-prompts/qf-review-existing-integration.md/ /agent-prompts/qf-review-existing-integration.md 301
+
 # Redirect trailing slashes to non-trailing slash URLs (optional)
 
 # Uncomment if you want to enforce no trailing slashes:
