@@ -90,12 +90,21 @@ test('agent prompt hub links prompt assets on the same deployment', () => {
   const promptHubPage = fs.readFileSync(path.join(repoRoot, 'docs', 'ai-agents', 'index.mdx'), 'utf8');
 
   assert.doesNotMatch(promptHubPage, /https:\/\/api-docs\.quran\.foundation\/agent-prompts\//);
+  assert.doesNotMatch(promptHubPage, /href="\/(?:\.well-known\/agent-prompts|agent-prompts)\//);
   assert.doesNotMatch(promptHubPage, /\]\(\/agent-prompts\/[^)]+\.md\)/);
-  assert.match(promptHubPage, /href="\/\.well-known\/agent-prompts\/index\.json"/);
-  assert.match(promptHubPage, /href="\/agent-prompts\/qf-js-sdk-integration\.md"/);
-  assert.match(promptHubPage, /href="\/agent-prompts\/qf-python-sdk-integration\.md"/);
-  assert.match(promptHubPage, /href="\/agent-prompts\/qf-oauth-user-apis\.md"/);
-  assert.match(promptHubPage, /href="\/agent-prompts\/qf-review-existing-integration\.md"/);
+  assert.match(promptHubPage, /href=\{staticAssetHref\("\/\.well-known\/agent-prompts\/index\.json"\)\}/);
+  assert.match(promptHubPage, /href=\{staticAssetHref\("\/agent-prompts\/qf-js-sdk-integration\.md"\)\}/);
+  assert.match(promptHubPage, /href=\{staticAssetHref\("\/agent-prompts\/qf-python-sdk-integration\.md"\)\}/);
+  assert.match(promptHubPage, /href=\{staticAssetHref\("\/agent-prompts\/qf-oauth-user-apis\.md"\)\}/);
+  assert.match(promptHubPage, /href=\{staticAssetHref\("\/agent-prompts\/qf-review-existing-integration\.md"\)\}/);
+});
+
+test('JavaScript SDK prompt links avoid trailing-slash rewrites', () => {
+  const sdkPage = fs.readFileSync(path.join(repoRoot, 'docs', 'sdk', 'javascript', 'index.mdx'), 'utf8');
+
+  assert.doesNotMatch(sdkPage, /href="\/(?:\.well-known\/agent-prompts|agent-prompts)\//);
+  assert.match(sdkPage, /href=\{staticAssetHref\("\/agent-prompts\/qf-next-starter\.md"\)\}/);
+  assert.match(sdkPage, /href=\{staticAssetHref\("\/\.well-known\/agent-prompts\/index\.json"\)\}/);
 });
 
 test('redirects rendered slash prompt asset links to static files', () => {

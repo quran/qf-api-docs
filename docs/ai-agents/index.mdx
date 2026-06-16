@@ -5,6 +5,8 @@ sidebar_label: "AI Agent Prompts"
 displayed_sidebar: "APIsSidebar"
 ---
 
+export const staticAssetHref = (href) => href;
+
 # AI Agent Prompts
 
 Use this page when an AI coding agent needs to scaffold a Quran Foundation app, integrate an official SDK, implement OAuth2/User APIs, or review an existing integration. Each prompt tells the agent which official command, SDK entrypoint, docs page, endpoint family, and verification checks to use before it writes code.
@@ -59,13 +61,13 @@ npx @quranjs/create-app@latest doctor
 
 ## Prompt Registry
 
-- <a href="/.well-known/agent-prompts/index.json">Prompt registry JSON</a>
-- <a href="/agent-prompts/qf-next-starter.md">Next.js starter prompt</a>
-- <a href="/agent-prompts/qf-sveltekit-starter.md">SvelteKit starter prompt</a>
-- <a href="/agent-prompts/qf-js-sdk-integration.md">JS SDK integration prompt</a>
-- <a href="/agent-prompts/qf-python-sdk-integration.md">Python SDK integration prompt</a>
-- <a href="/agent-prompts/qf-oauth-user-apis.md">OAuth/User APIs prompt</a>
-- <a href="/agent-prompts/qf-review-existing-integration.md">Review existing integration prompt</a>
+- <a href={staticAssetHref("/.well-known/agent-prompts/index.json")}>Prompt registry JSON</a>
+- <a href={staticAssetHref("/agent-prompts/qf-next-starter.md")}>Next.js starter prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-sveltekit-starter.md")}>SvelteKit starter prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-js-sdk-integration.md")}>JS SDK integration prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-python-sdk-integration.md")}>Python SDK integration prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-oauth-user-apis.md")}>OAuth/User APIs prompt</a>
+- <a href={staticAssetHref("/agent-prompts/qf-review-existing-integration.md")}>Review existing integration prompt</a>
 
 ## Agent Notes
 
