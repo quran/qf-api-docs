@@ -8,9 +8,11 @@ const sidebars = require(path.join(repoRoot, 'sidebars.js'));
 const promptIndex = JSON.parse(
   fs.readFileSync(path.join(repoRoot, 'static', '.well-known', 'agent-prompts', 'index.json'), 'utf8'),
 );
+const redirects = fs.readFileSync(path.join(repoRoot, 'static', '_redirects'), 'utf8');
 
 const readPrompt = (filename) =>
   fs.readFileSync(path.join(repoRoot, 'static', 'agent-prompts', filename), 'utf8');
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 test('publishes scaffold, SDK, OAuth, and review agent prompts', () => {
   const ids = new Set(promptIndex.prompts.map((prompt) => prompt.id));
@@ -94,4 +96,21 @@ test('agent prompt hub links prompt assets on the same deployment', () => {
   assert.match(promptHubPage, /href="\/agent-prompts\/qf-python-sdk-integration\.md"/);
   assert.match(promptHubPage, /href="\/agent-prompts\/qf-oauth-user-apis\.md"/);
   assert.match(promptHubPage, /href="\/agent-prompts\/qf-review-existing-integration\.md"/);
+});
+
+test('redirects rendered slash prompt asset links to static files', () => {
+  assert.match(
+    redirects,
+    /^\/\.well-known\/agent-prompts\/index\.json\/ \/\.well-known\/agent-prompts\/index\.json 301$/m,
+  );
+
+  for (const prompt of promptIndex.prompts) {
+    const promptAsset = new URL(prompt.promptUrl).pathname;
+    const redirectPattern = new RegExp(
+      `^${escapeRegExp(`${promptAsset}/ ${promptAsset} 301`)}$`,
+      'm',
+    );
+
+    assert.match(redirects, redirectPattern, `expected slash redirect for ${promptAsset}`);
+  }
 });
