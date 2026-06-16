@@ -1,6 +1,6 @@
 ---
 name: quran-foundation-api-docs
-description: Use Quran Foundation docs and tutorials to choose the correct API family, authentication flow, endpoint, font rendering approach, request-access prerequisite, and official references for content, search, OAuth2/OIDC, user-related, and Quran Reflect integrations.
+description: Use Quran Foundation docs and tutorials to choose the correct API family, authentication flow, endpoint, SDK, font rendering approach, request-access prerequisite, and official references for content, search, OAuth2/OIDC, user-related, and Quran Reflect integrations.
 ---
 
 # Quran Foundation API Docs
@@ -12,7 +12,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - The user needs font rendering or Mushaf page-layout guidance.
 - The user needs OAuth2 or OIDC setup guidance across web or mobile platforms.
 - The user needs onboarding details such as client provisioning or Request Access.
-- The user wants to scaffold a Quran Foundation app, choose the official JavaScript SDK runtime entrypoint, or use a copyable implementation prompt.
+- The user wants to scaffold a Quran Foundation app, choose the official JavaScript or Python SDK path, or use a copyable implementation prompt.
 - The task involves Quran Reflect or quranreflect.com features backed by Quran Foundation APIs.
 - The user wants links to official documentation or OpenAPI specifications.
 
@@ -46,6 +46,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - Developer Journey: `https://api-docs.quran.foundation/docs/developer-journey/`
 - API Reference: `https://api-docs.quran.foundation/docs/api-reference/`
 - JavaScript SDK: `https://api-docs.quran.foundation/docs/sdk/javascript/`
+- Python SDK: `https://api-docs.quran.foundation/docs/sdk/python/`
 - Starter With NPX: `https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/`
 - User APIs OIDC quickstart: `https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/`
 - OAuth2 getting started: `https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/`
@@ -76,6 +77,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - If multiple endpoints could fit, explain the best match and mention the alternative only if it materially changes implementation.
 - If the user asks for sample code, keep it aligned with documented auth and base URL expectations.
 - For JavaScript or TypeScript apps, prefer the official SDK and choose the runtime entrypoint explicitly: `@quranjs/api/public` for app/browser/mobile-facing OAuth helpers and `@quranjs/api/server` for backend Content, Search, token exchange, refresh, and server-side User API calls.
+- For Python apps, scripts, jobs, notebooks, or AI workflows, prefer the official Python SDK. Use `QuranClient` from trusted server-side environments, app access tokens for Content/Search APIs, and user access tokens for signed-in User APIs.
 - For new Next.js apps, route the user to the official scaffold and prompt before hand-writing OAuth2 plumbing.
 
 ## Fast Routing Hints
@@ -88,6 +90,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - "Where should I start, what path should I follow, developer journey" -> Developer Journey
 - "API reference, endpoint lookup, endpoint docs, all APIs" -> API Reference first, then the exact API family page
 - "JavaScript SDK, TypeScript SDK, server/public imports, runtime split" -> JavaScript SDK docs
+- "Python SDK, Python client, quran-foundation-api, scripts, notebooks, AI workflows" -> Python SDK docs
 - "Web login flow, PKCE, callback, mobile auth, redirect URIs" -> OIDC tutorial pages plus OAuth2 APIs
 - "Fonts, glyph codes, Mushaf pages, script rendering, Tajweed display" -> Font rendering and page-layout tutorials plus relevant content endpoints
 - "Quran Reflect feed, post, comment, like, save, room, or community behavior" -> User-related posts and rooms docs, and content feed/read docs where applicable
