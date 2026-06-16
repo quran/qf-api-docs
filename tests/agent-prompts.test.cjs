@@ -83,3 +83,13 @@ test('labels the shared sidebar prompt hub clearly', () => {
   assert.ok(promptHub, 'expected shared API sidebar to include the agent prompt hub');
   assert.equal(promptHub.label, 'AI Agent Prompts');
 });
+
+test('agent prompt hub links prompt assets on the same deployment', () => {
+  const promptHubPage = fs.readFileSync(path.join(repoRoot, 'docs', 'ai-agents', 'index.mdx'), 'utf8');
+
+  assert.doesNotMatch(promptHubPage, /https:\/\/api-docs\.quran\.foundation\/agent-prompts\//);
+  assert.match(promptHubPage, /\]\(\/agent-prompts\/qf-js-sdk-integration\.md\)/);
+  assert.match(promptHubPage, /\]\(\/agent-prompts\/qf-python-sdk-integration\.md\)/);
+  assert.match(promptHubPage, /\]\(\/agent-prompts\/qf-oauth-user-apis\.md\)/);
+  assert.match(promptHubPage, /\]\(\/agent-prompts\/qf-review-existing-integration\.md\)/);
+});
