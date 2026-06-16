@@ -92,12 +92,15 @@ const getSdkCategory = (sidebarName, label) => {
 
 const getDocTitle = (docId) => {
   const docPath = path.join(docsDir, `${docId}.mdx`);
-  const content = fs.readFileSync(docPath, 'utf8');
+  const content = getDocContent(docId);
   const titleMatch = content.match(/^title:\s+"([^"]+)"/m);
 
   assert.ok(titleMatch, `expected ${docId} to have a title`);
   return titleMatch[1];
 };
+
+const getDocContent = (docId) =>
+  fs.readFileSync(path.join(docsDir, `${docId}.mdx`), 'utf8');
 
 test('surfaces the new JavaScript SDK pages in shared sidebars', () => {
   for (const sidebarName of ['APIsSidebar', 'APIsVersionedSidebar']) {
@@ -132,6 +135,31 @@ test('surfaces the Python SDK page in shared sidebars', () => {
         `expected ${sidebarName} to include ${expectedDocId}`,
       );
     }
+  }
+});
+
+test('documents the released Python SDK package install path', () => {
+  const sdkIndex = getDocContent('sdk/index');
+  const pythonIndex = getDocContent('sdk/python/index');
+
+  assert.match(
+    sdkIndex,
+    /\| \*\*Python\*\*\s+\| \[`quran-foundation-api`\]\(\/docs\/sdk\/python\)\s+\| Available \|/,
+  );
+  assert.match(pythonIndex, /https:\/\/pypi\.org\/project\/quran-foundation-api\//);
+  assert.match(pythonIndex, /python -m pip install quran-foundation-api/);
+
+  for (const staleText of [
+    'preview package',
+    'Preview SDK',
+    'Until the package is released on PyPI',
+    'after the SDK PR is merged',
+    'python -m pip install -e .',
+  ]) {
+    assert.doesNotMatch(
+      `${sdkIndex}\n${pythonIndex}`,
+      new RegExp(staleText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'),
+    );
   }
 });
 
