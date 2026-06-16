@@ -509,6 +509,30 @@ const buildSdkSidebarItems = () => [
       "sdk/javascript/v1-migration-guide",
     ],
   },
+  {
+    type: "category",
+    label: "Python",
+    link: {
+      type: "doc",
+      id: "sdk/python/index",
+    },
+    collapsible: true,
+    collapsed: false,
+    items: [
+      "sdk/python/authentication",
+      "sdk/python/content",
+      "sdk/python/chapters",
+      "sdk/python/verses",
+      "sdk/python/audio",
+      "sdk/python/resources",
+      "sdk/python/answers",
+      "sdk/python/hadith-references",
+      "sdk/python/juzs",
+      "sdk/python/search",
+      "sdk/python/user-apis",
+      "sdk/python/common-errors",
+    ],
+  },
 ];
 
 const contentQuickstartDocIds = [

@@ -1,0 +1,31 @@
+---
+title: "Content API Helpers"
+description: "Use Python SDK helpers for Content API reads and service-scoped raw calls."
+---
+
+# Content API Helpers
+
+Use an app access token for Content API calls.
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+```
+
+The Python SDK includes explicit helpers for chapters, verses, juzs, resources, audio, answers, and hadith references. For Content endpoints without a dedicated helper, use `content_request()` with the path from the API reference.
+
+```python
+client.content_request("/verses/by_ruku/1", params={"translations": "131"})
+```
+
+Read next:
+
+- [Chapters API](/docs/sdk/python/chapters)
+- [Verses API](/docs/sdk/python/verses)
+- [Audio API](/docs/sdk/python/audio)
+- [Resources API](/docs/sdk/python/resources)
+- [Answers API](/docs/sdk/python/answers)
+- [Hadith References API](/docs/sdk/python/hadith-references)
+- [Juzs API](/docs/sdk/python/juzs)
+- [Content APIs](/docs/category/content-apis)

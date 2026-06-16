@@ -226,6 +226,10 @@ const config = {
                 label: "JavaScript SDK",
                 to: "docs/sdk/javascript",
               },
+              {
+                label: "Python SDK",
+                to: "docs/sdk/python",
+              },
             ],
           },
           {

@@ -1,0 +1,45 @@
+---
+title: "User APIs"
+description: "Call signed-in User APIs with the Python SDK."
+---
+
+# User APIs
+
+Signed-in User APIs require a user access token issued by the OAuth2 flow and the scopes approved for your app.
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(
+    client_id="YOUR_CLIENT_ID",
+    access_token="USER_ACCESS_TOKEN",
+)
+
+profile = client.get_profile()
+bookmarks = client.list_bookmarks()
+client.create_bookmark({"verse_key": "2:255", "mushaf_id": 1})
+client.create_collection({"name": "Reflection notes"})
+client.update_preference({"key": "theme", "value": "dark"})
+client.add_or_update_reading_session({"chapter_number": 2, "verse_number": 255})
+```
+
+Supported helper groups:
+
+- Profile: `get_profile()`, `update_profile(profile, replace=False)`
+- Bookmarks: `list_bookmarks()`, `create_bookmark()`, `delete_bookmark()`, `get_bookmark()`, `list_bookmarks_within_range()`, `list_bookmark_collections()`
+- Collections: `list_collections()`, `list_all_collections()`, `create_collection()`, `get_collection()`, `update_collection()`, `delete_collection()`, `add_collection_bookmark()`, `delete_collection_bookmark()`
+- Preferences: `get_preferences()`, `update_preference()`, `bulk_update_preferences()`
+- Reading sessions: `list_reading_sessions()`, `add_or_update_reading_session()`
+- Streaks: `get_streaks()`, `get_current_streak_days()`
+- Notes: `list_notes()`, `create_note()`, `get_note()`, `update_note()`, `delete_note()`, `publish_note()`, `list_notes_by_verse()`, `list_notes_by_attached_entity()`, `list_notes_by_range()`, `count_notes_within_range()`
+
+For signed-in User endpoints without dedicated helpers, use `user_request()`:
+
+```python
+client.user_request("/bookmarks", params={"page": 1})
+```
+
+Read next:
+
+- [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart)
+- [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes)

@@ -44,7 +44,7 @@ function canonicalApiDocPath(rel) {
 
 const SECTION_ORDER = [
   'Getting Started',
-  'JavaScript SDK',
+  'SDKs',
   'Content APIs v4',
   'User APIs v1',
   'User APIs v1 (Pre-live)',
@@ -168,7 +168,7 @@ function getSection(relpath) {
   if (relpath.startsWith('oauth2_apis_versioned/')) return 'OAuth2 APIs v1';
   if (relpath.startsWith('search_apis_versioned/')) return 'Search APIs v1';
   if (relpath.startsWith('tutorials/')) return 'Tutorials';
-  if (relpath.startsWith('sdk/')) return 'JavaScript SDK';
+  if (relpath.startsWith('sdk/')) return 'SDKs';
   return 'Getting Started';
 }
 

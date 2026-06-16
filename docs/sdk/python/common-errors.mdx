@@ -1,0 +1,41 @@
+---
+title: "Common Errors"
+description: "Handle Python SDK HTTP and authentication errors."
+---
+
+# Common Errors
+
+Catch SDK exceptions around API calls:
+
+```python
+from quran_foundation import QuranClient
+from quran_foundation.errors import QuranAuthError, QuranHttpError
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="USER_ACCESS_TOKEN")
+
+try:
+    profile = client.get_profile()
+except QuranHttpError as error:
+    print(error.status_code)
+    print(error.payload)
+except QuranAuthError as error:
+    print(str(error))
+```
+
+## Missing Or Wrong Token
+
+Content and Search APIs require an app access token. User APIs require a user access token. If `access_token` is missing, `QuranClient` cannot send `x-auth-token`.
+
+## Wrong Runtime
+
+The Python SDK is intended for server-side Python code. Do not use it in browser-side code or public notebook output where credentials can leak.
+
+## Raw Endpoint Calls
+
+Use service request helpers to avoid hard-coding base URLs:
+
+```python
+client.content_request("/chapters", params={"language": "en"})
+client.search_request("/api/v1/search", params={"query": "mercy"})
+client.user_request("/bookmarks", params={"page": 1})
+```

@@ -1,0 +1,37 @@
+---
+title: "Verses API"
+description: "Read verses by key, range, chapter, page, juz, hizb, rub, manzil, ruku, or random selection with the Python SDK."
+---
+
+# Verses API
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
+verse = client.get_verse_by_key("2:255", translations="131")
+range_result = client.get_verses_by_range("1:1", "1:7", translations="131")
+chapter = client.get_verses_by_chapter(1, words=True)
+page = client.get_verses_by_page(1)
+random_verse = client.get_random_verse()
+```
+
+Supported helpers:
+
+- `get_verse_by_key(verse_key, translations="131", words=False, params=None)`
+- `get_verses_by_range(from_verse_key, to_verse_key, translations="131", words=False, params=None)`
+- `get_verses_by_chapter(chapter_id, translations="131", words=False, params=None)`
+- `get_verses_by_page(page_number, translations="131", words=False, params=None)`
+- `get_verses_by_juz(juz_number, translations="131", words=False, params=None)`
+- `get_verses_by_hizb(hizb_number, translations="131", words=False, params=None)`
+- `get_verses_by_rub(rub_el_hizb_number, translations="131", words=False, params=None)`
+- `get_verses_by_manzil(manzil_number, translations="131", words=False, params=None)`
+- `get_verses_by_ruku(ruku_number, translations="131", words=False, params=None)`
+- `get_random_verse(translations="131", words=False, params=None)`
+
+Read next:
+
+- [Verses by chapter](/docs/content_apis_versioned/4.0.0/verses-by-chapter-number)
+- [Verses by key](/docs/content_apis_versioned/4.0.0/verses-by-verse-key)
+- [Verses by range](/docs/content_apis_versioned/4.0.0/verses-by-range)
