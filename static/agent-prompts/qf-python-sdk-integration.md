@@ -5,15 +5,7 @@ Integrate the Quran Foundation Python SDK into a trusted server-side Python app,
 Requirements:
 
 - Use the official Python SDK package `quran-foundation-api`, imported as `quran_foundation`.
-- Until the package is released on PyPI, install from the source repository after the SDK PR is merged:
-
-```bash
-git clone https://github.com/quran/api-python.git
-cd api-python
-python -m pip install -e .
-```
-
-- After the official PyPI release, install with:
+- Install the released package from PyPI:
 
 ```bash
 python -m pip install quran-foundation-api
