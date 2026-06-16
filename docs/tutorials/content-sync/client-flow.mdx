@@ -13,7 +13,7 @@ This is the recommended end-to-end flow for a client that stores public content 
 
 ```mermaid
 flowchart TD
-    A["Choose resources filter"] --> B{"Has stored sync token for this exact filter?"}
+    A["Choose resources filter"] --> B{"Has stored sync token for this canonical filter?"}
     B -->|"No"| C["Call /resources/sync with bootstrap=true"]
     B -->|"Yes"| D["Call /resources/sync with sync_token"]
     C --> E["Process returned changes"]
@@ -25,7 +25,7 @@ flowchart TD
     H --> I["Sync complete"]
 ```
 
-Store one sync token per canonical resource filter. Do not reuse a token for a different filter.
+Store one sync token per canonical resource filter. Do not reuse a token for a different filter. The API canonicalizes resource filters by group and ID; duplicate IDs are deduped and IDs are sorted before a token is created.
 
 ## Applying Changes
 
@@ -83,12 +83,12 @@ Only the final page has the token your app should store for the next sync.
 
 ## Token Rules
 
-| Rule                                             | Why it matters                                                      |
-| ------------------------------------------------ | ------------------------------------------------------------------- |
-| Store the token after the final page only.       | Earlier pages do not represent a complete sync.                     |
-| Store the token with the exact resource filter.  | Tokens are bound to the filter they were created for.               |
-| Replace the old token after each completed sync. | The latest token is your new checkpoint.                            |
-| If token recovery fails, bootstrap again.        | A fresh bootstrap rebuilds local state from current public content. |
+| Rule                                                | Why it matters                                                      |
+| --------------------------------------------------- | ------------------------------------------------------------------- |
+| Store the token after the final page only.          | Earlier pages do not represent a complete sync.                     |
+| Store the token with the canonical resource filter. | Tokens are bound to the normalized filter they were created for.    |
+| Replace the old token after each completed sync.    | The latest token is your new checkpoint.                            |
+| If token recovery fails, bootstrap again.           | A fresh bootstrap rebuilds local state from current public content. |
 
 ## Minimal Local State
 
@@ -107,5 +107,7 @@ interface LocalContentRow {
   data: Record<string, unknown>;
 }
 ```
+
+The current sync contract accepts only `articles`, `recitations`, `tafsirs`, and `translations` as resource groups.
 
 For the full schema, see [Sync public content resources](/docs/content_apis_versioned/resources-sync/).

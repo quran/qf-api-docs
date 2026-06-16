@@ -1,0 +1,35 @@
+---
+title: "Search API"
+description: "Search Quran Foundation content with the Python SDK."
+---
+
+# Search API
+
+Use an app access token for Search API calls.
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
+results = client.search(
+    "mercy",
+    mode="advanced",
+    params={"size": 10, "translation_ids": "131,20"},
+)
+```
+
+For raw Search API calls:
+
+```python
+client.search_request("/api/v1/search", params={"query": "fatiha", "mode": "quick"})
+```
+
+Supported helpers:
+
+- `search(query, mode="quick", params=None)`
+- `search_request(path, method="GET", params=None, json=None)`
+
+Read next:
+
+- [Search APIs](/docs/category/search-apis)

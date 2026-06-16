@@ -80,7 +80,7 @@ stateDiagram-v2
 | `resync_required`          | Token or cursor cannot be used.                           | Discard local token and bootstrap this resource filter again.     |
 | `token_filter_mismatch`    | The token belongs to a different resource filter.         | Use the matching filter or bootstrap the new filter.              |
 | `cursor_filter_mismatch`   | The cursor belongs to a different resource filter.        | Continue with the original `next_page_url`, or restart the sync.  |
-| `cursor_per_page_mismatch` | The cursor was used with a different `per_page`.          | Use `next_page_url` exactly as returned.                          |
+| `cursor_per_page_mismatch` | The cursor was used with a different `per_page`.          | Use the returned `next_page_url` path without changing `per_page`. |
 | `snapshot_not_found`       | The resource full copy is not public or no longer exists. | Treat the resource as unavailable locally, then continue syncing. |
 
 ## Re-Bootstrap Flow

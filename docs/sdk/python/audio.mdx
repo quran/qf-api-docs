@@ -1,0 +1,27 @@
+---
+title: "Audio API"
+description: "Read chapter and ayah recitation audio metadata with the Python SDK."
+---
+
+# Audio API
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
+
+chapter_audio = client.get_chapter_recitation(reciter_id=7, chapter_number=1)
+ayah_audio = client.get_recitations_by_ayah(recitation_id=7, verse_key="2:255")
+```
+
+Supported helpers:
+
+- `list_chapter_recitations(reciter_id, params=None)`
+- `get_chapter_recitation(reciter_id, chapter_number, params=None)`
+- `get_recitations_by_chapter(recitation_id, chapter_number, params=None)`
+- `get_recitations_by_ayah(recitation_id, verse_key, params=None)`
+
+Read next:
+
+- [Chapter reciter audio files](/docs/content_apis_versioned/4.0.0/chapter-reciter-audio-files)
+- [Recitation audio files](/docs/content_apis_versioned/4.0.0/recitation-audio-files)

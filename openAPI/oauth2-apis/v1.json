@@ -301,7 +301,32 @@
             "description": "Successful token exchange",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/oAuth2TokenExchange" }
+                "schema": { "$ref": "#/components/schemas/oAuth2TokenExchange" },
+                "examples": {
+                  "authorization_code": {
+                    "summary": "Authorization code exchange with OIDC and refresh token scopes",
+                    "value": {
+                      "access_token": "qf_access_token_example",
+                      "expires_in": 3600,
+                      "id_token": "qf_id_token_example",
+                      "refresh_token": "qf_refresh_token_example",
+                      "scope": "openid offline_access collection bookmark reading_session preference user",
+                      "token_type": "bearer",
+                      "expires_at": "2026-04-02T01:00:00.000Z"
+                    }
+                  },
+                  "refresh_token": {
+                    "summary": "Refresh token exchange returning a renewed access token",
+                    "value": {
+                      "access_token": "qf_renewed_access_token_example",
+                      "expires_in": 3600,
+                      "refresh_token": "qf_rotated_refresh_token_example",
+                      "scope": "openid offline_access collection bookmark reading_session preference user",
+                      "token_type": "bearer",
+                      "expires_at": "2026-04-02T02:00:00.000Z"
+                    }
+                  }
+                }
               }
             }
           },
@@ -309,7 +334,25 @@
             "description": "Bad request or invalid grant",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" },
+                "examples": {
+                  "invalid_grant": {
+                    "summary": "Authorization code is invalid, expired, or already used",
+                    "value": {
+                      "error": "invalid_grant",
+                      "error_description": "The authorization grant is invalid, expired, or has already been used.",
+                      "status_code": 400
+                    }
+                  },
+                  "invalid_request": {
+                    "summary": "Required token request parameter is missing or malformed",
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "The request is missing a required parameter.",
+                      "status_code": 400
+                    }
+                  }
+                }
               }
             }
           },
@@ -317,7 +360,17 @@
             "description": "Unauthorized - invalid client credentials",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" },
+                "examples": {
+                  "invalid_client": {
+                    "summary": "Client authentication failed",
+                    "value": {
+                      "error": "invalid_client",
+                      "error_description": "Client authentication failed.",
+                      "status_code": 401
+                    }
+                  }
+                }
               }
             }
           }
@@ -358,6 +411,30 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/introspectedOAuth2Token"
+                },
+                "examples": {
+                  "active_token": {
+                    "summary": "Active user access token",
+                    "value": {
+                      "active": true,
+                      "scope": "openid offline_access collection bookmark reading_session preference user",
+                      "client_id": "quran-demo",
+                      "sub": "a4f5a01a-a641-4b23-ba05-d002b704bfaa",
+                      "exp": 1770000000,
+                      "iat": 1769996400,
+                      "nbf": 1769996400,
+                      "aud": [],
+                      "iss": "https://oauth2.quran.foundation/",
+                      "token_type": "Bearer",
+                      "token_use": "access_token"
+                    }
+                  },
+                  "inactive_token": {
+                    "summary": "Inactive, expired, or revoked token",
+                    "value": {
+                      "active": false
+                    }
+                  }
                 }
               }
             }
@@ -366,7 +443,17 @@
             "description": "Bad request",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" },
+                "examples": {
+                  "invalid_request": {
+                    "summary": "Token parameter is missing or malformed",
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "The token parameter is required.",
+                      "status_code": 400
+                    }
+                  }
+                }
               }
             }
           },
@@ -374,7 +461,17 @@
             "description": "Unauthorized - invalid client credentials",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" },
+                "examples": {
+                  "invalid_client": {
+                    "summary": "Client is not allowed to introspect this token",
+                    "value": {
+                      "error": "invalid_client",
+                      "error_description": "Client authentication failed.",
+                      "status_code": 401
+                    }
+                  }
+                }
               }
             }
           }
@@ -453,7 +550,26 @@
             "description": "Bad request",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" },
+                "examples": {
+                  "invalid_request": {
+                    "summary": "Authorization request is missing a required parameter",
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "The request is missing a required parameter.",
+                      "status_code": 400
+                    }
+                  },
+                  "invalid_redirect_uri": {
+                    "summary": "Redirect URI is not registered for the client",
+                    "value": {
+                      "error": "invalid_request",
+                      "error_hint": "The redirect URL is not allowed.",
+                      "error_description": "The requested redirect_uri is not allowed for this client.",
+                      "status_code": 400
+                    }
+                  }
+                }
               }
             }
           }
@@ -472,7 +588,17 @@
             "description": "Successful retrieval of user information",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/oidcUserInfo" }
+                "schema": { "$ref": "#/components/schemas/oidcUserInfo" },
+                "examples": {
+                  "authenticated_user": {
+                    "summary": "Signed-in user profile from an OIDC access token",
+                    "value": {
+                      "email": "john.doe@example.com",
+                      "first_name": "John",
+                      "last_name": "Doe"
+                    }
+                  }
+                }
               }
             }
           },
@@ -480,7 +606,17 @@
             "description": "Unauthorized - invalid or expired access token",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/errorOAuth2" }
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" },
+                "examples": {
+                  "invalid_token": {
+                    "summary": "Missing, expired, or invalid bearer token",
+                    "value": {
+                      "error": "invalid_token",
+                      "error_description": "The access token is invalid or expired.",
+                      "status_code": 401
+                    }
+                  }
+                }
               }
             }
           }

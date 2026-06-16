@@ -1,0 +1,65 @@
+---
+title: "Python SDK"
+description: "Use the Quran Foundation Python SDK from server-side Python apps, scripts, jobs, and AI workflows."
+slug: /sdk/python
+sidebar_position: 2
+---
+
+# Python SDK
+
+The Python SDK is a preview package for server-side Python applications, scripts, jobs, notebooks, and AI workflows. It imports as `quran_foundation` and uses the package name `quran-foundation-api`.
+
+Use it from trusted server-side environments. Do not expose `client_secret`, access tokens, or refresh tokens in browser code, mobile bundles, public notebooks, logs, or generated client-side code.
+
+## Installation
+
+Until the package is released on PyPI, install it from the source repository after the SDK PR is merged:
+
+```bash
+git clone https://github.com/quran/api-python.git
+cd api-python
+python -m pip install -e .
+```
+
+After the official PyPI release:
+
+```bash
+python -m pip install quran-foundation-api
+```
+
+## First Call
+
+Create a `QuranClient` with your Quran Foundation `client_id` and an `access_token`. Use an app access token from the client credentials flow for Content and Search API calls. Use a user access token from the OAuth2 authorization flow for signed-in User API calls.
+
+```python
+from quran_foundation import QuranClient
+
+with QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN") as client:
+    chapters = client.list_chapters(language="en")
+    verse = client.get_verse_by_key("2:255", translations="131")
+```
+
+`QuranClient` adds the required `x-client-id` header, adds `x-auth-token` from `access_token`, removes `None` query parameters, parses JSON responses, and raises SDK exceptions for failed HTTP responses.
+
+## What To Read Next
+
+- [Authentication](/docs/sdk/python/authentication) - app tokens, user tokens, and OAuth2 helpers
+- [Content API Helpers](/docs/sdk/python/content) - helper coverage and raw Content endpoint calls
+- [Chapters API](/docs/sdk/python/chapters)
+- [Verses API](/docs/sdk/python/verses)
+- [Audio API](/docs/sdk/python/audio)
+- [Resources API](/docs/sdk/python/resources)
+- [Answers API](/docs/sdk/python/answers)
+- [Hadith References API](/docs/sdk/python/hadith-references)
+- [Juzs API](/docs/sdk/python/juzs)
+- [Search API](/docs/sdk/python/search)
+- [User APIs](/docs/sdk/python/user-apis)
+- [Common Errors](/docs/sdk/python/common-errors)
+
+## Runtime Guidance
+
+- Use the Python SDK from trusted server-side environments.
+- Keep `client_secret`, access tokens, and refresh tokens out of frontend and mobile code.
+- Use environment variables or a secret manager for credentials.
+- Use [manual authentication](/docs/quickstart/manual-authentication) when you want to inspect the raw token flow.
+- Use the [JavaScript SDK](/docs/sdk/javascript) when you are building in Node.js, browser apps, or TypeScript-first full-stack applications.
