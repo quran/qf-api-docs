@@ -42,9 +42,8 @@ test('publishes scaffold, SDK, OAuth, and review agent prompts', () => {
     (prompt) => prompt.id === 'QF_PYTHON_SDK_INTEGRATION_PROMPT_V1',
   );
   assert.ok(pythonPrompt, 'expected Python SDK integration prompt to be registered');
-  assert.equal(pythonPrompt.status, 'preview');
-  assert.match(pythonPrompt.command, /api-python/);
-  assert.match(pythonPrompt.command, /pip install -e \./);
+  assert.equal(pythonPrompt.status, 'available');
+  assert.equal(pythonPrompt.command, 'python -m pip install quran-foundation-api');
   assert.equal(pythonPrompt.promptUrl, 'https://api-docs.quran.foundation/agent-prompts/qf-python-sdk-integration.md');
 });
 
@@ -72,9 +71,13 @@ test('prompts constrain agents to official commands, docs, SDK boundaries, and c
 
   const pythonPrompt = readPrompt('qf-python-sdk-integration.md');
   assert.match(pythonPrompt, /quran-foundation-api/);
+  assert.match(pythonPrompt, /python -m pip install quran-foundation-api/);
   assert.match(pythonPrompt, /from quran_foundation import QuranClient/);
   assert.match(pythonPrompt, /Content\/Search calls use an app access token/);
   assert.match(pythonPrompt, /Run live smoke checks only with approved credentials/);
+  assert.doesNotMatch(pythonPrompt, /api-python/);
+  assert.doesNotMatch(pythonPrompt, /git clone/);
+  assert.doesNotMatch(pythonPrompt, /pip install -e \./);
 });
 
 test('labels the shared sidebar prompt hub clearly', () => {
