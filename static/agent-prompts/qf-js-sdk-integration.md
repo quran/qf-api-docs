@@ -4,6 +4,7 @@ Integrate the Quran Foundation JavaScript SDK into an existing JS/TS app without
 
 Requirements:
 
+- If this is a new app, stop and use the official scaffold prompt instead of hand-writing OAuth/session plumbing.
 - Install and use `@quranjs/api`.
 - Use `@quranjs/api/public` only for browser-safe OAuth initiation.
 - Use `@quranjs/api/server` for token exchange, refresh, Content APIs, Search APIs, and signed-in User APIs.
@@ -11,6 +12,9 @@ Requirements:
 - Keep app-level Content/Search tokens separate from signed-in user session tokens.
 - Do not call signed-in User APIs unless the user has a valid session.
 - Do not bypass OIDC logout.
+- Before adding or changing any API call, identify the official docs page or OpenAPI path, auth type, required scopes, request parameters, and success/error response shape.
+- Use SDK helpers first. Use raw endpoint calls only when there is no SDK helper, and keep those calls on the server.
+- Produce a short implementation note that lists each API call, SDK entrypoint, endpoint family, auth type, and verification command.
 
 Implementation checklist:
 
@@ -20,6 +24,8 @@ Implementation checklist:
 - Store signed-in user session state server-side or in secure `httpOnly` cookies.
 - Add `.env.example` entries for required variables without real values.
 - Add tests or smoke checks for login, callback, refresh, logout, and at least one API call.
+- Confirm no `@quranjs/api/server` import is reachable from browser/client bundles.
+- Confirm no signed-in User API route can run without a valid user session.
 
 Documentation to follow:
 
@@ -27,3 +33,4 @@ Documentation to follow:
 - Entrypoint matrix: https://api-docs.quran.foundation/docs/sdk/javascript/entrypoint-matrix/
 - APIs by runtime: https://api-docs.quran.foundation/docs/sdk/javascript/apis-by-runtime/
 - Common errors: https://api-docs.quran.foundation/docs/sdk/javascript/common-errors/
+- API Reference: https://api-docs.quran.foundation/docs/api-reference/

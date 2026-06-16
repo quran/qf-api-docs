@@ -45,6 +45,7 @@ function canonicalApiDocPath(rel) {
 const SECTION_ORDER = [
   'Getting Started',
   'JavaScript SDK',
+  'Python SDK',
   'Content APIs v4',
   'User APIs v1',
   'User APIs v1 (Pre-live)',
@@ -68,6 +69,12 @@ const URL_PRIORITY = [
   `${BASE_URL}/docs/sdk/javascript/full-stack/`,
   `${BASE_URL}/docs/sdk/javascript/common-errors/`,
   `${BASE_URL}/docs/sdk/javascript/migration-cheat-sheet/`,
+  `${BASE_URL}/docs/sdk/python/`,
+  `${BASE_URL}/docs/sdk/python/authentication/`,
+  `${BASE_URL}/docs/sdk/python/content/`,
+  `${BASE_URL}/docs/sdk/python/search/`,
+  `${BASE_URL}/docs/sdk/python/user-apis/`,
+  `${BASE_URL}/docs/sdk/python/common-errors/`,
   `${BASE_URL}/docs/tutorials/oidc/user-apis-quickstart/`,
   `${BASE_URL}/docs/tutorials/oidc/getting-started-with-oauth2/`,
 ].map(canonicalDocsUrl);
@@ -93,6 +100,7 @@ const OPENAPI_HEADER = [
   '- [QF_NPX_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md): Copyable prompt for the official Next.js starter app',
   '- [QF_SVELTEKIT_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-sveltekit-starter.md): Copyable prompt for the official SvelteKit starter app',
   '- [QF_JS_SDK_INTEGRATION_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-js-sdk-integration.md): Copyable prompt for integrating @quranjs/api in an existing JavaScript or TypeScript app',
+  '- [QF_PYTHON_SDK_INTEGRATION_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-python-sdk-integration.md): Copyable prompt for integrating quran-foundation-api in a trusted Python app, script, job, notebook, or AI workflow',
   '- [QF_OAUTH_USER_APIS_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-oauth-user-apis.md): Copyable prompt for OAuth2/OIDC and signed-in User API flows',
   '- [QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-review-existing-integration.md): Copyable prompt for auditing an existing Quran Foundation integration',
   '- [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog',
@@ -100,6 +108,7 @@ const OPENAPI_HEADER = [
   '- [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User APIs, OAuth2, and pre-live endpoint references',
   '- [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold',
   '- [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code',
+  '- [Python SDK](https://api-docs.quran.foundation/docs/sdk/python/): Server-side Python SDK guidance for apps, scripts, jobs, notebooks, and AI workflows',
   '',
 ].join('\n');
 
@@ -172,6 +181,8 @@ function getSection(relpath) {
   if (relpath.startsWith('oauth2_apis_versioned/')) return 'OAuth2 APIs v1';
   if (relpath.startsWith('search_apis_versioned/')) return 'Search APIs v1';
   if (relpath.startsWith('tutorials/')) return 'Tutorials';
+  if (relpath.startsWith('sdk/python/')) return 'Python SDK';
+  if (relpath.startsWith('sdk/javascript/')) return 'JavaScript SDK';
   if (relpath.startsWith('sdk/')) return 'JavaScript SDK';
   return 'Getting Started';
 }

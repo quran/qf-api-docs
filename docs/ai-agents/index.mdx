@@ -1,13 +1,13 @@
 ---
-title: "AI Agents"
-description: "Use Quran Foundation safely with Codex, Claude Code, Cursor, and terminal coding agents."
-sidebar_label: "AI Agents"
+title: "AI Agent Prompts"
+description: "Use deterministic Quran Foundation prompts with Codex, Claude Code, Cursor, and terminal coding agents."
+sidebar_label: "AI Agent Prompts"
 displayed_sidebar: "APIsSidebar"
 ---
 
-# AI Agents
+# AI Agent Prompts
 
-Use this page when an AI coding agent needs to scaffold a Quran Foundation app, integrate the JavaScript SDK, implement OAuth2/User APIs, or review an existing integration.
+Use this page when an AI coding agent needs to scaffold a Quran Foundation app, integrate an official SDK, implement OAuth2/User APIs, or review an existing integration. Each prompt tells the agent which official command, SDK entrypoint, docs page, endpoint family, and verification checks to use before it writes code.
 
 ## Start With The CLI
 
@@ -37,10 +37,19 @@ Review existing apps with:
 npx @quranjs/create-app@latest doctor
 ```
 
+## Deterministic Agent Rules
+
+- Start from the official scaffold or SDK docs before hand-writing integration code.
+- Read generated `AGENTS.md` and CLI skill output before editing scaffolded auth, session, callback, refresh, or logout files.
+- Map every API call to an official docs page or OpenAPI path before implementing it.
+- Use SDK helpers first. Use raw request escape hatches only when the SDK has no dedicated helper, and record the documented endpoint path, auth type, parameters, and scopes.
+- Run the prompt's acceptance checks and report any skipped checks with the reason.
+
 ## Safe SDK Boundary
 
 - Use `@quranjs/create-app` for new apps.
 - Use `@quranjs/api` for existing JS/TS apps.
+- Use `quran-foundation-api` for trusted server-side Python apps, scripts, jobs, notebooks, and AI workflows.
 - Use `@quranjs/api/public` only for browser-safe OAuth initiation.
 - Use `@quranjs/api/server` for token exchange, refresh, Content APIs, Search APIs, and signed-in User APIs.
 - Never expose `CLIENT_SECRET`, `SESSION_SECRET`, access tokens, or refresh tokens to browser code.
@@ -54,6 +63,7 @@ npx @quranjs/create-app@latest doctor
 - [Next.js starter prompt](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md)
 - [SvelteKit starter prompt](https://api-docs.quran.foundation/agent-prompts/qf-sveltekit-starter.md)
 - [JS SDK integration prompt](https://api-docs.quran.foundation/agent-prompts/qf-js-sdk-integration.md)
+- [Python SDK integration prompt](https://api-docs.quran.foundation/agent-prompts/qf-python-sdk-integration.md)
 - [OAuth/User APIs prompt](https://api-docs.quran.foundation/agent-prompts/qf-oauth-user-apis.md)
 - [Review existing integration prompt](https://api-docs.quran.foundation/agent-prompts/qf-review-existing-integration.md)
 
@@ -78,5 +88,6 @@ For all agents, require verification commands before finalizing changes. The gen
 
 - [Starter with NPX](/docs/tutorials/oidc/starter-with-npx/)
 - [JavaScript SDK](/docs/sdk/javascript/)
+- [Python SDK](https://api-docs.quran.foundation/docs/sdk/python/)
 - [User APIs quickstart](/docs/tutorials/oidc/user-apis-quickstart/)
 - [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2/)

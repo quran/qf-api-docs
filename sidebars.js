@@ -603,7 +603,7 @@ const makeSharedDocsSidebar = (apiFamilies) => [
   {
     type: "doc",
     id: "ai-agents/index",
-    label: "AI Agents",
+    label: "AI Agent Prompts",
   },
   {
     type: "doc",

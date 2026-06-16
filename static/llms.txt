@@ -15,6 +15,7 @@
 - [QF_NPX_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md): Copyable prompt for the official Next.js starter app
 - [QF_SVELTEKIT_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-sveltekit-starter.md): Copyable prompt for the official SvelteKit starter app
 - [QF_JS_SDK_INTEGRATION_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-js-sdk-integration.md): Copyable prompt for integrating @quranjs/api in an existing JavaScript or TypeScript app
+- [QF_PYTHON_SDK_INTEGRATION_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-python-sdk-integration.md): Copyable prompt for integrating quran-foundation-api in a trusted Python app, script, job, notebook, or AI workflow
 - [QF_OAUTH_USER_APIS_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-oauth-user-apis.md): Copyable prompt for OAuth2/OIDC and signed-in User API flows
 - [QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-review-existing-integration.md): Copyable prompt for auditing an existing Quran Foundation integration
 - [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog
@@ -22,11 +23,12 @@
 - [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User APIs, OAuth2, and pre-live endpoint references
 - [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold
 - [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code
+- [Python SDK](https://api-docs.quran.foundation/docs/sdk/python/): Server-side Python SDK guidance for apps, scripts, jobs, notebooks, and AI workflows
 
 ## Getting Started
 
 - [📢 API Updates](https://api-docs.quran.foundation/docs/updates/)
-- [AI Agents](https://api-docs.quran.foundation/docs/ai-agents/)
+- [AI Agent Prompts](https://api-docs.quran.foundation/docs/ai-agents/)
 - [Field Reference](https://api-docs.quran.foundation/docs/api/field-reference/)
 - [First Content API Call](https://api-docs.quran.foundation/docs/quickstart/first-api-call/)
 - [Manual Authentication for Content APIs](https://api-docs.quran.foundation/docs/quickstart/manual-authentication/)

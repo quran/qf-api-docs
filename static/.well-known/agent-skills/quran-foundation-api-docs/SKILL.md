@@ -45,12 +45,14 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - Next.js starter prompt: `https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md`
 - SvelteKit starter prompt: `https://api-docs.quran.foundation/agent-prompts/qf-sveltekit-starter.md`
 - JS SDK integration prompt: `https://api-docs.quran.foundation/agent-prompts/qf-js-sdk-integration.md`
+- Python SDK integration prompt: `https://api-docs.quran.foundation/agent-prompts/qf-python-sdk-integration.md`
 - OAuth/User APIs prompt: `https://api-docs.quran.foundation/agent-prompts/qf-oauth-user-apis.md`
 - Review existing integration prompt: `https://api-docs.quran.foundation/agent-prompts/qf-review-existing-integration.md`
-- AI Agents: `https://api-docs.quran.foundation/docs/ai-agents/`
+- AI Agent Prompts: `https://api-docs.quran.foundation/docs/ai-agents/`
 - Developer Journey: `https://api-docs.quran.foundation/docs/developer-journey/`
 - API Reference: `https://api-docs.quran.foundation/docs/api-reference/`
 - JavaScript SDK: `https://api-docs.quran.foundation/docs/sdk/javascript/`
+- Python SDK: `https://api-docs.quran.foundation/docs/sdk/python/`
 - Starter With NPX: `https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/`
 - User APIs OIDC quickstart: `https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/`
 - OAuth2 getting started: `https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/`
@@ -81,6 +83,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - If multiple endpoints could fit, explain the best match and mention the alternative only if it materially changes implementation.
 - If the user asks for sample code, keep it aligned with documented auth and base URL expectations.
 - For JavaScript or TypeScript apps, prefer the official SDK and choose the runtime entrypoint explicitly: `@quranjs/api/public` for app/browser/mobile-facing OAuth helpers and `@quranjs/api/server` for backend Content, Search, token exchange, refresh, and server-side User API calls.
+- For Python apps, scripts, jobs, notebooks, and AI workflows, prefer the official `quran-foundation-api` package from trusted server-side environments, keep credentials out of rendered output and logs, and choose app tokens for Content/Search versus user tokens for signed-in User APIs explicitly.
 - For new Next.js apps, route the user to the official scaffold and prompt before hand-writing OAuth2 plumbing.
 - For SvelteKit apps, route the user to the official `--template sveltekit` scaffold and prompt before hand-writing OAuth2 plumbing.
 - For response-shape questions, prefer exact endpoint schemas and documented status-code behavior to explain common success and error variations.
@@ -94,6 +97,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - "Create a Quran app, starter app, scaffold, copy prompt, AI prompt, build with agents" -> Starter With NPX plus QF_NPX_STARTER_PROMPT_V1
 - "SvelteKit starter, SvelteKit scaffold" -> Starter With NPX plus QF_SVELTEKIT_STARTER_PROMPT_V1
 - "Existing JS SDK integration, add @quranjs/api" -> JavaScript SDK docs plus QF_JS_SDK_INTEGRATION_PROMPT_V1
+- "Python SDK, Python client, quran_foundation, quran-foundation-api, AI workflow in Python" -> Python SDK docs plus QF_PYTHON_SDK_INTEGRATION_PROMPT_V1
 - "Review an integration, check mistakes, secret exposure, SDK boundary" -> QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1 plus exact endpoint schemas
 - "Where should I start, what path should I follow, developer journey" -> Developer Journey
 - "API reference, endpoint lookup, endpoint docs, all APIs" -> API Reference first, then the exact API family page

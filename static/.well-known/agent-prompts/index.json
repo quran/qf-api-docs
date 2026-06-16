@@ -35,6 +35,17 @@
       "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-js-sdk-integration.md"
     },
     {
+      "id": "QF_PYTHON_SDK_INTEGRATION_PROMPT_V1",
+      "title": "Integrate the Quran Foundation Python SDK safely",
+      "description": "Add quran-foundation-api to a trusted server-side Python app, script, job, notebook, or AI workflow while preserving token boundaries and documented endpoint usage.",
+      "targetStack": "Python",
+      "status": "preview",
+      "command": "git clone https://github.com/quran/api-python.git && cd api-python && python -m pip install -e .",
+      "sdkEntrypoints": ["quran_foundation.QuranClient"],
+      "docsUrl": "https://api-docs.quran.foundation/docs/sdk/python/",
+      "promptUrl": "https://api-docs.quran.foundation/agent-prompts/qf-python-sdk-integration.md"
+    },
+    {
       "id": "QF_OAUTH_USER_APIS_PROMPT_V1",
       "title": "Implement OAuth2 and signed-in User APIs",
       "description": "Build a secure OAuth2/OIDC user session flow and call Quran Foundation User APIs from server routes.",
