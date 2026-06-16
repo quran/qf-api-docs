@@ -7,21 +7,13 @@ sidebar_position: 2
 
 # Python SDK
 
-The Python SDK is a preview package for server-side Python applications, scripts, jobs, notebooks, and AI workflows. It imports as `quran_foundation` and uses the package name `quran-foundation-api`.
+The Python SDK is the official package for server-side Python applications, scripts, jobs, notebooks, and AI workflows. It is published on PyPI as [`quran-foundation-api`](https://pypi.org/project/quran-foundation-api/) and imports as `quran_foundation`.
 
 Use it from trusted server-side environments. Do not expose `client_secret`, access tokens, or refresh tokens in browser code, mobile bundles, public notebooks, logs, or generated client-side code.
 
 ## Installation
 
-Until the package is released on PyPI, install it from the source repository after the SDK PR is merged:
-
-```bash
-git clone https://github.com/quran/api-python.git
-cd api-python
-python -m pip install -e .
-```
-
-After the official PyPI release:
+Install the released package from PyPI:
 
 ```bash
 python -m pip install quran-foundation-api
