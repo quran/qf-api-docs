@@ -1,5 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const path = require('node:path');
 
 const sidebars = require(path.join(__dirname, '..', 'sidebars.js'));
@@ -12,6 +13,18 @@ const { generateLlmsTxt } = require(path.join(
 ));
 
 const docsDir = path.join(__dirname, '..', 'docs');
+
+const commonSdkDocSlugs = [
+  'answers',
+  'audio',
+  'chapters',
+  'common-errors',
+  'hadith-references',
+  'juzs',
+  'resources',
+  'search',
+  'verses',
+];
 
 const expectedSdkDocIds = [
   'sdk/javascript/app-shapes',
@@ -77,6 +90,15 @@ const getSdkCategory = (sidebarName, label) => {
   return languageCategory;
 };
 
+const getDocTitle = (docId) => {
+  const docPath = path.join(docsDir, `${docId}.mdx`);
+  const content = fs.readFileSync(docPath, 'utf8');
+  const titleMatch = content.match(/^title:\s+"([^"]+)"/m);
+
+  assert.ok(titleMatch, `expected ${docId} to have a title`);
+  return titleMatch[1];
+};
+
 test('surfaces the new JavaScript SDK pages in shared sidebars', () => {
   for (const sidebarName of ['APIsSidebar', 'APIsVersionedSidebar']) {
     const sdkDocIds = getSdkDocIds(sidebarName);
@@ -110,6 +132,16 @@ test('surfaces the Python SDK page in shared sidebars', () => {
         `expected ${sidebarName} to include ${expectedDocId}`,
       );
     }
+  }
+});
+
+test('keeps common Python SDK page titles aligned with JavaScript SDK titles', () => {
+  for (const slug of commonSdkDocSlugs) {
+    assert.equal(
+      getDocTitle(`sdk/python/${slug}`),
+      getDocTitle(`sdk/javascript/${slug}`),
+      `expected sdk/python/${slug} title to match sdk/javascript/${slug}`,
+    );
   }
 });
 
