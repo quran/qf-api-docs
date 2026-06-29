@@ -5,6 +5,8 @@ sidebar_label: "Connected Apps"
 displayed_sidebar: "APIsSidebar"
 ---
 
+import Link from '@docusaurus/Link';
+
 # Connected Apps
 
 <div className="connectedAppsDoc">
@@ -20,9 +22,9 @@ displayed_sidebar: "APIsSidebar"
       and does not mean.
     </p>
     <div className="connectedAppsHeroActions">
-      <a className="connectedAppsPrimaryLink" href="/request-access">
+      <Link className="connectedAppsPrimaryLink" to="/request-access">
         Request access
-      </a>
+      </Link>
       <a className="connectedAppsSecondaryLink" href="#listing-package">
         Review listing checklist
       </a>
@@ -89,8 +91,8 @@ steps, not as one automatic approval.
     <p className="connectedAppsCardKicker">Build</p>
     <h3>Developer access and API use</h3>
     <p>
-      Start with <a href="/request-access">Request Access</a> and the
-      <a href="/docs/developer-journey/"> Developer Journey</a>. Protected APIs,
+      Start with <Link to="/request-access">Request Access</Link> and the
+      <Link to="/docs/developer-journey/"> Developer Journey</Link>. Protected APIs,
       OAuth clients, redirect URIs, and user-data scopes require review before
       production use.
     </p>
@@ -435,19 +437,19 @@ related but separate.
     <p className="connectedAppsCardKicker">New integration</p>
     <h3>Request access</h3>
     <p>Get credentials, redirect URI review, and scope guidance before implementation.</p>
-    <a href="/request-access">Open Request Access</a>
+    <Link to="/request-access">Open Request Access</Link>
   </article>
   <article className="connectedAppsCard">
     <p className="connectedAppsCardKicker">Choosing APIs</p>
     <h3>Developer Journey</h3>
     <p>Choose Content APIs, Search APIs, User APIs, OAuth2, or SDK docs by app shape.</p>
-    <a href="/docs/developer-journey/">Open Developer Journey</a>
+    <Link to="/docs/developer-journey/">Open Developer Journey</Link>
   </article>
   <article className="connectedAppsCard">
     <p className="connectedAppsCardKicker">Signed-in apps</p>
     <h3>User APIs Quickstart</h3>
     <p>Build OAuth-backed bookmarks, notes, reading sessions, goals, and preferences.</p>
-    <a href="/docs/tutorials/oidc/user-apis-quickstart/">Open User APIs Quickstart</a>
+    <Link to="/docs/tutorials/oidc/user-apis-quickstart/">Open User APIs Quickstart</Link>
   </article>
 </div>
 

@@ -11,6 +11,7 @@ const customCss = fs.readFileSync(
   path.join(repoRoot, 'src', 'css', 'custom.css'),
   'utf8',
 );
+const packageJson = require(path.join(repoRoot, 'package.json'));
 const sidebars = require(path.join(repoRoot, 'sidebars.js'));
 const docusaurusConfig = require(path.join(repoRoot, 'docusaurus.config.js'));
 const { generateLlmsTxt } = require(path.join(
@@ -81,6 +82,19 @@ test('documents the core Connected Apps production concepts', () => {
   }
 });
 
+test('uses Docusaurus Link for internal Connected Apps routes', () => {
+  assert.match(doc, /import Link from '@docusaurus\/Link';/);
+  assert.doesNotMatch(
+    doc,
+    /<a\s+[^>]*href="\//,
+    'internal routes in MDX JSX blocks should use Docusaurus Link',
+  );
+  assert.match(doc, /<Link className="connectedAppsPrimaryLink" to="\/request-access">/);
+  assert.match(doc, /<Link to="\/docs\/developer-journey\/">/);
+  assert.match(doc, /href="#listing-package"/);
+  assert.match(doc, /href="https:\/\/quran\.com\/apps"/);
+});
+
 test('surfaces Connected Apps in navbar and shared sidebars', () => {
   const navbarItems = docusaurusConfig.themeConfig.navbar.items;
   const updatesIndex = navbarItems.findIndex(
@@ -128,8 +142,17 @@ test('includes Connected Apps in generated llms.txt discovery', () => {
 
 test('keeps Connected Apps styling scoped, theme-token based, and responsive', () => {
   assert.match(customCss, /\.connectedAppsDoc\s*{/);
+  assert.doesNotMatch(customCss, /--connected-apps-muted/);
   assert.match(customCss, /var\(--connected-apps-border, var\(--qf-border-card\)\)/);
   assert.match(customCss, /var\(--connected-apps-soft, rgba\(62, 193, 201, 0\.08\)\)/);
   assert.match(customCss, /@media screen and \(max-width: 760px\)[\s\S]*\.connectedAppsGridTwo,\s*\.connectedAppsGridThree\s*{\s*grid-template-columns: 1fr;/);
   assert.match(customCss, /@media screen and \(max-width: 760px\)[\s\S]*\.connectedAppsPrimaryLink,\s*\.connectedAppsSecondaryLink\s*{\s*width: 100%;/);
+});
+
+test('uses the cross-platform test runner wrapper', () => {
+  assert.equal(packageJson.scripts.test, 'node scripts/run-tests.cjs');
+  assert.ok(
+    fs.existsSync(path.join(repoRoot, 'scripts', 'run-tests.cjs')),
+    'expected test runner wrapper to exist',
+  );
 });

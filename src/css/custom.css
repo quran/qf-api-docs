@@ -455,7 +455,6 @@ a.navbar__item--request-access:hover {
 /* Connected Apps guide */
 .connectedAppsDoc {
   --connected-apps-border: var(--qf-border-card);
-  --connected-apps-muted: var(--qf-text-secondary);
   --connected-apps-soft: rgba(62, 193, 201, 0.08);
   --connected-apps-soft-strong: rgba(62, 193, 201, 0.14);
 }

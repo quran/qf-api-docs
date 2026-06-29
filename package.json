@@ -7,7 +7,7 @@
     "deploy:pages": "yarn run build && wrangler pages deploy build",
     "docusaurus": "npx docusaurus",
     "llms:sync": "node scripts/sync-static-llms-txt.js",
-    "test": "node --test tests",
+    "test": "node scripts/run-tests.cjs",
     "audit:search-console:local": "node scripts/audit-search-console-coverage.js --mode=local",
     "audit:search-console:live": "node scripts/audit-search-console-coverage.js --mode=live",
     "postbuild:seo": "node scripts/postbuild-seo.js",
