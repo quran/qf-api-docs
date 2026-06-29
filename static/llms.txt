@@ -20,6 +20,7 @@
 - [QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-review-existing-integration.md): Copyable prompt for auditing an existing Quran Foundation integration
 - [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog
 - [Developer Journey](https://api-docs.quran.foundation/docs/developer-journey/): Choose the right starting point by app shape
+- [Connected Apps](https://api-docs.quran.foundation/docs/connected-apps/): Partner guide for app discovery, listing review, visibility, and responsible integration
 - [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User APIs, OAuth2, and pre-live endpoint references
 - [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold
 - [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code
@@ -48,28 +49,27 @@
 - [Full-Stack Quickstart](https://api-docs.quran.foundation/docs/sdk/javascript/full-stack/)
 - [Common Errors](https://api-docs.quran.foundation/docs/sdk/javascript/common-errors/)
 - [Migration Cheat Sheet](https://api-docs.quran.foundation/docs/sdk/javascript/migration-cheat-sheet/)
+- [Authentication](https://api-docs.quran.foundation/docs/sdk/python/authentication/)
+- [Content API Helpers](https://api-docs.quran.foundation/docs/sdk/python/content/)
+- [Search API](https://api-docs.quran.foundation/docs/sdk/python/search/)
+- [User APIs](https://api-docs.quran.foundation/docs/sdk/python/user-apis/)
+- [Common Errors](https://api-docs.quran.foundation/docs/sdk/python/common-errors/)
 - [Answers API](https://api-docs.quran.foundation/docs/sdk/javascript/answers/)
 - [Answers API](https://api-docs.quran.foundation/docs/sdk/python/answers/)
 - [Audio API](https://api-docs.quran.foundation/docs/sdk/javascript/audio/)
 - [Audio API](https://api-docs.quran.foundation/docs/sdk/python/audio/)
-- [Authentication](https://api-docs.quran.foundation/docs/sdk/python/authentication/)
 - [Chapters API](https://api-docs.quran.foundation/docs/sdk/javascript/chapters/)
 - [Chapters API](https://api-docs.quran.foundation/docs/sdk/python/chapters/)
-- [Common Errors](https://api-docs.quran.foundation/docs/sdk/python/common-errors/)
-- [Content API Helpers](https://api-docs.quran.foundation/docs/sdk/python/content/)
 - [Hadith References API](https://api-docs.quran.foundation/docs/sdk/javascript/hadith-references/)
 - [Hadith References API](https://api-docs.quran.foundation/docs/sdk/python/hadith-references/)
 - [Juzs API](https://api-docs.quran.foundation/docs/sdk/javascript/juzs/)
 - [Juzs API](https://api-docs.quran.foundation/docs/sdk/python/juzs/)
 - [Legacy Migration Guide](https://api-docs.quran.foundation/docs/sdk/javascript/v1-migration-guide/)
-- [Python SDK](https://api-docs.quran.foundation/docs/sdk/python/)
 - [QuranReflect Posts](https://api-docs.quran.foundation/docs/sdk/javascript/quranreflect-posts/)
 - [Resources API](https://api-docs.quran.foundation/docs/sdk/javascript/resources/)
 - [Resources API](https://api-docs.quran.foundation/docs/sdk/python/resources/)
 - [SDKs](https://api-docs.quran.foundation/docs/sdk/)
 - [Search API](https://api-docs.quran.foundation/docs/sdk/javascript/search/)
-- [Search API](https://api-docs.quran.foundation/docs/sdk/python/search/)
-- [User APIs](https://api-docs.quran.foundation/docs/sdk/python/user-apis/)
 - [Verses API](https://api-docs.quran.foundation/docs/sdk/javascript/verses/)
 - [Verses API](https://api-docs.quran.foundation/docs/sdk/python/verses/)
 

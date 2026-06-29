@@ -1,0 +1,505 @@
+---
+title: "Connected Apps"
+description: "Partner and developer guide for Quran Foundation Connected Apps discovery, listing review, visibility, user consent, and responsible integration."
+sidebar_label: "Connected Apps"
+displayed_sidebar: "APIsSidebar"
+---
+
+# Connected Apps
+
+<div className="connectedAppsDoc">
+  <section className="connectedAppsHero">
+    <p className="connectedAppsEyebrow">Partner and developer guide</p>
+    <h2>Prepare your Quran app for review, connection, and discovery.</h2>
+    <p>
+      Connected Apps is the path for developers and app owners who want their
+      product to appear on <a href="https://quran.com/apps">Quran.com/apps</a>,
+      use Quran Foundation APIs, or request selected visibility across Quran
+      Foundation surfaces. This guide explains what to prepare, how review works,
+      what users must be able to understand, and what a listing or label does
+      and does not mean.
+    </p>
+    <div className="connectedAppsHeroActions">
+      <a className="connectedAppsPrimaryLink" href="/request-access">
+        Request access
+      </a>
+      <a className="connectedAppsSecondaryLink" href="#listing-package">
+        Review listing checklist
+      </a>
+    </div>
+    <div className="connectedAppsPillRow" aria-label="Connected Apps guide topics">
+      <span className="connectedAppsPill">Directory listing</span>
+      <span className="connectedAppsPill">Partner review</span>
+      <span className="connectedAppsPill">OAuth scopes</span>
+      <span className="connectedAppsPill">User consent</span>
+      <span className="connectedAppsPill">Ongoing changes</span>
+    </div>
+  </section>
+
+  <div className="connectedAppsCallout">
+    <strong>Start here:</strong> request API access before building against
+    protected APIs. When your product is ready for discovery, submit a complete
+    listing package with ownership, support, privacy, content, and platform
+    details. Developer Console self-service may simplify this workflow over
+    time, but access, scopes, listing approval, labels, and featured placement
+    remain reviewed decisions.
+  </div>
+</div>
+
+## Who This Guide Is For
+
+Use this guide if you are building, operating, or representing an app that
+connects to Quran Foundation content, authentication, user features, or public
+discovery surfaces.
+
+<div className="connectedAppsGrid connectedAppsGridThree">
+  <article className="connectedAppsCard">
+    <div className="connectedAppsNumber">01</div>
+    <h3>App builders</h3>
+    <p>
+      You want to use Quran Foundation APIs, SDKs, or OAuth2 to build a Quran
+      reading, listening, study, memorization, reflection, or community product.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <div className="connectedAppsNumber">02</div>
+    <h3>App owners</h3>
+    <p>
+      You want your independent app to be discoverable through Quran.com/apps
+      with clear ownership, support, privacy, and platform information.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <div className="connectedAppsNumber">03</div>
+    <h3>Partner teams</h3>
+    <p>
+      You want a stronger relationship such as OAuth account continuity, a
+      reviewed label, or selected editorial visibility.
+    </p>
+  </article>
+</div>
+
+## How Connected Apps Works
+
+Connected Apps has four public-facing parts. Treat them as separate review
+steps, not as one automatic approval.
+
+<div className="connectedAppsGrid connectedAppsGridTwo">
+  <article className="connectedAppsCard">
+    <p className="connectedAppsCardKicker">Build</p>
+    <h3>Developer access and API use</h3>
+    <p>
+      Start with <a href="/request-access">Request Access</a> and the
+      <a href="/docs/developer-journey/"> Developer Journey</a>. Protected APIs,
+      OAuth clients, redirect URIs, and user-data scopes require review before
+      production use.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <p className="connectedAppsCardKicker">Submit</p>
+    <h3>Listing package</h3>
+    <p>
+      A listing package gives reviewers enough information to understand the
+      product, verify ownership and support routes, check content and data use,
+      and decide whether the app is ready for Quran.com/apps.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <p className="connectedAppsCardKicker">Review</p>
+    <h3>Eligibility checks</h3>
+    <p>
+      Quran Foundation reviews the app in context: usefulness, content handling,
+      data and consent, product quality, support readiness, commercial model,
+      AI features, and alignment with user trust.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <p className="connectedAppsCardKicker">Discover</p>
+    <h3>Directory and selected visibility</h3>
+    <p>
+      Approved apps may appear in the Connected Apps directory. Labels,
+      connected-account flows, and featured placements are additional decisions
+      with their own requirements.
+    </p>
+  </article>
+</div>
+
+## What Users See On Quran.com/apps
+
+The public <a href="https://quran.com/apps">Quran.com/apps</a> page is designed
+for user discovery, not for internal review history. It can show featured apps,
+browseable app cards, categories, icons, platform links, taglines, and short
+descriptions.
+
+Directory cards should help users answer five questions quickly:
+
+<div className="connectedAppsGrid connectedAppsGridTwo">
+  <article className="connectedAppsCard">
+    <h3>User questions the listing should answer</h3>
+    <ul className="connectedAppsChecklist">
+      <li>What does this app help me do?</li>
+      <li>Who owns and supports it?</li>
+      <li>Which platforms can I use it on?</li>
+      <li>Does it connect to my Quran.com account or request data access?</li>
+      <li>Where can I read its privacy, support, and product information?</li>
+    </ul>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>What a directory card is not</h3>
+    <ul className="connectedAppsChecklist">
+      <li>It is not a full marketing page for the app.</li>
+      <li>It is not a promise of homepage placement or traffic.</li>
+      <li>It does not mean Quran Foundation owns or supports the app.</li>
+      <li>It does not mean every current and future feature has been endorsed.</li>
+      <li>It does not replace the app owner's own privacy, terms, and support obligations.</li>
+    </ul>
+  </article>
+</div>
+
+## Visibility Paths And Labels
+
+Visibility is not a single switch. Directory listing, reviewed labels, account
+connection, and featured placement each answer a different user need.
+
+<div className="connectedAppsTableWrap">
+  <table className="connectedAppsTable">
+    <thead>
+      <tr>
+        <th>Path</th>
+        <th>What Quran Foundation reviews</th>
+        <th>What the app may say</th>
+        <th>What the app must not imply</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Listed</strong></td>
+        <td>Complete listing package, working destination links, ownership and support contacts, lawful product, clear purpose, and basic quality fit.</td>
+        <td>The app is listed in the Quran.com Connected Apps directory.</td>
+        <td>Quran Foundation ownership, guaranteed traffic, homepage exposure, or endorsement of every feature.</td>
+      </tr>
+      <tr>
+        <td><strong>Verified or aligned</strong></td>
+        <td>The specific content, quality, source, attribution, mission, or relationship checks defined for that label.</td>
+        <td>The app has completed the checks described for that label.</td>
+        <td>A broad guarantee that every product area, future release, or partner claim is approved.</td>
+      </tr>
+      <tr>
+        <td><strong>Connected</strong></td>
+        <td>OAuth readiness, OAuth consent copy, redirect URIs, proportionate scopes, privacy information, data security, incident contact, and support route.</td>
+        <td>The app can connect to approved Quran Foundation account or user-data features.</td>
+        <td>Permission to request unnecessary scopes, bypass consent, or reuse data outside the approved purpose.</td>
+      </tr>
+      <tr>
+        <td><strong>Featured</strong></td>
+        <td>User value, quality, timing, audience fit, support readiness, current availability, and suitability for the placement.</td>
+        <td>The app is featured in a specific Quran Foundation surface or campaign while that placement is active.</td>
+        <td>Permanent status, paid advertising, ranking guarantees, or an ownership relationship.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Listing Package
+
+A listing package should make the product understandable, reviewable, and safe
+to present to users. Incomplete or unclear packages slow down review.
+
+<div className="connectedAppsGrid connectedAppsGridTwo">
+  <article className="connectedAppsCard">
+    <h3>Required for review</h3>
+    <ul className="connectedAppsChecklist">
+      <li>Product name, short purpose statement, and primary category.</li>
+      <li>Square logo or icon with safe contrast and confirmed source rights.</li>
+      <li>Working web, iOS, and/or Android destination links.</li>
+      <li>Product owner, technical contact, support contact, and public support route.</li>
+      <li>Privacy notice and terms where applicable.</li>
+      <li>Clear explanation of Quran Foundation content, authentication, scopes, or user-data use.</li>
+    </ul>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Recommended for a stronger listing</h3>
+    <ul className="connectedAppsChecklist">
+      <li>One plain-language differentiator.</li>
+      <li>Platform and language availability.</li>
+      <li>High-quality screenshots or preview media.</li>
+      <li>Accessibility and age-appropriateness notes.</li>
+      <li>Accurate content attribution where surfaced in product.</li>
+      <li>Current release, maintenance, and support status.</li>
+    </ul>
+  </article>
+</div>
+
+## Review Criteria
+
+Review is contextual. The same product can be suitable for a directory listing
+but not for OAuth scopes, homepage placement, or a reviewed label.
+
+<div className="connectedAppsGrid connectedAppsGridThree">
+  <article className="connectedAppsCard">
+    <h3>Mission and usefulness</h3>
+    <p>
+      Does the product solve a real user need and support Quran reading,
+      listening, understanding, memorization, reflection, or continuity?
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Content and attribution</h3>
+    <p>
+      Are Quranic text, translations, tafsir, recitations, and derived content
+      sourced, represented, and attributed accurately?
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Data and consent</h3>
+    <p>
+      Are requested scopes proportionate, explained clearly, secured
+      appropriately, and limited to the product function?
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Product quality</h3>
+    <p>
+      Does the product work reliably, avoid avoidable confusion, and provide a
+      support route for users who need help?
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Commercial model</h3>
+    <p>
+      Are charges, ads, donations, sponsorships, or affiliate models
+      transparent, proportionate, and compatible with content obligations?
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Ongoing accountability</h3>
+    <p>
+      Can the app owner keep listing details current, respond to issues, and
+      cooperate with reasonable review or corrective action?
+    </p>
+  </article>
+</div>
+
+## User-Facing Clarity
+
+These expectations are for app owners and partners. Communicate them to users
+where they matter: in the app, listing copy, consent screens, privacy notices,
+terms, onboarding, support pages, or release notes.
+
+<div className="connectedAppsGrid connectedAppsGridTwo">
+  <article className="connectedAppsCard">
+    <h3>Make clear to users</h3>
+    <ul className="connectedAppsChecklist">
+      <li>Who owns and operates the app.</li>
+      <li>Where users should go for product support.</li>
+      <li>What Quran Foundation content, APIs, or account features the app uses.</li>
+      <li>What data or permissions are requested and why they are needed.</li>
+      <li>Whether AI, ads, donations, purchases, or sponsorships are part of the experience.</li>
+    </ul>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Avoid misleading claims</h3>
+    <ul className="connectedAppsChecklist">
+      <li>Do not present an independent app as Quran Foundation owned unless it is.</li>
+      <li>Do not describe a directory listing as broad endorsement of the product.</li>
+      <li>Do not stretch a reviewed label beyond the checks described for that label.</li>
+      <li>Do not imply homepage placement, featured status, or ranking is guaranteed.</li>
+      <li>Do not hide material changes to data use, monetization, AI behavior, or content sources.</li>
+    </ul>
+  </article>
+</div>
+
+## Responsible Use
+
+Products that handle Quranic material, user progress, religious learning, or AI
+assistance need extra clarity. Build trust before asking for visibility.
+
+<div className="connectedAppsGrid connectedAppsGridTwo">
+  <article className="connectedAppsCard">
+    <h3>Build toward trust</h3>
+    <ul className="connectedAppsChecklist">
+      <li>Present Quranic material accurately and in appropriate context.</li>
+      <li>Design for dignity, accessibility, and informed user choices.</li>
+      <li>Make AI-assisted features clear about their limits.</li>
+      <li>Separate exploratory or generated output from authoritative religious guidance.</li>
+      <li>Use only the scopes, content fields, and data flows your product truly needs.</li>
+    </ul>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Avoid avoidable harm</h3>
+    <ul className="connectedAppsChecklist">
+      <li>Do not use Quranic material as a superficial sales hook.</li>
+      <li>Avoid intrusive advertising, manipulative retention, or ambiguous sponsorship.</li>
+      <li>Do not over-collect user data or hide permission consequences.</li>
+      <li>Do not present verified source material and unverified output as the same kind of authority.</li>
+      <li>Do not use Quran Foundation branding, content, or user data outside approved scope.</li>
+    </ul>
+  </article>
+</div>
+
+## Changes That Can Require Re-Review
+
+Keep listing, privacy, support, and integration details current. Material
+changes can require updated review before continued listing, labels, scopes, or
+featured placement.
+
+<div className="connectedAppsGrid connectedAppsGridThree">
+  <article className="connectedAppsCard">
+    <h3>Product or ownership changes</h3>
+    <p>
+      New owner, major repositioning, discontinued support, broken destination
+      links, or a change in the primary user experience.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Data or permission changes</h3>
+    <p>
+      New OAuth scopes, expanded user-data use, changed consent copy, new
+      processors, or security and incident-response changes.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Content or AI changes</h3>
+    <p>
+      New Quranic sources, generated religious content, AI explanations,
+      changes to attribution, or mixing reviewed sources with unreviewed output.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Commercial changes</h3>
+    <p>
+      New ads, subscriptions, purchases, donations, sponsorships, affiliate
+      links, or paid access around Quranic content or user features.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Listing changes</h3>
+    <p>
+      New claims, screenshots, categories, platform links, app descriptions, or
+      relationship statements shown to Quran.com users.
+    </p>
+  </article>
+  <article className="connectedAppsCard">
+    <h3>Visibility changes</h3>
+    <p>
+      Quran Foundation may update, pause, or remove directory visibility,
+      labels, connected access, or featured placement when requirements are no
+      longer met.
+    </p>
+  </article>
+</div>
+
+## Directory Listing And Homepage Placement
+
+Being listed in Connected Apps and being promoted on the Quran.com homepage are
+related but separate.
+
+<div className="connectedAppsTableWrap">
+  <table className="connectedAppsTable">
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Connected Apps directory</th>
+        <th>Quran.com homepage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Purpose</strong></td>
+        <td>Help users browse and evaluate relevant Quran-related apps.</td>
+        <td>Introduce a broad audience to a selected, high-confidence experience.</td>
+      </tr>
+      <tr>
+        <td><strong>Default expectation</strong></td>
+        <td>Eligible reviewed apps can be listed with categories and platform links.</td>
+        <td>Placement is selective, time-sensitive, and not guaranteed by listing approval.</td>
+      </tr>
+      <tr>
+        <td><strong>Data shape</strong></td>
+        <td>Directory cards can include title, tagline, description, icon, categories, relationship type, and platform links.</td>
+        <td>Homepage cards should be fewer, concise, current, and appropriate for broad Quran.com traffic.</td>
+      </tr>
+      <tr>
+        <td><strong>Change control</strong></td>
+        <td>Listing details should stay current and may be paused when required.</td>
+        <td>Placement can change based on review, quality, editorial priorities, timing, or product status.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## Recommended Next Steps
+
+<div className="connectedAppsGrid connectedAppsGridThree">
+  <article className="connectedAppsCard">
+    <p className="connectedAppsCardKicker">New integration</p>
+    <h3>Request access</h3>
+    <p>Get credentials, redirect URI review, and scope guidance before implementation.</p>
+    <a href="/request-access">Open Request Access</a>
+  </article>
+  <article className="connectedAppsCard">
+    <p className="connectedAppsCardKicker">Choosing APIs</p>
+    <h3>Developer Journey</h3>
+    <p>Choose Content APIs, Search APIs, User APIs, OAuth2, or SDK docs by app shape.</p>
+    <a href="/docs/developer-journey/">Open Developer Journey</a>
+  </article>
+  <article className="connectedAppsCard">
+    <p className="connectedAppsCardKicker">Signed-in apps</p>
+    <h3>User APIs Quickstart</h3>
+    <p>Build OAuth-backed bookmarks, notes, reading sessions, goals, and preferences.</p>
+    <a href="/docs/tutorials/oidc/user-apis-quickstart/">Open User APIs Quickstart</a>
+  </article>
+</div>
+
+## FAQ
+
+<details>
+  <summary>Can my app charge for a service?</summary>
+  <p>
+    Potentially. Monetization is evaluated in context. The product should
+    provide genuine user value, describe charges honestly, respect content
+    obligations, and avoid using Quranic material as a superficial marketing
+    vehicle. Commercial content use may require separate written permission.
+  </p>
+</details>
+
+<details>
+  <summary>Can we show ads or accept donations?</summary>
+  <p>
+    Possible models should be transparent, proportionate, and respectful of the
+    user experience. Intrusive, deceptive, or contextually inappropriate
+    promotion can affect eligibility or visibility.
+  </p>
+</details>
+
+<details>
+  <summary>Does every listed app need OAuth?</summary>
+  <p>
+    No. OAuth is most important where Quran Foundation account continuity,
+    personal user data, or signed-in user actions are central. Where OAuth is
+    used, the app should request only the permissions it truly needs and explain
+    the benefit before consent.
+  </p>
+</details>
+
+<details>
+  <summary>Is a directory card an endorsement?</summary>
+  <p>
+    No. A listing helps users discover an independent product. It does not mean
+    Quran Foundation owns the app, provides its support, or endorses every
+    current and future feature.
+  </p>
+</details>
+
+<details>
+  <summary>What is the difference between an app partner and a content partner?</summary>
+  <p>
+    App partners build user-facing experiences and are reviewed for product,
+    data, support, and ecosystem fit. Content partners can have additional
+    source, rights, attribution, licensing, and usage considerations. The review
+    tracks should be distinct when those obligations differ.
+  </p>
+</details>
+
+For questions about access, scopes, listing readiness, or review status, contact
+[developers@quran.com](mailto:developers@quran.com).
