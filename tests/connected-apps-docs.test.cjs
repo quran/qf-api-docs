@@ -85,16 +85,21 @@ test('documents the core Connected Apps production concepts', () => {
     /AI explanations/,
     /developers@quran\.com/,
     /Eligibility Gates/,
-    /pass\/fail baseline protections/,
+    /pass\/fail,\s+and they are the baseline protections/,
+    /No app may be listed, receive a reviewed\s+label, become Connected, or be Featured/,
     /Visibility Tiers In Detail/,
+    /Higher levels of visibility, trust, and ecosystem participation/,
+    /Listed is the baseline directory status/,
     /Verified Listing/,
     /Aligned App/,
     /Connected App/,
     /Featured App/,
+    /Final published criteria for Verified, Aligned, Connected, and Featured status/,
     /Visibility Is Not For Sale/,
     /OAuth And Continuity Requirements/,
     /Partner Terms And Compliance/,
-    /applicable Quran Foundation\s+developer terms/,
+    /Quran\.com Terms & Conditions/,
+    /Quran Foundation Developer Terms/,
     /Listing Card Specs/,
     /40 characters maximum/,
     /60 characters maximum/,
@@ -103,9 +108,12 @@ test('documents the core Connected Apps production concepts', () => {
     /Attribution And Content Sources/,
     /Quran data provided by \[Quran\.Foundation\]\(https:\/\/quran\.foundation\)/,
     /Gamification/,
-    /AI must never produce sacred text/,
+    /AI must never replace or modify canonical source material/,
+    /Scale review to risk/,
+    /Use the grounding rails/,
     /Enforcement And Reinstatement/,
     /Support And Office Hours/,
+    /Partner office hours[\s\S]*available at various times throughout the week/,
     /Change Log/,
     /14-day notice period/,
   ];
@@ -113,6 +121,30 @@ test('documents the core Connected Apps production concepts', () => {
   for (const pattern of requiredPatterns) {
     assert.match(doc, pattern);
   }
+});
+
+test('places eligibility gates before review process', () => {
+  const howItWorksIndex = doc.indexOf('## How Connected Apps Works');
+  const eligibilityIndex = doc.indexOf('## Eligibility Gates');
+  const reviewProcessIndex = doc.indexOf('## Review Process And Timelines');
+  const reviewCriteriaIndex = doc.indexOf('## Review Criteria');
+
+  assert.ok(howItWorksIndex >= 0, 'expected How Connected Apps Works heading');
+  assert.ok(eligibilityIndex >= 0, 'expected Eligibility Gates heading');
+  assert.ok(reviewProcessIndex >= 0, 'expected Review Process heading');
+  assert.ok(reviewCriteriaIndex >= 0, 'expected Review Criteria heading');
+  assert.ok(
+    howItWorksIndex < eligibilityIndex,
+    'expected Eligibility Gates after How Connected Apps Works',
+  );
+  assert.ok(
+    eligibilityIndex < reviewProcessIndex,
+    'expected Eligibility Gates before Review Process And Timelines',
+  );
+  assert.ok(
+    reviewProcessIndex < reviewCriteriaIndex,
+    'expected Review Criteria after the process explanation',
+  );
 });
 
 test('uses Docusaurus Link for internal Connected Apps routes', () => {
@@ -176,6 +208,8 @@ test('includes Connected Apps in generated llms.txt discovery', () => {
 test('keeps Connected Apps styling scoped, theme-token based, and responsive', () => {
   assert.match(customCss, /\.connectedAppsDoc\s*{/);
   assert.match(customCss, /\.connectedAppsVersion\s*{/);
+  assert.match(customCss, /\.connectedAppsCard\s*>\s*a\s*{/);
+  assert.match(customCss, /\.connectedAppsCard p a,\s*\.connectedAppsCard li a\s*{/);
   assert.doesNotMatch(customCss, /--connected-apps-muted/);
   assert.match(customCss, /var\(--connected-apps-border, var\(--qf-border-card\)\)/);
   assert.match(customCss, /var\(--connected-apps-soft, rgba\(62, 193, 201, 0\.08\)\)/);

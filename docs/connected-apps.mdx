@@ -84,16 +84,18 @@ while giving users a clearer path between Quran.com and participating products.
 
 ## Partner Terms And Compliance
 
-Listing and connection require complying with applicable Quran Foundation
-developer terms, API terms, acceptable-use expectations, and the requirements
-communicated during review. Commercial use of Quranic content, such as hosting
-or redistributing licensed recitations, translations, or tafsir, may require a
-separate written content license beyond standard API access.
+Listed apps must comply with the Connected Apps requirements on this page and
+all applicable laws. Where a partner or its users access Quran.com services
+directly, the [Quran.com Terms & Conditions](https://quran.com/terms-and-conditions)
+apply to that use.
 
-Where a separate written content license or partner agreement is needed, Quran
-Foundation will handle it during review. This page should not be read as a
-replacement for any legal terms that apply to your API access, content rights,
-privacy obligations, app store obligations, or user-facing product terms.
+Apps using Quran Foundation APIs, OAuth, or user-related data must comply with
+the [Quran Foundation Developer Terms](/legal/developer-terms/).
+
+Commercial use of Quranic content, such as hosting or redistributing licensed
+recitations, translations, or tafsir, may require a separate written content
+license beyond standard API access. Partner-specific or content-licensing terms
+will be published here where applicable.
 
 ## Who This Guide Is For
 
@@ -138,10 +140,10 @@ steps, not as one automatic approval.
     <p className="connectedAppsCardKicker">Build</p>
     <h3>Developer access and API use</h3>
     <p>
-      Start with <Link to="/request-access">Request Access</Link> and the
-      <Link to="/docs/developer-journey/"> Developer Journey</Link>. Protected APIs,
-      OAuth clients, redirect URIs, and user-data scopes require review before
-      production use.
+      Start with <Link to="/request-access">Request Access</Link>. Use the{' '}
+      <Link to="/docs/developer-journey/">Developer Journey</Link> to choose APIs
+      and plan OAuth clients, redirect URIs, and user-data scopes before
+      production review.
     </p>
   </article>
   <article className="connectedAppsCard">
@@ -173,6 +175,58 @@ steps, not as one automatic approval.
   </article>
 </div>
 
+## Eligibility Gates
+
+Some checks are contextual and weighed in review. These four are not. They are
+pass/fail, and they are the baseline protections for users, Quran Foundation,
+and the integrity of Quranic content. No app may be listed, receive a reviewed
+label, become Connected, or be Featured until all four gates are met. If an app
+later falls out of compliance, the same gates govern restriction or removal.
+
+<div className="connectedAppsTableWrap">
+  <table className="connectedAppsTable">
+    <thead>
+      <tr>
+        <th>Gate</th>
+        <th>Minimum requirement</th>
+        <th>Examples of evidence</th>
+        <th>If not met</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Content integrity and updates</strong></td>
+        <td>Quran Foundation-provided Quranic content must be accessed through approved Quran Foundation endpoints or a written license. External Quranic, scholarly, or supporting content must have verifiable rights, accurate attribution, and any category-specific approval required by Quran Foundation. All content must remain current where corrections, removals, restrictions, or source updates apply.</td>
+        <td>API usage, release notes, update cadence, in-app attribution, and license or rights records.</td>
+        <td>Unlisted or delisted until corrected.</td>
+      </tr>
+      <tr>
+        <td><strong>Security and privacy baseline</strong></td>
+        <td>A publicly available privacy notice, a reasonable security posture, no harmful or deceptive data practices, and a security or incident contact.</td>
+        <td>Privacy link, security contact, data minimization, and incident-response route.</td>
+        <td>Unlisted or delisted.</td>
+      </tr>
+      <tr>
+        <td><strong>API and platform compliance</strong></td>
+        <td>Respects API terms, usage rules, branding rules, and licensing or attribution terms.</td>
+        <td>Accepted partner terms, compliance acknowledgement, and monitored usage.</td>
+        <td>Unlisted or delisted.</td>
+      </tr>
+      <tr>
+        <td><strong>Maintenance and responsiveness</strong></td>
+        <td>A named technical contact who can respond to breaking changes within agreed timelines.</td>
+        <td>Support route, issue responsiveness, and maintenance commitment.</td>
+        <td>Unlisted or delisted.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+:::note
+Eligibility is judged on its own terms. A strong marketing presence, large user
+base, or popularity does not offset a failed gate.
+:::
+
 ## Review Process And Timelines
 
 Review is a sequence of decisions, not a single approval. Knowing the stages
@@ -181,7 +235,8 @@ helps you submit a package that moves quickly.
 1. **Submit**: send a complete listing package, and request API access first if
    you need protected APIs.
 2. **Completeness check**: reviewers confirm ownership, support routes, content
-   handling, privacy information, and required listing fields.
+   handling, privacy information, and required listing fields. Incomplete or
+   unclear packages are returned and slow the process.
 3. **Contextual review**: the app is assessed against eligibility gates and the
    review criteria on this page.
 4. **Decision**: the outcome may be listing approval, a request for changes, or,
@@ -279,10 +334,26 @@ connection, and featured placement each answer a different user need.
 
 ## Visibility Tiers In Detail
 
-Visibility is earned incrementally. Each tier builds on the one below it and
-never replaces the eligibility gates. A genuinely valuable app can remain at a
-lower tier if it has not implemented the integration the higher tier describes.
-That is expected, not a penalty.
+Higher levels of visibility, trust, and ecosystem participation are earned
+incrementally. Each tier builds on the one below it and never replaces the
+eligibility gates. A genuinely valuable app can remain at a lower tier if it has
+not implemented the integration the higher tier describes; that is expected, not
+a penalty.
+
+Listed is the baseline directory status. An app may be listed once it has
+passed the eligibility gates and listing review. Listing confirms that the app
+meets Quran Foundation's baseline requirements for public discovery; it does not
+by itself mean the app has completed deeper verification, account-continuity
+integration, or editorial review.
+
+The tiers below are intentionally progressive. They reflect increasing
+integration depth, trust, and shared responsibility within the ecosystem.
+Partners are encouraged to adopt OAuth2 where account continuity creates
+meaningful user value, such as carrying bookmarks, reading progress, notes,
+goals, or preferences across participating apps. Content-only apps remain
+welcome and can be valuable at the Listed, Verified, or Aligned level. Where an
+app has no meaningful account-based experience to connect, Connected status is
+not expected.
 
 <div className="connectedAppsTableWrap">
   <table className="connectedAppsTable">
@@ -297,31 +368,37 @@ That is expected, not a penalty.
     <tbody>
       <tr>
         <td><strong>Verified Listing</strong><br />Tier 1</td>
-        <td>Apps seeking accurate, up-to-date Quran content and a basic directory presence.</td>
-        <td>Passes all eligibility gates, uses approved content APIs or licensed content, provides clear attribution, and offers reliable basic UX.</td>
-        <td>Listed in the Connected Apps directory. No featuring.</td>
+        <td>Listed apps seeking confirmation of deeper content and operational readiness.</td>
+        <td>Listed baseline plus confirmed content provenance: approved Quran Foundation APIs or a written license where Quran Foundation content is used, and verifiable rights for approved external content where it is used; clear attribution; verified update and maintenance arrangements; reliable basic UX.</td>
+        <td>Verified label in the directory and eligibility for enhanced discovery opportunities.</td>
       </tr>
       <tr>
         <td><strong>Aligned App</strong><br />Tier 2</td>
         <td>Mission-aligned apps that want a closer relationship but are not yet deeply integrated.</td>
-        <td>Tier 1 plus a short mission-alignment statement and participation in change management for deprecations and content updates.</td>
-        <td>Directory listing plus modest discoverability such as tags, category placement, or occasional roundups.</td>
+        <td>Tier 1 plus demonstrated mission alignment and clear user value; responsible-use standards; participation in change management for material updates, deprecations, and content corrections.</td>
+        <td>Directory listing plus eligibility for curated ecosystem roundups, relevant partner showcases, and enhanced discovery opportunities.</td>
       </tr>
       <tr>
         <td><strong>Connected App</strong><br />Tier 3</td>
         <td>Apps integrating deeply enough to support account continuity across the ecosystem.</td>
-        <td>Tier 2 plus OAuth2 integration and approved use of user-related APIs where continuity is relevant.</td>
-        <td>Higher placement in relevant directory contexts and eligibility for Featured consideration.</td>
+        <td>Tier 2 plus OAuth2 integration and use of user-related APIs for continuity where relevant to the product's user journey. OAuth2 should be implemented where continuity is meaningful, such as carrying bookmarks, progress, notes, goals, or preferences across participating apps; it is not expected where the app has no meaningful account-based experience to connect.</td>
+        <td>Eligibility for enhanced placement and Featured consideration, subject to editorial discretion and current ecosystem priorities.</td>
       </tr>
       <tr>
         <td><strong>Featured App</strong><br />Tier 4, time-boxed</td>
-        <td>Best-in-class, high-impact apps that advance ecosystem goals.</td>
+        <td>Best-in-class, high-impact apps advancing ecosystem goals.</td>
         <td>Tier 3 plus demonstrated user value, active collaboration cadence, current availability, and support readiness.</td>
-        <td>Featured placement for a defined period, re-evaluated each cycle.</td>
+        <td>Time-boxed Featured placement, at Quran Foundation's editorial discretion, re-evaluated each cycle.</td>
       </tr>
     </tbody>
   </table>
 </div>
+
+Featured status reflects both product quality and ecosystem participation. It
+is reserved for Connected Apps that demonstrate sustained user value,
+reliability, and active collaboration. Content-only apps remain eligible for
+directory discovery, verification, alignment review, and curated editorial
+roundups where appropriate.
 
 Listing is requested through the listing package. Verified, Aligned, and
 Connected status are reviewed against the requirements above. Request review via
@@ -329,24 +406,33 @@ Connected status are reviewed against the requirements above. Request review via
 self-service may follow. Featured placement is selected, not applied for. It is
 editorial and time-boxed, though partners may express interest.
 
+:::caution
+Final published criteria for Verified, Aligned, Connected, and Featured status
+are being confirmed after the first partner cohort. Until then, treat the rows
+above as the working definition.
+:::
+
 ## Visibility Is Not For Sale
 
 Directory placement, reviewed labels, badges, and featured placement are
-non-commercial. They cannot be bought, and they cannot be improved through
-donations, sponsorship, paid advertising, data-sharing, privileged-access
-arrangements, or any other commercial relationship with Quran Foundation.
+non-commercial. They cannot be bought, and they cannot be improved through:
+
+- donations, sponsorship, or paid advertising;
+- data-sharing or privileged-access arrangements with Quran Foundation;
+- any other commercial relationship.
 
 Ranking, labels, and featuring reflect eligibility, integration depth, trust,
-and demonstrated user value. The presence of a fundraising campaign does not by
-itself disqualify an app, but fundraising language and campaign behavior must
-meet the same mission, transparency, and responsible-use standards.
+and demonstrated user value, nothing else. The presence of a fundraising
+campaign, for example on a crowdfunding platform, does not by itself disqualify
+an app, but fundraising language and campaign behavior must still meet the same
+mission, transparency, and responsible-use standards.
 
 ## OAuth And Continuity Requirements
 
 OAuth2 is what turns a collection of apps into a connected ecosystem. Where an
 app meaningfully benefits from continuity of account, bookmarks, reading
 progress, notes, goals, or preferences, OAuth2 is required for Connected status
-and above.
+(Tier 3) and above.
 
 <div className="connectedAppsTableWrap">
   <table className="connectedAppsTable">
@@ -477,8 +563,8 @@ short enough to remain readable across mobile and desktop cards.
       <tr>
         <td>Support contact and public support route</td>
         <td>Yes</td>
-        <td>As applicable</td>
-        <td>Required for operational accountability.</td>
+        <td>Publicly accessible support email or URL</td>
+        <td>Operational accountability.</td>
       </tr>
       <tr>
         <td>Privacy policy link</td>
@@ -489,14 +575,14 @@ short enough to remain readable across mobile and desktop cards.
       <tr>
         <td>Attribution / content-source declaration</td>
         <td>Yes</td>
-        <td>As applicable</td>
+        <td>Required where Quranic, scholarly, or supporting content is used</td>
         <td>See Attribution And Content Sources.</td>
       </tr>
       <tr>
         <td>Technical contact / update owner</td>
         <td>Yes</td>
-        <td>As applicable</td>
-        <td>Required for change management and breaking-change response.</td>
+        <td>Named operational contact, supplied privately where not suitable for public display</td>
+        <td>For change management and breaking-change response.</td>
       </tr>
       <tr>
         <td>Badge / tier</td>
@@ -532,58 +618,6 @@ Use the following attribution when Quran Foundation data is surfaced:
 Where translations, tafsir editions, or recitations are surfaced, credit each by
 its named source or edition and note that it is sourced through Quran.Foundation
 where applicable.
-
-## Eligibility Gates
-
-Some checks are contextual and weighed in review. These four are not. They are
-pass/fail baseline protections for users, Quran Foundation, and the integrity of
-Quranic content. No app is listed, connected, or featured until all four are
-met. If an app later falls out of compliance, the same gates govern restriction
-or removal.
-
-<div className="connectedAppsTableWrap">
-  <table className="connectedAppsTable">
-    <thead>
-      <tr>
-        <th>Gate</th>
-        <th>Minimum requirement</th>
-        <th>Examples of evidence</th>
-        <th>If not met</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Content integrity and updates</strong></td>
-        <td>Quranic text, translations, tafsir, and recitations come from approved Quran Foundation sources or endpoints, stay current, and are clearly attributed.</td>
-        <td>API usage, release notes, update cadence, and in-app attribution.</td>
-        <td>Unlisted or delisted until corrected.</td>
-      </tr>
-      <tr>
-        <td><strong>Security and privacy baseline</strong></td>
-        <td>A publicly available privacy notice, a reasonable security posture, no harmful or deceptive data practices, and a security or incident contact.</td>
-        <td>Privacy link, security contact, data minimization, and incident-response route.</td>
-        <td>Unlisted or delisted.</td>
-      </tr>
-      <tr>
-        <td><strong>API and platform compliance</strong></td>
-        <td>Respects API terms, usage rules, branding rules, and licensing or attribution terms.</td>
-        <td>Compliance acknowledgement, monitored usage, and accepted review requirements.</td>
-        <td>Unlisted or delisted.</td>
-      </tr>
-      <tr>
-        <td><strong>Maintenance and responsiveness</strong></td>
-        <td>A named technical contact who can respond to breaking changes within agreed timelines.</td>
-        <td>Support route, issue responsiveness, and maintenance commitment.</td>
-        <td>Unlisted or delisted.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-:::note
-Eligibility is judged on its own terms. A strong marketing presence, large user
-base, or popularity does not offset a failed gate.
-:::
 
 ## Review Criteria
 
@@ -712,49 +746,84 @@ featuring.
 ### AI Features
 
 AI features that touch Quranic material, religious learning, or user data carry
-the highest trust risk in the ecosystem. The requirements below apply whether
-the AI runs live in the product or is used to pre-generate content that ships as
-if curated, such as labels, verse connections, summaries, or explanations.
+the highest trust risk in the ecosystem. The requirements below are hard
+requirements, not guidance. They apply whether the AI runs live in the product
+or is used to pre-generate content that ships as if curated, such as labels,
+verse connections, summaries, or explanations.
 
 :::caution
-**AI must never produce sacred text.** AI must not generate, paraphrase,
-translate, or alter Quranic Arabic, translations, tafsir, or hadith. That
-material must always be rendered verbatim from verified Quran Foundation or
-approved sources. AI may help users navigate, search, summarize, or explain
-around that material; it must never be the source of it.
+**AI must never replace or modify canonical source material.** Quranic Arabic,
+named translations, tafsir quotations, and sourced hadith material must be
+rendered verbatim from verified Quran Foundation or approved sources.
+AI-generated commentary may help users navigate, compare, summarize concepts, or
+explain context, but it must be clearly identified, visibly separated from
+source material, grounded in real citations where it makes claims, and never
+presented as a substitute for, alteration of, or binding interpretation of those
+sources.
 :::
+
+**Disclosure and separation**
 
 - **Disclose generated output.** Clearly indicate when an answer or explanation
   is AI-generated, so users never mistake it for verified source material.
 - **Separate source from explanation.** Visibly distinguish retrieved source
   material, such as verse text, translation, tafsir, or hadith, from any
-  AI-generated explanation around it.
+  AI-generated explanation around it. Do not present the two as the same kind of
+  authority.
+
+**Provenance**
+
 - **Cite claims.** Where an AI feature makes a Quranic or scholarly claim, show
   the citation or source link it rests on.
 - **Use real citations.** Any reference must resolve to a genuine, verifiable
   source. Fabricated, approximate, or unverifiable citations are a violation.
+
+**Authority and neutrality**
+
 - **Do not present AI as religious authority.** AI output must not be presented
   as binding religious authority, and must not issue fatwas, halal or haram
   verdicts, or personalized religious directives.
 - **Stay neutral on contested matters.** On sectarian or madhhab-sensitive
   questions, AI must not assert a single position as the Islamic view. It should
   defer to qualified scholars or present recognized views without endorsing one.
+- Do not describe AI output as "verified," "scholarship," or equivalent unless
+  it has actually been through the corresponding human or scholarly review.
+
+**Human oversight**
+
 - **Review curated AI content before publishing.** AI content that ships as part
   of the product should be human-reviewed before publication.
-- **Use grounding rails.** Apps using Quran Foundation MCP or AI tooling must use
-  its grounding and attribution prerequisites rather than routing around them.
+- **Scale review to risk.** Generated content making substantive interpretive,
+  legal, theological, or sectarian claims requires review appropriate to its
+  risk, including qualified scholarly review where necessary.
+
+**Grounding**
+
+- **Use the grounding rails.** Apps using Quran Foundation MCP or AI tooling
+  must follow the current published grounding, attribution, and safety
+  requirements for that integration.
+
+**Data and providers**
+
 - **Do not train on protected data.** Do not train models on Quran Foundation
   user data or restricted content without written permission.
 - **Disclose third-party processing.** Where user data is processed by model
   providers, disclose that processing, minimize prompt data, configure providers
   not to retain or train on that data, and name material subprocessors.
+- **Disclose material changes.** Disclose material model or provider changes
+  where user data is processed.
+
+**Safety**
+
+- **Hard content lines.** AI features must not produce content that
+  misrepresents Islam, promotes extremism, or incites sectarian hatred. In a
+  sacred context, this is a hard line.
+
+**Accountability**
+
 - **Provide accountability.** Give users a way to report inaccurate or
   inappropriate AI output, and maintain an owner-side process to review and
   correct it.
-
-AI features must not produce content that misrepresents Islam, promotes
-extremism, or incites sectarian hatred. In a sacred context, this is a hard
-line.
 
 ## Changes That Can Require Re-Review
 
@@ -811,8 +880,9 @@ featured placement.
 
 ## Enforcement And Reinstatement
 
-Enforcement is documented and proportional, while remaining capable of swift
-action for serious harm. Issues are handled along a defined ladder:
+Enforcement is transparent, documented, and proportional, while remaining
+capable of swift action for serious harm. Issues are handled along a defined
+ladder:
 
 1. **Notice**: Quran Foundation notifies the app owner of the issue and records
    the concern.
@@ -878,9 +948,10 @@ related but separate.
 
 - **General questions**: for access, scopes, listing readiness, or review
   status, contact [developers@quran.com](mailto:developers@quran.com).
-- **Partner office hours**: book a slot through the
+- **Partner office hours**: available at various times throughout the week,
+  updated regularly as slots open or close. Book a slot through the
   [office-hours calendar](https://calendar.app.google/hxLjubo5LR1iHjiDA) for
-  onboarding, OAuth, or listing review help.
+  help with onboarding, OAuth, or listing review.
 - **Response expectations**: Quran Foundation aims to respond to partner queries
   within 1 to 2 business days.
 
