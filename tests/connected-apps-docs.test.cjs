@@ -55,10 +55,19 @@ test('adds a production Connected Apps docs page', () => {
       `expected page to exclude prototype-only text: ${prototypeOnlyText}`,
     );
   }
+
+  assert.doesNotMatch(
+    doc,
+    /\[FILL:|ƒ|Â|â|�/,
+    'expected production page to exclude placeholders and mojibake',
+  );
 });
 
 test('documents the core Connected Apps production concepts', () => {
   const requiredPatterns = [
+    /Policy version:<\/strong> 1\.0/,
+    /Last updated: 2026-06-30/,
+    /Effective date: 2026-06-30/,
     /listing package/i,
     /review criteria/i,
     /Developer Console/,
@@ -75,6 +84,30 @@ test('documents the core Connected Apps production concepts', () => {
     /Commercial changes/,
     /AI explanations/,
     /developers@quran\.com/,
+    /Eligibility Gates/,
+    /pass\/fail baseline protections/,
+    /Visibility Tiers In Detail/,
+    /Verified Listing/,
+    /Aligned App/,
+    /Connected App/,
+    /Featured App/,
+    /Visibility Is Not For Sale/,
+    /OAuth And Continuity Requirements/,
+    /Partner Terms And Compliance/,
+    /applicable Quran Foundation\s+developer terms/,
+    /Listing Card Specs/,
+    /40 characters maximum/,
+    /60 characters maximum/,
+    /160 characters maximum/,
+    /minimum 512 x 512 px/,
+    /Attribution And Content Sources/,
+    /Quran data provided by \[Quran\.Foundation\]\(https:\/\/quran\.foundation\)/,
+    /Gamification/,
+    /AI must never produce sacred text/,
+    /Enforcement And Reinstatement/,
+    /Support And Office Hours/,
+    /Change Log/,
+    /14-day notice period/,
   ];
 
   for (const pattern of requiredPatterns) {
@@ -142,6 +175,7 @@ test('includes Connected Apps in generated llms.txt discovery', () => {
 
 test('keeps Connected Apps styling scoped, theme-token based, and responsive', () => {
   assert.match(customCss, /\.connectedAppsDoc\s*{/);
+  assert.match(customCss, /\.connectedAppsVersion\s*{/);
   assert.doesNotMatch(customCss, /--connected-apps-muted/);
   assert.match(customCss, /var\(--connected-apps-border, var\(--qf-border-card\)\)/);
   assert.match(customCss, /var\(--connected-apps-soft, rgba\(62, 193, 201, 0\.08\)\)/);

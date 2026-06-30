@@ -459,6 +459,15 @@ a.navbar__item--request-access:hover {
   --connected-apps-soft-strong: rgba(62, 193, 201, 0.14);
 }
 
+.connectedAppsVersion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin: -0.4rem 0 1rem;
+  color: var(--qf-text-muted);
+  font-size: 0.82rem;
+}
+
 .connectedAppsHero {
   margin: 0 0 1.25rem;
   padding: 1.5rem;
