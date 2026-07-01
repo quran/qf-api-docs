@@ -626,6 +626,11 @@ const makeSharedDocsSidebar = (apiFamilies) => [
   },
   {
     type: "doc",
+    id: "connected-apps",
+    label: "Connected Apps",
+  },
+  {
+    type: "doc",
     id: "ai-agents/index",
     label: "AI Agent Prompts",
   },
