@@ -294,7 +294,7 @@
   },
   "info": {
     "title": "Quran.Foundation Search API",
-    "description": "Quran.Foundation Search API provides programmatic access to search Quran content including verses, chapters, juz, pages, and translations. This is distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n## How to get access\n\nWe are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Then follow the steps mentioned [here](/docs/tutorials/oidc/getting-started-with-oauth2). The required scope is [`search`](/docs/user_related_apis_versioned/scopes#search).",
+    "description": "Quran.Foundation Search API provides programmatic access to search Quran content including verses, chapters, juz, pages, and translations. This is distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n## How to get access\n\nBefore calling the Search APIs, generate an access token with the `search` scope. Use the `client_credentials` grant type when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange), then include the returned token in the `x-auth-token` header and your client ID in the `x-client-id` header on each request.",
     "version": "1.0",
     "contact": {}
   },
