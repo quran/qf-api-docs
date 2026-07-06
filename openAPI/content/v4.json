@@ -8831,7 +8831,7 @@
       "get": {
         "tags": ["Quran"],
         "summary": "Get a single tafsir",
-        "description": "Get a single Tafsir of all ayah.\n\nSee [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) endpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
+        "description": "Get a paginated list of ayah for the requested tafsir.\n\nSee [/resources/tafsirs](/docs/content_apis_versioned/tafsirs) endpoint to fetch available tafsirs.\n\nYou can also include more fields of tafsir using `fields` query string.",
         "operationId": "tafsir",
         "parameters": [
           {
@@ -8928,6 +8928,33 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "For paginating within the result.",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Records per API call. Defaults to 10 and is capped at 50. Use all to request all available records up to the maximum of 50.",
+            "schema": {
+              "type": "string",
+              "default": 10
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Alias for per_page. Defaults to 10 and is capped at 50. Use all to request all available records up to the maximum of 50.",
+            "schema": {
+              "type": "string",
+              "default": 10
+            }
           }
         ],
         "responses": {
@@ -8936,7 +8963,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["tafsirs"],
+                  "required": ["tafsirs", "pagination"],
                   "type": "object",
                   "properties": {
                     "tafsirs": {
@@ -8950,8 +8977,15 @@
                       "properties": {
                         "tafsir_name": {
                           "type": "string"
+                        },
+                        "author_name": {
+                          "type": "string",
+                          "nullable": true
                         }
                       }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/pagination"
                     }
                   }
                 },
@@ -8968,6 +9002,13 @@
                       "meta": {
                         "tafsir_name": "Tafsir Ibn Kathir",
                         "author_name": "Hafiz Ibn Kathir"
+                      },
+                      "pagination": {
+                        "per_page": 10,
+                        "current_page": 1,
+                        "next_page": 2,
+                        "total_pages": 624,
+                        "total_records": 6236
                       }
                     }
                   },
@@ -9001,6 +9042,13 @@
                         "filters": {
                           "chapter_number": 1
                         }
+                      },
+                      "pagination": {
+                        "per_page": 10,
+                        "current_page": 1,
+                        "next_page": 2,
+                        "total_pages": 624,
+                        "total_records": 6236
                       }
                     }
                   },
@@ -9034,6 +9082,13 @@
                         "filters": {
                           "verse_key": "2:255"
                         }
+                      },
+                      "pagination": {
+                        "per_page": 10,
+                        "current_page": 1,
+                        "next_page": 2,
+                        "total_pages": 624,
+                        "total_records": 6236
                       }
                     }
                   }
@@ -9076,52 +9131,52 @@
           {
             "lang": "javascript",
             "label": "Node.js",
-            "source": "// Get a single tafsir\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(tafsir_id, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/quran/tafsirs/${tafsir_id}`,\n    {\n      headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi(\"169\", {\"fields\":\"value\",\"chapter_number\":\"1\",\"juz_number\":\"1\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
+            "source": "// Get paginated tafsir records\nconst axios = require('axios');\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nasync function callApi(tafsir_id, options = {}) {\n  const response = await axios.get(\n    `${API_BASE_URL}/quran/tafsirs/${tafsir_id}`,\n    {\n      headers: {\n        'x-auth-token': ACCESS_TOKEN,\n        'x-client-id': CLIENT_ID\n      },\n      params: options\n    }\n  );\n  return response.data;\n}\n\n// Example usage\ncallApi(\"169\", {\"fields\":\"value\",\"chapter_number\":\"1\",\"juz_number\":\"1\",\"page\":\"1\",\"per_page\":\"10\"})\n  .then(data => console.log(data))\n  .catch(err => console.error(err.response?.status, err.message));"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "# Get a single tafsir\nimport requests\n\nAPI_BASE_URL = 'https://apis.quran.foundation/content/api/v4'\nACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>'\nCLIENT_ID = '<YOUR_CLIENT_ID>'\n\ndef call_api(tafsir_id, fields=None, chapter_number=None, juz_number=None):\n    params = {k: v for k, v in {'fields': fields, 'chapter_number': chapter_number, 'juz_number': juz_number}.items() if v is not None}\n    \n    response = requests.get(\n        f'{API_BASE_URL}/quran/tafsirs/{tafsir_id}',\n        headers={\n            'x-auth-token': ACCESS_TOKEN,\n            'x-client-id': CLIENT_ID\n        },\n        params=params\n    )\n    response.raise_for_status()\n    return response.json()\n\n# Example usage\ntry:\n    data = call_api(\"169\", fields=\"value\", chapter_number=\"1\", juz_number=\"1\")\n    print(data)\nexcept requests.HTTPError as e:\n    print(f'Error {e.response.status_code}: {e}')"
+            "source": "# Get paginated tafsir records\nimport requests\n\nAPI_BASE_URL = 'https://apis.quran.foundation/content/api/v4'\nACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>'\nCLIENT_ID = '<YOUR_CLIENT_ID>'\n\ndef call_api(tafsir_id, fields=None, chapter_number=None, juz_number=None, page=1, per_page=10):\n    params = {k: v for k, v in {'fields': fields, 'chapter_number': chapter_number, 'juz_number': juz_number, 'page': page, 'per_page': per_page}.items() if v is not None}\n    \n    response = requests.get(\n        f'{API_BASE_URL}/quran/tafsirs/{tafsir_id}',\n        headers={\n            'x-auth-token': ACCESS_TOKEN,\n            'x-client-id': CLIENT_ID\n        },\n        params=params\n    )\n    response.raise_for_status()\n    return response.json()\n\n# Example usage\ntry:\n    data = call_api(\"169\", fields=\"value\", chapter_number=\"1\", juz_number=\"1\", page=1, per_page=10)\n    print(data)\nexcept requests.HTTPError as e:\n    print(f'Error {e.response.status_code}: {e}')"
           },
           {
             "lang": "go",
             "label": "Go",
-            "source": "// Get a single tafsir\npackage main\n\nimport (\n  \"fmt\"\n  \"io\"\n  \"net/http\"\n  \"net/url\"\n)\n\nconst API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nconst ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nconst CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunc callApi(tafsir_id string, params map[string]string) (string, error) {\n  path := fmt.Sprintf(\"/quran/tafsirs/%s\", tafsir_id)\n  endpoint := API_BASE_URL + path\n  if params != nil && len(params) > 0 {\n    values := url.Values{}\n    for k, v := range params {\n      values.Set(k, v)\n    }\n    endpoint = endpoint + \"?\" + values.Encode()\n  }\n\n  req, err := http.NewRequest(\"GET\", endpoint, nil)\n  if err != nil {\n    return \"\", err\n  }\n  req.Header.Set(\"x-auth-token\", ACCESS_TOKEN)\n  req.Header.Set(\"x-client-id\", CLIENT_ID)\n\n  resp, err := http.DefaultClient.Do(req)\n  if err != nil {\n    return \"\", err\n  }\n  defer resp.Body.Close()\n\n  body, err := io.ReadAll(resp.Body)\n  if err != nil {\n    return \"\", err\n  }\n  return string(body), nil\n}\n\n// Example usage\nfunc main() {\n  params := map[string]string{\"fields\": \"value\", \"chapter_number\": \"1\", \"juz_number\": \"1\"}\n  data, err := callApi(\"169\", params)\n  if err != nil {\n    fmt.Println(\"Error:\", err)\n    return\n  }\n  fmt.Println(data)\n}"
+            "source": "// Get paginated tafsir records\npackage main\n\nimport (\n  \"fmt\"\n  \"io\"\n  \"net/http\"\n  \"net/url\"\n)\n\nconst API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nconst ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nconst CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunc callApi(tafsir_id string, params map[string]string) (string, error) {\n  path := fmt.Sprintf(\"/quran/tafsirs/%s\", tafsir_id)\n  endpoint := API_BASE_URL + path\n  if params != nil && len(params) > 0 {\n    values := url.Values{}\n    for k, v := range params {\n      values.Set(k, v)\n    }\n    endpoint = endpoint + \"?\" + values.Encode()\n  }\n\n  req, err := http.NewRequest(\"GET\", endpoint, nil)\n  if err != nil {\n    return \"\", err\n  }\n  req.Header.Set(\"x-auth-token\", ACCESS_TOKEN)\n  req.Header.Set(\"x-client-id\", CLIENT_ID)\n\n  resp, err := http.DefaultClient.Do(req)\n  if err != nil {\n    return \"\", err\n  }\n  defer resp.Body.Close()\n\n  body, err := io.ReadAll(resp.Body)\n  if err != nil {\n    return \"\", err\n  }\n  return string(body), nil\n}\n\n// Example usage\nfunc main() {\n  params := map[string]string{\"fields\": \"value\", \"chapter_number\": \"1\", \"juz_number\": \"1\", \"page\": \"1\", \"per_page\": \"10\"}\n  data, err := callApi(\"169\", params)\n  if err != nil {\n    fmt.Println(\"Error:\", err)\n    return\n  }\n  fmt.Println(data)\n}"
           },
           {
             "lang": "ruby",
             "label": "Ruby",
-            "source": "# Get a single tafsir\nrequire \"net/http\"\nrequire \"uri\"\n\nAPI_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nCLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\ndef call_api(tafsir_id, params = {})\n  path = \"/quran/tafsirs/#{tafsir_id}\"\n  uri = URI(API_BASE_URL + path)\n  uri.query = URI.encode_www_form(params) if params && !params.empty?\n  request_class = Net::HTTP.const_get(\"Get\")\n  request = request_class.new(uri)\n  request[\"x-auth-token\"] = ACCESS_TOKEN\n  request[\"x-client-id\"] = CLIENT_ID\n\n  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|\n    http.request(request)\n  end\n\n  response.body\nend\n\n# Example usage\nparams = { \"fields\" => \"value\", \"chapter_number\" => \"1\", \"juz_number\" => \"1\" }\ndata = call_api(\"169\", params)\nputs data"
+            "source": "# Get paginated tafsir records\nrequire \"net/http\"\nrequire \"uri\"\n\nAPI_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\nACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\nCLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\ndef call_api(tafsir_id, params = {})\n  path = \"/quran/tafsirs/#{tafsir_id}\"\n  uri = URI(API_BASE_URL + path)\n  uri.query = URI.encode_www_form(params) if params && !params.empty?\n  request_class = Net::HTTP.const_get(\"Get\")\n  request = request_class.new(uri)\n  request[\"x-auth-token\"] = ACCESS_TOKEN\n  request[\"x-client-id\"] = CLIENT_ID\n\n  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|\n    http.request(request)\n  end\n\n  response.body\nend\n\n# Example usage\nparams = { \"fields\" => \"value\", \"chapter_number\" => \"1\", \"juz_number\" => \"1\", \"page\" => \"1\", \"per_page\" => \"10\" }\ndata = call_api(\"169\", params)\nputs data"
           },
           {
             "lang": "csharp",
             "label": "C#",
-            "source": "// Get a single tafsir\nusing System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Net.Http;\nusing System.Threading.Tasks;\n\nconst string API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\nconst string ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\nconst string CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\nstatic async Task<string> CallApiAsync(string tafsir_id, Dictionary<string, string> query = null)\n{\n    var path = $@\"/quran/tafsirs/{tafsir_id}\";\n    var url = API_BASE_URL + path;\n    if (query != null && query.Count > 0)\n    {\n        var queryString = string.Join(\"&\", query.Select(kvp =>\n            $\"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}\"));\n        url = $\"{url}?{queryString}\";\n    }\n    using var client = new HttpClient();\n    using var request = new HttpRequestMessage(new HttpMethod(\"GET\"), url);\n    request.Headers.Add(\"x-auth-token\", ACCESS_TOKEN);\n    request.Headers.Add(\"x-client-id\", CLIENT_ID);\n\n    using var response = await client.SendAsync(request);\n    response.EnsureSuccessStatusCode();\n    return await response.Content.ReadAsStringAsync();\n}\n\n// Example usage\nvar query = new Dictionary<string, string> { {\"fields\", \"value\"}, {\"chapter_number\", \"1\"}, {\"juz_number\", \"1\"} };\nvar data = await CallApiAsync(\"169\", query);\nConsole.WriteLine(data);"
+            "source": "// Get paginated tafsir records\nusing System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Net.Http;\nusing System.Threading.Tasks;\n\nconst string API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\nconst string ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\nconst string CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\nstatic async Task<string> CallApiAsync(string tafsir_id, Dictionary<string, string> query = null)\n{\n    var path = $@\"/quran/tafsirs/{tafsir_id}\";\n    var url = API_BASE_URL + path;\n    if (query != null && query.Count > 0)\n    {\n        var queryString = string.Join(\"&\", query.Select(kvp =>\n            $\"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}\"));\n        url = $\"{url}?{queryString}\";\n    }\n    using var client = new HttpClient();\n    using var request = new HttpRequestMessage(new HttpMethod(\"GET\"), url);\n    request.Headers.Add(\"x-auth-token\", ACCESS_TOKEN);\n    request.Headers.Add(\"x-client-id\", CLIENT_ID);\n\n    using var response = await client.SendAsync(request);\n    response.EnsureSuccessStatusCode();\n    return await response.Content.ReadAsStringAsync();\n}\n\n// Example usage\nvar query = new Dictionary<string, string> { {\"fields\", \"value\"}, {\"chapter_number\", \"1\"}, {\"juz_number\", \"1\"}, {\"page\", \"1\"}, {\"per_page\", \"10\"} };\nvar data = await CallApiAsync(\"169\", query);\nConsole.WriteLine(data);"
           },
           {
             "lang": "php",
             "label": "PHP",
-            "source": "# Get a single tafsir\n<?php\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nfunction callApi($tafsir_id, $params = []) {\n  $path = sprintf(\"/quran/tafsirs/%s\", $tafsir_id);\n  $url = API_BASE_URL . $path;\n  if (!empty($params)) {\n    $url .= '?' . http_build_query($params);\n  }\n  $ch = curl_init($url);\n  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');\n  curl_setopt($ch, CURLOPT_HTTPHEADER, [\n    'x-auth-token: ' . ACCESS_TOKEN,\n    'x-client-id: ' . CLIENT_ID\n  ]);\n\n  $response = curl_exec($ch);\n  if ($response === false) {\n    throw new Exception(curl_error($ch));\n  }\n  curl_close($ch);\n  return $response;\n}\n\n// Example usage\n$params = ['fields' => 'value', 'chapter_number' => '1', 'juz_number' => '1'];\n$data = callApi(\"169\", $params);\necho $data;\n?>"
+            "source": "# Get paginated tafsir records\n<?php\n\nconst API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';\nconst ACCESS_TOKEN = '<YOUR_ACCESS_TOKEN>';\nconst CLIENT_ID = '<YOUR_CLIENT_ID>';\n\nfunction callApi($tafsir_id, $params = []) {\n  $path = sprintf(\"/quran/tafsirs/%s\", $tafsir_id);\n  $url = API_BASE_URL . $path;\n  if (!empty($params)) {\n    $url .= '?' . http_build_query($params);\n  }\n  $ch = curl_init($url);\n  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');\n  curl_setopt($ch, CURLOPT_HTTPHEADER, [\n    'x-auth-token: ' . ACCESS_TOKEN,\n    'x-client-id: ' . CLIENT_ID\n  ]);\n\n  $response = curl_exec($ch);\n  if ($response === false) {\n    throw new Exception(curl_error($ch));\n  }\n  curl_close($ch);\n  return $response;\n}\n\n// Example usage\n$params = ['fields' => 'value', 'chapter_number' => '1', 'juz_number' => '1', 'page' => '1', 'per_page' => '10'];\n$data = callApi(\"169\", $params);\necho $data;\n?>"
           },
           {
             "lang": "java",
             "label": "Java",
-            "source": "// Get a single tafsir\nimport java.io.IOException;\nimport java.util.HashMap;\nimport java.util.Map;\nimport okhttp3.HttpUrl;\nimport okhttp3.OkHttpClient;\nimport okhttp3.Request;\nimport okhttp3.RequestBody;\nimport okhttp3.Response;\n\npublic class Main {\n  private static final String API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\n  private static final String ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\n  private static final String CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\n  public static String callApi(String tafsir_id, Map<String, String> params) throws IOException {\n    String path = String.format(\"/quran/tafsirs/%s\", tafsir_id);\n    HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL + path).newBuilder();\n    if (params != null) {\n      for (Map.Entry<String, String> entry : params.entrySet()) {\n        urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());\n      }\n    }\n    String method = \"GET\";\n    RequestBody requestBody = method.equals(\"GET\") ? null : RequestBody.create(new byte[0]);\n    Request request = new Request.Builder()\n      .url(urlBuilder.build())\n      .addHeader(\"x-auth-token\", ACCESS_TOKEN)\n      .addHeader(\"x-client-id\", CLIENT_ID)\n      .method(method, requestBody)\n      .build();\n\n    OkHttpClient client = new OkHttpClient();\n    Response response = client.newCall(request).execute();\n    return response.body().string();\n  }\n\n  public static void main(String[] args) throws Exception {\n    Map<String, String> params = new HashMap<>();\n    params.put(\"fields\", \"value\");\n    params.put(\"chapter_number\", \"1\");\n    params.put(\"juz_number\", \"1\");\n    String data = callApi(\"169\", params);\n    System.out.println(data);\n  }\n}"
+            "source": "// Get paginated tafsir records\nimport java.io.IOException;\nimport java.util.HashMap;\nimport java.util.Map;\nimport okhttp3.HttpUrl;\nimport okhttp3.OkHttpClient;\nimport okhttp3.Request;\nimport okhttp3.RequestBody;\nimport okhttp3.Response;\n\npublic class Main {\n  private static final String API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\";\n  private static final String ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\";\n  private static final String CLIENT_ID = \"<YOUR_CLIENT_ID>\";\n\n  public static String callApi(String tafsir_id, Map<String, String> params) throws IOException {\n    String path = String.format(\"/quran/tafsirs/%s\", tafsir_id);\n    HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL + path).newBuilder();\n    if (params != null) {\n      for (Map.Entry<String, String> entry : params.entrySet()) {\n        urlBuilder.addQueryParameter(entry.getKey(), entry.getValue());\n      }\n    }\n    String method = \"GET\";\n    RequestBody requestBody = method.equals(\"GET\") ? null : RequestBody.create(new byte[0]);\n    Request request = new Request.Builder()\n      .url(urlBuilder.build())\n      .addHeader(\"x-auth-token\", ACCESS_TOKEN)\n      .addHeader(\"x-client-id\", CLIENT_ID)\n      .method(method, requestBody)\n      .build();\n\n    OkHttpClient client = new OkHttpClient();\n    Response response = client.newCall(request).execute();\n    return response.body().string();\n  }\n\n  public static void main(String[] args) throws Exception {\n    Map<String, String> params = new HashMap<>();\n    params.put(\"fields\", \"value\");\n    params.put(\"chapter_number\", \"1\");\n    params.put(\"juz_number\", \"1\");\n    params.put(\"page\", \"1\");\n    params.put(\"per_page\", \"10\");\n    String data = callApi(\"169\", params);\n    System.out.println(data);\n  }\n}"
           },
           {
             "lang": "powershell",
             "label": "PowerShell",
-            "source": "# Get a single tafsir\n$API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\n$ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\n$CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunction Call-Api([string]$tafsir_id, [hashtable]$params = @{}) {\n  $path = \"/quran/tafsirs/$tafsir_id\"\n  $url = \"$API_BASE_URL$path\"\n  if ($params.Count -gt 0) {\n    $query = ($params.GetEnumerator() | ForEach-Object {\n      \"$($_.Key)=$([System.Uri]::EscapeDataString([string]$_.Value))\"\n    }) -join \"&\"\n    $url = \"$url?$query\"\n  }\n  $headers = @{\n    \"x-auth-token\" = $ACCESS_TOKEN\n    \"x-client-id\" = $CLIENT_ID\n  }\n\n  Invoke-RestMethod -Method GET -Uri $url -Headers $headers\n}\n\n# Example usage\n$params = @{ fields = \"value\"; chapter_number = \"1\"; juz_number = \"1\" }\n$data = Call-Api(\"169\", $params)\nWrite-Output $data"
+            "source": "# Get paginated tafsir records\n$API_BASE_URL = \"https://apis.quran.foundation/content/api/v4\"\n$ACCESS_TOKEN = \"<YOUR_ACCESS_TOKEN>\"\n$CLIENT_ID = \"<YOUR_CLIENT_ID>\"\n\nfunction Call-Api([string]$tafsir_id, [hashtable]$params = @{}) {\n  $path = \"/quran/tafsirs/$tafsir_id\"\n  $url = \"$API_BASE_URL$path\"\n  if ($params.Count -gt 0) {\n    $query = ($params.GetEnumerator() | ForEach-Object {\n      \"$($_.Key)=$([System.Uri]::EscapeDataString([string]$_.Value))\"\n    }) -join \"&\"\n    $url = \"$url?$query\"\n  }\n  $headers = @{\n    \"x-auth-token\" = $ACCESS_TOKEN\n    \"x-client-id\" = $CLIENT_ID\n  }\n\n  Invoke-RestMethod -Method GET -Uri $url -Headers $headers\n}\n\n# Example usage\n$params = @{ fields = \"value\"; chapter_number = \"1\"; juz_number = \"1\"; page = \"1\"; per_page = \"10\" }\n$data = Call-Api(\"169\", $params)\nWrite-Output $data"
           },
           {
             "lang": "bash",
             "label": "cURL",
-            "source": "# Get a single tafsir\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/quran/tafsirs/169?fields=value&chapter_number=1&juz_number=1' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
+            "source": "# Get paginated tafsir records\ncurl -X GET \\\n  'https://apis.quran.foundation/content/api/v4/quran/tafsirs/169?fields=value&chapter_number=1&juz_number=1&page=1&per_page=10' \\\n  -H 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  -H 'x-client-id: <YOUR_CLIENT_ID>'"
           },
           {
             "lang": "text",
             "label": "🤖 AI Prompt",
-            "source": "Implement a function to get a single tafsir using the Quran Foundation API.\n\nEndpoint: GET /quran/tafsirs/{tafsir_id}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  tafsir_id: tafsir id (e.g., \"169\")\nOptional Query Parameters:\n  fields: comma separated fields of tafsir.\n  chapter_number: If you want to get tafsir of a specific surah.\n  juz_number: If you want to get tafsir of a specific juz.\n  page_number: If you want to get tafsir of a Madani Mushaf page\n  hizb_number: If you want to get tafsir of a specific hizb.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/quran/tafsirs/{tafsir_id}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts tafsir_id and optional parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
+            "source": "Implement a function to get paginated tafsir records using the Quran Foundation API.\n\nEndpoint: GET /quran/tafsirs/{tafsir_id}\nBase URL: https://apis.quran.foundation/content/api/v4\n\nRequired Headers (copy exactly):\n  x-auth-token: <YOUR_ACCESS_TOKEN>\n  x-client-id: <YOUR_CLIENT_ID>\nPath Parameters:\n  tafsir_id: tafsir id (e.g., \"169\")\nOptional Query Parameters:\n  fields: comma separated fields of tafsir.\n  chapter_number: If you want to get tafsir of a specific surah.\n  juz_number: If you want to get tafsir of a specific juz.\n  page_number: If you want to get tafsir of a Madani Mushaf page\n  hizb_number: If you want to get tafsir of a specific hizb.\n  page: Page number for paginating within the result (default: 1).\n  per_page: Records per API call (default: 10, maximum: 50, or all up to 50).\n  limit: Alias for per_page.\n\nImplementation Requirements:\n1. Build the request URL: {baseUrl}/quran/tafsirs/{tafsir_id}?{queryParams}\n2. Inject both required headers on every request\n3. Handle errors safely:\n   - 401: Token expired → re-request token and retry once\n   - 403: Access denied → check client credentials\n   - 429: Rate limited → implement exponential backoff\n\nAcceptance Checklist:\n- [ ] Function accepts tafsir_id, optional filters, and pagination parameters\n- [ ] Headers x-auth-token and x-client-id are sent\n- [ ] 401/403/429 errors are handled gracefully"
           }
         ]
       }
