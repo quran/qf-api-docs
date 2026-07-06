@@ -27,7 +27,7 @@ export default function RequestScopes() {
     const { siteConfig } = useDocusaurusContext();
     const apiBaseUrl =
         siteConfig.customFields?.scopeRequestApiBaseUrl ||
-        'https://qf-form-handler.fly.dev';
+        'https://qf-form-handler.quran.foundation';
 
     const [status, setStatus] = useState('loading');
     const [email, setEmail] = useState('');
