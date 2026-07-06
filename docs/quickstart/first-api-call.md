@@ -127,6 +127,20 @@ async function listChapters() {
 }
 ```
 
+## Handle Errors
+
+Check the HTTP status before trusting the response body. Content API error responses usually include a JSON body with `message`, `type`, and `success: false`; endpoint reference pages show the exact response shapes.
+
+| Status | What it usually means | What to do |
+| --- | --- | --- |
+| `400` or `422` | Missing headers, invalid query parameters, or validation failure | Fix the request before retrying. |
+| `401` | The access token is missing, expired, or invalid | Clear the cached token, request a new Client Credentials token, and retry once. |
+| `403` | Wrong client, wrong environment, or missing `content` scope/permission | Confirm `x-client-id`, token environment, and `scope=content`. Do not retry in a loop. |
+| `429` | Rate limit exceeded | Back off and retry later. Prefer exponential backoff with jitter. |
+| `500`, `502`, `503`, `504` | Temporary server or upstream failure | Retry with bounded backoff, then surface a temporary failure. |
+
+Client Credentials does not use a `refresh_token`. When a Content API token expires, re-request a new token from `/oauth2/token`. See [token management](/docs/quickstart/token-management) for the full cache and retry-once pattern.
+
 ## Backend Proxy Pattern
 
 Prefer exposing a backend route instead of letting the browser call the Content APIs directly.
@@ -163,6 +177,11 @@ Requirements
 - Call GET /content/api/v4/chapters against the correct prelive or production base URL.
 - Send both required headers: x-auth-token and x-client-id.
 - Reuse the existing backend token helper instead of requesting a new token for every request.
+- Handle non-2xx responses safely:
+  - 401: clear cached token, re-request a Client Credentials token, and retry once.
+  - 403: check client credentials, environment, and scope=content.
+  - 429 and 5xx: retry only with bounded backoff.
+  - 400/422: surface a request validation error instead of retrying blindly.
 - Expose a backend route or service method that returns the chapters response without leaking credentials to the frontend.
 - Verify success by checking that the response contains a chapters array.
 

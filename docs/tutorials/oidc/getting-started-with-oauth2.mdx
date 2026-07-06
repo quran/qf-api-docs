@@ -558,6 +558,8 @@ def get_collections(access_token: str):
 </details>
 
 
+Handle User API failures at this layer as well: refresh once and retry once on `401`, treat `403` as a scope/permission or origin problem, and use bounded backoff for `429` and temporary `5xx` errors. The [Common Issues & Troubleshooting](#common-issues-troubleshooting) table below is the detailed reference.
+
 ---
 
 ## Step 5: Refresh the Access Token (offline_access scope) {#step-5-refresh-the-access-token-offline-access-scope}
