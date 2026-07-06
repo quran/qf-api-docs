@@ -95,6 +95,12 @@ const response = await fetch(
   }
 );
 
+if (!response.ok) {
+  const errorBody = await response.json().catch(() => null);
+  const errorType = errorBody?.type ? ` (${errorBody.type})` : "";
+  throw new Error(`User API request failed: ${response.status}${errorType}`);
+}
+
 const bookmarks = await response.json();
 ```
 
@@ -102,6 +108,20 @@ For web apps, SDK or raw HTTP requests are usually made by your backend or
 serverless proxy, not by page JavaScript. Cookies are for your app's own
 session; `x-auth-token` and `x-client-id` are the headers your server sends to
 Quran Foundation.
+
+## Handle API Errors
+
+Always check the response status before using the JSON payload. User API errors generally return a JSON body with `message`, `type`, and `success: false`; endpoint reference pages show the exact shape for each operation.
+
+| Status | What it usually means | What to do |
+| --- | --- | --- |
+| `400` or `422` | Invalid request, missing required parameters, or validation failure | Fix the request or form data before retrying. |
+| `401` | Missing, expired, or invalid user `access_token` | If you have a `refresh_token`, refresh once and retry once. If it still fails, require the user to sign in again. |
+| `403` | Missing scope/permission, wrong environment, or a browser/origin restriction | Route web calls through your backend, confirm the token environment, and request the correct scopes. |
+| `429` | Rate limit exceeded | Back off and retry later. Prefer exponential backoff with jitter. |
+| `500`, `502`, `503`, `504` | Temporary server or upstream failure | Retry with bounded backoff, then surface a temporary failure. |
+
+Do not log `access_token`, `refresh_token`, `id_token`, authorization codes, `code_verifier`, or `QF_CLIENT_SECRET` while handling failures. For detailed OAuth2 and User API troubleshooting, see [Common Issues & Troubleshooting](/docs/tutorials/oidc/getting-started-with-oauth2#common-issues-troubleshooting).
 
 ## Platform Guides
 
