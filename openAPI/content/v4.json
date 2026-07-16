@@ -17553,7 +17553,7 @@
             "name": "languages",
             "required": false,
             "in": "query",
-            "description": "Comma-separated Quran Reflect language IDs: Arabic `1`, English `2`, Spanish `3`, Bahasa Melayu `4`, Urdu `5`, Bahasa Indonesia `6`, French `7`, and Swahili `59`. On tabs other than `qdc`, selected languages are prioritized but other languages may still be returned. Use `tab=qdc&languages=2` for English-only promoted and moderator-reviewed posts. Non-English QDC selections include English as a fallback. These IDs are separate from Content API `/resources/languages` IDs.",
+            "description": "Comma-separated Quran Reflect language IDs: Arabic `1`, English `2`, Spanish `3`, Bahasa Melayu `4`, Urdu `5`, Bahasa Indonesia `6`, French `7`, and Swahili `59`. On tabs other than `qdc`, selected languages are prioritized but other languages may still be returned. Use `tab=qdc&languages=2` to restrict QDC results to English; add `filter[postTypeIds]=1` to return reflections only. Non-English QDC selections include English as a fallback. These IDs are separate from Content API `/resources/languages` IDs.",
             "style": "form",
             "explode": false,
             "schema": {
