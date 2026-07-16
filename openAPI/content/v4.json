@@ -17524,17 +17524,18 @@
       "get": {
         "operationId": "PostsController_feed",
         "summary": "Quran Reflect Lessons and Reflections Feed",
-        "description": "Retrieve the Quran Reflect lessons and reflections feed, a paginated stream of searchable lesson posts and reflection posts. Use this endpoint to browse lesson and reflection content across the main feed, trending, following, latest, newest, public, and popular views, with filters for authors, tags, Quran references, groups, pages, languages, verified content, and post types. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. For ayah-by-ayah reads, use `filter[references][0][chapterId]`, `filter[references][0][from]`, and `filter[references][0][to]`, and use `filter[postTypeIds]=1` for reflections or `filter[postTypeIds]=2` for lessons. `/quran-reflect/v1/posts/by-verse/{verseKey}` is user-bound and is not part of the public `client_credentials` read subset. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
+        "description": "Retrieve the Quran Reflect lessons and reflections feed, a paginated stream of searchable lesson posts and reflection posts. Use this endpoint to browse lesson and reflection content across the main feed, trending, following, latest, newest, public, popular, and QDC views, with filters for authors, tags, Quran references, groups, pages, verified content, and post types, plus language selection. Response items include engagement metadata such as `likesCount`, `commentsCount`, and `recentComment` when available. Use the dedicated comment endpoints to retrieve comment objects and totals. For ayah-by-ayah reads, use `filter[references][0][chapterId]`, `filter[references][0][from]`, and `filter[references][0][to]`, and use `filter[postTypeIds]=1` for reflections or `filter[postTypeIds]=2` for lessons. For English-only promoted and moderator-reviewed reflections, use `tab=qdc&languages=2&filter[postTypeIds]=1`. `/quran-reflect/v1/posts/by-verse/{verseKey}` is user-bound and is not part of the public `client_credentials` read subset. Full gateway path is `/quran-reflect/v1/posts/feed`; this is not a `/content/api/v4` endpoint. This Quran Reflect endpoint is compatible with the `client_credentials` grant and requires `x-auth-token` and `x-client-id` with the `post.read` scope. When called with a user-bound token, language preferences may personalize the response; client_credentials callers receive non-user-personalized results.",
         "parameters": [
           {
             "name": "tab",
             "required": false,
             "in": "query",
-            "description": "Feed view for Quran Reflect lessons and reflections. `feed` shows the personalized main feed, `trending` shows explore, `following` shows posts from followed users, and the remaining enum values select alternate listing views supported by the API.",
+            "description": "Feed view for Quran Reflect lessons and reflections. `feed` shows the personalized main feed, `trending` shows explore, `following` shows posts from followed users, and `qdc` returns promoted and moderator-reviewed posts. On tabs other than `qdc`, `languages` prioritizes selected languages but does not exclude other languages. With `qdc`, language selection limits the allowed languages; non-English selections include English as a fallback.",
             "schema": {
               "enum": [
                 "newest",
                 "latest",
+                "qdc",
                 "following",
                 "draft",
                 "favorite",
@@ -17552,7 +17553,7 @@
             "name": "languages",
             "required": false,
             "in": "query",
-            "description": "Comma-separated list of language IDs used to filter Quran Reflect lessons and reflections by content language, for example `languages=1,2`.",
+            "description": "Comma-separated Quran Reflect language IDs: Arabic `1`, English `2`, Spanish `3`, Bahasa Melayu `4`, Urdu `5`, Bahasa Indonesia `6`, French `7`, and Swahili `59`. On tabs other than `qdc`, selected languages are prioritized but other languages may still be returned. Use `tab=qdc&languages=2` for English-only promoted and moderator-reviewed posts. Non-English QDC selections include English as a fallback. These IDs are separate from Content API `/resources/languages` IDs.",
             "style": "form",
             "explode": false,
             "schema": {
