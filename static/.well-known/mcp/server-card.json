@@ -46,6 +46,13 @@
       "mimeType": "text/html"
     },
     {
+      "name": "connected_apps",
+      "title": "Connected Apps",
+      "uri": "https://api-docs.quran.foundation/docs/connected-apps/",
+      "description": "Partner guide for Quran Foundation app discovery, listing review, visibility, and responsible integration.",
+      "mimeType": "text/html"
+    },
+    {
       "name": "api_reference",
       "title": "API Reference",
       "uri": "https://api-docs.quran.foundation/docs/api-reference/",

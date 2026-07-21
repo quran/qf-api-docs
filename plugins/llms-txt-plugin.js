@@ -55,6 +55,7 @@ const SECTION_ORDER = [
 
 const URL_PRIORITY = [
   `${BASE_URL}/docs/developer-journey/`,
+  `${BASE_URL}/docs/connected-apps/`,
   `${BASE_URL}/docs/api-reference/`,
   `${BASE_URL}/docs/tutorials/oidc/starter-with-npx/`,
   `${BASE_URL}/docs/sdk/javascript/`,
@@ -104,6 +105,7 @@ const OPENAPI_HEADER = [
   '- [QF_REVIEW_EXISTING_INTEGRATION_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-review-existing-integration.md): Copyable prompt for auditing an existing Quran Foundation integration',
   '- [Agent prompt registry](https://api-docs.quran.foundation/.well-known/agent-prompts/index.json): Machine-readable prompt catalog',
   '- [Developer Journey](https://api-docs.quran.foundation/docs/developer-journey/): Choose the right starting point by app shape',
+  '- [Connected Apps](https://api-docs.quran.foundation/docs/connected-apps/): Partner guide for app discovery, listing review, visibility, and responsible integration',
   '- [API Reference](https://api-docs.quran.foundation/docs/api-reference/): Choose between Content, Search, User APIs, OAuth2, and pre-live endpoint references',
   '- [Starter With NPX](https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/): One-command Next.js app scaffold',
   '- [JavaScript SDK](https://api-docs.quran.foundation/docs/sdk/javascript/): Runtime-split SDK guidance for public and server code',
