@@ -31,7 +31,7 @@ const config = {
   },
   customFields: {
     scopeRequestApiBaseUrl:
-      process.env.SCOPE_REQUEST_API_BASE_URL || "https://qf-form-handler.fly.dev",
+      process.env.SCOPE_REQUEST_API_BASE_URL || "https://qf-form-handler.quran.foundation",
   },
   presets: [
     [
