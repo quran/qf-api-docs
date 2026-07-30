@@ -553,7 +553,7 @@
             }
           }
         },
-        "security": [{ "basicAuth": [] }],
+        "security": [{ "basicAuth": [] }, {}],
         "tags": ["OAuth2"]
       }
     },
