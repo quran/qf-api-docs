@@ -480,6 +480,101 @@
         "tags": ["OAuth2"]
       }
     },
+    "/oauth2/revoke": {
+      "post": {
+        "summary": "Revoke OAuth 2.0 Access or Refresh Token",
+        "description": "Revokes an OAuth 2.0 access or refresh token so it can no longer be used. Revoking a refresh token also invalidates the access token that was created with it. A token may only be revoked by the client it was generated for.\n\nAuthenticate confidential clients with HTTP Basic authentication. Clients configured for form-body authentication may instead include both `client_id` and `client_secret` in the request body.",
+        "operationId": "revokeOAuth2Token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "properties": {
+                  "client_id": {
+                    "description": "The client identifier. Include this when client credentials are not sent using HTTP Basic authentication.",
+                    "type": "string",
+                    "example": "quran-demo"
+                  },
+                  "client_secret": {
+                    "description": "The client secret. Include this for confidential clients when credentials are not sent using HTTP Basic authentication.",
+                    "type": "string"
+                  },
+                  "token": {
+                    "description": "The OAuth 2.0 access token or refresh token to revoke.",
+                    "type": "string",
+                    "example": "qf_access_or_refresh_token_example"
+                  }
+                },
+                "required": ["token"],
+                "type": "object"
+              },
+              "examples": {
+                "httpBasic": {
+                  "summary": "Revoke a token using HTTP Basic authentication",
+                  "description": "Send the client ID and client secret in the HTTP Basic Authorization header.",
+                  "value": {
+                    "token": "qf_access_or_refresh_token_example"
+                  }
+                },
+                "formBody": {
+                  "summary": "Revoke a token using form-body authentication",
+                  "description": "Use this method only when the OAuth client is configured for form-body authentication.",
+                  "value": {
+                    "client_id": "quran-demo",
+                    "client_secret": "qf_client_secret_example",
+                    "token": "qf_access_or_refresh_token_example"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token revoked successfully. The response body is empty."
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" },
+                "examples": {
+                  "invalid_request": {
+                    "summary": "Token parameter is missing or malformed",
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "The token parameter is required.",
+                      "status_code": 400
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid client credentials",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/errorOAuth2" },
+                "examples": {
+                  "invalid_client": {
+                    "summary": "Client authentication failed",
+                    "value": {
+                      "error": "invalid_client",
+                      "error_description": "Client authentication failed.",
+                      "status_code": 401
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "basicAuth": [] }],
+        "tags": ["OAuth2"]
+      }
+    },
     "/oauth2/auth": {
       "get": {
         "summary": "OAuth 2.0 Authorize Endpoint",
