@@ -483,7 +483,7 @@
     "/oauth2/revoke": {
       "post": {
         "summary": "Revoke OAuth 2.0 Access or Refresh Token",
-        "description": "Revokes an OAuth 2.0 access or refresh token so it can no longer be used. Revoking a refresh token also invalidates the access token that was created with it. A token may only be revoked by the client it was generated for.\n\nConfidential clients should authenticate with HTTP Basic authentication. Client credentials may also be sent in the form body.",
+        "description": "Revokes an OAuth 2.0 access or refresh token so it can no longer be used. Revoking a refresh token also invalidates the access token that was created with it. A token may only be revoked by the client it was generated for.\n\nAuthenticate confidential clients with HTTP Basic authentication. Clients configured for form-body authentication may instead include both `client_id` and `client_secret` in the request body.",
         "operationId": "revokeOAuth2Token",
         "requestBody": {
           "required": true,
@@ -508,6 +508,24 @@
                 },
                 "required": ["token"],
                 "type": "object"
+              },
+              "examples": {
+                "httpBasic": {
+                  "summary": "Revoke a token using HTTP Basic authentication",
+                  "description": "Send the client ID and client secret in the HTTP Basic Authorization header.",
+                  "value": {
+                    "token": "qf_access_or_refresh_token_example"
+                  }
+                },
+                "formBody": {
+                  "summary": "Revoke a token using form-body authentication",
+                  "description": "Use this method only when the OAuth client is configured for form-body authentication.",
+                  "value": {
+                    "client_id": "quran-demo",
+                    "client_secret": "qf_client_secret_example",
+                    "token": "qf_access_or_refresh_token_example"
+                  }
+                }
               }
             }
           }
@@ -553,7 +571,7 @@
             }
           }
         },
-        "security": [{ "basicAuth": [] }, {}],
+        "security": [{ "basicAuth": [] }],
         "tags": ["OAuth2"]
       }
     },
