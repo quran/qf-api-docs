@@ -55,6 +55,9 @@ test('includes curated onboarding pages alongside API resources', () => {
     resourceUris.has('https://api-docs.quran.foundation/docs/quickstart/'),
   );
   assert.ok(
+    resourceUris.has('https://api-docs.quran.foundation/docs/connected-apps/'),
+  );
+  assert.ok(
     resourceUris.has(
       'https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/',
     ),

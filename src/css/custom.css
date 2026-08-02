@@ -451,3 +451,271 @@ a.navbar__item--request-access:hover {
   transform: translateY(-1px);
   box-shadow: var(--qf-shadow-md);
 }
+
+/* Connected Apps guide */
+.connectedAppsDoc {
+  --connected-apps-border: var(--qf-border-card);
+  --connected-apps-soft: rgba(62, 193, 201, 0.08);
+  --connected-apps-soft-strong: rgba(62, 193, 201, 0.14);
+}
+
+.connectedAppsVersion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin: -0.4rem 0 1rem;
+  color: var(--qf-text-muted);
+  font-size: 0.82rem;
+}
+
+.connectedAppsHero {
+  margin: 0 0 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid var(--connected-apps-border, var(--qf-border-card));
+  border-radius: var(--qf-radius-xl);
+  background:
+    linear-gradient(135deg, var(--connected-apps-soft, rgba(62, 193, 201, 0.08)), transparent 68%),
+    var(--ifm-background-surface-color);
+  box-shadow: var(--qf-shadow-sm);
+}
+
+.connectedAppsEyebrow,
+.connectedAppsCardKicker {
+  margin: 0 0 0.35rem;
+  color: var(--ifm-color-primary-dark);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.connectedAppsHero h2 {
+  margin: 0;
+  color: var(--ifm-heading-color);
+  font-size: clamp(1.75rem, 4vw, 2.55rem);
+  line-height: 1.12;
+}
+
+.connectedAppsHero p:not(.connectedAppsEyebrow) {
+  max-width: 46rem;
+  margin: 0.85rem 0 0;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.connectedAppsHeroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.connectedAppsPrimaryLink,
+.connectedAppsSecondaryLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--ifm-global-radius);
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.connectedAppsPrimaryLink {
+  background: var(--ifm-color-primary);
+  color: #ffffff;
+}
+
+.connectedAppsPrimaryLink:hover {
+  background: var(--ifm-color-primary-dark);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.connectedAppsSecondaryLink {
+  border: 1px solid var(--connected-apps-border, var(--qf-border-card));
+  color: var(--ifm-color-primary-dark);
+  background: var(--ifm-background-color);
+}
+
+.connectedAppsSecondaryLink:hover {
+  color: var(--ifm-color-primary-darker);
+  text-decoration: none;
+}
+
+.connectedAppsPillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.connectedAppsPill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--connected-apps-border, var(--qf-border-card));
+  border-radius: 999px;
+  padding: 0.28rem 0.6rem;
+  color: var(--ifm-color-primary-dark);
+  background: var(--ifm-background-color);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.connectedAppsCallout {
+  margin: 1rem 0 1.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(62, 193, 201, 0.32);
+  border-left: 4px solid var(--ifm-color-primary);
+  border-radius: 0 var(--qf-radius-lg) var(--qf-radius-lg) 0;
+  background: var(--connected-apps-soft, rgba(62, 193, 201, 0.08));
+  color: var(--ifm-color-emphasis-800);
+  line-height: 1.55;
+}
+
+.connectedAppsGrid {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0 1.35rem;
+}
+
+.connectedAppsGridTwo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.connectedAppsGridThree {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.connectedAppsCard {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--connected-apps-border, var(--qf-border-card));
+  border-radius: var(--qf-radius-lg);
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--qf-shadow-sm);
+}
+
+.connectedAppsCard h3 {
+  margin: 0;
+  color: var(--ifm-heading-color);
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+
+.connectedAppsCard p,
+.connectedAppsCard li {
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.connectedAppsCard p {
+  margin: 0.5rem 0 0;
+}
+
+.connectedAppsCard > a {
+  display: inline-flex;
+  margin-top: 0.7rem;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.connectedAppsCard p a,
+.connectedAppsCard li a {
+  display: inline;
+  margin-top: 0;
+  font-size: inherit;
+  font-weight: 800;
+}
+
+.connectedAppsNumber {
+  display: grid;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin-bottom: 0.65rem;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--ifm-color-primary-dark);
+  background: var(--connected-apps-soft-strong, rgba(62, 193, 201, 0.14));
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.connectedAppsChecklist {
+  margin: 0.65rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.connectedAppsChecklist li + li {
+  margin-top: 0.35rem;
+}
+
+.connectedAppsTableWrap {
+  margin: 1rem 0 1.5rem;
+  overflow-x: auto;
+  border: 1px solid var(--connected-apps-border, var(--qf-border-card));
+  border-radius: var(--qf-radius-lg);
+  background: var(--ifm-background-surface-color);
+}
+
+.connectedAppsTable {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.connectedAppsTable th,
+.connectedAppsTable td {
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--connected-apps-border, var(--qf-border-card));
+  text-align: left;
+  vertical-align: top;
+}
+
+.connectedAppsTable th {
+  color: var(--qf-text-muted);
+  background: var(--ifm-color-emphasis-100);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.connectedAppsTable tr:last-child td {
+  border-bottom: 0;
+}
+
+[data-theme='dark'] .connectedAppsEyebrow,
+[data-theme='dark'] .connectedAppsCardKicker,
+[data-theme='dark'] .connectedAppsPill,
+[data-theme='dark'] .connectedAppsSecondaryLink,
+[data-theme='dark'] .connectedAppsNumber {
+  color: var(--ifm-color-primary-light);
+}
+
+@media screen and (max-width: 996px) {
+  .connectedAppsGridThree {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .connectedAppsHero {
+    padding: 1.1rem;
+  }
+
+  .connectedAppsGridTwo,
+  .connectedAppsGridThree {
+    grid-template-columns: 1fr;
+  }
+
+  .connectedAppsPrimaryLink,
+  .connectedAppsSecondaryLink {
+    width: 100%;
+  }
+}
