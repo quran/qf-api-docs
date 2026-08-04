@@ -73,7 +73,7 @@ const oneChapterAudio =
   await client.content.v4.audio.chapterRecitation.get(reciterId, "1");
 ```
 
-`chapterRecitation.list()` returns an array. `chapterRecitation.get()` returns one chapter audio item. Each item includes:
+`chapterRecitation.list()` returns an array. `chapterRecitation.get()` returns one chapter audio item. The SDK's current `ChapterRecitation` type exposes these base fields:
 
 | Field | Meaning |
 | --- | --- |
@@ -83,7 +83,18 @@ const oneChapterAudio =
 | `format` | Audio format, such as `mp3`. |
 | `audioUrl` | Absolute URL of the chapter audio file. |
 
-Read the endpoint-level schemas for [all chapter files](/docs/content_apis_versioned/chapter-reciter-audio-files) and [one chapter file](/docs/content_apis_versioned/chapter-reciter-audio-file).
+For a single chapter, request verse and word timing data with `segments: true`:
+
+```ts
+const timedChapterAudio =
+  await client.content.v4.audio.chapterRecitation.get(reciterId, "1", {
+    segments: true,
+  });
+```
+
+When timing data is available, the endpoint can add a `timestamps` array to the response. Each timestamp contains verse-level offsets, and may include word-level `segments` when requested. The current SDK `ChapterRecitation` type does not yet declare `timestamps`, so use the endpoint schema as the authoritative response reference for this optional data.
+
+Read the endpoint-level schemas for [all chapter files](/docs/content_apis_versioned/chapter-reciter-audio-files) and [one chapter file, including optional timing data](/docs/content_apis_versioned/chapter-reciter-audio-file).
 
 ## Ayah Recitation Helpers
 
