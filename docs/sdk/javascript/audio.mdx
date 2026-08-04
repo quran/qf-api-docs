@@ -15,7 +15,9 @@ Allowed runtimes: Node.js, serverless functions, workers.
 Required credentials: `client_id`, `client_secret`, Content API access.  
 Minimal import: `@quranjs/api/server`.
 
-Use `@quranjs/api/server`.
+## Create a Server Client
+
+Use `@quranjs/api/server`. Content API credentials must stay on your backend.
 
 ```ts
 import { createServerClient } from "@quranjs/api/server";
@@ -24,9 +26,6 @@ const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
 });
-
-const chapterAudio = await client.content.v4.audio.chapterRecitation.list("7");
-const verseAudio = await client.content.v4.audio.verseRecitation.byKey("1:1", "7");
 ```
 
 ## Choose the Right Audio Source
@@ -37,8 +36,109 @@ const verseAudio = await client.content.v4.audio.verseRecitation.byKey("1:1", "7
 | Chapter playback | `client.content.v4.audio.chapterRecitation` | Full chapter recitation URL | Use this for continuous chapter playback. |
 | Ayah playback with timing | `client.content.v4.audio.verseRecitation` | Verse recitation URL plus optional timing metadata | Use this for ayah recitations and highlighting. This is distinct from `word.audioUrl`. |
 
-## Common Mistake
+## Find the Correct Audio Resource ID
+
+Chapter audio and ayah-by-ayah audio use different resource catalogs.
+
+```ts
+const chapterReciters =
+  await client.content.v4.resources.chapterReciters.list();
+
+const ayahRecitations =
+  await client.content.v4.resources.recitations.list();
+```
+
+- Use an ID from `chapterReciters` with `chapterRecitation`, the chapter [timestamp endpoint](/docs/content_apis_versioned/audio-reciter-timestamp), and the chapter [timestamp lookup endpoint](/docs/content_apis_versioned/audio-reciter-lookup).
+- Use an ID from `ayahRecitations` with `verseRecitation`.
+
+:::warning Use the correct ID family
+
+A chapter `reciterId` from the [Chapter Reciters endpoint](/docs/content_apis_versioned/chapter-reciters) is not interchangeable with an ayah-by-ayah `recitationId` from the [Recitations endpoint](/docs/content_apis_versioned/recitations).
+
+:::
+
+## Chapter Recitation Helpers
+
+Use chapter recitations when you want one continuous audio file for a Surah.
+
+```ts
+const reciterId = "7";
+
+// Return every available chapter audio file for this reciter.
+const allChapterAudio =
+  await client.content.v4.audio.chapterRecitation.list(reciterId);
+
+// Return the chapter 1 audio file for this reciter.
+const oneChapterAudio =
+  await client.content.v4.audio.chapterRecitation.get(reciterId, "1");
+```
+
+`chapterRecitation.list()` returns an array. `chapterRecitation.get()` returns one chapter audio item. Each item includes:
+
+| Field | Meaning |
+| --- | --- |
+| `id` | Audio file ID. |
+| `chapterId` | Chapter number for the file. |
+| `fileSize` | File size in bytes. |
+| `format` | Audio format, such as `mp3`. |
+| `audioUrl` | Absolute URL of the chapter audio file. |
+
+Read the endpoint-level schemas for [all chapter files](/docs/content_apis_versioned/chapter-reciter-audio-files) and [one chapter file](/docs/content_apis_versioned/chapter-reciter-audio-file).
+
+## Ayah Recitation Helpers
+
+Use ayah recitations when you need one audio file per verse.
+
+```ts
+const recitationId = "7";
+
+// Return every ayah audio file in chapter 1.
+const chapterAyahAudio =
+  await client.content.v4.audio.verseRecitation.byChapter("1", recitationId);
+
+// Return the audio file for ayah 2:255.
+const oneAyahAudio =
+  await client.content.v4.audio.verseRecitation.byKey("2:255", recitationId);
+```
+
+Both helpers return an object with `audioFiles` and `pagination`. Every item in `audioFiles` includes:
+
+| Field | Meaning |
+| --- | --- |
+| `verseKey` | Verse key in `chapter:verse` format. |
+| `url` | Original relative or absolute URL returned by the Content API. |
+| `audioUrl` | Absolute playback URL normalized by the SDK. |
+| `id`, `chapterId`, `segments`, `format` | Optional fields when requested and available. |
+
+Request optional ayah fields with the `fields` option:
+
+```ts
+const ayahAudioWithSegments =
+  await client.content.v4.audio.verseRecitation.byKey("2:255", recitationId, {
+    fields: { id: true, chapterId: true, segments: true, format: true },
+  });
+```
+
+## Advanced Audio Operations
+
+The Content API also supports ayah-audio filtering by Juz, page, Hizb, Rub el Hizb, Manzil, and Ruku, plus chapter timestamp and timestamp-lookup operations. These operations do not currently have dedicated typed helpers on `client.content.v4.audio`.
+
+Use the generated [Content API Audio reference](/docs/category/content-apis-4.0.0) for their parameters and response schemas. Useful starting points include:
+
+- [All audio files for one ayah recitation](/docs/content_apis_versioned/recitation-audio-files)
+- [Ayah recitations for a Juz](/docs/content_apis_versioned/list-juz-recitation)
+- [Ayah recitations for a page](/docs/content_apis_versioned/list-page-recitation)
+- [Chapter or verse timestamp range](/docs/content_apis_versioned/audio-reciter-timestamp)
+- [Look up a verse by playback timestamp](/docs/content_apis_versioned/audio-reciter-lookup)
+
+## Usage Permissions
+
+Audio returned by the APIs is QF Content. Review the [Quran Foundation Developer Terms](/legal/developer-terms) before implementing storage, offline playback, redistribution, or commercial use. The Developer Terms are the authoritative source for permitted use.
+
+## Common Mistakes
 
 Do not assume audio is browser-safe just because the final result is a media URL. The API request still uses server credentials.
 
 Also do not append `word.audioUrl` to `/content/api/v4`. Word-by-word audio files are public CDN assets, not authenticated Content API endpoints.
+
+Do not pass a chapter `reciterId` to an ayah `verseRecitation` helper, or an ayah `recitationId` to a chapter `chapterRecitation` helper.
