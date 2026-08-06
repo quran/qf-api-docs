@@ -11354,10 +11354,10 @@
                     "value": {
                       "tafsirs": [
                         {
-                          "id": 16,
+                          "id": 15,
                           "name": "Tafsir al-Tabari",
-                          "author_name": "Imam al-Tabari",
-                          "slug": "tafsir-tabari",
+                          "author_name": "Tabari",
+                          "slug": "ar-tafsir-al-tabari",
                           "language_name": "arabic",
                           "translated_name": {
                             "name": "Tafsir al-Tabari",
