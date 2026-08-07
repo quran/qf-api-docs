@@ -353,7 +353,7 @@ const contentApisVersionedConfig = {
   introDocId: "content_apis_versioned/4.0.0/content-apis",
   versionLabel: "v4.0.0",
   versions: contentAPIsVersions,
-  generatedIndexTitle: "Quran.Foundation Content API (v4.0.0)",
+  generatedIndexTitle: "Quran Foundation Content API (v4.0.0)",
   generatedIndexDescription: "Content APIs",
   generatedIndexSlug: "/category/content-apis-4.0.0",
   itemsBuilder: buildContentApisVersionedItems,

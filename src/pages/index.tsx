@@ -18,7 +18,7 @@ function HomepageHeader() {
     <header className={styles.heroBanner}>
       <div className={styles.heroContent}>
         <h1 className={styles.heroTitle}>
-          Quran.Foundation Documentation Portal
+          Quran Foundation Documentation Portal
         </h1>
         <p className={styles.heroSubtitle}>
           Request access, pick the right integration path, and build with Quran
@@ -44,7 +44,7 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
   return (
     <Layout
-      description="QuranFoundation API Docs portal that will help Muslim developers get the Ummah closer to the Quran by seamlessly develop apps on top of Quran.Foundation's APIs."
+      description="Quran Foundation API Docs portal that will help Muslim developers get the Ummah closer to the Quran by seamlessly developing apps on top of Quran Foundation's APIs."
     >
       <HomepageHeader />
       <main>
