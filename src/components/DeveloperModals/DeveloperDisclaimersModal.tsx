@@ -14,7 +14,7 @@ const disclaimerPoints: React.ReactNode[] = [
   "Honor scholarly review and keep content aligned with verified sources.",
   "Use the API to keep content accurate as removals, additions, or edits occur.",
   "Focus on solving unique problems; the ummah needs more coverage than current resources provide.",
-  "Decide your commercial stance with scholars; if allowed, follow guidelines for both developers and Quran.Foundation collaboration.",
+  "Decide your commercial stance with scholars; if allowed, follow guidelines for both developers and Quran Foundation collaboration.",
   "Practice ta'awun (Quranic collaboration) with the wider ecosystem.",
 ];
 

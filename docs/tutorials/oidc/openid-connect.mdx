@@ -5,15 +5,15 @@ displayed_sidebar: APIsSidebar
 
 # OpenID Connect
 
-Quran.Foundation's OAuth 2.0 APIs can be used for both authentication and authorization.
+Quran Foundation's OAuth 2.0 APIs can be used for both authentication and authorization.
 
-In this [guide](/docs/tutorials/oidc/getting-started-with-oauth2), we have briefly explained what OAuth2 is and how to integrate with Quran.Foundation's OAuth2 server.
+In this [guide](/docs/tutorials/oidc/getting-started-with-oauth2), we have briefly explained what OAuth2 is and how to integrate with Quran Foundation's OAuth2 server.
 
-Besides OAuth2, Quran.Foundation also supports [OpenID Connect](https://openid.net/connect) standards by providing the [UserInfo Endpoint](/docs/oauth2_apis_versioned/get-oidc-user-info) to get more information about the user.
+Besides OAuth2, Quran Foundation also supports [OpenID Connect](https://openid.net/connect) standards by providing the [UserInfo Endpoint](/docs/oauth2_apis_versioned/get-oidc-user-info) to get more information about the user.
 
 ## OIDC Discovery & JWKS
 
-Quran.Foundation provides standard OIDC Discovery endpoints for automatic configuration:
+Quran Foundation provides standard OIDC Discovery endpoints for automatic configuration:
 
 | Environment    | Discovery URL                                                                                                                                          |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -79,7 +79,7 @@ The [ID Token](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) (`
 The `sub` (subject) claim is the **stable, unique user identifier** you should store in your database. This UUID:
 
 - Never changes for a given user
-- Is unique across all Quran.Foundation apps
+- Is unique across all Quran Foundation apps
 - Should be used as your primary key for user data
 - Is the same across all sessions and devices for that user
 

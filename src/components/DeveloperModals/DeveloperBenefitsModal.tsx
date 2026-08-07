@@ -21,12 +21,12 @@ const benefitPoints: React.ReactNode[] = [
     </Link>
     .
   </>,
-  "Direct support from Quran.Foundation and its broader network.",
+  "Direct support from Quran Foundation and its broader network.",
   "Reliable, scholarly verified Quranic content, with properly licensed translations, tafsir, and supplementary materials.",
   "Mission-driven community that prioritizes da'wah impact.",
   "Users can bring their reading history, bookmarks, saved verses, notes, reflections, and reading streaks into your app.",
   "Full feature set from Quran.com and QuranReflect, plus OAuth and a notification engine.",
-  "Funding or in-kind support for high-value projects aligned with Quran.Foundation plans.",
+  "Funding or in-kind support for high-value projects aligned with Quran Foundation plans.",
 ];
 
 export default function DeveloperBenefitsModal({
