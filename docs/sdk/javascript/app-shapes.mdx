@@ -17,10 +17,10 @@ Minimal import: `@quranjs/api/public` and sometimes `@quranjs/api/server`.
 
 ## Short Answer
 
-- If you want **Content** or **Search**, you need a backend.
-- If you want **User APIs only**, a frontend-only app can work only if Quran Foundation explicitly approves it as a **public client**.
-- If you want **both** user features and Quran data, build a frontend plus backend app.
-- Most real apps are **confidential clients** and should use a backend.
+- If you want **Content** or **Search**, use a backend and select **Backend/server app** in Developer Console.
+- If you want **User APIs only** without a backend, select **Frontend or mobile app**; Developer Console provisions it as a public client.
+- If you want **both** user features and Quran data, build a frontend plus backend app and select **Backend/server app**.
+- Always follow the flow for the app type shown in Developer Console instead of guessing the client type.
 
 ## Decision Tree
 
@@ -30,17 +30,17 @@ flowchart TD
   B -->|Yes| C["Use frontend + backend\nConfidential client\npublic in app, server in backend"]
   B -->|No| D{"Do you need signed-in user features?"}
   D -->|No| E["You may not need OAuth at all"]
-  D -->|Yes| F{"Has Quran Foundation approved your app as a public client?"}
-  F -->|Yes| G["SPA only or mobile only\nPublic client\nPKCE + user token"]
-  F -->|No| H["Use frontend + backend\nConfidential client"]
+  D -->|Yes| F{"Which app type did you select in Developer Console?"}
+  F -->|Frontend or mobile| G["SPA only or mobile only\nPublic client\nPKCE + user token"]
+  F -->|Backend/server| H["Use frontend + backend\nConfidential client"]
 ```
 
 ## 3 App Shapes
 
 | App shape | Typical client type | Backend required? | Can use User APIs? | Can use Content? | Can use Search? | Recommended SDK use |
 | --- | --- | --- | --- | --- | --- | --- |
-| SPA only | Public client | Usually yes unless Quran Foundation explicitly approves a public client | Yes | No | No | `@quranjs/api/public` |
-| Mobile only | Public client | Usually yes unless Quran Foundation explicitly approves a public client | Yes | No | No | `@quranjs/api/public` |
+| SPA only | Public client | No for OAuth; browser-origin restrictions may still require an API proxy | Yes | No | No | `@quranjs/api/public` |
+| Mobile only | Public client | No | Yes | No | No | `@quranjs/api/public` |
 | Frontend + backend | Confidential client | Yes | Yes | Yes | Yes | app: `@quranjs/api/public`, backend: `@quranjs/api/server` |
 
 ## If You Want This, Build That
@@ -49,16 +49,18 @@ flowchart TD
 | --- | --- | --- |
 | Quran reader only | Frontend + backend | Reader data comes from the protected Content API |
 | Search only | Frontend + backend | Search uses an app token and needs a backend |
-| Notes, bookmarks, or collections only | SPA only or mobile only if approved as a public client; otherwise frontend + backend | These are User APIs and use a user token |
+| Notes, bookmarks, or collections only | SPA or mobile app using the **Frontend or mobile app** type; add a proxy if browser-origin rules require one | These are User APIs and use a user token |
 | Reader plus bookmarks | Frontend + backend | Reader needs Content and bookmarks need a user session |
 | Search plus signed-in user features | Frontend + backend | Search needs an app token and user features need a user token |
-| Mobile app with signed-in user features only | Mobile only if approved as a public client; otherwise mobile + backend | PKCE is possible in the app, but most clients are confidential by default |
+| Mobile app with signed-in user features only | Mobile app using the **Frontend or mobile app** type | Developer Console provisions a public client that uses PKCE without a secret |
 
 ## Public Client vs Confidential Client
 
 ### Public client
 
 Think: code running on the user's device.
+
+Select **Frontend or mobile app** in Developer Console for this client type.
 
 - Browser SPA
 - Mobile app
@@ -80,6 +82,8 @@ Public clients cannot directly use:
 ### Confidential client
 
 Think: app with a safe backend.
+
+Select **Backend/server app** in Developer Console for this client type.
 
 - Next.js with server routes
 - Express backend

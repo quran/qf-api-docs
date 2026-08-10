@@ -43,7 +43,8 @@ and backend.
 
 User APIs can be called with the SDK, but your app still needs OAuth2 login,
 session storage, token refresh, and approved scopes. The starter includes those
-pieces; SDK-only integrations must wire them in their own backend.
+pieces; SDK-only integrations must wire them according to the app type selected
+in Developer Console.
 
 <AgentPromptCallout />
 
@@ -71,27 +72,27 @@ There are two different tokens in the system:
 
 They solve different jobs, so they can expire at different times. That is why Content can still work even when User APIs start failing. Content and Search use a separate app token that `@quranjs/api/server` gets with `client_credentials`. User APIs use the signed-in user's session token.
 
-The browser never gets the `client_secret`. The secret stays on the backend so the backend can exchange codes, refresh user sessions, and ask for app tokens safely.
+For a **Backend/server app**, the browser never gets the `client_secret`; the backend exchanges codes, refreshes user sessions, and requests app tokens. A **Frontend or mobile app** is public, receives no secret, and exchanges its authorization code with PKCE.
 
-## PKCE + Backend
+## PKCE and Client Type
 
 PKCE is the "proof" the app sends during login. It helps the app prove the same login request came back to it.
 
-For most clients, PKCE is only half the story:
+For a **Backend/server app**, PKCE is only half the story:
 
 - The frontend or mobile app starts login with PKCE.
 - The backend or BFF finishes the confidential parts, like code exchange and refresh.
 - The backend stores the session server-side.
 
-That is why modern edge or serverless frontends still usually need a backend layer. The edge can host the UI, but the confidential token work and shared session storage still belong in a backend or BFF.
+For a **Frontend or mobile app**, Developer Console creates a public client. The app exchanges the code with PKCE, refreshes with `client_id` and no secret, and does not need a backend for the OAuth exchange. Browser-origin restrictions may still require an API proxy.
 
 ## Pick Your Setup
 
 If you want the very short version, use this:
 
-- **SPA only**: User APIs only, and only if Quran Foundation approved your app as a public client.
-- **Mobile only**: same as SPA only.
-- **Frontend + backend**: the normal path for Content, Search, and apps that mix user features with Quran data.
+- **SPA only**: Select **Frontend or mobile app** in Developer Console; use User APIs with a public client and PKCE.
+- **Mobile only**: Select **Frontend or mobile app** and use the same public-client flow.
+- **Frontend + backend**: Select **Backend/server app** for Content, Search, or apps that mix user features with Quran data.
 
 ### I have a backend
 
@@ -123,7 +124,7 @@ This only works safely for:
 
 - PKCE login
 - user-session flows
-- clients that Quran Foundation explicitly provisioned as **public**
+- clients created with the **Frontend or mobile app** type in Developer Console
 
 It does **not** support `client_secret`.
 
@@ -133,9 +134,9 @@ It does **not** support `client_secret`.
 | ---------------------------------------- | ----------------- | -------------------------------------------------------------- |
 | Content                                  | Yes               | Use `@quranjs/api/server`                                      |
 | Search                                   | Yes               | Use `@quranjs/api/server`                                      |
-| User APIs                                | Usually yes       | Most clients are confidential by default                       |
-| OAuth2 login                             | Usually yes       | Frontend starts PKCE, backend exchanges code                   |
-| OAuth2 login for approved public clients | No                | Only if Quran Foundation explicitly says your client is public |
+| User APIs                                | Depends           | Public frontend/mobile apps can authenticate without a backend; origin restrictions may still require a proxy |
+| OAuth2 login for backend/server apps     | Yes               | Frontend starts PKCE, backend exchanges the code with client authentication |
+| OAuth2 login for frontend/mobile apps    | No                | Public client exchanges the code with PKCE and no secret       |
 
 If your app is deployed as an edge frontend, keep the confidential exchange, refresh, and shared session store in a backend or BFF layer. The edge can still be the entrypoint for users.
 
@@ -161,7 +162,7 @@ import { createPublicClient } from "@quranjs/api/public";
 
 const client = createPublicClient({
   clientId: "your-client-id",
-  clientType: "confidential-proxy",
+  clientType: "public",
 });
 
 const authUrl = client.oauth2.v1.authorizeUrl({

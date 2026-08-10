@@ -1,6 +1,6 @@
 ---
 title: "Full-Stack Quickstart"
-description: "Recommended pattern for most apps: public client in the frontend and server client in the backend."
+description: "Recommended pattern for full-stack apps: the public SDK entrypoint in the frontend and server SDK entrypoint in the backend."
 slug: /sdk/javascript/full-stack
 sidebar_position: 8
 ---
@@ -9,10 +9,10 @@ sidebar_position: 8
 
 Purpose: Show the recommended setup for most teams.
 Use this when: You have frontend code and backend code.
-Do not use this when: You only have a backend or only have an approved public client.
+Do not use this when: You only have a backend or selected **Frontend or mobile app** for a public client with no backend exchange.
 Backend required: Yes.
 Allowed runtimes: Browser + backend, mobile + backend.
-Required credentials: `client_id` in the frontend, `client_id` and `client_secret` in the backend.
+Required credentials: A **Backend/server app** from Developer Console, with its `client_id` in the frontend and its `client_id` plus one-time `client_secret` in the backend.
 Minimal import: `@quranjs/api/public` in frontend, `@quranjs/api/server` in backend.
 
 ## Frontend

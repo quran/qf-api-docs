@@ -8,9 +8,9 @@ sidebar_position: 7
 # Public Quickstart
 
 Purpose: Start PKCE and user-session flows from frontend or mobile code.  
-Use this when: You are writing browser or mobile code.  
+Use this when: You selected **Frontend or mobile app** in Developer Console and are writing browser or mobile code.<br />
 Do not use this when: You need Content, Search, or `client_secret`.  
-Backend required: Usually yes.  
+Backend required: No for OAuth; browser-origin restrictions may still require an API proxy.<br />
 Allowed runtimes: Browser apps, mobile apps.  
 Required credentials: `client_id`.  
 Minimal import: `@quranjs/api/public`.
@@ -22,7 +22,7 @@ import { createPublicClient } from "@quranjs/api/public";
 
 const client = createPublicClient({
   clientId: "your-client-id",
-  clientType: "confidential-proxy",
+  clientType: "public",
 });
 
 const authUrl = client.oauth2.v1.authorizeUrl({
@@ -39,7 +39,7 @@ const authUrl = client.oauth2.v1.authorizeUrl({
 ```ts
 const client = createPublicClient({
   clientId: "your-client-id",
-  clientType: "confidential-proxy",
+  clientType: "public",
   userSession: {
     accessToken: "user-access-token",
   },
@@ -57,3 +57,4 @@ the same QuranReflect post helper shape documented in
 - Putting `client_secret` in frontend code.
 - Calling Content or Search from `public`.
 - Calling `oauth2/token` directly for a confidential client.
+- Using `clientType: "confidential-proxy"` when the Console app type is **Frontend or mobile app**.
