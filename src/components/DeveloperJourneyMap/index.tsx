@@ -69,7 +69,7 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
             <p className={styles.prerequisiteLabel}>Start here</p>
             <h3 className={styles.prerequisiteTitle}>Create your API app</h3>
             <p className={styles.prerequisiteText}>
-              Register your app to receive prelive credentials, configure redirect
+              Register your app to receive pre-live credentials, configure redirect
               URIs, and request production permissions when you are ready.
             </p>
           </div>
@@ -77,7 +77,7 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
             className={styles.prerequisiteLink}
             href="https://dev-console.quran.foundation/projects/new"
           >
-            Create app in Developer Console ↗
+            Create app in Developer Console <span aria-hidden="true">↗</span>
           </a>
         </div>
 

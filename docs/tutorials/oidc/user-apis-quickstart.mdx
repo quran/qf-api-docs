@@ -47,7 +47,7 @@ If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 - Have your backend or serverless proxy call User APIs with `x-auth-token` and `x-client-id`.
 :::
 
-Most Request Access clients are confidential clients by default. Direct browser calls from third-party origins are not the recommended web pattern and may be rejected by CORS or origin allowlist checks.
+Backend/server apps created in Developer Console are confidential clients. Direct browser calls from third-party origins are not the recommended web pattern and may be rejected by CORS or origin allowlist checks.
 
 :::tip Public-client exception
 If Quran Foundation explicitly confirms that your client is public, you can complete token exchange and refresh in the app with PKCE only. If you did not receive that confirmation, assume your client is confidential.

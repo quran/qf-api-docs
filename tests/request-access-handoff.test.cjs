@@ -19,7 +19,7 @@ test("request access page hands new developers to the Developer Console", () => 
     page,
     /https:\/\/dev-console\.quran\.foundation\/projects/
   );
-  assert.match(page, /Build in prelive/);
+  assert.match(page, /Build in pre-live/);
   assert.match(page, /Request production permissions/);
   assert.match(page, /Already have an app\?/);
   assert.match(page, /Open your apps/);
@@ -33,6 +33,10 @@ test("request access page routes existing clients to the Console import flow", (
   assert.match(page, /Import existing client/);
   assert.match(page, /Request still pending\?/);
   assert.match(page, /No action is needed/);
+  assert.match(
+    page,
+    /Import existing client\s*<span aria-hidden="true">↗<\/span>/
+  );
   assert.doesNotMatch(page, /Contact developer support/);
 });
 
@@ -66,6 +70,11 @@ test("homepage explains Developer Console and links new apps there directly", ()
   assert.match(journey, /Create your app in Developer Console first/);
   assert.match(journey, /Create your API app/);
   assert.match(journey, /Create app in Developer Console/);
+  assert.match(journey, /pre-live credentials/);
+  assert.match(
+    journey,
+    /Create app in Developer Console\s*<span aria-hidden="true">↗<\/span>/
+  );
   assert.match(
     journey,
     /https:\/\/dev-console\.quran\.foundation\/projects\/new/

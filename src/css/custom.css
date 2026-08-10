@@ -303,14 +303,6 @@ a.navbar__item--request-access:hover {
   font-size: 0.85rem;
 }
 
-.request-access-form {
-  background: var(--qf-surface-card);
-  padding: 1.5rem;
-  border-radius: var(--qf-radius-lg);
-  border: 1px solid var(--qf-border-card);
-  box-shadow: var(--qf-shadow-sm);
-}
-
 /* ─── OpenAPI demo panel polish ───────────────────────────── */
 .theme-api-markdown {
   --openapi-card-background-color: var(--qf-surface-card);

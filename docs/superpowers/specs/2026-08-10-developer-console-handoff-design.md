@@ -10,7 +10,7 @@ Replace the API Docs request-access form with a clear handoff to the Quran.Found
 - Lead with a short explanation and one primary action: **Create an API app**.
 - Link the primary action directly to `https://dev-console.quran.foundation/projects/new`.
 - Provide a quieter secondary link for returning developers to manage existing apps.
-- Explain the lifecycle in three brief steps: create the app, build in prelive, request production permissions.
+- Explain the lifecycle in three brief steps: create the app, build in pre-live, request production permissions.
 - Give existing clients a direct import action at `https://dev-console.quran.foundation/claims`, while clarifying that pending legacy requests need no action.
 - Keep the prominent **Request Access** navbar action linked to the `/request-access` bridge page.
 - Send the homepage prerequisite card directly to the Developer Console app-creation flow after briefly explaining what the Console provides.

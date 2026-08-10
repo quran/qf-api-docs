@@ -13,7 +13,7 @@ const accessSteps = [
         description: 'Add your app details and redirect URLs in Developer Console.',
     },
     {
-        title: 'Build in prelive',
+        title: 'Build in pre-live',
         description: 'Use your credentials to integrate and test safely before launch.',
     },
     {
@@ -93,7 +93,9 @@ export default function RequestAccess() {
                                 Existing requests will continue to be processed.
                             </p>
                         </div>
-                        <a href={IMPORT_CLIENT_URL}>Import existing client ↗</a>
+                        <a href={IMPORT_CLIENT_URL}>
+                            Import existing client <span aria-hidden="true">↗</span>
+                        </a>
                     </aside>
 
                     <p className={styles.footerLink}>
