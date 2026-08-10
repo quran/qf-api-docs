@@ -35,6 +35,8 @@ const PROMPTS: Record<
     title: "Start with the official Quran Foundation app scaffold",
     promptText: `Set up a production-style Quran Foundation Next.js app using the official scaffold.
 
+Before running the scaffold, create a Backend/server app in Developer Console and save its pre-live Client ID and one-time Client Secret. This full-stack starter is not configured for the secretless Frontend or mobile app type.
+
 Run this command:
 npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
 

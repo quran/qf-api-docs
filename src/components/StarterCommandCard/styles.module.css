@@ -47,6 +47,13 @@
   white-space: nowrap;
 }
 
+.prerequisite {
+  margin: 0 0 0.75rem;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .commandRow {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

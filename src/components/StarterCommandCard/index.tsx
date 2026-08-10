@@ -59,6 +59,13 @@ export default function StarterCommandCard({
         </div>
         {meta ? <span className={styles.meta}>{meta}</span> : null}
       </div>
+      <p className={styles.prerequisite}>
+        <strong>Before you run this:</strong> create a{" "}
+        <a href="https://dev-console.quran.foundation/projects/new">
+          Backend/server app in Developer Console
+        </a>{" "}
+        and save its one-time client secret.
+      </p>
       <div className={styles.commandRow}>
         <code className={styles.command}>{NEXT_JS_STARTER_COMMAND}</code>
         <button

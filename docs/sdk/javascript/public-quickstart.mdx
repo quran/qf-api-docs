@@ -17,22 +17,92 @@ Minimal import: `@quranjs/api/public`.
 
 ## Minimal Example
 
+This browser example generates an RFC 7636 S256 PKCE pair. React Native apps should use a secure platform crypto library or an OAuth library such as Expo AuthSession with PKCE enabled.
+
 ```ts
 import { createPublicClient } from "@quranjs/api/public";
+
+const PKCE_STORAGE_KEY = "qf:oauth:pending";
+const redirectUri = "http://localhost:3000/callback";
+
+const base64url = (bytes: Uint8Array) =>
+  btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
+
+async function createPkcePair() {
+  const verifierBytes = crypto.getRandomValues(new Uint8Array(32));
+  const codeVerifier = base64url(verifierBytes);
+  const challengeBytes = new Uint8Array(
+    await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(codeVerifier),
+    ),
+  );
+
+  return { codeVerifier, codeChallenge: base64url(challengeBytes) };
+}
 
 const client = createPublicClient({
   clientId: "your-client-id",
   clientType: "public",
 });
 
+const state = crypto.randomUUID();
+const nonce = crypto.randomUUID();
+const { codeVerifier, codeChallenge } = await createPkcePair();
+
+sessionStorage.setItem(
+  PKCE_STORAGE_KEY,
+  JSON.stringify({ codeVerifier, nonce, state }),
+);
+
 const authUrl = client.oauth2.v1.authorizeUrl({
   client_id: "your-client-id",
-  redirect_uri: "http://localhost:3000/callback",
+  redirect_uri: redirectUri,
   response_type: "code",
   scope: "openid offline_access user bookmark collection",
-  state: "random-state",
+  state,
+  nonce,
+  code_challenge: codeChallenge,
+  code_challenge_method: "S256",
+});
+
+window.location.assign(authUrl);
+```
+
+## Exchange the Callback Code
+
+On the registered callback page, validate `state`, consume the stored verifier once, and pass it to the public SDK exchange:
+
+```ts
+const callback = new URLSearchParams(window.location.search);
+const code = callback.get("code");
+const returnedState = callback.get("state");
+const pendingJson = sessionStorage.getItem(PKCE_STORAGE_KEY);
+const pending = pendingJson
+  ? (JSON.parse(pendingJson) as {
+      codeVerifier: string;
+      nonce: string;
+      state: string;
+    })
+  : null;
+
+if (!code || !pending || returnedState !== pending.state) {
+  throw new Error("Invalid OAuth callback state");
+}
+
+sessionStorage.removeItem(PKCE_STORAGE_KEY);
+
+await client.oauth2.v1.exchangeCode({
+  code,
+  codeVerifier: pending.codeVerifier,
+  redirectUri,
 });
 ```
+
+Validate the ID token and its `nonce` with an OIDC-capable library before trusting identity claims. See the [manual OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) for the complete validation and refresh requirements.
 
 ## If You Already Have a User Session
 

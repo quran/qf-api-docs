@@ -64,3 +64,43 @@ test('documents SvelteKit scaffold command on starter page', () => {
     /npx @quranjs\/create-app@latest my-quran-app --template sveltekit --package-manager npm --install --git --sdk-source npm --yes/,
   );
 });
+
+test('requires a backend/server Console app for the full-stack starter', () => {
+  const starter = readDoc('tutorials/oidc/starter-with-npx.mdx');
+
+  assert.match(starter, /Backend\/server app/);
+  assert.match(starter, /one-time `client_secret`/);
+  assert.match(starter, /Developer Console/);
+});
+
+test('public-client SDK examples include the complete PKCE authorization setup', () => {
+  const examples = [
+    readDoc('sdk/javascript/public-quickstart.mdx'),
+    readDoc('sdk/javascript/index.mdx'),
+  ];
+
+  for (const example of examples) {
+    assert.match(example, /crypto\.getRandomValues/);
+    assert.match(example, /crypto\.subtle\.digest/);
+    assert.match(example, /sessionStorage\.setItem/);
+    assert.match(example, /code_challenge: codeChallenge/);
+    assert.match(example, /code_challenge_method: "S256"/);
+  }
+
+  assert.match(examples[0], /exchangeCode\(\{[\s\S]*codeVerifier/);
+});
+
+test('React Native OAuth guidance branches on the Console app type', () => {
+  const reactNative = readDoc('tutorials/oidc/mobile-apps/react-native.mdx');
+
+  assert.match(reactNative, /Frontend or mobile app/);
+  assert.match(reactNative, /Backend\/server app/);
+  assert.doesNotMatch(reactNative, /token_endpoint_auth_method=none/);
+});
+
+test('React Native example keeps OAuth and User APIs in the same environment', () => {
+  const reactNative = readDoc('tutorials/oidc/mobile-apps/react-native.mdx');
+
+  assert.match(reactNative, /https:\/\/apis-prelive\.quran\.foundation/);
+  assert.match(reactNative, /`\$\{apiBaseUrl\}\/auth\/v1\/bookmarks`/);
+});

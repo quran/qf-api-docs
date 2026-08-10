@@ -11,24 +11,25 @@ npx @quranjs/create-app@latest doctor
 Review checklist:
 
 - First identify whether the app is new scaffolded code, an existing JS/TS integration, a Python SDK integration, or a mixed integration.
+- Identify the app type selected in Developer Console and verify that the implementation uses the matching public or confidential flow.
 - New apps use `@quranjs/create-app`; existing JS/TS apps use `@quranjs/api`.
 - Python apps use `quran-foundation-api` from trusted server-side environments.
-- Browser-safe OAuth initiation uses `@quranjs/api/public`.
-- Token exchange, refresh, Content APIs, Search APIs, and User APIs use `@quranjs/api/server`.
-- `CLIENT_SECRET`, `SESSION_SECRET`, access tokens, and refresh tokens never reach browser code.
+- A **Frontend or mobile app** uses `@quranjs/api/public` with `clientType: "public"`, an S256 PKCE challenge, in-app code exchange with the stored verifier, and refresh with `client_id` and no secret.
+- A **Backend/server app** uses `@quranjs/api/public` with `clientType: "confidential-proxy"` for browser-safe initiation and `@quranjs/api/server` for confidential exchange, refresh, session storage, Content, Search, and proxied User APIs.
+- `CLIENT_SECRET` and `SESSION_SECRET` never reach browser/mobile code. Public-client user tokens use secure platform-appropriate storage and never appear in logs.
 - Content/Search app tokens are separate from signed-in user session tokens.
 - Signed-in User API calls require a valid user session.
 - Logout uses OIDC end-session.
-- OAuth callback, refresh, and logout routes are server-side.
+- OAuth callback, refresh, session storage, and logout match the Developer Console app type: in-app for public frontend/mobile clients or server-side for confidential backend/server clients.
 - `.env.example` documents required runtime variables without real secrets.
 - Response handling covers success variations and common error status codes.
 - Every API call maps to an official docs page or OpenAPI path with the expected auth type and scopes.
-- Raw endpoint calls are server-side and used only where the SDK lacks a dedicated helper.
+- Raw endpoint calls are used only where the SDK lacks a dedicated helper and stay within the matching public/confidential runtime boundary; Content and Search remain server-side.
 
 Common findings:
 
 - `@quranjs/api/server` imported into a browser component.
-- Token exchange implemented in browser code.
+- A public client that omits the PKCE verifier/challenge, or a confidential client that exchanges tokens in browser/mobile code.
 - Access tokens or refresh tokens stored in local storage.
 - App-level Content/Search tokens reused as user session tokens.
 - Logout only deletes local state.

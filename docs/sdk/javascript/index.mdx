@@ -160,6 +160,30 @@ const chapters = await client.content.v4.chapters.list();
 ```ts
 import { createPublicClient } from "@quranjs/api/public";
 
+const base64url = (bytes: Uint8Array) =>
+  btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
+
+const verifierBytes = crypto.getRandomValues(new Uint8Array(32));
+const codeVerifier = base64url(verifierBytes);
+const codeChallenge = base64url(
+  new Uint8Array(
+    await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(codeVerifier),
+    ),
+  ),
+);
+const state = crypto.randomUUID();
+const nonce = crypto.randomUUID();
+
+sessionStorage.setItem(
+  "qf:oauth:pending",
+  JSON.stringify({ codeVerifier, nonce, state }),
+);
+
 const client = createPublicClient({
   clientId: "your-client-id",
   clientType: "public",
@@ -170,9 +194,14 @@ const authUrl = client.oauth2.v1.authorizeUrl({
   redirect_uri: "http://localhost:3000/callback",
   response_type: "code",
   scope: "openid offline_access user bookmark",
-  state: "random-state",
+  state,
+  nonce,
+  code_challenge: codeChallenge,
+  code_challenge_method: "S256",
 });
 ```
+
+The callback must validate `state`, retrieve and remove the stored verifier, and pass it as `codeVerifier` to `client.oauth2.v1.exchangeCode`. See the [Public Quickstart](/docs/sdk/javascript/public-quickstart) for the complete callback example.
 
 ## First Working Examples
 

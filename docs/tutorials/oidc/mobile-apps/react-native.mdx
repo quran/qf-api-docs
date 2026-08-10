@@ -12,7 +12,12 @@ import PartialIntro from "./_intro.mdx";
 <PartialObtainClientCredentials />
 
 :::tip Recommended Pattern
-Let the app open the Quran Foundation login screen and generate PKCE, then send `code + code_verifier + redirect_uri` to your backend. Your backend performs token exchange and refresh. If Quran Foundation provisioned your client with `token_endpoint_auth_method=none`, you can also do the token exchange directly in the app.
+Choose the flow that matches the app type you selected in Developer Console:
+
+- **Frontend or mobile app:** use a public client. Generate PKCE and exchange the code directly in the app; no client secret is involved.
+- **Backend/server app:** use a confidential client. Let the app generate PKCE, then send `code + code_verifier + redirect_uri` to your backend for token exchange and refresh.
+
+The example below demonstrates the **Backend/server app** flow. The example repository later on this page shows the direct public-client variant.
 :::
 
 ## ⚡ Quick Setup
@@ -43,6 +48,9 @@ const USE_PRELIVE = true; // set to false for production
 const authBaseUrl = USE_PRELIVE
   ? "https://prelive-oauth2.quran.foundation"
   : "https://oauth2.quran.foundation";
+const apiBaseUrl = USE_PRELIVE
+  ? "https://apis-prelive.quran.foundation"
+  : "https://apis.quran.foundation";
 
 // OAuth2 endpoints
 const discovery = {
@@ -200,7 +208,7 @@ Once authenticated, use the `accessToken` to call User APIs:
 // Example: Fetch user's bookmarks
 const fetchBookmarks = async () => {
   const response = await fetch(
-    "https://apis.quran.foundation/auth/v1/bookmarks",
+    `${apiBaseUrl}/auth/v1/bookmarks`,
     {
       headers: {
         "x-auth-token": authSession.accessToken,

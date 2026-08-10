@@ -65,6 +65,7 @@ test("navbar keeps the prominent request-access entry point", () => {
 test("homepage explains Developer Console and links new apps there directly", () => {
   const homepage = read("src", "pages", "index.tsx");
   const journey = read("src", "components", "DeveloperJourneyMap", "index.tsx");
+  const starterCard = read("src", "components", "StarterCommandCard", "index.tsx");
 
   assert.match(homepage, /Create your app in Developer Console/);
   assert.match(journey, /Create your app in Developer Console first/);
@@ -80,4 +81,9 @@ test("homepage explains Developer Console and links new apps there directly", ()
     /https:\/\/dev-console\.quran\.foundation\/projects\/new/
   );
   assert.doesNotMatch(journey, /to="\/request-access"/);
+  assert.match(starterCard, /Backend\/server app/);
+  assert.match(
+    starterCard,
+    /className=\{styles\.prerequisite\}[\s\S]*className=\{styles\.commandRow\}/
+  );
 });

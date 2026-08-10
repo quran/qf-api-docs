@@ -2,7 +2,7 @@
 sidebar_position: 2
 displayed_sidebar: APIsSidebar
 title: "Starter With NPX"
-description: "Fastest public path to scaffold a production-shaped Quran Foundation app with @quranjs/create-app."
+description: "Fastest way to scaffold a production-shaped Quran Foundation app with @quranjs/create-app."
 ---
 
 # Starter With NPX
@@ -10,7 +10,7 @@ description: "Fastest public path to scaffold a production-shaped Quran Foundati
 :::info Quick Summary
 **Audience:** Developers who want a complete starter app instead of wiring OAuth2, sessions, reader/search, and user features from scratch.
 
-**Prerequisites:** Quran Foundation client credentials, app URLs, and approved scopes for the user features you keep.
+**Prerequisites:** A **Backend/server app** created in [Developer Console](https://dev-console.quran.foundation/projects/new), its pre-live `client_id` and one-time `client_secret`, app URLs, and approved scopes for the user features you keep.
 
 **Recommended path:** Start with `next` unless you specifically want SvelteKit, configure environment variables, then customize the generated app.
 
@@ -18,6 +18,10 @@ description: "Fastest public path to scaffold a production-shaped Quran Foundati
 :::
 
 Use this page when the starter app is a useful base for your product. If you already have your own UI and backend, use the [JavaScript SDK guide](/docs/sdk/javascript) and [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) instead.
+
+:::important Create the backend/server app first
+The generated starter uses server-side sessions, Content and Search APIs, and a confidential OAuth2 exchange. A **Frontend or mobile app** from Developer Console has no client secret and cannot configure this full-stack starter.
+:::
 
 ## Primary Command
 

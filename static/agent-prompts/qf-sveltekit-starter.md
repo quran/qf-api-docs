@@ -10,6 +10,7 @@ npx @quranjs/create-app@latest my-quran-app --template sveltekit --package-manag
 
 Requirements:
 
+- Before running the scaffold, create a **Backend/server app** in Developer Console and save its pre-live Client ID and one-time Client Secret. The generated full-stack starter is not configured for the secretless **Frontend or mobile app** type.
 - Run the scaffold command first. Do not hand-create a SvelteKit OAuth app from scratch.
 - After generation, read the generated `AGENTS.md` and follow its framework-specific verification commands before editing scaffolded files.
 - Start from the generated scaffold and preserve its server routes, session, callback, refresh, and logout structure unless a project requirement explicitly needs a narrow change.
