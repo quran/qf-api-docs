@@ -8,6 +8,27 @@ const docsRoot = path.join(__dirname, '..', 'docs');
 const readDoc = (docPath) =>
   fs.readFileSync(path.join(docsRoot, docPath), 'utf8');
 
+const assertClientExamplesUsePrelive = (page, factoryName) => {
+  const content = readDoc(page);
+  const examples = content.match(
+    new RegExp(`${factoryName}\\(\\{[\\s\\S]*?\\n\\}\\);`, 'g'),
+  );
+
+  assert.ok(examples?.length, `expected ${page} to call ${factoryName}`);
+  for (const example of examples) {
+    assert.match(
+      example,
+      /gatewayUrl: "https:\/\/apis-prelive\.quran\.foundation"/,
+      `expected every ${factoryName} call in ${page} to use the pre-live API gateway`,
+    );
+    assert.match(
+      example,
+      /oauth2BaseUrl: "https:\/\/prelive-oauth2\.quran\.foundation"/,
+      `expected every ${factoryName} call in ${page} to use the pre-live OAuth host`,
+    );
+  }
+};
+
 const npxRequiredPages = [
   'tutorials/oidc/starter-with-npx.mdx',
   'tutorials/oidc/getting-started-with-oauth2.mdx',
@@ -103,4 +124,74 @@ test('React Native example keeps OAuth and User APIs in the same environment', (
 
   assert.match(reactNative, /https:\/\/apis-prelive\.quran\.foundation/);
   assert.match(reactNative, /`\$\{apiBaseUrl\}\/auth\/v1\/bookmarks`/);
+});
+
+test('new Console app SDK examples default every server client to pre-live', () => {
+  const onboardingPages = [
+    'quickstart/index.md',
+    'sdk/javascript/index.mdx',
+    'sdk/javascript/server-quickstart.mdx',
+    'sdk/javascript/full-stack.mdx',
+    'tutorials/oidc/user-apis-quickstart.mdx',
+  ];
+
+  for (const page of onboardingPages) {
+    assertClientExamplesUsePrelive(page, 'createServerClient');
+  }
+});
+
+test('new Console app SDK examples default every public client to pre-live', () => {
+  const onboardingPages = [
+    'sdk/javascript/index.mdx',
+    'sdk/javascript/public-quickstart.mdx',
+    'sdk/javascript/full-stack.mdx',
+  ];
+
+  for (const page of onboardingPages) {
+    assertClientExamplesUsePrelive(page, 'createPublicClient');
+  }
+});
+
+test('server quickstart keeps permission-gated Search out of the first request', () => {
+  const serverQuickstart = readDoc('sdk/javascript/server-quickstart.mdx');
+  const minimalExample = serverQuickstart.match(
+    /## Minimal Example([\s\S]*?)## Add Search/,
+  );
+
+  assert.ok(minimalExample, 'expected separate minimal and Search sections');
+  assert.doesNotMatch(minimalExample[1], /search\.v1/);
+  assert.match(
+    serverQuickstart,
+    /Search requires additional permission in Developer Console/,
+  );
+});
+
+test('Console-facing OAuth docs use the selectable app-type labels', () => {
+  const guides = [
+    readDoc('tutorials/oidc/getting-started-with-oauth2.mdx'),
+    readDoc('tutorials/oidc/user-apis-quickstart.mdx'),
+    readDoc('tutorials/oidc/mobile-apps/_obtain_client_credentials.mdx'),
+  ];
+
+  for (const guide of guides) {
+    assert.match(guide, /Frontend or mobile app/);
+    assert.match(guide, /Backend\/server app/);
+    assert.doesNotMatch(
+      guide,
+      /(?:choose|selected) (?:the |a )?(?:\*\*)?browser\/mobile app/i,
+    );
+  }
+});
+
+test('onboarding help sends self-service setup to Developer Console first', () => {
+  const pages = [
+    readDoc('quickstart/index.md'),
+    readDoc('tutorials/oidc/user-apis-quickstart.mdx'),
+  ];
+
+  for (const page of pages) {
+    const helpSection = page.slice(page.indexOf('## Need Help?'));
+    assert.match(helpSection, /Developer Console/);
+    assert.match(helpSection, /cannot resolve|still need help/i);
+  }
 });

@@ -82,6 +82,15 @@ test('prompts constrain agents to official commands, docs, SDK boundaries, and c
   assert.match(oauthPrompt, /Backend\/server app/);
   assert.match(oauthPrompt, /documented endpoint, required scope, request parameters/);
   assert.match(oauthPrompt, /authenticated User API smoke check/);
+  assert.match(
+    oauthPrompt,
+    /frontend\/mobile public client[\s\S]*end-session flow in the app/,
+  );
+  assert.match(
+    oauthPrompt,
+    /backend\/server confidential client[\s\S]*logout route/,
+  );
+  assert.doesNotMatch(oauthPrompt, /^- Add a logout route/m);
 
   const reviewPrompt = readPrompt('qf-review-existing-integration.md');
   assert.match(reviewPrompt, /app type selected in Developer Console/);

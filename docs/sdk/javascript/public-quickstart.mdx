@@ -47,6 +47,10 @@ async function createPkcePair() {
 const client = createPublicClient({
   clientId: "your-client-id",
   clientType: "public",
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const state = crypto.randomUUID();
@@ -71,6 +75,8 @@ const authUrl = client.oauth2.v1.authorizeUrl({
 
 window.location.assign(authUrl);
 ```
+
+The service URLs explicitly keep a newly created Console app in pre-live. After production permissions are granted, switch the Client ID and both service URLs to production together.
 
 ## Exchange the Callback Code
 
@@ -110,6 +116,10 @@ Validate the ID token and its `nonce` with an OIDC-capable library before trusti
 const client = createPublicClient({
   clientId: "your-client-id",
   clientType: "public",
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
   userSession: {
     accessToken: "user-access-token",
   },

@@ -28,7 +28,7 @@ For backwards compatibility, `@quranjs/api` still exports the legacy `QuranClien
 
 If you are still asking "what kind of app am I building?" start with [App Shapes](/docs/sdk/javascript/app-shapes). It is the shortest path to the right architecture.
 
-Production defaults are built in. If you are maintaining the SDK itself and need local smoke or local docs instructions, use the maintainer guide in the [`api-js` repo](https://github.com/quran/api-js/tree/main/packages/api#local-development).
+The SDK has production defaults, while the onboarding examples below explicitly use pre-live so they work with a newly created Developer Console app. Switch credentials and every configured service URL to production together only after production permissions are granted. If you are maintaining the SDK itself and need local smoke or local docs instructions, use the maintainer guide in the [`api-js` repo](https://github.com/quran/api-js/tree/main/packages/api#local-development).
 
 ## SDK vs Starter App
 
@@ -150,6 +150,10 @@ import { createServerClient } from "@quranjs/api/server";
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const chapters = await client.content.v4.chapters.list();
@@ -187,6 +191,10 @@ sessionStorage.setItem(
 const client = createPublicClient({
   clientId: "your-client-id",
   clientType: "public",
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const authUrl = client.oauth2.v1.authorizeUrl({
@@ -209,19 +217,20 @@ The callback must validate `state`, retrieve and remove the stored verifier, and
 
 ```ts
 import { createServerClient } from "@quranjs/api/server";
-import { SearchMode } from "@quranjs/api";
 
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const chapters = await client.content.v4.chapters.list();
-const results = await client.search.v1.query({
-  query: "mercy",
-  mode: SearchMode.Quick,
-});
 ```
+
+Search requires additional permission in Developer Console; add Search calls only after that permission is granted for the same environment.
 
 ### Full-stack example
 
@@ -233,6 +242,10 @@ import { createPublicClient } from "@quranjs/api/public";
 const client = createPublicClient({
   clientId: "your-client-id",
   clientType: "confidential-proxy",
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 ```
 
@@ -244,6 +257,10 @@ import { createServerClient } from "@quranjs/api/server";
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 ```
 
@@ -252,6 +269,7 @@ const client = createServerClient({
 - Putting `client_secret` in browser or mobile code.
 - Calling Content or Search from `@quranjs/api/public`.
 - Assuming every client can exchange OAuth2 codes directly.
+- Sending new pre-live credentials to the SDK's production defaults instead of configuring both pre-live service URLs.
 - Treating `word.audioUrl` as a Content API path. Resolve word-by-word audio against `https://audio.qurancdn.com/` instead.
 - Starting new code with the legacy root `QuranClient` instead of choosing the runtime-specific client for your app shape.
 

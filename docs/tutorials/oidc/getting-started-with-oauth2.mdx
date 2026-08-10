@@ -21,7 +21,7 @@ keywords:
 **Result:** Your app can authenticate users and access their Quran.com synced data.
 :::
 
-Quran Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. Choose the matching app type in Developer Console: backend/server apps use a confidential client and perform code exchange and refresh on a server, while browser/mobile apps use a public client and complete those steps with PKCE and no client secret.
+Quran Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. Choose the matching app type in Developer Console: a **Backend/server app** uses a confidential client and performs code exchange and refresh on a server, while a **Frontend or mobile app** uses a public client and completes those steps with PKCE and no client secret.
 
 For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
@@ -49,7 +49,7 @@ Quran Foundation issues two types of OAuth2 clients. This distinction affects ho
 | **Refresh tokens** | Server-side | In-app or via backend proxy |
 | **Typical pattern** | App handles login + PKCE → sends code to backend → backend exchanges with secret | App exchanges code directly |
 
-Your app type in Developer Console determines the client type: **backend/server apps are confidential**, while **browser/mobile apps are public**.
+Your app type in Developer Console determines the client type: **Backend/server app** creates a confidential client, while **Frontend or mobile app** creates a public client.
 
 If you call `/oauth2/token` without client authentication on a confidential client, Hydra returns `invalid_client`.
 :::
@@ -341,7 +341,7 @@ app.post("/api/auth/qf/exchange", async (req, res) => {
 });
 ```
 
-This is the recommended pattern when a React Native, iOS, Android, or browser app is paired with a [confidential backend/server client](#client-types). If you selected a public browser/mobile app in Developer Console, exchange the code in the app with PKCE and no client secret instead.
+This is the recommended pattern when a React Native, iOS, Android, or browser app is paired with a [confidential backend/server client](#client-types). If you selected **Frontend or mobile app** in Developer Console, exchange the code in the app with PKCE and no client secret instead.
 
 <details>
 <summary><b>cURL (confidential server client)</b></summary>
@@ -701,7 +701,7 @@ def refresh_access_token(refresh_token: str):
 
 | Error                     | Likely Cause                               | Resolution                                           |
 | ------------------------- | ------------------------------------------ | ---------------------------------------------------- |
-| `invalid_client`          | Wrong client type, using the public-client flow with a confidential client, missing secret for a confidential client, or wrong environment | Check the app type in Developer Console, use server-side client authentication for a backend/server app or PKCE without a secret for a browser/mobile app, and confirm the credentials and environment |
+| `invalid_client`          | Wrong client type, using the public-client flow with a confidential client, missing secret for a confidential client, or wrong environment | Check the app type in Developer Console, use server-side client authentication for **Backend/server app** or PKCE without a secret for **Frontend or mobile app**, and confirm the credentials and environment |
 | `invalid_grant`           | Bad/expired/used `code` or `refresh_token` | Ensure one-time use, check clock skew                |
 | `redirect_uri_mismatch`   | Redirect URI not exact match               | Align with registered value                          |
 | `invalid_scope`           | Scope misspelled, not approved for the client, or a child scope was requested when only the parent scope was approved | Request the exact approved scopes. If approved for `note`, request `note`, not `note.read` or `note.create` unless those child scopes were separately approved |
@@ -734,11 +734,11 @@ Access tokens expire after **1 hour** (3,600 seconds). Use the `refresh_token` (
 
 ### What is the difference between public and confidential OAuth2 clients?
 
-**Confidential clients** have a `client_secret` that is stored securely on a backend server and used during token exchange and refresh. Choose the **backend/server app** type in Developer Console for this model.
+**Confidential clients** have a `client_secret` that is stored securely on a backend server and used during token exchange and refresh. Choose **Backend/server app** in Developer Console for this model.
 
-**Public clients** (SPAs, mobile apps) rely solely on PKCE for security and never use a `client_secret`. Choose the **browser/mobile app** type in Developer Console for this model.
+**Public clients** (SPAs, mobile apps) rely solely on PKCE for security and never use a `client_secret`. Choose **Frontend or mobile app** in Developer Console for this model.
 
-Check the app type in Developer Console instead of guessing: backend/server apps are confidential, while browser/mobile apps are public. Then use the matching exchange pattern in [Step 3](#step-3-exchange-code-for-tokens).
+Check the app type in Developer Console instead of guessing: **Backend/server app** creates a confidential client, while **Frontend or mobile app** creates a public client. Then use the matching exchange pattern in [Step 3](#step-3-exchange-code-for-tokens).
 
 ### What headers do I need to call Quran Foundation User APIs?
 

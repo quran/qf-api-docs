@@ -18,7 +18,7 @@ Use this quickstart after choosing Content APIs from the [Developer Journey](/do
 :::info Quick Summary
 **Audience:** Backend teams, server-rendered apps, and web apps that proxy Content API calls through a server.
 
-**Prerequisites:** A confidential backend/server app from [Developer Console](https://dev-console.quran.foundation/projects), its `client_id`, and its one-time `client_secret`. Public browser/mobile apps cannot use this Client Credentials flow because they do not have a client secret. Choose either `prelive` or `production` for the flow below.
+**Prerequisites:** A **Backend/server app** from [Developer Console](https://dev-console.quran.foundation/projects), its pre-live `client_id`, and its one-time `client_secret`. **Frontend or mobile app** clients cannot use this Client Credentials flow because they do not have a client secret. New apps begin in pre-live, so use the pre-live credentials and endpoints below; move to production only after production permissions are approved.
 
 **Recommended path:** Use the official JS/TS SDK for JavaScript or TypeScript backends. Use raw HTTP for non-JS stacks or when you want to inspect the OAuth2 Client Credentials flow directly.
 
@@ -55,12 +55,16 @@ import { createServerClient } from "@quranjs/api/server";
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const chapters = await client.content.v4.chapters.list();
 ```
 
-This example is for backend/server code because it uses `client_secret`. Continue with the [JavaScript SDK guide](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
+This example is for backend/server code because it uses `client_secret`, and it explicitly overrides the SDK's production defaults so a new Console app works in pre-live. After production permissions are granted, switch the credentials, `gatewayUrl`, and `oauth2BaseUrl` to production together. Continue with the [JavaScript SDK guide](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
 
 ## First Raw HTTP Request
 
@@ -109,7 +113,7 @@ For the complete backend-safe version, continue with [manual authentication](/do
 - Keep `client_secret` on the server only.
 - Cache tokens and re-request them shortly before expiry.
 - Always include both `x-auth-token` and `x-client-id`.
-- Do not mix prelive and production tokens.
+- Do not mix pre-live and production credentials, hosts, or tokens.
 - If you render Quranic text in a browser, add `<meta name="google" content="notranslate">` and mark Quranic text containers with `translate="no"`.
 
 ## Next Steps
@@ -121,4 +125,4 @@ For the complete backend-safe version, continue with [manual authentication](/do
 
 ## Need Help?
 
-Email [developers@quran.com](mailto:developers@quran.com) if you need help with access, environment setup, or permissions.
+Create and manage credentials, environments, and permission requests in [Developer Console](https://dev-console.quran.foundation/projects). If Developer Console cannot resolve the issue or you still need help, email [developers@quran.com](mailto:developers@quran.com).

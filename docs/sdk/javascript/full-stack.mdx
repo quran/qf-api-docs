@@ -12,7 +12,7 @@ Use this when: You have frontend code and backend code.
 Do not use this when: You only have a backend or selected **Frontend or mobile app** for a public client with no backend exchange.
 Backend required: Yes.
 Allowed runtimes: Browser + backend, mobile + backend.
-Required credentials: A **Backend/server app** from Developer Console, with its `client_id` in the frontend and its `client_id` plus one-time `client_secret` in the backend.
+Required credentials: A **Backend/server app** from Developer Console, with its pre-live `client_id` in the frontend and its pre-live `client_id` plus one-time `client_secret` in the backend.
 Minimal import: `@quranjs/api/public` in frontend, `@quranjs/api/server` in backend.
 
 ## Frontend
@@ -23,6 +23,10 @@ import { createPublicClient } from "@quranjs/api/public";
 export const authClient = createPublicClient({
   clientId: "your-client-id",
   clientType: "confidential-proxy",
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 ```
 
@@ -34,8 +38,14 @@ import { createServerClient } from "@quranjs/api/server";
 export const apiClient = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 ```
+
+Both clients explicitly use pre-live so they match a newly created Console app. After production permissions are granted, switch the frontend and backend Client IDs, the backend secret, and both service URLs to production together.
 
 ## Short Flow
 
@@ -43,7 +53,7 @@ export const apiClient = createServerClient({
 2. Frontend receives the authorization code.
 3. Frontend sends `code + code_verifier + redirect_uri` to the backend.
 4. Backend exchanges the code.
-5. Backend calls Content, Search, or User APIs as needed.
+5. Backend calls Content or approved User APIs as needed. Search calls require separate Search permission in Developer Console.
 
 Think of it like this:
 
