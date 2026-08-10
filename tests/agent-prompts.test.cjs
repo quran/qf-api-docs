@@ -53,10 +53,12 @@ test('prompts constrain agents to official commands, docs, SDK boundaries, and c
     'utf8',
   );
   assert.match(starterCallout, /Backend\/server app/);
+  assert.match(starterCallout, /Search permission/);
 
   const nextPrompt = readPrompt('qf-next-starter.md');
   assert.match(nextPrompt, /Run the scaffold command first/);
   assert.match(nextPrompt, /Backend\/server app/);
+  assert.match(nextPrompt, /Search permission/);
   assert.match(nextPrompt, /read the generated `AGENTS\.md`/);
   assert.match(nextPrompt, /official docs page or OpenAPI path/);
   assert.match(nextPrompt, /Run the generated scaffold's documented checks/);
@@ -64,6 +66,7 @@ test('prompts constrain agents to official commands, docs, SDK boundaries, and c
   const sveltekitPrompt = readPrompt('qf-sveltekit-starter.md');
   assert.match(sveltekitPrompt, /Run the scaffold command first/);
   assert.match(sveltekitPrompt, /Backend\/server app/);
+  assert.match(sveltekitPrompt, /Search permission/);
   assert.match(sveltekitPrompt, /preserve its server routes, session, callback, refresh, and logout structure/);
   assert.match(sveltekitPrompt, /official docs page or OpenAPI path/);
 

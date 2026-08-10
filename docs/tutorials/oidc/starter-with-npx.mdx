@@ -14,13 +14,17 @@ description: "Fastest way to scaffold a production-shaped Quran Foundation app w
 
 **Recommended path:** Start with `next` unless you specifically want SvelteKit, configure environment variables, then customize the generated app.
 
-**Outcome:** A local app with login, Quran content, search, and signed-in user feature surfaces already wired through the SDK.
+**Outcome:** A local app with login, Quran content, a permission-gated search surface, and signed-in user feature surfaces already wired through the SDK.
 :::
 
 Use this page when the starter app is a useful base for your product. If you already have your own UI and backend, use the [JavaScript SDK guide](/docs/sdk/javascript) and [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) instead.
 
 :::important Create the backend/server app first
 The generated starter uses server-side sessions, Content and Search APIs, and a confidential OAuth2 exchange. A **Frontend or mobile app** from Developer Console has no client secret and cannot configure this full-stack starter.
+:::
+
+:::caution Search needs separate permission
+The scaffold includes its Search page and API route, but Search in the generated app requires a separate permission in [Developer Console](https://dev-console.quran.foundation/projects) and is unavailable until that permission is granted for the same environment. You can scaffold and use the other approved features while the request is pending.
 :::
 
 ## Primary Command
@@ -39,7 +43,7 @@ npx @quranjs/create-app@latest my-quran-app --template sveltekit --package-manag
 
 - Next.js or SvelteKit starter app with Quran Foundation SDK wiring
 - OAuth2/OIDC login/logout flow with server-side session architecture
-- Reader, search, and signed-in user feature surfaces
+- Reader, permission-gated search, and signed-in user feature surfaces
 - Production-shaped backend boundary that keeps `client_secret` server-side
 
 ## Required Environment Variables

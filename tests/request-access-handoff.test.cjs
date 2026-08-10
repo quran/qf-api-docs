@@ -82,6 +82,7 @@ test("homepage explains Developer Console and links new apps there directly", ()
   );
   assert.doesNotMatch(journey, /to="\/request-access"/);
   assert.match(starterCard, /Backend\/server app/);
+  assert.match(starterCard, /Search requires separate pre-live permission/);
   assert.match(
     starterCard,
     /className=\{styles\.prerequisite\}[\s\S]*className=\{styles\.commandRow\}/

@@ -92,6 +92,11 @@ test('requires a backend/server Console app for the full-stack starter', () => {
   assert.match(starter, /Backend\/server app/);
   assert.match(starter, /one-time `client_secret`/);
   assert.match(starter, /Developer Console/);
+  assert.match(
+    starter,
+    /Search[^\n]*requires[^\n]*permission[^\n]*Developer Console/i,
+  );
+  assert.match(starter, /unavailable until that permission is granted/i);
 });
 
 test('public-client SDK examples include the complete PKCE authorization setup', () => {
@@ -168,6 +173,7 @@ test('server quickstart keeps permission-gated Search out of the first request',
 
 test('Console-facing OAuth docs use the selectable app-type labels', () => {
   const guides = [
+    readDoc('tutorials/oidc/client-setup.mdx'),
     readDoc('tutorials/oidc/getting-started-with-oauth2.mdx'),
     readDoc('tutorials/oidc/user-apis-quickstart.mdx'),
     readDoc('tutorials/oidc/mobile-apps/_obtain_client_credentials.mdx'),
@@ -181,6 +187,9 @@ test('Console-facing OAuth docs use the selectable app-type labels', () => {
       /(?:choose|selected) (?:the |a )?(?:\*\*)?browser\/mobile app/i,
     );
   }
+
+  const clientSetup = guides[0];
+  assert.doesNotMatch(clientSetup, /\*\*Browser\/mobile app:/);
 });
 
 test('onboarding help sends self-service setup to Developer Console first', () => {

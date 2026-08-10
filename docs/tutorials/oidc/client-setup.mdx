@@ -37,6 +37,6 @@ URI exactly as your app will send it.
 The app type selected in Developer Console determines the OAuth2 client type:
 
 - **Backend/server app:** A confidential client with a one-time `client_secret`. Keep the secret on the backend or BFF, exchange the code there, refresh the session there, and store tokens server-side. The browser should never hold the secret, even if the frontend runs on the edge.
-- **Browser/mobile app:** A public client with no `client_secret`. Exchange the code using PKCE, and send `client_id` without client authentication when refreshing.
+- **Frontend or mobile app:** A public client with no `client_secret`. Exchange the code using PKCE, and send `client_id` without client authentication when refreshing.
 
 Check the app type in Developer Console instead of guessing which flow to use.

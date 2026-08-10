@@ -14,7 +14,7 @@ type Props = {
 
 export default function StarterCommandCard({
   className,
-  description = "Includes OAuth2, reader, search, notes, bookmarks, and SDK wiring. Use this for the fastest working app. If you already have your own UI, start with the JavaScript SDK path below.",
+  description = "Includes OAuth2, reader, a permission-gated search surface, notes, bookmarks, and SDK wiring. Use this for the fastest working app. If you already have your own UI, start with the JavaScript SDK path below.",
   eyebrow = "Next.js starter",
   meta = "~5 min",
   title = "Production-shaped app in one command",
@@ -64,7 +64,8 @@ export default function StarterCommandCard({
         <a href="https://dev-console.quran.foundation/projects/new">
           Backend/server app in Developer Console
         </a>{" "}
-        and save its one-time client secret.
+        and save its one-time client secret. Search requires separate pre-live permission
+        before the included search surface works.
       </p>
       <div className={styles.commandRow}>
         <code className={styles.command}>{NEXT_JS_STARTER_COMMAND}</code>
