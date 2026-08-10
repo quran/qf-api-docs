@@ -16,8 +16,8 @@ sidebar_label: "User APIs Quickstart"
 
 :::info Quick Summary
 **Audience:** Developers adding signed-in Quran.com user features such as bookmarks, collections, notes, reading progress, goals, and preferences.
-**Prerequisites:** A `client_id` from [Request Access](/request-access) and at least one registered redirect URI.
-**Recommended flow:** Hosted login + PKCE in your app, then backend token exchange and refresh for confidential clients.
+**Prerequisites:** An app and `client_id` from [Developer Console](https://dev-console.quran.foundation/projects), plus at least one registered redirect URI. Backend/server apps also receive a one-time `client_secret`; browser/mobile apps do not.
+**Recommended flow:** Hosted login + PKCE in your app, followed by the exchange and refresh flow for the app type selected in Developer Console.
 **Outcome:** One backend-safe User API call with an OAuth2 `access_token`.
 :::
 
@@ -38,7 +38,7 @@ If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 
 ## Recommended Architecture
 
-:::important Default integration shape
+:::important Confidential backend/server integration
 - Let your app or website open the Quran Foundation hosted login screen.
 - Generate PKCE, `state`, and `nonce` in the app or browser client.
 - After login, receive the authorization `code` at your redirect URI.
@@ -47,10 +47,10 @@ If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 - Have your backend or serverless proxy call User APIs with `x-auth-token` and `x-client-id`.
 :::
 
-Backend/server apps created in Developer Console are confidential clients. Direct browser calls from third-party origins are not the recommended web pattern and may be rejected by CORS or origin allowlist checks.
+The SDK example below follows this confidential backend/server pattern. Direct browser calls from third-party origins may be rejected by CORS or origin allowlist checks.
 
 :::tip Public-client exception
-If Quran Foundation explicitly confirms that your client is public, you can complete token exchange and refresh in the app with PKCE only. If you did not receive that confirmation, assume your client is confidential.
+If you selected a browser/mobile app in Developer Console, the client is public: exchange the code in the app using PKCE, then refresh with `client_id` and no `client_secret`. See the [manual OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2#client-types) for that flow; the server SDK example below is for confidential backend/server apps.
 :::
 
 ## First SDK Request

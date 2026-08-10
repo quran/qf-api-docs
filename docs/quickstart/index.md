@@ -18,7 +18,7 @@ Use this quickstart after choosing Content APIs from the [Developer Journey](/do
 :::info Quick Summary
 **Audience:** Backend teams, server-rendered apps, and web apps that proxy Content API calls through a server.
 
-**Prerequisites:** A `client_id` from [Developer Console](https://dev-console.quran.foundation/projects); confidential backend apps also need their one-time `client_secret`. Choose either `prelive` or `production` for the flow below.
+**Prerequisites:** A confidential backend/server app from [Developer Console](https://dev-console.quran.foundation/projects), its `client_id`, and its one-time `client_secret`. Public browser/mobile apps cannot use this Client Credentials flow because they do not have a client secret. Choose either `prelive` or `production` for the flow below.
 
 **Recommended path:** Use the official JS/TS SDK for JavaScript or TypeScript backends. Use raw HTTP for non-JS stacks or when you want to inspect the OAuth2 Client Credentials flow directly.
 
