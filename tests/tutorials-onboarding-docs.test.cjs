@@ -116,6 +116,19 @@ test('public-client SDK examples include the complete PKCE authorization setup',
   assert.match(examples[0], /exchangeCode\(\{[\s\S]*codeVerifier/);
 });
 
+test('Express confidential-client walkthrough binds PKCE and nonce across the OAuth flow', () => {
+  const example = readDoc('tutorials/oidc/example-integration.mdx');
+
+  assert.match(example, /req\.session\.oauthRequest = \{ codeVerifier, nonce, state \}/);
+  assert.match(example, /code_challenge: codeChallenge/);
+  assert.match(example, /code_challenge_method: "S256"/);
+  assert.match(example, /code_verifier: oauthRequest\.codeVerifier/);
+  assert.match(example, /jwtVerify\(idToken, jwks, \{[\s\S]*issuer,[\s\S]*audience:/);
+  assert.match(example, /userInfo\.nonce !== oauthRequest\.nonce/);
+  assert.match(example, /const issuer = tokenHost;/);
+  assert.doesNotMatch(example, /quran-oauth2-client-example/);
+});
+
 test('React Native OAuth guidance branches on the Console app type', () => {
   const reactNative = readDoc('tutorials/oidc/mobile-apps/react-native.mdx');
 
@@ -124,11 +137,14 @@ test('React Native OAuth guidance branches on the Console app type', () => {
   assert.doesNotMatch(reactNative, /token_endpoint_auth_method=none/);
 });
 
-test('React Native example keeps OAuth and User APIs in the same environment', () => {
+test('React Native confidential-client guidance keeps User API tokens behind the backend session', () => {
   const reactNative = readDoc('tutorials/oidc/mobile-apps/react-native.mdx');
 
-  assert.match(reactNative, /https:\/\/apis-prelive\.quran\.foundation/);
-  assert.match(reactNative, /`\$\{apiBaseUrl\}\/auth\/v1\/bookmarks`/);
+  assert.match(reactNative, /`\$\{BACKEND_BASE_URL\}\/api\/qf\/bookmarks`/);
+  assert.match(reactNative, /credentials: "include"/);
+  assert.doesNotMatch(reactNative, /jwtDecode|payload\.idToken|authSession\.refreshToken/);
+  assert.doesNotMatch(reactNative, /`\$\{apiBaseUrl\}\/auth\/v1\/bookmarks`/);
+  assert.doesNotMatch(reactNative, /oauth2-react-native-client-example/);
 });
 
 test('new Console app SDK examples default every server client to pre-live', () => {

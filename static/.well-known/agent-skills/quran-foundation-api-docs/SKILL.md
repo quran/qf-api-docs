@@ -1,6 +1,6 @@
 ---
 name: quran-foundation-api-docs
-description: Use Quran Foundation docs and tutorials to choose the correct API family, authentication flow, endpoint, SDK, font rendering approach, request-access prerequisite, and official references for content, search, OAuth2/OIDC, user-related, and Quran Reflect integrations.
+description: Use when choosing Quran Foundation API families, authentication flows, endpoints, SDK runtime boundaries, Developer Console onboarding, font rendering, or official integration references.
 ---
 
 # Quran Foundation API Docs
@@ -11,7 +11,7 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - The user needs official endpoint selection, request or response details, auth guidance, scopes, quickstarts, or migration help.
 - The user needs font rendering or Mushaf page-layout guidance.
 - The user needs OAuth2 or OIDC setup guidance across web or mobile platforms.
-- The user needs onboarding details such as client provisioning or Request Access.
+- The user needs Developer Console onboarding details such as app creation, credentials, app type, redirect URIs, permissions, or existing-client import.
 - The user wants to scaffold a Quran Foundation app, choose the official JavaScript or Python SDK path, or use a copyable implementation prompt.
 - The task involves Quran Reflect or quranreflect.com features backed by Quran Foundation APIs.
 - The user wants links to official documentation or OpenAPI specifications.
@@ -66,7 +66,8 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - Content API quickstart: `https://api-docs.quran.foundation/docs/quickstart/`
 - Font rendering tutorial: `https://api-docs.quran.foundation/docs/tutorials/fonts/font-rendering/`
 - Page layout tutorial: `https://api-docs.quran.foundation/docs/tutorials/fonts/page-layout/`
-- Request access: `https://api-docs.quran.foundation/request-access/`
+- Developer Console: `https://dev-console.quran.foundation/`
+- Developer Console onboarding bridge: `https://api-docs.quran.foundation/request-access/`
 - FAQ: `https://api-docs.quran.foundation/docs/tutorials/faq/`
 - API catalog: `https://api-docs.quran.foundation/.well-known/api-catalog`
 
@@ -77,12 +78,14 @@ description: Use Quran Foundation docs and tutorials to choose the correct API f
 - Do not invent endpoints, scopes, parameters, headers, or response fields. Confirm them from the docs or OpenAPI.
 - Distinguish documentation URLs from API base URLs.
 - For auth questions, call out whether the answer belongs to OAuth2/OIDC or to an application API.
-- For setup questions, mention if Request Access and registered redirect URIs are prerequisites.
+- For setup questions, send developers to Developer Console to create or open an app, select the exact **Frontend or mobile app** or **Backend/server app** type, manage credentials and redirect URIs, and request permissions. Treat `/request-access` as a bridge to Console, not as a provisioning form.
 - For Quran font questions, choose between Unicode text rendering and page-based glyph rendering based on the user's display requirements.
 - For Quran Reflect-related questions, check post, comment, feed, room, and scope docs before answering.
 - If multiple endpoints could fit, explain the best match and mention the alternative only if it materially changes implementation.
 - If the user asks for sample code, keep it aligned with documented auth and base URL expectations.
-- For JavaScript or TypeScript apps, prefer the official SDK and choose the runtime entrypoint explicitly: `@quranjs/api/public` for app/browser/mobile-facing OAuth helpers and `@quranjs/api/server` for backend Content, Search, token exchange, refresh, and server-side User API calls.
+- For JavaScript or TypeScript apps, identify the app type selected in Developer Console before choosing the OAuth and SDK boundary.
+  - A **Frontend or mobile app** is a public client with no client secret. Use `@quranjs/api/public` for PKCE authorization, code exchange, and refresh in the app; store user tokens with secure platform-appropriate storage and never log them.
+  - A **Backend/server app** is a confidential client. Use `@quranjs/api/public` for browser/mobile-safe authorization initiation and `@quranjs/api/server` for secret-backed code exchange, refresh, server sessions, Content, Search, and proxied User API calls.
 - For Python apps, scripts, jobs, notebooks, or AI workflows, prefer the official `quran-foundation-api` package and `QuranClient` from trusted server-side environments, keep credentials out of rendered output and logs, and choose app access tokens for Content/Search APIs versus user access tokens for signed-in User APIs explicitly.
 - For new Next.js apps, route the user to the official scaffold and prompt before hand-writing OAuth2 plumbing.
 - For SvelteKit apps, route the user to the official `--template sveltekit` scaffold and prompt before hand-writing OAuth2 plumbing.

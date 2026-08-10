@@ -17,24 +17,22 @@ Choose the flow that matches the app type you selected in Developer Console:
 - **Frontend or mobile app:** use a public client. Generate PKCE and exchange the code directly in the app; no client secret is involved.
 - **Backend/server app:** use a confidential client. Let the app generate PKCE, then send `code + code_verifier + redirect_uri` to your backend for token exchange and refresh.
 
-The example below demonstrates the **Backend/server app** flow. The example repository later on this page shows the direct public-client variant.
+The example below demonstrates the **Backend/server app** flow. Public clients should use an OIDC-capable library with PKCE and secure platform storage as described in the public-client section below.
 :::
 
 ## ⚡ Quick Setup
 
 ```bash
 npx expo install expo-auth-session expo-web-browser expo-crypto
-npm install jwt-decode
 ```
 
-## 🚀 Complete Working Example
+## 🚀 Confidential Backend Example
 
-Copy this into your `App.js` to get OAuth2 working immediately:
+Pair this `App.js` client with your backend exchange, refresh, logout, and User API proxy routes:
 
 ```jsx
 import * as React from "react";
 import { Button, Text, View, StyleSheet } from "react-native";
-import jwtDecode from "jwt-decode";
 import { useAuthRequest } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 
@@ -48,10 +46,6 @@ const USE_PRELIVE = true; // set to false for production
 const authBaseUrl = USE_PRELIVE
   ? "https://prelive-oauth2.quran.foundation"
   : "https://oauth2.quran.foundation";
-const apiBaseUrl = USE_PRELIVE
-  ? "https://apis-prelive.quran.foundation"
-  : "https://apis.quran.foundation";
-
 // OAuth2 endpoints
 const discovery = {
   authorizationEndpoint: `${authBaseUrl}/oauth2/auth`,
@@ -93,6 +87,7 @@ export default function App() {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({
               code: response.params.code,
               codeVerifier: request.codeVerifier,
@@ -106,8 +101,11 @@ export default function App() {
           throw new Error(payload.error || "Token exchange failed");
         }
 
-        const userProfile = payload.user || jwtDecode(payload.idToken);
-        setAuthSession({ ...payload, userProfile });
+        if (!payload.user) {
+          throw new Error("Backend did not return a verified user profile");
+        }
+
+        setAuthSession({ userProfile: payload.user });
       } catch (error) {
         console.error("Token exchange failed:", error);
       }
@@ -119,8 +117,7 @@ export default function App() {
   const logout = async () => {
     await fetch(`${BACKEND_BASE_URL}/api/auth/qf/logout`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refreshToken: authSession?.refreshToken }),
+      credentials: "include",
     }).catch(() => {});
     setAuthSession(null);
   };
@@ -170,9 +167,15 @@ const styles = StyleSheet.create({
 });
 ```
 
-## Example Repository
+## Frontend or Mobile App Variant
 
-We have created a complete [Example OAuth2 React Native client](https://github.com/quran/oauth2-react-native-client-example) that you can clone and run. That repository shows the direct public-client exchange variant. For confidential backend/server apps, keep the in-app login pieces and move token exchange to your backend as shown above.
+For the direct public-client flow, keep PKCE exchange and refresh in the app with no client secret. Request `offline_access` when refresh is needed, validate the ID-token signature, issuer, audience, expiry, and nonce with an OIDC-capable library before using its claims, and keep tokens in `expo-secure-store`. Never print token responses or authorization codes to the console.
+
+```bash
+npx expo install expo-secure-store
+```
+
+## Expected Screens
 
 <div
   style={{
@@ -202,18 +205,15 @@ We have created a complete [Example OAuth2 React Native client](https://github.c
 
 ## 🔑 Making API Calls
 
-Once authenticated, use the `accessToken` to call User APIs:
+For the confidential backend/server pattern above, proxy User API calls through your backend session rather than returning user tokens to the app:
 
 ```javascript
 // Example: Fetch user's bookmarks
 const fetchBookmarks = async () => {
   const response = await fetch(
-    `${apiBaseUrl}/auth/v1/bookmarks`,
+    `${BACKEND_BASE_URL}/api/qf/bookmarks`,
     {
-      headers: {
-        "x-auth-token": authSession.accessToken,
-        "x-client-id": CLIENT_ID,
-      },
+      credentials: "include",
     }
   );
   return response.json();
@@ -222,7 +222,7 @@ const fetchBookmarks = async () => {
 
 ## 🔄 Token Refresh
 
-Access tokens expire after 1 hour. For confidential backend/server apps, refresh them through your backend:
+Access tokens expire after 1 hour. For confidential backend/server apps, keep the refresh token in the backend session and refresh there:
 
 ```javascript
 const refreshTokens = async () => {
@@ -230,22 +230,22 @@ const refreshTokens = async () => {
     `${BACKEND_BASE_URL}/api/auth/qf/refresh`,
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refreshToken: authSession.refreshToken }),
+      credentials: "include",
     }
   );
 
   const payload = await response.json();
-  setAuthSession((current) => ({ ...current, ...payload }));
+  setAuthSession({ userProfile: payload.user });
 };
 ```
 
 :::tip Store Refresh Token Securely
-If your app keeps refresh tokens locally, use `expo-secure-store` to persist them between app sessions. If you already have backend sessions, keep the refresh token on the server instead:
+Public **Frontend or mobile app** clients should use `expo-secure-store` for locally held refresh tokens. Confidential **Backend/server app** clients should keep refresh tokens in the server session instead:
 
 ```javascript
 import * as SecureStore from "expo-secure-store";
-await SecureStore.setItemAsync("refreshToken", authSession.refreshToken);
+const persistRefreshToken = (refreshToken) =>
+  SecureStore.setItemAsync("qf.refreshToken", refreshToken);
 ```
 
 :::
