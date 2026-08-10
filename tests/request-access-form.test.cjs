@@ -157,68 +157,6 @@ test("request access paste parser preserves commas inside a single uri", () => {
   );
 });
 
-test("request access page submits uri arrays with callbackUrl compatibility", () => {
-  const page = read("src", "pages", "request-access.js");
-
-  assert.match(
-    page,
-    /if \(redirectUris\.length\) \{[\s\S]*payload\.callbackUrl = redirectUris\[0\];[\s\S]*payload\.redirect_uris = redirectUris;[\s\S]*\}/
-  );
-  assert.match(
-    page,
-    /if \(postLogoutRedirectUris\.length\) \{[\s\S]*payload\.post_logout_redirect_uris = postLogoutRedirectUris;[\s\S]*\}/
-  );
-  assert.doesNotMatch(page, /redirect_uris: redirectUris/);
-  assert.doesNotMatch(page, /post_logout_redirect_uris: postLogoutRedirectUris/);
-});
-
-test("request access page cleans single pasted uri rows", () => {
-  const page = read("src", "pages", "request-access.js");
-
-  assert.match(page, /pastedValues\.length === 1/);
-  assert.match(page, /setValue\(`\$\{fieldName\}\.\$\{index\}\.value`, pastedValues\[0\]/);
-});
-
-test("request access page uses clearer add uri button copy", () => {
-  const page = read("src", "pages", "request-access.js");
-  const styles = read("src", "pages", "request-access.module.css");
-
-  assert.match(page, /Add another redirect URI/);
-  assert.match(page, /Add another post-logout URI/);
-  assert.match(page, /uriHelpText/);
-  assert.match(page, /http:\/\/localhost:3000\/callback/);
-  assert.match(page, /https:\/\/your-app-staging\.vercel\.app\/callback/);
-  assert.match(page, /https:\/\/your-app\.com\/callback/);
-  assert.match(page, /'http:\/\/localhost:3000'/);
-  assert.match(page, /'https:\/\/your-app-staging\.vercel\.app'/);
-  assert.match(page, /'https:\/\/your-app\.com'/);
-  assert.match(page, /Optional\. Add every URL users may return to after logout/);
-  assert.match(page, /scheme, domain, and port/);
-  assert.match(styles, /\.uriHelpText/);
-  assert.match(styles, /font-size: var\(--ifm-font-size-small, 0\.875rem\)/);
-});
-
-test("request access page uses fieldset legends for uri groups", () => {
-  const page = read("src", "pages", "request-access.js");
-  const styles = read("src", "pages", "request-access.module.css");
-
-  assert.match(
-    page,
-    /<fieldset className=\{clsx\('margin-bottom--md', styles\.uriFieldset\)\}>[\s\S]*<legend className=\{clsx\('form-label', styles\.uriLegend\)\}>[\s\S]*Redirect URIs/
-  );
-  assert.match(
-    page,
-    /<fieldset className=\{clsx\('margin-bottom--md', styles\.uriFieldset\)\}>[\s\S]*<legend className=\{clsx\('form-label', styles\.uriLegend\)\}>[\s\S]*Post-logout Redirect URIs/
-  );
-  assert.doesNotMatch(page, /<label className="form-label">Redirect URIs<\/label>/);
-  assert.doesNotMatch(
-    page,
-    /<label className="form-label">Post-logout Redirect URIs<\/label>/
-  );
-  assert.match(styles, /\.uriFieldset/);
-  assert.match(styles, /\.uriLegend/);
-});
-
 test("client setup docs point to request access form without manual request text", () => {
   const doc = read("docs", "tutorials", "oidc", "client-setup.mdx");
 
