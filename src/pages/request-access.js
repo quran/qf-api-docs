@@ -77,7 +77,7 @@ export default function RequestAccess() {
     const { siteConfig } = useDocusaurusContext();
     const apiBaseUrl =
         siteConfig.customFields?.scopeRequestApiBaseUrl ||
-        'https://qf-form-handler.fly.dev';
+        'https://qf-form-handler.quran.foundation';
 
     useEffect(() => {
         if (typeof window === 'undefined') {

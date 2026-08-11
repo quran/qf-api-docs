@@ -80,8 +80,8 @@ sequenceDiagram
     actor User
     participant App as Your App
     participant Backend as Your Backend
-    participant Auth as Quran.Foundation<br/>Authorization Server
-    participant API as Quran.Foundation<br/>Resources Server
+    participant Auth as Quran Foundation<br/>Authorization Server
+    participant API as Quran Foundation<br/>Resources Server
 
     User->>App: Click "Login"
     App->>Auth: Start login with PKCE
@@ -94,7 +94,7 @@ sequenceDiagram
     Backend-->>App: Session or token payload
 
     App->>Backend: Request resource
-    Backend->>API: Use token to call Quran.Foundation's API
+    Backend->>API: Use token to call Quran Foundation's API
     API-->>Backend: Requested resource
     Backend-->>App: Requested resource
 
@@ -558,6 +558,8 @@ def get_collections(access_token: str):
 </details>
 
 
+Handle User API failures at this layer as well: refresh once and retry once on `401`, treat `403` as a scope/permission or origin problem, and use bounded backoff for `429` and temporary `5xx` errors. The [Common Issues & Troubleshooting](#common-issues-troubleshooting) table below is the detailed reference.
+
 ---
 
 ## Step 5: Refresh the Access Token (offline_access scope) {#step-5-refresh-the-access-token-offline-access-scope}
@@ -679,7 +681,7 @@ def refresh_access_token(refresh_token: str):
 - Provisioning mode: See [Confidential vs Public Clients](#client-types) — the default is confidential.
 - Scopes: Use `openid offline_access user collection`. Add more scopes only as needed.
 - Parent scopes: If your client is approved for a parent scope like `note`, request `note` in the authorization URL; do not request `note.read`, `note.create`, or other child scopes unless they were approved separately.
-- Scopes note: Quran.Foundation expects `offline_access` (not `offline`).
+- Scopes note: Quran Foundation expects `offline_access` (not `offline`).
 - Token storage: Store `refresh_token` securely; rotate if compromised.
 - Browser-origin policy: Direct browser calls to User APIs require the calling origin to be allowlisted by the target service. If your origin is not allowlisted, call the API from your backend instead.
 - Clock skew: Ensure system time is correct (e.g., via NTP) to avoid `invalid_grant` due to time drift.
