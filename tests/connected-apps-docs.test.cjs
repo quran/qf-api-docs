@@ -43,7 +43,6 @@ test('adds a production Connected Apps docs page', () => {
     'Boundaries to communicate',
     'Internal visibility controls',
     'teams need',
-    'source of truth',
     'promoting apps',
     'planned partner workspace',
     'not just a page of links',
@@ -65,56 +64,55 @@ test('adds a production Connected Apps docs page', () => {
 
 test('documents the core Connected Apps production concepts', () => {
   const requiredPatterns = [
-    /Policy version:<\/strong> 1\.0/,
-    /Last updated: 2026-06-30/,
-    /Effective date: 2026-06-30/,
+    /\*\*Policy version:\*\* 1\.1/,
+    /\*\*Last updated:\*\* 2026-08-10/,
+    /\*\*Effective date:\*\* 2026-08-10/,
+    /source of truth for the Connected Apps program/,
+    /The Developer Console/,
+    /https:\/\/dev-console\.quran\.foundation\/projects/,
     /listing package/i,
-    /review criteria/i,
-    /Developer Console/,
-    /Request Access/,
+    /What review looks at/i,
     /homepage/i,
     /directory/i,
-    /does not mean Quran Foundation owns/,
-    /Do not describe a directory listing as broad endorsement/,
+    /does not mean\s+Quran Foundation owns the app/,
+    /do not describe a directory listing as broad\s+endorsement/i,
     /Quran\.com\/apps/,
-    /OAuth consent/i,
-    /User-Facing Clarity/,
-    /Communicate them to users/,
-    /Changes That Can Require Re-Review/,
+    /Connect Quran\.com user accounts/,
+    /What your app must tell users/,
+    /Tell us before shipping material changes/,
     /Commercial changes/,
     /AI explanations/,
     /developers@quran\.com/,
-    /Eligibility Gates/,
-    /pass\/fail,\s+and they are the baseline protections/,
-    /No app may be listed, receive a reviewed\s+label, become Connected, or be Featured/,
-    /Visibility Tiers In Detail/,
+    /Check whether your app is eligible/,
+    /\*\*pass\/fail\*\*,\s+and they are the baseline protections/,
+    /No app may be indexed or\s+listed, receive a reviewed label, reach Transformational status, or receive\s+featured placement/,
+    /App statuses/,
     /Higher levels of visibility, trust, and ecosystem participation/,
-    /Listed is the baseline directory status/,
-    /Verified Listing/,
-    /Aligned App/,
-    /Connected App/,
-    /Featured App/,
-    /Final published criteria for Verified, Aligned, Connected, and Featured status/,
-    /Visibility Is Not For Sale/,
-    /OAuth And Continuity Requirements/,
-    /Partner Terms And Compliance/,
-    /Quran\.com Terms & Conditions/,
+    /Indexed \(searchable\) App/,
+    /Verified Listing App/,
+    /Vision Aligned App/,
+    /Transformational \(user enabled\) App/,
+    /Featured placement \(temporary editorial promotion\)/,
+    /Visibility is not for sale/,
+    /Connect Quran\.com user accounts/,
+    /Terms and compliance/,
+    /Quran\.com Terms &(?:amp;)? Conditions/,
     /Quran Foundation Developer Terms/,
-    /Listing Card Specs/,
+    /Card specs/,
     /40 characters maximum/,
     /60 characters maximum/,
     /160 characters maximum/,
     /minimum 512 x 512 px/,
-    /Attribution And Content Sources/,
-    /Quran data provided by \[Quran\.Foundation\]\(https:\/\/quran\.foundation\)/,
+    /Content and attribution requirements/,
+    /Quran data provided by \[Quran\.Foundation\]\(https:\/\/quran\.foundation\/\)/,
     /Gamification/,
     /AI must never replace or modify canonical source material/,
-    /Scale review to risk/,
-    /Use the grounding rails/,
-    /Enforcement And Reinstatement/,
-    /Support And Office Hours/,
+    /Human oversight/,
+    /Grounding/,
+    /Resolve compliance issues/,
+    /Get help/,
     /Partner office hours[\s\S]*available at various times throughout the week/,
-    /Change Log/,
+    /Change log/,
     /14-day notice period/,
   ];
 
@@ -123,41 +121,45 @@ test('documents the core Connected Apps production concepts', () => {
   }
 });
 
-test('places eligibility gates before review process', () => {
-  const howItWorksIndex = doc.indexOf('## How Connected Apps Works');
-  const eligibilityIndex = doc.indexOf('## Eligibility Gates');
-  const reviewProcessIndex = doc.indexOf('## Review Process And Timelines');
-  const reviewCriteriaIndex = doc.indexOf('## Review Criteria');
+test('orders the guide around the developer journey', () => {
+  const consoleIndex = doc.indexOf('## The Developer Console');
+  const processIndex = doc.indexOf('## Follow the Connected Apps process');
+  const eligibilityIndex = doc.indexOf('## Check whether your app is eligible');
+  const listingIndex = doc.indexOf('## Prepare your listing');
+  const statusesIndex = doc.indexOf('## App statuses');
 
-  assert.ok(howItWorksIndex >= 0, 'expected How Connected Apps Works heading');
-  assert.ok(eligibilityIndex >= 0, 'expected Eligibility Gates heading');
-  assert.ok(reviewProcessIndex >= 0, 'expected Review Process heading');
-  assert.ok(reviewCriteriaIndex >= 0, 'expected Review Criteria heading');
+  assert.ok(consoleIndex >= 0, 'expected Developer Console heading');
+  assert.ok(processIndex >= 0, 'expected Connected Apps process heading');
+  assert.ok(eligibilityIndex >= 0, 'expected eligibility heading');
+  assert.ok(listingIndex >= 0, 'expected listing preparation heading');
+  assert.ok(statusesIndex >= 0, 'expected app statuses heading');
   assert.ok(
-    howItWorksIndex < eligibilityIndex,
-    'expected Eligibility Gates after How Connected Apps Works',
+    consoleIndex < processIndex,
+    'expected the Developer Console before the process',
   );
   assert.ok(
-    eligibilityIndex < reviewProcessIndex,
-    'expected Eligibility Gates before Review Process And Timelines',
+    processIndex < eligibilityIndex,
+    'expected eligibility after the process',
   );
   assert.ok(
-    reviewProcessIndex < reviewCriteriaIndex,
-    'expected Review Criteria after the process explanation',
+    eligibilityIndex < listingIndex,
+    'expected listing preparation after eligibility',
+  );
+  assert.ok(
+    listingIndex < statusesIndex,
+    'expected app statuses after listing preparation',
   );
 });
 
-test('uses Docusaurus Link for internal Connected Apps routes', () => {
-  assert.match(doc, /import Link from '@docusaurus\/Link';/);
-  assert.doesNotMatch(
+test('routes self-service setup through the Developer Console', () => {
+  assert.doesNotMatch(doc, /to="\/request-access"/);
+  assert.doesNotMatch(doc, /\[FILL: Developer Console URL\]/);
+  assert.match(
     doc,
-    /<a\s+[^>]*href="\//,
-    'internal routes in MDX JSX blocks should use Docusaurus Link',
+    /\[Developer Console\]\(https:\/\/dev-console\.quran\.foundation\/projects\)/,
   );
-  assert.match(doc, /<Link className="connectedAppsPrimaryLink" to="\/request-access">/);
-  assert.match(doc, /<Link to="\/docs\/developer-journey\/">/);
-  assert.match(doc, /href="#listing-package"/);
-  assert.match(doc, /href="https:\/\/quran\.com\/apps"/);
+  assert.match(doc, /\[four eligibility gates\]\(#check-whether-your-app-is-eligible\)/);
+  assert.match(doc, /\[prepare and submit a listing package\]\(#prepare-your-listing\)/);
 });
 
 test('surfaces Connected Apps in navbar and shared sidebars', () => {
