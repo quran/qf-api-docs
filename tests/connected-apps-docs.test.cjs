@@ -7,6 +7,10 @@ const repoRoot = path.join(__dirname, '..');
 const docsDir = path.join(repoRoot, 'docs');
 const docPath = path.join(docsDir, 'connected-apps.mdx');
 const doc = fs.readFileSync(docPath, 'utf8');
+const oauthGuide = fs.readFileSync(
+  path.join(docsDir, 'tutorials', 'oidc', 'getting-started-with-oauth2.mdx'),
+  'utf8',
+);
 const customCss = fs.readFileSync(
   path.join(repoRoot, 'src', 'css', 'custom.css'),
   'utf8',
@@ -104,7 +108,7 @@ test('documents the core Connected Apps production concepts', () => {
     /160 characters maximum/,
     /minimum 512 x 512 px/,
     /Content and attribution requirements/,
-    /Quran data provided by \[Quran\.Foundation\]\(https:\/\/quran\.foundation\/\)/,
+    /Quran data provided by \[Quran Foundation\]\(https:\/\/quran\.foundation\/\)/,
     /Gamification/,
     /AI must never replace or modify canonical source material/,
     /Human oversight/,
@@ -160,6 +164,19 @@ test('routes self-service setup through the Developer Console', () => {
   );
   assert.match(doc, /\[four eligibility gates\]\(#check-whether-your-app-is-eligible\)/);
   assert.match(doc, /\[prepare and submit a listing package\]\(#prepare-your-listing\)/);
+});
+
+test('uses the current Quran Foundation name in hand-authored guides', () => {
+  for (const [name, source] of [
+    ['Connected Apps', doc],
+    ['OAuth getting started', oauthGuide],
+  ]) {
+    assert.doesNotMatch(
+      source,
+      /Quran\.Foundation/,
+      `${name} should use the current Quran Foundation name`,
+    );
+  }
 });
 
 test('surfaces Connected Apps in navbar and shared sidebars', () => {
