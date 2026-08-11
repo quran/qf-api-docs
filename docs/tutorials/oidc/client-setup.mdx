@@ -7,28 +7,23 @@ description: "Simple explanation of what Quran Foundation needs to provision you
 
 # OAuth2 Client Setup
 
-Purpose: Explain what information Quran Foundation needs to create your OAuth2 client.
-Use this when: You are requesting access or updating client settings.
+Purpose: Explain how to create and configure your OAuth2 client.
+Use this when: You are creating an app or updating client settings.
 Do not use this when: Your client is already provisioned and you only need SDK code.
 Backend required: Not for setup itself.
 Allowed runtimes: Any.
 Required credentials: None yet.
 Minimal import: None.
 
-## What The Request Access Form Asks For
+## Configure Your Client In The Developer Console
 
-| Field                     | Why it matters                                |
-| ------------------------- | --------------------------------------------- |
-| App name                  | Shown to users on login and consent screens   |
-| Redirect URIs             | Where users return after login                |
-| Post-logout redirect URIs | Where users return after logout               |
-| Website URL               | Lets users identify your app                  |
-| Privacy policy URL        | Required for trust and compliance             |
-| Terms of service URL      | Required for trust and compliance             |
-| Logo URL                  | Optional, but improves consent screen clarity |
+Open the [Developer Console](https://dev-console.quran.foundation/projects),
+sign in with your Quran Foundation account, and create your app. The console
+issues credentials for the prelive and production environments and lets you:
 
-Use [Request Access](/request-access) to submit these details. For redirect
-URIs and post-logout redirect URIs, add each URL in its own row.
+- rotate your client secret;
+- add each exact redirect URI and post-logout redirect URI separately; and
+- request the API scopes your app needs and track their status.
 
 ## Important Question
 

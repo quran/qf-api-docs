@@ -58,24 +58,27 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
           <p className={styles.eyebrow}>Pick your path</p>
           <h2 className={styles.title}>Start with the route that matches your app</h2>
           <p className={styles.description}>
-            Request access first. Then choose by what you need: content without
-            login, SDK clients in your own app, signed-in user data, or manual
-            OAuth2 implementation.
+            Create your app in the Developer Console first. Then choose by what
+            you need: content without login, SDK clients in your own app,
+            signed-in user data, or manual OAuth2 implementation.
           </p>
         </div>
 
         <div className={styles.prerequisite}>
           <div>
             <p className={styles.prerequisiteLabel}>Required first</p>
-            <h3 className={styles.prerequisiteTitle}>Request access</h3>
+            <h3 className={styles.prerequisiteTitle}>Developer Console</h3>
             <p className={styles.prerequisiteText}>
-              Get a client ID, confirm redirect URIs, and request the scopes
-              your app needs before implementation work starts.
+              Create your app, get credentials, register redirect URIs, and
+              request the scopes your app needs.
             </p>
           </div>
-          <Link className={styles.prerequisiteLink} to="/request-access">
-            Request Access
-          </Link>
+          <a
+            className={styles.prerequisiteLink}
+            href="https://dev-console.quran.foundation/projects"
+          >
+            Open Developer Console
+          </a>
         </div>
 
         <ul className={styles.grid}>

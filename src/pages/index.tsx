@@ -21,8 +21,9 @@ function HomepageHeader() {
           Quran.Foundation Documentation Portal
         </h1>
         <p className={styles.heroSubtitle}>
-          Request access, pick the right integration path, and build with Quran
-          Foundation APIs using the official docs, SDK, and starter app.
+          Create your app in the Developer Console, pick the right integration
+          path, and build with Quran Foundation APIs using the official docs,
+          SDK, and starter app.
         </p>
 
         <StarterCommandCard />
@@ -31,6 +32,9 @@ function HomepageHeader() {
           className={styles.heroResourceLinks}
           aria-label="Secondary developer resources"
         >
+          <a href="https://dev-console.quran.foundation/projects">
+            Developer Console
+          </a>
           <Link to="/docs/sdk/javascript/">JavaScript SDK</Link>
           <a href="/agent-prompts/qf-next-starter.md">AI starter prompt</a>
           <a href="/llms.txt">LLMs.txt</a>

@@ -219,11 +219,15 @@ test("request access page uses fieldset legends for uri groups", () => {
   assert.match(styles, /\.uriLegend/);
 });
 
-test("client setup docs point to request access form without manual request text", () => {
+test("client setup docs point to the Developer Console", () => {
   const doc = read("docs", "tutorials", "oidc", "client-setup.mdx");
 
-  assert.match(doc, /What The Request Access Form Asks For/);
-  assert.match(doc, /Use \[Request Access\]\(\/request-access\) to submit these details/);
-  assert.match(doc, /add each URL in its own row/);
+  assert.match(doc, /Configure Your Client In The Developer Console/);
+  assert.match(
+    doc,
+    /\[Developer Console\]\(https:\/\/dev-console\.quran\.foundation\/projects\)/,
+  );
+  assert.match(doc, /add each exact redirect URI/);
+  assert.doesNotMatch(doc, /\/request-access/);
   assert.doesNotMatch(doc, /Please provision our Quran Foundation OAuth2 client/);
 });

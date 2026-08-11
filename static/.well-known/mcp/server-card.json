@@ -123,10 +123,10 @@
       "mimeType": "text/html"
     },
     {
-      "name": "request_access",
-      "title": "Request Access",
-      "uri": "https://api-docs.quran.foundation/request-access/",
-      "description": "Access request page for developers onboarding to Quran Foundation APIs.",
+      "name": "developer_console",
+      "title": "Developer Console",
+      "uri": "https://dev-console.quran.foundation/projects",
+      "description": "Self-service app creation, credentials, redirect URI management, and API scope requests.",
       "mimeType": "text/html"
     }
   ]

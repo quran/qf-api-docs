@@ -207,16 +207,26 @@ test('includes Connected Apps in generated llms.txt discovery', () => {
   );
 });
 
-test('keeps Connected Apps styling scoped, theme-token based, and responsive', () => {
-  assert.match(customCss, /\.connectedAppsDoc\s*{/);
-  assert.match(customCss, /\.connectedAppsVersion\s*{/);
-  assert.match(customCss, /\.connectedAppsCard\s*>\s*a\s*{/);
-  assert.match(customCss, /\.connectedAppsCard p a,\s*\.connectedAppsCard li a\s*{/);
-  assert.doesNotMatch(customCss, /--connected-apps-muted/);
-  assert.match(customCss, /var\(--connected-apps-border, var\(--qf-border-card\)\)/);
-  assert.match(customCss, /var\(--connected-apps-soft, rgba\(62, 193, 201, 0\.08\)\)/);
-  assert.match(customCss, /@media screen and \(max-width: 760px\)[\s\S]*\.connectedAppsGridTwo,\s*\.connectedAppsGridThree\s*{\s*grid-template-columns: 1fr;/);
-  assert.match(customCss, /@media screen and \(max-width: 760px\)[\s\S]*\.connectedAppsPrimaryLink,\s*\.connectedAppsSecondaryLink\s*{\s*width: 100%;/);
+test('does not ship orphaned Connected Apps CSS classes', () => {
+  const cssClassNames = new Set(
+    [...customCss.matchAll(/\.(connectedApps[A-Za-z0-9_-]+)/g)].map(
+      (match) => match[1],
+    ),
+  );
+  const pageClassNames = new Set(
+    [...doc.matchAll(/\bconnectedApps[A-Za-z0-9_-]+\b/g)].map(
+      (match) => match[0],
+    ),
+  );
+  const orphanedClassNames = [...cssClassNames].filter(
+    (className) => !pageClassNames.has(className),
+  );
+
+  assert.deepEqual(
+    orphanedClassNames,
+    [],
+    'Connected Apps CSS classes must be used by the MDX page',
+  );
 });
 
 test('uses the cross-platform test runner wrapper', () => {
