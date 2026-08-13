@@ -40,7 +40,11 @@ test('publishes a well-known MCP server card with discovery metadata', () => {
   assert.ok(Array.isArray(card.resources));
   assert.ok(card.resources.length >= 9);
   for (const resource of card.resources) {
-    assert.match(resource.uri, /^https:\/\/api-docs\.quran\.foundation\//);
+    assert.ok(
+      /^https:\/\/api-docs\.quran\.foundation\//.test(resource.uri) ||
+        resource.uri === 'https://dev-console.quran.foundation/projects',
+      `unexpected resource URI: ${resource.uri}`,
+    );
     assert.equal(typeof resource.name, 'string');
     assert.equal(typeof resource.title, 'string');
     assert.equal(typeof resource.description, 'string');
@@ -55,6 +59,9 @@ test('includes curated onboarding pages alongside API resources', () => {
     resourceUris.has('https://api-docs.quran.foundation/docs/quickstart/'),
   );
   assert.ok(
+    resourceUris.has('https://api-docs.quran.foundation/docs/connected-apps/'),
+  );
+  assert.ok(
     resourceUris.has(
       'https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/',
     ),
@@ -65,7 +72,7 @@ test('includes curated onboarding pages alongside API resources', () => {
     ),
   );
   assert.ok(
-    resourceUris.has('https://api-docs.quran.foundation/request-access/'),
+    resourceUris.has('https://dev-console.quran.foundation/projects'),
   );
 });
 

@@ -16,12 +16,12 @@ keywords:
 :::info Quick Summary
 **What:** Manual OAuth2 Authorization Code flow with PKCE for Quran Foundation User APIs.
 **Who:** Developers implementing custom auth flows, mobile flows, non-JS stacks, or OAuth2 debugging.
-**Prerequisites:** A `client_id` from [Request Access](/request-access).
+**Prerequisites:** A `client_id` from the [Developer Console](https://dev-console.quran.foundation/projects).
 **Time:** ~30 minutes to implement.
 **Result:** Your app can authenticate users and access their Quran.com synced data.
 :::
 
-Quran Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. In the current Request Access flow, clients are provisioned as **confidential clients by default**, so most integrations should perform the code exchange and refresh flow on a server.
+Quran Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. Clients that have a `client_secret` are **confidential clients**, so those integrations must perform the code exchange and refresh flow on a server.
 
 For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
@@ -49,7 +49,7 @@ Quran Foundation issues two types of OAuth2 clients. This distinction affects ho
 | **Refresh tokens** | Server-side | In-app or via backend proxy |
 | **Typical pattern** | App handles login + PKCE → sends code to backend → backend exchanges with secret | App exchanges code directly |
 
-**Most [Request Access](/request-access) clients are confidential by default.** Your client is public **only if** Quran Foundation has explicitly confirmed it.
+**A client with a `client_secret` is confidential.** Your client is public **only if** Quran Foundation has explicitly confirmed it.
 
 If you call `/oauth2/token` without client authentication on a confidential client, Hydra returns `invalid_client`.
 :::
@@ -106,7 +106,7 @@ sequenceDiagram
     Backend-->>App: Updated session or token payload
 ```
 
-> If Quran Foundation explicitly confirms that your client is public, the app can exchange the code directly. For the current Request Access flow, use the backend exchange pattern shown above.
+> If Quran Foundation explicitly confirms that your client is public, the app can exchange the code directly. If your client has a `client_secret`, use the backend exchange pattern shown above.
 
 ## Manual OAuth Implementation Prompt
 
@@ -116,7 +116,7 @@ Use this prompt if you want an AI coding tool to implement the manual OAuth2 flo
 Implement Quran Foundation User APIs authentication with OAuth2 Authorization Code + PKCE and OpenID Connect.
 
 Follow these requirements:
-- Request access first and keep QF_CLIENT_SECRET server-side for confidential clients.
+- Create the app in the Developer Console first and keep QF_CLIENT_SECRET server-side for confidential clients.
 - Build the authorization URL with state, nonce, code_challenge, and code_challenge_method=S256.
 - Validate state on callback, then exchange code + redirect_uri + code_verifier at POST {authBaseUrl}/oauth2/token.
 - For confidential clients, exchange and refresh tokens on the backend with client authentication.
@@ -132,12 +132,12 @@ Use these docs:
 
 ---
 
-## Step 1: Request OAuth 2.0 Client Credentials
+## Step 1: Create OAuth 2.0 Client Credentials
 
-1. Submit an [Application](/request-access) to obtain your OAuth client credentials: you will always receive a `client_id`, and confidential clients will also receive a `client_secret` for server-side use only.
+1. Create an app in the [Developer Console](https://dev-console.quran.foundation/projects) to obtain your OAuth client credentials: you will always receive a `client_id`, and confidential clients will also receive a `client_secret` for server-side use only.
 2. Provide one or more exact `redirect_uri` values. These must match exactly at runtime.
 
-> **[Which client type do I have?](#client-types)** Most Request Access clients are confidential — let the app handle login + PKCE, then exchange and refresh tokens on your backend. Never embed `client_secret` in a browser or mobile app.
+> **[Which client type do I have?](#client-types)** If your client has a `client_secret`, it is confidential — let the app handle login + PKCE, then exchange and refresh tokens on your backend. Never embed `client_secret` in a browser or mobile app.
 
 
 ---
@@ -183,7 +183,7 @@ Use the exact scopes approved for your client. If Quran Foundation approved a pa
 request child scopes such as `note.read` or `post.create` unless those child scopes were separately
 approved for the client. See [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes#parent-and-child-scopes).
 
-> Tip: Always persist your `code_verifier` **before** redirecting to `/oauth2/auth`. For current Request Access clients, keep it either in app state until callback and send it to your backend exchange endpoint, or keep it in a server-side session if the backend initiates the login flow. Public native/mobile clients should only redeem the code directly if Quran Foundation explicitly confirms that the client is public.
+> Tip: Always persist your `code_verifier` **before** redirecting to `/oauth2/auth`. For confidential clients, keep it either in app state until callback and send it to your backend exchange endpoint, or keep it in a server-side session if the backend initiates the login flow. Public native/mobile clients should only redeem the code directly if Quran Foundation explicitly confirms that the client is public.
 
 For example, request `collection` only when the user actually creates or manages a collection.
 
@@ -340,7 +340,7 @@ app.post("/api/auth/qf/exchange", async (req, res) => {
 });
 ```
 
-This is the recommended pattern for React Native, iOS, Android, or browser apps using [confidential clients](#client-types) issued through Request Access.
+This is the recommended pattern for React Native, iOS, Android, or browser apps using [confidential clients](#client-types).
 
 <details>
 <summary><b>cURL (confidential server client)</b></summary>
@@ -700,7 +700,7 @@ def refresh_access_token(refresh_token: str):
 
 | Error                     | Likely Cause                               | Resolution                                           |
 | ------------------------- | ------------------------------------------ | ---------------------------------------------------- |
-| `invalid_client`          | Wrong client type, using the public-client flow with a confidential client, missing secret for a confidential client, or wrong environment | Verify whether the client is public or confidential, confirm `client_id/secret`, and confirm the environment. If the client came from Request Access, switch to the server-side exchange unless QF explicitly confirmed the client is public |
+| `invalid_client`          | Wrong client type, using the public-client flow with a confidential client, missing secret for a confidential client, or wrong environment | Verify whether the client is public or confidential, confirm `client_id/secret`, and confirm the environment. If the client has a secret, switch to the server-side exchange unless QF explicitly confirmed the client is public |
 | `invalid_grant`           | Bad/expired/used `code` or `refresh_token` | Ensure one-time use, check clock skew                |
 | `redirect_uri_mismatch`   | Redirect URI not exact match               | Align with registered value                          |
 | `invalid_scope`           | Scope misspelled, not approved for the client, or a child scope was requested when only the parent scope was approved | Request the exact approved scopes. If approved for `note`, request `note`, not `note.read` or `note.create` unless those child scopes were separately approved |
@@ -733,7 +733,7 @@ Access tokens expire after **1 hour** (3,600 seconds). Use the `refresh_token` (
 
 ### What is the difference between public and confidential OAuth2 clients?
 
-**Confidential clients** have a `client_secret` that is stored securely on a backend server and used during token exchange and refresh. This is the **default** for clients issued through [Request Access](/request-access).
+**Confidential clients** have a `client_secret` that is stored securely on a backend server and used during token exchange and refresh. Create and manage client credentials in the [Developer Console](https://dev-console.quran.foundation/projects).
 
 **Public clients** (SPAs, mobile apps) rely solely on PKCE for security and never use a `client_secret`. Your client is public **only if** Quran Foundation has explicitly confirmed it.
 

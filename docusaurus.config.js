@@ -200,6 +200,12 @@ const config = {
             position: "left",
             label: "Updates",
           },
+          {
+            type: "doc",
+            docId: "connected-apps",
+            position: "left",
+            label: "Connected Apps",
+          },
 
           {
             type: "docSidebar",
@@ -233,7 +239,6 @@ const config = {
             ],
           },
           {
-            sidebarId: "APIsSidebar",
             type: "dropdown",
             label: "APIs",
             position: "left",
@@ -271,10 +276,10 @@ const config = {
             label: "OAuth2 Scopes",
           },
           {
-            to: "/request-access",
-            label: "Request Access",
+            href: "https://dev-console.quran.foundation/projects",
+            label: "Developer Console",
             position: "right",
-            className: "navbar__item--request-access",
+            className: "navbar__item--developer-console",
           },
         ],
       },

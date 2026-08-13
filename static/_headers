@@ -43,7 +43,7 @@
   Link: </docs/tutorials/sync/handling-conflicts/>; rel="service-doc"; type="text/html"
   Link: </docs/tutorials/sync/offline-first-patterns/>; rel="service-doc"; type="text/html"
   Link: </docs/user_related_apis_versioned/scopes/>; rel="service-doc"; type="text/html"
-  Link: </request-access/>; rel="service-doc"; type="text/html"
+  Link: <https://dev-console.quran.foundation/projects>; rel="service-doc"; type="text/html"
 
 /.well-known/api-catalog
   Content-Type: application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"
