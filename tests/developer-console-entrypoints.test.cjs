@@ -9,18 +9,18 @@ const developerConsoleUrl = 'https://dev-console.quran.foundation/projects';
 const read = (...segments) =>
   fs.readFileSync(path.join(repoRoot, ...segments), 'utf8');
 
-test('routes interactive onboarding entry points through the Developer Console', () => {
+test('routes the navbar through the request-access screen', () => {
   const config = require(path.join(repoRoot, 'docusaurus.config.js'));
   const navbarItems = config.themeConfig.navbar.items;
-  const consoleItem = navbarItems.find(
-    (item) => item.label === 'Developer Console',
+  const requestAccessItem = navbarItems.find(
+    (item) => item.label === 'Request Access',
   );
 
-  assert.deepEqual(consoleItem, {
-    href: developerConsoleUrl,
-    label: 'Developer Console',
+  assert.deepEqual(requestAccessItem, {
+    to: '/request-access',
+    label: 'Request Access',
     position: 'right',
-    className: 'navbar__item--developer-console',
+    className: 'navbar__item--request-access',
   });
 
   for (const relativePath of [
@@ -63,7 +63,7 @@ test('routes documentation onboarding links through the Developer Console', () =
   }
 });
 
-test('routes machine discovery and retired URLs away from request access', () => {
+test('routes machine discovery through Developer Console without bypassing the request-access screen', () => {
   const card = JSON.parse(
     read('static', '.well-known', 'mcp', 'server-card.json'),
   );
@@ -83,20 +83,7 @@ test('routes machine discovery and retired URLs away from request access', () =>
   );
 
   const redirects = read('static', '_redirects');
-  assert.match(
-    redirects,
-    new RegExp(
-      `^/request-access ${developerConsoleUrl.replaceAll('.', '\\.')} 301$`,
-      'm',
-    ),
-  );
-  assert.match(
-    redirects,
-    new RegExp(
-      `^/request-access/ ${developerConsoleUrl.replaceAll('.', '\\.')} 301$`,
-      'm',
-    ),
-  );
+  assert.doesNotMatch(redirects, /^\/request-access\/?\s/m);
 
   const searchConsoleOverrides = JSON.parse(
     read('scripts', 'search-console-redirect-overrides.json'),
