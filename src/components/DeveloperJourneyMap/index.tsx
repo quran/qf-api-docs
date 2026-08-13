@@ -70,7 +70,8 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
             <h3 className={styles.prerequisiteTitle}>Create your API app</h3>
             <p className={styles.prerequisiteText}>
               Register your app to receive pre-live credentials, configure redirect
-              URIs, and request production permissions when you are ready.
+              URIs, request scopes, and request production permissions when you
+              are ready.
             </p>
           </div>
           <a

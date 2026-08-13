@@ -47,6 +47,8 @@ const versionedApiRoots = getVersionedApiRoots();
 const dropPathsFromSitemap = new Set([
   "/search",
   "/search/",
+  "/request-access",
+  "/request-access/",
   "/request-scopes",
   "/request-scopes/",
 ]);

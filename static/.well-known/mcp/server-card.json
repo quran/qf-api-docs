@@ -46,6 +46,13 @@
       "mimeType": "text/html"
     },
     {
+      "name": "connected_apps",
+      "title": "Connected Apps",
+      "uri": "https://api-docs.quran.foundation/docs/connected-apps/",
+      "description": "Partner guide for Quran Foundation app discovery, listing review, visibility, and responsible integration.",
+      "mimeType": "text/html"
+    },
+    {
       "name": "api_reference",
       "title": "API Reference",
       "uri": "https://api-docs.quran.foundation/docs/api-reference/",
@@ -116,10 +123,10 @@
       "mimeType": "text/html"
     },
     {
-      "name": "request_access",
-      "title": "Request Access",
-      "uri": "https://api-docs.quran.foundation/request-access/",
-      "description": "Access request page for developers onboarding to Quran Foundation APIs.",
+      "name": "developer_console",
+      "title": "Developer Console",
+      "uri": "https://dev-console.quran.foundation/projects",
+      "description": "Self-service app creation, credentials, redirect URI management, and API scope requests.",
       "mimeType": "text/html"
     }
   ]

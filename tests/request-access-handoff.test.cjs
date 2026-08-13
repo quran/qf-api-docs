@@ -49,16 +49,16 @@ test("request access page no longer contains the legacy application form", () =>
   assert.doesNotMatch(page, /<form/);
 });
 
-test("navbar keeps the prominent request-access entry point", () => {
+test("navbar sends new developers directly to Developer Console", () => {
   const config = read("docusaurus.config.js");
 
   assert.match(
     config,
-    /to: "\/request-access"[\s\S]*label: "Request Access"/
+    /href: "https:\/\/dev-console\.quran\.foundation\/projects"[\s\S]*label: "Developer Console"/
   );
   assert.doesNotMatch(
     config,
-    /href: "https:\/\/dev-console\.quran\.foundation\/projects"[\s\S]*label: "Developer Console"/
+    /to: "\/request-access"[\s\S]*label: "Request Access"/
   );
 });
 
