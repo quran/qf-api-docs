@@ -48,26 +48,57 @@ test('publishes scaffold, SDK, OAuth, and review agent prompts', () => {
 });
 
 test('prompts constrain agents to official commands, docs, SDK boundaries, and checks', () => {
+  const starterCallout = fs.readFileSync(
+    path.join(repoRoot, 'src', 'components', 'AgentPromptCallout', 'index.tsx'),
+    'utf8',
+  );
+  assert.match(starterCallout, /Backend\/server app/);
+  assert.match(starterCallout, /Search permission/);
+
   const nextPrompt = readPrompt('qf-next-starter.md');
   assert.match(nextPrompt, /Run the scaffold command first/);
+  assert.match(nextPrompt, /Backend\/server app/);
+  assert.match(nextPrompt, /Search permission/);
   assert.match(nextPrompt, /read the generated `AGENTS\.md`/);
   assert.match(nextPrompt, /official docs page or OpenAPI path/);
   assert.match(nextPrompt, /Run the generated scaffold's documented checks/);
 
   const sveltekitPrompt = readPrompt('qf-sveltekit-starter.md');
   assert.match(sveltekitPrompt, /Run the scaffold command first/);
+  assert.match(sveltekitPrompt, /Backend\/server app/);
+  assert.match(sveltekitPrompt, /Search permission/);
   assert.match(sveltekitPrompt, /preserve its server routes, session, callback, refresh, and logout structure/);
   assert.match(sveltekitPrompt, /official docs page or OpenAPI path/);
 
   const sdkPrompt = readPrompt('qf-js-sdk-integration.md');
   assert.match(sdkPrompt, /If this is a new app, stop and use the official scaffold prompt/);
+  assert.match(sdkPrompt, /app type selected in Developer Console/);
+  assert.match(sdkPrompt, /Frontend or mobile app/);
+  assert.match(sdkPrompt, /Backend\/server app/);
   assert.match(sdkPrompt, /Use SDK helpers first/);
   assert.match(sdkPrompt, /implementation note that lists each API call/);
 
   const oauthPrompt = readPrompt('qf-oauth-user-apis.md');
   assert.match(oauthPrompt, /skills get oauth/);
+  assert.match(oauthPrompt, /app type selected in Developer Console/);
+  assert.match(oauthPrompt, /Frontend or mobile app/);
+  assert.match(oauthPrompt, /Backend\/server app/);
   assert.match(oauthPrompt, /documented endpoint, required scope, request parameters/);
   assert.match(oauthPrompt, /authenticated User API smoke check/);
+  assert.match(
+    oauthPrompt,
+    /frontend\/mobile public client[\s\S]*end-session flow in the app/,
+  );
+  assert.match(
+    oauthPrompt,
+    /backend\/server confidential client[\s\S]*logout route/,
+  );
+  assert.doesNotMatch(oauthPrompt, /^- Add a logout route/m);
+
+  const reviewPrompt = readPrompt('qf-review-existing-integration.md');
+  assert.match(reviewPrompt, /app type selected in Developer Console/);
+  assert.match(reviewPrompt, /Frontend or mobile app/);
+  assert.match(reviewPrompt, /Backend\/server app/);
 
   const pythonPrompt = readPrompt('qf-python-sdk-integration.md');
   assert.match(pythonPrompt, /quran-foundation-api/);
@@ -92,6 +123,9 @@ test('labels the shared sidebar prompt hub clearly', () => {
 test('agent prompt hub links prompt assets on the same deployment', () => {
   const promptHubPage = fs.readFileSync(path.join(repoRoot, 'docs', 'ai-agents', 'index.mdx'), 'utf8');
 
+  assert.match(promptHubPage, /app type selected in Developer Console/);
+  assert.match(promptHubPage, /Frontend or mobile app/);
+  assert.match(promptHubPage, /Backend\/server app/);
   assert.doesNotMatch(promptHubPage, /https:\/\/api-docs\.quran\.foundation\/agent-prompts\//);
   assert.doesNotMatch(promptHubPage, /href="\/(?:\.well-known\/agent-prompts|agent-prompts)\//);
   assert.doesNotMatch(promptHubPage, /\]\(\/agent-prompts\/[^)]+\.md\)/);

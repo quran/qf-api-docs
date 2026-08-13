@@ -58,26 +58,27 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
           <p className={styles.eyebrow}>Pick your path</p>
           <h2 className={styles.title}>Start with the route that matches your app</h2>
           <p className={styles.description}>
-            Create your app in the Developer Console first. Then choose by what
-            you need: content without login, SDK clients in your own app,
-            signed-in user data, or manual OAuth2 implementation.
+            Create your app in Developer Console first. Then choose the path that
+            matches what you need: content without login, typed SDK clients,
+            signed-in user data, or manual OAuth2.
           </p>
         </div>
 
         <div className={styles.prerequisite}>
           <div>
-            <p className={styles.prerequisiteLabel}>Required first</p>
-            <h3 className={styles.prerequisiteTitle}>Developer Console</h3>
+            <p className={styles.prerequisiteLabel}>Start here</p>
+            <h3 className={styles.prerequisiteTitle}>Create your API app</h3>
             <p className={styles.prerequisiteText}>
-              Create your app, get credentials, register redirect URIs, and
-              request the scopes your app needs.
+              Register your app to receive pre-live credentials, configure redirect
+              URIs, request scopes, and request production permissions when you
+              are ready.
             </p>
           </div>
           <a
             className={styles.prerequisiteLink}
-            href="https://dev-console.quran.foundation/projects"
+            href="https://dev-console.quran.foundation/projects/new"
           >
-            Open Developer Console
+            Create app in Developer Console <span aria-hidden="true">↗</span>
           </a>
         </div>
 

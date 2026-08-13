@@ -21,9 +21,9 @@ function HomepageHeader() {
           Quran Foundation Documentation Portal
         </h1>
         <p className={styles.heroSubtitle}>
-          Create your app in the Developer Console, pick the right integration
-          path, and build with Quran Foundation APIs using the official docs,
-          SDK, and starter app.
+          Create your app in Developer Console, pick the right integration path,
+          and build with Quran Foundation APIs using the official docs, SDK, and
+          starter app.
         </p>
 
         <StarterCommandCard />

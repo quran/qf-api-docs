@@ -28,7 +28,7 @@ For backwards compatibility, `@quranjs/api` still exports the legacy `QuranClien
 
 If you are still asking "what kind of app am I building?" start with [App Shapes](/docs/sdk/javascript/app-shapes). It is the shortest path to the right architecture.
 
-Production defaults are built in. If you are maintaining the SDK itself and need local smoke or local docs instructions, use the maintainer guide in the [`api-js` repo](https://github.com/quran/api-js/tree/main/packages/api#local-development).
+The SDK has production defaults, while the onboarding examples below explicitly use pre-live so they work with a newly created Developer Console app. Switch credentials and every configured service URL to production together only after production permissions are granted. If you are maintaining the SDK itself and need local smoke or local docs instructions, use the maintainer guide in the [`api-js` repo](https://github.com/quran/api-js/tree/main/packages/api#local-development).
 
 ## SDK vs Starter App
 
@@ -43,7 +43,8 @@ and backend.
 
 User APIs can be called with the SDK, but your app still needs OAuth2 login,
 session storage, token refresh, and approved scopes. The starter includes those
-pieces; SDK-only integrations must wire them in their own backend.
+pieces; SDK-only integrations must wire them according to the app type selected
+in Developer Console.
 
 <AgentPromptCallout />
 
@@ -71,27 +72,27 @@ There are two different tokens in the system:
 
 They solve different jobs, so they can expire at different times. That is why Content can still work even when User APIs start failing. Content and Search use a separate app token that `@quranjs/api/server` gets with `client_credentials`. User APIs use the signed-in user's session token.
 
-The browser never gets the `client_secret`. The secret stays on the backend so the backend can exchange codes, refresh user sessions, and ask for app tokens safely.
+For a **Backend/server app**, the browser never gets the `client_secret`; the backend exchanges codes, refreshes user sessions, and requests app tokens. A **Frontend or mobile app** is public, receives no secret, and exchanges its authorization code with PKCE.
 
-## PKCE + Backend
+## PKCE and Client Type
 
 PKCE is the "proof" the app sends during login. It helps the app prove the same login request came back to it.
 
-For most clients, PKCE is only half the story:
+For a **Backend/server app**, PKCE is only half the story:
 
 - The frontend or mobile app starts login with PKCE.
 - The backend or BFF finishes the confidential parts, like code exchange and refresh.
 - The backend stores the session server-side.
 
-That is why modern edge or serverless frontends still usually need a backend layer. The edge can host the UI, but the confidential token work and shared session storage still belong in a backend or BFF.
+For a **Frontend or mobile app**, Developer Console creates a public client. The app exchanges the code with PKCE, refreshes with `client_id` and no secret, and does not need a backend for the OAuth exchange. Browser-origin restrictions may still require an API proxy.
 
 ## Pick Your Setup
 
 If you want the very short version, use this:
 
-- **SPA only**: User APIs only, and only if Quran Foundation approved your app as a public client.
-- **Mobile only**: same as SPA only.
-- **Frontend + backend**: the normal path for Content, Search, and apps that mix user features with Quran data.
+- **SPA only**: Select **Frontend or mobile app** in Developer Console; use User APIs with a public client and PKCE.
+- **Mobile only**: Select **Frontend or mobile app** and use the same public-client flow.
+- **Frontend + backend**: Select **Backend/server app** for Content, Search, or apps that mix user features with Quran data.
 
 ### I have a backend
 
@@ -123,7 +124,7 @@ This only works safely for:
 
 - PKCE login
 - user-session flows
-- clients that Quran Foundation explicitly provisioned as **public**
+- clients created with the **Frontend or mobile app** type in Developer Console
 
 It does **not** support `client_secret`.
 
@@ -133,9 +134,9 @@ It does **not** support `client_secret`.
 | ---------------------------------------- | ----------------- | -------------------------------------------------------------- |
 | Content                                  | Yes               | Use `@quranjs/api/server`                                      |
 | Search                                   | Yes               | Use `@quranjs/api/server`                                      |
-| User APIs                                | Usually yes       | Most clients are confidential by default                       |
-| OAuth2 login                             | Usually yes       | Frontend starts PKCE, backend exchanges code                   |
-| OAuth2 login for approved public clients | No                | Only if Quran Foundation explicitly says your client is public |
+| User APIs                                | Depends           | Public frontend/mobile apps can authenticate without a backend; origin restrictions may still require a proxy |
+| OAuth2 login for backend/server apps     | Yes               | Frontend starts PKCE, backend exchanges the code with client authentication |
+| OAuth2 login for frontend/mobile apps    | No                | Public client exchanges the code with PKCE and no secret       |
 
 If your app is deployed as an edge frontend, keep the confidential exchange, refresh, and shared session store in a backend or BFF layer. The edge can still be the entrypoint for users.
 
@@ -149,6 +150,10 @@ import { createServerClient } from "@quranjs/api/server";
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const chapters = await client.content.v4.chapters.list();
@@ -159,9 +164,37 @@ const chapters = await client.content.v4.chapters.list();
 ```ts
 import { createPublicClient } from "@quranjs/api/public";
 
+const base64url = (bytes: Uint8Array) =>
+  btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
+
+const verifierBytes = crypto.getRandomValues(new Uint8Array(32));
+const codeVerifier = base64url(verifierBytes);
+const codeChallenge = base64url(
+  new Uint8Array(
+    await crypto.subtle.digest(
+      "SHA-256",
+      new TextEncoder().encode(codeVerifier),
+    ),
+  ),
+);
+const state = crypto.randomUUID();
+const nonce = crypto.randomUUID();
+
+sessionStorage.setItem(
+  "qf:oauth:pending",
+  JSON.stringify({ codeVerifier, nonce, state }),
+);
+
 const client = createPublicClient({
   clientId: "your-client-id",
-  clientType: "confidential-proxy",
+  clientType: "public",
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const authUrl = client.oauth2.v1.authorizeUrl({
@@ -169,9 +202,14 @@ const authUrl = client.oauth2.v1.authorizeUrl({
   redirect_uri: "http://localhost:3000/callback",
   response_type: "code",
   scope: "openid offline_access user bookmark",
-  state: "random-state",
+  state,
+  nonce,
+  code_challenge: codeChallenge,
+  code_challenge_method: "S256",
 });
 ```
+
+The callback must validate `state`, retrieve and remove the stored verifier, and pass it as `codeVerifier` to `client.oauth2.v1.exchangeCode`. See the [Public Quickstart](/docs/sdk/javascript/public-quickstart) for the complete callback example.
 
 ## First Working Examples
 
@@ -179,19 +217,20 @@ const authUrl = client.oauth2.v1.authorizeUrl({
 
 ```ts
 import { createServerClient } from "@quranjs/api/server";
-import { SearchMode } from "@quranjs/api";
 
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const chapters = await client.content.v4.chapters.list();
-const results = await client.search.v1.query({
-  query: "mercy",
-  mode: SearchMode.Quick,
-});
 ```
+
+Search requires additional permission in Developer Console; add Search calls only after that permission is granted for the same environment.
 
 ### Full-stack example
 
@@ -203,6 +242,10 @@ import { createPublicClient } from "@quranjs/api/public";
 const client = createPublicClient({
   clientId: "your-client-id",
   clientType: "confidential-proxy",
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 ```
 
@@ -214,6 +257,10 @@ import { createServerClient } from "@quranjs/api/server";
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 ```
 
@@ -222,6 +269,7 @@ const client = createServerClient({
 - Putting `client_secret` in browser or mobile code.
 - Calling Content or Search from `@quranjs/api/public`.
 - Assuming every client can exchange OAuth2 codes directly.
+- Sending new pre-live credentials to the SDK's production defaults instead of configuring both pre-live service URLs.
 - Treating `word.audioUrl` as a Content API path. Resolve word-by-word audio against `https://audio.qurancdn.com/` instead.
 - Starting new code with the legacy root `QuranClient` instead of choosing the runtime-specific client for your app shape.
 

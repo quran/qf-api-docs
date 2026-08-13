@@ -2,7 +2,7 @@
 sidebar_position: 0
 displayed_sidebar: APIsSidebar
 title: "Quran Foundation User APIs OAuth2 Quickstart"
-description: "Quickstart for accessing Quran Foundation User APIs with OAuth2 Authorization Code flow, PKCE, OpenID Connect, and a backend token exchange."
+description: "Quickstart for accessing Quran Foundation User APIs with OAuth2 Authorization Code flow, PKCE, OpenID Connect, and the exchange pattern selected in Developer Console."
 keywords:
   - quran foundation oauth2 quickstart
   - quran foundation user apis
@@ -16,12 +16,12 @@ sidebar_label: "User APIs Quickstart"
 
 :::info Quick Summary
 **Audience:** Developers adding signed-in Quran.com user features such as bookmarks, collections, notes, reading progress, goals, and preferences.
-**Prerequisites:** A `client_id` from the [Developer Console](https://dev-console.quran.foundation/projects) and at least one registered redirect URI.
-**Recommended flow:** Hosted login + PKCE in your app, then backend token exchange and refresh for confidential clients.
-**Outcome:** One backend-safe User API call with an OAuth2 `access_token`.
+**Prerequisites:** An app and pre-live `client_id` from [Developer Console](https://dev-console.quran.foundation/projects), plus at least one registered redirect URI. A **Backend/server app** also receives a one-time `client_secret`; a **Frontend or mobile app** does not.
+**Recommended flow:** Hosted login + PKCE in your app, followed by the exchange and refresh flow for the app type selected in Developer Console.
+**Outcome:** One User API call with an OAuth2 `access_token`, using the runtime boundary that matches your app type.
 :::
 
-Use this quickstart after choosing User APIs from the [Developer Journey](/docs/developer-journey). It gets you to the recommended backend architecture and one successful signed-in User API call.
+Use this quickstart after choosing User APIs from the [Developer Journey](/docs/developer-journey). It gets you to the architecture selected in Developer Console and one successful signed-in User API call.
 
 Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) when you need the full manual flow, client-type details, token exchange examples, refresh handling, scopes, and troubleshooting.
 
@@ -38,7 +38,7 @@ If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 
 ## Recommended Architecture
 
-:::important Default integration shape
+:::important Server example: Backend/server app
 - Let your app or website open the Quran Foundation hosted login screen.
 - Generate PKCE, `state`, and `nonce` in the app or browser client.
 - After login, receive the authorization `code` at your redirect URI.
@@ -47,10 +47,10 @@ If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 - Have your backend or serverless proxy call User APIs with `x-auth-token` and `x-client-id`.
 :::
 
-Clients that have a `client_secret` are confidential clients. Direct browser calls from third-party origins are not the recommended web pattern and may be rejected by CORS or origin allowlist checks.
+The SDK example below follows this confidential backend/server pattern. Direct browser calls from third-party origins may be rejected by CORS or origin allowlist checks.
 
 :::tip Public-client exception
-If Quran Foundation explicitly confirms that your client is public, you can complete token exchange and refresh in the app with PKCE only. If you did not receive that confirmation, assume your client is confidential.
+If you selected **Frontend or mobile app** in Developer Console, the client is public: exchange the code in the app using PKCE, then refresh with `client_id` and no `client_secret`. See the [manual OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2#client-types) for that flow; the server SDK example below is for a confidential **Backend/server app**.
 :::
 
 ## First SDK Request
@@ -64,6 +64,10 @@ import { createServerClient } from "@quranjs/api/server";
 const serverClient = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
   userSession: {
     accessToken: session.accessToken,
     refreshToken: session.refreshToken,
@@ -74,8 +78,7 @@ const serverClient = createServerClient({
 const bookmarks = await serverClient.auth.v1.bookmarks.list({ first: 10 });
 ```
 
-In production, add SDK `storage` so refreshed user sessions are persisted in
-your server-side session store. Continue with the [JavaScript SDK guide](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
+This example explicitly uses pre-live so it matches a newly created Console app. After production permissions are granted, switch the credentials and both service URLs to production together. In production, add SDK `storage` so refreshed user sessions are persisted in your server-side session store. Continue with the [JavaScript SDK guide](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
 
 ## First Raw HTTP Request
 
@@ -86,7 +89,7 @@ API endpoint like this:
 const accessToken = session.accessToken; // OAuth2 access token stored server-side
 
 const response = await fetch(
-  "https://apis.quran.foundation/auth/v1/bookmarks",
+  "https://apis-prelive.quran.foundation/auth/v1/bookmarks",
   {
     headers: {
       "x-auth-token": accessToken,
@@ -127,10 +130,10 @@ Do not log `access_token`, `refresh_token`, `id_token`, authorization codes, `co
 
 | Platform | Recommended pattern | Start here |
 | --- | --- | --- |
-| Web | Server-side session or backend token exchange | [Web integration example](/docs/tutorials/oidc/example-integration) |
-| React Native | Hosted login + PKCE in the app, backend token exchange | [React Native guide](/docs/tutorials/oidc/mobile-apps/react-native) |
-| Android | Hosted login + PKCE in the app, backend token exchange | [Android guide](/docs/tutorials/oidc/mobile-apps/android) |
-| iOS | Hosted login + PKCE in the app, backend token exchange | [iOS guide](/docs/tutorials/oidc/mobile-apps/iOS) |
+| Web | **Frontend or mobile app:** in-app public exchange. **Backend/server app:** server-side session and exchange. | [Web integration example](/docs/tutorials/oidc/example-integration) |
+| React Native | **Frontend or mobile app:** in-app public exchange. **Backend/server app:** backend exchange. | [React Native guide](/docs/tutorials/oidc/mobile-apps/react-native) |
+| Android | **Frontend or mobile app:** AppAuth public exchange. **Backend/server app:** backend exchange. | [Android guide](/docs/tutorials/oidc/mobile-apps/android) |
+| iOS | **Frontend or mobile app:** AppAuth public exchange. **Backend/server app:** backend exchange. | [iOS guide](/docs/tutorials/oidc/mobile-apps/iOS) |
 | Full OAuth2 and OIDC details | Step-by-step flow, validation, refresh, scopes, and troubleshooting | [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) |
 
 ## Scope And Token Details
@@ -152,4 +155,4 @@ Use these references for the details:
 
 ## Need Help?
 
-Email [developers@quran.com](mailto:developers@quran.com) if you need OAuth2 credentials, redirect URI setup help, or clarification about whether your client is confidential or public.
+Create and manage credentials, redirect URIs, scopes, and app type in [Developer Console](https://dev-console.quran.foundation/projects). If Developer Console cannot resolve the issue or you still need help, email [developers@quran.com](mailto:developers@quran.com).

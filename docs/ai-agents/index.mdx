@@ -42,6 +42,7 @@ npx @quranjs/create-app@latest doctor
 ## Deterministic Agent Rules
 
 - Start from the official scaffold or SDK docs before hand-writing integration code.
+- Identify the app type selected in Developer Console before choosing the OAuth exchange, refresh, session, or SDK pattern.
 - Read generated `AGENTS.md` and CLI skill output before editing scaffolded auth, session, callback, refresh, or logout files.
 - Map every API call to an official docs page or OpenAPI path before implementing it.
 - Use SDK helpers first. Use raw request escape hatches only when the SDK has no dedicated helper, and record the documented endpoint path, auth type, parameters, and scopes.
@@ -52,9 +53,9 @@ npx @quranjs/create-app@latest doctor
 - Use `@quranjs/create-app` for new apps.
 - Use `@quranjs/api` for existing JS/TS apps.
 - Use `quran-foundation-api` for trusted server-side Python apps, scripts, jobs, notebooks, and AI workflows.
-- Use `@quranjs/api/public` only for browser-safe OAuth initiation.
-- Use `@quranjs/api/server` for token exchange, refresh, Content APIs, Search APIs, and signed-in User APIs.
-- Never expose `CLIENT_SECRET`, `SESSION_SECRET`, access tokens, or refresh tokens to browser code.
+- For a **Frontend or mobile app**, use `@quranjs/api/public` with `clientType: "public"`: generate and persist PKCE before redirect, exchange the code in the app with the verifier, refresh with `client_id` and no secret, and use only public-client User API surfaces.
+- For a **Backend/server app**, use `@quranjs/api/public` with `clientType: "confidential-proxy"` in frontend code and `@quranjs/api/server` for confidential token exchange, refresh, session storage, Content APIs, Search APIs, and proxied User API calls.
+- Never expose `CLIENT_SECRET` or `SESSION_SECRET` to browser/mobile code. Public-client user tokens may live in the app but must use secure platform-appropriate storage and must never be logged.
 - Keep app-level Content/Search tokens separate from signed-in user session tokens.
 - Do not call signed-in User APIs without a valid user session.
 - Do not bypass OIDC logout.
@@ -81,7 +82,7 @@ For all agents, require verification commands before finalizing changes. The gen
 
 - Confirm the app uses the correct SDK entrypoint for each runtime.
 - Confirm secrets and tokens are not in browser files, public config, logs, or rendered HTML.
-- Confirm OAuth callback, refresh, and logout are server-side.
+- Confirm OAuth callback, refresh, session storage, and logout follow the Developer Console app type: in-app for public frontend/mobile clients or server-side for confidential backend/server clients.
 - Confirm OIDC logout is preserved.
 - Confirm signed-in User API calls require a valid user session.
 - Confirm response handling covers success variations and common error status codes.

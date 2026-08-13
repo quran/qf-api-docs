@@ -26,7 +26,7 @@ const PROMPTS: Record<
 > = {
   QF_NPX_STARTER_PROMPT_V1: {
     description:
-      "Scaffold a production-shaped Next.js app with OAuth2, reader, search, notes, bookmarks, and the runtime-split Quran Foundation SDK.",
+      "Scaffold a production-shaped Next.js app with OAuth2, reader, a permission-gated search surface, notes, bookmarks, and the runtime-split Quran Foundation SDK.",
     command:
       "npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes",
     docsUrl: "/docs/tutorials/oidc/starter-with-npx",
@@ -34,6 +34,9 @@ const PROMPTS: Record<
     promptUrl: "/agent-prompts/qf-next-starter.md",
     title: "Start with the official Quran Foundation app scaffold",
     promptText: `Set up a production-style Quran Foundation Next.js app using the official scaffold.
+
+Before running the scaffold, create a Backend/server app in Developer Console and save its pre-live Client ID and one-time Client Secret. This full-stack starter is not configured for the secretless Frontend or mobile app type.
+Search code is included, but Search permission must be granted separately in Developer Console for the same environment before Search requests can succeed.
 
 Run this command:
 npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes
@@ -56,7 +59,7 @@ Documentation to follow:
 
 Acceptance checks:
 - The app runs locally after environment variables are set.
-- Login, callback, refresh, logout, Content API reads, Search API reads, and signed-in User API calls are routed through the correct SDK entrypoints.
+- Login, callback, refresh, logout, Content API reads, and signed-in User API calls are routed through the correct SDK entrypoints. Search API reads are routed through the server entrypoint and verified only after Search permission is granted.
 - No client secret, access token, refresh token, or session secret is exposed to browser JavaScript, logs, or generated client bundles.`,
   },
 };

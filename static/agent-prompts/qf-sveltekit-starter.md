@@ -10,6 +10,8 @@ npx @quranjs/create-app@latest my-quran-app --template sveltekit --package-manag
 
 Requirements:
 
+- Before running the scaffold, create a **Backend/server app** in Developer Console and save its pre-live Client ID and one-time Client Secret. The generated full-stack starter is not configured for the secretless **Frontend or mobile app** type.
+- The scaffold includes Search code, but Search permission must be granted separately in Developer Console for the same environment before Search requests can succeed. The other approved features can still be implemented and verified while that request is pending.
 - Run the scaffold command first. Do not hand-create a SvelteKit OAuth app from scratch.
 - After generation, read the generated `AGENTS.md` and follow its framework-specific verification commands before editing scaffolded files.
 - Start from the generated scaffold and preserve its server routes, session, callback, refresh, and logout structure unless a project requirement explicitly needs a narrow change.
@@ -33,7 +35,7 @@ Acceptance checks:
 
 - The app runs locally after environment variables are set.
 - The generated route/session files still route through the intended SDK entrypoints after customization.
-- Login, callback, refresh, logout, Content API reads, Search API reads, and signed-in User API calls are routed through the correct SDK entrypoints.
+- Login, callback, refresh, logout, Content API reads, and signed-in User API calls are routed through the correct SDK entrypoints. Search API reads are routed through the server entrypoint and verified only after Search permission is granted.
 - No client secret, access token, refresh token, or session secret is exposed to browser JavaScript, logs, or generated client bundles.
 - Each implemented API call names the official docs/OpenAPI source used to choose its endpoint, parameters, auth type, and scopes.
 - Run the generated scaffold's documented checks from `AGENTS.md`; report any skipped check and why.

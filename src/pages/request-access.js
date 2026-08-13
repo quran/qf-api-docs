@@ -1,554 +1,112 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import clsx from 'clsx';
+import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
-import { useFieldArray, useForm } from 'react-hook-form';
 import styles from './request-access.module.css';
-import {
-    DeveloperBenefitsModal,
-    DeveloperDisclaimersModal,
-} from '@site/src/components/DeveloperModals';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import requestAccessUtils from './request-access-utils.cjs';
 
-const REQUEST_ACCESS_FORM_STORAGE_KEY = 'qf:request-access-form:v1';
-const REDIRECT_URI_PLACEHOLDERS = [
-    'http://localhost:3000/callback',
-    'https://your-app-staging.vercel.app/callback',
-    'https://your-app.com/callback',
+const DEVELOPER_CONSOLE_URL = 'https://dev-console.quran.foundation/projects';
+const CREATE_APP_URL = 'https://dev-console.quran.foundation/projects/new';
+const IMPORT_CLIENT_URL = 'https://dev-console.quran.foundation/claims';
+
+const accessSteps = [
+    {
+        title: 'Create your app',
+        description: 'Add your app details and redirect URLs in Developer Console.',
+    },
+    {
+        title: 'Build in pre-live',
+        description: 'Use your credentials to integrate and test safely before launch.',
+    },
+    {
+        title: 'Request production permissions',
+        description: 'When you are ready, request the scopes your production app needs.',
+    },
 ];
-const POST_LOGOUT_REDIRECT_URI_PLACEHOLDERS = [
-    'http://localhost:3000',
-    'https://your-app-staging.vercel.app',
-    'https://your-app.com',
-];
-const getUriPlaceholder = (placeholders, index) =>
-    placeholders[index] || placeholders[placeholders.length - 1];
-const {
-    createDefaultFormValues,
-    createEmptyUriField,
-    dedupeUriValues,
-    isEmptyFormValues,
-    normalizeOptionalValue,
-    normalizeUriList,
-    parsePastedUriValues,
-    sanitizeFormValues,
-    validateSingleUri,
-    valuesFromUriField,
-} = requestAccessUtils;
 
 export default function RequestAccess() {
-    const {
-        register,
-        handleSubmit,
-        control,
-        formState: { errors },
-        getValues,
-        reset,
-        setValue,
-        watch,
-    } = useForm({
-        defaultValues: createDefaultFormValues(),
-    });
-    const {
-        fields: redirectUriFields,
-        append: appendRedirectUri,
-        remove: removeRedirectUri,
-        replace: replaceRedirectUris,
-    } = useFieldArray({
-        control,
-        name: 'redirectUris',
-    });
-    const {
-        fields: postLogoutRedirectUriFields,
-        append: appendPostLogoutRedirectUri,
-        remove: removePostLogoutRedirectUri,
-        replace: replacePostLogoutRedirectUris,
-    } = useFieldArray({
-        control,
-        name: 'postLogoutRedirectUris',
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState(null);
-    const [submitError, setSubmitError] = useState('');
-    const [activeModal, setActiveModal] = useState(null); // "benefits" | "disclaimers"
-    const hasAcceptedTerms = watch('agreementsAccepted', false);
-
-    const { siteConfig } = useDocusaurusContext();
-    const apiBaseUrl =
-        siteConfig.customFields?.scopeRequestApiBaseUrl ||
-        'https://qf-form-handler.quran.foundation';
-
-    useEffect(() => {
-        if (typeof window === 'undefined') {
-            return;
-        }
-        const storedValues = window.sessionStorage.getItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
-        if (!storedValues) {
-            return;
-        }
-        try {
-            reset(sanitizeFormValues(JSON.parse(storedValues)));
-        } catch (error) {
-            window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
-        }
-    }, [reset]);
-
-    useEffect(() => {
-        if (typeof window === 'undefined') {
-            return;
-        }
-        const subscription = watch((value) => {
-            try {
-                const sanitizedValues = sanitizeFormValues(value);
-                if (isEmptyFormValues(sanitizedValues)) {
-                    window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
-                } else {
-                    window.sessionStorage.setItem(
-                        REQUEST_ACCESS_FORM_STORAGE_KEY,
-                        JSON.stringify(sanitizedValues)
-                    );
-                }
-            } catch (error) {
-                // Ignore storage errors (e.g., quota or serialization issues).
-            }
-        });
-        return () => subscription.unsubscribe();
-    }, [watch]);
-
-    const closeModal = useCallback(() => setActiveModal(null), []);
-
-    const handleUriPaste = useCallback(
-        (event, fieldName, index, replaceRows) => {
-            const pastedText = event.clipboardData?.getData('text');
-            const pastedValues = parsePastedUriValues(pastedText);
-            if (!pastedValues.length) {
-                return;
-            }
-
-            event.preventDefault();
-            if (pastedValues.length === 1) {
-                setValue(`${fieldName}.${index}.value`, pastedValues[0], {
-                    shouldDirty: true,
-                    shouldValidate: true,
-                });
-                return;
-            }
-
-            const currentValues = getValues(fieldName);
-            const existingValues = valuesFromUriField(currentValues);
-            const nextValues = dedupeUriValues([
-                ...existingValues.slice(0, index),
-                ...pastedValues,
-                ...existingValues.slice(index + 1),
-            ]);
-            replaceRows(
-                nextValues.length
-                    ? nextValues.map((uri) => ({ value: uri }))
-                    : [createEmptyUriField()]
-            );
-        },
-        [getValues, setValue]
-    );
-
-    const removeUriRow = useCallback((fields, removeRow, replaceRows, index) => {
-        if (fields.length <= 1) {
-            replaceRows([createEmptyUriField()]);
-            return;
-        }
-        removeRow(index);
-    }, []);
-
-    const onSubmit = async (data) => {
-        setIsSubmitting(true);
-        setSubmitError('');
-        const redirectUris = normalizeUriList(data.redirectUris);
-        const postLogoutRedirectUris = normalizeUriList(data.postLogoutRedirectUris);
-        const payload = {
-            appName: data.appName,
-            email: data.email,
-            agreementsAccepted: data.agreementsAccepted,
-            logo_uri: normalizeOptionalValue(data.logoUri),
-            client_uri: normalizeOptionalValue(data.clientUri),
-            policy_uri: normalizeOptionalValue(data.policyUri),
-            tos_uri: normalizeOptionalValue(data.tosUri),
-        };
-        if (redirectUris.length) {
-            payload.callbackUrl = redirectUris[0];
-            payload.redirect_uris = redirectUris;
-        }
-        if (postLogoutRedirectUris.length) {
-            payload.post_logout_redirect_uris = postLogoutRedirectUris;
-        }
-        try {
-            const response = await fetch(`${apiBaseUrl}/api/v1/webhook`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            if (!response.ok) {
-                const payload = await response.json().catch(() => ({}));
-                setSubmitStatus('error');
-                setSubmitError(
-                    payload.error || 'There was an error submitting your request. Please try again later.'
-                );
-                setIsSubmitting(false);
-                return;
-            }
-
-            setSubmitStatus('success');
-            reset(createDefaultFormValues());
-            if (typeof window !== 'undefined') {
-                window.sessionStorage.removeItem(REQUEST_ACCESS_FORM_STORAGE_KEY);
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            setSubmitStatus('error');
-            setSubmitError('There was an error submitting your request. Please try again later.');
-        }
-        setIsSubmitting(false);
-    };
-
     return (
-        <Layout title="Request Access" description="Request access to Quran Foundation APIs">
-            <div className="container margin-vert--md">
-                <div className="row">
-                    <div className="col col--6 col--offset-3">
-                        <h1>Request API Access</h1>
-                        <p className="padding-bottom--md">
-                            Fill out this form to request access to the Quran Foundation APIs. We'll review your request and get back to you soon.
+        <Layout
+            title="Get API Access"
+            description="Create and manage Quran.Foundation API apps in Developer Console"
+        >
+            <main className={styles.page}>
+                <div className={`container ${styles.container}`}>
+                    <section className={styles.hero} aria-labelledby="access-title">
+                        <p className={styles.eyebrow}>Quran.Foundation Developer Platform</p>
+                        <h1 id="access-title" className={styles.title}>
+                            Get API access
+                        </h1>
+                        <p className={styles.lede}>
+                            Create your app, manage credentials, and request production
+                            permissions from one place in Developer Console.
                         </p>
 
-                        <div className={styles.infoRow}>
-                            <button
-                                type="button"
-                                className={clsx('button button--lg', styles.outlineButton)}
-                                onClick={() => setActiveModal('benefits')}
+                        <div className={styles.actions}>
+                            <a
+                                className="button button--primary button--lg"
+                                href={CREATE_APP_URL}
                             >
-                                💎 Dev Benefits
-                            </button>
-                            <button
-                                type="button"
-                                className={clsx('button button--lg', styles.ghostButton)}
-                                onClick={() => setActiveModal('disclaimers')}
-                            >
-                                ⚠️ Dev Disclaimers
-                            </button>
+                                Create an API app
+                                <span className={styles.externalIcon} aria-hidden="true">
+                                    ↗
+                                </span>
+                            </a>
+                            <p className={styles.existingAppPrompt}>
+                                Already have an app?{' '}
+                                <a href={DEVELOPER_CONSOLE_URL}>
+                                    Open your apps <span aria-hidden="true">→</span>
+                                </a>
+                            </p>
+                        </div>
+                    </section>
+
+                    <section className={styles.process} aria-labelledby="process-title">
+                        <div className={styles.processIntro}>
+                            <h2 id="process-title">One path from idea to production</h2>
+                            <p>
+                                You can start building immediately, then ask for broader
+                                access when your app is ready.
+                            </p>
                         </div>
 
-                        <form onSubmit={handleSubmit(onSubmit)} className="request-access-form">
-                            <div className={styles.sectionHeader}>
-                                <h2 className={styles.sectionTitle}>Required</h2>
-                                <p className={styles.sectionHint}>
-                                    We use these to create your application record and contact you.
-                                </p>
-                            </div>
-                            <div className="margin-bottom--md">
-                                <label htmlFor="appName" className="form-label">
-                                    App Name *
-                                </label>
-                                <input
-                                    type="text"
-                                    id="appName"
-                                    className={`form-input ${errors.appName ? 'form-input-error' : ''}`}
-                                    {...register('appName', { required: 'App name is required' })}
-                                />
-                                {errors.appName && (
-                                    <div className="error-message">{errors.appName.message}</div>
-                                )}
-                            </div>
+                        <ol className={styles.steps}>
+                            {accessSteps.map((step, index) => (
+                                <li className={styles.step} key={step.title}>
+                                    <span className={styles.stepNumber} aria-hidden="true">
+                                        {String(index + 1).padStart(2, '0')}
+                                    </span>
+                                    <h3>{step.title}</h3>
+                                    <p>{step.description}</p>
+                                </li>
+                            ))}
+                        </ol>
+                    </section>
 
-                            <div className="margin-bottom--md">
-                                <label htmlFor="email" className="form-label">
-                                    Email Address *
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    className={`form-input ${errors.email ? 'form-input-error' : ''}`}
-                                    {...register('email', {
-                                        required: 'Email is required',
-                                        pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                            message: 'Invalid email address',
-                                        },
-                                    })}
-                                />
-                                {errors.email && (
-                                    <div className="error-message">{errors.email.message}</div>
-                                )}
-                            </div>
+                    <aside className={styles.transitionNote} aria-labelledby="existing-client-title">
+                        <div>
+                            <h2 id="existing-client-title">Already have an existing client?</h2>
+                            <p>
+                                Import it into Developer Console to manage it alongside your
+                                new apps.
+                            </p>
+                            <p className={styles.pendingNote}>
+                                <strong>Request still pending?</strong> No action is needed.
+                                Existing requests will continue to be processed.
+                            </p>
+                        </div>
+                        <a href={IMPORT_CLIENT_URL}>
+                            Import existing client <span aria-hidden="true">↗</span>
+                        </a>
+                    </aside>
 
-                            <hr className={styles.sectionDivider} />
-                            <div className={styles.sectionHeader}>
-                                <h2 className={styles.sectionTitle}>Optional: OAuth2 &amp; user data</h2>
-                                <p className={styles.sectionHint}>
-                                    Only needed if you plan to use OAuth2 flows or user-related APIs
-                                </p>
-                            </div>
-                            <fieldset className={clsx('margin-bottom--md', styles.uriFieldset)}>
-                                <legend className={clsx('form-label', styles.uriLegend)}>
-                                    Redirect URIs
-                                </legend>
-                                <div className={clsx('text-muted', styles.uriHelpText)}>
-                                    <p>
-                                        Add every callback URL your app will use, such as local
-                                        development, staging/preview, and production.
-                                    </p>
-                                </div>
-                                <div className={styles.uriList}>
-                                    {redirectUriFields.map((field, index) => {
-                                        const fieldError = errors.redirectUris?.[index]?.value;
-                                        return (
-                                            <div key={field.id} className={styles.uriRow}>
-                                                <div className={styles.uriInput}>
-                                                    <input
-                                                        type="url"
-                                                        id={`redirectUris-${index}`}
-                                                        className={`form-input ${fieldError ? 'form-input-error' : ''}`}
-                                                        placeholder={getUriPlaceholder(
-                                                            REDIRECT_URI_PLACEHOLDERS,
-                                                            index
-                                                        )}
-                                                        aria-label={`Redirect URI ${index + 1}`}
-                                                        {...register(`redirectUris.${index}.value`, {
-                                                            validate: validateSingleUri,
-                                                        })}
-                                                        onPaste={(event) =>
-                                                            handleUriPaste(
-                                                                event,
-                                                                'redirectUris',
-                                                                index,
-                                                                replaceRedirectUris
-                                                            )
-                                                        }
-                                                    />
-                                                    {fieldError && (
-                                                        <div className="error-message">
-                                                            {fieldError.message}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <button
-                                                    type="button"
-                                                    className={styles.removeUriButton}
-                                                    onClick={() =>
-                                                        removeUriRow(
-                                                            redirectUriFields,
-                                                            removeRedirectUri,
-                                                            replaceRedirectUris,
-                                                            index
-                                                        )
-                                                    }
-                                                >
-                                                    Remove
-                                                </button>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                                <button
-                                    type="button"
-                                    className={styles.addUriButton}
-                                    onClick={() => appendRedirectUri(createEmptyUriField())}
-                                >
-                                    Add another redirect URI
-                                </button>
-                            </fieldset>
-
-                            <div className="margin-bottom--md">
-                                <label htmlFor="logoUri" className="form-label">
-                                    Logo URL
-                                </label>
-                                <input
-                                    type="url"
-                                    id="logoUri"
-                                    className="form-input"
-                                    placeholder="https://your-app.com/logo.png"
-                                    {...register('logoUri')}
-                                />
-                            </div>
-
-                            <div className="margin-bottom--md">
-                                <label htmlFor="clientUri" className="form-label">
-                                    Client URL
-                                </label>
-                                <input
-                                    type="url"
-                                    id="clientUri"
-                                    className="form-input"
-                                    placeholder="https://your-app.com"
-                                    {...register('clientUri')}
-                                />
-                            </div>
-
-                            <div className="margin-bottom--md">
-                                <label htmlFor="policyUri" className="form-label">
-                                    Privacy Policy URL
-                                </label>
-                                <input
-                                    type="url"
-                                    id="policyUri"
-                                    className="form-input"
-                                    placeholder="https://your-app.com/privacy"
-                                    {...register('policyUri')}
-                                />
-                            </div>
-
-                            <div className="margin-bottom--md">
-                                <label htmlFor="tosUri" className="form-label">
-                                    Terms of Service URL
-                                </label>
-                                <input
-                                    type="url"
-                                    id="tosUri"
-                                    className="form-input"
-                                    placeholder="https://your-app.com/terms"
-                                    {...register('tosUri')}
-                                />
-                            </div>
-
-                            <fieldset className={clsx('margin-bottom--md', styles.uriFieldset)}>
-                                <legend className={clsx('form-label', styles.uriLegend)}>
-                                    Post-logout Redirect URIs
-                                </legend>
-                                <div className={clsx('text-muted', styles.uriHelpText)}>
-                                    <p>
-                                        Optional. Add every URL users may return to after logout,
-                                        such as local development, staging/preview, and production.
-                                        Each one must match the scheme, domain, and port of one
-                                        redirect URI.
-                                    </p>
-                                </div>
-                                <div className={styles.uriList}>
-                                    {postLogoutRedirectUriFields.map((field, index) => {
-                                        const fieldError =
-                                            errors.postLogoutRedirectUris?.[index]?.value;
-                                        return (
-                                            <div key={field.id} className={styles.uriRow}>
-                                                <div className={styles.uriInput}>
-                                                    <input
-                                                        type="url"
-                                                        id={`postLogoutRedirectUris-${index}`}
-                                                        className={`form-input ${fieldError ? 'form-input-error' : ''}`}
-                                                        placeholder={getUriPlaceholder(
-                                                            POST_LOGOUT_REDIRECT_URI_PLACEHOLDERS,
-                                                            index
-                                                        )}
-                                                        aria-label={`Post-logout Redirect URI ${index + 1}`}
-                                                        {...register(
-                                                            `postLogoutRedirectUris.${index}.value`,
-                                                            {
-                                                                validate: validateSingleUri,
-                                                            }
-                                                        )}
-                                                        onPaste={(event) =>
-                                                            handleUriPaste(
-                                                                event,
-                                                                'postLogoutRedirectUris',
-                                                                index,
-                                                                replacePostLogoutRedirectUris
-                                                            )
-                                                        }
-                                                    />
-                                                    {fieldError && (
-                                                        <div className="error-message">
-                                                            {fieldError.message}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <button
-                                                    type="button"
-                                                    className={styles.removeUriButton}
-                                                    onClick={() =>
-                                                        removeUriRow(
-                                                            postLogoutRedirectUriFields,
-                                                            removePostLogoutRedirectUri,
-                                                            replacePostLogoutRedirectUris,
-                                                            index
-                                                        )
-                                                    }
-                                                >
-                                                    Remove
-                                                </button>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                                <button
-                                    type="button"
-                                    className={styles.addUriButton}
-                                    onClick={() =>
-                                        appendPostLogoutRedirectUri(createEmptyUriField())
-                                    }
-                                >
-                                    Add another post-logout URI
-                                </button>
-                            </fieldset>
-
-                            <div className="margin-bottom--md">
-                                <div>
-                                    <input
-                                        type="checkbox"
-                                        id="agreementsAccepted"
-                                        {...register('agreementsAccepted', {
-                                            required: 'You must agree to the terms to continue',
-                                        })}
-                                    />
-                                    <label htmlFor="agreementsAccepted" className="form-label" style={{ display: 'inline', marginLeft: '0.5rem' }}>
-                                        I have read and agree to the{' '}
-                                        <Link target='_blank' to="/legal/developer-terms" rel='noopener noreferrer'>
-                                            Quran Foundation Developer Terms of Service
-                                        </Link>{' '}
-                                        and the{' '}
-                                        <Link target='_blank' to="/legal/developer-privacy" rel='noopener noreferrer'>
-                                            Developer Privacy Policy Requirements
-                                        </Link>
-                                        .
-                                    </label>
-                                </div>
-                                {errors.agreementsAccepted && (
-                                    <div className="error-message">
-                                        {errors.agreementsAccepted.message}
-                                    </div>
-                                )}
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="button button--primary button--block"
-                                disabled={isSubmitting || !hasAcceptedTerms}
-                            >
-                                {isSubmitting ? 'Submitting...' : 'Submit Request'}
-                            </button>
-
-                            {submitStatus === 'success' && (
-                                <div className="alert alert--success margin-top--md">
-                                    Your request has been submitted successfully! We'll review it and get back to you soon.
-                                </div>
-                            )}
-
-                            {submitStatus === 'error' && (
-                                <div className="alert alert--danger margin-top--md">
-                                    {submitError || 'There was an error submitting your request. Please try again later.'}
-                                </div>
-                            )}
-                        </form>
-                    </div>
+                    <p className={styles.footerLink}>
+                        New to the platform?{' '}
+                        <Link to="/docs/developer-journey">
+                            Follow the developer journey
+                        </Link>
+                        .
+                    </p>
                 </div>
-            </div>
-
-            <DeveloperBenefitsModal
-                isOpen={activeModal === 'benefits'}
-                onClose={closeModal}
-            />
-            <DeveloperDisclaimersModal
-                isOpen={activeModal === 'disclaimers'}
-                onClose={closeModal}
-            />
+            </main>
         </Layout>
     );
 }

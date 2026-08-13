@@ -12,7 +12,7 @@ Use this when: You have a backend, worker, or cron job.
 Do not use this when: You only have browser or mobile code.  
 Backend required: Yes.  
 Allowed runtimes: Node.js, serverless functions, workers.  
-Required credentials: `client_id`, `client_secret`.  
+Required credentials: A **Backend/server app** from Developer Console, its pre-live `client_id`, and its one-time `client_secret`.<br />
 Minimal import: `@quranjs/api/server`.
 
 ## Install
@@ -24,15 +24,29 @@ npm install @quranjs/api
 ## Minimal Example
 
 ```ts
-import { SearchMode } from "@quranjs/api";
 import { createServerClient } from "@quranjs/api/server";
 
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
 });
 
 const chapters = await client.content.v4.chapters.list();
+```
+
+The explicit service URLs keep a new Console app and its credentials in pre-live. After production permissions are granted, switch the credentials and both service URLs to production together.
+
+## Add Search After Permission
+
+Search requires additional permission in Developer Console. After Search permission is granted for the same environment used by `client`, add the call:
+
+```ts
+import { SearchMode } from "@quranjs/api";
+
 const results = await client.search.v1.query({
   query: "mercy",
   mode: SearchMode.Quick,
@@ -43,4 +57,4 @@ For signed-in user post mutations, see [QuranReflect Posts](/docs/sdk/javascript
 
 ## Common Mistake
 
-Do not import `@quranjs/api/public` from backend code unless you are explicitly testing public-client behavior. Production defaults are already built in; local maintainer testing instructions live in the SDK repo.
+Do not import `@quranjs/api/public` from backend code unless you are explicitly testing public-client behavior. The SDK has production defaults, so keep the pre-live `services` override while using a new Console app. Local maintainer testing instructions live in the SDK repo.
