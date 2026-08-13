@@ -12,10 +12,6 @@
 /agent-prompts/qf-oauth-user-apis.md/ /agent-prompts/qf-oauth-user-apis.md 301
 /agent-prompts/qf-review-existing-integration.md/ /agent-prompts/qf-review-existing-integration.md 301
 
-# The Developer Console replaces the legacy request-access form.
-/request-access https://dev-console.quran.foundation/projects 301
-/request-access/ https://dev-console.quran.foundation/projects 301
-
 # Redirect trailing slashes to non-trailing slash URLs (optional)
 
 # Uncomment if you want to enforce no trailing slashes:

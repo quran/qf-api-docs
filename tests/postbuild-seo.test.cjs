@@ -86,9 +86,9 @@ test('drops explicit Search Console redirect sources from the sitemap', () => {
   );
 });
 
-test('drops the retired request-access redirect from the sitemap', () => {
-  assert.equal(shouldDropSitemapPath('/request-access'), true);
-  assert.equal(shouldDropSitemapPath('/request-access/'), true);
+test('keeps the request-access page in the sitemap', () => {
+  assert.equal(shouldDropSitemapPath('/request-access'), false);
+  assert.equal(shouldDropSitemapPath('/request-access/'), false);
 });
 
 test('normalizes canonical URLs with path overrides', () => {

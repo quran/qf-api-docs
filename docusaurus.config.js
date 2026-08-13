@@ -276,10 +276,10 @@ const config = {
             label: "OAuth2 Scopes",
           },
           {
-            href: "https://dev-console.quran.foundation/projects",
-            label: "Developer Console",
+            to: "/request-access",
+            label: "Request Access",
             position: "right",
-            className: "navbar__item--developer-console",
+            className: "navbar__item--request-access",
           },
         ],
       },
