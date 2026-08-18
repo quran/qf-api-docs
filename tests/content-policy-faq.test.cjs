@@ -41,12 +41,16 @@ const faqSectionSource = (heading) => {
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
-  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-08-10/);
+  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-08-18/);
   assert.match(developerTerms, /Cache or store QF Content longer than \*\*1 week\*\*/);
   assert.match(developerTerms, /QF has expressly permitted longer storage/);
   assert.match(
     developerTerms,
-    /separate written commercial license agreement with QF/,
+    /commercial license:\*\* A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model/,
+  );
+  assert.match(
+    developerTerms,
+    /A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data/,
   );
 });
 
@@ -90,17 +94,26 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
     'How do I get help with licensing, attribution, or a policy question?',
   );
 
+  assert.match(commercialAnswer, /^Yes\./);
   assert.match(
     commercialAnswer,
-    /The Developer Terms do not give blanket approval for a particular business model\./,
+    /A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model without a separate commercial license/,
   );
   assert.match(
     commercialAnswer,
-    /QF Content may not be resold, sublicensed, or redistributed except as integral to that end-user experience\./,
+    /QF Content is displayed only as part of the Application’s end-user experience/,
   );
   assert.match(
     commercialAnswer,
-    /Other commercial redistribution or use of QF Content or raw API data requires a separate written commercial license with QF\./,
+    /QF Content and raw API data are not sold, sublicensed, or redistributed/,
+  );
+  assert.match(
+    commercialAnswer,
+    /A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data/,
+  );
+  assert.match(
+    commercialAnswer,
+    /dataset, data feed, API, content package, or other separately distributed product/,
   );
   assert.match(
     storageAnswer,
