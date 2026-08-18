@@ -23,6 +23,22 @@ const contentSync = fs.readFileSync(
   'utf8',
 );
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const normalize = (value) =>
+  value
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+const extractBacktickedValues = (value) =>
+  [...value.matchAll(/`([^`]+)`/g)].map((match) => match[1]);
+const faqSectionSource = (heading) => {
+  const headingIndex = faq.indexOf(`## ${heading}`);
+  if (headingIndex < 0) return '';
+
+  const contentStart = faq.indexOf('\n', headingIndex) + 1;
+  const nextHeading = faq.indexOf('\n## ', contentStart);
+  return faq.slice(contentStart, nextHeading < 0 ? faq.length : nextHeading);
+};
+const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
   assert.match(developerTerms, /\*\*Last updated:\*\* 2026-08-10/);
@@ -59,15 +75,90 @@ test('documents the required content policy FAQ questions and links', () => {
   }
 });
 
-test('states Content Sync coverage and excludes community Discord guidance', () => {
-  for (const group of ['translations', 'tafsirs', 'recitations', 'articles']) {
-    assert.match(contentSync, new RegExp('`' + group + '`'));
-    assert.match(faq, new RegExp('`' + group + '`'));
-  }
+test('locks the safety-critical FAQ policy qualifiers', () => {
+  const commercialAnswer = faqSection(
+    'Can I use QF Content in a commercial or freemium app?',
+  );
+  const storageAnswer = faqSection('How long can I cache or store QF Content?');
+  const contentSyncAnswer = faqSection(
+    'Can I use Content Sync for Quran text or word-by-word data?',
+  );
+  const attributionAnswer = faqSection(
+    'What attribution or copyright information should I show?',
+  );
+  const helpAnswer = faqSection(
+    'How do I get help with licensing, attribution, or a policy question?',
+  );
 
   assert.match(
-    faq,
-    /## Can I use Content Sync for Quran text or word-by-word data\?[\s\S]*?\n\nNo\. Content Sync currently supports[\s\S]*?for other data\./,
+    commercialAnswer,
+    /The Developer Terms do not give blanket approval for a particular business model\./,
   );
+  assert.match(
+    commercialAnswer,
+    /QF Content may not be resold, sublicensed, or redistributed except as integral to that end-user experience\./,
+  );
+  assert.match(
+    commercialAnswer,
+    /Other commercial redistribution or use of QF Content or raw API data requires a separate written commercial license with QF\./,
+  );
+  assert.match(
+    storageAnswer,
+    /Do not cache or store QF Content for more than 1 week unless QF has expressly permitted longer storage/,
+  );
+  assert.match(
+    storageAnswer,
+    /perform a next sync at least every 7 days and apply all available changes\./,
+  );
+  assert.match(contentSyncAnswer, /^No\. Content Sync currently supports/);
+  assert.match(
+    contentSyncAnswer,
+    /Use the relevant regular content endpoint for other data\./,
+  );
+  assert.match(
+    attributionAnswer,
+    /For Connected Apps, display attribution wherever Quranic content is surfaced:/,
+  );
+  assert.match(
+    attributionAnswer,
+    /Quran data provided by Quran Foundation\./,
+  );
+  assert.match(
+    helpAnswer,
+    /Report actual or suspected unauthorised API-related access, security breach, or data exposure within 24 hours\./,
+  );
+  assert.match(helpAnswer, /Do not include client secrets or access tokens\./);
+});
+
+test('synchronizes the exact Content Sync groups and excludes community Discord guidance', () => {
+  const expectedGroups = [
+    'translations',
+    'tafsirs',
+    'recitations',
+    'articles',
+  ];
+  const sourceSupportStatement = contentSync.match(
+    /Content Sync currently supports these resource groups:\s*([^\.\r\n]+)\./,
+  );
+  assert.ok(
+    sourceSupportStatement,
+    'expected the Content Sync tutorial to declare its supported groups',
+  );
+  const sourceGroups = extractBacktickedValues(sourceSupportStatement[1]);
+  const faqGroups = extractBacktickedValues(
+    faqSectionSource('Can I use Content Sync for Quran text or word-by-word data?'),
+  );
+
+  assert.deepEqual(
+    [...sourceGroups].sort(),
+    [...expectedGroups].sort(),
+    'the source support matrix must remain exactly four groups',
+  );
+  assert.deepEqual(
+    [...faqGroups].sort(),
+    [...sourceGroups].sort(),
+    'the FAQ Content Sync groups must match the source support matrix',
+  );
+
   assert.doesNotMatch(faq, /discord\.gg|discord\.com/i);
 });
