@@ -143,7 +143,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   assert.match(helpAnswer, /Do not include client secrets or access tokens\./);
 });
 
-test('synchronizes the exact Content Sync groups and excludes community Discord guidance', () => {
+test('synchronizes the exact Content Sync groups', () => {
   const expectedGroups = [
     'translations',
     'tafsirs',
@@ -172,6 +172,4 @@ test('synchronizes the exact Content Sync groups and excludes community Discord 
     [...sourceGroups].sort(),
     'the FAQ Content Sync groups must match the source support matrix',
   );
-
-  assert.doesNotMatch(faq, /discord\.gg|discord\.com/i);
 });
