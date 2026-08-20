@@ -123,10 +123,13 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
     storageAnswer,
     /perform a next sync at least every 7 days and apply all available changes\./,
   );
-  assert.match(contentSyncAnswer, /^No\. Content Sync currently supports/);
   assert.match(
     contentSyncAnswer,
-    /Use the relevant regular content endpoint for other data\./,
+    /^Content Sync does not support Quran text, but it supports/,
+  );
+  assert.match(
+    contentSyncAnswer,
+    /Use the relevant regular content endpoint for Quran text and other unsupported data\./,
   );
   assert.match(
     attributionAnswer,
@@ -146,6 +149,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
 test('synchronizes the exact Content Sync groups', () => {
   const expectedGroups = [
     'translations',
+    'word_by_word_translations',
     'tafsirs',
     'recitations',
     'articles',
@@ -165,7 +169,7 @@ test('synchronizes the exact Content Sync groups', () => {
   assert.deepEqual(
     [...sourceGroups].sort(),
     [...expectedGroups].sort(),
-    'the source support matrix must remain exactly four groups',
+    'the source support matrix must remain exactly five groups',
   );
   assert.deepEqual(
     [...faqGroups].sort(),
