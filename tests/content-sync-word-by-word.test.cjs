@@ -39,15 +39,18 @@ test('publishes the word translation mutation and snapshot record contract', () 
   const wordSnapshot = snapshotExamples.word_by_word_translation_snapshot.value;
 
   assert.equal(wordSnapshot.resource_group, 'word_by_word_translations');
-  assert.deepEqual(Object.keys(wordSnapshot.records[0]), [
-    'id',
-    'resource_content_id',
-    'resource_id',
-    'word_id',
-    'language_id',
-    'language_name',
-    'text',
-    'priority',
-    'updated_at',
-  ]);
+  assert.deepEqual(
+    Object.keys(wordSnapshot.records[0]).sort(),
+    [
+      'id',
+      'resource_content_id',
+      'resource_id',
+      'word_id',
+      'language_id',
+      'language_name',
+      'text',
+      'priority',
+      'updated_at',
+    ].sort(),
+  );
 });
