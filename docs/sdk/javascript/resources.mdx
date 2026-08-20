@@ -69,32 +69,7 @@ The flow is:
 4. Apply row mutations directly.
 5. When a mutation has a non-null `snapshot_url`, fetch the snapshot for that `resource_group` and `resource_id` and replace that local resource.
 
-The `resources` filter uses plural group names (`articles`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `translations:19,20;word_by_word_translations:85`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
-
-### Sync Word-by-Word Translations
-
-Use the resource content ID with the `word_by_word_translations` group. Only approved, shareable, translation-only one-word resources are available; transliterations are excluded.
-
-```ts
-import type { WordByWordTranslationSnapshotRecord } from "@quranjs/api";
-
-const page = await client.content.v4.resources.sync({
-  bootstrap: true,
-  resources: "word_by_word_translations:85",
-});
-
-const snapshot =
-  await client.content.v4.resources.findSnapshot<WordByWordTranslationSnapshotRecord>(
-    "word_by_word_translations",
-    85,
-  );
-
-for (const record of snapshot.records) {
-  console.log(record.wordId, record.text);
-}
-```
-
-Follow `page.sync.nextPageUrl` while `page.sync.hasMore` is true, then store the final `page.sync.nextSyncToken`. The SDK camel-cases snapshot fields. `WordByWordTranslationSnapshotRecord` includes `id`, `resourceContentId`, `resourceId`, `wordId`, `languageId`, `languageName`, `text`, `priority`, and `updatedAt`; `languageName`, `text`, and `priority` can be `null`. Records are returned in canonical `wordId`, `priority`, and `id` order.
+The `resources` filter uses plural group names (`articles`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `translations:19,20;tafsirs:14`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
 
 `RESOURCE_UPDATE` is only a resource-level freshness marker. It does not include `snapshot_url`; keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.
 

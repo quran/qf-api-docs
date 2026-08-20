@@ -8,7 +8,7 @@ sidebar_position: 1
 # Getting Started with Content Sync
 
 Content Sync helps an app keep a local copy of public Quran Foundation content fresh.
-Instead of downloading every translation, word-by-word translation, tafsir, recitation, or article again, your app asks:
+Instead of downloading every translation, tafsir, recitation, or article again, your app asks:
 
 1. What changed since the last time I checked?
 2. Which small rows can I update directly?
@@ -18,8 +18,8 @@ Instead of downloading every translation, word-by-word translation, tafsir, reci
 
 | Term            | Plain meaning                                                                                                |
 | --------------- | ------------------------------------------------------------------------------------------------------------ |
-| Resource        | One content item your app tracks, such as translation `19`, word-by-word translation `85`, tafsir `151`, recitation `10`, or article `123`. |
-| Resource filter | The list of content your app wants to keep in sync, for example `translations:19;word_by_word_translations:85`.                                  |
+| Resource        | One content item your app tracks, such as translation `19`, tafsir `151`, recitation `10`, or article `123`. |
+| Resource filter | The list of content your app wants to keep in sync, for example `translations:19;tafsirs:151`.               |
 | Change          | One server event telling your app what changed. The API field is called `type`.                              |
 | Full copy       | The complete current rows for one resource. The API calls this a `snapshot`.                                 |
 | Snapshot URL    | A relative API path returned on some changes. Fetch it to replace the full local copy for that one resource. |
@@ -44,8 +44,6 @@ Content Sync currently supports these resource groups: `translations`, `word_by_
 | `recitations`                  | Ayah audio files and chapter audio files for the recitation.                          | Ayah audio file and chapter audio file changes.                                     |
 | `articles`                     | Visible article localizations.                                                        | Article localization changes and resource-level refresh, delete, or restore events. |
 
-For `word_by_word_translations`, use the resource content ID. Only approved, shareable, translation-only one-word resources are available. Transliteration resources are excluded.
-
 :::note Supported groups only
 If a resource group is not listed above, it is not accepted by this sync endpoint. Continue using that resource's regular API endpoint when available.
 :::
@@ -61,7 +59,7 @@ sequenceDiagram
     participant Snapshot as GET /resources/snapshots
     participant DB as Local database
 
-    App->>Sync: bootstrap=true for translation 19 and word-by-word translation 85
+    App->>Sync: bootstrap=true for translation 19 and tafsir 151
     Sync-->>App: RESOURCE_CREATE changes with snapshot_url
     App->>Snapshot: Fetch each full copy
     Snapshot-->>App: records for one resource
@@ -71,7 +69,7 @@ sequenceDiagram
 ```
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=translations:19;word_by_word_translations:85&per_page=100" \
+curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=translations:19;tafsirs:151&per_page=100" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```
@@ -90,16 +88,6 @@ curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/translati
 ```
 
 Client rule: replace all local rows for `translations:19` with the `records` array from the response.
-
-For a word-by-word translation, use the `word_by_word_translations` group and its resource content ID:
-
-```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/word_by_word_translations/85" \
-  -H "x-auth-token: $ACCESS_TOKEN" \
-  -H "x-client-id: $CLIENT_ID"
-```
-
-Each record contains `id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`, `language_name`, `text`, `priority`, and `updated_at`. Records are returned in canonical `word_id`, `priority`, and `id` order. Replace all local rows for `word_by_word_translations:85` with the returned `records` array.
 
 ## How Snapshots Relate to Tokens
 
@@ -133,7 +121,7 @@ sequenceDiagram
 ```
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=translations:19;word_by_word_translations:85&per_page=100" \
+curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=translations:19;tafsirs:151&per_page=100" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```

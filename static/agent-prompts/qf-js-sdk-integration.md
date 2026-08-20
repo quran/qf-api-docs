@@ -15,7 +15,6 @@ Requirements:
 - Do not bypass OIDC logout.
 - Before adding or changing any API call, identify the official docs page or OpenAPI path, auth type, required scopes, request parameters, and success/error response shape.
 - Use SDK helpers first. Use raw endpoint calls only when there is no SDK helper, and keep them within the same public/confidential runtime boundary; Content and Search calls stay on the server.
-- For offline word-by-word content, use `client.content.v4.resources.sync()` with `word_by_word_translations:<resource_content_id>` and typed `findSnapshot<WordByWordTranslationSnapshotRecord>()`; reuse the same canonical resource filter for incremental sync.
 - Produce a short implementation note that lists each API call, SDK entrypoint, endpoint family, auth type, and verification command.
 
 Implementation checklist:
