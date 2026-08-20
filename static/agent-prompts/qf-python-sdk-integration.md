@@ -40,6 +40,7 @@ Documentation to follow:
 - Python SDK: https://api-docs.quran.foundation/docs/sdk/python/
 - Python authentication: https://api-docs.quran.foundation/docs/sdk/python/authentication/
 - Python Content helpers: https://api-docs.quran.foundation/docs/sdk/python/content/
+- Python Resources and Content Sync: https://api-docs.quran.foundation/docs/sdk/python/resources/
 - Python Search: https://api-docs.quran.foundation/docs/sdk/python/search/
 - Python User APIs: https://api-docs.quran.foundation/docs/sdk/python/user-apis/
 - Python common errors: https://api-docs.quran.foundation/docs/sdk/python/common-errors/

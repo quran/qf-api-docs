@@ -34,14 +34,15 @@ When `next_page_url` or `snapshot_url` is present and non-null, we return a rela
 
 ## Content Available for Offline Sync
 
-Content Sync currently supports these resource groups: `translations`, `tafsirs`, `recitations`, and `articles`.
+Content Sync currently supports these resource groups: `translations`, `word_by_word_translations`, `tafsirs`, `recitations`, and `articles`.
 
-| Resource group | What the full copy contains                                                          | Changes included                                                                    |
-| -------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| `translations` | Translation rows for the resource. Footnotes are nested inside each translation row. | Translation row changes and footnote-driven translation row updates.                |
-| `tafsirs`      | Tafsir rows for the resource.                                                        | Tafsir row changes.                                                                 |
-| `recitations`  | Ayah audio files and chapter audio files for the recitation.                         | Ayah audio file and chapter audio file changes.                                     |
-| `articles`     | Visible article localizations.                                                       | Article localization changes and resource-level refresh, delete, or restore events. |
+| Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
+| `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
+| `tafsirs`                      | Tafsir rows for the resource.                                                         | Tafsir row changes.                                                                 |
+| `recitations`                  | Ayah audio files and chapter audio files for the recitation.                          | Ayah audio file and chapter audio file changes.                                     |
+| `articles`                     | Visible article localizations.                                                        | Article localization changes and resource-level refresh, delete, or restore events. |
 
 :::note Supported groups only
 If a resource group is not listed above, it is not accepted by this sync endpoint. Continue using that resource's regular API endpoint when available.

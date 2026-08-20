@@ -59,7 +59,7 @@ const verseMedia = await client.content.v4.resources.verseMedia.list();
 
 ## Content Resource Sync
 
-Use content resource sync when your app keeps a local copy of public tafsirs, translations, recitations, or articles and needs to update it without downloading every row again.
+Use content resource sync when your app keeps a local copy of public tafsirs, translations, word-by-word translations, recitations, or articles and needs to update it without downloading every row again.
 
 The flow is:
 
@@ -69,7 +69,7 @@ The flow is:
 4. Apply row mutations directly.
 5. When a mutation has a non-null `snapshot_url`, fetch the snapshot for that `resource_group` and `resource_id` and replace that local resource.
 
-The `resources` filter uses plural group names (`articles`, `recitations`, `tafsirs`, `translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `translations:19,20;tafsirs:14`.
+The `resources` filter uses plural group names (`articles`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `translations:19,20;tafsirs:14`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
 
 `RESOURCE_UPDATE` is only a resource-level freshness marker. It does not include `snapshot_url`; keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.
 

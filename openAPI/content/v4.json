@@ -19688,7 +19688,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "articles:*;recitations:10;tafsirs:151;translations:1,6"
+            "example": "articles:*;recitations:10;tafsirs:151;translations:1,6;word_by_word_translations:85"
           },
           {
             "name": "bootstrap",
@@ -19958,7 +19958,7 @@
           {
             "name": "resource_group",
             "in": "path",
-            "description": "Public content group. Supported values are `articles`, `recitations`, `tafsirs`, and `translations`.",
+            "description": "Public content group. Supported values are `articles`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations`.",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/ContentSyncResourceGroup"
@@ -20009,6 +20009,29 @@
                           "verse_key": "26:153",
                           "text": "They said: Thou art but one of the bewitched;",
                           "foot_notes": []
+                        }
+                      ]
+                    }
+                  },
+                  "word_by_word_translation_snapshot": {
+                    "summary": "Word-by-word translation full copy",
+                    "value": {
+                      "resource_group": "word_by_word_translations",
+                      "resource_id": 85,
+                      "resource_content_id": 85,
+                      "schema_version": 1,
+                      "sync_sequence": 98234,
+                      "records": [
+                        {
+                          "id": 1,
+                          "resource_content_id": 85,
+                          "resource_id": 85,
+                          "word_id": 1,
+                          "language_id": 38,
+                          "language_name": "english",
+                          "text": "In",
+                          "priority": 1,
+                          "updated_at": "2026-08-19T02:43:00Z"
                         }
                       ]
                     }
@@ -22705,7 +22728,13 @@
       "ContentSyncResourceGroup": {
         "type": "string",
         "description": "Public content group supported by Content Sync.",
-        "enum": ["articles", "recitations", "tafsirs", "translations"]
+        "enum": [
+          "articles",
+          "recitations",
+          "tafsirs",
+          "translations",
+          "word_by_word_translations"
+        ]
       },
       "ContentSyncMutationType": {
         "type": "string",
@@ -22723,9 +22752,10 @@
       "ContentSyncRecordType": {
         "type": "string",
         "nullable": true,
-        "description": "Row type inside the resource. Present for row-level changes. Current values include `translation`, `tafsir`, `audio_file`, `chapter_audio_file`, and `article_localization`.",
+        "description": "Row type inside the resource. Present for row-level changes. Current values include `translation`, `word_translation`, `tafsir`, `audio_file`, `chapter_audio_file`, and `article_localization`.",
         "enum": [
           "translation",
+          "word_translation",
           "tafsir",
           "audio_file",
           "chapter_audio_file",

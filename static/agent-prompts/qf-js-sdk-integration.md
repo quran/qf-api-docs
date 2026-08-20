@@ -35,4 +35,5 @@ Documentation to follow:
 - Entrypoint matrix: https://api-docs.quran.foundation/docs/sdk/javascript/entrypoint-matrix/
 - APIs by runtime: https://api-docs.quran.foundation/docs/sdk/javascript/apis-by-runtime/
 - Common errors: https://api-docs.quran.foundation/docs/sdk/javascript/common-errors/
+- Resources and Content Sync: https://api-docs.quran.foundation/docs/sdk/javascript/resources/
 - API Reference: https://api-docs.quran.foundation/docs/api-reference/

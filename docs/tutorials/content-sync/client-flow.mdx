@@ -31,12 +31,12 @@ Store one sync token per canonical resource filter. Do not reuse a token for a d
 
 Every change belongs to one resource, identified by:
 
-- `resource_group`, such as `translations`
-- `resource_id`, such as `19`
+- `resource_group`, such as `translations` or `word_by_word_translations`
+- `resource_id`, such as translation resource content ID `19` or word-by-word translation resource content ID `85`
 
 Row-level changes also include:
 
-- `record_type`, such as `translation`
+- `record_type`, such as `translation` or `word_translation`
 - `record_key`, the row key inside that resource
 
 ```mermaid
@@ -100,7 +100,12 @@ interface ContentSyncState {
 }
 
 interface LocalContentRow {
-  resourceGroup: "articles" | "recitations" | "tafsirs" | "translations";
+  resourceGroup:
+    | "articles"
+    | "recitations"
+    | "tafsirs"
+    | "translations"
+    | "word_by_word_translations";
   resourceId: number;
   recordType: string;
   recordKey: string;
@@ -108,6 +113,6 @@ interface LocalContentRow {
 }
 ```
 
-The current sync contract accepts only `articles`, `recitations`, `tafsirs`, and `translations` as resource groups.
+The current sync contract accepts only `articles`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations` as resource groups.
 
 For the full schema, see [Sync public content resources](/docs/content_apis_versioned/resources-sync/).
