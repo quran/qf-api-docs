@@ -16,6 +16,24 @@ recitations = client.list_recitations()
 snapshot = client.get_resource_snapshot("translations", 131)
 ```
 
+## Content Resource Sync
+
+Bootstrap word-by-word translations with the resource content ID, then fetch the resource snapshot with the dedicated helper:
+
+```python
+page = client.sync_resources(
+    params={
+        "bootstrap": True,
+        "resources": "word_by_word_translations:85",
+    }
+)
+snapshot = client.get_word_by_word_translation_snapshot(85)
+```
+
+Follow `page["sync"]["next_page_url"]` while `page["sync"]["has_more"]` is true, then store the final `next_sync_token`. Use the same canonical `resources` filter for later incremental calls.
+
+Only approved, shareable, translation-only one-word resources are available; transliterations are excluded. Snapshot records use snake_case fields: `id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`, `language_name`, `text`, `priority`, and `updated_at`. They are returned in canonical `word_id`, `priority`, and `id` order.
+
 Supported helpers:
 
 - `list_recitations(params=None)`
@@ -31,6 +49,7 @@ Supported helpers:
 - `list_verse_media(params=None)`
 - `sync_resources(params=None)`
 - `get_resource_snapshot(resource_group, resource_id, params=None)`
+- `get_word_by_word_translation_snapshot(word_by_word_translation_id, params=None)`
 
 Read next:
 

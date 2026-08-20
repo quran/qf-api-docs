@@ -30,6 +30,7 @@ Implementation checklist:
 - Create clients with explicit `client_id` and the correct `access_token` for the API family.
 - Store credentials in environment variables or a secret manager; add `.env.example` keys without real values.
 - For Content reads, use helpers such as chapters, verses, audio, resources, answers, hadith references, and juzs before raw endpoint calls.
+- For offline word-by-word content, bootstrap `word_by_word_translations:<resource_content_id>` with `sync_resources()` and fetch its snapshot with `get_word_by_word_translation_snapshot()`; reuse the same canonical resource filter for incremental sync.
 - For Search, call the SDK search helper before raw search requests.
 - For signed-in User APIs, require a valid user token and matching OAuth2 scopes before calling profile, bookmarks, collections, preferences, reading sessions, streaks, notes, or related user endpoints.
 - For OAuth helper usage, keep `exchange_code()` and `refresh_token()` on the server because they use `client_secret`.
@@ -40,6 +41,7 @@ Documentation to follow:
 - Python SDK: https://api-docs.quran.foundation/docs/sdk/python/
 - Python authentication: https://api-docs.quran.foundation/docs/sdk/python/authentication/
 - Python Content helpers: https://api-docs.quran.foundation/docs/sdk/python/content/
+- Python Resources and Content Sync: https://api-docs.quran.foundation/docs/sdk/python/resources/
 - Python Search: https://api-docs.quran.foundation/docs/sdk/python/search/
 - Python User APIs: https://api-docs.quran.foundation/docs/sdk/python/user-apis/
 - Python common errors: https://api-docs.quran.foundation/docs/sdk/python/common-errors/
