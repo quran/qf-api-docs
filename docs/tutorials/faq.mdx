@@ -52,3 +52,29 @@ See [Logout with Redirect](/docs/tutorials/oidc/example-integration#4-logout-wit
 
 Your logo is displayed automatically if `logo_uri` is configured in your OAuth2 client registration. See [Client Configuration](/docs/tutorials/oidc/client-setup) for details on setting up your client metadata.
 
+## Can I use QF Content in a commercial or freemium app?
+
+Yes. A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model without a separate commercial license, provided that:
+
+- QF Content is displayed only as part of the Application’s end-user experience;
+- QF Content and raw API data are not sold, sublicensed, or redistributed; and
+- the Application complies with the [Developer Terms](/legal/developer-terms) and any source-specific license requirements.
+
+A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data—for example, as a dataset, data feed, API, content package, or other separately distributed product.
+
+## How long can I cache or store QF Content?
+
+Do not cache or store QF Content for more than 1 week unless QF has expressly permitted longer storage, or the content is available through the [Content Sync APIs](/docs/tutorials/content-sync/getting-started#content-available-for-offline-sync). If you use the Content Sync exception, perform a [next sync](/docs/tutorials/content-sync/getting-started#next-sync) at least every 7 days and apply all available changes.
+
+## Can I use Content Sync for Quran text or word-by-word data?
+
+No. Content Sync currently supports `translations`, `tafsirs`, `recitations`, and `articles`. Use the relevant [regular content endpoint](/docs/content_apis_versioned/4.0.0/content-apis/) for other data. Unless QF expressly permits longer storage, the [Developer Terms' one-week storage limit](/legal/developer-terms) still applies.
+
+## What attribution or copyright information should I show?
+
+The Developer Terms reserve all rights not expressly granted. For Connected Apps, display attribution wherever Quranic content is surfaced: “Quran data provided by [Quran Foundation](https://quran.foundation/).” Also credit translations, tafsir editions, and recitations by their named source or edition within their licensing terms. See [Content and attribution requirements](/docs/connected-apps#content-and-attribution-requirements) and the [Developer Terms](/legal/developer-terms).
+
+## How do I get help with licensing, attribution, or a policy question?
+
+Email [developers@quran.com](mailto:developers@quran.com) with your app, the content or API data involved, your intended use, storage or sync approach, attribution, and any commercial distribution details. Report actual or suspected unauthorised API-related access, security breach, or data exposure within 24 hours. Do not include client secrets or access tokens.
+
