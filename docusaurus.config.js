@@ -159,6 +159,25 @@ const config = {
               },
             },
           },
+          analytics_apis_versioned: {
+            specPath: "openAPI/analytics/v1.json",
+            outputDir: "docs/analytics_apis_versioned", // No trailing slash
+            sidebarOptions: {
+              groupPathsBy: "tag",
+              categoryLinkSource: "tag",
+            },
+            version: "1.0.0", // Current version
+            label: "v1.0.0", // Current version label
+            baseUrl: "/docs/analytics_apis_versioned/1.0.0", // Leading slash is important
+            versions: {
+              "1.0.0": {
+                specPath: "openAPI/analytics/v1.json",
+                outputDir: "docs/analytics_apis_versioned/1.0.0", // No trailing slash
+                label: "v1.0.0",
+                baseUrl: "/docs/analytics_apis_versioned/1.0.0/analytics-events-api",
+              },
+            },
+          },
         },
       },
     ],
@@ -254,6 +273,10 @@ const config = {
               {
                 label: "Search APIs",
                 to: "/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/",
+              },
+              {
+                label: "Analytics APIs",
+                to: "/docs/analytics_apis_versioned/1.0.0/analytics-events-api/",
               },
               {
                 label: "User APIs",

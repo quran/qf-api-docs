@@ -1,0 +1,1 @@
+module.exports = [{"type":"doc","id":"analytics_apis_versioned/analytics-events-api"},{"type":"category","label":"Analytics Events","link":{"type":"doc","id":"analytics_apis_versioned/analytics-events"},"items":[{"type":"doc","id":"analytics_apis_versioned/submit-analytics-events","label":"Submit analytics events","className":"api-method post"}]}];

@@ -20,3 +20,16 @@ test("sync scope is documented only for the pre-live scopes page", () => {
     /\|\s*sync\s*\|\s*Access pre-live offline-first sync endpoints\s*\|/,
   );
 });
+
+test("analytics event ingestion documents client credentials and optional user correlation", () => {
+  for (const scopes of [productionScopes, preliveScopes]) {
+    assert.match(
+      scopes,
+      /\|\s*analytics\.events\.write\s*\|[^\n]*`client_credentials`[^\n]*optionally include a QF user ID for analytics correlation[^\n]*\|/,
+    );
+    assert.doesNotMatch(
+      scopes,
+      /\|\s*analytics\.events\.write\s*\|[^\n]*non-user-related[^\n]*\|/,
+    );
+  }
+});

@@ -23,6 +23,11 @@ const safeRequire = (relativePath, fallback) => {
   return require(fullPath);
 };
 
+const analyticsAPIsVersions = safeRequire(
+  "./docs/analytics_apis_versioned/versions.json",
+  [],
+);
+
 const cloneSidebarItems = (items) => JSON.parse(JSON.stringify(items));
 
 const makeReadingSessionsVsActivityDaysSidebarItem = (docId) => ({
@@ -336,6 +341,14 @@ const buildSearchApisLatestItems = () =>
   cloneSidebarItems(require("./docs/search_apis_versioned/sidebar.js"));
 const buildSearchApisVersionedItems = () =>
   cloneSidebarItems(require("./docs/search_apis_versioned/1.0.0/sidebar.js"));
+const buildAnalyticsApisLatestItems = () =>
+  cloneSidebarItems(
+    safeRequire("./docs/analytics_apis_versioned/sidebar.js", []),
+  );
+const buildAnalyticsApisVersionedItems = () =>
+  cloneSidebarItems(
+    safeRequire("./docs/analytics_apis_versioned/1.0.0/sidebar.js", []),
+  );
 
 const contentApisLatestConfig = {
   label: "Content APIs",
@@ -435,12 +448,35 @@ const searchApisVersionedConfig = {
   itemsBuilder: buildSearchApisVersionedItems,
 };
 
+const analyticsApisLatestConfig = {
+  label: "Analytics APIs",
+  introDocId: "analytics_apis_versioned/analytics-events-api",
+  versionLabel: "v1.0.0",
+  versions: analyticsAPIsVersions,
+  generatedIndexTitle: "Analytics APIs (latest)",
+  generatedIndexDescription: "Third-party analytics event ingestion APIs",
+  generatedIndexSlug: "/category/analytics-apis",
+  itemsBuilder: buildAnalyticsApisLatestItems,
+};
+
+const analyticsApisVersionedConfig = {
+  label: "Analytics APIs",
+  introDocId: "analytics_apis_versioned/1.0.0/analytics-events-api",
+  versionLabel: "v1.0.0",
+  versions: analyticsAPIsVersions,
+  generatedIndexTitle: "Analytics APIs (v1.0.0)",
+  generatedIndexDescription: "Third-party analytics event ingestion APIs",
+  generatedIndexSlug: "/category/analytics-apis-1.0.0",
+  itemsBuilder: buildAnalyticsApisVersionedItems,
+};
+
 const latestApiFamilies = [
   contentApisLatestConfig,
   userRelatedApisLatestConfig,
   userRelatedApisPreLiveConfig,
   oauth2ApisLatestConfig,
   searchApisLatestConfig,
+  analyticsApisLatestConfig,
 ];
 
 const versionedApiFamilies = [
@@ -448,6 +484,7 @@ const versionedApiFamilies = [
   userRelatedApisVersionedConfig,
   oauth2ApisVersionedConfig,
   searchApisVersionedConfig,
+  analyticsApisVersionedConfig,
 ];
 
 const makeApiFamilySidebar = (config) => [
