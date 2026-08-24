@@ -125,11 +125,11 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     contentSyncAnswer,
-    /^Content Sync does not support Quran text, but it supports/,
+    /^Content Sync supports approved public Quran layouts through `mushafs`/,
   );
   assert.match(
     contentSyncAnswer,
-    /Use the relevant regular content endpoint for Quran text and other unsupported data\./,
+    /Use the relevant regular content endpoint for unsupported Quran text variants and other data\./,
   );
   assert.match(
     attributionAnswer,
@@ -148,6 +148,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
 
 test('synchronizes the exact Content Sync groups', () => {
   const expectedGroups = [
+    'mushafs',
     'translations',
     'word_by_word_translations',
     'tafsirs',
@@ -169,7 +170,7 @@ test('synchronizes the exact Content Sync groups', () => {
   assert.deepEqual(
     [...sourceGroups].sort(),
     [...expectedGroups].sort(),
-    'the source support matrix must remain exactly five groups',
+    'the source support matrix must remain exactly six groups',
   );
   assert.deepEqual(
     [...faqGroups].sort(),
