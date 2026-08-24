@@ -10,6 +10,7 @@ const docsDirs = [
   'docs/user_related_apis_versioned',
   'docs/oauth2_apis_versioned',
   'docs/search_apis_versioned',
+  'docs/analytics_apis_versioned',
 ].map((dir) => path.join(siteDir, dir));
 
 const versionDirPattern = /^\d+\.\d+\.\d+$/;

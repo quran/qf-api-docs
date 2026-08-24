@@ -1,6 +1,6 @@
 # Quran Foundation API
 
-> API documentation for Quran.com content, search, user, and authentication APIs.
+> API documentation for Quran.com analytics, content, search, user, and authentication APIs.
 
 ## OpenAPI Specifications
 
@@ -9,6 +9,7 @@
 - [User APIs v1 (Pre-live)](https://api-docs.quran.foundation/openAPI/user-related-apis/pre-live/v1.json): Upcoming pre-live documentation for unreleased user API changes
 - [OAuth2 APIs v1](https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json): Authentication and authorization
 - [Search APIs v1](https://api-docs.quran.foundation/openAPI/search/v1.json): Quran text search
+- [Analytics Events API](https://api-docs.quran.foundation/openAPI/analytics/v1.json): Product analytics event submission
 
 ## Agent Prompts and Starters
 
@@ -415,6 +416,12 @@
 - [Quran Foundation Search API](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/)
 - [Search](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/search/)
 - [Search Quran content](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/search-controller-search/)
+
+## Analytics APIs v1
+
+- [Analytics Events](https://api-docs.quran.foundation/docs/analytics_apis_versioned/1.0.0/analytics-events/)
+- [Analytics Events API](https://api-docs.quran.foundation/docs/analytics_apis_versioned/1.0.0/analytics-events-api/)
+- [Submit analytics events](https://api-docs.quran.foundation/docs/analytics_apis_versioned/1.0.0/submit-analytics-events/)
 
 ## Tutorials
 

@@ -242,6 +242,9 @@
             }
           }
         },
+        "x-qf-live-request-current-timestamp-fields": [
+          "occurred_at"
+        ],
         "x-code-samples": [
           {
             "label": "cURL",
