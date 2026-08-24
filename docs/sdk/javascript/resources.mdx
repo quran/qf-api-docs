@@ -71,21 +71,15 @@ The flow is:
 
 The `resources` filter uses plural group names (`articles`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `mushafs:1;translations:19,20;tafsirs:14`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
 
-Mushaf snapshots are typed with `MushafSnapshotRecord` and contain metadata,
-page mappings, publicly distributable font assets, and positioned words:
+Mushaf snapshots contain metadata, page mappings, publicly distributable font
+assets, and positioned words:
 
 ```ts
-import type { MushafSnapshotRecord } from "@quranjs/api";
-
 const bootstrap = await client.content.v4.resources.sync({
   bootstrap: true,
   resources: "mushafs:1",
 });
-const snapshot =
-  await client.content.v4.resources.findSnapshot<MushafSnapshotRecord>(
-    "mushafs",
-    1,
-  );
+const snapshot = await client.resources.findSnapshot("mushafs", 1);
 ```
 
 `RESOURCE_UPDATE` is only a resource-level freshness marker. It does not include `snapshot_url`; keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.
