@@ -31,8 +31,8 @@ Store one sync token per canonical resource filter. Do not reuse a token for a d
 
 Every change belongs to one resource, identified by:
 
-- `resource_group`, such as `mushafs`, `translations`, or `word_by_word_translations`
-- `resource_id`, such as Mushaf ID `1`, translation resource content ID `19`, or word-by-word translation resource content ID `85`
+- `resource_group`, such as `translations` or `word_by_word_translations`
+- `resource_id`, such as translation resource content ID `19` or word-by-word translation resource content ID `85`
 
 Row-level changes also include:
 
@@ -102,7 +102,6 @@ interface ContentSyncState {
 interface LocalContentRow {
   resourceGroup:
     | "articles"
-    | "mushafs"
     | "recitations"
     | "tafsirs"
     | "translations"
@@ -114,6 +113,6 @@ interface LocalContentRow {
 }
 ```
 
-The current sync contract accepts only `articles`, `mushafs`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations` as resource groups.
+The current sync contract accepts only `articles`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations` as resource groups.
 
 For the full schema, see [Sync public content resources](/docs/content_apis_versioned/resources-sync/).

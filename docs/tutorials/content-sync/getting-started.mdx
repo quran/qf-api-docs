@@ -8,7 +8,7 @@ sidebar_position: 1
 # Getting Started with Content Sync
 
 Content Sync helps an app keep a local copy of public Quran Foundation content fresh.
-Instead of downloading every Mushaf, translation, tafsir, recitation, or article again, your app asks:
+Instead of downloading every translation, tafsir, recitation, or article again, your app asks:
 
 1. What changed since the last time I checked?
 2. Which small rows can I update directly?
@@ -34,11 +34,10 @@ When `next_page_url` or `snapshot_url` is present and non-null, we return a rela
 
 ## Content Available for Offline Sync
 
-Content Sync currently supports these resource groups: `mushafs`, `translations`, `word_by_word_translations`, `tafsirs`, `recitations`, and `articles`.
+Content Sync currently supports these resource groups: `translations`, `word_by_word_translations`, `tafsirs`, `recitations`, and `articles`.
 
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `mushafs`                      | Layout metadata, page mappings, distributable font assets, and positioned words.      | Mushaf, page, font asset, and word changes.                                          |
 | `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `tafsirs`                      | Tafsir rows for the resource.                                                         | Tafsir row changes.                                                                 |
@@ -70,7 +69,7 @@ sequenceDiagram
 ```
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=mushafs:1;translations:19;tafsirs:151&per_page=100" \
+curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=translations:19;tafsirs:151&per_page=100" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```
@@ -80,15 +79,15 @@ Fetch and apply any returned `snapshot_url` values before you mark the sync as c
 
 ## Fetching a Full Copy
 
-A full copy returns all current rows for one resource. For example, a Mushaf full copy returns its metadata, pages, publicly distributable font assets, and words.
+A full copy returns all current rows for one resource. For example, a translation full copy returns the current translation rows for that translation resource.
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/mushafs/1" \
+curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/translations/19" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```
 
-Client rule: replace all local rows for `mushafs:1` with the `records` array from the response.
+Client rule: replace all local rows for `translations:19` with the `records` array from the response.
 
 ## How Snapshots Relate to Tokens
 
@@ -122,7 +121,7 @@ sequenceDiagram
 ```
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=mushafs:1;translations:19;tafsirs:151&per_page=100" \
+curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=translations:19;tafsirs:151&per_page=100" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```
