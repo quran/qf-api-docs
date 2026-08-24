@@ -23,6 +23,10 @@ test('canonicalizes current generated API operation aliases to versioned paths',
     getCanonicalPathOverride('/docs/user_related_apis_versioned/get-user-bookmarks/'),
     '/docs/user_related_apis_versioned/1.0.0/get-user-bookmarks/',
   );
+  assert.equal(
+    getCanonicalPathOverride('/docs/analytics_apis_versioned/submit-analytics-events/'),
+    '/docs/analytics_apis_versioned/1.0.0/submit-analytics-events/',
+  );
 });
 
 test('keeps the standalone scopes page unversioned', () => {
@@ -44,6 +48,10 @@ test('canonicalizes current generated category aliases to versioned category pag
   assert.equal(
     getCanonicalPathOverride('/docs/category/user-related-apis/'),
     '/docs/category/user-related-apis-1.0.0/',
+  );
+  assert.equal(
+    getCanonicalPathOverride('/docs/category/analytics-apis/'),
+    '/docs/category/analytics-apis-1.0.0/',
   );
 });
 
@@ -71,6 +79,11 @@ test('drops current generated API and category aliases from the sitemap', () => 
     shouldDropSitemapPath('/docs/category/content-apis-4.0.0/'),
     false,
   );
+  assert.equal(
+    shouldDropSitemapPath('/docs/analytics_apis_versioned/submit-analytics-events/'),
+    true,
+  );
+  assert.equal(shouldDropSitemapPath('/docs/category/analytics-apis/'), true);
 });
 
 test('drops explicit Search Console redirect sources from the sitemap', () => {

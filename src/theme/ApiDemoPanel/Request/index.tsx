@@ -13,6 +13,11 @@ import { ApiItem } from "docusaurus-plugin-openapi-docs/src/types";
 import type { DocFrontMatter } from "docusaurus-theme-openapi-docs/src/types";
 
 import sharedStyles from "../shared.module.css";
+import {
+  applyDynamicRequestBodyExamples,
+  applyDynamicRequestValues,
+  getCurrentTimestampFieldNames,
+} from "./dynamic-request-values";
 
 interface RequestFrontMatter extends DocFrontMatter {
   readonly proxy?: string;
@@ -24,6 +29,20 @@ function Request({ item }: { item: NonNullable<ApiItem> }) {
   const postman = new sdk.Request(item.postman);
   const metadata = useDoc();
   const { proxy, hide_send_button } = metadata.frontMatter as RequestFrontMatter;
+  const currentTimestampFieldNames = getCurrentTimestampFieldNames(
+    item.extensions as Array<{ key?: string; value?: unknown }> | undefined,
+  );
+  const currentTimestamp = new Date().toISOString();
+  const jsonRequestBodyExample = applyDynamicRequestValues(
+    item.jsonRequestBodyExample,
+    currentTimestampFieldNames,
+    currentTimestamp,
+  );
+  const requestBody = applyDynamicRequestBodyExamples(
+    item.requestBody,
+    currentTimestampFieldNames,
+    currentTimestamp,
+  );
 
   return (
     <div>
@@ -47,8 +66,8 @@ function Request({ item }: { item: NonNullable<ApiItem> }) {
           <Authorization />
           <ParamOptions />
           <Body
-            jsonRequestBodyExample={item.jsonRequestBodyExample}
-            requestBodyMetadata={item.requestBody}
+            jsonRequestBodyExample={jsonRequestBodyExample}
+            requestBodyMetadata={requestBody}
           />
           <Accept />
         </div>

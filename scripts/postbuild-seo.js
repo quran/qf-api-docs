@@ -25,6 +25,7 @@ const DYNAMIC_REDIRECT_LIMIT = 100;
 const generatedRedirectsStart = "# BEGIN generated-search-console-redirects";
 const generatedRedirectsEnd = "# END generated-search-console-redirects";
 const versionedApiFamilies = [
+  "analytics_apis_versioned",
   "content_apis_versioned",
   "oauth2_apis_versioned",
   "search_apis_versioned",
@@ -36,6 +37,7 @@ const docsDirsWithAuthAliases = [
 ];
 const generatedApiDocPattern = /\.(api|info|tag)\.mdx$/;
 const categoryAliasTargets = {
+  "analytics-apis": "analytics_apis_versioned",
   "content-apis": "content_apis_versioned",
   oauth2_apis: "oauth2_apis_versioned",
   "search-apis": "search_apis_versioned",
@@ -122,7 +124,7 @@ function normalizeSiteUrl(rawUrl, pathnameOverride) {
 
 function getCanonicalPathOverride(pathname) {
   const currentCategoryAlias = pathname.match(
-    /^\/docs\/category\/(content-apis|oauth2_apis|search-apis|user-related-apis)\/?$/,
+    /^\/docs\/category\/(analytics-apis|content-apis|oauth2_apis|search-apis|user-related-apis)\/?$/,
   );
 
   if (currentCategoryAlias) {
@@ -132,7 +134,7 @@ function getCanonicalPathOverride(pathname) {
   }
 
   const singleSegmentApiFamily = pathname.match(
-    /^\/docs\/(content_apis_versioned|user_related_apis_versioned|oauth2_apis_versioned|search_apis_versioned)\/([^/]+)\/?$/,
+    /^\/docs\/(analytics_apis_versioned|content_apis_versioned|user_related_apis_versioned|oauth2_apis_versioned|search_apis_versioned)\/([^/]+)\/?$/,
   );
 
   if (!singleSegmentApiFamily) {
@@ -159,7 +161,7 @@ function shouldDropSitemapPath(pathname) {
   }
 
   if (
-    /^\/docs\/category\/(content-apis|oauth2_apis|search-apis|user-related-apis)\/?$/.test(
+    /^\/docs\/category\/(analytics-apis|content-apis|oauth2_apis|search-apis|user-related-apis)\/?$/.test(
       pathname,
     )
   ) {
@@ -167,7 +169,7 @@ function shouldDropSitemapPath(pathname) {
   }
 
   const singleSegmentApiFamily = pathname.match(
-    /^\/docs\/(content_apis_versioned|user_related_apis_versioned|oauth2_apis_versioned|search_apis_versioned)\/([^/]+)\/?$/,
+    /^\/docs\/(analytics_apis_versioned|content_apis_versioned|user_related_apis_versioned|oauth2_apis_versioned|search_apis_versioned)\/([^/]+)\/?$/,
   );
 
   if (!singleSegmentApiFamily) {

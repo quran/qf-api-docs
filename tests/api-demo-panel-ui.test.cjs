@@ -72,6 +72,13 @@ test("execute override keeps the primary request action", () => {
   assert.match(executeComponent, /Complete required inputs to send the request/);
 });
 
+test("request panel refreshes OpenAPI-marked timestamp fields for live requests", () => {
+  assert.match(requestComponent, /getCurrentTimestampFieldNames/);
+  assert.match(requestComponent, /applyDynamicRequestBodyExamples/);
+  assert.match(requestComponent, /applyDynamicRequestValues/);
+  assert.match(requestComponent, /item\.extensions/);
+});
+
 test("form select leaves the browser default selected option when no value is provided", () => {
   assert.match(formSelectComponent, /value=\{value\}/);
   assert.doesNotMatch(formSelectComponent, /normalizedOptions\[0\]\.value/);

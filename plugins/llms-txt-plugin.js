@@ -16,6 +16,7 @@ const { exportMarkdownFiles } = require('../src/build-markdown.cjs');
 
 const BASE_URL = 'https://api-docs.quran.foundation';
 const API_VERSION_ROOTS = {
+  analytics_apis_versioned: '1.0.0',
   content_apis_versioned: '4.0.0',
   oauth2_apis_versioned: '1.0.0',
   search_apis_versioned: '1.0.0',
@@ -50,6 +51,7 @@ const SECTION_ORDER = [
   'User APIs v1 (Pre-live)',
   'OAuth2 APIs v1',
   'Search APIs v1',
+  'Analytics APIs v1',
   'Tutorials',
 ];
 
@@ -85,7 +87,7 @@ const VERSIONED_DIR_RE = /^\d+\.\d+\.\d+$/;
 const OPENAPI_HEADER = [
   '# Quran Foundation API',
   '',
-  '> API documentation for Quran.com content, search, user, and authentication APIs.',
+  '> API documentation for Quran.com analytics, content, search, user, and authentication APIs.',
   '',
   '## OpenAPI Specifications',
   '',
@@ -94,6 +96,7 @@ const OPENAPI_HEADER = [
   '- [User APIs v1 (Pre-live)](https://api-docs.quran.foundation/openAPI/user-related-apis/pre-live/v1.json): Upcoming pre-live documentation for unreleased user API changes',
   '- [OAuth2 APIs v1](https://api-docs.quran.foundation/openAPI/oauth2-apis/v1.json): Authentication and authorization',
   '- [Search APIs v1](https://api-docs.quran.foundation/openAPI/search/v1.json): Quran text search',
+  '- [Analytics Events API](https://api-docs.quran.foundation/openAPI/analytics/v1.json): Product analytics event submission',
   '',
   '## Agent Prompts and Starters',
   '',
@@ -170,6 +173,7 @@ function getUrl(relpath, fm) {
 
 /** Map a docs-relative file path to one of the known sections. */
 function getSection(relpath) {
+  if (relpath.startsWith('analytics_apis_versioned/')) return 'Analytics APIs v1';
   if (relpath.startsWith('content_apis_versioned/')) return 'Content APIs v4';
   if (relpath.startsWith('user_related_apis_prelive/')) {
     return 'User APIs v1 (Pre-live)';

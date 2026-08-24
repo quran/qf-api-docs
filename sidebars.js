@@ -775,6 +775,8 @@ const sidebars = {
   "oauth2_apis-1.0.0": makeApiFamilySidebar(oauth2ApisVersionedConfig),
   search_apis: makeApiFamilySidebar(searchApisLatestConfig),
   "search_apis-1.0.0": makeApiFamilySidebar(searchApisVersionedConfig),
+  "analytics-apis": makeApiFamilySidebar(analyticsApisLatestConfig),
+  "analytics-apis-1.0.0": makeApiFamilySidebar(analyticsApisVersionedConfig),
 
   apiSidebar: latestApiFamilies.map(makeSharedApiFamilyCategory),
   apiVersionedSidebar: versionedApiFamilies.map(makeSharedApiFamilyCategory),

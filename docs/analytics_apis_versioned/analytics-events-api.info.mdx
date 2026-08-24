@@ -24,7 +24,7 @@ Quran Foundation Analytics Events API allows approved applications to submit pro
 
 ## How to get access
 
-We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to this API. The `analytics.events.write` scope authorizes the calling application rather than an end user, so use the `client_credentials` grant type when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange). After getting a valid access token, each request must include the `x-auth-token` and `x-client-id` headers described below.
+We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#step-1-create-oauth-20-client-credentials) to make requests to this API. The `analytics.events.write` scope authorizes the calling application rather than an end user, so use the `client_credentials` grant type when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange). After getting a valid access token, each request must include the `x-auth-token` and `x-client-id` headers described below.
 
 ## Delivery guarantees
 
