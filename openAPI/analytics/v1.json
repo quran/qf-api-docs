@@ -1,0 +1,459 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Analytics Events API",
+    "description": "Quran Foundation Analytics Events API allows approved applications to submit product analytics events for asynchronous processing. Authorization is application-level and does not require an end-user OAuth session.\n\n## How to get access\n\nWe are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to this API. The `analytics.events.write` scope authorizes the calling application rather than an end user, so use the `client_credentials` grant type when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange). After getting a valid access token, each request must include the `x-auth-token` and `x-client-id` headers described below.\n\n## Delivery guarantees\n\nBatch acceptance is all-or-nothing. A `202 Accepted` response means every event in the batch was acknowledged by the durable event queue. A `422 Unprocessable Entity` response means the entire batch was rejected before publication. Downstream processing is asynchronous and delivery is at least once. If the API returns `503 Service Unavailable`, retry the complete batch with the same event IDs.\n\n## Event data\n\nGenerate a stable, unique `event_id` for each event and reuse it when retrying. Use `properties` only for event-specific JSON data and observe the documented limits. The API derives `client_id` from the authenticated request; do not include it in an event. When an event belongs to a signed-in person identified through Quran Foundation OAuth, include the QF `user_id` associated with that Quran Foundation OAuth identity. Omit it for guests or unknown users. Do not send an application-local user ID. Never send credentials, access tokens, or secrets.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://apis-prelive.quran.foundation/analytics",
+      "description": "Pre-production Server"
+    },
+    {
+      "url": "https://apis.quran.foundation/analytics",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/v1/events:batch": {
+      "post": {
+        "tags": [
+          "Analytics Events"
+        ],
+        "summary": "Submit analytics events",
+        "description": "Submit 1 to 100 analytics events in one request. The API handles each batch as a single unit and never partially accepts a batch. A `202 Accepted` response means every event passed validation and received a durable queue acknowledgement; `accepted` therefore matches the number of submitted events. A `422 Unprocessable Entity` response means the entire batch was rejected before publication. Its message identifies the invalid value using an `events[index].field` path so you can correct and resubmit the batch.\n\n`version` tells downstream systems which event structure they are receiving. For example, version 1 uses `verse_number`, while version 2 uses `verse_key`. Keep the same version when adding optional properties; increase it for incompatible structure changes.\n\nDelivery is at least once. If the API returns `503 Service Unavailable`, retry the batch with the same event IDs. A failed request may have published some events before the failure, and stable event IDs allow downstream processing to identify duplicates.\n\nDo not include `client_id`, `app_id`, or environment identity in the request body. The API associates events with the authenticated client ID. When an event belongs to a signed-in Quran Foundation user, set `user_id` to the QF user ID associated with that user's Quran Foundation OAuth identity. Omit it for guests or unknown users, and do not send an application-local user ID. See the request schema for property and identifier limits.",
+        "operationId": "submit_analytics_events",
+        "requestBody": {
+          "description": "A batch containing between 1 and 100 analytics events.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchEventsRequest"
+              },
+              "examples": {
+                "Multiple events": {
+                  "summary": "Multiple events with different identity shapes",
+                  "description": "This batch contains an event for a signed-in user, an event for an anonymous visitor, and an event with no person identity. Optional identity fields may be omitted when they do not apply.",
+                  "value": {
+                    "events": [
+                      {
+                        "action_id": "save_verse_2_255",
+                        "event_id": "evt_01j60y4a5b6c7d8e9f0g1h2j3k",
+                        "name": "quran.bookmark.verse_saved",
+                        "occurred_at": "2026-08-22T07:12:15Z",
+                        "properties": {
+                          "bookmark_collection": "favorites",
+                          "chapter_number": 2,
+                          "surface": "reader",
+                          "verse_number": 255
+                        },
+                        "session_id": "session_signed_in_01j60x2p9m",
+                        "user_id": "4f5bb0d7-8c13-4f06-8dbd-2f1d4ed3ba90",
+                        "version": 1
+                      },
+                      {
+                        "action_id": "open_verse_36_1",
+                        "anonymous_id": "anon_7f3b0f85",
+                        "event_id": "evt_01j60y5b6c7d8e9f0g1h2j3k4m",
+                        "name": "quran.reader.verse_viewed",
+                        "occurred_at": "2026-08-22T07:12:18Z",
+                        "properties": {
+                          "chapter_number": 36,
+                          "locale": "en",
+                          "reading_mode": "translation",
+                          "surface": "reader",
+                          "verse_number": 1
+                        },
+                        "session_id": "session_guest_01j60x2p9m",
+                        "version": 1
+                      },
+                      {
+                        "event_id": "evt_01j60y6c7d8e9f0g1h2j3k4m5n",
+                        "name": "quran.app.started",
+                        "occurred_at": "2026-08-22T07:12:20Z",
+                        "properties": {
+                          "app_version": "1.0.0",
+                          "launch_type": "cold_start",
+                          "platform": "web"
+                        },
+                        "version": 1
+                      }
+                    ]
+                  }
+                },
+                "Single event": {
+                  "summary": "Single event for a signed-in user",
+                  "description": "Use `user_id` only when the person is signed in through Quran Foundation OAuth. Omit `anonymous_id` in this case.",
+                  "value": {
+                    "events": [
+                      {
+                        "action_id": "open_verse_1_1",
+                        "event_id": "evt_01j60x3y6n7r8s9t0v1w2x3y4z",
+                        "name": "quran.reader.verse_viewed",
+                        "occurred_at": "2026-08-22T07:12:15Z",
+                        "properties": {
+                          "chapter_number": 1,
+                          "surface": "reader",
+                          "verse_number": 1
+                        },
+                        "session_id": "session_01j60x2p9m",
+                        "user_id": "4f5bb0d7-8c13-4f06-8dbd-2f1d4ed3ba90",
+                        "version": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "The complete batch was validated and durably accepted for asynchronous processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchEventsAcceptedResponse"
+                },
+                "examples": {
+                  "Multiple events accepted": {
+                    "summary": "Three events accepted",
+                    "value": {
+                      "accepted": 3,
+                      "batch_id": "b47ee72b-20ed-4da8-bf45-b292ff25c973"
+                    }
+                  },
+                  "Single event accepted": {
+                    "summary": "One event accepted",
+                    "value": {
+                      "accepted": 1,
+                      "batch_id": "d77a3c27-8365-4c57-a3ae-cf8ab8cb62c2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The API Gateway rejected a malformed request, such as one missing required authentication headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GatewayErrorResponse"
+                },
+                "example": {
+                  "message": "The request is missing required headers or is invalid",
+                  "success": false,
+                  "type": "invalid_request"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The access token is missing, expired, or invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GatewayErrorResponse"
+                },
+                "example": {
+                  "message": "The request requires authentication",
+                  "success": false,
+                  "type": "unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The authenticated OAuth client is not allowed to submit analytics events. Request the `analytics.events.write` scope for this client.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GatewayErrorResponse"
+                },
+                "example": {
+                  "message": "The access token does not include analytics.events.write",
+                  "success": false,
+                  "type": "insufficient_scope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The entire batch was rejected before publication because it failed validation. The message identifies an invalid event field using an `events[index].field` path. Correct the reported field and resubmit the complete batch.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "validation failed: events[1].occurred_at is too far in the future",
+                  "retryable": false,
+                  "success": false
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The OAuth client exceeded the API Gateway rate limit. Retry after the delay indicated by the Gateway response headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GatewayErrorResponse"
+                },
+                "example": {
+                  "message": "Too many requests, please try again later",
+                  "success": false,
+                  "type": "rate_limit_exceeded"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The collector encountered an unexpected internal error. Contact Quran Foundation support if the problem persists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "internal error",
+                  "retryable": false,
+                  "success": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The durable event queue is temporarily unavailable. Retry the request with the same event IDs; duplicates are possible and are identified downstream by client ID and event ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "event ingestion temporarily unavailable",
+                  "retryable": true,
+                  "success": false
+                }
+              }
+            }
+          }
+        },
+        "x-code-samples": [
+          {
+            "label": "cURL",
+            "lang": "bash",
+            "source": "OCCURRED_AT=\"$(date -u '+%Y-%m-%dT%H:%M:%SZ')\"\n\ncurl --request POST \\\n  'https://apis.quran.foundation/analytics/v1/events:batch' \\\n  --header 'Content-Type: application/json' \\\n  --header 'x-client-id: <YOUR_CLIENT_ID>' \\\n  --header 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  --data \"{\\\"events\\\":[{\\\"event_id\\\":\\\"evt_01j60x3y6n7r8s9t0v1w2x3y4z\\\",\\\"name\\\":\\\"quran.reader.verse_viewed\\\",\\\"version\\\":1,\\\"occurred_at\\\":\\\"$OCCURRED_AT\\\",\\\"user_id\\\":\\\"4f5bb0d7-8c13-4f06-8dbd-2f1d4ed3ba90\\\",\\\"properties\\\":{\\\"chapter_number\\\":1,\\\"verse_number\\\":1,\\\"surface\\\":\\\"reader\\\"}}]}\""
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnalyticsEventInput": {
+        "type": "object",
+        "description": "One analytics event generated by a partner application.",
+        "required": [
+          "event_id",
+          "name",
+          "version",
+          "occurred_at"
+        ],
+        "properties": {
+          "action_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "An optional identifier that links this event to a specific user action or interaction.",
+            "example": "open_verse_1_1",
+            "maxLength": 128
+          },
+          "anonymous_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "An application-generated identifier for a person who is not signed in. Omit or send `null`\nwhen the event is not associated with an anonymous visitor.",
+            "example": "anon_7f3b0f85",
+            "maxLength": 128
+          },
+          "event_id": {
+            "type": "string",
+            "description": "A stable identifier generated by the caller for this event.\n\nReuse the same value when retrying an event. Together with the authenticated client ID,\nthis identifies duplicates during downstream processing.",
+            "example": "evt_01j60x3y6n7r8s9t0v1w2x3y4z",
+            "maxLength": 128,
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "A namespaced event name containing letters, numbers, `.`, `_`, `:`, or `-`.",
+            "example": "quran.reader.verse_viewed",
+            "maxLength": 128,
+            "minLength": 1
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the event happened, as an RFC 3339 timestamp.\n\nThe timestamp cannot be more than 5 minutes in the future or more than 366 days old.",
+            "example": "2026-08-22T07:12:15Z"
+          },
+          "properties": {
+            "type": "object",
+            "description": "Event-specific JSON data.\n\nThe object may contain at most 50 keys across all nesting levels, may be nested up to 6\nlevels, may contain strings up to 4,096 characters, and must serialize to at most 16 KiB.\nDo not include credentials, access tokens, or other secrets."
+          },
+          "session_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "An application-generated identifier that groups events from one usage session. Omit or send\n`null` when no session is available.",
+            "example": "session_01j60x2p9m",
+            "maxLength": 128
+          },
+          "user_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Optional Quran Foundation user ID for the signed-in person associated with this event.\n\nInclude this field only when your application has identified the person through Quran\nFoundation OAuth, and use the QF user ID associated with that identity. Omit it or send\n`null` for guests or unknown users. Do not send an application-local user ID.",
+            "example": "4f5bb0d7-8c13-4f06-8dbd-2f1d4ed3ba90",
+            "maxLength": 128,
+            "minLength": 1
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Tells downstream systems which structure this event uses. This is not the Analytics API\nversion or your application version. Start at `1`. For example, version 1 uses\n`verse_number`, while version 2 uses `verse_key`. Keep the same version when adding an\noptional property; increase it when renaming, removing, or changing the type of a property.",
+            "example": 1,
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "BatchEventsAcceptedResponse": {
+        "type": "object",
+        "description": "Confirmation that the complete batch was accepted for asynchronous processing.",
+        "required": [
+          "accepted",
+          "batch_id"
+        ],
+        "properties": {
+          "accepted": {
+            "type": "integer",
+            "description": "Number of events accepted from the request. Because batches are never partially accepted,\nthis always matches the number of submitted events in a `202 Accepted` response.",
+            "example": 1,
+            "minimum": 0
+          },
+          "batch_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-generated identifier shared by all events in this request.",
+            "example": "d77a3c27-8365-4c57-a3ae-cf8ab8cb62c2"
+          }
+        }
+      },
+      "BatchEventsRequest": {
+        "type": "object",
+        "description": "A group of analytics events submitted in one request.",
+        "required": [
+          "events"
+        ],
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalyticsEventInput"
+            },
+            "description": "Events to accept as one batch. Send between 1 and 100 events.",
+            "maxItems": 100,
+            "minItems": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Error returned by the analytics collector.",
+        "required": [
+          "success",
+          "message",
+          "retryable"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Human-readable explanation of why the request failed.",
+            "example": "validation failed: events must contain between 1 and 100 items"
+          },
+          "retryable": {
+            "type": "boolean",
+            "description": "Whether the caller may retry the same request without changing it.",
+            "example": false
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Always `false` for an error response.",
+            "example": false
+          }
+        }
+      },
+      "GatewayErrorResponse": {
+        "type": "object",
+        "description": "Authentication, authorization, or request-protection error returned by the API Gateway.",
+        "required": [
+          "success",
+          "message",
+          "type"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Human-readable explanation of why the Gateway rejected the request.",
+            "example": "The server understood the request, but refuses to authorize it"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Always `false` for an error response.",
+            "example": false
+          },
+          "type": {
+            "type": "string",
+            "description": "Stable machine-readable error category.",
+            "example": "forbidden"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "x-auth-token": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-auth-token",
+        "description": "The access token required for submitting analytics events. It must include the `analytics.events.write` scope."
+      },
+      "x-client-id": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-client-id",
+        "description": "Your client ID"
+      }
+    }
+  },
+  "security": [
+    {
+      "x-auth-token": [],
+      "x-client-id": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Analytics Events",
+      "description": "Submit analytics events from approved applications"
+    }
+  ]
+}
