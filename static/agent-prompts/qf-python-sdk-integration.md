@@ -44,6 +44,7 @@ Documentation to follow:
 - Python Search: https://api-docs.quran.foundation/docs/sdk/python/search/
 - Python User APIs: https://api-docs.quran.foundation/docs/sdk/python/user-apis/
 - Python common errors: https://api-docs.quran.foundation/docs/sdk/python/common-errors/
+- Python resources and Content Sync: https://api-docs.quran.foundation/docs/sdk/python/resources/
 - API Reference: https://api-docs.quran.foundation/docs/api-reference/
 - OAuth2 scopes: https://api-docs.quran.foundation/docs/user_related_apis_versioned/scopes/
 

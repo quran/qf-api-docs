@@ -19677,7 +19677,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Sync public content resources",
-        "description": "Use this endpoint when your app keeps a local copy of public Quran Foundation content and needs to know what changed without downloading everything again.\n\nA resource is one public content item, such as `translations:19`, `tafsirs:151`, `recitations:10`, or `articles:123`. A full copy, called a snapshot in the API, is the complete current row list for one resource.\n\nWhen `next_page_url` or mutation `snapshot_url` is present and non-null, we return a relative `/api/v4/...` API path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/translations/19`. You should prefix that path with the Content service e.g.  `https://apis.quran.foundation/content`.\n\nRecommended client flow:\n1. First sync: call with `bootstrap=true` and a `resources` filter.\n2. Follow `next_page_url` until `has_more` is `false`.\n3. Fetch every non-null `snapshot_url` and replace the local rows for that resource.\n4. Store `next_sync_token` from the final page only.\n5. Later syncs: call with `sync_token` and the same canonical `resources` filter to receive only newer changes.\n\nChange handling:\n- `RESOURCE_CREATE` and `RESOURCE_INVALIDATE`: fetch `snapshot_url`, then replace all local rows for that resource.\n- `RESOURCE_DELETE`: remove or hide the full local resource.\n- `ROW_CREATE` and `ROW_UPDATE`: upsert one local row using `record_type` and `record_key`.\n- `ROW_DELETE`: delete one local row using `record_type` and `record_key`.\n- `RESOURCE_UPDATE`: freshness marker only. Keep existing local rows.\n\nBootstrap example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=translations:19;tafsirs:151&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nIncremental example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=translations:19;tafsirs:151&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSync responses are not cacheable and return `Cache-Control: no-store`.",
+        "description": "Use this endpoint when your app keeps a local copy of public Quran Foundation content and needs to know what changed without downloading everything again.\n\nA resource is one public content item, such as `mushafs:1`, `translations:19`, `tafsirs:151`, `recitations:10`, or `articles:123`. A full copy, called a snapshot in the API, is the complete current row list for one resource. Mushaf snapshots include layout metadata, page mappings, publicly distributable font assets, and positioned words for offline use.\n\nWhen `next_page_url` or mutation `snapshot_url` is present and non-null, we return a relative `/api/v4/...` API path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/mushafs/1`. You should prefix that path with the Content service e.g.  `https://apis.quran.foundation/content`.\n\nRecommended client flow:\n1. First sync: call with `bootstrap=true` and a `resources` filter.\n2. Follow `next_page_url` until `has_more` is `false`.\n3. Fetch every non-null `snapshot_url` and replace the local rows for that resource.\n4. Store `next_sync_token` from the final page only.\n5. Later syncs: call with `sync_token` and the same canonical `resources` filter to receive only newer changes.\n\nChange handling:\n- `RESOURCE_CREATE` and `RESOURCE_INVALIDATE`: fetch `snapshot_url`, then replace all local rows for that resource.\n- `RESOURCE_DELETE`: remove or hide the full local resource.\n- `ROW_CREATE` and `ROW_UPDATE`: upsert one local row using `record_type` and `record_key`.\n- `ROW_DELETE`: delete one local row using `record_type` and `record_key`.\n- `RESOURCE_UPDATE`: freshness marker only. Keep existing local rows.\n\nBootstrap example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=mushafs:1;translations:19;tafsirs:151&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nIncremental example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=mushafs:1;translations:19;tafsirs:151&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSync responses are not cacheable and return `Cache-Control: no-store`.",
         "operationId": "resources-sync",
         "parameters": [
           {
@@ -19688,7 +19688,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "articles:*;recitations:10;tafsirs:151;translations:1,6;word_by_word_translations:85"
+            "example": "articles:*;mushafs:1;recitations:10;tafsirs:151;translations:1,6;word_by_word_translations:85"
           },
           {
             "name": "bootstrap",
@@ -19952,13 +19952,13 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Get content resource snapshot",
-        "description": "Use this endpoint to fetch a full copy of one public content resource. The API calls this full copy a snapshot.\n\nA snapshot returns all current rows for one resource in `records`. For example, a translation snapshot returns all current translation rows for that translation resource. A recitation snapshot returns ayah audio file rows and chapter audio file rows.\n\nTypical client flow:\n1. Call [GET /resources/sync](../resources-sync/).\n2. If a change has a non-null `snapshot_url`, call this endpoint using that change's `resource_group` and `resource_id`.\n3. Delete existing local rows for that one resource.\n4. Insert the returned `records` as the new local copy.\n5. Continue applying later sync changes normally.\n\nExample:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/snapshots/translations/19\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
+        "description": "Use this endpoint to fetch a full copy of one public content resource. The API calls this full copy a snapshot.\n\nA snapshot returns all current rows for one resource in `records`. For example, a Mushaf snapshot returns layout metadata, page mappings, publicly distributable font assets, and positioned words. A translation snapshot returns all current translation rows for that translation resource. A recitation snapshot returns ayah audio file rows and chapter audio file rows.\n\nTypical client flow:\n1. Call [GET /resources/sync](../resources-sync/).\n2. If a change has a non-null `snapshot_url`, call this endpoint using that change's `resource_group` and `resource_id`.\n3. Delete existing local rows for that one resource.\n4. Insert the returned `records` as the new local copy.\n5. Continue applying later sync changes normally.\n\nExample:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/snapshots/mushafs/1\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
         "operationId": "resources-snapshot",
         "parameters": [
           {
             "name": "resource_group",
             "in": "path",
-            "description": "Public content group. Supported values are `articles`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations`.",
+            "description": "Public content group. Supported values are `articles`, `mushafs`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations`.",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/ContentSyncResourceGroup"
@@ -19967,7 +19967,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Resource ID within the selected group, such as translation resource `19` or tafsir resource `151`.",
+            "description": "Resource ID within the selected group, such as Mushaf `1`, translation resource `19`, or tafsir resource `151`.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -20032,6 +20032,85 @@
                           "text": "In",
                           "priority": 1,
                           "updated_at": "2026-08-19T02:43:00Z"
+                        }
+                      ]
+                    }
+                  },
+                  "mushaf_snapshot": {
+                    "summary": "Mushaf full copy for offline use",
+                    "value": {
+                      "resource_group": "mushafs",
+                      "resource_id": 1,
+                      "resource_content_id": 382,
+                      "schema_version": 1,
+                      "sync_sequence": 98234,
+                      "records": [
+                        {
+                          "record_type": "mushaf",
+                          "id": 1,
+                          "resource_content_id": 382,
+                          "name": "QCF V2",
+                          "description": "Quran Complex Font Version 2",
+                          "pages_count": 604,
+                          "lines_per_page": 15,
+                          "default_font_name": "v2",
+                          "mapping_mode": "reference",
+                          "qirat": {
+                            "id": 1,
+                            "name": "Hafs"
+                          }
+                        },
+                        {
+                          "record_type": "mushaf_page",
+                          "id": 10,
+                          "mushaf_id": 1,
+                          "page_number": 1,
+                          "first_verse_id": 1,
+                          "last_verse_id": 7,
+                          "first_word_id": 1,
+                          "last_word_id": 29,
+                          "verses_count": 7,
+                          "verse_mapping": {
+                            "1": "1:1"
+                          },
+                          "updated_at": "2026-08-19T02:43:00Z"
+                        },
+                        {
+                          "record_type": "font_asset",
+                          "id": 20,
+                          "asset_key": "page-001",
+                          "mushaf_id": 1,
+                          "page_number": 1,
+                          "font_family": "QCF_P001",
+                          "format": "woff2",
+                          "mime_type": "font/woff2",
+                          "url": "https://verses.quran.foundation/fonts/qcf-v2/p1.woff2",
+                          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                          "byte_size": 1234,
+                          "version": "1",
+                          "provider": "Quran Foundation",
+                          "license_name": "Quran Foundation Font License",
+                          "license_url": null,
+                          "attribution": null,
+                          "updated_at": "2026-08-19T02:43:00Z"
+                        },
+                        {
+                          "record_type": "mushaf_word",
+                          "id": 30,
+                          "mushaf_id": 1,
+                          "word_id": 1,
+                          "verse_id": 1,
+                          "source_verse_id": 1,
+                          "text": "ﱁ",
+                          "char_type_id": 1,
+                          "char_type_name": "word",
+                          "page_number": 1,
+                          "line_number": 1,
+                          "position_in_verse": 1,
+                          "position_in_line": 1,
+                          "position_in_page": 1,
+                          "css_class": null,
+                          "css_style": null
                         }
                       ]
                     }
@@ -22730,6 +22809,7 @@
         "description": "Public content group supported by Content Sync.",
         "enum": [
           "articles",
+          "mushafs",
           "recitations",
           "tafsirs",
           "translations",
@@ -22752,8 +22832,12 @@
       "ContentSyncRecordType": {
         "type": "string",
         "nullable": true,
-        "description": "Row type inside the resource. Present for row-level changes. Current values include `translation`, `word_translation`, `tafsir`, `audio_file`, `chapter_audio_file`, and `article_localization`.",
+        "description": "Row type inside the resource. Present for row-level changes. Current values include `mushaf`, `mushaf_page`, `font_asset`, `mushaf_word`, `translation`, `word_translation`, `tafsir`, `audio_file`, `chapter_audio_file`, and `article_localization`.",
         "enum": [
+          "mushaf",
+          "mushaf_page",
+          "font_asset",
+          "mushaf_word",
           "translation",
           "word_translation",
           "tafsir",

@@ -14,6 +14,7 @@ translations = client.list_translations()
 translation_info = client.get_translation_info(131)
 recitations = client.list_recitations()
 snapshot = client.get_resource_snapshot("translations", 131)
+mushaf_snapshot = client.get_mushaf_snapshot(1)
 ```
 
 Supported helpers:
@@ -32,6 +33,11 @@ Supported helpers:
 - `sync_resources(params=None)`
 - `get_resource_snapshot(resource_group, resource_id, params=None)`
 - `get_word_by_word_translation_snapshot(word_by_word_translation_id, params=None)`
+- `get_mushaf_snapshot(mushaf_id, params=None)`
+
+Use `mushafs:<id>` in `sync_resources(...)`, then call
+`get_mushaf_snapshot(...)` to download the layout metadata, page mappings,
+publicly distributable font assets, and positioned words needed for offline use.
 
 Read next:
 
