@@ -38,7 +38,7 @@ Content Sync currently supports these resource groups: `mushafs`, `translations`
 
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `mushafs`                      | Quran text, word positions, pages, layout data, and font asset metadata such as CDN URLs. Font files and page images are separate. | Mushaf, page, font asset metadata, and word changes.                                  |
+| `mushafs`                      | Quran text, word positions, pages, layout data, and—where available—font asset metadata such as CDN URLs. Font files and page images are not included. | Mushaf, page, word, and—where available—font asset metadata changes.                  |
 | `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `tafsirs`                      | Tafsir rows for the resource.                                                         | Tafsir row changes.                                                                 |
