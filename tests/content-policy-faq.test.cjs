@@ -22,6 +22,10 @@ const contentSync = fs.readFileSync(
   ),
   'utf8',
 );
+const mushafFontsAndImages = fs.readFileSync(
+  path.join(repositoryRoot, 'src', 'pages', 'legal', 'mushaf-fonts-and-images.mdx'),
+  'utf8',
+);
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const normalize = (value) =>
   value
@@ -144,6 +148,38 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
     /Report actual or suspected unauthorised API-related access, security breach, or data exposure within 24 hours\./,
   );
   assert.match(helpAnswer, /Do not include client secrets or access tokens\./);
+});
+
+test('does not describe Mushaf snapshots as font or image packages', () => {
+  for (const document of [contentSync, faq, mushafFontsAndImages]) {
+    assert.doesNotMatch(document, /publicly distributable font assets/i);
+    assert.doesNotMatch(document, /font asset metadata/i);
+  }
+
+  assert.match(
+    contentSync,
+    /Mushaf metadata, page mappings, and positioned words\. Font files and images are not included\./,
+  );
+  assert.match(
+    mushafFontsAndImages,
+    /It does not include font files or images\./,
+  );
+
+  assert.deepEqual(
+    [...mushafFontsAndImages.matchAll(/^\| (\d+) \|/gm)].map((match) =>
+      Number(match[1]),
+    ),
+    [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 14, 15, 16, 19],
+  );
+
+  for (const unsupportedClaim of [
+    /QuranWBW requires/i,
+    /Magnicode’s conditions/i,
+    /charitable use only/i,
+    /printing or publishing requires permission/i,
+  ]) {
+    assert.doesNotMatch(mushafFontsAndImages, unsupportedClaim);
+  }
 });
 
 test('synchronizes the exact Content Sync groups', () => {

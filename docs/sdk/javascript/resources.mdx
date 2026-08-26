@@ -71,7 +71,8 @@ The flow is:
 
 The `resources` filter uses plural group names (`articles`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `mushafs:1;translations:19,20;tafsirs:14`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
 
-Mushaf snapshots contain metadata, page mappings, positioned words, and—where available—font asset metadata such as CDN URLs. Font files and page images are not included. See [Mushaf Fonts and Images](/legal/mushaf-fonts-and-images/).
+Mushaf snapshots contain metadata, page mappings, and positioned words. Font
+files and images are not included. See [Mushaf Fonts and Images](/legal/mushaf-fonts-and-images/).
 
 ```ts
 const bootstrap = await client.content.v4.resources.sync({
