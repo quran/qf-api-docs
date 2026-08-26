@@ -41,7 +41,7 @@ const faqSectionSource = (heading) => {
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
-  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-08-18/);
+  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-08-26/);
   assert.match(developerTerms, /Cache or store QF Content longer than \*\*1 week\*\*/);
   assert.match(developerTerms, /QF has expressly permitted longer storage/);
   assert.match(

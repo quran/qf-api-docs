@@ -1,0 +1,38 @@
+---
+id: mushaf-fonts-and-images
+title: Mushaf Fonts and Images
+---
+
+# Mushaf Fonts and Images
+
+Content Sync provides Quran text and Mushaf layout data. Font files and page images are delivered separately and are not included in Content Sync.
+
+Use the [Font Rendering guide](/docs/tutorials/fonts/font-rendering/) to load supported fonts from Quran Foundation’s official CDN.
+
+Fonts and images remain subject to their providers’ conditions. Quran Foundation does not issue separate licences on behalf of those providers. Contact Quran Foundation developer support only for broken documented URLs or incorrect rendering.
+
+## Standard use
+
+When using a documented Quran Foundation CDN font:
+
+- Use it only inside your application to render Quran content.
+- Do not sell, modify, rehost, or offer the font as a separate download.
+- Follow the provider-specific conditions below.
+
+| ID | Mushaf | Rendering | Provider | Provider conditions |
+|---:|---|---|---|---|
+| 1 | QCF V2 | Page-specific fonts | [King Fahd Glorious Quran Printing Complex](https://qurancomplex.gov.sa/) | KFGQPC conditions apply. |
+| 2 | QCF V1 | Page-specific fonts | [King Fahd Glorious Quran Printing Complex](https://qurancomplex.gov.sa/) | KFGQPC conditions apply. |
+| 4 | Uthmani Hafs | Uthmani font | Meor Ridzuan / Magnicode | Use and distribution remain subject to Magnicode’s conditions. |
+| 5 | KFGQPC HAFS | Uthmani Hafs font | [King Fahd Glorious Quran Printing Complex](https://qurancomplex.gov.sa/) | The provider permits use and copying subject to its conditions. The font must not be sold or modified. |
+| 6 | IndoPak 15 Lines | IndoPak Nastaleeq font | [QuranWBW](https://quranwbw.com/) | QuranWBW requires written notice for distribution, modification, or development. |
+| 7 | IndoPak 16 Lines | IndoPak Nastaleeq font | [QuranWBW](https://quranwbw.com/) | QuranWBW requires written notice for distribution, modification, or development. |
+| 10 | Uthmani Tajweed Images | Page images | Provided through the Content API | Use the image URLs returned by the API. Do not offer the images as a separate download. |
+| 11 | Uthmani Recite Quran Tajweed Images | Page images | Recite Quran | Use the image URLs returned by the API. Do not offer the images as a separate download. |
+| 12 | Black Images | Page images | Provided through the Content API | Use the image URLs returned by the API. Do not offer the images as a separate download. |
+| 14 | QPC Hafs Nastaleeq 15 Lines | Nastaleeq font | [King Fahd Glorious Quran Printing Complex](https://qurancomplex.gov.sa/) | KFGQPC conditions apply. |
+| 15 | QPC Hafs Nastaleeq 16 Lines | Nastaleeq font | [King Fahd Glorious Quran Printing Complex](https://qurancomplex.gov.sa/) | KFGQPC conditions apply. |
+| 16 | QPC Hafs with Tajweed | Uthmani Hafs font | [King Fahd Glorious Quran Printing Complex](https://qurancomplex.gov.sa/) | The provider’s Uthmani Hafs font conditions apply. |
+| 19 | QCF V4 Tajweed | Colour page-specific fonts | [King Fahd Glorious Quran Printing Complex](https://qurancomplex.gov.sa/) and [Dar Al Maarifah](https://easyquran.com/en/) | Charitable use only and not for sale. Printing or publishing requires permission from the providers. |
+
+For technical setup and official CDN paths, see the [Font Rendering guide](/docs/tutorials/fonts/font-rendering/).

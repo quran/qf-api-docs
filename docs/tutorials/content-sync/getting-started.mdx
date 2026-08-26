@@ -38,7 +38,7 @@ Content Sync currently supports these resource groups: `mushafs`, `translations`
 
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `mushafs`                      | Layout metadata, page mappings, distributable font assets, and positioned words.      | Mushaf, page, font asset, and word changes.                                          |
+| `mushafs`                      | Quran text, word positions, pages, and layout data. Font files and page images are separate. | Mushaf, page, and word changes.                                                       |
 | `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `tafsirs`                      | Tafsir rows for the resource.                                                         | Tafsir row changes.                                                                 |
@@ -48,6 +48,10 @@ Content Sync currently supports these resource groups: `mushafs`, `translations`
 :::note Supported groups only
 If a resource group is not listed above, it is not accepted by this sync endpoint. Continue using that resource's regular API endpoint when available.
 :::
+
+### Mushaf Fonts and Images
+
+Mushaf Content Sync provides Quran text, word positions, pages, and layout data. It does not include font files or page images. For rendering assets, see [Mushaf Fonts and Images](/legal/mushaf-fonts-and-images/) and the [Font Rendering guide](/docs/tutorials/fonts/font-rendering/).
 
 ## First Sync
 
@@ -80,7 +84,7 @@ Fetch and apply any returned `snapshot_url` values before you mark the sync as c
 
 ## Fetching a Full Copy
 
-A full copy returns all current rows for one resource. For example, a Mushaf full copy returns its metadata, pages, publicly distributable font assets, and words.
+A full copy returns all current rows for one resource. For example, a Mushaf full copy returns its metadata, pages, and words. Font files and page images are separate.
 
 ```bash
 curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/mushafs/1" \
