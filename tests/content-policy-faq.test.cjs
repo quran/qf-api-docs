@@ -2,8 +2,10 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { generateLlmsTxt } = require('../plugins/llms-txt-plugin');
 
 const repositoryRoot = path.join(__dirname, '..');
+const docsDir = path.join(repositoryRoot, 'docs');
 const faq = fs.readFileSync(
   path.join(repositoryRoot, 'docs', 'tutorials', 'faq.mdx'),
   'utf8',
@@ -20,6 +22,10 @@ const contentSync = fs.readFileSync(
     'content-sync',
     'getting-started.mdx',
   ),
+  'utf8',
+);
+const mushafFontsAndImages = fs.readFileSync(
+  path.join(repositoryRoot, 'src', 'pages', 'legal', 'mushaf-fonts-and-images.mdx'),
   'utf8',
 );
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -41,7 +47,7 @@ const faqSectionSource = (heading) => {
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
-  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-08-18/);
+  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-08-26/);
   assert.match(developerTerms, /Cache or store QF Content longer than \*\*1 week\*\*/);
   assert.match(developerTerms, /QF has expressly permitted longer storage/);
   assert.match(
@@ -144,6 +150,47 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
     /Report actual or suspected unauthorised API-related access, security breach, or data exposure within 24 hours\./,
   );
   assert.match(helpAnswer, /Do not include client secrets or access tokens\./);
+});
+
+test('does not describe Mushaf snapshots as font or image packages', () => {
+  for (const document of [contentSync, faq, mushafFontsAndImages]) {
+    assert.doesNotMatch(document, /publicly distributable font assets/i);
+    assert.doesNotMatch(document, /font asset metadata/i);
+  }
+
+  assert.match(
+    contentSync,
+    /Mushaf metadata, page mappings, and positioned words\. Font files and images are not included\./,
+  );
+  assert.match(
+    mushafFontsAndImages,
+    /It does not include font files or images\./,
+  );
+
+  assert.deepEqual(
+    [...mushafFontsAndImages.matchAll(/^\| (\d+) \|/gm)].map((match) =>
+      Number(match[1]),
+    ),
+    [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 14, 15, 16, 19],
+  );
+
+  for (const unsupportedClaim of [
+    /QuranWBW requires/i,
+    /Magnicode’s conditions/i,
+    /charitable use only/i,
+    /printing or publishing requires permission/i,
+  ]) {
+    assert.doesNotMatch(mushafFontsAndImages, unsupportedClaim);
+  }
+});
+
+test('includes Mushaf font and image guidance in generated llms.txt discovery', () => {
+  const { content } = generateLlmsTxt(docsDir);
+
+  assert.match(
+    content,
+    /\[Mushaf Fonts and Images\]\(https:\/\/api-docs\.quran\.foundation\/legal\/mushaf-fonts-and-images\/\)/,
+  );
 });
 
 test('synchronizes the exact Content Sync groups', () => {

@@ -45,9 +45,8 @@ test('publishes the Mushaf snapshot record contract', () => {
   assert.equal(mushafSnapshot.resource_group, 'mushafs');
   assert.deepEqual(
     mushafSnapshot.records.map((record) => record.record_type),
-    ['mushaf', 'mushaf_page', 'font_asset', 'mushaf_word'],
+    ['mushaf', 'mushaf_page', 'mushaf_word'],
   );
   assert.equal(mushafSnapshot.records[0].mapping_mode, 'reference');
-  assert.equal(mushafSnapshot.records[2].mime_type, 'font/woff2');
-  assert.equal(mushafSnapshot.records[3].position_in_page, 1);
+  assert.equal(mushafSnapshot.records[2].position_in_page, 1);
 });
