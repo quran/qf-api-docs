@@ -11,6 +11,10 @@
 - [Search APIs v1](https://api-docs.quran.foundation/openAPI/search/v1.json): Quran text search
 - [Analytics Events API](https://api-docs.quran.foundation/openAPI/analytics/v1.json): Product analytics event submission
 
+## Policies and Rendering
+
+- [Mushaf Fonts and Images](https://api-docs.quran.foundation/legal/mushaf-fonts-and-images/): Content Sync scope, rendering methods, and documented providers or delivery sources
+
 ## Agent Prompts and Starters
 
 - [QF_NPX_STARTER_PROMPT_V1](https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md): Copyable prompt for the official Next.js starter app

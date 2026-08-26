@@ -2,8 +2,10 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { generateLlmsTxt } = require('../plugins/llms-txt-plugin');
 
 const repositoryRoot = path.join(__dirname, '..');
+const docsDir = path.join(repositoryRoot, 'docs');
 const faq = fs.readFileSync(
   path.join(repositoryRoot, 'docs', 'tutorials', 'faq.mdx'),
   'utf8',
@@ -180,6 +182,15 @@ test('does not describe Mushaf snapshots as font or image packages', () => {
   ]) {
     assert.doesNotMatch(mushafFontsAndImages, unsupportedClaim);
   }
+});
+
+test('includes Mushaf font and image guidance in generated llms.txt discovery', () => {
+  const { content } = generateLlmsTxt(docsDir);
+
+  assert.match(
+    content,
+    /\[Mushaf Fonts and Images\]\(https:\/\/api-docs\.quran\.foundation\/legal\/mushaf-fonts-and-images\/\)/,
+  );
 });
 
 test('synchronizes the exact Content Sync groups', () => {
