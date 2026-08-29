@@ -200,6 +200,7 @@ test('synchronizes the exact Content Sync groups', () => {
     'word_by_word_translations',
     'tafsirs',
     'recitations',
+    'chapter_recitations',
     'articles',
   ];
   const sourceSupportStatement = contentSync.match(
@@ -210,14 +211,18 @@ test('synchronizes the exact Content Sync groups', () => {
     'expected the Content Sync tutorial to declare its supported groups',
   );
   const sourceGroups = extractBacktickedValues(sourceSupportStatement[1]);
-  const faqGroups = extractBacktickedValues(
-    faqSectionSource('Can I use Content Sync for Quran text or word-by-word data?'),
-  );
+  const faqGroups = [
+    ...new Set(
+      extractBacktickedValues(
+        faqSectionSource('Can I use Content Sync for Quran text or word-by-word data?'),
+      ).filter((value) => expectedGroups.includes(value)),
+    ),
+  ];
 
   assert.deepEqual(
     [...sourceGroups].sort(),
     [...expectedGroups].sort(),
-    'the source support matrix must remain exactly six groups',
+    'the source support matrix must remain exactly seven groups',
   );
   assert.deepEqual(
     [...faqGroups].sort(),

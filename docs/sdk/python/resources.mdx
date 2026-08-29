@@ -15,6 +15,7 @@ translation_info = client.get_translation_info(131)
 recitations = client.list_recitations()
 snapshot = client.get_resource_snapshot("translations", 131)
 mushaf_snapshot = client.get_mushaf_snapshot(1)
+chapter_snapshot = client.get_chapter_recitation_snapshot(159)
 ```
 
 Supported helpers:
@@ -32,6 +33,7 @@ Supported helpers:
 - `list_verse_media(params=None)`
 - `sync_resources(params=None)`
 - `get_resource_snapshot(resource_group, resource_id, params=None)`
+- `get_chapter_recitation_snapshot(audio_recitation_id, params=None)`
 - `get_word_by_word_translation_snapshot(word_by_word_translation_id, params=None)`
 - `get_mushaf_snapshot(mushaf_id, params=None)`
 
@@ -39,6 +41,12 @@ Use `mushafs:<id>` in `sync_resources(...)`, then call
 `get_mushaf_snapshot(...)` to download metadata, page mappings, positioned
 words, and layout data. Font files and images are not included. See
 [Mushaf Fonts and Images](/legal/mushaf-fonts-and-images/).
+
+Use `chapter_recitations:<id>` to sync chapter audio, where `<id>` is an
+`Audio::Recitation.id`, then call `get_chapter_recitation_snapshot(id)`.
+The returned records are `chapter_audio_file` rows. This is distinct from the
+legacy `recitations:<id>` group, which is keyed by an ayah-recitation ID and
+may include compatible chapter audio for existing clients.
 
 Read next:
 

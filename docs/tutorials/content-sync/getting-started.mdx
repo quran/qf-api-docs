@@ -8,7 +8,7 @@ sidebar_position: 1
 # Getting Started with Content Sync
 
 Content Sync helps an app keep a local copy of public Quran Foundation content fresh.
-Instead of downloading every Mushaf, translation, tafsir, recitation, or article again, your app asks:
+Instead of downloading every Mushaf, translation, tafsir, recitation, chapter recitation, or article again, your app asks:
 
 1. What changed since the last time I checked?
 2. Which small rows can I update directly?
@@ -18,7 +18,7 @@ Instead of downloading every Mushaf, translation, tafsir, recitation, or article
 
 | Term            | Plain meaning                                                                                                |
 | --------------- | ------------------------------------------------------------------------------------------------------------ |
-| Resource        | One content item your app tracks, such as translation `19`, tafsir `151`, recitation `10`, or article `123`. |
+| Resource        | One content item your app tracks, such as translation `19`, tafsir `151`, ayah recitation `10`, chapter recitation `159`, or article `123`. |
 | Resource filter | The list of content your app wants to keep in sync, for example `translations:19;tafsirs:151`.               |
 | Change          | One server event telling your app what changed. The API field is called `type`.                              |
 | Full copy       | The complete current rows for one resource. The API calls this a `snapshot`.                                 |
@@ -34,7 +34,7 @@ When `next_page_url` or `snapshot_url` is present and non-null, we return a rela
 
 ## Content Available for Offline Sync
 
-Content Sync currently supports these resource groups: `mushafs`, `translations`, `word_by_word_translations`, `tafsirs`, `recitations`, and `articles`.
+Content Sync currently supports these resource groups: `mushafs`, `translations`, `word_by_word_translations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`.
 
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -42,12 +42,27 @@ Content Sync currently supports these resource groups: `mushafs`, `translations`
 | `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `tafsirs`                      | Tafsir rows for the resource.                                                         | Tafsir row changes.                                                                 |
-| `recitations`                  | Ayah audio files and chapter audio files for the recitation.                          | Ayah audio file and chapter audio file changes.                                     |
+| `recitations`                  | Ayah audio files and compatible chapter audio files for the legacy ayah recitation.  | Ayah audio file and compatible chapter audio file changes.                          |
+| `chapter_recitations`          | Chapter audio file rows for one chapter recitation.                                   | Chapter audio file changes.                                                         |
 | `articles`                     | Visible article localizations.                                                        | Article localization changes and resource-level refresh, delete, or restore events. |
 
 :::note Supported groups only
 If a resource group is not listed above, it is not accepted by this sync endpoint. Continue using that resource's regular API endpoint when available.
 :::
+
+### Audio Resource Identities
+
+The `recitations` group is the legacy ayah-by-ayah resource, keyed by the
+`Recitation.id` used by the regular recitation endpoints. The
+`chapter_recitations` group is keyed by the corresponding
+`Audio::Recitation.id`. These IDs and groups are distinct even when both
+resources use the same underlying resource content.
+
+Chapter-recitation snapshots contain only `chapter_audio_file` records. For
+backward compatibility, chapter-file mutations for the selected approved
+chapter recitation may also be emitted through the linked legacy `recitations`
+resource. New clients that want an independently addressable chapter audio
+resource should use `chapter_recitations`.
 
 ### Mushaf Fonts and Images
 
@@ -74,7 +89,7 @@ sequenceDiagram
 ```
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=mushafs:1;translations:19;tafsirs:151&per_page=100" \
+curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=chapter_recitations:159;mushafs:1;translations:19;tafsirs:151&per_page=100" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```
@@ -93,6 +108,28 @@ curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/mushafs/1
 ```
 
 Client rule: replace all local rows for `mushafs:1` with the `records` array from the response.
+
+For a chapter recitation, use the `Audio::Recitation.id` from the
+`chapter_recitations` filter:
+
+```bash
+curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/chapter_recitations/159" \
+  -H "x-auth-token: $ACCESS_TOKEN" \
+  -H "x-client-id: $CLIENT_ID"
+```
+
+The `records` array contains the complete current chapter-file list for that
+recitation. A chapter audio record has this shape:
+
+```json
+{
+  "record_type": "chapter_audio_file",
+  "id": 2001,
+  "audio_recitation_id": 159,
+  "chapter_id": 1,
+  "audio_url": "https://example.com/audio/001.mp3"
+}
+```
 
 ## How Snapshots Relate to Tokens
 
@@ -126,7 +163,7 @@ sequenceDiagram
 ```
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=mushafs:1;translations:19;tafsirs:151&per_page=100" \
+curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=chapter_recitations:159;mushafs:1;translations:19;tafsirs:151&per_page=100" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```

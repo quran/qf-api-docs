@@ -68,7 +68,7 @@ Do not cache or store QF Content for more than 1 week unless QF has expressly pe
 
 ## Can I use Content Sync for Quran text or word-by-word data?
 
-Content Sync supports approved public Quran layouts through `mushafs`, as well as `translations`, `word_by_word_translations`, `tafsirs`, `recitations`, and `articles`. Mushaf snapshots include metadata, page mappings, and positioned words; font files and images are not included. Use the relevant [regular content endpoint](/docs/content_apis_versioned/4.0.0/content-apis/) for unsupported Quran text variants and other data. Unless QF expressly permits longer storage, the [Developer Terms' one-week storage limit](/legal/developer-terms) still applies to content that is not available through Content Sync.
+Content Sync supports approved public Quran layouts through `mushafs`, as well as `translations`, `word_by_word_translations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`. Chapter-recitation resources are keyed by `Audio::Recitation.id` and contain chapter audio file rows; the legacy `recitations` group remains keyed by ayah-recitation IDs and may also receive compatible chapter-file mutations. Mushaf snapshots include metadata, page mappings, and positioned words; font files and images are not included. Use the relevant [regular content endpoint](/docs/content_apis_versioned/4.0.0/content-apis/) for unsupported Quran text variants and other data. Unless QF expressly permits longer storage, the [Developer Terms' one-week storage limit](/legal/developer-terms) still applies to content that is not available through Content Sync.
 
 ## What attribution or copyright information should I show?
 
