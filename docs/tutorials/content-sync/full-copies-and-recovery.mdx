@@ -15,7 +15,8 @@ For example:
 - Full copy of `translations:19` returns all current translation rows for translation resource `19`.
 - Full copy of `word_by_word_translations:85` returns all current word translation rows for word-by-word translation resource content `85`.
 - Full copy of `tafsirs:151` returns all current tafsir rows for tafsir resource `151`.
-- Full copy of `recitations:10` returns ayah audio file rows and chapter audio file rows for recitation `10`.
+- Full copy of `recitations:10` returns ayah audio file rows and compatible chapter audio file rows for legacy ayah recitation `10`.
+- Full copy of `chapter_recitations:159` returns chapter audio file rows for `Audio::Recitation.id` `159`.
 - Full copy of `articles:123` returns visible article localization rows for article `123`.
 
 ## When You Need a Full Copy
@@ -54,6 +55,35 @@ The response has metadata plus `records`.
 ```
 
 Client rule: `records` is the full current content for that one resource. Delete your old local rows for the resource, then insert these rows.
+
+### Chapter Recitation Records
+
+Chapter-recitation snapshots use the same envelope as other snapshots, but
+their `records` contain only chapter audio files:
+
+```json
+{
+  "resource_group": "chapter_recitations",
+  "resource_id": 159,
+  "resource_content_id": 415,
+  "schema_version": 1,
+  "sync_sequence": 98234,
+  "records": [
+    {
+      "record_type": "chapter_audio_file",
+      "id": 2001,
+      "audio_recitation_id": 159,
+      "chapter_id": 1,
+      "audio_url": "https://example.com/audio/001.mp3"
+    }
+  ]
+}
+```
+
+The `resource_id` is the `Audio::Recitation.id`; it is not the legacy
+`Recitation.id` used by the `recitations` group. The legacy group may also
+receive chapter-file mutations for backward compatibility, but its snapshot
+is not the independently addressable chapter-recitation resource.
 
 ## Unavailable Resources
 

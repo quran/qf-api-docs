@@ -31,12 +31,12 @@ Store one sync token per canonical resource filter. Do not reuse a token for a d
 
 Every change belongs to one resource, identified by:
 
-- `resource_group`, such as `mushafs`, `translations`, or `word_by_word_translations`
-- `resource_id`, such as Mushaf ID `1`, translation resource content ID `19`, or word-by-word translation resource content ID `85`
+- `resource_group`, such as `mushafs`, `translations`, or `chapter_recitations`
+- `resource_id`, such as Mushaf ID `1`, translation resource content ID `19`, or `Audio::Recitation.id` `159` for a chapter recitation
 
 Row-level changes also include:
 
-- `record_type`, such as `translation` or `word_translation`
+- `record_type`, such as `translation`, `word_translation`, or `chapter_audio_file`
 - `record_key`, the row key inside that resource
 
 ```mermaid
@@ -104,6 +104,7 @@ interface LocalContentRow {
     | "articles"
     | "mushafs"
     | "recitations"
+    | "chapter_recitations"
     | "tafsirs"
     | "translations"
     | "word_by_word_translations";
@@ -114,6 +115,12 @@ interface LocalContentRow {
 }
 ```
 
-The current sync contract accepts only `articles`, `mushafs`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations` as resource groups.
+The current sync contract accepts only `articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations` as resource groups.
+
+`recitations` remains the legacy ayah-by-ayah group and is keyed by
+`Recitation.id`. `chapter_recitations` is keyed by `Audio::Recitation.id` and
+contains `chapter_audio_file` rows. When a chapter recitation shares resource
+content with a legacy ayah recitation, compatible chapter-file mutations may
+also appear in the legacy resource for existing clients.
 
 For the full schema, see [Sync public content resources](/docs/content_apis_versioned/resources-sync/).
