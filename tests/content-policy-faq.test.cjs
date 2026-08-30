@@ -198,6 +198,7 @@ test('synchronizes the exact Content Sync groups', () => {
     'mushafs',
     'translations',
     'word_by_word_translations',
+    'word_by_word_transliterations',
     'tafsirs',
     'recitations',
     'chapter_recitations',
@@ -222,7 +223,7 @@ test('synchronizes the exact Content Sync groups', () => {
   assert.deepEqual(
     [...sourceGroups].sort(),
     [...expectedGroups].sort(),
-    'the source support matrix must remain exactly seven groups',
+    'the source support matrix must remain exactly eight groups',
   );
   assert.deepEqual(
     [...faqGroups].sort(),

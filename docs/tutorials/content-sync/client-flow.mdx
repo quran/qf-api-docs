@@ -31,12 +31,12 @@ Store one sync token per canonical resource filter. Do not reuse a token for a d
 
 Every change belongs to one resource, identified by:
 
-- `resource_group`, such as `mushafs`, `translations`, or `chapter_recitations`
-- `resource_id`, such as Mushaf ID `1`, translation resource content ID `19`, or `Audio::Recitation.id` `159` for a chapter recitation
+- `resource_group`, such as `mushafs`, `translations`, `word_by_word_transliterations`, or `chapter_recitations`
+- `resource_id`, such as Mushaf ID `1`, translation resource content ID `19`, word-by-word transliteration resource `60`, or `Audio::Recitation.id` `159` for a chapter recitation
 
 Row-level changes also include:
 
-- `record_type`, such as `translation`, `word_translation`, or `chapter_audio_file`
+- `record_type`, such as `translation`, `word_translation`, `word_transliteration`, or `chapter_audio_file`
 - `record_key`, the row key inside that resource
 
 ```mermaid
@@ -107,7 +107,8 @@ interface LocalContentRow {
     | "chapter_recitations"
     | "tafsirs"
     | "translations"
-    | "word_by_word_translations";
+    | "word_by_word_translations"
+    | "word_by_word_transliterations";
   resourceId: number;
   recordType: string;
   recordKey: string;
@@ -115,7 +116,14 @@ interface LocalContentRow {
 }
 ```
 
-The current sync contract accepts only `articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, and `word_by_word_translations` as resource groups.
+The current sync contract accepts only `articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, and `word_by_word_transliterations` as resource groups.
+
+`word_by_word_transliterations:60` uses `word_transliteration` rows. Each row
+contains exactly `id`, `resource_content_id`, `resource_id`, `word_id`,
+`language_id`, `language_name`, `text`, and `updated_at`. Here
+`resource_id == resource_content_id == ResourceContent.id` identifies the
+owning resource; `word_id` identifies the Word owner. Keep this
+group separate from the translation-only `word_by_word_translations` group.
 
 `recitations` remains the legacy ayah-by-ayah group and is keyed by
 `Recitation.id`. `chapter_recitations` is keyed by `Audio::Recitation.id` and
