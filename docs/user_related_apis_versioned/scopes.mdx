@@ -211,3 +211,7 @@ Any App State scope can read the active data-group configuration from
 `GET /auth/v1/app-state:config`. This reports the allowed collection names and effective limits; it
 does not return stored user values. A user-delegated access token is required; client-credentials
 tokens cannot use this endpoint.
+
+Read the [complete App State API, reconciliation, lifecycle, and SDK guide](/docs/user_related_apis_versioned/1.0.0/app-state/)
+before integrating. Publication does not enable partner traffic or the user interface; App State
+remains NO-LAUNCH until the deployed pre-live acceptance gate passes.
