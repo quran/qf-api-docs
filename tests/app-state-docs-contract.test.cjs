@@ -15,11 +15,13 @@ const trees = [
     name: 'pre-live',
     root: 'user_related_apis_prelive',
     guidePath: '/docs/user_related_apis_prelive/app-state/',
+    sidebarKey: 'user-related-apis-pre-live',
   },
   {
     name: 'versioned',
     root: 'user_related_apis_versioned',
     guidePath: '/docs/user_related_apis_versioned/1.0.0/app-state/',
+    sidebarKey: 'user-related-apis',
   },
 ];
 
@@ -165,6 +167,19 @@ test('documents canonical changes, crash-safe recovery, lineage, and account iso
     assert.match(reconciliation, /tombstone/i);
     assert.match(reconciliation, /prun[^\n]+lineage/i);
     assert.match(reconciliation, /recreated[^\n]+greater than[^\n]+tombstone/i);
+    assert.match(reconciliation, /version increases on each server mutation/i);
+    assert.match(
+      reconciliation,
+      /tombstone consumption[\s\S]{0,160}retains[^\n]+lineage version/i,
+    );
+    assert.match(
+      reconciliation,
+      /payload pruning[\s\S]{0,160}retains[^\n]+lineage version/i,
+    );
+    assert.doesNotMatch(
+      reconciliation,
+      /strictly monotonic across put, delete, tombstone consumption,\s*payload pruning/i,
+    );
     assert.match(reconciliation, /token[^\n]+advance[^\n]+after[^\n]+appl/i);
     assert.match(reconciliation, /account generation/i);
     assert.match(reconciliation, /late (?:result|response)[^\n]+reject/i);
@@ -239,12 +254,51 @@ test('publishes exact validation, revocation, privacy, and lifecycle launch poli
   }
 });
 
+test('documents the exact Connected Apps lifecycle envelopes, identifiers, and statuses', () => {
+  for (const tree of trees) {
+    const { lifecycle } = readTree(tree.root);
+
+    assert.match(lifecycle, /success envelope[^\n]+`\{ success, data \}`/i);
+    assert.match(lifecycle, /inventory[\s\S]{0,100}`data\.apps`/i);
+    assert.match(lifecycle, /`appId`[\s\S]{0,100}UUID/i);
+    assert.match(lifecycle, /`requestId`[\s\S]{0,100}UUID/i);
+    assert.match(lifecycle, /POST lifecycle result[\s\S]{0,100}nested under `data`/i);
+    assert.match(
+      lifecycle,
+      /service-error envelope\s+`\{ success: false, error \}`/i,
+    );
+
+    for (const status of [400, 401, 404, 409, 500, 503]) {
+      assert.match(
+        lifecycle,
+        new RegExp(`\\|\\s*${status}\\s*\\|`),
+        `${tree.name} lifecycle docs must include ${status}`,
+      );
+    }
+
+    assert.doesNotMatch(lifecycle, /-->\|(?:Partial|Complete)\|/);
+  }
+});
+
+test('uses route-correct sibling links between nested App State guide pages', () => {
+  for (const tree of trees) {
+    const { lifecycle, reconciliation } = readTree(tree.root);
+
+    assert.match(lifecycle, /\]\(\.\.\/reconciliation\/\)/);
+    assert.match(reconciliation, /\]\(\.\.\/lifecycle\/\)/);
+    assert.doesNotMatch(lifecycle, /\]\(\.\/reconciliation\/?\)/);
+    assert.doesNotMatch(reconciliation, /\]\(\.\/lifecycle\/?\)/);
+  }
+});
+
 test('links the scopes pages and both API sidebars to the complete App State guides', () => {
   const sidebars = require(path.join(repoRoot, 'sidebars.js'));
-  const sidebarGroups = Object.values(sidebars).filter(Array.isArray);
 
   for (const tree of trees) {
     const docs = readTree(tree.root);
+    const sidebarItems = sidebars[tree.sidebarKey];
+
+    assert.ok(Array.isArray(sidebarItems), `${tree.sidebarKey} must be an exported sidebar`);
 
     assert.match(
       docs.scopes,
@@ -254,8 +308,8 @@ test('links the scopes pages and both API sidebars to the complete App State gui
     for (const page of ['index', 'reconciliation', 'lifecycle']) {
       const docId = `${tree.root}/app-state/${page}`;
       assert.ok(
-        sidebarGroups.some((items) => sidebarContainsDoc(items, docId)),
-        `navigation must include ${docId}`,
+        sidebarContainsDoc(sidebarItems, docId),
+        `${tree.sidebarKey} must include ${docId}`,
       );
     }
   }

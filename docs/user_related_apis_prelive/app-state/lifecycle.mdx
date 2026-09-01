@@ -16,10 +16,27 @@ policy decisions that still require accountable approval.
 
 The authenticated Users API exposes two additive metadata-only operations:
 
+Both successful operations use the JSON success envelope `{ success, data }`. The inventory payload
+is `data.apps`; every returned `appId` is a UUID. The lifecycle path `appId` and body `requestId` are
+UUIDs, and the POST lifecycle result is nested under `data`.
+
 | Operation | Contract |
 | --- | --- |
-| `GET /auth/v1/users/connected-apps` | Groups every linked OAuth client under one logical app. Returns app identity/display metadata, environment, storage status/categories, recorded grant scopes, effective scopes, and approved last-access metadata. It never returns raw OAuth client or namespace identifiers or App State documents. |
-| `POST /auth/v1/users/connected-apps/{appId}/lifecycle` | Accepts required `action` and high-entropy `requestId`, then returns `requestId`, `action`, overall `status`, `retryable`, and metadata-only `progress`. An exact retry reuses the same request ID and body. |
+| `GET /auth/v1/users/connected-apps` | Groups every linked OAuth client under one logical app. Returns app identity/display metadata, environment, storage status/categories, recorded grant scopes, effective scopes, and approved last-access metadata in `data.apps`. It never returns raw OAuth client or namespace identifiers or App State documents. |
+| `POST /auth/v1/users/connected-apps/{appId}/lifecycle` | Accepts required `action` and high-entropy UUID `requestId`, then returns `requestId`, `action`, overall `status`, `retryable`, and metadata-only `progress` inside `data`. An exact retry reuses the same request ID and body. |
+
+The `400`, `404`, `409`, `500`, and `503` service failures use the service-error envelope
+`{ success: false, error }`. The `401` response is the authenticated-session boundary and is
+documented separately rather than being presented as a service error.
+
+| Status | Operations | Meaning |
+| --- | --- | --- |
+| 400 | Lifecycle POST | The action, app UUID, request UUID, or request body was rejected. |
+| 401 | Inventory and lifecycle POST | A valid Quran.com user session is required. |
+| 404 | Lifecycle POST | The requested connected logical app was not found for the user. |
+| 409 | Lifecycle POST | The lifecycle operation was rejected because its request conflicts with current state. |
+| 500 | Inventory and lifecycle POST | An unexpected Connected Apps service failure occurred. |
+| 503 | Inventory and lifecycle POST | A required Connected Apps dependency is temporarily unavailable. |
 
 The exact actions are:
 
@@ -45,8 +62,8 @@ flowchart TD
     L --> D[Delete shared App State data once]
     R --> P[Metadata-only progress]
     D --> P
-    P -->|Partial| T[Retry the same logical request]
-    P -->|Complete| F[Refresh Connected Apps inventory]
+    P --> T[Retry the same logical request when retryable]
+    P --> F[Refresh Connected Apps inventory after acceptance]
 ```
 
 ## Storage status behavior
@@ -143,4 +160,4 @@ reversal. No partner pilot or UI rollout starts from local-only evidence.
 ## Related pages
 
 - [App State API contract](./index)
-- [Transactional reconciliation](./reconciliation)
+- [Transactional reconciliation](../reconciliation/)

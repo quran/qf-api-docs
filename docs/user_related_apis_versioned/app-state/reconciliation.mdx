@@ -77,9 +77,9 @@ changes into staging, and promote only after the terminal page commits.
 
 ## Tombstone pruning and recreation
 
-Document version is opaque and strictly monotonic across put, delete, tombstone consumption,
-payload pruning, and recreation. Pruning may remove tombstone payload/history only after a valid
-watermark and must retain the lineage version.
+Document version is opaque. The version increases on each server mutation: put, delete, and
+recreation. Tombstone consumption retains the tombstone lineage version. Payload pruning also
+retains that lineage version; it may remove tombstone payload/history only after a valid watermark.
 
 After prune, the recreated document version must be greater than the tombstone version. Apply the
 recreated upsert before the token can advance. This keeps existing SDK strictly-newer rules from
@@ -160,4 +160,4 @@ must commit reducers atomically and return isolated copies or immutable views.
 ## Related pages
 
 - [App State API contract](./index)
-- [Lifecycle and launch policy](./lifecycle)
+- [Lifecycle and launch policy](../lifecycle/)

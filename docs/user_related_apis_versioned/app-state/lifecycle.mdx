@@ -14,10 +14,27 @@ page separates reviewed implementation behavior from policy decisions that remai
 
 ## User Connected Apps operations
 
+Both successful operations use the JSON success envelope `{ success, data }`. The inventory payload
+is `data.apps`; every returned `appId` is a UUID. The lifecycle path `appId` and body `requestId` are
+UUIDs, and the POST lifecycle result is nested under `data`.
+
 | Operation | Contract |
 | --- | --- |
-| `GET /auth/v1/users/connected-apps` | Groups linked OAuth clients under one logical app and returns only app display/environment, storage, grant/effective-scope, and approved last-access metadata. Raw provider client and namespace identifiers and App State documents are excluded. |
-| `POST /auth/v1/users/connected-apps/{appId}/lifecycle` | Requires `action` and a high-entropy `requestId`; returns `requestId`, `action`, `status`, `retryable`, and metadata-only `progress`. Exact retries reuse the request ID and body. |
+| `GET /auth/v1/users/connected-apps` | Groups linked OAuth clients under one logical app and returns only app display/environment, storage, grant/effective-scope, and approved last-access metadata in `data.apps`. Raw provider client and namespace identifiers and App State documents are excluded. |
+| `POST /auth/v1/users/connected-apps/{appId}/lifecycle` | Requires `action` and a high-entropy UUID `requestId`; returns `requestId`, `action`, `status`, `retryable`, and metadata-only `progress` inside `data`. Exact retries reuse the request ID and body. |
+
+The `400`, `404`, `409`, `500`, and `503` service failures use the service-error envelope
+`{ success: false, error }`. The `401` response is the authenticated-session boundary and is
+documented separately rather than being presented as a service error.
+
+| Status | Operations | Meaning |
+| --- | --- | --- |
+| 400 | Lifecycle POST | The action, app UUID, request UUID, or request body was rejected. |
+| 401 | Inventory and lifecycle POST | A valid Quran.com user session is required. |
+| 404 | Lifecycle POST | The requested connected logical app was not found for the user. |
+| 409 | Lifecycle POST | The lifecycle operation was rejected because its request conflicts with current state. |
+| 500 | Inventory and lifecycle POST | An unexpected Connected Apps service failure occurred. |
+| 503 | Inventory and lifecycle POST | A required Connected Apps dependency is temporarily unavailable. |
 
 The actions are:
 
@@ -40,8 +57,8 @@ flowchart TD
     L --> D[Delete shared App State data once]
     R --> P[Metadata-only progress]
     D --> P
-    P -->|Partial| T[Retry same logical request]
-    P -->|Complete| F[Refresh inventory]
+    P --> T[Retry same logical request when retryable]
+    P --> F[Refresh inventory after acceptance]
 ```
 
 ## Storage status behavior
@@ -129,4 +146,4 @@ grants or routes and never depends on destructive schema reversal.
 ## Related pages
 
 - [App State API contract](./index)
-- [Transactional reconciliation](./reconciliation)
+- [Transactional reconciliation](../reconciliation/)
