@@ -59,7 +59,7 @@ const verseMedia = await client.content.v4.resources.verseMedia.list();
 
 ## Content Resource Sync
 
-Use content resource sync when your app keeps a local copy of public Mushafs, tafsirs, translations, word-by-word translations, ayah recitations, chapter recitations, or articles and needs to update it without downloading every row again.
+Use content resource sync when your app keeps a local copy of public Mushafs, tafsirs, translations, word-by-word translations, word-by-word transliterations, ayah recitations, chapter recitations, or articles and needs to update it without downloading every row again.
 
 The flow is:
 
@@ -69,7 +69,7 @@ The flow is:
 4. Apply row mutations directly.
 5. When a mutation has a non-null `snapshot_url`, fetch the snapshot for that `resource_group` and `resource_id` and replace that local resource.
 
-The `resources` filter uses plural group names (`articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `chapter_recitations:159;mushafs:1;translations:19,20`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
+The `resources` filter uses plural group names (`articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `chapter_recitations:159;mushafs:1;translations:19,20;word_by_word_transliterations:60`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
 
 `chapter_recitations` is keyed by `Audio::Recitation.id` and contains chapter
 audio files. The legacy `recitations` group is keyed by the ayah-recitation
@@ -82,12 +82,46 @@ files and images are not included. See [Mushaf Fonts and Images](/legal/mushaf-f
 ```ts
 const bootstrap = await client.content.v4.resources.sync({
   bootstrap: true,
-  resources: "chapter_recitations:159;mushafs:1",
+  resources: "chapter_recitations:159;mushafs:1;word_by_word_transliterations:60",
 });
 const snapshot = await client.resources.findSnapshot("chapter_recitations", 159);
 ```
 
 `RESOURCE_UPDATE` is only a resource-level freshness marker. It does not include `snapshot_url`; keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.
+
+### Word-by-Word Transliterations
+
+Use the resource content ID with the `word_by_word_transliterations` group for
+approved, shareable, one-word transliteration resources. This is separate from
+the translation-only `word_by_word_translations` group.
+
+```ts
+import type { WordByWordTransliterationSnapshotRecord } from "@quranjs/api";
+
+await client.content.v4.resources.sync({
+  bootstrap: true,
+  resources: "word_by_word_transliterations:60",
+});
+
+const snapshot =
+  await client.resources.findSnapshot<WordByWordTransliterationSnapshotRecord>(
+    "word_by_word_transliterations",
+    60,
+  );
+
+for (const record of snapshot.records) {
+  console.log(record.wordId, record.text);
+}
+```
+
+The SDK camel-cases the exact eight API fields to `id`, `resourceContentId`,
+`resourceId`, `wordId`, `languageId`, `languageName`, `text`, and `updatedAt`.
+Here `resourceId == resourceContentId == ResourceContent.id` identifies the
+owning resource, while `wordId` identifies the normalized Word owner.
+Snapshots are ordered by `wordId`, then `id`. Production resource `60`
+currently contains 77,431 records and includes row `id: 1` with normalized
+`wordId: 60` and text `"bis'mi"`.
+Incremental row mutations use `recordType: "word_transliteration"`.
 
 Use the Content API reference for the sync endpoints:
 

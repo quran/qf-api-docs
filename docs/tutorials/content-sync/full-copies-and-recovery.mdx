@@ -14,6 +14,7 @@ For example:
 - Full copy of `mushafs:1` returns its metadata, page mappings, and positioned words. Font files and images are not included.
 - Full copy of `translations:19` returns all current translation rows for translation resource `19`.
 - Full copy of `word_by_word_translations:85` returns all current word translation rows for word-by-word translation resource content `85`.
+- Full copy of `word_by_word_transliterations:60` returns all current word transliteration rows for production word-by-word transliteration resource `60`.
 - Full copy of `tafsirs:151` returns all current tafsir rows for tafsir resource `151`.
 - Full copy of `recitations:10` returns ayah audio file rows and compatible chapter audio file rows for legacy ayah recitation `10`.
 - Full copy of `chapter_recitations:159` returns chapter audio file rows for `Audio::Recitation.id` `159`.
@@ -55,6 +56,34 @@ The response has metadata plus `records`.
 ```
 
 Client rule: `records` is the full current content for that one resource. Delete your old local rows for the resource, then insert these rows.
+
+### Word-by-Word Transliteration Records
+
+The `word_by_word_transliterations` group is separate from the
+translation-only `word_by_word_translations` group. Its records use
+`record_type: "word_transliteration"` for incremental row mutations and are
+ordered by `word_id`, then `id` in snapshots.
+
+For production resource `60`, a record has exactly these fields:
+
+```json
+{
+  "id": 1,
+  "resource_content_id": 60,
+  "resource_id": 60,
+  "word_id": 60,
+  "language_id": 38,
+  "language_name": "english",
+  "text": "bis'mi",
+  "updated_at": "2026-08-19T02:43:00Z"
+}
+```
+
+`resource_id == resource_content_id == ResourceContent.id` identifies the owning
+resource, while `word_id` identifies the Word owner. Replace the complete local resource when
+bootstrap or a `RESOURCE_INVALIDATE` mutation supplies a `snapshot_url`; apply
+`ROW_CREATE`, `ROW_UPDATE`, and `ROW_DELETE` by the mutation's
+`resource_group`, `resource_id`, `record_type`, and `record_key`.
 
 ### Chapter Recitation Records
 

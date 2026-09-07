@@ -16,6 +16,7 @@ recitations = client.list_recitations()
 snapshot = client.get_resource_snapshot("translations", 131)
 mushaf_snapshot = client.get_mushaf_snapshot(1)
 chapter_snapshot = client.get_chapter_recitation_snapshot(159)
+transliteration_snapshot = client.get_word_by_word_transliteration_snapshot(60)
 ```
 
 Supported helpers:
@@ -35,6 +36,7 @@ Supported helpers:
 - `get_resource_snapshot(resource_group, resource_id, params=None)`
 - `get_chapter_recitation_snapshot(audio_recitation_id, params=None)`
 - `get_word_by_word_translation_snapshot(word_by_word_translation_id, params=None)`
+- `get_word_by_word_transliteration_snapshot(word_by_word_transliteration_id, params=None)`
 - `get_mushaf_snapshot(mushaf_id, params=None)`
 
 Use `mushafs:<id>` in `sync_resources(...)`, then call
@@ -47,6 +49,33 @@ Use `chapter_recitations:<id>` to sync chapter audio, where `<id>` is an
 The returned records are `chapter_audio_file` rows. This is distinct from the
 legacy `recitations:<id>` group, which is keyed by an ayah-recitation ID and
 may include compatible chapter audio for existing clients.
+
+### Word-by-Word Transliterations
+
+Use the resource content ID with `word_by_word_transliterations`. This group is
+separate from the translation-only `word_by_word_translations` group and
+contains approved, shareable, one-word transliteration resources.
+
+```python
+changes = client.sync_resources(
+    params={
+        "bootstrap": True,
+        "resources": "word_by_word_transliterations:60",
+    }
+)
+snapshot = client.get_word_by_word_transliteration_snapshot(60)
+for record in snapshot["records"]:
+    print(record["word_id"], record["text"])
+```
+
+Each `word_transliteration` snapshot record has exactly these fields:
+`id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`,
+`language_name`, `text`, and `updated_at`. Snapshots are ordered by `word_id`,
+then `id`. `resource_id == resource_content_id == ResourceContent.id` identifies
+the owning resource, while `word_id` identifies the normalized Word owner.
+Production resource `60` currently contains 77,431 records; row `id: 1` has
+normalized `word_id: 60` and text `"bis'mi"`. Incremental row mutations use
+`record_type="word_transliteration"`.
 
 Read next:
 
