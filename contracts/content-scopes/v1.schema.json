@@ -1,0 +1,482 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api-docs.quran.foundation/contracts/content-scopes/v1.schema.json",
+  "title": "Quran.Foundation content scope contract, version 1",
+  "description": "Shape of contracts/content-scopes/v1.json. Every consumer (gateway, Platform, Admin Dashboard, Developer Console, JS SDK, Python SDK) validates the pinned contract against this schema at build time. Runtime never fetches policy from a mutable branch or a live spreadsheet.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contractVersion",
+    "status",
+    "statusNote",
+    "generatedBy",
+    "inputs",
+    "responseBoundary",
+    "scopes",
+    "legacyScopes",
+    "outOfScopeScopes",
+    "migration",
+    "newClientBaseline",
+    "quotaPolicy",
+    "aliasReconciliation",
+    "precedencePairs",
+    "counts",
+    "operations"
+  ],
+  "properties": {
+    "contractVersion": { "const": "content-scopes/v1" },
+    "status": { "enum": ["proposed-pending-approval", "approved"] },
+    "statusNote": { "type": "string", "minLength": 1 },
+    "generatedBy": { "type": "string", "minLength": 1 },
+
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceSnapshot", "policy"],
+      "properties": {
+        "sourceSnapshot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "rowCount"],
+          "properties": {
+            "path": { "type": "string" },
+            "sha256": { "$ref": "#/definitions/sha256" },
+            "rowCount": { "const": 208 }
+          }
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": { "type": "string" },
+            "sha256": { "$ref": "#/definitions/sha256" }
+          }
+        }
+      }
+    },
+
+    "responseBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "requiresDecision", "note"],
+      "properties": {
+        "value": {
+          "const": "endpoint-family-not-data-isolation",
+          "description": "D4. v1 is an endpoint-family model. Strict per-data-type isolation needs a different, field-aware design and a revised migration equivalence."
+        },
+        "requiresDecision": { "const": "D4" },
+        "note": { "type": "string" }
+      }
+    },
+
+    "scopes": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "machineName",
+          "displayLabel",
+          "description",
+          "grantType",
+          "operationCount",
+          "sourceRows",
+          "partOfC8"
+        ],
+        "properties": {
+          "machineName": { "$ref": "#/definitions/granularScope" },
+          "displayLabel": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "grantType": {
+            "const": "read",
+            "description": "Every proposed v1 scope is a read permission. New read scopes authorize no writes."
+          },
+          "operationCount": { "type": "integer", "minimum": 1 },
+          "sourceRows": { "$ref": "#/definitions/sheetRows" },
+          "partOfC8": { "type": "boolean" }
+        }
+      }
+    },
+
+    "legacyScopes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "machineName",
+          "deprecatedForNewClients",
+          "stillValidForExistingIdentities",
+          "note"
+        ],
+        "properties": {
+          "machineName": { "enum": ["content", "content.read"] },
+          "deprecatedForNewClients": { "const": true },
+          "stillValidForExistingIdentities": {
+            "const": true,
+            "description": "Grandfathering. Old clients keep their original scope strings; old tokens stay usable to their normal expiry."
+          },
+          "note": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+
+    "outOfScopeScopes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Never granted as a content successor: qiraat, search, the user-data sync scope, analytics."
+    },
+
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["c8", "c8Rule", "reflectionsRule", "equivalentSuccessors", "preservedFields"],
+      "properties": {
+        "c8": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/granularScope" },
+          "not": { "contains": { "const": "content.reflections.read" } }
+        },
+        "c8Rule": {
+          "type": "object",
+          "required": ["requiresIntersectionWith"],
+          "properties": {
+            "requiresIntersectionWith": {
+              "type": "array",
+              "items": { "enum": ["content", "content.read"] },
+              "minItems": 2,
+              "description": "content.create is deliberately absent: a create-only client gains no read successors."
+            },
+            "note": { "type": "string" }
+          }
+        },
+        "reflectionsRule": {
+          "type": "object",
+          "required": [
+            "requiresCoverageOfAllPublicReflectionRoutes",
+            "requiresDecision",
+            "requiredRouteCoverage"
+          ],
+          "properties": {
+            "requiresCoverageOfAllPublicReflectionRoutes": { "const": true },
+            "requiresDecision": { "const": "D3" },
+            "note": { "type": "string" },
+            "requiredRouteCoverage": {
+              "type": "array",
+              "minItems": 5,
+              "maxItems": 5,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["routeId", "gatewayPath", "legacyAnyOf"],
+                "properties": {
+                  "routeId": { "type": "string" },
+                  "gatewayPath": { "$ref": "#/definitions/gatewayPath" },
+                  "legacyAnyOf": { "$ref": "#/definitions/scopeList" }
+                }
+              }
+            }
+          }
+        },
+        "equivalentSuccessors": {
+          "type": "object",
+          "required": ["rules"],
+          "properties": {
+            "$comment": { "type": "string" },
+            "rules": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": { "type": "object", "required": ["id", "grants"] }
+            }
+          }
+        },
+        "preservedFields": {
+          "type": "array",
+          "minItems": 10,
+          "uniqueItems": true,
+          "items": { "type": "string" },
+          "description": "Fields the migration must never change. Enforced by protected-field fingerprints in the runner."
+        }
+      }
+    },
+
+    "newClientBaseline": {
+      "type": "object",
+      "required": [
+        "removeFromBaseline",
+        "addToBaseline",
+        "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes",
+        "requiresDecision"
+      ],
+      "properties": {
+        "$comment": { "type": ["string", "array"] },
+        "removeFromBaseline": {
+          "type": "array",
+          "items": { "enum": ["content", "content.read"] },
+          "minItems": 2
+        },
+        "addToBaseline": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/granularScope" }
+        },
+        "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": { "const": true },
+        "requiresDecision": { "const": "D5" }
+      }
+    },
+
+    "quotaPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["globalBucketAlwaysCharged", "note"],
+      "properties": {
+        "globalBucketAlwaysCharged": { "type": "boolean" },
+        "note": { "type": "string" }
+      }
+    },
+
+    "aliasReconciliation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["shape", "members", "resolvedScope", "equivalentPolicy"],
+        "properties": {
+          "shape": { "type": "string" },
+          "members": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["sheetRow", "gatewayPath"],
+              "properties": {
+                "sheetRow": { "type": "integer" },
+                "gatewayPath": { "$ref": "#/definitions/gatewayPath" }
+              }
+            }
+          },
+          "resolvedScope": { "$ref": "#/definitions/granularScope" },
+          "equivalentPolicy": {
+            "const": true,
+            "description": "An alias must resolve to the same scope as the route it mirrors, or the build fails."
+          }
+        }
+      }
+    },
+
+    "precedencePairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["literal", "dynamic", "resolvedScope", "winner", "winnerSource"],
+        "properties": {
+          "literal": { "$ref": "#/definitions/precedenceSide" },
+          "dynamic": { "$ref": "#/definitions/precedenceSide" },
+          "resolvedScope": { "$ref": "#/definitions/granularScope" },
+          "winner": { "const": "literal" },
+          "winnerSource": { "type": "string" }
+        }
+      }
+    },
+
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sheetRowsTotal",
+        "contentRowsMapped",
+        "regressionInventoryRows",
+        "byScope"
+      ],
+      "properties": {
+        "sheetRowsTotal": { "const": 208 },
+        "contentRowsMapped": { "const": 95 },
+        "regressionInventoryRows": { "const": 113 },
+        "byScope": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+
+    "operations": {
+      "type": "array",
+      "minItems": 95,
+      "maxItems": 95,
+      "items": { "$ref": "#/definitions/operation" }
+    }
+  },
+
+  "definitions": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+
+    "granularScope": {
+      "type": "string",
+      "enum": [
+        "content.audio.read",
+        "content.quran.read",
+        "content.hadith.read",
+        "content.translations.read",
+        "content.tafsirs.read",
+        "content.metadata.read",
+        "content.sync.read",
+        "content.reflections.read",
+        "content.answers.read"
+      ],
+      "description": "D1. Case-sensitive protocol identifiers. CI rejects any machine scope outside this closed set."
+    },
+
+    "scopeList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+
+    "sheetRows": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 2, "maximum": 209 }
+    },
+
+    "gatewayPath": {
+      "type": "string",
+      "pattern": "^/[A-Za-z0-9_:./{}-]*$",
+      "description": "Path as the gateway sees it after stripping the leading service segment. Dynamic segments use the gateway's :param spelling."
+    },
+
+    "precedenceSide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sheetRow", "gatewayPath"],
+      "properties": {
+        "sheetRow": { "type": "integer" },
+        "gatewayPath": { "$ref": "#/definitions/gatewayPath" }
+      }
+    },
+
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "routeId",
+        "service",
+        "gatewayService",
+        "method",
+        "gatewayPath",
+        "upstreamPath",
+        "openApiPath",
+        "openApiDocument",
+        "operationId",
+        "pathParams",
+        "sourceRows",
+        "sheetLabel",
+        "sheetLabelOriginal",
+        "labelOverride",
+        "environments",
+        "authContext",
+        "legacyAnyOf",
+        "legacyMatchSource",
+        "legacyRuleId",
+        "granularAnyOf",
+        "quotaBuckets",
+        "rateLimitPolicyId",
+        "responseBoundary",
+        "deprecatedForNewClients"
+      ],
+      "properties": {
+        "routeId": { "type": "string", "minLength": 1 },
+        "service": { "enum": ["content", "quran-reflect"] },
+        "gatewayService": { "enum": ["content", "quran-reflect"] },
+        "method": {
+          "const": "GET",
+          "description": "All 95 content entries are GET in this snapshot. The proposed v1 scopes are read permissions only."
+        },
+        "gatewayPath": { "$ref": "#/definitions/gatewayPath" },
+        "upstreamPath": { "type": "string", "minLength": 1 },
+        "openApiPath": { "type": "string", "minLength": 1 },
+        "openApiDocument": { "type": "string", "minLength": 1 },
+        "operationId": { "type": "string", "minLength": 1 },
+        "pathParams": { "type": "array", "items": { "type": "string" } },
+        "sourceRows": { "$ref": "#/definitions/sheetRows" },
+        "sheetLabel": { "type": "string", "minLength": 1 },
+        "sheetLabelOriginal": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Column F exactly as the sheet holds it. Preserved even where an approved override changes the mapping."
+        },
+        "labelOverride": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["from", "to", "reason", "requiresDecision"],
+              "properties": {
+                "from": { "type": "string" },
+                "to": { "type": "string" },
+                "reason": { "type": "string" },
+                "requiresDecision": { "const": "D2" }
+              }
+            }
+          ]
+        },
+        "environments": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["production", "prelive"] },
+          "description": "Normalized from column L. Never inferred from a git branch name or a GitHub environment label."
+        },
+        "authContext": { "const": "app-compatible-public-read" },
+        "legacyAnyOf": {
+          "allOf": [
+            { "$ref": "#/definitions/scopeList" },
+            { "not": { "contains": { "const": "content.create" } } }
+          ],
+          "description": "Currently accepted alternatives, read from gateway code. content.create never appears: it authorizes no reads."
+        },
+        "legacyMatchSource": { "type": "string", "minLength": 1 },
+        "legacyRuleId": { "type": "string", "minLength": 1 },
+        "granularAnyOf": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": { "$ref": "#/definitions/granularScope" },
+          "description": "Exactly one successor per operation. No granular scope implies another, and a 'content.' string prefix never means authorization."
+        },
+        "quotaBuckets": {
+          "allOf": [
+            { "$ref": "#/definitions/scopeList" },
+            {
+              "not": {
+                "contains": { "$ref": "#/definitions/granularScope" }
+              }
+            }
+          ],
+          "description": "A5. Frozen pre-migration bucket set. A granular scope must never appear here, or the aggregate content allowance would be split or double-charged."
+        },
+        "rateLimitPolicyId": { "type": "string", "minLength": 1 },
+        "responseBoundary": { "const": "endpoint-family-not-data-isolation" },
+        "deprecatedForNewClients": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["content", "content.read"] }
+        }
+      }
+    }
+  }
+}

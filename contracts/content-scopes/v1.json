@@ -1,0 +1,4671 @@
+{
+  "contractVersion": "content-scopes/v1",
+  "status": "proposed-pending-approval",
+  "statusNote": "Proposed. D1-D5 must be approved and recorded in decisions.md before any token is issued with these scopes. See Appendix A callout.",
+  "generatedBy": "scripts/build-content-scope-contract.cjs",
+  "inputs": {
+    "sourceSnapshot": {
+      "path": "contracts/content-scopes/source/QF_API_Endpoints.snapshot.csv",
+      "sha256": "d5f1512280bfa5b71c5f6a37f0450403eadded41d78d9d2ce747161810047570",
+      "rowCount": 208
+    },
+    "policy": {
+      "path": "contracts/content-scopes/policy.json",
+      "sha256": "d44bf2d31f562cabe68d21d0bf896c7065b5ebd67740527bd5a1a5d8e05b952b"
+    }
+  },
+  "responseBoundary": {
+    "value": "endpoint-family-not-data-isolation",
+    "requiresDecision": "D4",
+    "note": "D4. v1 defines scopes as endpoint-family permissions, not strict data-family isolation. Quran verse endpoints may still embed translations/tafsirs/audio, and content sync snapshots may return full resources across content types. Strict isolation requires a different, field-aware design and a revised migration equivalence; it is not activated by this contract."
+  },
+  "scopes": [
+    {
+      "machineName": "content.audio.read",
+      "displayLabel": "Audio scope",
+      "description": "Reciters, recitations, audio files, timing/lookup, recitation information and styles.",
+      "grantType": "read",
+      "operationCount": 18,
+      "sourceRows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        51,
+        56
+      ],
+      "partOfC8": true
+    },
+    {
+      "machineName": "content.quran.read",
+      "displayLabel": "Quran Scope",
+      "description": "Chapters, structure, pages, verses and scripts.",
+      "grantType": "read",
+      "operationCount": 37,
+      "sourceRows": [
+        18,
+        19,
+        20,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        49,
+        50,
+        58,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "partOfC8": true
+    },
+    {
+      "machineName": "content.hadith.read",
+      "displayLabel": "Hadith Scope",
+      "description": "Hadith references, text and range counts.",
+      "grantType": "read",
+      "operationCount": 3,
+      "sourceRows": [
+        21,
+        22,
+        23
+      ],
+      "partOfC8": true
+    },
+    {
+      "machineName": "content.translations.read",
+      "displayLabel": "Translation Scope",
+      "description": "Translation catalogs, information, verse translations and footnotes.",
+      "grantType": "read",
+      "operationCount": 13,
+      "sourceRows": [
+        47,
+        52,
+        53,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        88
+      ],
+      "partOfC8": true
+    },
+    {
+      "machineName": "content.tafsirs.read",
+      "displayLabel": "Tafsir Scope",
+      "description": "Tafsir catalogs, information and text.",
+      "grantType": "read",
+      "operationCount": 12,
+      "sourceRows": [
+        48,
+        54,
+        55,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "partOfC8": true
+    },
+    {
+      "machineName": "content.metadata.read",
+      "displayLabel": "Content Metadata Scope",
+      "description": "Languages and verse media. Distinct from, and much narrower than, content.sync.read.",
+      "grantType": "read",
+      "operationCount": 2,
+      "sourceRows": [
+        57,
+        59
+      ],
+      "partOfC8": true
+    },
+    {
+      "machineName": "content.sync.read",
+      "displayLabel": "Content Sync Scope",
+      "description": "Public content delta sync and resource snapshots. NOT the existing user-data 'sync' scope.",
+      "grantType": "read",
+      "operationCount": 2,
+      "sourceRows": [
+        60,
+        61
+      ],
+      "partOfC8": true
+    },
+    {
+      "machineName": "content.reflections.read",
+      "displayLabel": "Reflections and lessons public scope",
+      "description": "The five public QuranReflect reads only. Grants no private posts, my-posts, private rooms, user-specific feeds, mutations or moderation.",
+      "grantType": "read",
+      "operationCount": 5,
+      "sourceRows": [
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "partOfC8": false
+    },
+    {
+      "machineName": "content.answers.read",
+      "displayLabel": "Q&A Scope",
+      "description": "Answers by ayah, answer detail and range counts.",
+      "grantType": "read",
+      "operationCount": 3,
+      "sourceRows": [
+        94,
+        95,
+        96
+      ],
+      "partOfC8": true
+    }
+  ],
+  "legacyScopes": [
+    {
+      "machineName": "content",
+      "deprecatedForNewClients": true,
+      "stillValidForExistingIdentities": true,
+      "note": "Umbrella. Remains broad after migration: removing one granular successor does not narrow a client that still holds it. Retirement is a separate, unscheduled project with no assumed sunset date."
+    },
+    {
+      "machineName": "content.read",
+      "deprecatedForNewClients": true,
+      "stillValidForExistingIdentities": true,
+      "note": "Legacy read alternative. Continues to authorize every previously covered read."
+    }
+  ],
+  "outOfScopeScopes": [
+    "qiraat",
+    "qiraat.read",
+    "search",
+    "sync",
+    "analytics.events.write"
+  ],
+  "migration": {
+    "c8": [
+      "content.audio.read",
+      "content.quran.read",
+      "content.hadith.read",
+      "content.translations.read",
+      "content.tafsirs.read",
+      "content.metadata.read",
+      "content.sync.read",
+      "content.answers.read"
+    ],
+    "c8Rule": {
+      "requiresIntersectionWith": [
+        "content.read",
+        "content"
+      ],
+      "note": "A content.create-only client has no intersection and therefore gains no read successors."
+    },
+    "reflectionsRule": {
+      "requiresCoverageOfAllPublicReflectionRoutes": true,
+      "requiresDecision": "D3",
+      "note": "Eligible only when the client's scopes intersect the legacyAnyOf of ALL five public reflection routes. Narrow clients therefore need post.read AND comment.read. A client holding only the 'post' umbrella does satisfy this, because 'post' is an accepted alternative on all five routes today. 'content' alone never satisfies it.",
+      "requiredRouteCoverage": [
+        {
+          "routeId": "quran-reflect.v1.public.PostsController_feed",
+          "gatewayPath": "/v1/posts/feed",
+          "legacyAnyOf": [
+            "post.read",
+            "post"
+          ]
+        },
+        {
+          "routeId": "quran-reflect.v1.public.PostsController_findOne",
+          "gatewayPath": "/v1/posts/:id",
+          "legacyAnyOf": [
+            "post.read",
+            "post"
+          ]
+        },
+        {
+          "routeId": "quran-reflect.v1.public.PostsController_getUserPost",
+          "gatewayPath": "/v1/posts/user-posts/:id",
+          "legacyAnyOf": [
+            "post.read",
+            "post"
+          ]
+        },
+        {
+          "routeId": "quran-reflect.v1.public.PostsController_getComments",
+          "gatewayPath": "/v1/posts/:id/comments",
+          "legacyAnyOf": [
+            "comment.read",
+            "comment",
+            "post"
+          ]
+        },
+        {
+          "routeId": "quran-reflect.v1.public.PostsController_getAllComment",
+          "gatewayPath": "/v1/posts/:id/all-comments",
+          "legacyAnyOf": [
+            "comment.read",
+            "comment",
+            "post"
+          ]
+        }
+      ]
+    },
+    "equivalentSuccessors": {
+      "$comment": "A' = A union equivalentSuccessors_v1(A). Finite and approved; never 'every scope starting with content.'",
+      "rules": [
+        {
+          "id": "c8-from-legacy-content-read",
+          "whenScopeSetIntersects": [
+            "content.read",
+            "content"
+          ],
+          "grants": [
+            "content.audio.read",
+            "content.quran.read",
+            "content.hadith.read",
+            "content.translations.read",
+            "content.tafsirs.read",
+            "content.metadata.read",
+            "content.sync.read",
+            "content.answers.read"
+          ]
+        },
+        {
+          "id": "reflections-from-full-public-coverage",
+          "whenScopeSetCoversAllOf": [
+            [
+              "post.read",
+              "post"
+            ],
+            [
+              "post.read",
+              "post"
+            ],
+            [
+              "post.read",
+              "post"
+            ],
+            [
+              "comment.read",
+              "comment",
+              "post"
+            ],
+            [
+              "comment.read",
+              "comment",
+              "post"
+            ]
+          ],
+          "grants": [
+            "content.reflections.read"
+          ],
+          "requiresDecision": "D3"
+        }
+      ]
+    },
+    "preservedFields": [
+      "clientId",
+      "clientSecret",
+      "redirectUris",
+      "audience",
+      "grantTypes",
+      "responseTypes",
+      "tokenEndpointAuthMethod",
+      "metadata",
+      "lifecycleState",
+      "quotaConfiguration"
+    ]
+  },
+  "newClientBaseline": {
+    "$comment": [
+      "D5. Replaces only the legacy content-read component of the existing environment baseline.",
+      "Unrelated pre-existing baseline entries are retained verbatim by the Platform policy code;",
+      "this contract does not enumerate them and must not be used to widen them.",
+      "Inspected production baseline already includes post.read and comment.read alongside",
+      "content and offline_access: quran/qf-platform-api src/developer_repository.rs.",
+      "Revalidate on the implementation branch before activation."
+    ],
+    "removeFromBaseline": [
+      "content",
+      "content.read"
+    ],
+    "addToBaseline": [
+      "content.quran.read",
+      "content.translations.read",
+      "content.tafsirs.read",
+      "content.audio.read",
+      "content.hadith.read",
+      "content.metadata.read",
+      "content.sync.read",
+      "content.answers.read"
+    ],
+    "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": true,
+    "requiresDecision": "D5"
+  },
+  "quotaPolicy": {
+    "globalBucketAlwaysCharged": true,
+    "note": "A5. Quota buckets are snapshotted from today's behavior and are deliberately NOT the authorization alternatives. Today checkRateLimit() iterates the matched scope list, so adding granular scopes to authorization would silently add new buckets and could split or double-charge an aggregate allowance. quotaBuckets freezes the pre-migration bucket set. Source: src/libs/rate-limit.ts :: checkRateLimit (plus the always-charged global '' bucket)."
+  },
+  "aliasReconciliation": [
+    {
+      "shape": "/api/v4/recitations/:p/by_rub/:p",
+      "members": [
+        {
+          "sheetRow": 10,
+          "gatewayPath": "/api/v4/recitations/:recitation_id/by_rub/:rub_el_hizb_number"
+        },
+        {
+          "sheetRow": 17,
+          "gatewayPath": "/api/v4/recitations/:recitation_id/by_rub_el_hizb/:rub_el_hizb_number"
+        }
+      ],
+      "resolvedScope": "content.audio.read",
+      "equivalentPolicy": true
+    },
+    {
+      "shape": "/api/v4/tafsirs/:p/by_rub/:p",
+      "members": [
+        {
+          "sheetRow": 74,
+          "gatewayPath": "/api/v4/tafsirs/:resource_id/by_rub_el_hizb/:rub_el_hizb_number"
+        },
+        {
+          "sheetRow": 79,
+          "gatewayPath": "/api/v4/tafsirs/:resource_id/by_rub/:rub_el_hizb_number"
+        }
+      ],
+      "resolvedScope": "content.tafsirs.read",
+      "equivalentPolicy": true
+    },
+    {
+      "shape": "/api/v4/translations/:p/by_rub/:p",
+      "members": [
+        {
+          "sheetRow": 65,
+          "gatewayPath": "/api/v4/translations/:resource_id/by_rub_el_hizb/:rub_el_hizb_number"
+        },
+        {
+          "sheetRow": 70,
+          "gatewayPath": "/api/v4/translations/:resource_id/by_rub/:rub_el_hizb_number"
+        }
+      ],
+      "resolvedScope": "content.translations.read",
+      "equivalentPolicy": true
+    },
+    {
+      "shape": "/api/v4/verses/by_rub/:p",
+      "members": [
+        {
+          "sheetRow": 31,
+          "gatewayPath": "/api/v4/verses/by_rub/:rub_el_hizb_number"
+        },
+        {
+          "sheetRow": 37,
+          "gatewayPath": "/api/v4/verses/by_rub_el_hizb/:rub_el_hizb_number"
+        }
+      ],
+      "resolvedScope": "content.quran.read",
+      "equivalentPolicy": true
+    }
+  ],
+  "precedencePairs": [
+    {
+      "literal": {
+        "sheetRow": 25,
+        "gatewayPath": "/api/v4/pages/lookup"
+      },
+      "dynamic": {
+        "sheetRow": 26,
+        "gatewayPath": "/api/v4/pages/:page_number"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 41,
+        "gatewayPath": "/api/v4/quran/verses/indopak"
+      },
+      "dynamic": {
+        "sheetRow": 40,
+        "gatewayPath": "/api/v4/quran/verses/:script"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 42,
+        "gatewayPath": "/api/v4/quran/verses/indopak_nastaleeq"
+      },
+      "dynamic": {
+        "sheetRow": 40,
+        "gatewayPath": "/api/v4/quran/verses/:script"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 43,
+        "gatewayPath": "/api/v4/quran/verses/uthmani_tajweed"
+      },
+      "dynamic": {
+        "sheetRow": 40,
+        "gatewayPath": "/api/v4/quran/verses/:script"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 44,
+        "gatewayPath": "/api/v4/quran/verses/uthmani"
+      },
+      "dynamic": {
+        "sheetRow": 40,
+        "gatewayPath": "/api/v4/quran/verses/:script"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 45,
+        "gatewayPath": "/api/v4/quran/verses/uthmani_simple"
+      },
+      "dynamic": {
+        "sheetRow": 40,
+        "gatewayPath": "/api/v4/quran/verses/:script"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 46,
+        "gatewayPath": "/api/v4/quran/verses/imlaei"
+      },
+      "dynamic": {
+        "sheetRow": 40,
+        "gatewayPath": "/api/v4/quran/verses/:script"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 49,
+        "gatewayPath": "/api/v4/quran/verses/code_v1"
+      },
+      "dynamic": {
+        "sheetRow": 40,
+        "gatewayPath": "/api/v4/quran/verses/:script"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 50,
+        "gatewayPath": "/api/v4/quran/verses/code_v2"
+      },
+      "dynamic": {
+        "sheetRow": 40,
+        "gatewayPath": "/api/v4/quran/verses/:script"
+      },
+      "resolvedScope": "content.quran.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 89,
+        "gatewayPath": "/v1/posts/feed"
+      },
+      "dynamic": {
+        "sheetRow": 90,
+        "gatewayPath": "/v1/posts/:id"
+      },
+      "resolvedScope": "content.reflections.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    },
+    {
+      "literal": {
+        "sheetRow": 96,
+        "gatewayPath": "/api/v4/answers/count_within_range"
+      },
+      "dynamic": {
+        "sheetRow": 95,
+        "gatewayPath": "/api/v4/answers/:question_id"
+      },
+      "resolvedScope": "content.answers.read",
+      "winner": "literal",
+      "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
+    }
+  ],
+  "counts": {
+    "sheetRowsTotal": 208,
+    "contentRowsMapped": 95,
+    "regressionInventoryRows": 113,
+    "byScope": {
+      "content.audio.read": 18,
+      "content.quran.read": 37,
+      "content.hadith.read": 3,
+      "content.translations.read": 13,
+      "content.tafsirs.read": 12,
+      "content.metadata.read": 2,
+      "content.sync.read": 2,
+      "content.reflections.read": 5,
+      "content.answers.read": 3
+    }
+  },
+  "operations": [
+    {
+      "routeId": "content.v4.audio-reciter-timestamp",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/reciters/:reciter_id/timestamp",
+      "upstreamPath": "/api/v4/audio/reciters/{reciter_id}/timestamp",
+      "openApiPath": "/audio/reciters/{reciter_id}/timestamp",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "audio-reciter-timestamp",
+      "pathParams": [
+        "reciter_id"
+      ],
+      "sourceRows": [
+        2
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.audio-reciter-lookup",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/reciters/:reciter_id/lookup",
+      "upstreamPath": "/api/v4/audio/reciters/{reciter_id}/lookup",
+      "openApiPath": "/audio/reciters/{reciter_id}/lookup",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "audio-reciter-lookup",
+      "pathParams": [
+        "reciter_id"
+      ],
+      "sourceRows": [
+        3
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.recitations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/recitations",
+      "upstreamPath": "/api/v4/resources/recitations",
+      "openApiPath": "/resources/recitations",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "recitations",
+      "pathParams": [],
+      "sourceRows": [
+        4
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.recitation-audio-files",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/recitations/:recitation_id",
+      "upstreamPath": "/api/v4/quran/recitations/{recitation_id}",
+      "openApiPath": "/quran/recitations/{recitation_id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "recitation-audio-files",
+      "pathParams": [
+        "recitation_id"
+      ],
+      "sourceRows": [
+        5
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.chapter-reciters",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/chapter_reciters",
+      "upstreamPath": "/api/v4/resources/chapter_reciters",
+      "openApiPath": "/resources/chapter_reciters",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "chapter-reciters",
+      "pathParams": [],
+      "sourceRows": [
+        6
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-surah-recitation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_chapter/:chapter_number",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_chapter/{chapter_number}",
+      "openApiPath": "/recitations/{recitation_id}/by_chapter/{chapter_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-surah-recitation",
+      "pathParams": [
+        "recitation_id",
+        "chapter_number"
+      ],
+      "sourceRows": [
+        7
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-juz-recitation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_juz/:juz_number",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_juz/{juz_number}",
+      "openApiPath": "/recitations/{recitation_id}/by_juz/{juz_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-juz-recitation",
+      "pathParams": [
+        "recitation_id",
+        "juz_number"
+      ],
+      "sourceRows": [
+        8
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-page-recitation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_page/:page_number",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_page/{page_number}",
+      "openApiPath": "/recitations/{recitation_id}/by_page/{page_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-page-recitation",
+      "pathParams": [
+        "recitation_id",
+        "page_number"
+      ],
+      "sourceRows": [
+        9
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-rub-el-hizb-recitation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_rub/:rub_el_hizb_number",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_rub/{rub_el_hizb_number}",
+      "openApiPath": "/recitations/{recitation_id}/by_rub/{rub_el_hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-rub-el-hizb-recitation",
+      "pathParams": [
+        "recitation_id",
+        "rub_el_hizb_number"
+      ],
+      "sourceRows": [
+        10
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-hizb-recitation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_hizb/:hizb_number",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_hizb/{hizb_number}",
+      "openApiPath": "/recitations/{recitation_id}/by_hizb/{hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-hizb-recitation",
+      "pathParams": [
+        "recitation_id",
+        "hizb_number"
+      ],
+      "sourceRows": [
+        11
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-ayah-recitation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_ayah/:ayah_key",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_ayah/{ayah_key}",
+      "openApiPath": "/recitations/{recitation_id}/by_ayah/{ayah_key}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-ayah-recitation",
+      "pathParams": [
+        "recitation_id",
+        "ayah_key"
+      ],
+      "sourceRows": [
+        12
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-manzil-recitation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_manzil/:manzil_number",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_manzil/{manzil_number}",
+      "openApiPath": "/recitations/{recitation_id}/by_manzil/{manzil_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-manzil-recitation",
+      "pathParams": [
+        "recitation_id",
+        "manzil_number"
+      ],
+      "sourceRows": [
+        13
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-ruku-recitation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_ruku/:ruku_number",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_ruku/{ruku_number}",
+      "openApiPath": "/recitations/{recitation_id}/by_ruku/{ruku_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-ruku-recitation",
+      "pathParams": [
+        "recitation_id",
+        "ruku_number"
+      ],
+      "sourceRows": [
+        14
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.chapter-reciter-audio-files",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/chapter_recitations/:reciter_id",
+      "upstreamPath": "/api/v4/chapter_recitations/{reciter_id}",
+      "openApiPath": "/chapter_recitations/{reciter_id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "chapter-reciter-audio-files",
+      "pathParams": [
+        "reciter_id"
+      ],
+      "sourceRows": [
+        15
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.chapter-reciter-audio-file",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/chapter_recitations/:reciter_id/:chapter_number",
+      "upstreamPath": "/api/v4/chapter_recitations/{reciter_id}/{chapter_number}",
+      "openApiPath": "/chapter_recitations/{reciter_id}/{chapter_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "chapter-reciter-audio-file",
+      "pathParams": [
+        "reciter_id",
+        "chapter_number"
+      ],
+      "sourceRows": [
+        16
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-rub-el-hizb-recitation-rub-el-hizb",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/recitations/:recitation_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "upstreamPath": "/api/v4/recitations/{recitation_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "openApiPath": "/recitations/{recitation_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-rub-el-hizb-recitation-rub-el-hizb",
+      "pathParams": [
+        "recitation_id",
+        "rub_el_hizb_number"
+      ],
+      "sourceRows": [
+        17
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-chapters",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/chapters",
+      "upstreamPath": "/api/v4/chapters",
+      "openApiPath": "/chapters",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-chapters",
+      "pathParams": [],
+      "sourceRows": [
+        18
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.GET-chapter",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/chapters/:id",
+      "upstreamPath": "/api/v4/chapters/{id}",
+      "openApiPath": "/chapters/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "GET-chapter",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        19
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-chapter-info",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/chapters/:id/info",
+      "upstreamPath": "/api/v4/chapters/{id}/info",
+      "openApiPath": "/chapters/{id}/info",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-chapter-info",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        20
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.hadith-references-by-ayah",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/hadith_references/by_ayah/:ayah_key",
+      "upstreamPath": "/api/v4/hadith_references/by_ayah/{ayah_key}",
+      "openApiPath": "/hadith_references/by_ayah/{ayah_key}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "hadith-references-by-ayah",
+      "pathParams": [
+        "ayah_key"
+      ],
+      "sourceRows": [
+        21
+      ],
+      "sheetLabel": "Hadith Scope",
+      "sheetLabelOriginal": "Hadith Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.hadith.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.hadiths-by-ayah",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/hadith_references/by_ayah/:ayah_key/hadiths",
+      "upstreamPath": "/api/v4/hadith_references/by_ayah/{ayah_key}/hadiths",
+      "openApiPath": "/hadith_references/by_ayah/{ayah_key}/hadiths",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "hadiths-by-ayah",
+      "pathParams": [
+        "ayah_key"
+      ],
+      "sourceRows": [
+        22
+      ],
+      "sheetLabel": "Hadith Scope",
+      "sheetLabelOriginal": "Hadith Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.hadith.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.hadith-count-within-range",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/hadith_references/count_within_range",
+      "upstreamPath": "/api/v4/hadith_references/count_within_range",
+      "openApiPath": "/hadith_references/count_within_range",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "hadith-count-within-range",
+      "pathParams": [],
+      "sourceRows": [
+        23
+      ],
+      "sheetLabel": "Hadith Scope",
+      "sheetLabelOriginal": "Hadith Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.hadith.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-pages",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/pages",
+      "upstreamPath": "/api/v4/pages",
+      "openApiPath": "/pages",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-pages",
+      "pathParams": [],
+      "sourceRows": [
+        24
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-pages-lookup",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/pages/lookup",
+      "upstreamPath": "/api/v4/pages/lookup",
+      "openApiPath": "/pages/lookup",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-pages-lookup",
+      "pathParams": [],
+      "sourceRows": [
+        25
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-pages-page-number",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/pages/:page_number",
+      "upstreamPath": "/api/v4/pages/{page_number}",
+      "openApiPath": "/pages/{page_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-pages-page-number",
+      "pathParams": [
+        "page_number"
+      ],
+      "sourceRows": [
+        26
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_chapter_number",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_chapter/:chapter_number",
+      "upstreamPath": "/api/v4/verses/by_chapter/{chapter_number}",
+      "openApiPath": "/verses/by_chapter/{chapter_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_chapter_number",
+      "pathParams": [
+        "chapter_number"
+      ],
+      "sourceRows": [
+        27
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_page_number",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_page/:page_number",
+      "upstreamPath": "/api/v4/verses/by_page/{page_number}",
+      "openApiPath": "/verses/by_page/{page_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_page_number",
+      "pathParams": [
+        "page_number"
+      ],
+      "sourceRows": [
+        28
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_juz_number",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_juz/:juz_number",
+      "upstreamPath": "/api/v4/verses/by_juz/{juz_number}",
+      "openApiPath": "/verses/by_juz/{juz_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_juz_number",
+      "pathParams": [
+        "juz_number"
+      ],
+      "sourceRows": [
+        29
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_hizb_number",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_hizb/:hizb_number",
+      "upstreamPath": "/api/v4/verses/by_hizb/{hizb_number}",
+      "openApiPath": "/verses/by_hizb/{hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_hizb_number",
+      "pathParams": [
+        "hizb_number"
+      ],
+      "sourceRows": [
+        30
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_rub_el_hizb_number",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_rub/:rub_el_hizb_number",
+      "upstreamPath": "/api/v4/verses/by_rub/{rub_el_hizb_number}",
+      "openApiPath": "/verses/by_rub/{rub_el_hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_rub_el_hizb_number",
+      "pathParams": [
+        "rub_el_hizb_number"
+      ],
+      "sourceRows": [
+        31
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_manzil_number",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_manzil/:manzil_number",
+      "upstreamPath": "/api/v4/verses/by_manzil/{manzil_number}",
+      "openApiPath": "/verses/by_manzil/{manzil_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_manzil_number",
+      "pathParams": [
+        "manzil_number"
+      ],
+      "sourceRows": [
+        32
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_ruku_number",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_ruku/:ruku_number",
+      "upstreamPath": "/api/v4/verses/by_ruku/{ruku_number}",
+      "openApiPath": "/verses/by_ruku/{ruku_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_ruku_number",
+      "pathParams": [
+        "ruku_number"
+      ],
+      "sourceRows": [
+        33
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_range",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_range",
+      "upstreamPath": "/api/v4/verses/by_range",
+      "openApiPath": "/verses/by_range",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_range",
+      "pathParams": [],
+      "sourceRows": [
+        34
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_verse_key",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_key/:verse_key",
+      "upstreamPath": "/api/v4/verses/by_key/{verse_key}",
+      "openApiPath": "/verses/by_key/{verse_key}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_verse_key",
+      "pathParams": [
+        "verse_key"
+      ],
+      "sourceRows": [
+        35
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.random_verse",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/random",
+      "upstreamPath": "/api/v4/verses/random",
+      "openApiPath": "/verses/random",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "random_verse",
+      "pathParams": [],
+      "sourceRows": [
+        36
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verses-by_rub_el_hizb_number-rub-el-hizb",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/by_rub_el_hizb/:rub_el_hizb_number",
+      "upstreamPath": "/api/v4/verses/by_rub_el_hizb/{rub_el_hizb_number}",
+      "openApiPath": "/verses/by_rub_el_hizb/{rub_el_hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verses-by_rub_el_hizb_number-rub-el-hizb",
+      "pathParams": [
+        "rub_el_hizb_number"
+      ],
+      "sourceRows": [
+        37
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-juzs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/juzs",
+      "upstreamPath": "/api/v4/juzs",
+      "openApiPath": "/juzs",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-juzs",
+      "pathParams": [],
+      "sourceRows": [
+        38
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-juz",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/juzs/:id",
+      "upstreamPath": "/api/v4/juzs/{id}",
+      "openApiPath": "/juzs/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-juz",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        39
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.quran-verses-by-script",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/:script",
+      "upstreamPath": "/api/v4/quran/verses/{script}",
+      "openApiPath": "/quran/verses/{script}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "quran-verses-by-script",
+      "pathParams": [
+        "script"
+      ],
+      "sourceRows": [
+        40
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.QURAN-verses-indopak",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/indopak",
+      "upstreamPath": "/api/v4/quran/verses/indopak",
+      "openApiPath": "/quran/verses/indopak",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "QURAN-verses-indopak",
+      "pathParams": [],
+      "sourceRows": [
+        41
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.QURAN-verses-indopak-nastaleeq",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/indopak_nastaleeq",
+      "upstreamPath": "/api/v4/quran/verses/indopak_nastaleeq",
+      "openApiPath": "/quran/verses/indopak_nastaleeq",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "QURAN-verses-indopak-nastaleeq",
+      "pathParams": [],
+      "sourceRows": [
+        42
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.QURAN-verses-uthmani-tajweed",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/uthmani_tajweed",
+      "upstreamPath": "/api/v4/quran/verses/uthmani_tajweed",
+      "openApiPath": "/quran/verses/uthmani_tajweed",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "QURAN-verses-uthmani-tajweed",
+      "pathParams": [],
+      "sourceRows": [
+        43
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.QURAN-verses-uthmani",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/uthmani",
+      "upstreamPath": "/api/v4/quran/verses/uthmani",
+      "openApiPath": "/quran/verses/uthmani",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "QURAN-verses-uthmani",
+      "pathParams": [],
+      "sourceRows": [
+        44
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.QURAN-verses-uthmani_simple",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/uthmani_simple",
+      "upstreamPath": "/api/v4/quran/verses/uthmani_simple",
+      "openApiPath": "/quran/verses/uthmani_simple",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "QURAN-verses-uthmani_simple",
+      "pathParams": [],
+      "sourceRows": [
+        45
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.QURAN-verses-Imlaei",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/imlaei",
+      "upstreamPath": "/api/v4/quran/verses/imlaei",
+      "openApiPath": "/quran/verses/imlaei",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "QURAN-verses-Imlaei",
+      "pathParams": [],
+      "sourceRows": [
+        46
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.translation",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/translations/:translation_id",
+      "upstreamPath": "/api/v4/quran/translations/{translation_id}",
+      "openApiPath": "/quran/translations/{translation_id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "translation",
+      "pathParams": [
+        "translation_id"
+      ],
+      "sourceRows": [
+        47
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": {
+        "from": "Quran Scope",
+        "to": "Translation Scope",
+        "reason": "/quran/translations/{translation_id} returns translation text, not Quran script.",
+        "requiresDecision": "D2"
+      },
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.tafsir",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/tafsirs/:tafsir_id",
+      "upstreamPath": "/api/v4/quran/tafsirs/{tafsir_id}",
+      "openApiPath": "/quran/tafsirs/{tafsir_id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "tafsir",
+      "pathParams": [
+        "tafsir_id"
+      ],
+      "sourceRows": [
+        48
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": {
+        "from": "Quran Scope",
+        "to": "Tafsir Scope",
+        "reason": "/quran/tafsirs/{tafsir_id} returns tafsir text, not Quran script.",
+        "requiresDecision": "D2"
+      },
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.QURAN-verses-code_v1",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/code_v1",
+      "upstreamPath": "/api/v4/quran/verses/code_v1",
+      "openApiPath": "/quran/verses/code_v1",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "QURAN-verses-code_v1",
+      "pathParams": [],
+      "sourceRows": [
+        49
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.QURAN-verses-code_v2",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/quran/verses/code_v2",
+      "upstreamPath": "/api/v4/quran/verses/code_v2",
+      "openApiPath": "/quran/verses/code_v2",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "QURAN-verses-code_v2",
+      "pathParams": [],
+      "sourceRows": [
+        50
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.recitation-info",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/recitations/:recitation_id/info",
+      "upstreamPath": "/api/v4/resources/recitations/{recitation_id}/info",
+      "openApiPath": "/resources/recitations/{recitation_id}/info",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "recitation-info",
+      "pathParams": [
+        "recitation_id"
+      ],
+      "sourceRows": [
+        51
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.translation-info",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/translations/:translation_id/info",
+      "upstreamPath": "/api/v4/resources/translations/{translation_id}/info",
+      "openApiPath": "/resources/translations/{translation_id}/info",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "translation-info",
+      "pathParams": [
+        "translation_id"
+      ],
+      "sourceRows": [
+        52
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/translations",
+      "upstreamPath": "/api/v4/resources/translations",
+      "openApiPath": "/resources/translations",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "translations",
+      "pathParams": [],
+      "sourceRows": [
+        53
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/tafsirs",
+      "upstreamPath": "/api/v4/resources/tafsirs",
+      "openApiPath": "/resources/tafsirs",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "tafsirs",
+      "pathParams": [],
+      "sourceRows": [
+        54
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.tafsir-info",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/tafsirs/:tafsir_id/info",
+      "upstreamPath": "/api/v4/resources/tafsirs/{tafsir_id}/info",
+      "openApiPath": "/resources/tafsirs/{tafsir_id}/info",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "tafsir-info",
+      "pathParams": [
+        "tafsir_id"
+      ],
+      "sourceRows": [
+        55
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.recitation-styles",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/recitation_styles",
+      "upstreamPath": "/api/v4/resources/recitation_styles",
+      "openApiPath": "/resources/recitation_styles",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "recitation-styles",
+      "pathParams": [],
+      "sourceRows": [
+        56
+      ],
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": "Audio scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.languages",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/languages",
+      "upstreamPath": "/api/v4/resources/languages",
+      "openApiPath": "/resources/languages",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "languages",
+      "pathParams": [],
+      "sourceRows": [
+        57
+      ],
+      "sheetLabel": "Content Metadata Scope",
+      "sheetLabelOriginal": "Content Metadata Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.metadata.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.chapter-info",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/chapter_infos",
+      "upstreamPath": "/api/v4/resources/chapter_infos",
+      "openApiPath": "/resources/chapter_infos",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "chapter-info",
+      "pathParams": [],
+      "sourceRows": [
+        58
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.verse-media",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/verse_media",
+      "upstreamPath": "/api/v4/resources/verse_media",
+      "openApiPath": "/resources/verse_media",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "verse-media",
+      "pathParams": [],
+      "sourceRows": [
+        59
+      ],
+      "sheetLabel": "Content Metadata Scope",
+      "sheetLabelOriginal": "Content Metadata Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.metadata.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.resources-sync",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/sync",
+      "upstreamPath": "/api/v4/resources/sync",
+      "openApiPath": "/resources/sync",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "resources-sync",
+      "pathParams": [],
+      "sourceRows": [
+        60
+      ],
+      "sheetLabel": "Content Sync Scope",
+      "sheetLabelOriginal": "Content Sync Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.sync.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.resources-snapshot",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/snapshots/:resource_group/:id",
+      "upstreamPath": "/api/v4/resources/snapshots/{resource_group}/{id}",
+      "openApiPath": "/resources/snapshots/{resource_group}/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "resources-snapshot",
+      "pathParams": [
+        "resource_group",
+        "id"
+      ],
+      "sourceRows": [
+        61
+      ],
+      "sheetLabel": "Content Sync Scope",
+      "sheetLabelOriginal": "Content Sync Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.sync.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-surah-translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_chapter/:chapter_number",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_chapter/{chapter_number}",
+      "openApiPath": "/translations/{resource_id}/by_chapter/{chapter_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-surah-translations",
+      "pathParams": [
+        "resource_id",
+        "chapter_number"
+      ],
+      "sourceRows": [
+        62
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-page-translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_page/:page_number",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_page/{page_number}",
+      "openApiPath": "/translations/{resource_id}/by_page/{page_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-page-translations",
+      "pathParams": [
+        "resource_id",
+        "page_number"
+      ],
+      "sourceRows": [
+        63
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-juz-translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_juz/:juz_number",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_juz/{juz_number}",
+      "openApiPath": "/translations/{resource_id}/by_juz/{juz_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-juz-translations",
+      "pathParams": [
+        "resource_id",
+        "juz_number"
+      ],
+      "sourceRows": [
+        64
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-rub-el-hizb-translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "openApiPath": "/translations/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-rub-el-hizb-translations",
+      "pathParams": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "sourceRows": [
+        65
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-hizb-translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_hizb/:hizb_number",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_hizb/{hizb_number}",
+      "openApiPath": "/translations/{resource_id}/by_hizb/{hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-hizb-translations",
+      "pathParams": [
+        "resource_id",
+        "hizb_number"
+      ],
+      "sourceRows": [
+        66
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-manzil-translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_manzil/:manzil_number",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_manzil/{manzil_number}",
+      "openApiPath": "/translations/{resource_id}/by_manzil/{manzil_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-manzil-translations",
+      "pathParams": [
+        "resource_id",
+        "manzil_number"
+      ],
+      "sourceRows": [
+        67
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-ruku-translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_ruku/:ruku_number",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_ruku/{ruku_number}",
+      "openApiPath": "/translations/{resource_id}/by_ruku/{ruku_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-ruku-translations",
+      "pathParams": [
+        "resource_id",
+        "ruku_number"
+      ],
+      "sourceRows": [
+        68
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-ayah-translations",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_ayah/:ayah_key",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_ayah/{ayah_key}",
+      "openApiPath": "/translations/{resource_id}/by_ayah/{ayah_key}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-ayah-translations",
+      "pathParams": [
+        "resource_id",
+        "ayah_key"
+      ],
+      "sourceRows": [
+        69
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-rub-el-hizb-translations-rub",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/translations/:resource_id/by_rub/:rub_el_hizb_number",
+      "upstreamPath": "/api/v4/translations/{resource_id}/by_rub/{rub_el_hizb_number}",
+      "openApiPath": "/translations/{resource_id}/by_rub/{rub_el_hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-rub-el-hizb-translations-rub",
+      "pathParams": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "sourceRows": [
+        70
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-surah-tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_chapter/:chapter_number",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_chapter/{chapter_number}",
+      "openApiPath": "/tafsirs/{resource_id}/by_chapter/{chapter_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-surah-tafsirs",
+      "pathParams": [
+        "resource_id",
+        "chapter_number"
+      ],
+      "sourceRows": [
+        71
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-page-tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_page/:page_number",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_page/{page_number}",
+      "openApiPath": "/tafsirs/{resource_id}/by_page/{page_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-page-tafsirs",
+      "pathParams": [
+        "resource_id",
+        "page_number"
+      ],
+      "sourceRows": [
+        72
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-juz-tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_juz/:juz_number",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_juz/{juz_number}",
+      "openApiPath": "/tafsirs/{resource_id}/by_juz/{juz_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-juz-tafsirs",
+      "pathParams": [
+        "resource_id",
+        "juz_number"
+      ],
+      "sourceRows": [
+        73
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-rub-el-hizb-tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_rub_el_hizb/:rub_el_hizb_number",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "openApiPath": "/tafsirs/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-rub-el-hizb-tafsirs",
+      "pathParams": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "sourceRows": [
+        74
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-hizb-tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_hizb/:hizb_number",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_hizb/{hizb_number}",
+      "openApiPath": "/tafsirs/{resource_id}/by_hizb/{hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-hizb-tafsirs",
+      "pathParams": [
+        "resource_id",
+        "hizb_number"
+      ],
+      "sourceRows": [
+        75
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-manzil-tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_manzil/:manzil_number",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_manzil/{manzil_number}",
+      "openApiPath": "/tafsirs/{resource_id}/by_manzil/{manzil_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-manzil-tafsirs",
+      "pathParams": [
+        "resource_id",
+        "manzil_number"
+      ],
+      "sourceRows": [
+        76
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-ruku-tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_ruku/:ruku_number",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_ruku/{ruku_number}",
+      "openApiPath": "/tafsirs/{resource_id}/by_ruku/{ruku_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-ruku-tafsirs",
+      "pathParams": [
+        "resource_id",
+        "ruku_number"
+      ],
+      "sourceRows": [
+        77
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-ayah-tafsirs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_ayah/:ayah_key",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_ayah/{ayah_key}",
+      "openApiPath": "/tafsirs/{resource_id}/by_ayah/{ayah_key}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-ayah-tafsirs",
+      "pathParams": [
+        "resource_id",
+        "ayah_key"
+      ],
+      "sourceRows": [
+        78
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-rub-el-hizb-tafsirs-rub",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/tafsirs/:resource_id/by_rub/:rub_el_hizb_number",
+      "upstreamPath": "/api/v4/tafsirs/{resource_id}/by_rub/{rub_el_hizb_number}",
+      "openApiPath": "/tafsirs/{resource_id}/by_rub/{rub_el_hizb_number}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-rub-el-hizb-tafsirs-rub",
+      "pathParams": [
+        "resource_id",
+        "rub_el_hizb_number"
+      ],
+      "sourceRows": [
+        79
+      ],
+      "sheetLabel": "Tafsir Scope",
+      "sheetLabelOriginal": "Tafsir Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-hizbs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/hizbs",
+      "upstreamPath": "/api/v4/hizbs",
+      "openApiPath": "/hizbs",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-hizbs",
+      "pathParams": [],
+      "sourceRows": [
+        80
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-hizb",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/hizbs/:id",
+      "upstreamPath": "/api/v4/hizbs/{id}",
+      "openApiPath": "/hizbs/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-hizb",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        81
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-rub-el-hizbs",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/rub_el_hizbs",
+      "upstreamPath": "/api/v4/rub_el_hizbs",
+      "openApiPath": "/rub_el_hizbs",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-rub-el-hizbs",
+      "pathParams": [],
+      "sourceRows": [
+        82
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-rub-el-hizb",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/rub_el_hizbs/:id",
+      "upstreamPath": "/api/v4/rub_el_hizbs/{id}",
+      "openApiPath": "/rub_el_hizbs/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-rub-el-hizb",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        83
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-rukus",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/rukus",
+      "upstreamPath": "/api/v4/rukus",
+      "openApiPath": "/rukus",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-rukus",
+      "pathParams": [],
+      "sourceRows": [
+        84
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-ruku",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/rukus/:id",
+      "upstreamPath": "/api/v4/rukus/{id}",
+      "openApiPath": "/rukus/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-ruku",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        85
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.list-manzils",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/manzils",
+      "upstreamPath": "/api/v4/manzils",
+      "openApiPath": "/manzils",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-manzils",
+      "pathParams": [],
+      "sourceRows": [
+        86
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-manzil",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/manzils/:id",
+      "upstreamPath": "/api/v4/manzils/{id}",
+      "openApiPath": "/manzils/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-manzil",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        87
+      ],
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": "Quran Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-foot-note",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/foot_notes/:id",
+      "upstreamPath": "/api/v4/foot_notes/{id}",
+      "openApiPath": "/foot_notes/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-foot-note",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        88
+      ],
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": "Translation Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "quran-reflect.v1.public.PostsController_feed",
+      "service": "quran-reflect",
+      "gatewayService": "quran-reflect",
+      "method": "GET",
+      "gatewayPath": "/v1/posts/feed",
+      "upstreamPath": "/v1/posts/feed",
+      "openApiPath": "/quran-reflect/v1/posts/feed",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "PostsController_feed",
+      "pathParams": [],
+      "sourceRows": [
+        89
+      ],
+      "sheetLabel": "Reflections and lessons public scope",
+      "sheetLabelOriginal": "Reflections and lessons public scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "post.read",
+        "post"
+      ],
+      "legacyMatchSource": "src/utils/scopes/posts.ts :: postRoutes",
+      "legacyRuleId": "gateway-route-public-post-read",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "quotaBuckets": [
+        "post.read",
+        "post"
+      ],
+      "rateLimitPolicyId": "preserve-existing-post-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": []
+    },
+    {
+      "routeId": "quran-reflect.v1.public.PostsController_findOne",
+      "service": "quran-reflect",
+      "gatewayService": "quran-reflect",
+      "method": "GET",
+      "gatewayPath": "/v1/posts/:id",
+      "upstreamPath": "/v1/posts/:id",
+      "openApiPath": "/quran-reflect/v1/posts/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "PostsController_findOne",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        90
+      ],
+      "sheetLabel": "Reflections and lessons public scope",
+      "sheetLabelOriginal": "Reflections and lessons public scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "post.read",
+        "post"
+      ],
+      "legacyMatchSource": "src/utils/scopes/posts.ts :: postRoutes",
+      "legacyRuleId": "gateway-route-public-post-read",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "quotaBuckets": [
+        "post.read",
+        "post"
+      ],
+      "rateLimitPolicyId": "preserve-existing-post-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": []
+    },
+    {
+      "routeId": "quran-reflect.v1.public.PostsController_getUserPost",
+      "service": "quran-reflect",
+      "gatewayService": "quran-reflect",
+      "method": "GET",
+      "gatewayPath": "/v1/posts/user-posts/:id",
+      "upstreamPath": "/v1/posts/user-posts/:id",
+      "openApiPath": "/quran-reflect/v1/posts/user-posts/{id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "PostsController_getUserPost",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        91
+      ],
+      "sheetLabel": "Reflections and lessons public scope",
+      "sheetLabelOriginal": "Reflections and lessons public scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "post.read",
+        "post"
+      ],
+      "legacyMatchSource": "src/utils/scopes/posts.ts :: postRoutes",
+      "legacyRuleId": "gateway-route-public-post-read",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "quotaBuckets": [
+        "post.read",
+        "post"
+      ],
+      "rateLimitPolicyId": "preserve-existing-post-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": []
+    },
+    {
+      "routeId": "quran-reflect.v1.public.PostsController_getComments",
+      "service": "quran-reflect",
+      "gatewayService": "quran-reflect",
+      "method": "GET",
+      "gatewayPath": "/v1/posts/:id/comments",
+      "upstreamPath": "/v1/posts/:id/comments",
+      "openApiPath": "/quran-reflect/v1/posts/{id}/comments",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "PostsController_getComments",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        92
+      ],
+      "sheetLabel": "Reflections and lessons public scope",
+      "sheetLabelOriginal": "Reflections and lessons public scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "comment.read",
+        "comment",
+        "post"
+      ],
+      "legacyMatchSource": "src/utils/scopes/posts.ts :: postRoutes",
+      "legacyRuleId": "gateway-route-public-comment-read",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "quotaBuckets": [
+        "comment.read",
+        "comment",
+        "post"
+      ],
+      "rateLimitPolicyId": "preserve-existing-comment-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": []
+    },
+    {
+      "routeId": "quran-reflect.v1.public.PostsController_getAllComment",
+      "service": "quran-reflect",
+      "gatewayService": "quran-reflect",
+      "method": "GET",
+      "gatewayPath": "/v1/posts/:id/all-comments",
+      "upstreamPath": "/v1/posts/:id/all-comments",
+      "openApiPath": "/quran-reflect/v1/posts/{id}/all-comments",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "PostsController_getAllComment",
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [
+        93
+      ],
+      "sheetLabel": "Reflections and lessons public scope",
+      "sheetLabelOriginal": "Reflections and lessons public scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "comment.read",
+        "comment",
+        "post"
+      ],
+      "legacyMatchSource": "src/utils/scopes/posts.ts :: postRoutes",
+      "legacyRuleId": "gateway-route-public-comment-read",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "quotaBuckets": [
+        "comment.read",
+        "comment",
+        "post"
+      ],
+      "rateLimitPolicyId": "preserve-existing-comment-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": []
+    },
+    {
+      "routeId": "content.v4.list-ayah-answers",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/answers/by_ayah/:ayah_key",
+      "upstreamPath": "/api/v4/answers/by_ayah/{ayah_key}",
+      "openApiPath": "/answers/by_ayah/{ayah_key}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "list-ayah-answers",
+      "pathParams": [
+        "ayah_key"
+      ],
+      "sourceRows": [
+        94
+      ],
+      "sheetLabel": "Q&A Scope",
+      "sheetLabelOriginal": "Q&A Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.answers.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.get-answer-by-id",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/answers/:question_id",
+      "upstreamPath": "/api/v4/answers/{question_id}",
+      "openApiPath": "/answers/{question_id}",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "get-answer-by-id",
+      "pathParams": [
+        "question_id"
+      ],
+      "sourceRows": [
+        95
+      ],
+      "sheetLabel": "Q&A Scope",
+      "sheetLabelOriginal": "Q&A Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.answers.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.count-answers-within-range",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/answers/count_within_range",
+      "upstreamPath": "/api/v4/answers/count_within_range",
+      "openApiPath": "/answers/count_within_range",
+      "openApiDocument": "openAPI/content/v4.json",
+      "operationId": "count-answers-within-range",
+      "pathParams": [],
+      "sourceRows": [
+        96
+      ],
+      "sheetLabel": "Q&A Scope",
+      "sheetLabelOriginal": "Q&A Scope",
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.answers.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    }
+  ]
+}

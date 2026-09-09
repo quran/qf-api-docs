@@ -1,0 +1,186 @@
+{
+  "$comment": [
+    "Reviewed policy inputs for the content-scopes/v1 contract generator.",
+    "Every value here is either (a) an owner decision recorded in decisions.md, or",
+    "(b) an observed fact about currently deployed authorization, cited to a pinned source file.",
+    "The generator never infers policy from the spreadsheet's 'API Family' or 'Proposed scope' columns alone."
+  ],
+  "contractVersion": "content-scopes/v1",
+  "status": "proposed-pending-approval",
+
+  "scopeMap": {
+    "$comment": "D1. Column F labels are DISPLAY labels; these are the proposed machine names.",
+    "Audio scope": "content.audio.read",
+    "Quran Scope": "content.quran.read",
+    "Hadith Scope": "content.hadith.read",
+    "Translation Scope": "content.translations.read",
+    "Tafsir Scope": "content.tafsirs.read",
+    "Content Metadata Scope": "content.metadata.read",
+    "Content Sync Scope": "content.sync.read",
+    "Reflections and lessons public scope": "content.reflections.read",
+    "Q&A Scope": "content.answers.read"
+  },
+
+  "scopeDescriptions": {
+    "content.audio.read": "Reciters, recitations, audio files, timing/lookup, recitation information and styles.",
+    "content.quran.read": "Chapters, structure, pages, verses and scripts.",
+    "content.hadith.read": "Hadith references, text and range counts.",
+    "content.translations.read": "Translation catalogs, information, verse translations and footnotes.",
+    "content.tafsirs.read": "Tafsir catalogs, information and text.",
+    "content.metadata.read": "Languages and verse media. Distinct from, and much narrower than, content.sync.read.",
+    "content.sync.read": "Public content delta sync and resource snapshots. NOT the existing user-data 'sync' scope.",
+    "content.reflections.read": "The five public QuranReflect reads only. Grants no private posts, my-posts, private rooms, user-specific feeds, mutations or moderation.",
+    "content.answers.read": "Answers by ayah, answer detail and range counts."
+  },
+
+  "labelOverrides": {
+    "$comment": [
+      "D2. Proposed corrections to sheet rows 47 and 48, which carry 'Quran Scope' in column F",
+      "but address translation and tafsir resources respectively.",
+      "The original column F value is preserved in each operation's sheetLabelOriginal field.",
+      "These overrides are inert until D2 is approved: see decisions.md.",
+      "An agent must NOT edit the source spreadsheet."
+    ],
+    "47": {
+      "label": "Translation Scope",
+      "reason": "/quran/translations/{translation_id} returns translation text, not Quran script.",
+      "requiresDecision": "D2"
+    },
+    "48": {
+      "label": "Tafsir Scope",
+      "reason": "/quran/tafsirs/{tafsir_id} returns tafsir text, not Quran script.",
+      "requiresDecision": "D2"
+    }
+  },
+
+  "observedLegacyPolicy": {
+    "$comment": [
+      "Current effective authorization for each operation, read from code — not from the sheet.",
+      "Source: quran/qf-api-gateway @ origin/testing 0954eae442ab4ed47cca45102074bb01a88079cf",
+      "  src/utils/scopes/index.ts  (Oauth2WildcardScopes)",
+      "  src/utils/scopes/posts.ts  (postsRoutes)",
+      "  src/libs/oauth.ts          (getOauth2ScopeMatch precedence: exact -> dynamic -> wildcard)"
+    ],
+    "rules": [
+      {
+        "id": "gateway-wildcard-content-get",
+        "appliesTo": { "gatewayService": "content", "method": "GET" },
+        "anyOf": ["content.read", "content"],
+        "source": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+        "note": "Wildcard fallback. No explicit per-route content entry exists today except Qiraat, which is out of scope."
+      },
+      {
+        "id": "gateway-route-public-post-read",
+        "appliesTo": {
+          "gatewayService": "quran-reflect",
+          "method": "GET",
+          "gatewayPaths": ["/v1/posts/feed", "/v1/posts/:id", "/v1/posts/user-posts/:id"]
+        },
+        "anyOf": ["post.read", "post"],
+        "source": "src/utils/scopes/posts.ts :: postRoutes"
+      },
+      {
+        "id": "gateway-route-public-comment-read",
+        "appliesTo": {
+          "gatewayService": "quran-reflect",
+          "method": "GET",
+          "gatewayPaths": ["/v1/posts/:id/comments", "/v1/posts/:id/all-comments"]
+        },
+        "anyOf": ["comment.read", "comment", "post"],
+        "source": "src/utils/scopes/posts.ts :: postRoutes",
+        "note": "'post' is genuinely accepted here today. Migration eligibility must be evaluated against these actual alternatives, never against an assumed scope hierarchy."
+      }
+    ]
+  },
+
+  "deprecatedForNewClients": {
+    "$comment": "D5. Still valid for existing identities; not issuable to new ones once v1 policy is active.",
+    "scopes": ["content", "content.read"]
+  },
+
+  "quotaPolicy": {
+    "$comment": [
+      "A5. Quota buckets are snapshotted from today's behavior and are deliberately NOT the",
+      "authorization alternatives. Today checkRateLimit() iterates the matched scope list, so",
+      "adding granular scopes to authorization would silently add new buckets and could split or",
+      "double-charge an aggregate allowance. quotaBuckets freezes the pre-migration bucket set.",
+      "Source: src/libs/rate-limit.ts :: checkRateLimit (plus the always-charged global '' bucket)."
+    ],
+    "globalBucketAlwaysCharged": true,
+    "rateLimitPolicyIds": {
+      "gateway-wildcard-content-get": "preserve-existing-content-read-policy",
+      "gateway-route-public-post-read": "preserve-existing-post-read-policy",
+      "gateway-route-public-comment-read": "preserve-existing-comment-read-policy"
+    }
+  },
+
+  "authContexts": {
+    "$comment": "Distinguishes the public app-credential surface from the user-token surface for the same controller operation.",
+    "content": "app-compatible-public-read",
+    "quran-reflect": "app-compatible-public-read"
+  },
+
+  "environmentMap": {
+    "$comment": "Column L values normalized. Branch names and GitHub environment labels are NOT environments; see plan section 6A.",
+    "Live": "production",
+    "Pre-live": "prelive"
+  },
+
+  "responseBoundary": {
+    "$comment": [
+      "D4. v1 defines scopes as endpoint-family permissions, not strict data-family isolation.",
+      "Quran verse endpoints may still embed translations/tafsirs/audio, and content sync snapshots",
+      "may return full resources across content types. Strict isolation requires a different,",
+      "field-aware design and a revised migration equivalence; it is not activated by this contract."
+    ],
+    "value": "endpoint-family-not-data-isolation"
+  },
+
+  "migration": {
+    "$comment": [
+      "A6. C8 is the eight table scopes other than content.reflections.read.",
+      "Eligibility is decided per operation by intersecting the client's CURRENT effective scope set",
+      "with that operation's observed legacyAnyOf. This is finite and mechanical: it never treats a",
+      "'content.' string prefix as authorization and never assumes a parent/child hierarchy."
+    ],
+    "c8Rule": {
+      "requiresIntersectionWith": ["content.read", "content"],
+      "note": "A content.create-only client has no intersection and therefore gains no read successors."
+    },
+    "reflectionsRule": {
+      "requiresCoverageOfAllPublicReflectionRoutes": true,
+      "requiresDecision": "D3",
+      "note": "Eligible only when the client's scopes intersect the legacyAnyOf of ALL five public reflection routes. Narrow clients therefore need post.read AND comment.read. A client holding only the 'post' umbrella does satisfy this, because 'post' is an accepted alternative on all five routes today. 'content' alone never satisfies it."
+    }
+  },
+
+  "newClientBaseline": {
+    "$comment": [
+      "D5. Replaces only the legacy content-read component of the existing environment baseline.",
+      "Unrelated pre-existing baseline entries are retained verbatim by the Platform policy code;",
+      "this contract does not enumerate them and must not be used to widen them.",
+      "Inspected production baseline already includes post.read and comment.read alongside",
+      "content and offline_access: quran/qf-platform-api src/developer_repository.rs.",
+      "Revalidate on the implementation branch before activation."
+    ],
+    "removeFromBaseline": ["content", "content.read"],
+    "addToBaseline": [
+      "content.quran.read",
+      "content.translations.read",
+      "content.tafsirs.read",
+      "content.audio.read",
+      "content.hadith.read",
+      "content.metadata.read",
+      "content.sync.read",
+      "content.answers.read"
+    ],
+    "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": true,
+    "requiresDecision": "D5"
+  },
+
+  "outOfScope": {
+    "$comment": "A3. Never granted as content successors, and never merged with the new scopes.",
+    "scopes": ["qiraat", "qiraat.read", "search", "sync", "analytics.events.write"],
+    "note": "Qiraat keeps its explicit gateway route policy and precedence. The existing user-data 'sync' scope is unrelated to content.sync.read."
+  }
+}
