@@ -72,6 +72,27 @@ The new read scopes authorize no writes, and existing clients keep their origina
 client ID, secret, redirect URIs, audiences, grant types, auth method, metadata, lifecycle state
 and quota settings.
 
+## Downstream templates (T12)
+
+Assessed, no change required now.
+
+`quran/qf-starter-kit` reads its authorization-code scopes from a `SCOPES` environment variable
+defaulting to a user-scope list that contains no content scope, and makes its content calls through
+`createServerClient`, which selects the content scope inside the SDK. It does not set
+`contentScopeMode`, so it gets the `legacy` default and keeps requesting `content` — correct and
+unchanged for credentials issued today. It pins `@quranjs/api` at `^3.2.0`.
+
+A generated app would need two things to work with granular-only credentials: `contentScopeMode:
+"granular"` and an `@quranjs/api` release that supports it. That release is not published yet, so
+changing the starter now would pin it to a version that does not exist. The follow-through is
+therefore sequenced after the SDK release, per T12's dependency on T09/T10:
+
+1. Publish the SDK minor release carrying `contentScopeMode`.
+2. Update the human-maintained starter first, then synchronize `quran/quranjs-create-app` through
+   the documented release workflow — do not hand-edit the generated copies.
+3. Smoke-test a freshly generated app with both a migrated client and a granular-only client, and
+   confirm no browser bundle contains a client secret.
+
 ## Scope of this directory
 
 This contract covers the 95 Content-family entries. The remaining 113 rows (User, OAuth2, Search)
