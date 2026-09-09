@@ -89,7 +89,7 @@ Recommended triggers:
 
 ## Replacing a Resource
 
-The Content Sync endpoints are read-only and cannot write to Quran Foundation's database. When a change includes `snapshot_url`, fetch the full copy, then open a transaction in the cache database controlled by your app. Replace the cached rows for that `resource_group` and `resource_id` and commit your app's transaction. Do not keep it open during the snapshot request or across the full sync run.
+When a change includes `snapshot_url`, fetch the full copy and replace only that resource's cached rows in one local transaction. The transaction boundary is one resource, not the full sync run, and the snapshot request should finish before the transaction begins.
 
 When `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path like `/api/v4/resources/snapshots/translations/19`. You should prefix that path with `https://apis.quran.foundation/content`.
 
@@ -97,7 +97,7 @@ When `snapshot_url` is present and non-null, we return a relative `/api/v4/...` 
 sequenceDiagram
     participant Engine as Sync engine
     participant Snapshot as Snapshot API
-    participant DB as App-owned cache DB
+    participant DB as Local cache DB
 
     Engine->>Snapshot: GET snapshot_url
     Snapshot-->>Engine: records
@@ -113,7 +113,7 @@ This prevents mixed old and new rows from appearing in the reader UI.
 
 A sync token belongs to the exact canonical `resources` filter. Both single-resource filters such as `translations:19` and combined filters such as `translations:19,20;tafsirs:151` are supported. Store a separate token for every filter your app uses.
 
-Using one filter per resource can isolate retries and refresh schedules, while a combined filter reduces incremental sync requests. It does not change how many snapshots bootstrap requires: each resource still has its own `snapshot_url`. When a broad filter returns many snapshot URLs, fetch them with bounded concurrency and apply each snapshot in its own app-owned cache transaction.
+Using one filter per resource can isolate retries and refresh schedules, while a combined filter reduces incremental sync requests. It does not change how many snapshots bootstrap requires: each resource still has its own `snapshot_url`. When a broad filter returns many snapshot URLs, fetch them with bounded concurrency and apply each snapshot in its own local cache transaction.
 
 ## Practical Defaults
 
