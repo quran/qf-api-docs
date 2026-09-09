@@ -19,6 +19,7 @@ activate issuance or enforcement while the status reads that value.
 | `v1.schema.json` | Schema `v1.json` is validated against, in CI and in every consumer's build. |
 | `provenance.json` | All 208 rows with an explicit disposition: mapped, mapped-with-approved-override, or regression-inventory-not-migrated. |
 | `decisions.md` | D1–D6 record. Currently all open. |
+| `route-reconciliation.md` | Disposition for every difference between the live Rails v4 route surface and the contract. Records one open decision that blocks D5. |
 
 ## Regenerating
 
