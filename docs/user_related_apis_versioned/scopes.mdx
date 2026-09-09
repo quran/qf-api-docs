@@ -41,6 +41,99 @@ Requesting a scope that is not approved for your client can cause the authorizat
 | ------- | -------------------------------------------------------------------------------- |
 | content | Read Quran Foundation's non user-related content e.g. Tafsirs, Translations, etc |
 
+### Granular content scopes
+
+:::info Not yet available
+
+The granular content scopes below are a **proposal under review**. They are not issued to any
+client yet, and no date is set for issuing them. `content` is the scope to request today. This
+section is published so integrators can see what is coming; nothing here changes an existing
+integration.
+
+:::
+
+The `content` umbrella is being split into nine narrower read scopes, so a new integration can ask
+for the Quran text without also gaining access to audio, hadith or public reflections.
+
+| Scope                       | Reads                                                                   |
+| --------------------------- | ----------------------------------------------------------------------- |
+| `content.quran.read`        | Chapters, structure, pages, verses and scripts                          |
+| `content.translations.read` | Translation catalogs, information, verse translations and footnotes     |
+| `content.tafsirs.read`      | Tafsir catalogs, information and text                                   |
+| `content.audio.read`        | Reciters, recitations, audio files, timing and lookup, recitation styles |
+| `content.hadith.read`       | Hadith references, text and range counts                                |
+| `content.metadata.read`     | Languages and verse media                                               |
+| `content.sync.read`         | Public content delta sync and resource snapshots                        |
+| `content.answers.read`      | Answers by ayah, answer detail and range counts                         |
+| `content.reflections.read`  | The five public QuranReflect post and comment reads                     |
+
+These scopes are **flat, not a hierarchy.** Unlike `note` or `post` above, none of them authorizes
+another: `content.quran.read` does not grant `content.audio.read`, and a shared `content.` prefix
+is never authorization. Request each scope your integration actually calls.
+
+They are also **read-only.** None of them authorizes a write, and `content.create` is unchanged and
+unrelated.
+
+`content.sync.read` reads *public content* deltas. It is a different permission from the user-data
+`sync` scope further down this page, and neither implies the other.
+
+`content.reflections.read` covers only the five public QuranReflect reads: the public feed, a public
+post, a public user's posts, and a post's comments and all-comments. It grants no private posts, no
+my-posts, no private rooms, no user-specific feeds, and no mutations or moderation. Upstream
+visibility rules still apply on those routes.
+
+### What each endpoint needs
+
+Every content operation records its scopes in the OpenAPI document under the `x-qf-scopes`
+extension, with `legacyAnyOf` (what works today) and `granularAnyOf` (its successor). The API
+accepts **any one** of the listed scopes, so a token carrying either the legacy or the granular
+scope is authorized.
+
+`x-qf-scopes` exists because these endpoints authenticate with the `x-auth-token` and `x-client-id`
+headers together, which OpenAPI models as two `apiKey` schemes. OpenAPI can only attach scopes to
+an `oauth2` scheme, so the scope list could not go in `security` without misrepresenting the
+transport. These are not `Authorization: Bearer` credentials.
+
+### If you already have credentials
+
+Nothing to do, and nothing to change.
+
+- Your existing scopes keep working. `content` and `content.read` continue to authorize every read
+  they authorize today.
+- **No secret rotation, no re-authorization, no new client, and no forced user login.** Access
+  tokens you have already been issued stay valid for their normal lifetime with their original
+  scopes.
+- Eligible existing clients will additionally *gain* the equivalent granular scopes. Nothing is
+  removed.
+- **`content` stays broad.** Gaining a granular scope does not narrow it, and removing one granular
+  scope from a client that still holds `content` does not narrow that client's access either. There
+  is no sunset date for `content`.
+- Refresh tokens behave as before: a refresh returns the scopes originally granted and never a
+  wider set. To use a new scope, make a new authorization or token request.
+- Rate limits are unchanged. Your aggregate content allowance is not split per scope, and a request
+  is not charged twice because a token carries both a legacy and a granular scope.
+
+### If you are issued granular-only credentials
+
+Request the specific scopes your integration calls, and check your SDK version.
+
+- An SDK that hard-codes a `content` scope request cannot work with credentials that were never
+  granted `content`. Use a release that lets you choose the scopes, or set them explicitly.
+- The minimum SDK versions will be published with the release; until then, granular-only
+  credentials are not issued, so no integration is affected.
+- A scope your client was not approved for is rejected at the **token endpoint** with
+  `invalid_scope` (HTTP 400). A valid token that lacks the scope a route needs is rejected by the
+  **API** with an insufficient-scope error (HTTP 403). They are different failures: the first means
+  fix the scope request or the client's approvals, the second means request the right scope for
+  that call.
+
+### Endpoint families, not data filtering
+
+These scopes select **endpoint families**; they do not filter fields out of a response. A verse
+endpoint authorized by `content.quran.read` can still include translations, tafsirs or audio when
+you ask for them, and a content sync snapshot can still return resources across content types.
+Response shapes are unchanged.
+
 ## Search
 
 | Scope  | Description                               |

@@ -30,7 +30,9 @@
     "clean-all": "npx docusaurus clean-api-docs all && npx docusaurus clean-api-docs:version content_apis_versioned:all && npx docusaurus clean-api-docs:version user_related_apis_versioned:all && npx docusaurus clean-api-docs:version oauth2_apis_versioned:all && npx docusaurus clean-api-docs:version search_apis_versioned:all && npx docusaurus clean-api-docs:version analytics_apis_versioned:all",
     "re-gen": "yarn clean-all && yarn gen-all",
     "contract:build": "node scripts/build-content-scope-contract.cjs",
-    "contract:check": "node scripts/build-content-scope-contract.cjs --check"
+    "contract:check": "node scripts/build-content-scope-contract.cjs --check",
+    "contract:openapi": "node scripts/apply-content-scope-openapi-metadata.cjs",
+    "contract:openapi:check": "node scripts/apply-content-scope-openapi-metadata.cjs --check"
   },
   "dependencies": {
     "@docusaurus/core": ">=2.0.1 <2.3.0",
