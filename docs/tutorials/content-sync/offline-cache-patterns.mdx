@@ -89,7 +89,7 @@ Recommended triggers:
 
 ## Replacing a Resource
 
-When a change includes `snapshot_url`, fetch the full copy and replace rows in one transaction.
+When a change includes `snapshot_url`, fetch the full copy before opening a local database transaction. Then replace the rows for that `resource_group` and `resource_id` and commit. The transaction covers one resource replacement; do not keep it open during the snapshot request or across the full sync run.
 
 When `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path like `/api/v4/resources/snapshots/translations/19`. You should prefix that path with `https://apis.quran.foundation/content`.
 
@@ -108,6 +108,12 @@ sequenceDiagram
 ```
 
 This prevents mixed old and new rows from appearing in the reader UI.
+
+## Choosing a Sync Token Scope
+
+A sync token belongs to the exact canonical `resources` filter. Both single-resource filters such as `translations:19` and combined filters such as `translations:19,20;tafsirs:151` are supported. Store a separate token for every filter your app uses.
+
+Using one filter per resource can isolate retries and refresh schedules, while a combined filter reduces incremental sync requests. It does not change how many snapshots bootstrap requires: each resource still has its own `snapshot_url`. When a broad filter returns many snapshot URLs, fetch them with bounded concurrency and apply each snapshot in its own transaction.
 
 ## Practical Defaults
 
