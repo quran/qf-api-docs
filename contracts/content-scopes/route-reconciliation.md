@@ -91,7 +91,7 @@ preserved unchanged. No granular successor is assigned: the new scopes must not 
 route to a separately approved permission. The canonical search surface remains
 `/search/api/v1/search`, which does require `search`.
 
-### 3c. Live content reads absent from the spreadsheet (13 routes)
+### 3c. Live content reads absent from the spreadsheet (12 routes)
 
 | Route | Note |
 | --- | --- |
@@ -118,8 +118,8 @@ permission.
 > **This has a consequence that needs a decision, and it is not resolved by this contract.**
 >
 > Under D5 a newly issued client receives the eight C8 scopes and **no** `content` or
-> `content.read`. Such a client would be refused on all 13 of these routes, plus the two in 3b —
-> 15 live content endpoints an existing client can call today. That is a functional regression for
+> `content.read`. Such a client would be refused on all 12 of these routes, plus the two in 3b —
+> 14 live content endpoints an existing client can call today. That is a functional regression for
 > new clients, arrived at silently through absence from a spreadsheet rather than by review.
 >
 > Before D5 is activated, one of these has to be chosen and recorded:
@@ -168,6 +168,6 @@ variation and SDK include handling, plus a revised migration equivalence. See D4
 - [x] Every relevant route difference has a recorded disposition.
 - [x] Origin trust and enforcement point evidenced.
 - [x] Response-boundary behavior recorded, with no fields silently stripped.
-- [ ] **Open:** the 15 routes in 3b/3c that a granular-only client could not call. Needs an owner
+- [ ] **Open:** the 14 routes in 3b/3c that a granular-only client could not call. Needs an owner
       decision before D5 activation.
 - [ ] **Open:** `rails routes` re-run against the deployed revision, to replace this static parse.
