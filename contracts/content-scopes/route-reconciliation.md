@@ -26,10 +26,13 @@ identity, and no such guard exists anywhere in `app/` or `config/`. `Api::V4::Ap
 only resource-lookup helpers. Even `Api::Qdc::Qiraat::BaseController` — the most restricted surface
 — has no authentication of its own; Qiraat is restricted purely by explicit gateway route policy.
 
-So the origin consumes no OAuth scope at all, and **the gateway is the complete and only
-enforcement point** for content scopes. T04's outcome is a documented no-code-change: the granular
-scopes require no origin work, and because the origin never inspected scopes, they create no new
-bypass there.
+So the origin consumes no OAuth scope at all, and **the gateway is the only code that enforces
+content scopes**. T04's outcome is a documented no-code-change: the granular scopes require no
+origin work, and because the origin never inspected scopes, they create no new bypass there.
+
+That is a claim about code, and it is the only half this repository can establish. Whether the
+gateway is the only *reachable* path to the origin is a separate claim about deployment, and this
+document does not evidence it — see the second bullet below and item 2 of the completion state.
 
 Two properties of that model are worth stating, both pre-existing and neither altered by this
 migration:
@@ -39,7 +42,8 @@ migration:
 - Authorization therefore depends entirely on the origin not being publicly reachable except
   through the gateway. That is a network-topology property this repository cannot verify, and it
   should be confirmed independently rather than assumed. It is out of scope for the content scope
-  split, which neither improves nor worsens it.
+  split, which neither improves nor worsens it — but it is load-bearing for every scope decision
+  in this contract, so it is tracked as open rather than treated as settled.
 
 ## 2. Contract operations with no dedicated Rails route
 
@@ -170,8 +174,9 @@ No change. The scopes select endpoint families and do not filter response fields
   across content types under `content.sync.read`.
 
 Authorization happens at the gateway, ahead of the origin's public cache, so no protected response
-is served from cache before a scope check. Nothing in this change strips fields from an existing
-response.
+is served from cache before a scope check — on the assumption that the origin's cache is not
+independently reachable, which is the same unverified premise tracked in the completion state.
+Nothing in this change strips fields from an existing response.
 
 If strict per-data-type isolation is the actual objective, this activation path is the wrong one:
 it needs query and resource-group-aware authorization, origin-side field enforcement, cache
@@ -180,7 +185,16 @@ variation and SDK include handling, plus a revised migration equivalence. See D4
 ## 5. Completion state
 
 - [x] Every relevant route difference has a recorded disposition.
-- [x] Origin trust and enforcement point evidenced.
+- [x] Origin consumes no OAuth scope: evidenced from origin source (section 1).
+- [ ] **Provisional:** origin trust boundary. That the gateway is the only *reachable* path to
+      the origin is asserted, not evidenced. Closing it needs three artifacts this repository
+      does not contain: the ingress or load-balancer configuration fronting the origin, the
+      network policy or firewall rules that reject direct origin traffic, and the CDN or cache
+      configuration showing that publicly cacheable content responses cannot be retrieved
+      without passing the gateway. Until those are attached, every "the gateway is the only
+      enforcement point" statement here is conditional on an unverified premise. This is
+      pre-existing and unchanged by the split; it is listed because the split's authorization
+      model rests on it.
 - [x] Response-boundary behavior recorded, with no fields silently stripped.
 - [x] The 14 routes a granular-only client could not call: resolved by owner instruction on
       10 September 2026. Eleven assigned a scope, three deliberately left legacy-only.

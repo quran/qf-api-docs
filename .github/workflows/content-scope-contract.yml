@@ -1,0 +1,70 @@
+# The content scope contract is the artifact eight other repositories pin by sha256.
+#
+# Until now nothing ran on a pull request here: the 225-test suite and the two --check gates
+# existed but only ever ran on a contributor's machine. A contract that can drift without anything
+# noticing makes the cross-repo hash pin decorative, so this workflow proves three things on every
+# change that could affect it:
+#
+#   1. `contracts/content-scopes/v1.json` is exactly what the generator produces from its inputs,
+#      so nobody can hand-edit the artifact the other repos pin.
+#   2. The `x-qf-scopes` annotations in the openAPI files match that contract.
+#   3. The repository's own test suite passes.
+#
+# Deliberately path-filtered rather than repo-wide. This repo has no other CI, and introducing a
+# gate on every pull request is a separate decision for its owners to make.
+name: content scope contract
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/content-scope-contract.yml'
+      - 'contracts/content-scopes/**'
+      - 'openAPI/**'
+      - 'scripts/build-content-scope-contract.cjs'
+      - 'scripts/apply-content-scope-openapi-metadata.cjs'
+      - 'scripts/run-tests.cjs'
+      - 'tests/**'
+      - 'package.json'
+      - 'yarn.lock'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/content-scope-contract.yml'
+      - 'contracts/content-scopes/**'
+      - 'openAPI/**'
+      - 'scripts/build-content-scope-contract.cjs'
+      - 'scripts/apply-content-scope-openapi-metadata.cjs'
+      - 'scripts/run-tests.cjs'
+      - 'tests/**'
+      - 'package.json'
+      - 'yarn.lock'
+
+concurrency:
+  group: content-scope-contract-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # The contract hash is computed over LF-normalised bytes and `.gitattributes` pins these
+      # files to LF, so this check is the thing that would catch a line-ending regression too.
+      - name: Contract matches its inputs
+        run: yarn contract:check
+
+      - name: openAPI annotations match the contract
+        run: yarn contract:openapi:check
+
+      - name: Test suite
+        run: yarn test
