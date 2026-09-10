@@ -1,0 +1,181 @@
+---
+title: App State API contract
+description: Pre-live App State operations, wire rules, security, validation, and status-specific recovery.
+sidebar_label: Overview and API contract
+displayed_sidebar: APIsSidebar
+---
+
+# App State API contract
+
+App State stores approved private app-specific state for a signed-in user. This contract is additive
+and backward compatible: older and newer service and SDK binaries must continue to interoperate
+during rolling deployment. It does not authorize production use. Partner traffic and the user
+interface remain disabled until the [lifecycle launch gate](./lifecycle#launch-gate) is satisfied.
+
+:::warning Pre-live, NO-LAUNCH
+This page describes the reviewed contract for integration preparation. It does not enable an OAuth
+client, a data group, partner traffic, or a user interface.
+:::
+
+## Base path and authentication
+
+The public paths below are relative to the Quran Foundation API host and include the Auth service
+prefix. Every request requires:
+
+- `Authorization`: a user-delegated Bearer access token. Do not send a client-credentials token;
+  App State always requires a real user subject.
+- `x-client-id`: the OAuth client that owns the approved App State policy.
+- An approved scope: `app_state` authorizes reads and writes, `app_state.read` authorizes reads, and
+  `app_state.write` authorizes writes. Configuration can be read with any App State scope.
+
+The Gateway authenticates and introspects before charging client quota. A token must be active,
+unexpired, bound to the same client, contain a user subject, and authorize the route.
+
+## Operations
+
+| Operation | Purpose | Request-specific fields | Successful result |
+| --- | --- | --- | --- |
+| `GET /auth/v1/app-state:config` | Read enabled data groups and effective limits. | No query fields. | `200` JSON success envelope with `configVersion`, `limits`, and `collections`. |
+| `GET /auth/v1/app-state:bootstrap` | Page through a base scan before incremental reconciliation. | Optional `cursor`; optional `limit` (generated default 100). | `200` JSON success envelope with `items`, `nextCursor`, `hasMore`, and `nextSyncToken`. |
+| `GET /auth/v1/app-state:changes` | Pull a bounded page after a checkpoint. | Required `since`; optional `limit` (generated default 100). | `200` JSON success envelope with `changes`, `nextSyncToken`, and `hasMore`. |
+| `GET /auth/v1/app-state/{collection}` | List live documents in ascending key order. | Path `collection`; optional `cursor` and `limit`. | `200` JSON success envelope with `items`, `nextCursor`, and `hasMore`. |
+| `GET /auth/v1/app-state/{collection}/{key}` | Read one live document. | Path `collection` and `key`. | `200` JSON success envelope plus response `ETag`; `404` when absent. |
+| `PUT /auth/v1/app-state/{collection}/{key}` | Create or completely replace one document. | `Content-Type: application/json`, `Idempotency-Key`, body fields `value` and `schemaVersion`; strict data groups require one precondition. | `201` for creation or `200` for replacement/replay, with a JSON success envelope and response `ETag`. |
+| `DELETE /auth/v1/app-state/{collection}/{key}` | Delete a live document and create a tombstone. | `Idempotency-Key`; strict data groups require one precondition. | `204` with no response body, including an exact replay or an already-absent document. |
+
+`PUT` requires the `Content-Type` header value `application/json`.
+
+`GET /auth/v1/app-state:changes` is canonical. The draft `:sync` compatibility alias is not exposed:
+the reviewed organization inventory found no approved, deployed, published, prototype, or partner
+consumer that requires it.
+
+## Envelopes and safe generated examples
+
+Every JSON success response uses the generated required envelope fields `success` and `data`.
+The exact contents of `data` are operation-specific and are listed above. This guide intentionally
+does not copy state bodies, document values, continuation values, or dynamic identifiers from the
+generated examples.
+
+Every Gateway-visible JSON error requires `message`, `type`, and `success`; `details` is optional
+and contains the upstream service error when present. This generated example contains no user state
+or dynamic identifiers:
+
+```json
+{
+  "message": "PUT requires the value property.",
+  "type": "invalid_request",
+  "success": false,
+  "details": {
+    "success": false,
+    "error": {
+      "code": "invalid_json",
+      "message": "PUT requires the value property."
+    }
+  }
+}
+```
+
+## ETags, preconditions, and idempotency
+
+An `ETag` is an opaque quoted validator. It is not the numeric document version and clients must
+never construct or derive it from the document version. Store and return it byte-for-byte. The
+generated OpenAPI uses this synthetic valid example:
+`"s_6UYAfR2WOsf0gHaRMUXBw2kP1S-kRXyCmbCl6yZpk"`.
+
+For a strict data group, send exactly one of:
+
+- `If-Match`: replace/delete only if the current opaque validator matches.
+- `If-None-Match: *`: create only if the live document is absent.
+
+Both `PUT` and `DELETE` require a high-entropy `Idempotency-Key`. Reuse that key only while method,
+path, body bytes, and preconditions are byte-identical. An ambiguous `500` retry keeps the same key
+and fingerprint. A `412` rebase keeps the complete replacement intent but rotates the key only when
+the refreshed precondition changes the request fingerprint. Reusing a key for changed bytes returns
+`409 idempotency_key_reused`.
+
+## Pagination and checkpoints
+
+- Bootstrap and collection listing use the opaque `cursor` supplied by the API. When `hasMore` is
+  true, `nextCursor` is present; when the page is terminal, `hasMore` is false and `nextCursor` is
+  null.
+- A terminal bootstrap page has a non-null `nextSyncToken`. A continuing bootstrap page has a
+  non-null `nextCursor` and a null `nextSyncToken`.
+- Changes require `since` and return a new `nextSyncToken` on every page. Apply each complete page
+  with its returned checkpoint in one local transaction; continue while `hasMore` is true.
+- Never construct, decode, log, or compare the contents of a cursor or checkpoint. Store the opaque
+  value only in account- and namespace-isolated secure local storage.
+
+See [Transactional reconciliation](./reconciliation) for bootstrap promotion, recovery, and crash
+boundaries.
+
+## Validation and quota boundaries
+
+- A path component is decoded exactly once. Encoded separators, slash/backslash characters,
+  control characters, the delete character, empty keys, and lone Unicode surrogates are rejected.
+- Document keys preserve exact identity with no Unicode normalization. A decomposed sequence is not
+  silently changed into another key.
+- A key contains at most 512 Unicode scalar values. This is a scalar limit, not a UTF-16 code-unit
+  limit.
+- JSON has a maximum nesting depth of 64 containers. Deeper input is invalid.
+- Document size and quota enforcement use canonical UTF-8 bytes. Effective byte and document-count
+  limits come from `GET /auth/v1/app-state:config`; do not hard-code the synthetic OpenAPI values.
+- `PUT` stores a complete replacement. There is no generic JSON merge.
+
+The generated mutation contract also includes `413 payload_too_large` when canonical serialized
+size exceeds the document limit and `422 unprocessable_entity` with service code `quota_exceeded`
+when the per-user quota would be exceeded. Correct the size or quota condition before making a new
+logical request.
+
+## Status and client-action matrix
+
+The action text below is frozen with fixture version 1.0.0. “All seven” means configuration,
+bootstrap, changes, list, get, put, and delete.
+
+| Status | Applies to | Type and representative service codes | Retry | Required client action |
+| --- | --- | --- | --- | --- |
+| 400 | All seven | `invalid_request`; `invalid_json`, `invalid_key`, `invalid_sync_token`, `invalid_etag` | No | Correct the request without discarding valid local state. |
+| 401 | All seven | `unauthorized`; invalid, inactive, expired, revoked, or wrong-client credential | After authentication | Refresh or reauthenticate the user, then retry with the same logical request. |
+| 403 | All seven | `forbidden`; `app_state_disabled`, `collection_not_allowed`, `insufficient_scope` | No | Stop and resolve scope, user delegation, client ownership, or App State policy. |
+| 404 | Get document | `not_found`; `document_not_found` | No | Treat the requested live document as absent. |
+| 409 | Bootstrap, changes, put, delete | `service_error`; `idempotency_key_reused`, `app_state_policy_changed`, `app_state_data_deleted` | After resolution | Do not reuse a key for changed bytes; refresh configuration or bootstrap when directed. |
+| 410 | Bootstrap, changes, list | `gone`; `bootstrap_required`, `sync_token_expired` | After bootstrap | Preserve pending mutations, bootstrap into staging, drain changes, promote, replay, then pull again. |
+| 412 | Put, delete | `precondition_failed` | After rebase | Read current state, preserve complete-replacement intent, update the precondition, rotate the idempotency key, and retry within the bound. |
+| 428 | Put, delete | `precondition_required` | With a precondition | Supply exactly one of If-Match or If-None-Match for the strict collection. |
+| 429 | All seven | `rate_limit_exceeded` | After the response interval | Wait for Retry-After and retry the same request bytes and idempotency key. |
+| 500 | All seven | `internal_server_error`; `ServerError` | With bounded backoff | Retry an ambiguous mutation with identical bytes, preconditions, and idempotency key. |
+| 503 | All seven | `service_unavailable`; `namespace_resolution_unavailable`, `app_state_unavailable` | With bounded backoff | Retry with bounded backoff; preserve pending local state and the original mutation fingerprint. |
+
+### Authentication and availability details
+
+- `401` means the credential cannot establish a valid principal. The `WWW-Authenticate` response
+  header is `WWW-Authenticate: Bearer error=&quot;invalid_token&quot;` for invalid credentials.
+- `403` means a valid principal lacks the required scope or policy. Do not refresh-loop an
+  insufficient-scope response.
+- Hydra, namespace-policy, stream, or quota-enforcement unavailability fails closed with `503`.
+  It is not translated into a client-invalid response and protected requests do not fail open.
+- A `503` response fails closed; it never enables a protected operation without usable policy.
+- `429` includes `Retry-After`. The compatible public boundary also exposes `RateLimit-Limit`,
+  `RateLimit-Remaining`, and `RateLimit-Reset` metadata when supplied.
+
+Positive introspection cache entries are bounded by the shorter of token expiry and 60 seconds.
+That is the implemented maximum revocation exposure; formal accountable approval remains
+[Pending](./lifecycle#pending-policy-decisions) and blocks launch.
+
+## Privacy and secure handling
+
+App State telemetry is metadata-only. Kafka, New Relic, error logs, and traces must not contain App
+State bodies, values, tokens, cursors, dynamic key identifiers, namespace identifiers, raw user
+identifiers, raw client identifiers, deletion reasons, credentials, full URLs, or sensitive
+literal paths. Route dimensions use normalized templates, and App State query/body projections are
+empty allowlisted objects. If an approved keyed subject-pseudonym facility is unavailable, subject
+correlation is omitted.
+
+Apply the same rules to local logs, crash reports, analytics, support exports, and native/mobile
+diagnostics. Keep credentials and opaque checkpoints in platform-appropriate secure storage and
+separate each verified account and namespace boundary.
+
+## Next
+
+- [Transactional reconciliation](./reconciliation)
+- [Lifecycle and launch policy](./lifecycle)
+- [OAuth2 scopes](/docs/user_related_apis_prelive/scopes#app-state)
