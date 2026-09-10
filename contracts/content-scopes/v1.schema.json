@@ -20,6 +20,7 @@
     "quotaPolicy",
     "aliasReconciliation",
     "precedencePairs",
+    "supplementalOperations",
     "counts",
     "operations"
   ],
@@ -83,6 +84,7 @@
           "description",
           "grantType",
           "operationCount",
+          "supplementalOperationCount",
           "sourceRows",
           "partOfC8"
         ],
@@ -94,7 +96,16 @@
             "const": "read",
             "description": "Every proposed v1 scope is a read permission. New read scopes authorize no writes."
           },
-          "operationCount": { "type": "integer", "minimum": 1 },
+          "operationCount": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Spreadsheet-derived operations only, so it stays comparable with Appendix A1's per-scope numbers."
+          },
+          "supplementalOperationCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Operations added by owner assignment because the spreadsheet never covered them."
+          },
           "sourceRows": { "$ref": "#/definitions/sheetRows" },
           "partOfC8": { "type": "boolean" }
         }
@@ -292,18 +303,71 @@
       }
     },
 
+    "supplementalOperations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assignmentDate", "assignmentSource", "assigned", "deliberatelyUnassigned"],
+      "description": "Live routes the spreadsheet never covered. Their scope assignments are an owner instruction recorded in policy.json, never inferred from the path by the generator.",
+      "properties": {
+        "$comment": { "type": "string" },
+        "assignmentDate": { "type": "string", "minLength": 1 },
+        "assignmentSource": { "type": "string", "minLength": 1 },
+        "assigned": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["gatewayPath", "granularAnyOf", "rule"],
+            "properties": {
+              "gatewayPath": { "$ref": "#/definitions/gatewayPath" },
+              "granularAnyOf": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": { "$ref": "#/definitions/granularScope" }
+              },
+              "rule": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The assignment rule that produced this scope, so a reviewer can check the mapping rather than trust it."
+              }
+            }
+          }
+        },
+        "deliberatelyUnassigned": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["gatewayPath", "reason"],
+            "properties": {
+              "gatewayPath": { "$ref": "#/definitions/gatewayPath" },
+              "reason": { "type": "string", "minLength": 1 }
+            }
+          },
+          "description": "Routes left on legacy-only access on purpose. A granular-only client cannot call these, which is a recorded decision rather than an omission."
+        }
+      }
+    },
+
     "counts": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "sheetRowsTotal",
         "contentRowsMapped",
+        "supplementalOperationsAssigned",
+        "supplementalOperationsUnassigned",
+        "operationsTotal",
         "regressionInventoryRows",
         "byScope"
       ],
       "properties": {
         "sheetRowsTotal": { "const": 208 },
         "contentRowsMapped": { "const": 95 },
+        "supplementalOperationsAssigned": { "type": "integer", "minimum": 0 },
+        "supplementalOperationsUnassigned": { "type": "integer", "minimum": 0 },
+        "operationsTotal": { "type": "integer", "minimum": 95 },
         "regressionInventoryRows": { "const": 113 },
         "byScope": {
           "type": "object",
@@ -315,7 +379,6 @@
     "operations": {
       "type": "array",
       "minItems": 95,
-      "maxItems": 95,
       "items": { "$ref": "#/definitions/operation" }
     }
   },
@@ -348,9 +411,9 @@
 
     "sheetRows": {
       "type": "array",
-      "minItems": 1,
       "uniqueItems": true,
-      "items": { "type": "integer", "minimum": 2, "maximum": 209 }
+      "items": { "type": "integer", "minimum": 2, "maximum": 209 },
+      "description": "Empty for an owner-assigned operation, which by definition has no spreadsheet row."
     },
 
     "gatewayPath": {
@@ -374,6 +437,7 @@
       "additionalProperties": false,
       "required": [
         "routeId",
+        "origin",
         "service",
         "gatewayService",
         "method",
@@ -400,6 +464,13 @@
       ],
       "properties": {
         "routeId": { "type": "string", "minLength": 1 },
+        "origin": {
+          "enum": ["spreadsheet", "owner-assignment"],
+          "description": "Where this operation came from. Owner-assigned operations have no spreadsheet row and no OpenAPI path."
+        },
+        "assignmentRule": { "type": ["string", "null"] },
+        "assignmentDate": { "type": ["string", "null"] },
+        "assignmentSource": { "type": ["string", "null"] },
         "service": { "enum": ["content", "quran-reflect"] },
         "gatewayService": { "enum": ["content", "quran-reflect"] },
         "method": {
@@ -408,14 +479,18 @@
         },
         "gatewayPath": { "$ref": "#/definitions/gatewayPath" },
         "upstreamPath": { "type": "string", "minLength": 1 },
-        "openApiPath": { "type": "string", "minLength": 1 },
-        "openApiDocument": { "type": "string", "minLength": 1 },
-        "operationId": { "type": "string", "minLength": 1 },
+        "openApiPath": { "type": ["string", "null"], "minLength": 1 },
+        "openApiDocument": { "type": ["string", "null"], "minLength": 1 },
+        "operationId": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "description": "Null for an owner-assigned operation: these endpoints are not published in the OpenAPI documents, which is why the spreadsheet never covered them."
+        },
         "pathParams": { "type": "array", "items": { "type": "string" } },
         "sourceRows": { "$ref": "#/definitions/sheetRows" },
         "sheetLabel": { "type": "string", "minLength": 1 },
         "sheetLabelOriginal": {
-          "type": "string",
+          "type": ["string", "null"],
           "minLength": 1,
           "description": "Column F exactly as the sheet holds it. Preserved even where an approved override changes the mapping."
         },

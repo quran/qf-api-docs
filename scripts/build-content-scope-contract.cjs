@@ -254,6 +254,7 @@ const build = () => {
 
     const operation = {
       routeId,
+      origin: 'spreadsheet',
       service,
       gatewayService: service,
       method,
@@ -304,7 +305,93 @@ const build = () => {
     });
   }
 
+  // ---- supplemental operations (not in the spreadsheet) -------------------------
+  // Live routes the sheet never covered. Without them a granular-only client would be refused on
+  // endpoints an existing client can call, narrowing access by omission rather than by review.
+  // Their scope assignments are an owner instruction, recorded in policy.json with the rule that
+  // produced each one; they are not inferred from the path here.
+  const supplemental = policy.supplementalOperations ?? {};
+  const supplementalOperations = [];
+
+  for (const entry of supplemental.operations ?? []) {
+    const granular = scopeMap[entry.label];
+    if (!granular) {
+      fail(
+        `supplemental ${entry.gatewayPath}: no machine scope mapped for label ${JSON.stringify(entry.label)}`,
+      );
+      continue;
+    }
+
+    // Supplemental routes are content-service GETs reached through the wildcard today, so they
+    // inherit exactly the same observed legacy policy as every other content operation.
+    const legacyRule = matchLegacyRule(policy.observedLegacyPolicy.rules, {
+      gatewayService: 'content',
+      method: 'GET',
+      gatewayPath: entry.gatewayPath,
+    });
+    if (!legacyRule) {
+      fail(`supplemental ${entry.gatewayPath}: no observed legacy authorization rule`);
+      continue;
+    }
+
+    const normalizedKey = `content|GET|${entry.gatewayPath}|production`;
+    if (seenNormalizedKeys.has(normalizedKey)) {
+      fail(
+        `supplemental ${entry.gatewayPath}: collides with sheet row ${seenNormalizedKeys.get(normalizedKey)}`,
+      );
+      continue;
+    }
+    seenNormalizedKeys.set(normalizedKey, `supplemental:${entry.gatewayPath}`);
+
+    const routeId = `content.v4.supplemental.${entry.gatewayPath
+      .replace(/^\/api\/v4\//u, '')
+      .replace(/\//gu, '.')
+      .replace(/:/gu, '')}`;
+    if (seenRouteIds.has(routeId)) {
+      fail(`supplemental ${entry.gatewayPath}: routeId collision (${routeId})`);
+      continue;
+    }
+    seenRouteIds.set(routeId, `supplemental:${entry.gatewayPath}`);
+
+    supplementalOperations.push({
+      routeId,
+      origin: 'owner-assignment',
+      service: 'content',
+      gatewayService: 'content',
+      method: 'GET',
+      gatewayPath: entry.gatewayPath,
+      upstreamPath: entry.gatewayPath,
+      // Absent from the OpenAPI documents: these endpoints are not published there, which is why
+      // the sheet never covered them. Consumers that key off OpenAPI simply will not see them.
+      openApiPath: null,
+      openApiDocument: null,
+      operationId: null,
+      pathParams: [...entry.gatewayPath.matchAll(/:([^/]+)/gu)].map((match) => match[1]),
+      sourceRows: [],
+      assignmentRule: entry.rule,
+      assignmentDate: supplemental.assignmentDate ?? null,
+      assignmentSource: supplemental.assignmentSource ?? null,
+      sheetLabel: entry.label,
+      sheetLabelOriginal: null,
+      labelOverride: null,
+      environments: ['production'],
+      authContext: policy.authContexts.content,
+      legacyAnyOf: legacyRule.anyOf,
+      legacyMatchSource: legacyRule.source,
+      legacyRuleId: legacyRule.id,
+      granularAnyOf: [granular],
+      quotaBuckets: legacyRule.anyOf,
+      rateLimitPolicyId: policy.quotaPolicy.rateLimitPolicyIds[legacyRule.id],
+      responseBoundary: policy.responseBoundary.value,
+      deprecatedForNewClients: legacyRule.anyOf.filter((scope) =>
+        policy.deprecatedForNewClients.scopes.includes(scope),
+      ),
+    });
+  }
+
   operations.sort((a, b) => a.sourceRows[0] - b.sourceRows[0]);
+  supplementalOperations.sort((a, b) => a.gatewayPath.localeCompare(b.gatewayPath));
+  operations.push(...supplementalOperations);
   provenance.sort((a, b) => a.sheetRow - b.sheetRow);
 
   // ---- alias reconciliation (A2) -------------------------------------------------
@@ -371,13 +458,16 @@ const build = () => {
   // ---- scope catalog -------------------------------------------------------------
   const scopeCatalog = Object.entries(scopeMap).map(([label, machineName]) => {
     const owned = operations.filter((op) => op.granularAnyOf[0] === machineName);
+    const fromSheet = owned.filter((op) => op.origin === 'spreadsheet');
     return {
       machineName,
       displayLabel: label,
       description: policy.scopeDescriptions[machineName],
       grantType: 'read',
-      operationCount: owned.length,
-      sourceRows: owned.map((op) => op.sourceRows[0]),
+      // Sheet-derived count, so it stays comparable with Appendix A1's per-scope numbers.
+      operationCount: fromSheet.length,
+      supplementalOperationCount: owned.length - fromSheet.length,
+      sourceRows: fromSheet.map((op) => op.sourceRows[0]),
       partOfC8: machineName !== 'content.reflections.read',
     };
   });
@@ -468,9 +558,24 @@ const build = () => {
     },
     aliasReconciliation,
     precedencePairs,
+    supplementalOperations: {
+      $comment:
+        'Routes absent from the spreadsheet. Assignments are an owner instruction, not inferred here.',
+      assignmentDate: supplemental.assignmentDate ?? null,
+      assignmentSource: supplemental.assignmentSource ?? null,
+      assigned: supplementalOperations.map((op) => ({
+        gatewayPath: op.gatewayPath,
+        granularAnyOf: op.granularAnyOf,
+        rule: op.assignmentRule,
+      })),
+      deliberatelyUnassigned: supplemental.deliberatelyUnassigned ?? [],
+    },
     counts: {
       sheetRowsTotal: rows.length,
-      contentRowsMapped: operations.length,
+      contentRowsMapped: operations.filter((op) => op.origin === 'spreadsheet').length,
+      supplementalOperationsAssigned: supplementalOperations.length,
+      supplementalOperationsUnassigned: (supplemental.deliberatelyUnassigned ?? []).length,
+      operationsTotal: operations.length,
       regressionInventoryRows: provenance.filter(
         (p) => p.disposition === 'regression-inventory-not-migrated',
       ).length,

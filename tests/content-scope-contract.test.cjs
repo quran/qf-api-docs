@@ -178,11 +178,18 @@ test('D2: rows 47 and 48 are corrected while preserving the original sheet label
   assert.equal(tafsirs.sheetLabelOriginal, 'Quran Scope');
   assert.equal(tafsirs.labelOverride.requiresDecision, 'D2');
 
-  // Every other operation keeps column F untouched.
-  for (const op of contract.operations) {
+  // Every other sheet-derived operation keeps column F untouched.
+  for (const op of contract.operations.filter((o) => o.origin === 'spreadsheet')) {
     if (op.sourceRows.some((row) => [47, 48].includes(row))) continue;
     assert.equal(op.labelOverride, null, `${op.routeId} has an unreviewed override`);
     assert.equal(op.sheetLabel, op.sheetLabelOriginal);
+  }
+
+  // An owner-assigned operation has no column F at all, so there is nothing to override.
+  for (const op of contract.operations.filter((o) => o.origin === 'owner-assignment')) {
+    assert.equal(op.sheetLabelOriginal, null, `${op.routeId} should have no sheet label`);
+    assert.equal(op.labelOverride, null);
+    assert.deepEqual(op.sourceRows, []);
   }
 });
 
@@ -229,7 +236,7 @@ test('normalized route keys are unique and route ids are stable', () => {
     assert.ok(!ids.has(op.routeId), `duplicate routeId ${op.routeId}`);
     ids.add(op.routeId);
   }
-  assert.equal(keys.size, 95);
+  assert.equal(keys.size, contract.counts.operationsTotal);
 });
 
 test('public reflection operations and the user-token surface stay separate', () => {
@@ -367,11 +374,13 @@ test('gateway paths are derived per service, not by substring replacement', () =
   assert.equal(resolveGatewayPath('content', '/resources/content'), '/api/v4/resources/content');
 });
 
-test('every content operation matches a path in the content OpenAPI document', () => {
+test('every documented content operation matches a path in the content OpenAPI document', () => {
   const openApi = JSON.parse(
     fs.readFileSync(path.join(__dirname, '..', 'openAPI', 'content', 'v4.json'), 'utf8'),
   );
-  for (const op of contract.operations) {
+  // Owner-assigned operations are deliberately absent from the OpenAPI documents; that is why
+  // the spreadsheet never covered them. A separate test pins that they carry no OpenAPI linkage.
+  for (const op of contract.operations.filter((o) => o.origin === 'spreadsheet')) {
     const node = openApi.paths[op.openApiPath];
     assert.ok(node, `${op.routeId}: ${op.openApiPath} is missing from ${op.openApiDocument}`);
     const operation = node[op.method.toLowerCase()];
@@ -416,4 +425,109 @@ test('legacy umbrella is documented as still broad, with no sunset date', () => 
 test('the CSV parser handles quoted fields containing commas and quotes', () => {
   const rows = parseCsv('a,b\n"x,1","he said ""hi"""\n');
   assert.deepEqual(rows, [{ a: 'x,1', b: 'he said "hi"' }]);
+});
+
+test('owner-assigned operations are recorded with their rule and no OpenAPI linkage', () => {
+  const supplemental = contract.operations.filter((op) => op.origin === 'owner-assignment');
+
+  assert.equal(supplemental.length, contract.counts.supplementalOperationsAssigned);
+  assert.equal(supplemental.length, contract.supplementalOperations.assigned.length);
+  assert.ok(contract.supplementalOperations.assignmentDate);
+  assert.ok(contract.supplementalOperations.assignmentSource);
+
+  for (const op of supplemental) {
+    // No spreadsheet row and no OpenAPI path: these endpoints are not published.
+    assert.deepEqual(op.sourceRows, [], op.routeId);
+    assert.equal(op.openApiPath, null, op.routeId);
+    assert.equal(op.operationId, null, op.routeId);
+    // The rule that produced the assignment is recorded, so a reviewer can check the mapping
+    // rather than take it on trust.
+    assert.ok(op.assignmentRule, `${op.routeId} has no assignment rule`);
+    assert.equal(op.assignmentDate, contract.supplementalOperations.assignmentDate);
+    assert.equal(op.granularAnyOf.length, 1);
+  }
+});
+
+test('owner-assigned operations are additive in exactly the same way', () => {
+  for (const op of contract.operations.filter((o) => o.origin === 'owner-assignment')) {
+    // Legacy access is preserved, so an existing client is unaffected.
+    assert.deepEqual(op.legacyAnyOf, ['content.read', 'content'], op.routeId);
+    // Quota buckets stay frozen to the pre-migration set.
+    assert.deepEqual(op.quotaBuckets, op.legacyAnyOf, op.routeId);
+    for (const scope of GRANULAR) {
+      assert.ok(!op.quotaBuckets.includes(scope), `${op.routeId} charges ${scope}`);
+    }
+    assert.deepEqual(op.deprecatedForNewClients, ['content.read', 'content']);
+  }
+});
+
+test('the owner assignment rules produced the expected scopes', () => {
+  const assigned = new Map(
+    contract.supplementalOperations.assigned.map((entry) => [
+      entry.gatewayPath,
+      entry.granularAnyOf[0],
+    ]),
+  );
+
+  assert.deepEqual(
+    [...assigned.entries()].sort(),
+    [
+      ['/api/v4/audio/qaris', 'content.audio.read'],
+      ['/api/v4/audio/qaris/:id', 'content.audio.read'],
+      ['/api/v4/audio/qaris/:id/audio_files/:ext', 'content.audio.read'],
+      ['/api/v4/audio/qaris/related/:id', 'content.audio.read'],
+      ['/api/v4/audio/sections', 'content.audio.read'],
+      ['/api/v4/audio/surahs', 'content.audio.read'],
+      ['/api/v4/audio/surahs/:id', 'content.audio.read'],
+      ['/api/v4/hadith_references/by_urn/:urn', 'content.hadith.read'],
+      ['/api/v4/mushafs', 'content.quran.read'],
+      ['/api/v4/resources/word_by_word_translations', 'content.translations.read'],
+      ['/api/v4/verses/filter', 'content.quran.read'],
+    ].sort(),
+  );
+});
+
+test('routes left unassigned are recorded with a reason, not omitted', () => {
+  const unassigned = contract.supplementalOperations.deliberatelyUnassigned;
+
+  assert.equal(unassigned.length, contract.counts.supplementalOperationsUnassigned);
+  assert.deepEqual(
+    unassigned.map((entry) => entry.gatewayPath).sort(),
+    ['/api/v4/resources/changes', '/api/v4/search', '/api/v4/suggest'],
+  );
+  for (const entry of unassigned) {
+    assert.ok(entry.reason, `${entry.gatewayPath} has no reason`);
+    // None of them may appear as an operation: they stay on legacy-only access.
+    assert.ok(
+      !contract.operations.some((op) => op.gatewayPath === entry.gatewayPath),
+      `${entry.gatewayPath} must not become a contract operation`,
+    );
+  }
+});
+
+test('the separately approved search surface gains no content successor', () => {
+  // Giving these a successor would make the new scopes a second route to the `search` permission.
+  for (const gatewayPath of ['/api/v4/search', '/api/v4/suggest']) {
+    assert.ok(!contract.operations.some((op) => op.gatewayPath === gatewayPath));
+  }
+});
+
+test('per-scope counts separate sheet-derived from owner-assigned operations', () => {
+  for (const scope of contract.scopes) {
+    const owned = contract.operations.filter((op) => op.granularAnyOf[0] === scope.machineName);
+    const fromSheet = owned.filter((op) => op.origin === 'spreadsheet');
+
+    assert.equal(scope.operationCount, fromSheet.length, scope.machineName);
+    assert.equal(
+      scope.supplementalOperationCount,
+      owned.length - fromSheet.length,
+      scope.machineName,
+    );
+    // The sheet-derived numbers must still match Appendix A1 exactly.
+    assert.equal(scope.sourceRows.length, fromSheet.length);
+  }
+
+  // Appendix A1's totals are unchanged by the owner assignment.
+  const sheetTotal = contract.scopes.reduce((sum, scope) => sum + scope.operationCount, 0);
+  assert.equal(sheetTotal, 95);
 });

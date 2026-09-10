@@ -10,7 +10,7 @@ and work packages T00, T01 and T04.
 | --- | --- |
 | Route surface | `quran/quran.com-api` @ `origin/testing-warsh` `596c7edcfcbc32171242ba26f34fd5499ac5f269`, `config/routes/api/v4.rb` |
 | Gateway policy | `quran/qf-api-gateway` @ `origin/testing` `0954eae442ab4ed47cca45102074bb01a88079cf` |
-| Contract | `contracts/content-scopes/v1.json`, sha256 `9c52c6e12ea40bc378a0a160d3e0f1bce67bbf774fe5e4f7d14e09b56b3e5254` |
+| Contract | `contracts/content-scopes/v1.json`, sha256 `9c83111f2fddbf89cd59346649a028256b44089c82f8df2cce1c3e4d2b4a443e` |
 
 **Method and its limit.** The route surface was obtained by statically parsing the routes DSL, not
 by running `rails routes`, which needs the full application environment. It found 109 GET routes.
@@ -84,12 +84,18 @@ granular scopes and still accepts `qiraat.read`.
 
 `/api/v4/search`, `/api/v4/suggest`.
 
-**Disposition: preserve legacy-only access.** Note these sit under the content service prefix, so
-today they match the `GET /content/*` wildcard and are reachable with `content` or `content.read` —
-they do *not* require the `search` scope on this path. That is pre-existing behavior and is
-preserved unchanged. No granular successor is assigned: the new scopes must not become a second
-route to a separately approved permission. The canonical search surface remains
-`/search/api/v1/search`, which does require `search`.
+**Disposition: preserve legacy-only access. Resolved — deliberately unassigned.**
+
+Note these sit under the content service prefix, so today they match the `GET /content/*` wildcard
+and are reachable with `content` or `content.read` — they do *not* require the `search` scope on
+this path. That is pre-existing behavior and is preserved unchanged.
+
+No granular successor is assigned, by owner decision on 10 September 2026: the new scopes must not
+become a second route to a separately approved permission. The canonical search surface remains
+`/search/api/v1/search`, which does require `search`. Recorded in
+`policy.json` → `supplementalOperations.deliberatelyUnassigned`, so the omission is a decision
+rather than a gap. **A granular-only client cannot call these two**; narrowing them properly is a
+separate decision.
 
 ### 3c. Live content reads absent from the spreadsheet (12 routes)
 
@@ -108,34 +114,42 @@ route to a separately approved permission. The canonical search surface remains
 | `/api/v4/audio/surahs` | |
 | `/api/v4/audio/surahs/:id` | |
 
-**Disposition: preserve legacy-only access, and resolve before D5 activation.**
+**Disposition: RESOLVED. Eleven reconciled into the contract, one left legacy-only.**
 
-They keep working exactly as they do today: no contract entry means no explicit gateway route, so
-they fall through to the `GET /content/*` wildcard and continue to accept `content.read` or
-`content`. The wildcard is deliberately legacy-only, so none of them silently inherits a granular
-permission.
+Owner instruction, 10 September 2026, applying these rules to the route path:
 
-> **This has a consequence that needs a decision, and it is not resolved by this contract.**
->
-> Under D5 a newly issued client receives the eight C8 scopes and **no** `content` or
-> `content.read`. Such a client would be refused on all 12 of these routes, plus the two in 3b —
-> 14 live content endpoints an existing client can call today. That is a functional regression for
-> new clients, arrived at silently through absence from a spreadsheet rather than by review.
->
-> Before D5 is activated, one of these has to be chosen and recorded:
->
-> 1. **Reconcile them into the contract** with reviewed scope assignments (the audio subroutes
->    plausibly `content.audio.read`, Mushafs and `verses/filter` plausibly `content.quran.read`,
->    `resources/changes` plausibly `content.sync.read`, `hadith_references/by_urn`
->    plausibly `content.hadith.read`, `resources/word_by_word_translations` plausibly
->    `content.translations.read`) — each needs an owner decision, not a plausible guess; or
-> 2. **Accept the narrowing deliberately**, publish that these endpoints need the legacy scope, and
->    document them as unavailable to granular-only clients; or
-> 3. **Confirm they are not publicly deployed**, in which case there is nothing to reconcile — but
->    that must be verified against the deployed app rather than assumed from the routes file.
->
-> Option 1 is the recommendation. Whichever is chosen, it belongs in `policy.json` and
-> `decisions.md` before the new-client policy is switched on.
+| Rule | Assigned scope | Routes |
+| --- | --- | --- |
+| `/audio` present | `content.audio.read` | the seven audio subroutes |
+| the word `hadith` present | `content.hadith.read` | `hadith_references/by_urn/:urn` |
+| `/verses` present | `content.quran.read` | `verses/filter` |
+| `/mushafs` | `content.quran.read` | `mushafs` |
+| the word `translations` present | `content.translations.read` | `resources/word_by_word_translations` |
+| no rule matches | none — legacy only | `resources/changes` |
+
+Two readings were required, and both are recorded on the entries in `policy.json`:
+
+- **There is no separate "verses" scope.** Quran Scope is the one covering "chapters, structure,
+  pages, verses and scripts", so `verses/filter` and `mushafs` both resolve to
+  `content.quran.read`.
+- **`resources/word_by_word_translations` has no `/translations` path segment** — the word appears
+  inside the segment `word_by_word_translations`. Matched on the word, consistent with how the
+  hadith rule was expressed.
+
+The eleven assigned routes are now full contract operations and behave identically to a
+sheet-derived one: the legacy alternatives stay accepted so no existing client is affected, and
+the quota buckets stay frozen to the pre-migration set. They carry `origin:
+"owner-assignment"`, empty `sourceRows` and a null `openApiPath`, because these endpoints are not
+published in the OpenAPI documents — which is why the spreadsheet never covered them. A
+consequence of that: they do not appear in the generated SDK operation catalogs either, so an SDK
+caller reaches them only through the untyped `client.fetch` path.
+
+`resources/changes` keeps legacy-only access through the wildcard, recorded in
+`policy.json` → `supplementalOperations.deliberatelyUnassigned`.
+
+**Residual narrowing, now a recorded decision rather than an omission:** a granular-only client
+issued under D5 cannot call `resources/changes`, `/api/v4/search` or `/api/v4/suggest` — three
+routes, down from fourteen.
 
 ### 3d. Infrastructure (2 routes)
 
@@ -168,6 +182,6 @@ variation and SDK include handling, plus a revised migration equivalence. See D4
 - [x] Every relevant route difference has a recorded disposition.
 - [x] Origin trust and enforcement point evidenced.
 - [x] Response-boundary behavior recorded, with no fields silently stripped.
-- [ ] **Open:** the 14 routes in 3b/3c that a granular-only client could not call. Needs an owner
-      decision before D5 activation.
+- [x] The 14 routes a granular-only client could not call: resolved by owner instruction on
+      10 September 2026. Eleven assigned a scope, three deliberately left legacy-only.
 - [ ] **Open:** `rails routes` re-run against the deployed revision, to replace this static parse.

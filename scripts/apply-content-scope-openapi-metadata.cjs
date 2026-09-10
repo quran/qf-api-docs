@@ -74,8 +74,12 @@ const apply = () => {
   const document = JSON.parse(raw);
   const errors = [];
 
+  // Only spreadsheet-derived operations exist in the OpenAPI documents. The owner-assigned
+  // supplemental routes are not published there -- that is precisely why the spreadsheet never
+  // covered them -- so there is nothing here to annotate for them.
+  const documented = contract.operations.filter((operation) => operation.origin === 'spreadsheet');
   const byPath = new Map();
-  for (const operation of contract.operations) {
+  for (const operation of documented) {
     byPath.set(`${operation.method} ${operation.openApiPath}`, operation);
   }
 
@@ -103,9 +107,9 @@ const apply = () => {
     }
   }
 
-  if (applied !== contract.operations.length) {
+  if (applied !== documented.length) {
     errors.push(
-      `applied metadata to ${applied} operations but the contract holds ${contract.operations.length}`,
+      `applied metadata to ${applied} operations but the contract documents ${documented.length}`,
     );
   }
 

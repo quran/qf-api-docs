@@ -53,6 +53,109 @@
     }
   },
 
+  "supplementalOperations": {
+    "$comment": [
+      "Live Content API v4 routes that appear nowhere in the source spreadsheet's 208 rows, but",
+      "which existing clients can call today through the gateway's `GET /content/*` wildcard.",
+      "Without an entry here they would keep working for legacy clients and be refused for a",
+      "granular-only client issued under D5, which would narrow access by omission rather than by",
+      "review. See route-reconciliation.md sections 3b and 3c.",
+      "",
+      "These are NOT sheet-derived, so they carry no sourceRows. Their scope assignments are an",
+      "owner instruction recorded on 10 September 2026, applying these rules to the route path:",
+      "  /audio present        -> Audio scope",
+      "  the word hadith       -> Hadith Scope",
+      "  /verses present       -> the scope covering verses, which is Quran Scope",
+      "  /mushafs              -> Quran Scope",
+      "  translations present  -> Translation Scope",
+      "  none of the above     -> no assignment; keep legacy-only access",
+      "",
+      "Two readings were needed and are called out on the affected entries:",
+      "  * There is no separate 'verses' scope in the contract. Quran Scope is the one that covers",
+      "    'chapters, structure, pages, verses and scripts', so /verses/filter and /mushafs both",
+      "    resolve to it.",
+      "  * /resources/word_by_word_translations has no `/translations` path segment; the word",
+      "    appears inside the segment `word_by_word_translations`. Matched on the word, consistent",
+      "    with how the hadith rule was expressed.",
+      "",
+      "Every entry is additive in exactly the same way as a sheet-derived operation: the legacy",
+      "alternatives stay accepted and the quota buckets stay frozen to the pre-migration set."
+    ],
+    "assignmentDate": "2026-09-10",
+    "assignmentSource": "owner instruction",
+    "operations": [
+      {
+        "gatewayPath": "/api/v4/audio/qaris",
+        "label": "Audio scope",
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/qaris/:id",
+        "label": "Audio scope",
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/qaris/related/:id",
+        "label": "Audio scope",
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/qaris/:id/audio_files/:ext",
+        "label": "Audio scope",
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/sections",
+        "label": "Audio scope",
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/surahs",
+        "label": "Audio scope",
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/surahs/:id",
+        "label": "Audio scope",
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/hadith_references/by_urn/:urn",
+        "label": "Hadith Scope",
+        "rule": "the word hadith present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/verses/filter",
+        "label": "Quran Scope",
+        "rule": "/verses present in the path; Quran Scope is the scope covering verses"
+      },
+      {
+        "gatewayPath": "/api/v4/mushafs",
+        "label": "Quran Scope",
+        "rule": "/mushafs assigned Quran Scope"
+      },
+      {
+        "gatewayPath": "/api/v4/resources/word_by_word_translations",
+        "label": "Translation Scope",
+        "rule": "the word translations present in the path segment word_by_word_translations"
+      }
+    ],
+    "deliberatelyUnassigned": [
+      {
+        "gatewayPath": "/api/v4/resources/changes",
+        "reason": "No assignment rule matches. Keeps legacy-only access through the wildcard."
+      },
+      {
+        "gatewayPath": "/api/v4/search",
+        "reason": "No assignment rule matches, and `search` is a separately approved permission. Giving it a content successor would make the new scopes a second route to that permission. Keeps legacy-only access; narrowing it is a separate decision."
+      },
+      {
+        "gatewayPath": "/api/v4/suggest",
+        "reason": "No assignment rule matches, and this is part of the same separately approved search surface as above. Keeps legacy-only access."
+      }
+    ]
+  },
+
   "observedLegacyPolicy": {
     "$comment": [
       "Current effective authorization for each operation, read from code — not from the sheet.",

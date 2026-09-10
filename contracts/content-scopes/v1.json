@@ -11,7 +11,7 @@
     },
     "policy": {
       "path": "contracts/content-scopes/policy.json",
-      "sha256": "d44bf2d31f562cabe68d21d0bf896c7065b5ebd67740527bd5a1a5d8e05b952b"
+      "sha256": "7c7d30d659bc6a684881b2a7105ea4aa3b0f9b49b5879d757b96809b79f63361"
     }
   },
   "responseBoundary": {
@@ -26,6 +26,7 @@
       "description": "Reciters, recitations, audio files, timing/lookup, recitation information and styles.",
       "grantType": "read",
       "operationCount": 18,
+      "supplementalOperationCount": 7,
       "sourceRows": [
         2,
         3,
@@ -54,6 +55,7 @@
       "description": "Chapters, structure, pages, verses and scripts.",
       "grantType": "read",
       "operationCount": 37,
+      "supplementalOperationCount": 2,
       "sourceRows": [
         18,
         19,
@@ -101,6 +103,7 @@
       "description": "Hadith references, text and range counts.",
       "grantType": "read",
       "operationCount": 3,
+      "supplementalOperationCount": 1,
       "sourceRows": [
         21,
         22,
@@ -114,6 +117,7 @@
       "description": "Translation catalogs, information, verse translations and footnotes.",
       "grantType": "read",
       "operationCount": 13,
+      "supplementalOperationCount": 1,
       "sourceRows": [
         47,
         52,
@@ -137,6 +141,7 @@
       "description": "Tafsir catalogs, information and text.",
       "grantType": "read",
       "operationCount": 12,
+      "supplementalOperationCount": 0,
       "sourceRows": [
         48,
         54,
@@ -159,6 +164,7 @@
       "description": "Languages and verse media. Distinct from, and much narrower than, content.sync.read.",
       "grantType": "read",
       "operationCount": 2,
+      "supplementalOperationCount": 0,
       "sourceRows": [
         57,
         59
@@ -171,6 +177,7 @@
       "description": "Public content delta sync and resource snapshots. NOT the existing user-data 'sync' scope.",
       "grantType": "read",
       "operationCount": 2,
+      "supplementalOperationCount": 0,
       "sourceRows": [
         60,
         61
@@ -183,6 +190,7 @@
       "description": "The five public QuranReflect reads only. Grants no private posts, my-posts, private rooms, user-specific feeds, mutations or moderation.",
       "grantType": "read",
       "operationCount": 5,
+      "supplementalOperationCount": 0,
       "sourceRows": [
         89,
         90,
@@ -198,6 +206,7 @@
       "description": "Answers by ayah, answer detail and range counts.",
       "grantType": "read",
       "operationCount": 3,
+      "supplementalOperationCount": 0,
       "sourceRows": [
         94,
         95,
@@ -597,9 +606,110 @@
       "winnerSource": "src/libs/oauth.ts :: getOauth2ScopeMatch checks exact keys before dynamic keys"
     }
   ],
+  "supplementalOperations": {
+    "$comment": "Routes absent from the spreadsheet. Assignments are an owner instruction, not inferred here.",
+    "assignmentDate": "2026-09-10",
+    "assignmentSource": "owner instruction",
+    "assigned": [
+      {
+        "gatewayPath": "/api/v4/audio/qaris",
+        "granularAnyOf": [
+          "content.audio.read"
+        ],
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/qaris/:id",
+        "granularAnyOf": [
+          "content.audio.read"
+        ],
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/qaris/:id/audio_files/:ext",
+        "granularAnyOf": [
+          "content.audio.read"
+        ],
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/qaris/related/:id",
+        "granularAnyOf": [
+          "content.audio.read"
+        ],
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/sections",
+        "granularAnyOf": [
+          "content.audio.read"
+        ],
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/surahs",
+        "granularAnyOf": [
+          "content.audio.read"
+        ],
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/audio/surahs/:id",
+        "granularAnyOf": [
+          "content.audio.read"
+        ],
+        "rule": "/audio present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/hadith_references/by_urn/:urn",
+        "granularAnyOf": [
+          "content.hadith.read"
+        ],
+        "rule": "the word hadith present in the path"
+      },
+      {
+        "gatewayPath": "/api/v4/mushafs",
+        "granularAnyOf": [
+          "content.quran.read"
+        ],
+        "rule": "/mushafs assigned Quran Scope"
+      },
+      {
+        "gatewayPath": "/api/v4/resources/word_by_word_translations",
+        "granularAnyOf": [
+          "content.translations.read"
+        ],
+        "rule": "the word translations present in the path segment word_by_word_translations"
+      },
+      {
+        "gatewayPath": "/api/v4/verses/filter",
+        "granularAnyOf": [
+          "content.quran.read"
+        ],
+        "rule": "/verses present in the path; Quran Scope is the scope covering verses"
+      }
+    ],
+    "deliberatelyUnassigned": [
+      {
+        "gatewayPath": "/api/v4/resources/changes",
+        "reason": "No assignment rule matches. Keeps legacy-only access through the wildcard."
+      },
+      {
+        "gatewayPath": "/api/v4/search",
+        "reason": "No assignment rule matches, and `search` is a separately approved permission. Giving it a content successor would make the new scopes a second route to that permission. Keeps legacy-only access; narrowing it is a separate decision."
+      },
+      {
+        "gatewayPath": "/api/v4/suggest",
+        "reason": "No assignment rule matches, and this is part of the same separately approved search surface as above. Keeps legacy-only access."
+      }
+    ]
+  },
   "counts": {
     "sheetRowsTotal": 208,
     "contentRowsMapped": 95,
+    "supplementalOperationsAssigned": 11,
+    "supplementalOperationsUnassigned": 3,
+    "operationsTotal": 106,
     "regressionInventoryRows": 113,
     "byScope": {
       "content.audio.read": 18,
@@ -616,6 +726,7 @@
   "operations": [
     {
       "routeId": "content.v4.audio-reciter-timestamp",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -659,6 +770,7 @@
     },
     {
       "routeId": "content.v4.audio-reciter-lookup",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -702,6 +814,7 @@
     },
     {
       "routeId": "content.v4.recitations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -743,6 +856,7 @@
     },
     {
       "routeId": "content.v4.recitation-audio-files",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -786,6 +900,7 @@
     },
     {
       "routeId": "content.v4.chapter-reciters",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -827,6 +942,7 @@
     },
     {
       "routeId": "content.v4.list-surah-recitation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -871,6 +987,7 @@
     },
     {
       "routeId": "content.v4.list-juz-recitation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -915,6 +1032,7 @@
     },
     {
       "routeId": "content.v4.list-page-recitation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -959,6 +1077,7 @@
     },
     {
       "routeId": "content.v4.list-rub-el-hizb-recitation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1003,6 +1122,7 @@
     },
     {
       "routeId": "content.v4.list-hizb-recitation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1047,6 +1167,7 @@
     },
     {
       "routeId": "content.v4.list-ayah-recitation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1091,6 +1212,7 @@
     },
     {
       "routeId": "content.v4.list-manzil-recitation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1135,6 +1257,7 @@
     },
     {
       "routeId": "content.v4.list-ruku-recitation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1179,6 +1302,7 @@
     },
     {
       "routeId": "content.v4.chapter-reciter-audio-files",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1222,6 +1346,7 @@
     },
     {
       "routeId": "content.v4.chapter-reciter-audio-file",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1266,6 +1391,7 @@
     },
     {
       "routeId": "content.v4.list-rub-el-hizb-recitation-rub-el-hizb",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1310,6 +1436,7 @@
     },
     {
       "routeId": "content.v4.list-chapters",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1351,6 +1478,7 @@
     },
     {
       "routeId": "content.v4.GET-chapter",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1394,6 +1522,7 @@
     },
     {
       "routeId": "content.v4.get-chapter-info",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1437,6 +1566,7 @@
     },
     {
       "routeId": "content.v4.hadith-references-by-ayah",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1480,6 +1610,7 @@
     },
     {
       "routeId": "content.v4.hadiths-by-ayah",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1523,6 +1654,7 @@
     },
     {
       "routeId": "content.v4.hadith-count-within-range",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1564,6 +1696,7 @@
     },
     {
       "routeId": "content.v4.list-pages",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1605,6 +1738,7 @@
     },
     {
       "routeId": "content.v4.get-pages-lookup",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1646,6 +1780,7 @@
     },
     {
       "routeId": "content.v4.get-pages-page-number",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1689,6 +1824,7 @@
     },
     {
       "routeId": "content.v4.verses-by_chapter_number",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1732,6 +1868,7 @@
     },
     {
       "routeId": "content.v4.verses-by_page_number",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1775,6 +1912,7 @@
     },
     {
       "routeId": "content.v4.verses-by_juz_number",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1818,6 +1956,7 @@
     },
     {
       "routeId": "content.v4.verses-by_hizb_number",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1861,6 +2000,7 @@
     },
     {
       "routeId": "content.v4.verses-by_rub_el_hizb_number",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1904,6 +2044,7 @@
     },
     {
       "routeId": "content.v4.verses-by_manzil_number",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1947,6 +2088,7 @@
     },
     {
       "routeId": "content.v4.verses-by_ruku_number",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -1990,6 +2132,7 @@
     },
     {
       "routeId": "content.v4.verses-by_range",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2031,6 +2174,7 @@
     },
     {
       "routeId": "content.v4.verses-by_verse_key",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2074,6 +2218,7 @@
     },
     {
       "routeId": "content.v4.random_verse",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2115,6 +2260,7 @@
     },
     {
       "routeId": "content.v4.verses-by_rub_el_hizb_number-rub-el-hizb",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2158,6 +2304,7 @@
     },
     {
       "routeId": "content.v4.list-juzs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2199,6 +2346,7 @@
     },
     {
       "routeId": "content.v4.get-juz",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2242,6 +2390,7 @@
     },
     {
       "routeId": "content.v4.quran-verses-by-script",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2285,6 +2434,7 @@
     },
     {
       "routeId": "content.v4.QURAN-verses-indopak",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2326,6 +2476,7 @@
     },
     {
       "routeId": "content.v4.QURAN-verses-indopak-nastaleeq",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2367,6 +2518,7 @@
     },
     {
       "routeId": "content.v4.QURAN-verses-uthmani-tajweed",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2408,6 +2560,7 @@
     },
     {
       "routeId": "content.v4.QURAN-verses-uthmani",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2449,6 +2602,7 @@
     },
     {
       "routeId": "content.v4.QURAN-verses-uthmani_simple",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2490,6 +2644,7 @@
     },
     {
       "routeId": "content.v4.QURAN-verses-Imlaei",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2531,6 +2686,7 @@
     },
     {
       "routeId": "content.v4.translation",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2579,6 +2735,7 @@
     },
     {
       "routeId": "content.v4.tafsir",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2627,6 +2784,7 @@
     },
     {
       "routeId": "content.v4.QURAN-verses-code_v1",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2668,6 +2826,7 @@
     },
     {
       "routeId": "content.v4.QURAN-verses-code_v2",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2709,6 +2868,7 @@
     },
     {
       "routeId": "content.v4.recitation-info",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2752,6 +2912,7 @@
     },
     {
       "routeId": "content.v4.translation-info",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2795,6 +2956,7 @@
     },
     {
       "routeId": "content.v4.translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2836,6 +2998,7 @@
     },
     {
       "routeId": "content.v4.tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2877,6 +3040,7 @@
     },
     {
       "routeId": "content.v4.tafsir-info",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2920,6 +3084,7 @@
     },
     {
       "routeId": "content.v4.recitation-styles",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -2961,6 +3126,7 @@
     },
     {
       "routeId": "content.v4.languages",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3002,6 +3168,7 @@
     },
     {
       "routeId": "content.v4.chapter-info",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3043,6 +3210,7 @@
     },
     {
       "routeId": "content.v4.verse-media",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3084,6 +3252,7 @@
     },
     {
       "routeId": "content.v4.resources-sync",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3125,6 +3294,7 @@
     },
     {
       "routeId": "content.v4.resources-snapshot",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3169,6 +3339,7 @@
     },
     {
       "routeId": "content.v4.list-surah-translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3213,6 +3384,7 @@
     },
     {
       "routeId": "content.v4.list-page-translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3257,6 +3429,7 @@
     },
     {
       "routeId": "content.v4.list-juz-translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3301,6 +3474,7 @@
     },
     {
       "routeId": "content.v4.list-rub-el-hizb-translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3345,6 +3519,7 @@
     },
     {
       "routeId": "content.v4.list-hizb-translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3389,6 +3564,7 @@
     },
     {
       "routeId": "content.v4.list-manzil-translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3433,6 +3609,7 @@
     },
     {
       "routeId": "content.v4.list-ruku-translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3477,6 +3654,7 @@
     },
     {
       "routeId": "content.v4.list-ayah-translations",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3521,6 +3699,7 @@
     },
     {
       "routeId": "content.v4.list-rub-el-hizb-translations-rub",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3565,6 +3744,7 @@
     },
     {
       "routeId": "content.v4.list-surah-tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3609,6 +3789,7 @@
     },
     {
       "routeId": "content.v4.list-page-tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3653,6 +3834,7 @@
     },
     {
       "routeId": "content.v4.list-juz-tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3697,6 +3879,7 @@
     },
     {
       "routeId": "content.v4.list-rub-el-hizb-tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3741,6 +3924,7 @@
     },
     {
       "routeId": "content.v4.list-hizb-tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3785,6 +3969,7 @@
     },
     {
       "routeId": "content.v4.list-manzil-tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3829,6 +4014,7 @@
     },
     {
       "routeId": "content.v4.list-ruku-tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3873,6 +4059,7 @@
     },
     {
       "routeId": "content.v4.list-ayah-tafsirs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3917,6 +4104,7 @@
     },
     {
       "routeId": "content.v4.list-rub-el-hizb-tafsirs-rub",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -3961,6 +4149,7 @@
     },
     {
       "routeId": "content.v4.list-hizbs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4002,6 +4191,7 @@
     },
     {
       "routeId": "content.v4.get-hizb",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4045,6 +4235,7 @@
     },
     {
       "routeId": "content.v4.list-rub-el-hizbs",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4086,6 +4277,7 @@
     },
     {
       "routeId": "content.v4.get-rub-el-hizb",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4129,6 +4321,7 @@
     },
     {
       "routeId": "content.v4.list-rukus",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4170,6 +4363,7 @@
     },
     {
       "routeId": "content.v4.get-ruku",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4213,6 +4407,7 @@
     },
     {
       "routeId": "content.v4.list-manzils",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4254,6 +4449,7 @@
     },
     {
       "routeId": "content.v4.get-manzil",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4297,6 +4493,7 @@
     },
     {
       "routeId": "content.v4.get-foot-note",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4340,6 +4537,7 @@
     },
     {
       "routeId": "quran-reflect.v1.public.PostsController_feed",
+      "origin": "spreadsheet",
       "service": "quran-reflect",
       "gatewayService": "quran-reflect",
       "method": "GET",
@@ -4378,6 +4576,7 @@
     },
     {
       "routeId": "quran-reflect.v1.public.PostsController_findOne",
+      "origin": "spreadsheet",
       "service": "quran-reflect",
       "gatewayService": "quran-reflect",
       "method": "GET",
@@ -4418,6 +4617,7 @@
     },
     {
       "routeId": "quran-reflect.v1.public.PostsController_getUserPost",
+      "origin": "spreadsheet",
       "service": "quran-reflect",
       "gatewayService": "quran-reflect",
       "method": "GET",
@@ -4458,6 +4658,7 @@
     },
     {
       "routeId": "quran-reflect.v1.public.PostsController_getComments",
+      "origin": "spreadsheet",
       "service": "quran-reflect",
       "gatewayService": "quran-reflect",
       "method": "GET",
@@ -4500,6 +4701,7 @@
     },
     {
       "routeId": "quran-reflect.v1.public.PostsController_getAllComment",
+      "origin": "spreadsheet",
       "service": "quran-reflect",
       "gatewayService": "quran-reflect",
       "method": "GET",
@@ -4542,6 +4744,7 @@
     },
     {
       "routeId": "content.v4.list-ayah-answers",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4585,6 +4788,7 @@
     },
     {
       "routeId": "content.v4.get-answer-by-id",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4628,6 +4832,7 @@
     },
     {
       "routeId": "content.v4.count-answers-within-range",
+      "origin": "spreadsheet",
       "service": "content",
       "gatewayService": "content",
       "method": "GET",
@@ -4655,6 +4860,490 @@
       "legacyRuleId": "gateway-wildcard-content-get",
       "granularAnyOf": [
         "content.answers.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.audio.qaris",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/qaris",
+      "upstreamPath": "/api/v4/audio/qaris",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [],
+      "sourceRows": [],
+      "assignmentRule": "/audio present in the path",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.audio.qaris.id",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/qaris/:id",
+      "upstreamPath": "/api/v4/audio/qaris/:id",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [],
+      "assignmentRule": "/audio present in the path",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.audio.qaris.id.audio_files.ext",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/qaris/:id/audio_files/:ext",
+      "upstreamPath": "/api/v4/audio/qaris/:id/audio_files/:ext",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [
+        "id",
+        "ext"
+      ],
+      "sourceRows": [],
+      "assignmentRule": "/audio present in the path",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.audio.qaris.related.id",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/qaris/related/:id",
+      "upstreamPath": "/api/v4/audio/qaris/related/:id",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [],
+      "assignmentRule": "/audio present in the path",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.audio.sections",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/sections",
+      "upstreamPath": "/api/v4/audio/sections",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [],
+      "sourceRows": [],
+      "assignmentRule": "/audio present in the path",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.audio.surahs",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/surahs",
+      "upstreamPath": "/api/v4/audio/surahs",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [],
+      "sourceRows": [],
+      "assignmentRule": "/audio present in the path",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.audio.surahs.id",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/audio/surahs/:id",
+      "upstreamPath": "/api/v4/audio/surahs/:id",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [
+        "id"
+      ],
+      "sourceRows": [],
+      "assignmentRule": "/audio present in the path",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Audio scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.hadith_references.by_urn.urn",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/hadith_references/by_urn/:urn",
+      "upstreamPath": "/api/v4/hadith_references/by_urn/:urn",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [
+        "urn"
+      ],
+      "sourceRows": [],
+      "assignmentRule": "the word hadith present in the path",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Hadith Scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.hadith.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.mushafs",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/mushafs",
+      "upstreamPath": "/api/v4/mushafs",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [],
+      "sourceRows": [],
+      "assignmentRule": "/mushafs assigned Quran Scope",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.resources.word_by_word_translations",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/resources/word_by_word_translations",
+      "upstreamPath": "/api/v4/resources/word_by_word_translations",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [],
+      "sourceRows": [],
+      "assignmentRule": "the word translations present in the path segment word_by_word_translations",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Translation Scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "quotaBuckets": [
+        "content.read",
+        "content"
+      ],
+      "rateLimitPolicyId": "preserve-existing-content-read-policy",
+      "responseBoundary": "endpoint-family-not-data-isolation",
+      "deprecatedForNewClients": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "routeId": "content.v4.supplemental.verses.filter",
+      "origin": "owner-assignment",
+      "service": "content",
+      "gatewayService": "content",
+      "method": "GET",
+      "gatewayPath": "/api/v4/verses/filter",
+      "upstreamPath": "/api/v4/verses/filter",
+      "openApiPath": null,
+      "openApiDocument": null,
+      "operationId": null,
+      "pathParams": [],
+      "sourceRows": [],
+      "assignmentRule": "/verses present in the path; Quran Scope is the scope covering verses",
+      "assignmentDate": "2026-09-10",
+      "assignmentSource": "owner instruction",
+      "sheetLabel": "Quran Scope",
+      "sheetLabelOriginal": null,
+      "labelOverride": null,
+      "environments": [
+        "production"
+      ],
+      "authContext": "app-compatible-public-read",
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ],
+      "legacyMatchSource": "src/utils/scopes/index.ts :: Oauth2WildcardScopes['GET /content/*']",
+      "legacyRuleId": "gateway-wildcard-content-get",
+      "granularAnyOf": [
+        "content.quran.read"
       ],
       "quotaBuckets": [
         "content.read",
