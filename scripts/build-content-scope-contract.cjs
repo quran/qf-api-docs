@@ -280,6 +280,10 @@ const build = () => {
       quotaBuckets: legacyRule.anyOf,
       rateLimitPolicyId: policy.quotaPolicy.rateLimitPolicyIds[legacyRule.id],
       responseBoundary: policy.responseBoundary.value,
+      // Scopes on this operation that must never authorize a user-bound token.
+      appCredentialsOnlyScopes: [granular].filter((scope) =>
+        policy.appCredentialsOnlyScopes.scopes.includes(scope),
+      ),
       deprecatedForNewClients: legacyRule.anyOf.filter((scope) =>
         policy.deprecatedForNewClients.scopes.includes(scope),
       ),
@@ -383,6 +387,9 @@ const build = () => {
       quotaBuckets: legacyRule.anyOf,
       rateLimitPolicyId: policy.quotaPolicy.rateLimitPolicyIds[legacyRule.id],
       responseBoundary: policy.responseBoundary.value,
+      appCredentialsOnlyScopes: [granular].filter((scope) =>
+        policy.appCredentialsOnlyScopes.scopes.includes(scope),
+      ),
       deprecatedForNewClients: legacyRule.anyOf.filter((scope) =>
         policy.deprecatedForNewClients.scopes.includes(scope),
       ),
@@ -510,6 +517,10 @@ const build = () => {
           : 'Legacy read alternative. Continues to authorize every previously covered read.',
     })),
     outOfScopeScopes: policy.outOfScope.scopes,
+    appCredentialsOnlyScopes: {
+      $comment: policy.appCredentialsOnlyScopes.$comment.join(' '),
+      scopes: policy.appCredentialsOnlyScopes.scopes,
+    },
     migration: {
       c8,
       c8Rule: policy.migration.c8Rule,

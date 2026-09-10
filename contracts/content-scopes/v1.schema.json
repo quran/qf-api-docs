@@ -15,6 +15,7 @@
     "scopes",
     "legacyScopes",
     "outOfScopeScopes",
+    "appCredentialsOnlyScopes",
     "migration",
     "newClientBaseline",
     "quotaPolicy",
@@ -141,6 +142,21 @@
       "minItems": 1,
       "items": { "type": "string" },
       "description": "Never granted as a content successor: qiraat, search, the user-data sync scope, analytics."
+    },
+
+    "appCredentialsOnlyScopes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scopes"],
+      "description": "Scopes that must not authorize a user-bound token, because the upstream response depends on who is asking. Enforced at the gateway.",
+      "properties": {
+        "$comment": { "type": "string" },
+        "scopes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/granularScope" }
+        }
+      }
     },
 
     "migration": {
@@ -460,6 +476,7 @@
         "quotaBuckets",
         "rateLimitPolicyId",
         "responseBoundary",
+        "appCredentialsOnlyScopes",
         "deprecatedForNewClients"
       ],
       "properties": {
@@ -546,6 +563,12 @@
         },
         "rateLimitPolicyId": { "type": "string", "minLength": 1 },
         "responseBoundary": { "const": "endpoint-family-not-data-isolation" },
+        "appCredentialsOnlyScopes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/granularScope" },
+          "description": "Subset of granularAnyOf that must not authorize a user-bound token on this operation."
+        },
         "deprecatedForNewClients": {
           "type": "array",
           "uniqueItems": true,

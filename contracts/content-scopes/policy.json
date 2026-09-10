@@ -217,6 +217,36 @@
     }
   },
 
+  "appCredentialsOnlyScopes": {
+    "$comment": [
+      "Scopes that must NOT authorize a user-bound token.",
+      "",
+      "content.reflections.read covers five QuranReflect reads whose upstream response depends on",
+      "who is asking. When the gateway forwards a user-bound token, quran-reflect-graph's",
+      "OAuth2Strategy resolves the real user from it (apps/quran-reflect-graph/src/auth/",
+      "oauth2.strategy.ts returns null only for client-credentials tokens), and the post handler",
+      "then passes that user AND user.isAdmin into visibility resolution",
+      "(modules/posts/posts.controller.ts findOne -> findOnePopulated(id, user, user?.isAdmin)).",
+      "Visibility deliberately permits an owner's drafts and private posts, private-room",
+      "membership, and administrator access.",
+      "",
+      "So a user-bound token carrying only this scope would reach more than the public-only access",
+      "D3 promises. The gateway cannot narrow that downstream, because it forwards the user's own",
+      "token and the user identity is derived from it. The only complete boundary the gateway can",
+      "enforce is to refuse to let this scope authorize a user-bound request at all.",
+      "",
+      "A user token that also carries post.read/post or comment.read/comment still authorizes via",
+      "that legacy alternative, so existing private access is untouched. Only a request authorized",
+      "SOLELY by this scope is refused.",
+      "",
+      "The eight C8 scopes are deliberately NOT listed. Their routes are served by the Content API,",
+      "which derives no user from the token and returns the same bytes regardless of caller, so a",
+      "user-bound token carrying one of them gains nothing extra. Add a scope here only when user",
+      "context can change what the upstream returns."
+    ],
+    "scopes": ["content.reflections.read"]
+  },
+
   "authContexts": {
     "$comment": "Distinguishes the public app-credential surface from the user-token surface for the same controller operation.",
     "content": "app-compatible-public-read",
