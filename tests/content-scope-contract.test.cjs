@@ -143,6 +143,30 @@ test('nine scopes with the Appendix A1 post-correction operation counts', () => 
   assert.equal(total, 95, 'per-scope counts must sum to the 95 source entries');
 });
 
+test('all nine granular Content scopes preserve the App credentials token requirement', () => {
+  assert.deepEqual(
+    [...contract.appCredentialsOnlyScopes.scopes].sort(),
+    [...GRANULAR].sort(),
+  );
+
+  for (const operation of contract.operations) {
+    assert.deepEqual(
+      [...operation.appCredentialsOnlyScopes].sort(),
+      [...operation.granularAnyOf].sort(),
+      `${operation.routeId} must require an application token for every granular alternative`,
+    );
+  }
+
+  const mappedContentRows = provenance.rows.filter((row) =>
+    row.disposition.startsWith('mapped'),
+  );
+  assert.equal(mappedContentRows.length, 95);
+  assert.ok(
+    mappedContentRows.every((row) => row.authType.startsWith('App credentials')),
+    'the scope split must preserve the endpoint inventory Auth Type',
+  );
+});
+
 test('display labels stay distinct from machine names', () => {
   for (const scope of contract.scopes) {
     assert.notEqual(scope.displayLabel, scope.machineName);

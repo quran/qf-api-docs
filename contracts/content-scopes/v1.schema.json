@@ -148,7 +148,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["scopes"],
-      "description": "Scopes that must not authorize a user-bound token, because the upstream response depends on who is asking. Enforced at the gateway.",
+      "description": "Granular scopes that require a confidential application token and must not authorize a user-bound token. Enforced at the gateway.",
       "properties": {
         "$comment": { "type": "string" },
         "scopes": {
@@ -567,7 +567,7 @@
           "type": "array",
           "uniqueItems": true,
           "items": { "$ref": "#/definitions/granularScope" },
-          "description": "Subset of granularAnyOf that must not authorize a user-bound token on this operation."
+          "description": "Subset of granularAnyOf that requires a confidential application token and must not authorize a user-bound token on this operation."
         },
         "deprecatedForNewClients": {
           "type": "array",

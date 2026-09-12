@@ -11,7 +11,7 @@
     },
     "policy": {
       "path": "contracts/content-scopes/policy.json",
-      "sha256": "3c35a43bf8d8ba76e84865c5db40a1f537a32a64bf91724b4297e10bcac49293"
+      "sha256": "bc167d09e6aa41ad458b042693f343f748197e6bb2c89a76d5b7804c17274608"
     }
   },
   "responseBoundary": {
@@ -237,8 +237,16 @@
     "analytics.events.write"
   ],
   "appCredentialsOnlyScopes": {
-    "$comment": "Scopes that must NOT authorize a user-bound token.  content.reflections.read covers five QuranReflect reads whose upstream response depends on who is asking. When the gateway forwards a user-bound token, quran-reflect-graph's OAuth2Strategy resolves the real user from it (apps/quran-reflect-graph/src/auth/ oauth2.strategy.ts returns null only for client-credentials tokens), and the post handler then passes that user AND user.isAdmin into visibility resolution (modules/posts/posts.controller.ts findOne -> findOnePopulated(id, user, user?.isAdmin)). Visibility deliberately permits an owner's drafts and private posts, private-room membership, and administrator access.  So a user-bound token carrying only this scope would reach more than the public-only access D3 promises. The gateway cannot narrow that downstream, because it forwards the user's own token and the user identity is derived from it. The only complete boundary the gateway can enforce is to refuse to let this scope authorize a user-bound request at all.  A user token that also carries post.read/post or comment.read/comment still authorizes via that legacy alternative, so existing private access is untouched. Only a request authorized SOLELY by this scope is refused.  The eight C8 scopes are deliberately NOT listed. Their routes are served by the Content API, which derives no user from the token and returns the same bytes regardless of caller, so a user-bound token carrying one of them gains nothing extra. Add a scope here only when user context can change what the upstream returns.",
+    "$comment": "All nine granular Content scopes require an application token minted with client_credentials. This preserves the endpoint inventory's existing Auth Type = App credentials decision; the scope split changes permission granularity, not the supported OAuth token type.  A user-bound Authorization Code + PKCE token must not be authorized solely by one of these granular scopes. A confidential backend keeps the Client Secret and mints the application token. Browser, Android, and iOS code must never receive that secret.  Legacy authorization alternatives remain outside this list so the scope split does not silently revoke behavior from existing clients. Retiring or tightening a legacy alternative requires a separately approved compatibility decision.  content.reflections.read has an additional safety reason: its QuranReflect upstream derives user identity from a forwarded user token and can return owner, private-room, or administrator views. Requiring an application token also preserves the public-only boundary promised by D3.",
     "scopes": [
+      "content.audio.read",
+      "content.quran.read",
+      "content.hadith.read",
+      "content.translations.read",
+      "content.tafsirs.read",
+      "content.metadata.read",
+      "content.sync.read",
+      "content.answers.read",
       "content.reflections.read"
     ]
   },
@@ -769,7 +777,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -814,7 +824,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -857,7 +869,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -902,7 +916,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -945,7 +961,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -991,7 +1009,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1037,7 +1057,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1083,7 +1105,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1129,7 +1153,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1175,7 +1201,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1221,7 +1249,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1267,7 +1297,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1313,7 +1345,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1358,7 +1392,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1404,7 +1440,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1450,7 +1488,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1493,7 +1533,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1538,7 +1580,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1583,7 +1627,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1628,7 +1674,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.hadith.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1673,7 +1721,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.hadith.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1716,7 +1766,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.hadith.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1759,7 +1811,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1802,7 +1856,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1847,7 +1903,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1892,7 +1950,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1937,7 +1997,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -1982,7 +2044,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2027,7 +2091,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2072,7 +2138,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2117,7 +2185,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2162,7 +2232,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2205,7 +2277,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2250,7 +2324,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2293,7 +2369,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2338,7 +2416,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2381,7 +2461,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2426,7 +2508,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2471,7 +2555,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2514,7 +2600,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2557,7 +2645,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2600,7 +2690,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2643,7 +2735,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2686,7 +2780,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2729,7 +2825,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2779,7 +2877,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2829,7 +2929,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2872,7 +2974,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2915,7 +3019,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -2960,7 +3066,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3005,7 +3113,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3048,7 +3158,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3091,7 +3203,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3136,7 +3250,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3179,7 +3295,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3222,7 +3340,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.metadata.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3265,7 +3385,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3308,7 +3430,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.metadata.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3351,7 +3475,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.sync.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3397,7 +3523,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.sync.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3443,7 +3571,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3489,7 +3619,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3535,7 +3667,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3581,7 +3715,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3627,7 +3763,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3673,7 +3811,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3719,7 +3859,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3765,7 +3907,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3811,7 +3955,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3857,7 +4003,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3903,7 +4051,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3949,7 +4099,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -3995,7 +4147,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4041,7 +4195,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4087,7 +4243,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4133,7 +4291,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4179,7 +4339,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4225,7 +4387,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.tafsirs.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4268,7 +4432,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4313,7 +4479,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4356,7 +4524,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4401,7 +4571,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4444,7 +4616,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4489,7 +4663,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4532,7 +4708,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4577,7 +4755,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4622,7 +4802,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4889,7 +5071,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.answers.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4934,7 +5118,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.answers.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -4977,7 +5163,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.answers.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5021,7 +5209,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5067,7 +5257,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5114,7 +5306,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5160,7 +5354,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5204,7 +5400,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5248,7 +5446,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5294,7 +5494,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.audio.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5340,7 +5542,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.hadith.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5384,7 +5588,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5428,7 +5634,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.translations.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
@@ -5472,7 +5680,9 @@
       ],
       "rateLimitPolicyId": "preserve-existing-content-read-policy",
       "responseBoundary": "endpoint-family-not-data-isolation",
-      "appCredentialsOnlyScopes": [],
+      "appCredentialsOnlyScopes": [
+        "content.quran.read"
+      ],
       "deprecatedForNewClients": [
         "content.read",
         "content"
