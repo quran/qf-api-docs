@@ -85,9 +85,11 @@ visibility rules still apply on those routes.
 ### What each endpoint needs
 
 Every content operation records its scopes in the OpenAPI document under the `x-qf-scopes`
-extension, with `legacyAnyOf` (what works today) and `granularAnyOf` (its successor). The API
-accepts **any one** of the listed scopes, so a token carrying either the legacy or the granular
-scope is authorized.
+extension, with `legacyAnyOf` (what works today) and `granularAnyOf` (its successor). For the
+confidential application tokens used by these operations, the API accepts **any one** of the listed
+scopes, so either the legacy or the granular scope can authorize the request. The nine granular
+scopes are application-credentials only: they do not authorize user-bound access tokens, even if a
+granular name appears in such a token's `scope` claim.
 
 `x-qf-scopes` exists because these endpoints authenticate with the `x-auth-token` and `x-client-id`
 headers together, which OpenAPI models as two `apiKey` schemes. OpenAPI can only attach scopes to

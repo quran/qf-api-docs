@@ -210,6 +210,12 @@ test('documentation covers the compatibility promises integrators depend on', ()
   assert.match(scopesDoc, /403/u);
 });
 
+test('documentation limits granular authorization to application tokens', () => {
+  assert.match(scopesDoc, /confidential application tokens/iu);
+  assert.match(scopesDoc, /do not authorize user-bound access tokens/iu);
+  assert.match(scopesDoc, /even if a\s+granular name appears in such a token's `scope` claim/iu);
+});
+
 test('documentation keeps content.sync.read distinct from the user sync scope', () => {
   assert.match(scopesDoc, /different permission from the user-data\s+`sync` scope/u);
   assert.match(scopesDoc, /neither implies the other/iu);
