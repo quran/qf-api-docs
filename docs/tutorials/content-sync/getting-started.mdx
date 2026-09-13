@@ -210,11 +210,13 @@ curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SY
 
 ## Sequence Fields
 
-`sequence` on a mutation is the server's increasing content-change number for that mutation. Apply mutations in ascending `sequence` order.
+`sequence` on a mutation is the server's increasing content-change number for that mutation. Incremental mutations are returned in ascending `sequence` order. Apply them in that order.
 
-`sync_until_sequence` on a sync response is the upper bound fixed for that sync run. If the response has more pages, every `next_page_url` continues the same run with the same upper bound. This keeps pagination stable even if newer content changes are committed while your app is paging.
+`sync_until_sequence` is the server-enforced upper sequence bound for one sync run. Every mutation returned across that run's pages has `sequence <= sync_until_sequence`; clients do not need to filter mutations using this field. If newer changes are committed while your app is paging, they are excluded from the current run and returned during the next sync after your app sends the final `next_sync_token`. Continue using each returned `next_page_url` unchanged.
 
-`sync_sequence` on a snapshot response is the current server sequence when the snapshot was fetched. Do not use snapshot `sync_sequence` as your next checkpoint. Only store `next_sync_token` from the final sync page.
+For example, if a run starts with `sync_until_sequence = 1000`, all of its pages are limited to mutations through sequence `1000`. Changes `1001` and later will be returned by the next sync.
+
+`sync_sequence` on a snapshot response is the current server sequence when the snapshot was fetched. Because snapshots are current when fetched, this value may be greater than the active run's `sync_until_sequence`. Do not use either sequence field as your next checkpoint. Only store `next_sync_token` from the final sync page.
 
 ## Mutation Types
 
