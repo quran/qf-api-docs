@@ -33,6 +33,7 @@ const contractPath = path.join(contractDir, 'v1.json');
 const openApiPath = path.join(repoRoot, 'openAPI', 'content', 'v4.json');
 
 const EXTENSION = 'x-qf-scopes';
+const HTTP_METHODS = new Set(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']);
 
 const normalizeEol = (text) => text.split('\r\n').join('\n');
 const sha256 = (text) => crypto.createHash('sha256').update(normalizeEol(text)).digest('hex');
@@ -69,9 +70,10 @@ const extensionFor = (operation) => ({
   },
 });
 
-const apply = () => {
-  const raw = normalizeEol(fs.readFileSync(openApiPath, 'utf8'));
-  const document = JSON.parse(raw);
+const apply = (inputDocument) => {
+  const document = inputDocument === undefined
+    ? JSON.parse(normalizeEol(fs.readFileSync(openApiPath, 'utf8')))
+    : structuredClone(inputDocument);
   const errors = [];
 
   // Only spreadsheet-derived operations exist in the OpenAPI documents. The owner-assigned
@@ -86,8 +88,11 @@ const apply = () => {
   let applied = 0;
   for (const [pathKey, pathItem] of Object.entries(document.paths)) {
     for (const [method, operation] of Object.entries(pathItem)) {
-      if (typeof operation !== 'object' || operation === null) continue;
-      if (!operation.operationId) continue;
+      if (!HTTP_METHODS.has(method)) continue;
+      if (!operation || typeof operation !== 'object' || !operation.operationId) {
+        errors.push(`${method.toUpperCase()} ${pathKey}: missing operationId`);
+        continue;
+      }
 
       const contractOperation = byPath.get(`${method.toUpperCase()} ${pathKey}`);
       if (!contractOperation) {
@@ -116,9 +121,12 @@ const apply = () => {
   // Guard the two things that would break clients if this script ever got them wrong.
   for (const [pathKey, pathItem] of Object.entries(document.paths)) {
     for (const [method, operation] of Object.entries(pathItem)) {
-      if (typeof operation !== 'object' || operation === null) continue;
+      if (!HTTP_METHODS.has(method) || !operation || typeof operation !== 'object') continue;
       const security = operation.security ?? document.security;
-      if (!Array.isArray(security)) continue;
+      if (!Array.isArray(security) || security.length === 0) {
+        errors.push(`${method.toUpperCase()} ${pathKey}: a non-empty security requirement is required`);
+        continue;
+      }
       for (const requirement of security) {
         if (Object.keys(requirement).length === 0) {
           errors.push(

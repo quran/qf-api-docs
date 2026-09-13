@@ -88,12 +88,6 @@ const validateNode = (value, schema, root, pointer, errors) => {
     return errors;
   }
 
-  for (const keyword of Object.keys(schema)) {
-    if (!SUPPORTED.has(keyword)) {
-      errors.push(`${pointer}: schema uses unsupported keyword ${JSON.stringify(keyword)}`);
-    }
-  }
-
   if (schema.$ref) {
     validateNode(value, resolveRef(root, schema.$ref), root, pointer, errors);
   }
@@ -219,6 +213,38 @@ const validateNode = (value, schema, root, pointer, errors) => {
   return errors;
 };
 
-const validate = (value, schema) => validateNode(value, schema, schema, '#', []);
+// Schema capabilities are independent of which optional fields or combinator branches a
+// document exercises. Check every schema node first, never inside temporary branch errors.
+const inspectSchema = (schema, pointer, errors) => {
+  if (typeof schema === 'boolean') return;
+  if (!schema || typeof schema !== 'object' || Array.isArray(schema)) {
+    errors.push(`${pointer}: expected a schema object or boolean`);
+    return;
+  }
+  for (const keyword of Object.keys(schema)) {
+    if (!SUPPORTED.has(keyword)) {
+      errors.push(`${pointer}: schema uses unsupported keyword ${JSON.stringify(keyword)}`);
+    }
+  }
+  for (const keyword of ['definitions', 'properties']) {
+    for (const [key, child] of Object.entries(schema[keyword] ?? {})) {
+      inspectSchema(child, `${pointer}/${keyword}/${key}`, errors);
+    }
+  }
+  for (const keyword of ['items', 'additionalProperties', 'not', 'contains']) {
+    if (schema[keyword] !== undefined) inspectSchema(schema[keyword], `${pointer}/${keyword}`, errors);
+  }
+  for (const keyword of ['allOf', 'anyOf', 'oneOf']) {
+    for (const [index, child] of (schema[keyword] ?? []).entries()) {
+      inspectSchema(child, `${pointer}/${keyword}/${index}`, errors);
+    }
+  }
+};
+
+const validate = (value, schema) => {
+  const errors = [];
+  inspectSchema(schema, '#', errors);
+  return errors.length ? errors : validateNode(value, schema, schema, '#', []);
+};
 
 module.exports = { validate };

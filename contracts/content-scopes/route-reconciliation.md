@@ -1,7 +1,10 @@
 # Route reconciliation — Content API v4 vs contract v1
 
-Disposition for every difference between the live Rails v4 route surface and the 90 content
-operations in `v1.json`. Required by [Appendix A3](https://app.notion.com/p/3d6ffb02507a81b2b0abf6a252383ce5)
+Disposition for every difference between the live Rails v4 route surface and the original
+90 spreadsheet-derived content operations. The current `v1.json` contains **106 operations**:
+**101 content-service operations** (90 spreadsheet-derived plus 11 owner-assigned) and five
+public QuranReflect operations. The historical comparison below explains the assignments and
+leaves **16 Rails routes outside the current contract**, not 27. Required by [Appendix A3](https://app.notion.com/p/3d6ffb02507a81b2b0abf6a252383ce5)
 and work packages T00, T01 and T04.
 
 **Sources**
@@ -68,9 +71,11 @@ nine entries resolve to `content.quran.read`, precedence cannot change effective
 `v1.json` records all eight pairs in `precedencePairs`, and the generator fails the build if any
 literal ever disagrees with its dynamic sibling.
 
-## 3. Rails routes not in the contract
+## 3. Rails routes absent from the original spreadsheet-derived contract
 
-27 routes. Every category Appendix A3 predicted is confirmed present.
+The pre-assignment comparison found 27 routes. Eleven from section 3c are now in the contract,
+leaving 16 outside it: 11 restricted Qiraat routes, two search routes, one resource-changes route,
+and two infrastructure routes. Every category Appendix A3 predicted is confirmed present.
 
 ### 3a. Restricted — keep independent permission (11 routes)
 
