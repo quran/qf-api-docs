@@ -75,7 +75,17 @@ resource should use `chapter_recitations`.
 
 ### Mushaf rendering assets
 
-Mushaf Content Sync provides Mushaf metadata, page mappings, and positioned words. It does not include font files or Mushaf image files. These files must be fetched separately from the documented Quran Foundation CDN URLs. They may be cached or bundled for use in your application if you have an active Developer Console account and credit Quran Foundation; see the [Developer Terms](/legal/developer-terms/) for the full conditions. For font implementation guidance, see the [Font Rendering guide](/docs/tutorials/fonts/font-rendering/).
+Mushaf Content Sync provides Mushaf metadata, page mappings, and positioned words. It does not include font files or Mushaf image files. These files must be fetched separately from the documented Quran Foundation CDN URLs.
+
+For an enabled image Mushaf, use the regular Content API rather than Content Sync:
+
+```text
+GET https://apis.quran.foundation/content/api/v4/verses/by_page/{page_number}?mushaf={mushaf_id}&words=true
+```
+
+Each returned word’s `text` value contains a CDN-relative image path. Resolve it under `https://static.qurancdn.com/images/`. Use `GET /mushafs` to discover enabled image Mushafs, which report `"font": "img"`.
+
+Font files and Mushaf images may be cached or bundled for use in your application if you have an active Developer Console account and credit Quran Foundation; see the [Developer Terms](/legal/developer-terms/) for the full conditions. For font implementation guidance, see the [Font Rendering guide](/docs/tutorials/fonts/font-rendering/).
 
 ## First Sync
 
