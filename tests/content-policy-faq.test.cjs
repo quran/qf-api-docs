@@ -211,7 +211,10 @@ test('documents font and Mushaf-image caching and bundling conditions consistent
     fontRendering,
     /credit Quran Foundation somewhere reasonably accessible/,
   );
-  assert.match(fontRendering, /source-specific license terms/);
+  assert.match(
+    fontRendering,
+    /files may be distributed only as an integrated part of your application/,
+  );
 
   assert.match(
     contentSync,

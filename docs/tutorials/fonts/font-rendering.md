@@ -797,7 +797,7 @@ Loading fonts from the CDN at runtime is the simplest way to receive corrections
 
 Because font files can receive corrections and improvements, we recommend using a refresh or invalidation strategy for cached files and updating bundled copies in new application releases.
 
-This permission applies to font files served from the documented Quran Foundation font URLs for use in your application. The files may be distributed only as an integrated part of your application; they may not be offered separately through your own API, asset package, standalone download, or similar offering. This permission does not override any source-specific license terms. The [Developer Terms](/legal/developer-terms/) are the authoritative source for font and Mushaf-image caching and bundling conditions. Other API data remains subject to those storage rules and, where applicable, the [Content Sync documentation](/docs/tutorials/content-sync/getting-started/).
+This permission applies to font files served from the documented Quran Foundation font URLs for use in your application. The files may be distributed only as an integrated part of your application; they may not be offered separately through your own API, asset package, standalone download, or similar offering. The [Developer Terms](/legal/developer-terms/) are the authoritative source for font and Mushaf-image caching and bundling conditions. Other API data remains subject to those storage rules and, where applicable, the [Content Sync documentation](/docs/tutorials/content-sync/getting-started/).
 
 ---
 
