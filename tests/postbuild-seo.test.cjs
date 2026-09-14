@@ -13,6 +13,7 @@ const {
   operationIdToGeneratedSlug,
   shouldDropSitemapPath,
   stripGeneratedRedirectsSection,
+  validateMissingRoute404Policy,
   validateGeneratedRedirectTargets,
   validateNoRedirectLoops,
   validatePublicRouteLock,
@@ -370,5 +371,60 @@ test('manual redirects can override generated alias redirects', () => {
       '/docs/user_related_apis_versioned/users-controller-delete-account',
     ).target,
     '/docs/user_related_apis_versioned/1.0.0/user-related-apis/',
+  );
+});
+
+test('missing route 404 policy requires a static 404 page', () => {
+  assert.throws(
+    () =>
+      validateMissingRoute404Policy(new Map(), {
+        pathExists: () => false,
+      }),
+    /build\/404\.html is missing/,
+  );
+});
+
+test('missing route 404 policy rejects wildcard and placeholder HTTP 200 rewrites', () => {
+  const registry = createRedirectRegistry(
+    [
+      '/* /index.html 200',
+      '/docs/* /docs/:splat 200',
+      '/:slug /index.html 200',
+      '/docs/:slug /docs/index.html 200',
+    ].join('\n'),
+  );
+
+  assert.throws(
+    () =>
+      validateMissingRoute404Policy(registry.redirects, {
+        pathExists: (filePath) => filePath.endsWith(path.join('build', '404.html')),
+      }),
+    (error) => {
+      assert.match(error.message, /Missing route HTTP 404 policy failed/);
+      assert.match(error.message, /\/\* rewrites missing routes to \/index\.html with HTTP 200/);
+      assert.match(
+        error.message,
+        /\/docs\/\* rewrites missing routes to \/docs\/:splat with HTTP 200/,
+      );
+      assert.match(
+        error.message,
+        /\/:slug rewrites missing routes to \/index\.html with HTTP 200/,
+      );
+      assert.match(
+        error.message,
+        /\/docs\/:slug rewrites missing routes to \/docs\/index\.html with HTTP 200/,
+      );
+      return true;
+    },
+  );
+});
+
+test('missing route 404 policy allows static HTTP 200 rewrites with a 404 page', () => {
+  const registry = createRedirectRegistry('/known-route /index.html 200\n');
+
+  assert.doesNotThrow(() =>
+    validateMissingRoute404Policy(registry.redirects, {
+      pathExists: (filePath) => filePath.endsWith(path.join('build', '404.html')),
+    }),
   );
 });

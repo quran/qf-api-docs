@@ -738,6 +738,32 @@ function validateRedirectLimits(redirects) {
   }
 }
 
+function validateMissingRoute404Policy(redirects, options = {}) {
+  const pathExists = options.pathExists || fs.existsSync;
+  const missingRouteRisks = [];
+
+  if (!pathExists(path.join(BUILD_DIR, "404.html"))) {
+    missingRouteRisks.push("build/404.html is missing");
+  }
+
+  for (const [source, { target, status }] of redirects) {
+    const isDynamicSource = source.includes("*") || source.includes(":");
+    if (status !== "200" || !isDynamicSource) {
+      continue;
+    }
+
+    missingRouteRisks.push(`${source} rewrites missing routes to ${target} with HTTP 200`);
+  }
+
+  if (missingRouteRisks.length > 0) {
+    throw new Error(
+      `Missing route HTTP 404 policy failed:\n${missingRouteRisks
+        .slice(0, 20)
+        .join("\n")}`,
+    );
+  }
+}
+
 function validateNoRedirectLoops(redirects) {
   for (const [source] of redirects) {
     const seen = new Set([source]);
@@ -784,6 +810,7 @@ function writeRedirects() {
   validatePublicRouteLock(registry.redirects);
   validateNoRedirectLoops(registry.redirects);
   validateRedirectLimits(registry.redirects);
+  validateMissingRoute404Policy(registry.redirects);
 
   const generatedLines = [...registry.generated.entries()]
     .sort(([left], [right]) => left.localeCompare(right))
@@ -863,6 +890,7 @@ module.exports = {
   shouldDropSitemapPath,
   stripGeneratedRedirectsSection,
   validateGeneratedRedirectTargets,
+  validateMissingRoute404Policy,
   validateNoRedirectLoops,
   validatePublicRouteLock,
 };
