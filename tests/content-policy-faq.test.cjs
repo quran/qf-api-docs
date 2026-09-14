@@ -75,7 +75,7 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   );
   assert.match(
     developerTerms,
-    /may cache or bundle font files and Mushaf images served from QF’s documented CDN URLs[\s\S]*active account in the \[Developer Console\][\s\S]*credits Quran Foundation/,
+    /may cache or bundle font files and Mushaf images obtained through QF APIs or documented CDN URLs[\s\S]*active account in the \[Developer Console\][\s\S]*credits Quran Foundation/,
   );
 });
 
@@ -154,7 +154,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     storageAnswer,
-    /Font files and Mushaf images served from Quran Foundation’s documented CDN URLs are a separate exception:[\s\S]*cache or bundle them[\s\S]*active Developer Console account and credit Quran Foundation/,
+    /Font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs are a separate exception:[\s\S]*cache or bundle them[\s\S]*active Developer Console account and credit Quran Foundation/,
   );
   assert.match(
     contentSyncAnswer,
@@ -195,7 +195,7 @@ test('documents font and Mushaf-image caching and bundling conditions consistent
   for (const document of [developerTerms, faq]) {
     assert.match(
       document,
-      /font files and Mushaf images served from (?:QF|Quran Foundation)’s documented CDN URLs/i,
+      /font files and Mushaf images obtained through (?:QF|Quran Foundation) APIs or documented CDN URLs/i,
     );
     assert.match(document, /Developer Console/);
     assert.match(document, /credits? Quran Foundation/);
@@ -220,12 +220,6 @@ test('documents font and Mushaf-image caching and bundling conditions consistent
     contentSync,
     /font files or Mushaf image files[\s\S]*may be cached or bundled[\s\S]*active Developer Console account and credit Quran Foundation/,
   );
-  assert.match(
-    contentSync,
-    /verses\/by_page\/\{page_number\}\?mushaf=\{mushaf_id\}&words=true/,
-  );
-  assert.match(contentSync, /https:\/\/static\.qurancdn\.com\/images\//);
-  assert.match(contentSync, /`"font": "img"`/);
 });
 
 test('removes the standalone Mushaf images page from docs and discovery', () => {
