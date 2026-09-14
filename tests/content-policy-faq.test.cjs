@@ -24,8 +24,15 @@ const contentSync = fs.readFileSync(
   ),
   'utf8',
 );
-const mushafFontsAndImages = fs.readFileSync(
-  path.join(repositoryRoot, 'src', 'pages', 'legal', 'mushaf-fonts-and-images.mdx'),
+const removedMushafImagesPage = path.join(
+  repositoryRoot,
+  'src',
+  'pages',
+  'legal',
+  'mushaf-fonts-and-images.mdx',
+);
+const fontRendering = fs.readFileSync(
+  path.join(repositoryRoot, 'docs', 'tutorials', 'fonts', 'font-rendering.md'),
   'utf8',
 );
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -47,7 +54,7 @@ const faqSectionSource = (heading) => {
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
-  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-08-26/);
+  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-09-14/);
   assert.match(developerTerms, /Cache or store QF Content longer than \*\*1 week\*\*/);
   assert.match(developerTerms, /QF has expressly permitted longer storage/);
   assert.match(
@@ -57,6 +64,18 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   assert.match(
     developerTerms,
     /A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data/,
+  );
+  assert.match(
+    developerTerms,
+    /Social-media videos are not redistribution/,
+  );
+  assert.match(
+    developerTerms,
+    /through the Developer’s own API, dataset, data feed, download, content package, or similar service/,
+  );
+  assert.match(
+    developerTerms,
+    /may cache or bundle font files and Mushaf images served from QF’s documented CDN URLs[\s\S]*active account in the \[Developer Console\][\s\S]*credits Quran Foundation/,
   );
 });
 
@@ -122,12 +141,20 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
     /dataset, data feed, API, content package, or other separately distributed product/,
   );
   assert.match(
+    commercialAnswer,
+    /Using QF Content in a social-media video is not redistribution if you credit Quran Foundation/,
+  );
+  assert.match(
     storageAnswer,
     /Do not cache or store QF Content for more than 1 week unless QF has expressly permitted longer storage/,
   );
   assert.match(
     storageAnswer,
     /perform a next sync at least every 7 days and apply all available changes\./,
+  );
+  assert.match(
+    storageAnswer,
+    /Font files and Mushaf images served from Quran Foundation’s documented CDN URLs are a separate exception:[\s\S]*cache or bundle them[\s\S]*active Developer Console account and credit Quran Foundation/,
   );
   assert.match(
     contentSyncAnswer,
@@ -153,7 +180,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
 });
 
 test('does not describe Mushaf snapshots as font or image packages', () => {
-  for (const document of [contentSync, faq, mushafFontsAndImages]) {
+  for (const document of [contentSync, faq]) {
     assert.doesNotMatch(document, /publicly distributable font assets/i);
     assert.doesNotMatch(document, /font asset metadata/i);
   }
@@ -162,34 +189,49 @@ test('does not describe Mushaf snapshots as font or image packages', () => {
     contentSync,
     /Mushaf metadata, page mappings, and positioned words\. Font files and images are not included\./,
   );
-  assert.match(
-    mushafFontsAndImages,
-    /It does not include font files or images\./,
-  );
-
-  assert.deepEqual(
-    [...mushafFontsAndImages.matchAll(/^\| (\d+) \|/gm)].map((match) =>
-      Number(match[1]),
-    ),
-    [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 14, 15, 16, 19],
-  );
-
-  for (const unsupportedClaim of [
-    /QuranWBW requires/i,
-    /Magnicode’s conditions/i,
-    /charitable use only/i,
-    /printing or publishing requires permission/i,
-  ]) {
-    assert.doesNotMatch(mushafFontsAndImages, unsupportedClaim);
-  }
 });
 
-test('includes Mushaf font and image guidance in generated llms.txt discovery', () => {
-  const { content } = generateLlmsTxt(docsDir);
+test('documents font and Mushaf-image caching and bundling conditions consistently', () => {
+  for (const document of [developerTerms, faq]) {
+    assert.match(
+      document,
+      /font files and Mushaf images served from (?:QF|Quran Foundation)’s documented CDN URLs/i,
+    );
+    assert.match(document, /Developer Console/);
+    assert.match(document, /credits? Quran Foundation/);
+  }
+
+  assert.match(fontRendering, /Font Caching and App Bundling/);
+  assert.match(
+    fontRendering,
+    /Local font caching and bundling font files with your application are also allowed/,
+  );
+  assert.match(fontRendering, /active account in the \[Developer Console\]/);
+  assert.match(
+    fontRendering,
+    /credit Quran Foundation somewhere reasonably accessible/,
+  );
+  assert.match(fontRendering, /source-specific license terms/);
 
   assert.match(
+    contentSync,
+    /font files or Mushaf image files[\s\S]*may be cached or bundled[\s\S]*active Developer Console account and credit Quran Foundation/,
+  );
+});
+
+test('removes the standalone Mushaf images page from docs and discovery', () => {
+  assert.equal(fs.existsSync(removedMushafImagesPage), false);
+
+  const { content } = generateLlmsTxt(docsDir);
+  assert.doesNotMatch(content, /Mushaf Fonts and Images/);
+  assert.doesNotMatch(content, /legal\/mushaf-fonts-and-images/);
+  assert.match(
     content,
-    /\[Mushaf Fonts and Images\]\(https:\/\/api-docs\.quran\.foundation\/legal\/mushaf-fonts-and-images\/\)/,
+    /\[Developer Terms\]\(https:\/\/api-docs\.quran\.foundation\/legal\/developer-terms\/\)/,
+  );
+  assert.match(
+    content,
+    /\[Font Rendering\]\(https:\/\/api-docs\.quran\.foundation\/docs\/tutorials\/fonts\/font-rendering\/\)/,
   );
 });
 

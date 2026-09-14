@@ -60,11 +60,13 @@ Yes. A Developer may charge for an Application, offer subscriptions or in-app pu
 - QF Content and raw API data are not sold, sublicensed, or redistributed; and
 - the Application complies with the [Developer Terms](/legal/developer-terms) and any source-specific license requirements.
 
-A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data—for example, as a dataset, data feed, API, content package, or other separately distributed product.
+A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data—for example, as a dataset, data feed, API, content package, or other separately distributed product. Using QF Content in a social-media video is not redistribution if you credit Quran Foundation in the video, caption, description, credits, or another reasonably accessible place. Redistribution means offering the content or raw data to others as data, such as through your own API, dataset, feed, download, or content package.
 
 ## How long can I cache or store QF Content?
 
 Do not cache or store QF Content for more than 1 week unless QF has expressly permitted longer storage, or the content is available through the [Content Sync APIs](/docs/tutorials/content-sync/getting-started#content-available-for-offline-sync). If you use the Content Sync exception, perform a [next sync](/docs/tutorials/content-sync/getting-started#next-sync) at least every 7 days and apply all available changes.
+
+Font files and Mushaf images served from Quran Foundation’s documented CDN URLs are a separate exception: you may cache or bundle them for use in your application if you maintain an active [Developer Console](https://dev-console.quran.foundation/projects) account and credit Quran Foundation somewhere reasonably accessible in your application or associated credits. The files may be distributed only as an integrated part of your application, not through your own API, asset package, standalone download, or similar offering. We recommend refreshing cached files and updating bundled copies when corrections are released. Follow any source-specific license terms; the [Developer Terms](/legal/developer-terms/) are the authoritative source for the full conditions.
 
 ## Can I use Content Sync for Quran text or word-by-word data?
 

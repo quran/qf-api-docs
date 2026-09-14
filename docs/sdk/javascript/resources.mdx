@@ -77,7 +77,8 @@ ID; its snapshots and compatible mutations may also include chapter audio for
 existing clients.
 
 Mushaf snapshots contain metadata, page mappings, and positioned words. Font
-files and images are not included. See [Mushaf Fonts and Images](/legal/mushaf-fonts-and-images/).
+files and Mushaf images are not included. See the [Font Rendering guide](/docs/tutorials/fonts/font-rendering/)
+for implementation details and the [Developer Terms](/legal/developer-terms/) for caching and bundling conditions.
 
 ```ts
 const bootstrap = await client.content.v4.resources.sync({

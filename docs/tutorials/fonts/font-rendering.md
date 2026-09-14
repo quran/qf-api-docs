@@ -788,17 +788,16 @@ https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nasta
 https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.ttf
 ```
 
-### ⚠️ Important: Do Not Store Files Locally
+### Font Caching and App Bundling
 
-> **We strongly recommend against downloading and storing font files, JSON data, or other assets locally in your application.**
->
-> **Why?**
->
-> - Font files and data are periodically updated with corrections, improvements, and new features
-> - Locally stored files will become outdated without your knowledge
-> - You may end up serving incorrect or stale Quranic content to your users
->
-> **Best Practice:** Always load fonts and data directly from the CDN at runtime. The CDN is fast, reliable, and ensures your users always receive the latest, most accurate content.
+Loading fonts from the CDN at runtime is the simplest way to receive corrections and improvements promptly. Local font caching and bundling font files with your application are also allowed if both of these conditions are met:
+
+- You maintain an active account in the [Developer Console](https://dev-console.quran.foundation/projects).
+- You credit Quran Foundation somewhere reasonably accessible in your application or its associated credits, for example: “Quran fonts provided by [Quran Foundation](https://quran.foundation/).”
+
+Because font files can receive corrections and improvements, we recommend using a refresh or invalidation strategy for cached files and updating bundled copies in new application releases.
+
+This permission applies to font files served from the documented Quran Foundation font URLs for use in your application. The files may be distributed only as an integrated part of your application; they may not be offered separately through your own API, asset package, standalone download, or similar offering. This permission does not override any source-specific license terms. The [Developer Terms](/legal/developer-terms/) are the authoritative source for font and Mushaf-image caching and bundling conditions. Other API data remains subject to those storage rules and, where applicable, the [Content Sync documentation](/docs/tutorials/content-sync/getting-started/).
 
 ---
 

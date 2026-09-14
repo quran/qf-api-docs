@@ -13,7 +13,8 @@
 
 ## Policies and Rendering
 
-- [Mushaf Fonts and Images](https://api-docs.quran.foundation/legal/mushaf-fonts-and-images/): Content Sync scope, rendering methods, and documented providers or delivery sources
+- [Developer Terms](https://api-docs.quran.foundation/legal/developer-terms/): Content usage, caching, bundling, attribution, and redistribution requirements
+- [Font Rendering](https://api-docs.quran.foundation/docs/tutorials/fonts/font-rendering/): Quran font URLs and rendering guidance
 
 ## Agent Prompts and Starters
 
@@ -417,7 +418,7 @@
 
 ## Search APIs v1
 
-- [Quran Foundation Search API](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/)
+- [Quran.Foundation Search API](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/)
 - [Search](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/search/)
 - [Search Quran content](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/search-controller-search/)
 
@@ -438,11 +439,10 @@
 - [Getting Started with Content Sync](https://api-docs.quran.foundation/docs/tutorials/content-sync/getting-started/)
 - [Getting Started with Data Sync](https://api-docs.quran.foundation/docs/tutorials/sync/getting-started/)
 - [Handling Sync Conflicts](https://api-docs.quran.foundation/docs/tutorials/sync/handling-conflicts/)
-- [Integrating Quran Font Rendering](https://api-docs.quran.foundation/docs/tutorials/fonts/font-rendering/)
 - [iOS](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/)
 - [Mobile Apps](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/)
 - [OAuth2 Client Setup](https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/)
-- [OAuth2 Web Integration Example](https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/)
+- [OAuth2 Web Integration Reference](https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/)
 - [Offline Content Cache Patterns](https://api-docs.quran.foundation/docs/tutorials/content-sync/offline-cache-patterns/)
 - [Offline-First Architecture Patterns](https://api-docs.quran.foundation/docs/tutorials/sync/offline-first-patterns/)
 - [OpenID Connect](https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/)
