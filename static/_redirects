@@ -37,3 +37,7 @@
 # should be handled in docusaurus.config.js using the redirects plugin
 
 # if more complex redirect logic is needed.
+
+# Retired standalone Mushaf asset policy page
+/legal/mushaf-fonts-and-images /legal/developer-terms/ 301
+/legal/mushaf-fonts-and-images/ /legal/developer-terms/ 301
