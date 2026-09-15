@@ -1,1 +1,7 @@
 static/.well-known/agent-skills/** text eol=lf
+
+# Content scope contract: hashed inputs and generated artifacts must be byte-identical on
+# every platform, because the contract pins their sha256 and consumers pin the contract hash.
+contracts/content-scopes/** text eol=lf
+scripts/build-content-scope-contract.cjs text eol=lf
+scripts/lib/json-schema-lite.cjs text eol=lf
