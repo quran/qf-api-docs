@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const {
+  ensureTagSidebarCategories,
   filterMissingSidebarItems,
   getDisplayedSidebarId,
   normalizeRubElHizbDocLabels,
@@ -135,6 +136,44 @@ test('links generated tag docs to matching sidebar categories', () => {
             id: 'user_related_apis_prelive/add-update-activity-day',
           },
         ],
+      },
+    ],
+  );
+});
+
+test('adds a missing generated tag category so the tag page owns its sidebar category', () => {
+  const existingItems = [
+    {
+      type: 'category',
+      label: 'Reading Sessions',
+      items: [],
+    },
+  ];
+  const readingBookmarksCategory = {
+    id: 'user_related_apis_prelive/reading-bookmarks',
+    label: 'Reading Bookmarks',
+    items: [
+      {
+        type: 'doc',
+        id: 'user_related_apis_prelive/get-reading-bookmark-slots',
+        label: 'Get reading bookmark slots',
+        className: 'api-method get',
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    ensureTagSidebarCategories(existingItems, [readingBookmarksCategory]),
+    [
+      ...existingItems,
+      {
+        type: 'category',
+        label: 'Reading Bookmarks',
+        link: {
+          type: 'doc',
+          id: 'user_related_apis_prelive/reading-bookmarks',
+        },
+        items: readingBookmarksCategory.items,
       },
     ],
   );

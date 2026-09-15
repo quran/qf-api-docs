@@ -109,6 +109,63 @@ const makeApiCategorySidebarItem = (label, items) => ({
   items,
 });
 
+const makeAppStateGuideSidebarItem = (baseDocIdPrefix) => ({
+  type: "category",
+  label: "App State",
+  link: {
+    type: "doc",
+    id: `${baseDocIdPrefix}/app-state/index`,
+  },
+  items: [
+    makeApiDocSidebarItem(
+      `${baseDocIdPrefix}/app-state/reconciliation`,
+      "Reconciliation and SDKs",
+    ),
+    makeApiDocSidebarItem(
+      `${baseDocIdPrefix}/app-state/lifecycle`,
+      "Lifecycle and launch policy",
+    ),
+  ],
+});
+
+const insertAppStateGuide = (items, baseDocIdPrefix, introDocId) => {
+  const appStateGuide = makeAppStateGuideSidebarItem(baseDocIdPrefix);
+  const alreadyExists = items.some(
+    (item) =>
+      item &&
+      typeof item === "object" &&
+      item.type === "category" &&
+      item.link?.type === "doc" &&
+      item.link.id === appStateGuide.link.id,
+  );
+
+  if (alreadyExists) {
+    return items;
+  }
+
+  const scopesIndex = items.findIndex(
+    (item) =>
+      item &&
+      typeof item === "object" &&
+      item.type === "doc" &&
+      item.id === `${baseDocIdPrefix}/scopes`,
+  );
+  const introIndex = items.findIndex(
+    (item) =>
+      item &&
+      typeof item === "object" &&
+      item.type === "doc" &&
+      item.id === introDocId,
+  );
+  const insertAt = scopesIndex >= 0 ? scopesIndex + 1 : introIndex + 1;
+
+  return [
+    ...items.slice(0, Math.max(insertAt, 0)),
+    appStateGuide,
+    ...items.slice(Math.max(insertAt, 0)),
+  ];
+};
+
 const insertDocsIntoCategory = (
   items,
   categoryLabel,
@@ -278,12 +335,16 @@ const buildContentApisVersionedItems = () =>
   );
 
 const buildUserRelatedApisLatestItems = () =>
-  reorderUserRelatedApisSidebarItems(
-    extendUserRelatedApisSidebarItems(
-      cloneSidebarItems(require("./docs/user_related_apis_versioned/sidebar.js")),
-      "user_related_apis_versioned",
+  insertAppStateGuide(
+    reorderUserRelatedApisSidebarItems(
+      extendUserRelatedApisSidebarItems(
+        cloneSidebarItems(require("./docs/user_related_apis_versioned/sidebar.js")),
+        "user_related_apis_versioned",
+      ),
+      "user-related-apis/reading-sessions-vs-activity-days",
     ),
-    "user-related-apis/reading-sessions-vs-activity-days",
+    "user_related_apis_versioned",
+    "user_related_apis_versioned/user-related-apis",
   );
 const buildUserRelatedApisVersionedItems = () =>
   reorderUserRelatedApisSidebarItems(
@@ -313,7 +374,11 @@ const buildUserRelatedApisPreLiveItems = () => {
         item.id === scopesDoc.id,
     )
   ) {
-    return items;
+    return insertAppStateGuide(
+      items,
+      "user_related_apis_prelive",
+      "user_related_apis_prelive/user-related-apis",
+    );
   }
 
   const introIndex = items.findIndex(
@@ -325,11 +390,15 @@ const buildUserRelatedApisPreLiveItems = () => {
   );
   const insertAt = introIndex >= 0 ? introIndex + 1 : 0;
 
-  return [
-    ...items.slice(0, insertAt),
-    scopesDoc,
-    ...items.slice(insertAt),
-  ];
+  return insertAppStateGuide(
+    [
+      ...items.slice(0, insertAt),
+      scopesDoc,
+      ...items.slice(insertAt),
+    ],
+    "user_related_apis_prelive",
+    "user_related_apis_prelive/user-related-apis",
+  );
 };
 
 const buildOAuth2ApisLatestItems = () =>
