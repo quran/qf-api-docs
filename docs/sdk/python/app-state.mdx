@@ -1,0 +1,162 @@
+---
+title: "App State"
+description: "Store and reconcile approved private app data with the Python SDK."
+slug: /sdk/python/app-state
+---
+
+# App State
+
+:::warning Pre-live, NO-LAUNCH
+App State is available only for approved pre-live integration work. It is not enabled for general
+partner or production traffic. Use pre-live credentials and service URLs until production rollout is
+explicitly approved.
+:::
+
+App State requires a signed-in user token and an OAuth client approved for `app_state`,
+`app_state.read`, `app_state.write`, or an approved combination of the child scopes. Request only
+the scopes assigned to your client. See the [App State API contract](/docs/user_related_apis_prelive/app-state/)
+and [OAuth2 scopes](/docs/user_related_apis_prelive/scopes#app-state).
+
+Create a server-side client with the signed-in user's token. The SDK sends `x-auth-token` and
+`x-client-id` automatically.
+
+```python
+from quran_foundation import QuranClient
+
+client = QuranClient(
+    client_id="APPROVED_CLIENT_ID",
+    access_token="USER_ACCESS_TOKEN",
+    user_base_url="https://apis-prelive.quran.foundation/auth/v1",
+)
+```
+
+Keep tokens in trusted server-side storage. Do not expose them in browser code or public notebook
+output.
+
+## Low-level operations
+
+```python
+from uuid import uuid4
+
+configuration = client.get_app_state_configuration()
+
+first_bootstrap_page = client.bootstrap_app_state(limit=100)
+first_change_page = client.get_app_state_changes(
+    first_bootstrap_page["data"]["nextSyncToken"],
+    limit=100,
+)
+
+documents = client.list_app_state_documents("settings", limit=100)
+current = client.get_app_state_document("settings", "theme")
+
+created = client.put_app_state_document(
+    "settings",
+    "theme",
+    value={"mode": "dark"},
+    schema_version=1,
+    idempotency_key=str(uuid4()),
+    if_none_match="*",
+)
+
+client.put_app_state_document(
+    "settings",
+    "theme",
+    value={"mode": "light"},
+    schema_version=1,
+    idempotency_key=str(uuid4()),
+    if_match=current.etag,
+)
+
+client.delete_app_state_document(
+    "settings",
+    "theme",
+    idempotency_key=str(uuid4()),
+    if_match=created.etag,
+)
+```
+
+A put is a complete replacement, not a JSON merge. Store ETags exactly as returned. Reuse an
+idempotency key only when retrying the same method, path, body bytes, and preconditions.
+
+## Pagination and initial bootstrap
+
+A new local account has no sync token. Page through `bootstrap_app_state()` first, committing each
+complete page and cursor in one local transaction. The terminal page returns `nextSyncToken`; pull
+`get_app_state_changes()` from that token until `hasMore` is false before exposing the completed
+server shadow.
+
+For an existing account, call `get_app_state_changes(saved_token)` and atomically commit each page
+with its `nextSyncToken`. On `410 bootstrap_required` or `410 sync_token_expired`, preserve pending
+local mutations, rebuild through bootstrap, drain changes, promote the staged snapshot, replay
+pending mutations, and pull again.
+
+## Transactional reconciliation
+
+```python
+from quran_foundation import AppStateReconciler, AppStateStore
+
+reconciler = AppStateReconciler(
+    client,
+    durable_account_scoped_store,  # Implements AppStateStore transaction semantics.
+    account_id=signed_in_account_id,
+)
+
+reconciler.put_document(
+    "settings",
+    "theme",
+    value={"mode": "dark"},
+    schema_version=1,
+)
+state = reconciler.reconcile()
+visible_theme = state.visible["settings/theme"]
+```
+
+`put_document()` and `delete_document()` queue local intent. `reconcile()` bootstraps when needed,
+then pulls, replays the captured pending set, and pulls again. Use durable transactional storage in
+production; `MemoryAppStateStore` is only a reference for tests and short-lived processes.
+
+## Account switching
+
+Switch the account identifier and its account-bound client together:
+
+```python
+account_b_client = QuranClient(
+    client_id="APPROVED_CLIENT_ID",
+    access_token=account_b_access_token,
+    user_base_url="https://apis-prelive.quran.foundation/auth/v1",
+)
+
+account_b_state = reconciler.switch_account(
+    account_b_id,
+    account_b_client,
+)
+```
+
+Supply a separate `QuranClient` whose token belongs to the target account. Do not mutate one shared
+client's `access_token` across accounts while reconciliation is in flight. In-flight work keeps the
+client captured for its original account, and a late result cannot commit after the account
+generation changes.
+
+## Errors
+
+Low-level and reconciler failures raise `QuranHttpError` with `status_code`, parsed `payload`, copied
+read-only `headers`, and `response_text`.
+
+```python
+from quran_foundation import QuranHttpError
+
+try:
+    reconciler.reconcile()
+except QuranHttpError as error:
+    if error.status_code == 412:
+        # Preserve complete-replacement intent and let the app resolve the conflict.
+        pass
+    elif error.status_code == 410:
+        # The reconciler performs bounded bootstrap recovery automatically.
+        pass
+    else:
+        raise
+```
+
+For the full status and recovery matrix, read
+[Transactional App State reconciliation](/docs/user_related_apis_prelive/app-state/reconciliation/).

@@ -22,7 +22,7 @@ client, a data group, partner traffic, or a user interface.
 The public paths below are relative to the Quran Foundation API host and include the Auth service
 prefix. Every request requires:
 
-- `Authorization`: a user-delegated Bearer access token. Do not send a client-credentials token;
+- `x-auth-token`: a user-delegated OAuth access token. Do not send a client-credentials token;
   App State always requires a real user subject.
 - `x-client-id`: the OAuth client that owns the approved App State policy.
 - An approved scope: `app_state` authorizes reads and writes, `app_state.read` authorizes reads, and

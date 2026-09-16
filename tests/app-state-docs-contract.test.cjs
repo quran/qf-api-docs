@@ -94,7 +94,7 @@ test('publishes all seven App State operations with the frozen wire rules in bot
     }
 
     for (const requiredTerm of [
-      'Authorization',
+      'x-auth-token',
       'x-client-id',
       'Content-Type',
       'Idempotency-Key',
@@ -123,6 +123,76 @@ test('publishes all seven App State operations with the frozen wire rules in bot
     assert.match(completeTree, /204[^\n]+no (?:response )?body/i);
     assert.match(completeTree, /413/);
     assert.match(completeTree, /422/);
+  }
+});
+
+test('publishes the seven pre-live operations in the canonical OpenAPI reference', () => {
+  const spec = JSON.parse(
+    read('openAPI', 'user-related-apis', 'pre-live', 'v1.json'),
+  );
+
+  for (const [method, publicPath] of operations) {
+    const specPath = publicPath.replace('/auth', '');
+    const operation = spec.paths?.[specPath]?.[method.toLowerCase()];
+    assert.ok(operation, `pre-live OpenAPI must publish ${method} ${specPath}`);
+    assert.deepEqual(operation.security ?? spec.security, [
+      { 'x-auth-token': [], 'x-client-id': [] },
+    ]);
+    assert.deepEqual(operation.servers, [
+      {
+        url: 'https://apis-prelive.quran.foundation/auth',
+        description: 'Pre-production Server',
+      },
+    ]);
+  }
+
+  assert.ok(
+    spec.tags.some(({ name }) => name === 'App State API Reference'),
+    'pre-live OpenAPI must publish the App State API Reference tag',
+  );
+});
+
+test('publishes actionable App State pages for both SDKs', () => {
+  const javascript = read('docs', 'sdk', 'javascript', 'app-state.mdx');
+  const python = read('docs', 'sdk', 'python', 'app-state.mdx');
+
+  for (const [name, sdkDocs] of [
+    ['JavaScript', javascript],
+    ['Python', python],
+  ]) {
+    assert.notEqual(sdkDocs, '', `${name} App State SDK guide is missing`);
+    assert.match(sdkDocs, /app_state\.read/);
+    assert.match(sdkDocs, /app_state\.write/);
+    assert.match(sdkDocs, /bootstrap/i);
+    assert.match(sdkDocs, /nextSyncToken/);
+    assert.match(sdkDocs, /idempotency/i);
+    assert.match(sdkDocs, /account-bound/i);
+  }
+
+  for (const method of [
+    'getConfiguration',
+    'bootstrap',
+    'getChanges',
+    'listDocuments',
+    'getDocument',
+    'putDocument',
+    'deleteDocument',
+    'switchAccount',
+  ]) {
+    assert.match(javascript, new RegExp(`\\b${method}\\b`));
+  }
+
+  for (const method of [
+    'get_app_state_configuration',
+    'bootstrap_app_state',
+    'get_app_state_changes',
+    'list_app_state_documents',
+    'get_app_state_document',
+    'put_app_state_document',
+    'delete_app_state_document',
+    'switch_account',
+  ]) {
+    assert.match(python, new RegExp(`\\b${method}\\b`));
   }
 });
 

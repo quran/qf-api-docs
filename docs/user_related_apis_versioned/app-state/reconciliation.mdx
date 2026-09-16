@@ -44,7 +44,9 @@ flowchart TD
     I --> C
 ```
 
-The run order is pull, captured replay, then pull again. Queue writes may continue while network I/O
+A fresh account with no `syncToken` must bootstrap before the first pull: build the snapshot in
+staging, drain changes from the terminal bootstrap token, and promote it atomically. Only then enter
+the normal pull, captured replay, then pull-again loop. Queue writes may continue while network I/O
 is in flight, but only captured local revisions are retired. Later work remains pending.
 
 ## Page and checkpoint atomicity
@@ -135,7 +137,10 @@ user's state never becomes visible to another.
 ## Low-level HTTP and reconciler SDK layers
 
 The reviewed JavaScript and Python additions remain unpublished/pre-live until launch evidence
-passes. Existing imports and low-level calls remain valid; reconciliation is opt-in.
+passes. Existing imports and low-level calls remain valid; reconciliation is opt-in. For runnable
+imports, calls, pagination, conditional mutations, error handling, and account-bound transport
+switching, use the dedicated [JavaScript App State SDK guide](/docs/sdk/javascript/app-state/) or
+[Python App State SDK guide](/docs/sdk/python/app-state/).
 
 | Layer | JavaScript / TypeScript | Python | Use it for |
 | --- | --- | --- | --- |

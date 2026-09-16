@@ -20,7 +20,7 @@ enable an OAuth client, a data group, partner traffic, or a user interface.
 
 ## Base path and authentication
 
-Every operation requires `Authorization` with a user-delegated Bearer access token and the owning
+Every operation requires `x-auth-token` with a user-delegated OAuth access token and the owning
 OAuth `x-client-id`. Client-credentials tokens are rejected because App State requires a real user
 subject. `app_state` authorizes reads and writes, `app_state.read` authorizes reads, and
 `app_state.write` authorizes writes. Any App State scope can read configuration.
