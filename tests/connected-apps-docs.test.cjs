@@ -18,6 +18,13 @@ const customCss = fs.readFileSync(
 const packageJson = require(path.join(repoRoot, 'package.json'));
 const sidebars = require(path.join(repoRoot, 'sidebars.js'));
 const docusaurusConfig = require(path.join(repoRoot, 'docusaurus.config.js'));
+const preliveUserApi = require(path.join(
+  repoRoot,
+  'openAPI',
+  'user-related-apis',
+  'pre-live',
+  'v1.json',
+));
 const { generateLlmsTxt } = require(path.join(
   repoRoot,
   'plugins',
@@ -32,6 +39,16 @@ const findSidebarDoc = (sidebarName, docId) => {
     (item) => item && item.type === 'doc' && item.id === docId,
   );
 };
+
+test('keeps generated Connected Apps header examples MDX-safe', () => {
+  const cookieExample =
+    preliveUserApi.paths['/users/csrf-token'].get.responses['200'].headers[
+      'Set-Cookie'
+    ].example;
+
+  assert.equal(cookieExample, '_csrf=opaque-value; Path=/; SameSite=Lax');
+  assert.doesNotMatch(JSON.stringify(preliveUserApi), /<opaque>/);
+});
 
 test('adds a production Connected Apps docs page', () => {
   assert.match(doc, /^title: "Connected Apps"$/m);
