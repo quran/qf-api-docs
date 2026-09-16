@@ -109,76 +109,24 @@ const makeApiCategorySidebarItem = (label, items) => ({
   items,
 });
 
-const makeAppStateGuideSidebarItem = (baseDocIdPrefix) => {
-  const apiReferenceItems =
-    baseDocIdPrefix === "user_related_apis_prelive"
-      ? [
-          {
-            ...makeApiCategorySidebarItem("API reference", [
-              makeApiDocSidebarItem(
-                `${baseDocIdPrefix}/get-app-state-configuration`,
-                "Get configuration",
-                "api-method get",
-              ),
-              makeApiDocSidebarItem(
-                `${baseDocIdPrefix}/bootstrap-app-state`,
-                "Bootstrap",
-                "api-method get",
-              ),
-              makeApiDocSidebarItem(
-                `${baseDocIdPrefix}/get-app-state-changes`,
-                "Get changes",
-                "api-method get",
-              ),
-              makeApiDocSidebarItem(
-                `${baseDocIdPrefix}/list-app-state-documents`,
-                "List documents",
-                "api-method get",
-              ),
-              makeApiDocSidebarItem(
-                `${baseDocIdPrefix}/get-app-state-document`,
-                "Get document",
-                "api-method get",
-              ),
-              makeApiDocSidebarItem(
-                `${baseDocIdPrefix}/put-app-state-document`,
-                "Put document",
-                "api-method put",
-              ),
-              makeApiDocSidebarItem(
-                `${baseDocIdPrefix}/delete-app-state-document`,
-                "Delete document",
-                "api-method delete",
-              ),
-            ]),
-            link: {
-              type: "doc",
-              id: `${baseDocIdPrefix}/app-state-api-reference`,
-            },
-          },
-        ]
-      : [];
-
-  return {
-    type: "category",
-    label: "App State",
-    link: {
-      type: "doc",
-      id: `${baseDocIdPrefix}/app-state/index`,
-    },
-    items: [
-      makeApiDocSidebarItem(
-        `${baseDocIdPrefix}/app-state/reconciliation`,
-        "Reconciliation and SDKs",
-      ),
-      makeApiDocSidebarItem(
-        `${baseDocIdPrefix}/app-state/lifecycle`,
-        "Lifecycle and launch policy",
-      ),
-      ...apiReferenceItems,
-    ],
-  };
-};
+const makeAppStateGuideSidebarItem = (baseDocIdPrefix) => ({
+  type: "category",
+  label: "App State",
+  link: {
+    type: "doc",
+    id: `${baseDocIdPrefix}/app-state/index`,
+  },
+  items: [
+    makeApiDocSidebarItem(
+      `${baseDocIdPrefix}/app-state/reconciliation`,
+      "Reconciliation and SDKs",
+    ),
+    makeApiDocSidebarItem(
+      `${baseDocIdPrefix}/app-state/lifecycle`,
+      "Lifecycle and launch policy",
+    ),
+  ],
+});
 
 const insertAppStateGuide = (items, baseDocIdPrefix, introDocId) => {
   const appStateGuide = makeAppStateGuideSidebarItem(baseDocIdPrefix);

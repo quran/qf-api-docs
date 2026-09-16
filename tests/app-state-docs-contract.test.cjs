@@ -152,6 +152,21 @@ test('publishes the seven pre-live operations in the canonical OpenAPI reference
   );
 });
 
+test('keeps generated App State operation links out of the manual sidebar helper', () => {
+  const sidebarSource = read('sidebars.js');
+  for (const operationId of [
+    'get-app-state-configuration',
+    'bootstrap-app-state',
+    'get-app-state-changes',
+    'list-app-state-documents',
+    'get-app-state-document',
+    'put-app-state-document',
+    'delete-app-state-document',
+  ]) {
+    assert.doesNotMatch(sidebarSource, new RegExp(`user_related_apis_prelive/${operationId}`));
+  }
+});
+
 test('publishes actionable App State pages for both SDKs', () => {
   const javascript = read('docs', 'sdk', 'javascript', 'app-state.mdx');
   const python = read('docs', 'sdk', 'python', 'app-state.mdx');
@@ -182,6 +197,10 @@ test('publishes actionable App State pages for both SDKs', () => {
     assert.match(javascript, new RegExp(`\\b${method}\\b`));
   }
 
+  assert.match(javascript, /while \(bootstrapPage\.data\.hasMore\)/);
+  assert.match(javascript, /ifMatch: created\.etag!/);
+  assert.match(javascript, /ifMatch: replaced\.etag!/);
+
   for (const method of [
     'get_app_state_configuration',
     'bootstrap_app_state',
@@ -194,6 +213,10 @@ test('publishes actionable App State pages for both SDKs', () => {
   ]) {
     assert.match(python, new RegExp(`\\b${method}\\b`));
   }
+
+  assert.match(python, /while bootstrap_page\["data"\]\["hasMore"\]:/);
+  assert.match(python, /if_match=created\.etag/);
+  assert.match(python, /if_match=replaced\.etag/);
 });
 
 test('publishes every frozen status action and the App State security distinction', () => {

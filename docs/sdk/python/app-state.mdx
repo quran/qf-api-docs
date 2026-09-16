@@ -40,15 +40,18 @@ from uuid import uuid4
 
 configuration = client.get_app_state_configuration()
 
-first_bootstrap_page = client.bootstrap_app_state(limit=100)
+bootstrap_page = client.bootstrap_app_state(limit=100)
+while bootstrap_page["data"]["hasMore"]:
+    bootstrap_page = client.bootstrap_app_state(
+        cursor=bootstrap_page["data"]["nextCursor"],
+        limit=100,
+    )
 first_change_page = client.get_app_state_changes(
-    first_bootstrap_page["data"]["nextSyncToken"],
+    bootstrap_page["data"]["nextSyncToken"],
     limit=100,
 )
 
 documents = client.list_app_state_documents("settings", limit=100)
-current = client.get_app_state_document("settings", "theme")
-
 created = client.put_app_state_document(
     "settings",
     "theme",
@@ -57,21 +60,23 @@ created = client.put_app_state_document(
     idempotency_key=str(uuid4()),
     if_none_match="*",
 )
+current = client.get_app_state_document("settings", "theme")
+print(current.value)
 
-client.put_app_state_document(
+replaced = client.put_app_state_document(
     "settings",
     "theme",
     value={"mode": "light"},
     schema_version=1,
     idempotency_key=str(uuid4()),
-    if_match=current.etag,
+    if_match=created.etag,
 )
 
 client.delete_app_state_document(
     "settings",
     "theme",
     idempotency_key=str(uuid4()),
-    if_match=created.etag,
+    if_match=replaced.etag,
 )
 ```
 

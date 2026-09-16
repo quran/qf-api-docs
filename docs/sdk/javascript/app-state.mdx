@@ -29,32 +29,38 @@ const appState = client.auth.v1.appState;
 
 const configuration = await appState.getConfiguration();
 
-const firstBootstrapPage = await appState.bootstrap({ limit: 100 });
+let bootstrapPage = await appState.bootstrap({ limit: 100 });
+while (bootstrapPage.data.hasMore) {
+  bootstrapPage = await appState.bootstrap({
+    cursor: bootstrapPage.data.nextCursor!,
+    limit: 100,
+  });
+}
 const firstChangePage = await appState.getChanges(
-  firstBootstrapPage.data.nextSyncToken!,
+  bootstrapPage.data.nextSyncToken!,
   { limit: 100 },
 );
 
 const documents = await appState.listDocuments("settings", { limit: 100 });
-const current = await appState.getDocument("settings", "theme");
-
 const created = await appState.putDocument(
   "settings",
   "theme",
   { value: { mode: "dark" }, schemaVersion: 1 },
   { idempotencyKey: crypto.randomUUID(), ifNoneMatch: "*" },
 );
+const current = await appState.getDocument("settings", "theme");
+console.log(current.value);
 
-await appState.putDocument(
+const replaced = await appState.putDocument(
   "settings",
   "theme",
   { value: { mode: "light" }, schemaVersion: 1 },
-  { idempotencyKey: crypto.randomUUID(), ifMatch: current.etag! },
+  { idempotencyKey: crypto.randomUUID(), ifMatch: created.etag! },
 );
 
 await appState.deleteDocument("settings", "theme", {
   idempotencyKey: crypto.randomUUID(),
-  ifMatch: created.etag!,
+  ifMatch: replaced.etag!,
 });
 ```
 
