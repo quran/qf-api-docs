@@ -2,6 +2,12 @@
 
 > API documentation for Quran.com analytics, content, search, user, and authentication APIs.
 
+## Environment limitations
+
+**Prelive Content API limitation:** The prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.
+
+This limitation applies to Quran content in the Content API, not to User-related APIs. See the [Content APIs Quickstart](https://api-docs.quran.foundation/docs/quickstart/) for environment URLs and setup.
+
 ## OpenAPI Specifications
 
 - [Content APIs v4](https://api-docs.quran.foundation/openAPI/content/v4.json): Verses, chapters, translations, tafsirs, audio
@@ -40,7 +46,6 @@
 - [First Content API Call](https://api-docs.quran.foundation/docs/quickstart/first-api-call/)
 - [Manual Authentication for Content APIs](https://api-docs.quran.foundation/docs/quickstart/manual-authentication/)
 - [Migrate from api.quran.com to Quran Foundation Content APIs](https://api-docs.quran.foundation/docs/quickstart/migration/)
-- [Quran Foundation Content APIs OAuth2 Quickstart](https://api-docs.quran.foundation/docs/quickstart/)
 - [Token Management for Content APIs](https://api-docs.quran.foundation/docs/quickstart/token-management/)
 
 ## SDKs

@@ -22,6 +22,12 @@ Create an app in the [Developer Console](https://dev-console.quran.foundation/pr
 
 **Content APIs** provide read-only access to Quran data such as chapters, verses, recitations and translations. **User-related APIs** manage data tied to a specific Quran Foundation account like bookmarks and notes.
 
+## Why is content unavailable for surahs 3–114 in prelive?
+
+**Prelive Content API limitation:** The prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.
+
+This limitation applies to Quran content in the Content API, not to User-related APIs. See the [Content APIs Quickstart](/docs/quickstart/) for environment URLs and setup.
+
 ## How do I use `x-auth-token` and `x-client-id` headers?
 
 Include your OAuth2 access token in the `x-auth-token` header and your client ID in the `x-client-id` header when calling authenticated endpoints.
