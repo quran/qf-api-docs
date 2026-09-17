@@ -33,3 +33,23 @@ test("analytics event ingestion documents client credentials and optional user c
     );
   }
 });
+
+test("App State scopes explain full access and least-privilege OAuth requests", () => {
+  for (const scopes of [productionScopes, preliveScopes]) {
+    assert.match(
+      scopes,
+      /`app_state` grants both read and write access/,
+    );
+    assert.match(
+      scopes,
+      /request `app_state\.read`, `app_state\.write`, or both instead/,
+    );
+    assert.match(
+      scopes,
+      /Any App State scope can read the active data-group configuration from\s+`GET \/auth\/v1\/app-state:config`/,
+    );
+    assert.match(scopes, /does not return stored user values/);
+    assert.match(scopes, /A user-delegated access token is required/);
+    assert.match(scopes, /client-credentials\s+tokens cannot use this endpoint/);
+  }
+});
