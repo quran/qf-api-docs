@@ -15,6 +15,8 @@ translation_info = client.get_translation_info(131)
 recitations = client.list_recitations()
 snapshot = client.get_resource_snapshot("translations", 131)
 mushaf_snapshot = client.get_mushaf_snapshot(1)
+# Available after the canonical resource is approved and published:
+core_snapshot = client.get_quran_core_snapshot()
 chapter_snapshot = client.get_chapter_recitation_snapshot(159)
 transliteration_snapshot = client.get_word_by_word_transliteration_snapshot(60)
 ```
@@ -38,6 +40,7 @@ Supported helpers:
 - `get_word_by_word_translation_snapshot(word_by_word_translation_id, params=None)`
 - `get_word_by_word_transliteration_snapshot(word_by_word_transliteration_id, params=None)`
 - `get_mushaf_snapshot(mushaf_id, params=None)`
+- `get_quran_core_snapshot(params=None)` (singleton `quran_core:1`)
 
 Use `mushafs:<id>` in `sync_resources(...)`, then call
 `get_mushaf_snapshot(...)` to download metadata, page mappings, positioned
@@ -50,6 +53,29 @@ Use `chapter_recitations:<id>` to sync chapter audio, where `<id>` is an
 The returned records are `chapter_audio_file` rows. This is distinct from the
 legacy `recitations:<id>` group, which is keyed by an ayah-recitation ID and
 may include compatible chapter audio for existing clients.
+
+### Canonical Quran Core
+
+When published, `quran_core:1` provides canonical Uthmani text, Surah metadata,
+and Juz/Hizb/Rub-el-Hizb boundaries. The SDK exports
+`QuranCoreSnapshotRecord` and typed chapter, verse, and boundary variants.
+Its `resource_content_id` is `None`; local rows use `(record_type, id)` as their
+key. Mushaf-specific page/line/glyph data remains in `mushafs:<id>`.
+
+```python
+changes = client.sync_resources(params={
+    "bootstrap": True,
+    "resources": "mushafs:1;quran_core:1",
+})
+core = client.get_quran_core_snapshot()
+for record in core["records"]:
+    if record["record_type"] == "verse":
+        print(record["verse_key"], record["text_uthmani"])
+```
+
+The API may return `snapshot_not_found` until source/edition, redistribution,
+and attribution review approves publication. Use the same combined filter for
+incremental sync, and replace the complete resource on `RESOURCE_INVALIDATE`.
 
 ### Word-by-Word Transliterations
 

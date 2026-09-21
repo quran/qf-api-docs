@@ -12,6 +12,7 @@ A full copy, called a `snapshot` in the API, is the complete current row list fo
 For example:
 
 - Full copy of `mushafs:1` returns its metadata, page mappings, and positioned words. Font files and images are not included.
+- Once published, full copy of `quran_core:1` returns canonical Uthmani verse text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. It has no Mushaf-specific pages.
 - Full copy of `translations:19` returns all current translation rows for translation resource `19`.
 - Full copy of `word_by_word_translations:85` returns all current word translation rows for word-by-word translation resource content `85`.
 - Full copy of `word_by_word_transliterations:60` returns all current word transliteration rows for production word-by-word transliteration resource `60`.
@@ -56,6 +57,32 @@ The response has metadata plus `records`.
 ```
 
 Client rule: `records` is the full current content for that one resource. Delete your old local rows for the resource, then insert these rows.
+
+### Canonical Quran Core Records
+
+The singleton `quran_core:1` has `resource_content_id: null`. Its snapshot
+contains `chapter`, `verse`, `juz`, `hizb`, and `rub_el_hizb` records. For example:
+
+```json
+{
+  "resource_group": "quran_core",
+  "resource_id": 1,
+  "resource_content_id": null,
+  "schema_version": 1,
+  "sync_sequence": 98234,
+  "records": [
+    {"record_type": "chapter", "id": 1, "chapter_number": 1, "name_arabic": "الفاتحة", "verses_count": 7},
+    {"record_type": "verse", "id": 1, "chapter_id": 1, "verse_number": 1, "verse_index": 1, "verse_key": "1:1", "text_uthmani": "بِسْمِ ٱللَّهِ"},
+    {"record_type": "juz", "id": 1, "juz_number": 1, "first_verse_id": 1, "last_verse_id": 148, "verses_count": 148, "verse_mapping": {"1": "1-7"}}
+  ]
+}
+```
+
+These are abbreviated example rows; actual rows include additional metadata
+and `updated_at`. Key local rows by `(record_type, id)` within `quran_core:1`.
+Continue using `mushafs:<id>` for page/line/glyph/font layout. Publication of
+canonical text remains pending source/edition, redistribution, and attribution
+approval. Until then, a snapshot is unavailable.
 
 ### Word-by-Word Transliteration Records
 

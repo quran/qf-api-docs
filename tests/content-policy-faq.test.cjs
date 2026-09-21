@@ -241,6 +241,7 @@ test('removes the standalone Mushaf images page from docs and discovery', () => 
 test('synchronizes the exact Content Sync groups', () => {
   const expectedGroups = [
     'mushafs',
+    'quran_core',
     'translations',
     'word_by_word_translations',
     'word_by_word_transliterations',
@@ -250,7 +251,7 @@ test('synchronizes the exact Content Sync groups', () => {
     'articles',
   ];
   const sourceSupportStatement = contentSync.match(
-    /Content Sync currently supports these resource groups:\s*([^\.\r\n]+)\./,
+    /Content Sync supports these resource groups after the Quran core rollout:\s*([^\.\r\n]+)\./,
   );
   assert.ok(
     sourceSupportStatement,
@@ -268,7 +269,7 @@ test('synchronizes the exact Content Sync groups', () => {
   assert.deepEqual(
     [...sourceGroups].sort(),
     [...expectedGroups].sort(),
-    'the source support matrix must remain exactly eight groups',
+    'the source support matrix must include exactly nine groups after rollout',
   );
   assert.deepEqual(
     [...faqGroups].sort(),
