@@ -69,7 +69,7 @@ The flow is:
 4. Apply row mutations directly.
 5. When a mutation has a non-null `snapshot_url`, fetch the snapshot for that `resource_group` and `resource_id` and replace that local resource.
 
-The `resources` filter uses plural group names (`articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `chapter_recitations:159;mushafs:1;translations:19,20;word_by_word_transliterations:60`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
+The `resources` filter accepts the singleton `quran_core` and plural group names (`articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `chapter_recitations:159;mushafs:1;translations:19,20;word_by_word_transliterations:60`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
 
 `chapter_recitations` is keyed by `Audio::Recitation.id` and contains chapter
 audio files. The legacy `recitations` group is keyed by the ayah-recitation
@@ -89,6 +89,32 @@ const snapshot = await client.resources.findSnapshot("chapter_recitations", 159)
 ```
 
 `RESOURCE_UPDATE` is only a resource-level freshness marker. It does not include `snapshot_url`; keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.
+
+### Canonical Quran Core
+
+When published, `quran_core:1` provides canonical Uthmani verse text, Surah
+metadata, and Juz/Hizb/Rub-el-Hizb boundaries. The resource is separate from
+Mushaf-specific pages and glyphs. The API may return `snapshot_not_found` until
+the content/licensing and attribution review approves publication.
+
+```ts
+import type { QuranCoreSnapshotRecord } from "@quranjs/api";
+
+await client.content.v4.resources.sync({
+  bootstrap: true,
+  resources: "mushafs:1;quran_core:1",
+});
+const core = await client.resources.findSnapshot<QuranCoreSnapshotRecord>(
+  "quran_core", 1,
+);
+for (const record of core.records) {
+  if (record.recordType === "verse") console.log(record.verseKey, record.textUthmani);
+}
+```
+
+The SDK camel-cases `text_uthmani` and other response keys. Continue using
+the same `resources` filter when polling, and replace all local core rows when
+`RESOURCE_INVALIDATE` supplies a snapshot URL.
 
 ### Word-by-Word Transliterations
 

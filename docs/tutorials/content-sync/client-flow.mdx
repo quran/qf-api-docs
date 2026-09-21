@@ -103,6 +103,7 @@ interface LocalContentRow {
   resourceGroup:
     | "articles"
     | "mushafs"
+    | "quran_core"
     | "recitations"
     | "chapter_recitations"
     | "tafsirs"
@@ -116,7 +117,7 @@ interface LocalContentRow {
 }
 ```
 
-The current sync contract accepts only `articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, and `word_by_word_transliterations` as resource groups.
+After rollout, the sync contract also accepts the singleton `quran_core:1` alongside `articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, and `word_by_word_transliterations`. Quran core publication is pending content/licensing approval.
 
 `word_by_word_transliterations:60` uses `word_transliteration` rows. Each row
 contains exactly `id`, `resource_content_id`, `resource_id`, `word_id`,

@@ -36,11 +36,12 @@ When `next_page_url` or `snapshot_url` is present and non-null, we return a rela
 
 ## Content Available for Offline Sync
 
-Content Sync currently supports these resource groups: `mushafs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`.
+Content Sync supports these resource groups after the Quran core rollout: `quran_core`, `mushafs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`. `quran_core:1` is not public until its content/licensing and attribution review is complete.
 
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `mushafs`                      | Mushaf metadata, page mappings, and positioned words. Font files and images are not included. | Mushaf, page, and word changes.                                                       |
+| `quran_core`                   | Singleton `1`: canonical Uthmani text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. No Mushaf-specific pages. | Chapter, verse, and boundary row changes.                            |
 | `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `word_by_word_transliterations` | Word transliteration rows for an eligible one-word transliteration resource.          | Word transliteration row changes.                                                   |
@@ -58,6 +59,22 @@ groups. The translation group remains translation-only (`word_translation`
 records). The transliteration group contains approved, shareable one-word
 transliteration resources (`word_transliteration` records), such as production
 resource `60`.
+
+### Canonical Quran Core and Mushaf Layout
+
+Once published, select `quran_core:1;mushafs:1` for canonical verse text and
+navigation boundaries alongside Mushaf-specific layout. The core snapshot has
+114 `chapter`, 6,236 `verse`, 30 `juz`, 60 `hizb`, and 240 `rub_el_hizb`
+records. Its `resource_content_id` is `null`. Each row has a `record_type` and
+`id`; use `(resource_group, resource_id, record_type, id)` as the local key.
+Unlike Mushaf page mapping, `chapters.pages` is not part of Quran core.
+
+:::caution Publication pending
+The source/edition, redistribution terms, and attribution for canonical
+`text_uthmani` require approval before `quran_core:1` can be published. SDK
+support and this contract do not grant permission to redistribute it. A
+snapshot may return `snapshot_not_found` until publication.
+:::
 
 ### Audio Resource Identities
 
@@ -117,6 +134,21 @@ curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/mushafs/1
 ```
 
 Client rule: replace all local rows for `mushafs:1` with the `records` array from the response.
+
+After publication, fetch the canonical singleton separately:
+
+```bash
+curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/quran_core/1" \
+  -H "x-auth-token: $ACCESS_TOKEN" \
+  -H "x-client-id: $CLIENT_ID"
+```
+
+A `verse` record includes `id`, `chapter_id`, `verse_number`, `verse_index`,
+`verse_key`, `text_uthmani`, and navigation numbers. Juz/Hizb/Rub-el-Hizb
+records include `first_verse_id`, `last_verse_id`, `verses_count`, and
+`verse_mapping`. Snapshot rows are ordered by chapter number, verse index, and
+then boundary number for each type. Apply row mutations by `record_type` and
+`record_key`, and replace the complete resource on `RESOURCE_INVALIDATE`.
 
 For a chapter recitation, use the `Audio::Recitation.id` from the
 `chapter_recitations` filter:
