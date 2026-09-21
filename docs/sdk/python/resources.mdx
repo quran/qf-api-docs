@@ -74,8 +74,8 @@ Each `word_transliteration` snapshot record has exactly these fields:
 `language_name`, `text`, and `updated_at`. Snapshots are ordered by `word_id`,
 then `id`. `resource_id == resource_content_id == ResourceContent.id` identifies
 the owning resource, while `word_id` identifies the normalized Word owner.
-Production resource `60` currently contains 77,431 records; row `id: 1` has
-normalized `word_id: 60` and text `"bis'mi"`. Incremental row mutations use
+Production resource `60` currently contains 77,429 records; row `id: 1` has
+normalized `word_id: 1` and text `"bis'mi"`. Incremental row mutations use
 `record_type="word_transliteration"`.
 
 Read next:
