@@ -36,7 +36,7 @@ When `next_page_url` or `snapshot_url` is present and non-null, we return a rela
 
 ## Content Available for Offline Sync
 
-Content Sync supports these resource groups after the Quran core rollout: `quran_core`, `mushafs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`. `quran_core:1` is not public until its content/licensing and attribution review is complete.
+Content Sync supports these resource groups after the Quran core rollout: `quran_core`, `mushafs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`.
 
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -68,13 +68,6 @@ navigation boundaries alongside Mushaf-specific layout. The core snapshot has
 records. Its `resource_content_id` is `null`. Each row has a `record_type` and
 `id`; use `(resource_group, resource_id, record_type, id)` as the local key.
 Unlike Mushaf page mapping, `chapters.pages` is not part of Quran core.
-
-:::caution Publication pending
-The source/edition, redistribution terms, and attribution for canonical
-`text_uthmani` require approval before `quran_core:1` can be published. SDK
-support and this contract do not grant permission to redistribute it. A
-snapshot may return `snapshot_not_found` until publication.
-:::
 
 ### Audio Resource Identities
 
