@@ -129,6 +129,21 @@ test('Express confidential-client walkthrough binds PKCE and nonce across the OA
   assert.doesNotMatch(example, /quran-oauth2-client-example/);
 });
 
+test('OAuth2 tutorial documents hosted authorization UI localization', () => {
+  const tutorial = readDoc('tutorials/oidc/getting-started-with-oauth2.mdx');
+
+  assert.match(tutorial, /`ui_locales=LANGUAGE_TAGS`/);
+  assert.match(tutorial, /`en`, `ar`, `ur`, `id`, `tr`, `fr`, and `ru`/);
+  assert.match(tutorial, /`fr-CA fr en` selects French/);
+  assert.match(tutorial, /checks `Accept-Language`/);
+  assert.match(tutorial, /falls back to\s+English/);
+  assert.match(
+    tutorial,
+    /https:\/\/prelive-oauth2\.quran\.foundation\/oauth2\/auth[\s\S]+&ui_locales=fr-CA%20fr%20en/,
+  );
+  assert.doesNotMatch(tutorial, /localhost|quran-oauth2-client-example/);
+});
+
 test('React Native OAuth guidance branches on the Console app type', () => {
   const reactNative = readDoc('tutorials/oidc/mobile-apps/react-native.mdx');
 

@@ -158,6 +158,7 @@ Use these docs:
 - `nonce=RANDOM_STRING` (strongly recommended when requesting `openid`; some deployments **require** it. If an ID token is returned, verify the token’s `nonce` claim matches your original value.)
 - `code_challenge=BASE64URL_SHA256(code_verifier)`
 - `code_challenge_method=S256`
+- `ui_locales=LANGUAGE_TAGS` (optional OIDC preference for the hosted login and consent UI)
 
 **Environment bases**
 
@@ -175,6 +176,7 @@ https://prelive-oauth2.quran.foundation/oauth2/auth?response_type=code
 &nonce=RANDOM_NONCE_VALUE
 &code_challenge=BASE64URL_SHA256_OF_CODE_VERIFIER
 &code_challenge_method=S256
+&ui_locales=fr-CA%20fr%20en
 ```
 
 Least privilege: Add scopes only as you need them.
@@ -187,6 +189,25 @@ approved for the client. See [OAuth2 Scopes](/docs/user_related_apis_versioned/s
 > Tip: Always persist your `code_verifier` **before** redirecting to `/oauth2/auth`. For confidential backend/server apps, keep it either in app state until callback and send it to your backend exchange endpoint, or keep it in a server-side session if the backend initiates the login flow. Public browser/mobile apps may redeem the code directly without a client secret.
 
 For example, request `collection` only when the user actually creates or manages a collection.
+
+### Localize the hosted authorization UI
+
+Pass the optional OIDC `ui_locales` authorization-request parameter when the
+user has a language preference for the hosted login and consent screens. It is
+a space-separated, ordered list of BCP 47 language tags. It affects only the
+hosted authorization UI; it does not change token claims, API responses, or
+your application's language.
+
+The hosted UI currently supports `en`, `ar`, `ur`, `id`, `tr`, `fr`, and `ru`.
+The authorization server uses the first supported preference. Regional tags
+fall back to their base language, so `fr-CA fr en` selects French. When
+`ui_locales` has no supported preference, the server checks `Accept-Language`.
+If neither source identifies a supported language, the hosted UI falls back to
+English.
+
+```js
+params.set("ui_locales", "fr-CA fr en");
+```
 
 <details>
 <summary><b>PKCE helpers (Node)</b></summary>
