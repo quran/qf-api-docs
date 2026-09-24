@@ -13,7 +13,16 @@ sidebar_label: "Content APIs Quickstart"
 displayed_sidebar: "APIsSidebar"
 ---
 
-Use this quickstart after choosing Content APIs from the [Developer Journey](/docs/developer-journey). It gets you to your first authenticated Content API request without exposing credentials.
+Use this quickstart after choosing Content APIs from the [Developer Journey](/docs/developer-journey). It gets you to your first authenticated, read-only request for Quranic content such as chapters, verses, translations, and recitations without exposing credentials.
+
+:::important Choose the right API and OAuth2 flow
+| You need | API and flow | Where to start |
+| --- | --- | --- |
+| Quranic content from a backend | Content APIs with **Client Credentials** and `scope=content` | Continue with this quickstart. |
+| A signed-in person's data, such as bookmarks or collections | User-related APIs with **Authorization Code + PKCE** | Follow the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart). |
+
+A browser or mobile app must not embed a Content API `client_secret`. If it needs Content API data, call your own backend, which holds the secret and makes the Content API request.
+:::
 
 :::info Quick Summary
 **Audience:** Backend teams, server-rendered apps, and web apps that proxy Content API calls through a server.
@@ -68,7 +77,14 @@ const client = createServerClient({
 const chapters = await client.content.v4.chapters.list();
 ```
 
-This example is for backend/server code because it uses `client_secret`, and it explicitly overrides the SDK's production defaults so a new Console app works in pre-live. After production permissions are granted, switch the credentials, `gatewayUrl`, and `oauth2BaseUrl` to production together. Continue with the [JavaScript SDK guide](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
+This example is for backend/server code because it uses `client_secret`, and it explicitly overrides the SDK's production defaults so a new Console app works in pre-live. After production permissions are granted, switch the credentials, `gatewayUrl`, and `oauth2BaseUrl` to production together.
+
+| SDK entrypoint | Use it for | Credentials and flow |
+| --- | --- | --- |
+| [`@quranjs/api/server`](/docs/sdk/javascript/server-quickstart) | Backend Content API requests (and permitted server-side APIs) | Confidential client: `client_id` and server-only `client_secret`; Client Credentials for Content. |
+| [`@quranjs/api/public`](/docs/sdk/javascript/public-quickstart) | Browser/mobile user-session APIs | Public client: `client_id` and Authorization Code + PKCE; **not** Content APIs. |
+
+For runtime configuration and endpoint-specific examples, continue with the [JavaScript SDK guide](/docs/sdk/javascript).
 
 ## First Raw HTTP Request
 
@@ -91,7 +107,15 @@ curl --request GET \
   --header "x-client-id: YOUR_CLIENT_ID"
 ```
 
-For the complete backend-safe version, continue with [manual authentication](/docs/quickstart/manual-authentication), [token management](/docs/quickstart/token-management), and [first API call](/docs/quickstart/first-api-call).
+### Python and Node.js without the SDK
+
+The same two-step flow is available as copyable, backend-only examples:
+
+1. [Request a token in Python (`requests`) or Node.js (`fetch`)](/docs/quickstart/manual-authentication#token-request). Both examples use HTTP Basic authentication, a form-encoded body, and a status check before reading the token.
+2. [Call `/chapters` in Python or Node.js](/docs/quickstart/first-api-call#first-request-list-chapters). Both examples send `x-auth-token` and `x-client-id` and check the response status.
+3. [Add caching and a single 401 retry](/docs/quickstart/token-management) before using a manual integration in a long-running service. Do not request a token for every API call or print tokens to logs.
+
+These examples default to pre-live and use `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, and optionally `QF_ENV`. Keep the secret in backend environment configuration, never browser or mobile code.
 
 ## Quick Reference
 
@@ -111,6 +135,20 @@ For the complete backend-safe version, continue with [manual authentication](/do
 | --- | --- | --- |
 | Pre-Production | `https://prelive-oauth2.quran.foundation` | `https://apis-prelive.quran.foundation` |
 | Production | `https://oauth2.quran.foundation` | `https://apis.quran.foundation` |
+
+### Troubleshooting
+
+Check the response status and the error body's `type` and `message`; do not blindly retry every failure. The [first API call guide](/docs/quickstart/first-api-call#handle-errors) has the full error table.
+
+| Status | Check or action |
+| --- | --- |
+| `400` / `422` | Correct missing headers or invalid parameters; do not retry the same request unchanged. |
+| `401` | Clear the cached token, obtain a new one, and retry **once**. |
+| `403` | Check the client ID, matching environment, approved permissions, and `content` scope; do not loop. |
+| `429` | Respect rate limits; retry later with bounded exponential backoff and jitter. |
+| `5xx` | Retry transient failures with bounded backoff, then surface the error. |
+
+If token retrieval itself fails, check the Client Credentials request, credentials, and auth environment in [manual authentication](/docs/quickstart/manual-authentication#token-request).
 
 ### Integration Rules
 
