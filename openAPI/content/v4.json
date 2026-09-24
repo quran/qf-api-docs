@@ -23215,7 +23215,7 @@
         }
       },
       "forbidden": {
-        "description": "Forbidden error. Can either be due to access token not being passed, having been expired or the caller trying to access a resource without enough permissions.",
+        "description": "The request is forbidden, for example because a valid access token lacks the required scope or the client lacks permission.",
         "content": {
           "application/json": {
             "schema": {

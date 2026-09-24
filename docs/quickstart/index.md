@@ -82,7 +82,8 @@ This example is for backend/server code because it uses `client_secret`, and it 
 | SDK entrypoint | Use it for | Credentials and flow |
 | --- | --- | --- |
 | [`@quranjs/api/server`](/docs/sdk/javascript/server-quickstart) | Backend Content API requests (and permitted server-side APIs) | Confidential client: `client_id` and server-only `client_secret`; Client Credentials for Content. |
-| [`@quranjs/api/public`](/docs/sdk/javascript/public-quickstart) | Browser/mobile user-session APIs | Public client: `client_id` and Authorization Code + PKCE; **not** Content APIs. |
+| [`@quranjs/api/public`](/docs/sdk/javascript/public-quickstart) | Browser/mobile User APIs with a **Frontend or mobile app** | `clientType: "public"`: `client_id` and Authorization Code + PKCE; the public client can exchange the code. **Not** for Content APIs. |
+| [`@quranjs/api/public`](/docs/sdk/javascript/full-stack) | Frontend User APIs with a **Backend/server app** | `clientType: "confidential-proxy"`: start login with PKCE in the frontend; exchange the code on the backend with `client_secret`. See the [full-stack quickstart](/docs/sdk/javascript/full-stack). |
 
 For runtime configuration and endpoint-specific examples, continue with the [JavaScript SDK guide](/docs/sdk/javascript).
 
