@@ -24,6 +24,8 @@ test('the OpenAPI contract exposes only the canonical singleton alongside Mushaf
   assert.equal(example.records[1].text_uthmani, 'بِسْمِ ٱللَّهِ');
   assert.ok(!('pages' in example.records[0]));
   assert.match(snapshot.description, /redistribution terms/);
+  assert.match(snapshot.description, /The singleton `quran_core:1` snapshot contains/);
+  assert.doesNotMatch(snapshot.description, /forthcoming|publication pending|once published|after publication/i);
   assert.match(api.paths['/resources/sync'].get.description, /quran_core:1/);
 });
 
@@ -38,7 +40,7 @@ test('generated endpoint pages reflect the new group and record types', () => {
   }
 });
 
-test('tutorials and SDK guides distinguish canonical text from layout and hold publication', () => {
+test('tutorials and SDK guides distinguish the released canonical text from layout', () => {
   for (const file of [
     ['tutorials', 'content-sync', 'getting-started.mdx'],
     ['tutorials', 'content-sync', 'full-copies-and-recovery.mdx'],
@@ -48,6 +50,9 @@ test('tutorials and SDK guides distinguish canonical text from layout and hold p
     const doc = readDoc(...file);
     assert.match(doc, /quran_core:1/);
     assert.match(doc, /mushafs:/);
-    assert.match(doc, /publication|published/i);
+    assert.doesNotMatch(
+      doc,
+      /forthcoming|publication pending|once published|after publication|approved before publication/i,
+    );
   }
 });

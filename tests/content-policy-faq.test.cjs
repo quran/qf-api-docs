@@ -158,7 +158,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     contentSyncAnswer,
-    /^Content Sync supports approved public Quran layouts through `mushafs`/,
+    /^Content Sync supports `quran_core`, approved public Quran layouts through `mushafs`/,
   );
   assert.match(
     contentSyncAnswer,
@@ -251,7 +251,7 @@ test('synchronizes the exact Content Sync groups', () => {
     'articles',
   ];
   const sourceSupportStatement = contentSync.match(
-    /Content Sync supports these resource groups after the Quran core rollout:\s*([^\.\r\n]+)\./,
+    /Content Sync supports these resource groups:\s*([^\.\r\n]+)\./,
   );
   assert.ok(
     sourceSupportStatement,
@@ -269,7 +269,7 @@ test('synchronizes the exact Content Sync groups', () => {
   assert.deepEqual(
     [...sourceGroups].sort(),
     [...expectedGroups].sort(),
-    'the source support matrix must include exactly nine groups after rollout',
+    'the source support matrix must include exactly nine released groups',
   );
   assert.deepEqual(
     [...faqGroups].sort(),
