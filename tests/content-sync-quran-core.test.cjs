@@ -44,15 +44,16 @@ test('tutorials and SDK guides distinguish the released canonical text from layo
   for (const file of [
     ['tutorials', 'content-sync', 'getting-started.mdx'],
     ['tutorials', 'content-sync', 'full-copies-and-recovery.mdx'],
+    ['tutorials', 'content-sync', 'client-flow.mdx'],
     ['sdk', 'javascript', 'resources.mdx'],
     ['sdk', 'python', 'resources.mdx'],
   ]) {
     const doc = readDoc(...file);
     assert.match(doc, /quran_core:1/);
-    assert.match(doc, /mushafs:/);
+    assert.match(doc, /mushafs(?::|`)/);
     assert.doesNotMatch(
       doc,
-      /forthcoming|publication pending|once published|after publication|approved before publication/i,
+      /forthcoming|publication pending|once published|when published|after publication|after rollout|approves publication|approved and published|snapshot is unavailable/i,
     );
   }
 });
