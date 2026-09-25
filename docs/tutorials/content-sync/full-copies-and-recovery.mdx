@@ -16,7 +16,7 @@ For example:
 - Full copy of `translations:19` returns all current translation rows for translation resource `19`.
 - Full copy of `word_by_word_translations:85` returns all current word translation rows for word-by-word translation resource content `85`.
 - Full copy of `word_by_word_transliterations:60` returns all current word transliteration rows for production word-by-word transliteration resource `60`.
-- Full copy of `tafsirs:151` returns all current tafsir rows for tafsir resource `151`.
+- Full copy of `tafsirs:151` returns all current tafsir rows for tafsir resource `151`. One tafsir row can cover several verses. See [Tafsir Records](#tafsir-records).
 - Full copy of `recitations:10` returns ayah audio file rows and compatible chapter audio file rows for legacy ayah recitation `10`.
 - Full copy of `chapter_recitations:159` returns chapter audio file rows for `Audio::Recitation.id` `159`.
 - Full copy of `articles:123` returns visible article localization rows for article `123`.
@@ -111,6 +111,52 @@ resource, while `word_id` identifies the Word owner. Replace the complete local 
 bootstrap or a `RESOURCE_INVALIDATE` mutation supplies a `snapshot_url`; apply
 `ROW_CREATE`, `ROW_UPDATE`, and `ROW_DELETE` by the mutation's
 `resource_group`, `resource_id`, `record_type`, and `record_key`.
+
+### Tafsir Records
+
+A tafsir row can cover one verse or a range of verses, so a tafsir snapshot may
+not have one row per verse.
+
+Client rule: to show tafsir for a verse, use the row with non-empty `text`
+whose `start_verse_id` to `end_verse_id` range contains that verse's ID. If no
+row matches, that tafsir has no entry for the verse.
+
+For example, tafsir `164` has a single row for all of Surah Al-Kawthar, and no
+rows for `108:2` or `108:3`:
+
+```json
+{
+  "id": 67101,
+  "resource_content_id": 164,
+  "resource_id": 164,
+  "verse_id": 6205,
+  "verse_key": "108:1",
+  "group_verse_key_from": "108:1",
+  "group_verse_key_to": "108:3",
+  "group_verses_count": 3,
+  "start_verse_id": 6205,
+  "end_verse_id": 6207,
+  "text": "..."
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `start_verse_id`, `end_verse_id` | First and last verse ID in the range, inclusive. |
+| `group_verse_key_from`, `group_verse_key_to` | The range as verse keys. |
+| `group_verses_count` | Number of verses in the range. `1` for a single-verse entry. |
+
+Why the rule checks the range: tafsirs store ranges differently.
+
+| Varies by tafsir | Examples |
+| --- | --- |
+| Which row holds the range's text | First verse in tafsir `164`. Last verse in tafsir `818`, where the `1:7` row covers `1:1` to `1:7`. |
+| Other verses in the range | No row in tafsir `164`. A row with empty `text` in tafsir `169`. |
+| Verses with no entry | Most tafsirs cover every verse. A few, such as tafsir `14`, have no entry for some verses. |
+
+Do not use `group_tafsir_id` to find the range, because its value is not
+consistent across tafsirs. Tafsir row changes from sync use the same row
+fields.
 
 ### Chapter Recitation Records
 
