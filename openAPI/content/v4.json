@@ -19979,7 +19979,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Get content resource snapshot",
-        "description": "Use this endpoint to fetch a full copy of one public content resource. The API calls this full copy a snapshot.\n\nA snapshot returns all current rows for one resource in `records`. For example, a Mushaf snapshot returns metadata, page mappings, and positioned words. Font files and images are not included. A translation snapshot returns all current translation rows for that translation resource. Production word-by-word transliteration resource `60` currently contains 77,429 records. Its snapshot returns approved, shareable one-word transliteration rows ordered by `word_id` and then `id`. Its exact row fields are `id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`, `language_name`, `text`, and `updated_at`. In this group, `resource_id == resource_content_id == ResourceContent.id` identifies the owning resource, while `word_id` is the normalized Word owner ID. A legacy `recitations` snapshot returns ayah audio file rows and compatible chapter audio file rows. A `chapter_recitations` snapshot, keyed by `Audio::Recitation.id`, returns only chapter audio file rows. Chapter-file mutations may also be emitted through the legacy group for backward compatibility. The singleton `quran_core:1` snapshot contains 114 chapters, 6,236 canonical Uthmani verses, 30 Juz, 60 Hizb, and 240 Rub-el-Hizb boundary records, ordered by chapter number, verse index, and boundary number. Its `resource_content_id` is `null`; records use `record_type` (`chapter`, `verse`, `juz`, `hizb`, `rub_el_hizb`) and `id`. `chapters.pages` and other Mushaf-specific layout remain in `mushafs:<id>`. Use of the canonical text remains subject to the Developer Terms, source-specific redistribution terms, and attribution requirements.\n\nTypical client flow:\n1. Call [GET /resources/sync](../resources-sync/).\n2. If a change has a non-null `snapshot_url`, call this endpoint using that change's `resource_group` and `resource_id`.\n3. Delete existing local rows for that one resource.\n4. Insert the returned `records` as the new local copy.\n5. Continue applying later sync changes normally.\n\nExample:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/snapshots/word_by_word_transliterations/60\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
+        "description": "Use this endpoint to fetch a full copy of one public content resource. The API calls this full copy a snapshot.\n\nA snapshot returns all current rows for one resource in `records`. For example, a Mushaf snapshot returns metadata, page mappings, and positioned words. Font files and images are not included. A translation snapshot returns all current translation rows for that translation resource. A tafsir row can cover a range of verses, given by `start_verse_id` and `end_verse_id`, so a tafsir snapshot may not have one row per verse. To show tafsir for a verse, use the row with non-empty `text` whose range contains that verse's ID. See [Tafsir Records](/docs/tutorials/content-sync/full-copies-and-recovery#tafsir-records) for details. Production word-by-word transliteration resource `60` currently contains 77,429 records. Its snapshot returns approved, shareable one-word transliteration rows ordered by `word_id` and then `id`. Its exact row fields are `id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`, `language_name`, `text`, and `updated_at`. In this group, `resource_id == resource_content_id == ResourceContent.id` identifies the owning resource, while `word_id` is the normalized Word owner ID. A legacy `recitations` snapshot returns ayah audio file rows and compatible chapter audio file rows. A `chapter_recitations` snapshot, keyed by `Audio::Recitation.id`, returns only chapter audio file rows. Chapter-file mutations may also be emitted through the legacy group for backward compatibility. The singleton `quran_core:1` snapshot contains 114 chapters, 6,236 canonical Uthmani verses, 30 Juz, 60 Hizb, and 240 Rub-el-Hizb boundary records, ordered by chapter number, verse index, and boundary number. Its `resource_content_id` is `null`; records use `record_type` (`chapter`, `verse`, `juz`, `hizb`, `rub_el_hizb`) and `id`. `chapters.pages` and other Mushaf-specific layout remain in `mushafs:<id>`. Use of the canonical text remains subject to the Developer Terms, source-specific redistribution terms, and attribution requirements.\n\nTypical client flow:\n1. Call [GET /resources/sync](../resources-sync/).\n2. If a change has a non-null `snapshot_url`, call this endpoint using that change's `resource_group` and `resource_id`.\n3. Delete existing local rows for that one resource.\n4. Insert the returned `records` as the new local copy.\n5. Continue applying later sync changes normally.\n\nExample:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/snapshots/word_by_word_transliterations/60\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
         "operationId": "resources-snapshot",
         "parameters": [
           {
@@ -20190,16 +20190,23 @@
                     "summary": "Tafsir full copy",
                     "value": {
                       "resource_group": "tafsirs",
-                      "resource_id": 151,
-                      "resource_content_id": 151,
+                      "resource_id": 164,
+                      "resource_content_id": 164,
                       "schema_version": 1,
                       "sync_sequence": 98234,
                       "records": [
                         {
-                          "id": 7,
-                          "resource_content_id": 151,
-                          "verse_key": "1:7",
-                          "text": "Example tafsir text"
+                          "id": 67101,
+                          "resource_content_id": 164,
+                          "resource_id": 164,
+                          "verse_id": 6205,
+                          "verse_key": "108:1",
+                          "group_verse_key_from": "108:1",
+                          "group_verse_key_to": "108:3",
+                          "group_verses_count": 3,
+                          "start_verse_id": 6205,
+                          "end_verse_id": 6207,
+                          "text": "Example tafsir text for 108:1-3"
                         }
                       ]
                     }
