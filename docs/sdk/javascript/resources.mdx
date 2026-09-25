@@ -92,10 +92,9 @@ const snapshot = await client.resources.findSnapshot("chapter_recitations", 159)
 
 ### Canonical Quran Core
 
-When published, `quran_core:1` provides canonical Uthmani verse text, Surah
-metadata, and Juz/Hizb/Rub-el-Hizb boundaries. The resource is separate from
-Mushaf-specific pages and glyphs. The API may return `snapshot_not_found` until
-the content/licensing and attribution review approves publication.
+`quran_core:1` provides canonical Uthmani verse text, Surah metadata, and
+Juz/Hizb/Rub-el-Hizb boundaries. The resource is separate from Mushaf-specific
+pages and glyphs.
 
 ```ts
 import type { QuranCoreSnapshotRecord } from "@quranjs/api";

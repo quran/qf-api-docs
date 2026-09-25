@@ -36,7 +36,7 @@ When `next_page_url` or `snapshot_url` is present and non-null, we return a rela
 
 ## Content Available for Offline Sync
 
-Content Sync supports these resource groups after the Quran core rollout: `quran_core`, `mushafs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`.
+Content Sync supports these resource groups: `quran_core`, `mushafs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`.
 
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -62,7 +62,7 @@ resource `60`.
 
 ### Canonical Quran Core and Mushaf Layout
 
-Once published, select `quran_core:1;mushafs:1` for canonical verse text and
+Select `quran_core:1;mushafs:1` for canonical verse text and
 navigation boundaries alongside Mushaf-specific layout. The core snapshot has
 114 `chapter`, 6,236 `verse`, 30 `juz`, 60 `hizb`, and 240 `rub_el_hizb`
 records. Its `resource_content_id` is `null`. Each row has a `record_type` and
@@ -128,7 +128,7 @@ curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/mushafs/1
 
 Client rule: replace all local rows for `mushafs:1` with the `records` array from the response.
 
-After publication, fetch the canonical singleton separately:
+Fetch the canonical singleton separately:
 
 ```bash
 curl "https://apis.quran.foundation/content/api/v4/resources/snapshots/quran_core/1" \
