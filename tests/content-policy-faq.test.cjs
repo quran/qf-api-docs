@@ -158,6 +158,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(storageAnswer, /Previously synced content may remain available while connectivity to QF is unavailable, even beyond seven days/);
   assert.match(storageAnswer, /sync promptly when connectivity returns/);
+  assert.match(storageAnswer, /Content Sync exception covers the rows returned by that API; recitation rows contain audio URLs, not the underlying recording files/);
   assert.match(
     storageAnswer,
     /Font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs are a separate exception:[\s\S]*cache or bundle them[\s\S]*active Developer Console account and credit Quran Foundation/,
