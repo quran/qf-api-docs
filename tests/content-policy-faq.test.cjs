@@ -77,6 +77,8 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
     developerTerms,
     /may cache or bundle font files and Mushaf images obtained through QF APIs or documented CDN URLs[\s\S]*active account in the \[Developer Console\][\s\S]*credits Quran Foundation/,
   );
+  assert.match(developerTerms, /except for the font and Mushaf-image permission in Section 3\.1, any source-specific license requirements/);
+  assert.match(faq, /except for the Terms’ font and Mushaf-image permission, any source-specific license requirements/);
 });
 
 test('documents the required content policy FAQ questions and links', () => {
