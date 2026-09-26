@@ -79,6 +79,8 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   );
   assert.match(developerTerms, /except for the font and Mushaf-image permission in Section 3\.1, any source-specific license requirements/);
   assert.match(faq, /except for the Terms’ font and Mushaf-image permission, any source-specific license requirements/);
+  assert.match(faq, /The files may be distributed only as an integrated part of your application, not through your own API/);
+  assert.doesNotMatch(faq, /integrated part of your application, subject to source-specific terms/);
 });
 
 test('documents the required content policy FAQ questions and links', () => {
