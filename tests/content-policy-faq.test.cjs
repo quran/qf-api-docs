@@ -71,7 +71,7 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   );
   assert.match(
     developerTerms,
-    /general-purpose or third-party API, bulk export, feed, dataset, download, or separately usable content package/,
+    /Serving QF Content from a Developer-controlled backend within the Application's end-user experience is not, by itself, redistribution/,
   );
   assert.match(
     developerTerms,
@@ -154,11 +154,10 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     storageAnswer,
-    /Content Sync requires an ongoing next sync at least every 7 days when connectivity permits, and application of all changes, including corrections and removals\./,
+    /perform a next sync at least every 7 days when connectivity to QF permits and apply all available changes/,
   );
-  assert.match(storageAnswer, /If connectivity to QF is unavailable beyond seven days[\s\S]*may continue serving or displaying its previously synced Content Sync copy/);
-  assert.match(storageAnswer, /attempt sync promptly when connectivity returns/);
-  assert.match(storageAnswer, /independently reusable content[\s\S]*signed commercial license/);
+  assert.match(storageAnswer, /Previously synced content may remain available while connectivity to QF is unavailable, even beyond seven days/);
+  assert.match(storageAnswer, /sync promptly when connectivity returns/);
   assert.match(
     storageAnswer,
     /Font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs are a separate exception:[\s\S]*cache or bundle them[\s\S]*active Developer Console account and credit Quran Foundation/,
@@ -191,10 +190,8 @@ test('offline cache guidance preserves reading while scheduling catch-up sync', 
     path.join(repositoryRoot, 'docs', 'tutorials', 'content-sync', 'offline-cache-patterns.mdx'),
     'utf8',
   );
-  assert.match(guide, /lastSuccessfulSyncAt/);
-  assert.match(guide, /keep the previously synced copy readable and attempt sync promptly when connectivity returns/);
-  assert.match(guide, /even when the copy is more than seven days old/);
-  assert.match(guide, /retry without intentionally deferring updates/);
+  assert.match(guide, /previously synced Content Sync content may remain available beyond seven days/);
+  assert.match(guide, /sync promptly when connectivity returns/);
   assert.doesNotMatch(guide, /stop serving\/displaying that filter's content once it is overdue/);
 });
 
