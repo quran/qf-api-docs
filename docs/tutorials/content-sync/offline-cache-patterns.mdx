@@ -32,7 +32,7 @@ flowchart TB
     Engine --> DB
 ```
 
-The UI reads from local storage. The sync engine updates that storage in the background.
+The UI reads from local storage while the sync engine updates it in the background. If connectivity to QF is unavailable, the [Developer Terms](/legal/developer-terms) allow the Application to keep using its previously synced Content Sync copy for end-user features, even beyond seven days. A backend cache follows the same reconnect-and-sync obligation; neither cache should claim an unsynced copy is current.
 
 ## Local Tables
 
@@ -42,7 +42,7 @@ Use separate tables for sync state and cached rows.
 interface ContentSyncToken {
   resourcesFilter: string;
   syncToken: string;
-  updatedAt: string;
+  lastSuccessfulSyncAt: string; // Use to schedule the next sync; do not reset on a failed attempt.
 }
 
 interface ContentCacheRow {
@@ -73,7 +73,7 @@ flowchart TD
     C -->|"Yes"| E["Incremental sync"]
     D --> F["Apply all pages"]
     E --> F
-    F --> G["Store final next_sync_token"]
+    F --> G["Store final next_sync_token and lastSuccessfulSyncAt"]
     G --> H["Schedule next refresh"]
 ```
 
@@ -82,10 +82,12 @@ Recommended triggers:
 | Trigger                   | Suggested action                                               |
 | ------------------------- | -------------------------------------------------------------- |
 | App install or first open | Bootstrap only the resources the app needs.                    |
-| App launch                | Run incremental sync in the background.                        |
-| Network restored          | Run incremental sync.                                          |
-| Reader opens a resource   | Use local content immediately, then refresh in the background. |
-| Token rejected            | Re-bootstrap that resource filter.                             |
+| App launch                | Check `lastSuccessfulSyncAt` for each retained filter; if sync is due and connectivity is available, start it promptly, even when the copy is more than seven days old. |
+| Network restored          | Attempt incremental sync promptly for every due filter; re-bootstrap if its token is rejected. |
+| Reader opens a resource   | Use the previously synced local content while refreshing, including when the device remains offline beyond seven days; do not label an overdue copy current. |
+| Token rejected            | Re-bootstrap that resource filter; retain the last successful sync time until the replacement is fully applied. |
+
+The timestamp is a **successful apply** time, not the time a request was attempted or a token was issued. Initialize it after bootstrap completes, and update it only after all incremental pages, deletions, and required replacement snapshots have been applied. Use it to schedule a next sync at least every seven days when connected, for every filter that supplies content to a screen, whether the cache is on a device or your backend. If connectivity to QF is unavailable beyond that window, keep the previously synced copy readable and attempt sync promptly when connectivity returns. If a sync attempt fails, keep the old token and timestamp and retry without intentionally deferring updates; apply corrections and removals when the sync succeeds. This offline-continuity rule applies only to Content Sync-eligible rows, not to unsupported content or referenced media files. See the [Developer Terms](/legal/developer-terms).
 
 ## Replacing a Resource
 
@@ -122,7 +124,7 @@ Using one filter per resource can isolate retries and refresh schedules, while a
 | Page size              | Use `per_page=100` unless your client needs smaller pages.             |
 | Token storage          | Store per resource filter, not globally.                               |
 | Applying changes       | Make every apply operation idempotent.                                 |
-| Failed sync            | Keep the old token and retry later.                                    |
+| Failed sync            | Keep the old token and success timestamp; retry promptly when connectivity permits. Previously synced content may remain available while offline or during retries. |
 | Failed full copy fetch | Do not store the new sync token until the required full copy succeeds. |
 
 ## What Not To Do
