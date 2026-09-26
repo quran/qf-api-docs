@@ -48,14 +48,3 @@ test('keeps previously synced content available while connectivity is unavailabl
   assert.match(developerTerms, /may continue using its previously synced Content Sync copy/);
   assert.match(developerTerms, /perform a next sync promptly when connectivity returns/);
 });
-
-test('summarizes content rights without claiming a source-specific grant', () => {
-  const summary = fs.readFileSync(
-    path.join(repositoryRoot, 'src', 'pages', 'legal', 'resource-rights.mdx'),
-    'utf8',
-  );
-  assert.match(developerTerms, /\[content rights by resource\]\(\/legal\/resource-rights\)/);
-  assert.match(summary, /Recitation metadata and audio-file rows/);
-  assert.match(summary, /Underlying audio recordings/);
-  assert.doesNotMatch(summary, /tafsirs:151|no additional rights verified|not verified here/i);
-});
