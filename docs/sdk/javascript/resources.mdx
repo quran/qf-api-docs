@@ -71,9 +71,12 @@ The flow is:
 
 The `resources` filter accepts the singleton `quran_core` and plural group names (`articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `chapter_recitations:159;mushafs:1;translations:19,20;word_by_word_transliterations:60`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
 
-`chapter_recitations` is keyed by `Audio::Recitation.id` and contains chapter
-audio files. The legacy `recitations` group is keyed by the ayah-recitation
-ID; its snapshots and compatible mutations may also include chapter audio for
+`chapter_recitations` is keyed by `Audio::Recitation.id`. Its snapshots contain
+`chapter_audio_file` records and the associated `audio_segment` verse and word
+timings. Segment updates are delivered as row mutations, so existing clients can
+apply corrections without downloading unrelated recitations. The legacy
+`recitations` group is keyed by the ayah-recitation ID; its snapshots and
+compatible mutations may also include chapter audio and segment records for
 existing clients.
 
 Mushaf snapshots contain metadata, page mappings, and positioned words. Font
@@ -81,12 +84,29 @@ files and Mushaf images are not included. See the [Font Rendering guide](/docs/t
 for implementation details and the [Developer Terms](/legal/developer-terms/) for caching and bundling conditions.
 
 ```ts
+import type { ChapterRecitationSnapshotRecord } from "@quranjs/api";
+
 const bootstrap = await client.content.v4.resources.sync({
   bootstrap: true,
   resources: "chapter_recitations:159;mushafs:1;word_by_word_transliterations:60",
 });
-const snapshot = await client.resources.findSnapshot("chapter_recitations", 159);
+const snapshot =
+  await client.resources.findSnapshot<ChapterRecitationSnapshotRecord>(
+    "chapter_recitations",
+    159,
+  );
+
+for (const record of snapshot.records) {
+  if (record.recordType === "audio_segment") {
+    console.log(record.verseKey, record.segments);
+  }
+}
 ```
+
+A first bootstrap receives the current timing rows. After bootstrap, retain the
+sync token and apply `audio_segment` `ROW_CREATE`, `ROW_UPDATE`, and `ROW_DELETE`
+mutations by record ID. A `RESOURCE_INVALIDATE` means the complete chapter
+recitation snapshot must be fetched and replaced.
 
 `RESOURCE_UPDATE` is only a resource-level freshness marker. It does not include `snapshot_url`; keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.
 
