@@ -58,7 +58,11 @@ The returned records are `chapter_audio_file` rows and associated
 `ChapterAudioFileSnapshotRecord`, `AudioSegmentSnapshotRecord`, and the
 `ChapterRecitationSnapshotRecord` union. This is distinct from the legacy
 `recitations:<id>` group, which is keyed by an ayah-recitation ID and may include
-compatible chapter audio and timing rows for existing clients.
+compatible chapter audio and timing rows for existing clients. Segment
+timestamps and tuple boundaries are milliseconds from the start of the chapter
+file; each tuple is `[one_based_word_index, start_ms, end_ms]`. Use
+`duration_ms` for exact arithmetic; `duration` is the legacy whole-seconds
+compatibility value.
 
 Bootstrap returns `RESOURCE_CREATE` entries with `snapshot_url`; it does not
 return timing rows inline. Fetch and apply every referenced snapshot, including

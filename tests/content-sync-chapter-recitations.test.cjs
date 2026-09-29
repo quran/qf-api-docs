@@ -91,6 +91,8 @@ test('publishes segment mutation behavior in generated sync reference pages', ()
 
     assert.match(doc, /Segment corrections are delivered as row mutations/);
     assert.ok(doc.includes('audio_segment'));
+    assert.match(doc, /segment boundaries are milliseconds/);
+    assert.match(doc, /\[word_index, start_ms, end_ms\]/);
   }
 });
 
@@ -126,6 +128,31 @@ test('documents segment rows in every chapter-recitation tutorial', () => {
     assert.match(doc, /audio_segment/);
     assert.match(doc, /resource_group, resource_id, record_type, record_key/);
     assert.doesNotMatch(doc, /contain only `chapter_audio_file` records/);
+  }
+});
+
+test('defines audio-segment timing units and duration compatibility', () => {
+  const recordTypeDescription =
+    contentApi.components.schemas.ContentSyncRecordType.description;
+
+  assert.match(recordTypeDescription, /milliseconds from the start of the chapter audio file/);
+  assert.match(recordTypeDescription, /\[word_index, start_ms, end_ms\]/);
+  assert.match(recordTypeDescription, /1-based position in the verse/);
+  assert.match(recordTypeDescription, /duration_ms.*exact verse-window length/);
+  assert.match(recordTypeDescription, /duration.*legacy whole-seconds compatibility/);
+});
+
+test('keeps every chapter-recitation summary aligned with segment rows', () => {
+  for (const docPath of [
+    ['docs', 'tutorials', 'content-sync', 'getting-started.mdx'],
+    ['docs', 'tutorials', 'content-sync', 'full-copies-and-recovery.mdx'],
+    ['docs', 'tutorials', 'content-sync', 'client-flow.mdx'],
+    ['docs', 'tutorials', 'faq.mdx'],
+  ]) {
+    const doc = fs.readFileSync(path.join(__dirname, '..', ...docPath), 'utf8');
+
+    assert.match(doc, /chapter[- ]recitation/i);
+    assert.match(doc, /segment/i);
   }
 });
 

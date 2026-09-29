@@ -128,8 +128,9 @@ group separate from the translation-only `word_by_word_translations` group.
 
 `recitations` remains the legacy ayah-by-ayah group and is keyed by
 `Recitation.id`. `chapter_recitations` is keyed by `Audio::Recitation.id` and
-contains `chapter_audio_file` rows. When a chapter recitation shares resource
-content with a legacy ayah recitation, compatible chapter-file mutations may
-also appear in the legacy resource for existing clients.
+contains `chapter_audio_file` rows plus associated `audio_segment` verse and
+word timing rows. When a chapter recitation shares resource content with a
+legacy ayah recitation, compatible chapter-file and segment records and
+mutations may also appear in the legacy resource for existing clients.
 
 For the full schema, see [Sync public content resources](/docs/content_apis_versioned/resources-sync/).

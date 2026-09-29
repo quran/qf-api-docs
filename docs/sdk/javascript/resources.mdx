@@ -77,7 +77,10 @@ timings. Segment updates are delivered as row mutations, so existing clients can
 apply corrections without downloading unrelated recitations. The legacy
 `recitations` group is keyed by the ayah-recitation ID; its snapshots and
 compatible mutations may also include chapter audio and segment records for
-existing clients.
+existing clients. Segment timestamps and tuple boundaries are milliseconds from
+the start of the chapter file; each tuple is
+`[oneBasedWordIndex, startMs, endMs]`. Use `durationMs` for exact arithmetic;
+`duration` is the legacy whole-seconds compatibility value.
 
 Mushaf snapshots contain metadata, page mappings, and positioned words. Font
 files and Mushaf images are not included. See the [Font Rendering guide](/docs/tutorials/fonts/font-rendering/)

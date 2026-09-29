@@ -17,8 +17,8 @@ For example:
 - Full copy of `word_by_word_translations:85` returns all current word translation rows for word-by-word translation resource content `85`.
 - Full copy of `word_by_word_transliterations:60` returns all current word transliteration rows for production word-by-word transliteration resource `60`.
 - Full copy of `tafsirs:151` returns all current tafsir rows for tafsir resource `151`. One tafsir row can cover several verses. See [Tafsir Records](#tafsir-records).
-- Full copy of `recitations:10` returns ayah audio file rows and compatible chapter audio file rows for legacy ayah recitation `10`.
-- Full copy of `chapter_recitations:159` returns chapter audio file rows for `Audio::Recitation.id` `159`.
+- Full copy of `recitations:10` returns ayah audio file rows plus compatible chapter audio file and timing segment rows for legacy ayah recitation `10`.
+- Full copy of `chapter_recitations:159` returns chapter audio file rows and associated verse and word timing segment rows for `Audio::Recitation.id` `159`.
 - Full copy of `articles:123` returns visible article localization rows for article `123`.
 
 ## When You Need a Full Copy
@@ -195,6 +195,14 @@ timing rows:
   ]
 }
 ```
+
+All `timestamp_*` values and segment boundaries are milliseconds from the
+start of the chapter audio file. Each `segments` entry is
+`[word_index, start_ms, end_ms]`, where `word_index` is the 1-based position in
+the verse. `duration_ms` is the exact verse-window length
+(`timestamp_to - timestamp_from`); `duration` is the legacy whole-seconds
+compatibility value and can lose subsecond precision. Use `duration_ms` for
+calculations.
 
 The `resource_id` is the `Audio::Recitation.id`; it is not the legacy
 `Recitation.id` used by the `recitations` group. Apply file and segment row
