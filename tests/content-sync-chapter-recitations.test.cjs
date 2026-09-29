@@ -109,6 +109,24 @@ test('documents typed chapter audio segments for both SDKs', () => {
   assert.match(pythonDoc, /ChapterRecitationSnapshotRecord/);
   assert.match(pythonDoc, /record\["record_type"\] == "audio_segment"/);
   assert.match(pythonDoc, /AudioSegmentSnapshotRecord/);
+  assert.match(javascriptDoc, /Bootstrap returns `RESOURCE_CREATE` entries with `snapshotUrl`/);
+  assert.match(javascriptDoc, /resourceGroup, resourceId, recordType, recordKey/);
+  assert.match(pythonDoc, /Bootstrap returns `RESOURCE_CREATE` entries with `snapshot_url`/);
+  assert.match(pythonDoc, /resource_group, resource_id, record_type, record_key/);
+});
+
+test('documents segment rows in every chapter-recitation tutorial', () => {
+  for (const docPath of [
+    ['docs', 'tutorials', 'content-sync', 'getting-started.mdx'],
+    ['docs', 'tutorials', 'content-sync', 'full-copies-and-recovery.mdx'],
+  ]) {
+    const doc = fs.readFileSync(path.join(__dirname, '..', ...docPath), 'utf8');
+
+    assert.match(doc, /chapter[- ]recitation/i);
+    assert.match(doc, /audio_segment/);
+    assert.match(doc, /resource_group, resource_id, record_type, record_key/);
+    assert.doesNotMatch(doc, /contain only `chapter_audio_file` records/);
+  }
 });
 
 test('keeps the legacy recitations compatibility distinction in the API docs', () => {

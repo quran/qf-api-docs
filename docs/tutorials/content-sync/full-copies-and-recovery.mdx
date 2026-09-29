@@ -160,8 +160,9 @@ fields.
 
 ### Chapter Recitation Records
 
-Chapter-recitation snapshots use the same envelope as other snapshots, but
-their `records` contain only chapter audio files:
+Chapter-recitation snapshots use the same envelope as other snapshots. Their
+`records` contain chapter audio files followed by the associated verse and word
+timing rows:
 
 ```json
 {
@@ -177,15 +178,31 @@ their `records` contain only chapter audio files:
       "audio_recitation_id": 159,
       "chapter_id": 1,
       "audio_url": "https://example.com/audio/001.mp3"
+    },
+    {
+      "record_type": "audio_segment",
+      "id": 3001,
+      "audio_file_id": 2001,
+      "audio_recitation_id": 159,
+      "chapter_id": 1,
+      "verse_id": 1,
+      "verse_key": "1:1",
+      "verse_number": 1,
+      "timestamp_from": 0,
+      "timestamp_to": 6420,
+      "segments": [[1, 120, 810], [2, 820, 1510]]
     }
   ]
 }
 ```
 
 The `resource_id` is the `Audio::Recitation.id`; it is not the legacy
-`Recitation.id` used by the `recitations` group. The legacy group may also
-receive chapter-file mutations for backward compatibility, but its snapshot
-is not the independently addressable chapter-recitation resource.
+`Recitation.id` used by the `recitations` group. Apply file and segment row
+mutations by `(resource_group, resource_id, record_type, record_key)`. This key
+remains available for `ROW_DELETE`, whose `data` is `null`; do not depend on
+`source_record_id`. The legacy group may also contain compatible chapter-file
+and segment records and receive their mutations for backward compatibility, but
+its snapshot is not the independently addressable chapter-recitation resource.
 
 ## Unavailable Resources
 
