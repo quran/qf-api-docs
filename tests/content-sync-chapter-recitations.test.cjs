@@ -94,6 +94,23 @@ test('publishes segment mutation behavior in generated sync reference pages', ()
   }
 });
 
+test('documents typed chapter audio segments for both SDKs', () => {
+  const javascriptDoc = fs.readFileSync(
+    path.join(__dirname, '..', 'docs', 'sdk', 'javascript', 'resources.mdx'),
+    'utf8',
+  );
+  const pythonDoc = fs.readFileSync(
+    path.join(__dirname, '..', 'docs', 'sdk', 'python', 'resources.mdx'),
+    'utf8',
+  );
+
+  assert.match(javascriptDoc, /ChapterRecitationSnapshotRecord/);
+  assert.match(javascriptDoc, /record\.recordType === "audio_segment"/);
+  assert.match(pythonDoc, /ChapterRecitationSnapshotRecord/);
+  assert.match(pythonDoc, /record\["record_type"\] == "audio_segment"/);
+  assert.match(pythonDoc, /AudioSegmentSnapshotRecord/);
+});
+
 test('keeps the legacy recitations compatibility distinction in the API docs', () => {
   const syncDescription = contentApi.paths['/resources/sync'].get.description;
   const snapshotDescription = snapshotOperation.description;
