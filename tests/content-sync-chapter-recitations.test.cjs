@@ -82,6 +82,18 @@ test('publishes audio segments in generated snapshot reference pages', () => {
   }
 });
 
+test('publishes segment mutation behavior in generated sync reference pages', () => {
+  for (const docPath of [
+    ['docs', 'content_apis_versioned', 'resources-sync.api.mdx'],
+    ['docs', 'content_apis_versioned', '4.0.0', 'resources-sync.api.mdx'],
+  ]) {
+    const doc = fs.readFileSync(path.join(__dirname, '..', ...docPath), 'utf8');
+
+    assert.match(doc, /Segment corrections are delivered as row mutations/);
+    assert.ok(doc.includes('audio_segment'));
+  }
+});
+
 test('keeps the legacy recitations compatibility distinction in the API docs', () => {
   const syncDescription = contentApi.paths['/resources/sync'].get.description;
   const snapshotDescription = snapshotOperation.description;
