@@ -5,15 +5,59 @@ sidebar_label: "Connected Apps"
 displayed_sidebar: "APIsSidebar"
 ---
 
+<!--
+MAINTAINER NOTES (not rendered)
+This is the restructured Connected Apps page (proposed v1.2), consolidating the
+Jul 10 feedback round, the Developer Console launch, and console-native
+submission. Structural changes:
+- 25 flat H2s regrouped into 12 parts ordered by the reader's journey.
+- "How Connected Apps Works" + "Review Process And Timelines" merged into one
+  workflow with timelines inline.
+- "Visibility Paths And Labels" + "Visibility Tiers In Detail" merged into one
+  per-status card model; Featured reframed as temporary editorial placement,
+  not a numbered tier.
+- Listing preparation (rationale + package + card specs + example + template)
+  consolidated and moved up, immediately after eligibility.
+- Eligibility gates converted to four scannable cards.
+- AI requirements consolidated into one auditable requirements table plus the
+  hard-line caution; strong candidate to lift wholesale into its own page later.
+- Developer Console replaces the request-access flow everywhere.
+- v1.2: listing submission moved into the console Connected Apps tab (the
+  Google Doc route is retired); review timeline rewritten as the four-phase
+  model with a three-week onboarding target; status review requests moved into
+  the console; weekly delta sync added as a content-currency requirement.
+  Featured requires QF OAuth as the SOLE backend user authentication (owner
+  confirmed; "sole" is the hard requirement, not "primary").
+- Naming (owner confirmed): Connected Apps = the developer program; Quran App
+  Store = the public destination at Quran.com/apps. Do not interchange. Status
+  review requests enter through the console's Connected Apps tab.
+- Status model FINAL: Indexed App -> Verified Listing App -> Vision Aligned
+  App -> Transformational App (+ Featured placement). The "(searchable)" and
+  "(user enabled)" clarifier tags appear ONLY in the App statuses section;
+  everywhere else use the plain names. Criteria are final (working-definition
+  caution removed). The program name "Connected Apps" is expected to change
+  later; keep using it until then.
+- This page is the program source of truth; the wider developer experience
+  (API refs, SDK guides, console how-tos) lives elsewhere in the docs.
+Component suggestions from feedback, for when the site can support them:
+- Horizontal stepper for "The journey" (replace the arrow line).
+- Status ladder graphic for "App statuses".
+- Annotated directory-card mock with callouts in "Prepare your listing".
+- Interactive checklist for the listing package.
+- Accordions for FAQ on mobile.
+[FILL] markers: Developer Console URL, v1.2 date. Everything else ships as written.
+Developer Console URL filled with https://dev-console.quran.foundation/projects, the URL already used across these docs.
+-->
+
 # Connected Apps
 
-> **Policy version:** 1.1 · **Last updated:** 2026-08-10 · **Effective date:** 2026-08-10
+> **Policy version:** 1.2 · **Last updated:** `[FILL: YYYY-MM-DD]` · **Effective date:** `[FILL: YYYY-MM-DD]`
 
 **Partner and developer guide**
 
 Connected Apps is the Quran Foundation program for developers and app owners who
 want to build with Quran Foundation APIs, connect Quran.com accounts, and be
-discoverable on [Quran.com/apps](https://quran.com/apps). This page is the
+discoverable in the Quran App Store at [Quran.com/apps](https://quran.com/apps). This page is the
 **source of truth for the Connected Apps program**: statuses, review,
 governance, and what a listing or label does and does not mean. It includes the
 onboarding steps developers need for a head start; the broader developer
@@ -27,9 +71,9 @@ documentation, is covered in its own areas of the documentation.
 - **Build with Quran Foundation APIs**: sign in to the
   [Developer Console](https://dev-console.quran.foundation/projects) with your Quran
   Foundation account, create your app, and get credentials.
-- **List your app on Quran.com/apps**: check the
+- **List your app in the Quran App Store**: check the
   [four eligibility gates](#check-whether-your-app-is-eligible), then
-  [prepare and submit a listing package](#prepare-your-listing).
+  [prepare your listing and submit it from the Developer Console](#prepare-your-listing).
 - **Connect Quran.com accounts**: read the
   [OAuth requirements](#connect-qurancom-user-accounts) and request scopes in
   the Developer Console.
@@ -72,8 +116,9 @@ before you build.
 - **Account continuity**: with OAuth2 and approved User APIs, bookmarks,
   progress, goals, notes, and preferences can follow the user where continuity
   is appropriate.
-- **Discoverability**: qualified apps can be listed on Quran.com/apps within a
-  trusted directory, without discovery ever being paid placement.
+- **Discoverability**: qualified apps can be listed in the Quran App Store at
+  Quran.com/apps, a curated and reviewed directory, without discovery ever
+  being paid placement.
 - **Direct support**: guidance from Quran Foundation and a mission-aligned
   network of builders through access, OAuth, listing, and review decisions.
 
@@ -141,24 +186,34 @@ listing → Submit for review → Review → Go live → Keep it current**
 3. **Prepare your listing.** Assemble the
    [listing package](#prepare-your-listing) so reviewers can understand the
    product, verify ownership and support routes, and check content and data use.
-4. **Submit for review.** Send the complete package (see
-   [How to submit](#how-to-submit)). Incomplete or unclear packages are returned
-   and slow the process.
+4. **Submit for review.** Complete the Connected Apps application in the
+   Developer Console and submit it (see [How to submit](#how-to-submit)). The
+   built-in readiness check confirms the package is complete before submission.
+   Passing it is not approval.
 5. **Review.** A completeness check first, then contextual review against the
    [eligibility gates](#check-whether-your-app-is-eligible) and
-   [review criteria](#what-review-looks-at). Every review is carried out
-   manually by the Quran Foundation developer relations team. The outcome is
+   [review criteria](#what-review-looks-at). Every review is coordinated
+   manually by the Quran Foundation developer relations team, with scholarly,
+   engineering, and UX review as part of the process. The outcome is
    listing approval, a request for changes, or, where relevant, a label or
    status decision with its own requirements.
-6. **Go live.** Approved apps appear in the directory. Labels and featuring are
+6. **Go live.** Approved apps appear in the Quran App Store. Labels and featuring are
    separate, additional decisions.
 7. **Keep it current.** Some changes
    [require review before shipping](#tell-us-before-shipping-material-changes).
 
-**Timelines.** Quran Foundation aims to acknowledge submissions within 1 to 2
-business days and return an initial review within 5 business days of receiving a
-complete package. Complex content, OAuth, AI, data, or commercial cases may take
-longer. For status, contact <developers@quran.com>.
+**Timelines and phases.** Review moves at a steady pace through four phases:
+initial contact with an exploratory call, scholarly review, engineering review,
+and UX review. We then return with updates and any requested changes, and once
+everything checks out, the app is approved and published at its assigned status.
+We aim to make initial contact within 1 to 2 business days where possible, and
+we acknowledge every submission within 5 business days. Because each submission
+is consulted across several Quran Foundation teams, we aim to complete
+onboarding within 3 weeks of a complete submission. Complex content, OAuth, AI,
+or commercial cases can take longer. We work as fast as we can while staying
+diligent about the review. For status at any point, check the review
+conversation on your submission in the Developer Console or contact
+<developers@quran.com>.
 
 ### What review looks at
 
@@ -173,7 +228,7 @@ but not for OAuth scopes, homepage placement, or a reviewed label.
   attributed accurately?
 - **Data and consent**: are requested scopes proportionate, explained clearly,
   secured appropriately, and limited to the product function?
-- **Product quality**: does the product work reliably, avoid avoidable
+- **Product quality**: does the product work reliably, avoid unnecessary
   confusion, and provide a support route for users who need help?
 - **Commercial model**: are charges, ads, donations, sponsorships, or affiliate
   models transparent, proportionate, and compatible with content obligations?
@@ -233,14 +288,18 @@ base, or popularity does not offset a failed gate.
 
 ## Prepare your listing
 
-The public [Quran.com/apps](https://quran.com/apps) page is designed for user
-discovery, not internal review history. A directory card should help users
+The Quran App Store, the public destination at
+[Quran.com/apps](https://quran.com/apps), is designed for user discovery, not
+internal review history. A directory card should help users
 answer five questions quickly: what the app helps them do, who owns and supports
 it, which platforms it runs on, whether it connects to their Quran.com account
 or requests data access, and where its privacy, support, and product information
 lives.
 
 ### The listing package
+
+You supply all of this in the Connected Apps application inside the Developer
+Console.
 
 **Required for review**
 
@@ -266,7 +325,7 @@ lives.
 
 ### Card specs
 
-The Quran.com/apps card renders an icon, name, short descriptor, description,
+The Quran App Store card renders an icon, name, short descriptor, description,
 categories, and CTA links. The product UI clamps names and taglines to one line
 and descriptions to three lines, so keep submissions short enough to stay
 readable on mobile and desktop.
@@ -298,24 +357,30 @@ readable on mobile and desktop.
 
 ### How to submit
 
-Until listing submission moves into the Developer Console, submissions run
-through the listing submission document:
+Listing submission is handled in the
+[Developer Console](https://dev-console.quran.foundation/projects):
 
-1. Open the [listing submission document](https://docs.google.com/document/d/1Dh_dQH2hjDL9CC0gKUhMMqdR6VJ1sVu-eNJPrGb13ME/edit?usp=sharing).
-2. Make a copy (File, then Make a copy) into your own Drive.
-3. Complete every field, including content sources, Quran Foundation APIs used,
-   OAuth scopes requested, AI features, and commercial model.
-4. Email your completed copy (share link or attachment) to
-   <developers@quran.com>.
+1. Open the **Connected Apps** tab and create an application for your app, or
+   continue a saved draft.
+2. Complete the six sections: App details, Public listing, Content and rights,
+   Integration, Business and operations, and Declarations.
+3. Run the **readiness check** and fix anything it flags. Passing confirms the
+   package is complete. It is not approval, publication, or endorsement.
+4. **Submit for review.** The application is locked while under review, and a
+   read-only copy of what you submitted is attached to the request. Reviewer
+   messages, your replies, and requested changes are handled in the review
+   conversation on the submission, and you can revise and resubmit from there
+   when changes are requested.
 
 **Know which request you are making.** These are different tasks with different
 routes:
 
 - **API credentials, redirect URIs, secret rotation, scope requests**: the
   [Developer Console](https://dev-console.quran.foundation/projects).
-- **Submit an app listing**: email the package above to <developers@quran.com>.
-- **Request a status review** (Verified Listing App, Vision Aligned App, or Transformational App): email
-  <developers@quran.com> with your app name and the status you are requesting.
+- **Submit an app listing**: the Developer Console, Connected Apps tab.
+- **Request a status review** (Verified Listing App, Vision Aligned App, or
+  Transformational App): from your app in the Developer Console, Connected Apps
+  tab, so requests, reviews, and replies stay in one place.
 - **Report a material change**: email <developers@quran.com> before shipping;
   see [when review is required](#tell-us-before-shipping-material-changes).
 
@@ -349,23 +414,22 @@ without real user value is not.
 - **What it means**: a low-visibility working status for apps that meet all
   governance requirements but have not yet reached the integration depth or
   transformational-funnel impact for full directory visibility. Indexed Apps do
-  not appear in the browsable Connected Apps sections, but they can be found by
+  not appear in the browsable Quran App Store sections, but they can be found by
   name through search.
 - **Requires**: all four eligibility gates, content-sourcing validation, and the
   same governance compliance as every other status. Indexed App status is not an
   exemption from requirements; it reflects current impact, not current
   compliance.
-- **May say**: "indexed and searchable in the Quran.com Connected Apps
-  directory."
+- **May say**: "indexed and searchable in the Quran App Store."
 - **Does not mean**: placement in browsable directory sections, a reviewed
   label, or any endorsement.
 - **How to move up**: address the deficiencies identified in review, deepen
-  meaningful integration, and request Verified Listing App review via
-  <developers@quran.com>.
+  meaningful integration, and request Verified Listing App review from your app
+  in the Developer Console.
 
 ### Verified Listing App
 
-- **What it means**: the baseline visible listing on the Connected Apps page,
+- **What it means**: the baseline visible listing in the Quran App Store,
   and where most apps start. These are typically apps using the Content APIs
   and nothing more, whether because the product has no need for user continuity
   or because continuity is not implemented yet.
@@ -375,16 +439,16 @@ without real user value is not.
   is used), attribution displayed throughout the app for all content used
   through Quran Foundation APIs, verified update and maintenance arrangements,
   and reliable basic UX.
-- **Grants**: the Verified label and a visible listing in the directory.
+- **Grants**: the Verified label and a visible listing in the Quran App Store.
 - **Does not mean**: every product area, future release, or partner claim is
   approved.
-- **How obtained**: request review via <developers@quran.com>.
+- **How obtained**: request review from your app in the Developer Console.
 
 ### Vision Aligned App
 
 - **What it means**: still a content app, but one that shows real potential for
   user continuity and is deliberately on its way to integrating meaningful
-  OAuth and user-related APIs. Aligned apps demonstrate mission and vision
+  OAuth and user-related APIs. Vision Aligned Apps demonstrate mission and vision
   alignment with Quran Foundation, share the same thinking on further
   development and integration, and serve the transformational funnel and help
   enable it further.
@@ -396,7 +460,7 @@ without real user value is not.
   showcases, and enhanced discovery opportunities.
 - **Does not mean**: permanent status, an exclusive relationship, or Quran
   Foundation ownership.
-- **How obtained**: request review via <developers@quran.com>.
+- **How obtained**: request review from your app in the Developer Console.
 
 This is the status we want every Verified Listing App to move toward: joining the
 ecosystem through Quran Foundation SSO, one account that lets users move across
@@ -424,8 +488,8 @@ product, not OAuth and user APIs added without value.
   [Visibility is not for sale](#visibility-is-not-for-sale)).
 - **Does not mean**: permission to request unnecessary scopes, bypass consent,
   or reuse data outside the approved purpose.
-- **How obtained**: request review via <developers@quran.com> after OAuth
-  readiness (consent copy, redirect URIs, proportionate scopes, privacy
+- **How obtained**: request review from your app in the Developer Console after
+  OAuth readiness (consent copy, redirect URIs, proportionate scopes, privacy
   information, data security, incident contact, and support route).
 
 ### Featured placement (temporary editorial promotion)
@@ -465,9 +529,9 @@ on a crowdfunding platform, does not by itself disqualify an app, but
 fundraising language and campaign behavior must still meet the same mission,
 transparency, and responsible-use standards.
 
-### Directory listing versus homepage promotion
+### Quran App Store listing versus homepage promotion
 
-| Question | Connected Apps directory | Quran.com homepage |
+| Question | Quran App Store | Quran.com homepage |
 | --- | --- | --- |
 | Purpose | Help users browse and evaluate relevant Quran-related apps. | Introduce a broad audience to a selected, high-confidence experience. |
 | Default expectation | Eligible reviewed apps can be listed with categories and platform links. | Placement is selective, time-sensitive, and not guaranteed by listing approval. |
@@ -499,8 +563,6 @@ authentication is required for Featured placement.
   production; track requested scopes there.
 - Request the **minimum scopes** your product needs, and explain the benefit to
   the user **before** consent.
-- Content-only apps that do not need cross-app continuity remain eligible for
-  the Verified Listing App and Vision Aligned App statuses without OAuth2.
 - Direct in-app token exchange for public-client handling is permitted **only**
   where Quran Foundation has explicitly confirmed it for your client.
 - **Scope escalation requires approval.** New or expanded user-data access must
@@ -525,8 +587,13 @@ for implementation detail.
 - Provide a **content-source declaration** in your listing package stating which
   Quran Foundation APIs, licensed content, partner content, or other sources the
   app uses.
-- **Keep content current**: corrections, removals, or restrictions made upstream
-  should be reflected promptly so users are not left with stale material.
+- **Keep content current**: run at least a weekly delta sync against your
+  approved sources, including for any cached or stored content, so upstream
+  corrections, removals, or restrictions are reflected promptly. Where
+  connectivity makes the weekly cadence impossible, run the sync whenever a
+  connection is available so users always receive the latest content. Weekly
+  synchronization is a requirement under the content update preservation
+  policy, not a recommendation.
 - Credit translations, tafsir editions, and recitations to their named source or
   edition, within their licensing terms.
 
@@ -681,7 +748,7 @@ submitting updated evidence to <developers@quran.com>. Decisions involving user
 safety, content integrity, security, or legal obligations remain at Quran
 Foundation's discretion.
 
-## Terms and compliance
+## Terms and compliance {#terms-and-compliance}
 
 Listed apps must comply with the Connected Apps requirements on this page and
 all applicable laws. Where a partner or its users access Quran.com services
@@ -702,7 +769,9 @@ content-licensing terms will be published here where applicable.
 - **Credentials, redirect URIs, secret rotation, and scope requests**:
   self-service in the [Developer Console](https://dev-console.quran.foundation/projects),
   which also links technical support guidance.
-- **General questions** (access, scopes, listing readiness, or review status):
+- **Review status and reviewer replies**: the review conversation on your
+  submission in the Developer Console, Connected Apps tab.
+- **General questions** (access, scopes, or listing readiness):
   <developers@quran.com>.
 - **Partner office hours**: available at various times throughout the week,
   updated regularly as slots open or close. Book through the
@@ -732,7 +801,7 @@ and Quran Foundation OAuth as the sole backend authentication is required for
 Featured placement. Where OAuth is used, request only the permissions you truly
 need and explain the benefit before consent.
 
-**Is a directory card an endorsement?**
+**Is a Quran App Store card an endorsement?**
 No. A listing helps users discover an independent product. It does not mean
 Quran Foundation owns the app, provides its support, or endorses every current
 and future feature. A badge or label applies only to the checks described for
@@ -745,9 +814,10 @@ attribution, licensing, and usage considerations, and the review tracks are
 distinct where those obligations differ.
 
 **Do I still use the request-access form?**
-No. API credentials, environments, redirect URIs, and scope requests are now
-handled in the [Developer Console](https://dev-console.quran.foundation/projects). Existing
-clients created before the console can be claimed into it.
+No. API credentials, environments, redirect URIs, and scope requests are handled
+in the [Developer Console](https://dev-console.quran.foundation/projects), and listing
+submissions are made there too, under the Connected Apps tab. Existing clients
+created before the console can be claimed into it.
 
 ## Glossary
 
@@ -763,6 +833,9 @@ clients created before the console can be claimed into it.
   apps with a continued journey through the user-related APIs.
 - **Featured placement**: temporary editorial promotion; selected, not applied
   for; requires Quran Foundation OAuth as the sole backend user authentication.
+- **Quran App Store**: the public destination at Quran.com/apps where approved
+  apps are discoverable. Connected Apps remains the name of the developer
+  program.
 - **Scope**: a specific permission an app requests to access user data.
 - **Prelive**: the testing environment whose credentials the Developer Console
   issues alongside production.
@@ -783,5 +856,6 @@ take effect after a 14-day notice period.
 
 | Version | Date | Material changes |
 | --- | --- | --- |
+| 1.2 | `[FILL: YYYY-MM-DD]` | Listing submission moved into the Developer Console (Connected Apps tab), replacing the listing submission document. Review timeline rewritten as the four-phase model with a three-week onboarding target. Status review requests moved into the Developer Console. Weekly delta sync added as a content-currency requirement under the content update preservation policy, scoped to include cached or stored content with a connectivity fallback. Quran App Store adopted as the name of the public destination at Quran.com/apps. |
 | 1.1 | 2026-08-10 | Restructured for scannability around the developer journey. Developer Console replaces the request-access flow for credentials, redirect URIs, and scopes. Status model finalized: Indexed App, Verified Listing App, Vision Aligned App, Transformational App, and Featured placement; Transformational replaces Connected as the OAuth status, and sole reliance on Quran Foundation OAuth becomes the Featured requirement. AI requirements consolidated into a single auditable table. Listing submission document and request routing added. |
 | 1.0 | 2026-06-30 | Initial publication. |

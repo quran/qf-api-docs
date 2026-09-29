@@ -85,9 +85,13 @@ test('adds a production Connected Apps docs page', () => {
 
 test('documents the core Connected Apps production concepts', () => {
   const requiredPatterns = [
-    /\*\*Policy version:\*\* 1\.1/,
-    /\*\*Last updated:\*\* 2026-08-10/,
-    /\*\*Effective date:\*\* 2026-08-10/,
+    /\*\*Policy version:\*\* 1\.2/,
+    /\*\*Last updated:\*\* \d{4}-\d{2}-\d{2}/,
+    /\*\*Effective date:\*\* \d{4}-\d{2}-\d{2}/,
+    /Connected Apps\*\* tab/,
+    /readiness check/,
+    /weekly delta sync/,
+    /Quran App Store/,
     /source of truth for the Connected Apps program/,
     /The Developer Console/,
     /https:\/\/dev-console\.quran\.foundation\/projects/,
@@ -180,7 +184,15 @@ test('routes self-service setup through the Developer Console', () => {
     /\[Developer Console\]\(https:\/\/dev-console\.quran\.foundation\/projects\)/,
   );
   assert.match(doc, /\[four eligibility gates\]\(#check-whether-your-app-is-eligible\)/);
-  assert.match(doc, /\[prepare and submit a listing package\]\(#prepare-your-listing\)/);
+  assert.match(
+    doc,
+    /\[prepare your listing and submit it from the Developer Console\]\(#prepare-your-listing\)/,
+  );
+  assert.doesNotMatch(
+    doc,
+    /docs\.google\.com\/document/,
+    'listing submission runs in the Developer Console, not a Google Doc',
+  );
 });
 
 test('uses the current Quran Foundation name in hand-authored guides', () => {
