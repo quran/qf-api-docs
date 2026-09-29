@@ -6,7 +6,7 @@ description: "List translations, tafsirs, recitations, languages, and syncable r
 # Resources API
 
 ```python
-from quran_foundation import QuranClient
+from quran_foundation import ChapterRecitationSnapshotRecord, QuranClient
 
 client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
 
@@ -17,6 +17,10 @@ snapshot = client.get_resource_snapshot("translations", 131)
 mushaf_snapshot = client.get_mushaf_snapshot(1)
 core_snapshot = client.get_quran_core_snapshot()
 chapter_snapshot = client.get_chapter_recitation_snapshot(159)
+chapter_records: list[ChapterRecitationSnapshotRecord] = chapter_snapshot["records"]
+for record in chapter_records:
+    if record["record_type"] == "audio_segment":
+        print(record["verse_key"], record["segments"])
 transliteration_snapshot = client.get_word_by_word_transliteration_snapshot(60)
 ```
 
@@ -49,9 +53,25 @@ details and the [Developer Terms](/legal/developer-terms/) for caching and bundl
 
 Use `chapter_recitations:<id>` to sync chapter audio, where `<id>` is an
 `Audio::Recitation.id`, then call `get_chapter_recitation_snapshot(id)`.
-The returned records are `chapter_audio_file` rows. This is distinct from the
-legacy `recitations:<id>` group, which is keyed by an ayah-recitation ID and
-may include compatible chapter audio for existing clients.
+The returned records are `chapter_audio_file` rows and associated
+`audio_segment` verse and word timings. The SDK exports
+`ChapterAudioFileSnapshotRecord`, `AudioSegmentSnapshotRecord`, and the
+`ChapterRecitationSnapshotRecord` union. This is distinct from the legacy
+`recitations:<id>` group, which is keyed by an ayah-recitation ID and may include
+compatible chapter audio and timing rows for existing clients. Segment
+timestamps and tuple boundaries are milliseconds from the start of the chapter
+file; each tuple is `[one_based_word_index, start_ms, end_ms]`. Use
+`duration_ms` for exact arithmetic; `duration` is the legacy whole-seconds
+compatibility value.
+
+Bootstrap returns `RESOURCE_CREATE` entries with `snapshot_url`; it does not
+return timing rows inline. Fetch and apply every referenced snapshot, including
+the `audio_segment` rows, before storing the final sync token. For incremental
+`audio_segment` `ROW_CREATE`, `ROW_UPDATE`, and `ROW_DELETE` mutations, use
+`(resource_group, resource_id, record_type, record_key)` as the stable local
+key. Do not depend on `source_record_id` or `data`, because either may be `None`
+for a delete. When `RESOURCE_INVALIDATE` is returned, replace the complete
+chapter-recitation snapshot.
 
 ### Canonical Quran Core
 

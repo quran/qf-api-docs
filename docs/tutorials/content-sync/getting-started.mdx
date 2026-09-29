@@ -46,8 +46,8 @@ Content Sync supports these resource groups: `quran_core`, `mushafs`, `translati
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `word_by_word_transliterations` | Word transliteration rows for an eligible one-word transliteration resource.          | Word transliteration row changes.                                                   |
 | `tafsirs`                      | Tafsir rows for the resource. One row can cover several verses; see [Tafsir Records](/docs/tutorials/content-sync/full-copies-and-recovery#tafsir-records). | Tafsir row changes.                                                                 |
-| `recitations`                  | Ayah audio files and compatible chapter audio files for the legacy ayah recitation.  | Ayah audio file and compatible chapter audio file changes.                          |
-| `chapter_recitations`          | Chapter audio file rows for one chapter recitation.                                   | Chapter audio file changes.                                                         |
+| `recitations`                  | Ayah audio files plus compatible chapter audio files and timing segments for the legacy ayah recitation. | Ayah audio file and compatible chapter audio file and segment changes.              |
+| `chapter_recitations`          | Chapter audio file rows and associated verse and word timing segment rows.             | Chapter audio file and segment changes.                                             |
 | `articles`                     | Visible article localizations.                                                        | Article localization changes and resource-level refresh, delete, or restore events. |
 
 :::note Supported groups only
@@ -77,11 +77,14 @@ The `recitations` group is the legacy ayah-by-ayah resource, keyed by the
 `Audio::Recitation.id`. These IDs and groups are distinct even when both
 resources use the same underlying resource content.
 
-Chapter-recitation snapshots contain only `chapter_audio_file` records. For
-backward compatibility, chapter-file mutations for the selected approved
-chapter recitation may also be emitted through the linked legacy `recitations`
-resource. New clients that want an independently addressable chapter audio
-resource should use `chapter_recitations`.
+Chapter-recitation snapshots contain `chapter_audio_file` records and their
+associated `audio_segment` verse and word timing records. Incremental file and
+segment changes use row mutations; identify each row by
+`(resource_group, resource_id, record_type, record_key)`. For backward
+compatibility, compatible chapter-file and segment records and mutations for
+the selected approved chapter recitation may also be emitted through the linked
+legacy `recitations` resource. New clients that want an independently
+addressable chapter audio resource should use `chapter_recitations`.
 
 ### Mushaf rendering assets
 
