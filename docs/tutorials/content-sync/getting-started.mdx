@@ -41,7 +41,7 @@ Content Sync supports these resource groups: `quran_core`, `mushafs`, `translati
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `mushafs`                      | Mushaf metadata, page mappings, and positioned words. Font files and images are not included. | Mushaf, page, and word changes.                                                       |
-| `quran_core`                   | Singleton `1`: canonical Uthmani text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. No Mushaf-specific pages. | Chapter, verse, and boundary row changes.                            |
+| `quran_core`                   | Singleton `1`: canonical Uthmani verse text, word-level IndoPak and Uthmani Tajweed text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. No Mushaf-specific pages. | Chapter, verse, word, and boundary row changes.                            |
 | `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `word_by_word_transliterations` | Word transliteration rows for an eligible one-word transliteration resource.          | Word transliteration row changes.                                                   |
@@ -62,11 +62,14 @@ resource `60`.
 
 ### Canonical Quran Core and Mushaf Layout
 
-Select `quran_core:1;mushafs:1` for canonical verse text and
-navigation boundaries alongside Mushaf-specific layout. The core snapshot has
-114 `chapter`, 6,236 `verse`, 30 `juz`, 60 `hizb`, and 240 `rub_el_hizb`
-records. Its `resource_content_id` is `null`. Each row has a `record_type` and
-`id`; use `(resource_group, resource_id, record_type, id)` as the local key.
+Select `quran_core:1;mushafs:1` for canonical verse text, word-level IndoPak
+and Uthmani Tajweed text, and navigation boundaries alongside Mushaf-specific
+layout. The core snapshot has 114 `chapter`, 6,236 `verse`, 83,665 `word`,
+30 `juz`, 60 `hizb`, and 240 `rub_el_hizb` records. Word rows expose
+`text_indopak` and `text_uthmani_tajweed` with verse, position, location, and
+character-type
+identifiers. Its `resource_content_id` is `null`. Each row has a `record_type`
+and `id`; use `(resource_group, resource_id, record_type, id)` as the local key.
 Unlike Mushaf page mapping, `chapters.pages` is not part of Quran core.
 
 ### Audio Resource Identities
