@@ -16,6 +16,23 @@ again, your app asks:
 2. Which small rows can I update directly?
 3. Which full content copy do I need to download again?
 
+## Environments and Resource Availability
+
+Content Sync is available in prelive and production. Use the matching credentials and Content API base URL:
+
+| Environment | Content API base URL |
+| ----------- | -------------------- |
+| Prelive | `https://apis-prelive.quran.foundation/content/api/v4` |
+| Production | `https://apis.quran.foundation/content/api/v4` |
+
+The examples below use production. Resource publication and sync history are environment-specific: do not assume an example's production resource ID is published in prelive. Bootstrap returns only public resources matching your filter. A snapshot request for a resource that is not public returns `snapshot_not_found` (`404`).
+
+:::warning Prelive dataset and canonical Quran core
+Prelive is for testing and development, and its Quran content dataset contains only Al-Fatihah (surah 1) and Al-Baqarah (surah 2); see the [Quickstart](/docs/quickstart/). API feature support does not imply that every resource is published there. The `quran_core:1` contract requires the complete canonical Quran, including all 114 surahs, 6,236 verses, word text, and complete navigation boundaries. It is not a partial two-surah resource. Prelive's limited dataset does not satisfy that contract, so use the complete production resource with approved production access, or test other public prelive resources.
+:::
+
+Keep sync tokens, cursors, and local caches separate for each environment. Follow `next_page_url` and `snapshot_url` against the same environment that returned them, using that environment's credentials.
+
 ## Terms
 
 | Term            | Plain meaning                                                                                                |
@@ -31,7 +48,7 @@ again, your app asks:
 | Cursor          | A temporary page link. Use it only while finishing the current sync request.                                 |
 
 :::note Relative API paths
-When `next_page_url` or `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/translations/19`. You should prefix that path with `https://apis.quran.foundation/content`.
+When `next_page_url` or `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/translations/19`. Prefix that path with `https://apis-prelive.quran.foundation/content` for prelive or `https://apis.quran.foundation/content` for production. Always use the environment that returned the path.
 :::
 
 ## Content Available for Offline Sync
