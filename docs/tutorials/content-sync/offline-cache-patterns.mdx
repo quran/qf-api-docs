@@ -32,7 +32,7 @@ flowchart TB
     Engine --> DB
 ```
 
-The UI reads from local storage. The sync engine updates that storage in the background.
+The UI reads from local storage. The sync engine updates that storage in the background. If connectivity to QF is unavailable, previously synced Content Sync content may remain available beyond seven days; sync promptly when connectivity returns.
 
 ## Local Tables
 
@@ -83,7 +83,7 @@ Recommended triggers:
 | ------------------------- | -------------------------------------------------------------- |
 | App install or first open | Bootstrap only the resources the app needs.                    |
 | App launch                | Run incremental sync in the background.                        |
-| Network restored          | Run incremental sync.                                          |
+| Network restored          | Run incremental sync promptly.                                 |
 | Reader opens a resource   | Use local content immediately, then refresh in the background. |
 | Token rejected            | Re-bootstrap that resource filter.                             |
 

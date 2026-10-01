@@ -54,7 +54,7 @@ const faqSectionSource = (heading) => {
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
-  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-09-14/);
+  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-09-26/);
   assert.match(developerTerms, /Cache or store QF Content longer than \*\*1 week\*\*/);
   assert.match(developerTerms, /QF has expressly permitted longer storage/);
   assert.match(
@@ -71,12 +71,16 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   );
   assert.match(
     developerTerms,
-    /through the Developer’s own API, dataset, data feed, download, content package, or similar service/,
+    /Serving QF Content from a Developer-controlled backend within the Application's end-user experience is not, by itself, redistribution/,
   );
   assert.match(
     developerTerms,
     /may cache or bundle font files and Mushaf images obtained through QF APIs or documented CDN URLs[\s\S]*active account in the \[Developer Console\][\s\S]*credits Quran Foundation/,
   );
+  assert.match(developerTerms, /except for the font and Mushaf-image permission in Section 3\.1, any source-specific license requirements/);
+  assert.match(faq, /except for the Terms’ font and Mushaf-image permission, any source-specific license requirements/);
+  assert.match(faq, /The files may be distributed only as an integrated part of your application, not through your own API/);
+  assert.doesNotMatch(faq, /integrated part of your application, subject to source-specific terms/);
 });
 
 test('documents the required content policy FAQ questions and links', () => {
@@ -150,8 +154,11 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     storageAnswer,
-    /perform a next sync at least every 7 days and apply all available changes\./,
+    /perform a next sync at least every 7 days when connectivity to QF permits and apply all available changes/,
   );
+  assert.match(storageAnswer, /Previously synced content may remain available while connectivity to QF is unavailable, even beyond seven days/);
+  assert.match(storageAnswer, /sync promptly when connectivity returns/);
+  assert.match(storageAnswer, /Content Sync exception covers the rows returned by that API; recitation rows contain audio URLs, not the underlying recording files/);
   assert.match(
     storageAnswer,
     /Font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs are a separate exception:[\s\S]*cache or bundle them[\s\S]*active Developer Console account and credit Quran Foundation/,
@@ -177,6 +184,16 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
     /Report actual or suspected unauthorised API-related access, security breach, or data exposure within 24 hours\./,
   );
   assert.match(helpAnswer, /Do not include client secrets or access tokens\./);
+});
+
+test('offline cache guidance preserves reading while scheduling catch-up sync', () => {
+  const guide = fs.readFileSync(
+    path.join(repositoryRoot, 'docs', 'tutorials', 'content-sync', 'offline-cache-patterns.mdx'),
+    'utf8',
+  );
+  assert.match(guide, /previously synced Content Sync content may remain available beyond seven days/);
+  assert.match(guide, /sync promptly when connectivity returns/);
+  assert.doesNotMatch(guide, /stop serving\/displaying that filter's content once it is overdue/);
 });
 
 test('does not describe Mushaf snapshots as font or image packages', () => {

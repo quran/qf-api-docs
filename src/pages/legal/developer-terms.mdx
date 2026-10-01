@@ -6,7 +6,7 @@ sidebar_label: Developer Terms of Service
 
 # Quran Foundation Developer Terms of Service (“Terms”)
 
-**Last updated:** 2026-09-14
+**Last updated:** 2026-09-26
 
 PLEASE READ CAREFULLY. By accessing or using the Quran Foundation (“QF”) application programming interfaces, software development kits, webhooks, OAuth services, related documentation, and any associated services (collectively, **“APIs”**), you (“**Developer**,” “**you**”) agree to be bound by these Terms, the QF Developer Privacy Policy Requirements, and all other guidelines published in the [Developer Privacy Policy Packet](/legal/developer-privacy/) (together, the **“Developer Policies”**).
 
@@ -22,6 +22,7 @@ If you use the APIs on behalf of an organization, you represent that you have au
 | **Application** | Any website, service, script, device, or other integration that accesses the APIs by or for the Developer. |
 | **User Data** | Personal information obtained from or on behalf of an end user through the APIs (e.g., bookmarks, notes, OAuth tokens). |
 | **Brand Features** | Trade names, trademarks, service marks, logos, domain names, and other distinctive brand elements of a party. |
+| **Derived Materials** | Outputs made from or using QF Content, including excerpts, compilations, indexes, embeddings, annotations, summaries, transformed media, and AI-generated responses. An output that reproduces or permits reconstruction of QF Content remains subject to the restrictions on that content. |
 
 ---
 
@@ -36,7 +37,7 @@ Subject to full, continuous compliance with these Terms, QF grants Developer a n
 Developer may display QF Content to end users within the Application, provided that:
 
 - The text of the Quran is **not modified in any way**.  
-- QF Content is **not sold, sublicensed, or redistributed**.
+- QF Content is **not sold, sublicensed, or redistributed**, except as expressly permitted below.
 - QF Content is **never used in a context that promotes hate, extremism, or misinformation**, nor combined with unlawful, sexual, or other inappropriate material.
 - Any snippets of QF Content must be presented in a manner that preserves their original context and meaning, and you may **not arrange or display snippets in a way that alters or misrepresents** the intended message of the source material.
 
@@ -48,11 +49,19 @@ Developer may display QF Content to end users within the Application, provided t
 
 **Requires a separate written commercial license:** A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data—for example, as a dataset, data feed, API, content package, or other separately distributed product.
 
+**Private backend versus redistribution.** Serving QF Content from a Developer-controlled backend within the Application's end-user experience is not, by itself, redistribution. Offering QF Content or raw API data to others as data remains subject to the separate commercial-license requirement above.
+
 **Social-media videos are not redistribution.** Incorporating QF Content into a social-media video is an end-user use, not redistribution, provided that the Developer credits Quran Foundation in a reasonably accessible place, such as in the video itself or its caption, description, or credits. In these Terms, “redistribution” means offering QF Content or raw API data to others as data—for example, through the Developer’s own API, dataset, data feed, download, content package, or similar service.
+
+**Audio.** Recitation metadata and audio URLs are distinct from the underlying recordings. Certain recordings may have their own rights holders and additional restrictions; access to their metadata or URLs does not change the rights applicable to the recordings.
+
+**Derived Materials.** Derived Materials that include or permit reconstruction of QF Content remain subject to the same restrictions on that content.
+
+Certain QF Content resources have their own underlying rights holders and may therefore carry additional restrictions.
 
 ### 2.3 Reservation of rights
 
-Except for the licenses expressly granted, QF retains all right, title, and interest in the APIs and QF Content.
+Except for the licenses expressly granted, QF retains its rights in the APIs and QF Content it owns; other underlying rights holders retain their respective rights. Developer retains any rights in its original contributions to Derived Materials, subject to the rights in the underlying QF Content.
 
 ---
 
@@ -64,13 +73,17 @@ Developer must **NOT**:
 
 1. Attempt to extract, scrape, or index QF Content or User Data outside the API responses.  
 2. Exceed published rate limits or quotas or attempt to circumvent technical restrictions.
-3. Cache or store QF Content longer than **1 week**, except where (a) QF has expressly permitted longer storage, or (b) the QF Content is available through the Content Sync APIs listed under [Content Available for Offline Sync](/docs/tutorials/content-sync/getting-started#content-available-for-offline-sync). If you rely on exception (b), you must [perform a next sync](/docs/tutorials/content-sync/getting-started#next-sync) at least every **7 days** and apply all available changes.
-4. Use QF Content or User Data to build advertising profiles, biometric identifiers, or machine-learning models without written consent.  
+3. Cache or store QF Content longer than **1 week**, except where (a) QF has expressly permitted longer storage, or (b) the QF Content is available through the Content Sync APIs listed under [Content Available for Offline Sync](/docs/tutorials/content-sync/getting-started#content-available-for-offline-sync). If you rely on exception (b), you must [perform a next sync](/docs/tutorials/content-sync/getting-started#next-sync) at least every **7 days when connectivity to QF permits** and apply all available changes. This ongoing obligation applies to copies kept on a backend or an offline device. If connectivity to QF is unavailable for longer than seven days, the Application may continue using its previously synced Content Sync copy; perform a next sync promptly when connectivity returns and apply the available changes.
+4. Use QF Content or User Data to build advertising profiles, biometric identifiers, or machine-learning models without written consent.
 5. Display or transmit content that is disparaging to Islam, promotes extremist ideology, or misrepresents the Qurʾān.  
 6. Subvert or disable any security, authentication, or access-control mechanism.  
 7. Mislead users about the source, features, or functionality of the Application or APIs.
 
+**Prepackaged content.** The Content Sync storage exception does not itself authorize distributing a prepackaged database or build-time bundle of QF Content. Section 2.2's redistribution terms apply, except for the font and Mushaf-image permission below.
+
 A Developer may cache or bundle font files and Mushaf images obtained through QF APIs or documented CDN URLs for use in an Application if the Developer maintains an active account in the [Developer Console](https://dev-console.quran.foundation/projects) and credits Quran Foundation in a reasonably accessible place in the Application or its associated credits. The files may be distributed only as an integrated part of the Application. They may not be offered separately to others—for example, through the Developer’s own API, asset package, or standalone download.
+
+**AI and retrieval use.** Retrieval-augmented generation (RAG) within the Application is distinct from using QF Content or User Data to build a machine-learning model under item 4. QF Content retained for retrieval, including content-derived embeddings that reproduce or permit reconstruction of it, remains subject to the applicable storage and use restrictions in these Terms.
 
 ### 3.2 Security & privacy
 
