@@ -91,7 +91,7 @@ Recommended triggers:
 
 When a change includes `snapshot_url`, fetch the full copy and replace only that resource's cached rows in one local transaction. The transaction boundary is one resource, not the full sync run, and the snapshot request should finish before the transaction begins.
 
-When `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path like `/api/v4/resources/snapshots/translations/19`. You should prefix that path with `https://apis.quran.foundation/content`.
+When `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path like `/api/v4/resources/snapshots/translations/19`. Prefix that path with `https://apis-prelive.quran.foundation/content` for prelive or `https://apis.quran.foundation/content` for production. Always use the environment that returned the path, using that environment's credentials.
 
 ```mermaid
 sequenceDiagram
