@@ -25,7 +25,8 @@ test('the OpenAPI contract exposes only the canonical singleton alongside Mushaf
   assert.equal(example.records[2].text_indopak, 'بِسْمِ');
   assert.equal(example.records[2].text_uthmani_tajweed, 'بِسْمِ');
   assert.ok(!('pages' in example.records[0]));
-  assert.match(snapshot.description, /redistribution terms/);
+  assert.match(snapshot.description, /Use of the canonical text remains subject to the Developer Terms and attribution requirements\./);
+  assert.doesNotMatch(snapshot.description, /source-specific/);
   assert.match(snapshot.description, /The singleton `quran_core:1` snapshot contains/);
   assert.match(snapshot.description, /83,665 word records/);
   assert.doesNotMatch(snapshot.description, /forthcoming|publication pending|once published|after publication/i);

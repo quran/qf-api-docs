@@ -34,7 +34,7 @@ test('defines notice delivery separately for QF and the external Developer', () 
 
 test('keeps the requested content-rights clarifications without expanding the default grant', () => {
   assert.match(developerTerms, /Serving QF Content from a Developer-controlled backend/);
-  assert.match(developerTerms, /Certain QF Content resources have their own underlying rights holders and may therefore carry additional restrictions/);
+  assert.doesNotMatch(developerTerms, /underlying rights holders|source-specific license requirements|additional restrictions/);
   assert.match(developerTerms, /\*\*Derived Materials\*\*/);
   assert.match(developerTerms, /Recitation metadata and audio URLs are distinct from the underlying recordings/);
   assert.match(developerTerms, /Content Sync storage exception does not itself authorize distributing a prepackaged database/);

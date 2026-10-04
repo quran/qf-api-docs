@@ -85,9 +85,9 @@ test('adds a production Connected Apps docs page', () => {
 
 test('documents the core Connected Apps production concepts', () => {
   const requiredPatterns = [
-    /\*\*Policy version:\*\* 1\.1/,
-    /\*\*Last updated:\*\* 2026-08-10/,
-    /\*\*Effective date:\*\* 2026-08-10/,
+    /\*\*Policy version:\*\* 1\.2/,
+    /\*\*Last updated:\*\* 2026-10-04/,
+    /\*\*Effective date for existing partners:\*\* 14 days after notice/,
     /source of truth for the Connected Apps program/,
     /The Developer Console/,
     /https:\/\/dev-console\.quran\.foundation\/projects/,
@@ -140,6 +140,18 @@ test('documents the core Connected Apps production concepts', () => {
   for (const pattern of requiredPatterns) {
     assert.match(doc, pattern);
   }
+});
+
+test('records the commercial-policy clarification in version metadata and history', () => {
+  assert.match(doc, /^> \*\*Policy version:\*\* 1\.2 · \*\*Last updated:\*\* 2026-10-04 · \*\*Effective date for existing partners:\*\* 14 days after notice, as described in the \[Change log\]\(#change-log\)$/m);
+  const entry = doc.split('\n').find((line) => line.startsWith('| 1.2 | 2026-10-04 |'));
+  assert.ok(entry, 'expected a version 1.2 change-log entry');
+  assert.match(entry, /commercial end-user app experiences is permitted under the Developer Terms without a separate commercial license/);
+  assert.match(entry, /selling, sublicensing, or redistributing QF Content or raw API data as a separately distributed product requires a signed commercial license/);
+  assert.match(entry, /Aligned the charging FAQ and simplified source-attribution wording/);
+  assert.match(entry, /For existing partners, these changes take effect after the 14-day notice period described above/);
+  assert.match(doc, /\| 1\.1 \| 2026-08-10 \|/);
+  assert.match(doc, /\| 1\.0 \| 2026-06-30 \|/);
 });
 
 test('orders the guide around the developer journey', () => {

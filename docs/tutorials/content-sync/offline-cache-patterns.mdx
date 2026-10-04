@@ -7,7 +7,7 @@ sidebar_position: 3
 
 # Offline Content Cache Patterns
 
-Content Sync works best when your app treats the server as the source of truth and the local database as a readable cache.
+If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. Treat the server as the source of truth and the local database as a readable cache. Perform a next sync at least every 7 days when connectivity to QF permits and apply all available changes; see the [Developer Terms](/legal/developer-terms/) for the full storage conditions.
 
 ## Recommended Architecture
 
