@@ -86,6 +86,7 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
 test('documents the required content policy FAQ questions and links', () => {
   const requiredQuestions = [
     'Can I use QF Content in a commercial or freemium app?',
+    'Why do I need Content Sync?',
     'How long can I cache or store QF Content?',
     'Can I use Content Sync for Quran text or word-by-word data?',
     'What attribution or copyright information should I show?',
@@ -235,6 +236,32 @@ test('omits source-specific licensing caveats while preserving source attributio
     faqSection('What attribution or copyright information should I show?'),
     /Also credit translations, tafsir editions, and recitations by their named source or edition\./,
   );
+});
+
+test('highlights the scholarly-review rationale alongside the offline Terms', () => {
+  const acceptableUse = developerTerms.split('### 3.1 Acceptable use')[1]?.split('### 3.2 Security & privacy')[0];
+  assert.ok(acceptableUse, 'expected the acceptable-use section containing the offline policy');
+  const callout = acceptableUse.match(/:::important Offline content: scholarly review and corrections\n\n([\s\S]*?)\n\n:::/);
+  assert.ok(callout, 'expected a prominent Important callout for offline content');
+  assert.match(callout[1], /^\*\*Providing scholarly-verified Quranic content is one of Quran Foundation's core goals\.\*\*/);
+  assert.match(callout[1], /Our scholarly team reviews our content/);
+  assert.match(callout[1], /For resources available through Content Sync, syncing delivers those updates and corrections to your Application's offline copy/);
+  assert.match(callout[1], /Follow the synchronization requirements above/);
+  assert.ok(acceptableUse.indexOf('When using Content Sync, you must') < acceptableUse.indexOf(callout[0]));
+  assert.ok(acceptableUse.indexOf(callout[0]) < acceptableUse.indexOf('**Prepackaged content.**'));
+});
+
+test('explains Content Sync and scholarly review in a plain FAQ answer', () => {
+  const answer = faqSectionSource('Why do I need Content Sync?');
+  assert.ok(answer, 'expected a dedicated Content Sync rationale FAQ answer');
+  assert.match(answer, /Providing scholarly-verified Quranic content is one of Quran Foundation's core goals/);
+  assert.match(answer, /Our scholarly team reviews our content/);
+  assert.match(answer, /updates and corrections/);
+  assert.match(answer, /offline copy when it syncs/);
+  assert.match(answer, /For resources available through Content Sync, use it to obtain and maintain offline copies/);
+  assert.match(answer, /at least every seven days when connectivity to QF permits/);
+  assert.match(answer, /sync promptly when connectivity returns after an outage/);
+  assert.doesNotMatch(answer, /:::|\*\*|<aside/i);
 });
 
 test('scopes the seven-day sync duty to Content Sync users', () => {
