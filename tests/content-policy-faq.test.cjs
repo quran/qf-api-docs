@@ -161,7 +161,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   assert.match(storageAnswer, /Content Sync exception covers the rows returned by that API; recitation rows contain audio URLs, not the underlying recording files/);
   assert.match(
     storageAnswer,
-    /Font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs are a separate exception:[\s\S]*cache or bundle them[\s\S]*active Developer Console account and credit Quran Foundation/,
+    /Font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs may be cached or bundled[\s\S]*active Developer Console account and credit Quran Foundation/,
   );
   assert.match(
     contentSyncAnswer,
@@ -208,7 +208,7 @@ test('requires Content Sync as the only offline path for available resources', (
   );
   assert.match(
     developerTerms,
-    /or consists of font files or Mushaf images covered by the permission below/,
+    /or consists of font files or Mushaf images cached or bundled as described below/,
   );
   assert.match(
     faqSection('Can I use Content Sync for Quran text or word-by-word data?'),
@@ -234,6 +234,43 @@ test('omits source-specific licensing caveats while preserving source attributio
   assert.match(
     faqSection('What attribution or copyright information should I show?'),
     /Also credit translations, tafsir editions, and recitations by their named source or edition\./,
+  );
+});
+
+test('scopes the seven-day sync duty to Content Sync users', () => {
+  assert.match(
+    normalize(developerTerms),
+    /When using Content Sync, you must perform a next sync at least every \*\*7 days when connectivity to QF permits\*\* and apply all available changes\./,
+  );
+  assert.match(
+    faqSection('How long can I cache or store QF Content?'),
+    /When using Content Sync, perform a next sync at least every 7 days when connectivity to QF permits/,
+  );
+});
+
+test('aligns the Connected Apps charging answer with the Developer Terms', () => {
+  const connectedApps = fs.readFileSync(path.join(docsDir, 'connected-apps.mdx'), 'utf8');
+  const chargingAnswer = connectedApps.split('**Can my app charge for a service?**')[1]?.split('**Can we show ads or accept donations?**')[0];
+  assert.ok(chargingAnswer, 'expected the Connected Apps charging FAQ answer');
+  assert.match(
+    normalize(chargingAnswer),
+    /Charging for an app's end-user experience does not require a separate commercial license under the Developer Terms\./,
+  );
+  assert.match(
+    normalize(chargingAnswer),
+    /Selling, sublicensing, or redistributing QF Content or raw API data as a separately distributed product requires a signed commercial license\./,
+  );
+  assert.doesNotMatch(normalize(chargingAnswer), /Commercial content use may require separate written permission/);
+});
+
+test('describes font and Mushaf-image caching without a separate-permission label', () => {
+  for (const document of [developerTerms, faq, contentSync, fontRendering]) {
+    assert.doesNotMatch(normalize(document), /separate (?:permission|exception)|permission below/i);
+  }
+  assert.match(contentSync, /See the \[Developer Terms\]\(\/legal\/developer-terms\/\) for the full storage conditions\./);
+  assert.match(
+    developerTerms,
+    /may cache or bundle font files and Mushaf images obtained through QF APIs or documented CDN URLs/,
   );
 });
 
