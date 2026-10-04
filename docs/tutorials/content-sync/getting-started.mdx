@@ -55,6 +55,8 @@ When `next_page_url` or `snapshot_url` is present and non-null, we return a rela
 
 Content Sync supports these resource groups: `quran_core`, `mushafs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`.
 
+If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. Perform a [next sync](#next-sync) at least every 7 days when connectivity to QF permits and apply all available changes. Previously synced content may remain available during connectivity outages; sync promptly when connectivity returns. See the [Developer Terms](/legal/developer-terms/) for the full storage conditions and the separate permission for font files and Mushaf images.
+
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `mushafs`                      | Mushaf metadata, page mappings, and positioned words. Font files and images are not included. | Mushaf, page, and word changes.                                                       |
@@ -68,7 +70,7 @@ Content Sync supports these resource groups: `quran_core`, `mushafs`, `translati
 | `articles`                     | Visible article localizations.                                                        | Article localization changes and resource-level refresh, delete, or restore events. |
 
 :::note Supported groups only
-If a resource group is not listed above, it is not accepted by this sync endpoint. Continue using that resource's regular API endpoint when available.
+If a resource group is not listed above, it is not accepted by this sync endpoint. Use that resource's regular API endpoint for online reads when available, subject to the Developer Terms' one-week storage limit and separate permission for font files and Mushaf images.
 :::
 
 `word_by_word_translations` and `word_by_word_transliterations` are separate

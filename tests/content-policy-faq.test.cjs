@@ -54,9 +54,9 @@ const faqSectionSource = (heading) => {
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
-  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-09-26/);
+  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-10-04/);
   assert.match(developerTerms, /Cache or store QF Content longer than \*\*1 week\*\*/);
-  assert.match(developerTerms, /QF has expressly permitted longer storage/);
+  assert.doesNotMatch(developerTerms, /QF has expressly permitted longer storage/);
   assert.match(
     developerTerms,
     /commercial license:\*\* A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model/,
@@ -77,8 +77,8 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
     developerTerms,
     /may cache or bundle font files and Mushaf images obtained through QF APIs or documented CDN URLs[\s\S]*active account in the \[Developer Console\][\s\S]*credits Quran Foundation/,
   );
-  assert.match(developerTerms, /except for the font and Mushaf-image permission in Section 3\.1, any source-specific license requirements/);
-  assert.match(faq, /except for the Terms’ font and Mushaf-image permission, any source-specific license requirements/);
+  assert.match(developerTerms, /the Application complies with these Terms\./);
+  assert.match(faq, /the Application complies with the \[Developer Terms\]\(\/legal\/developer-terms\)\./);
   assert.match(faq, /The files may be distributed only as an integrated part of your application, not through your own API/);
   assert.doesNotMatch(faq, /integrated part of your application, subject to source-specific terms/);
 });
@@ -150,7 +150,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     storageAnswer,
-    /Do not cache or store QF Content for more than 1 week unless QF has expressly permitted longer storage/,
+    /Do not cache or store QF Content for more than 1 week unless it is obtained and maintained through the Content Sync APIs/,
   );
   assert.match(
     storageAnswer,
@@ -184,6 +184,81 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
     /Report actual or suspected unauthorised API-related access, security breach, or data exposure within 24 hours\./,
   );
   assert.match(helpAnswer, /Do not include client secrets or access tokens\./);
+});
+
+test('requires Content Sync as the only offline path for available resources', () => {
+  const offlineGuide = fs.readFileSync(
+    path.join(repositoryRoot, 'docs', 'tutorials', 'content-sync', 'offline-cache-patterns.mdx'),
+    'utf8',
+  );
+
+  for (const document of [developerTerms, faq, contentSync, offlineGuide]) {
+    assert.match(
+      document,
+      /If a content resource is available through Content Sync, \*\*Content Sync is the only permitted path for obtaining and maintaining an offline copy\*\* of that resource; do not build an offline copy from regular API responses\./,
+    );
+    assert.match(document, /at least every (?:\*\*)?7 days when connectivity to QF permits/);
+    assert.match(document, /apply all available changes/);
+    assert.doesNotMatch(document, /QF (?:has )?expressly permit(?:ted|s)? longer storage/);
+  }
+
+  assert.match(
+    developerTerms,
+    /longer than \*\*1 week\*\* unless it is obtained and maintained through the Content Sync APIs/,
+  );
+  assert.match(
+    developerTerms,
+    /or consists of font files or Mushaf images covered by the permission below/,
+  );
+  assert.match(
+    faqSection('Can I use Content Sync for Quran text or word-by-word data?'),
+    /one-week storage limit still applies to content that is not available through Content Sync, except for font files and Mushaf images/,
+  );
+});
+
+test('omits source-specific licensing caveats while preserving source attribution', () => {
+  const connectedApps = fs.readFileSync(path.join(docsDir, 'connected-apps.mdx'), 'utf8');
+  const recoveryGuide = fs.readFileSync(
+    path.join(docsDir, 'tutorials', 'content-sync', 'full-copies-and-recovery.mdx'),
+    'utf8',
+  );
+  for (const document of [developerTerms, faq, connectedApps, recoveryGuide]) {
+    assert.doesNotMatch(normalize(document), /source-specific|underlying rights holders|within their licensing terms/i);
+  }
+  assert.doesNotMatch(developerTerms, /additional restrictions/i);
+  assert.match(
+    normalize(connectedApps),
+    /Commercial use of Quranic content\*\* within an app's end-user experience is permitted under the Developer Terms/,
+  );
+
+  assert.match(
+    faqSection('What attribution or copyright information should I show?'),
+    /Also credit translations, tafsir editions, and recitations by their named source or edition\./,
+  );
+});
+
+test('keeps resource descriptions consistent without source-uncertainty caveats', () => {
+  const contentSpec = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'openAPI', 'content', 'v4.json'), 'utf8'));
+  const resources = [
+    ['translation-info', '/resources/translations/{translation_id}/info'],
+    ['tafsir-info', '/resources/tafsirs/{tafsir_id}/info'],
+    ['recitation-info', '/resources/recitations/{recitation_id}/info'],
+    ['resources-snapshot', '/resources/snapshots/{resource_group}/{id}'],
+  ];
+
+  for (const [name, endpoint] of resources) {
+    const description = contentSpec.paths[endpoint].get.description;
+    assert.doesNotMatch(description, /Could include|source-specific|underlying rights holders/i);
+    for (const version of ['', '4.0.0']) {
+      const generated = fs.readFileSync(path.join(docsDir, 'content_apis_versioned', version, `${name}.api.mdx`), 'utf8');
+      const apiLine = generated.split('\n').find((line) => line.startsWith('api: '));
+      const api = JSON.parse(apiLine.slice('api: '.length));
+      assert.equal(api.description, description);
+      assert.equal(api.postman.description.content, description);
+      assert.ok(generated.includes(`\n${description}\n`));
+      assert.doesNotMatch(generated, /Could include|source-specific|underlying rights holders/i);
+    }
+  }
 });
 
 test('offline cache guidance preserves reading while scheduling catch-up sync', () => {
