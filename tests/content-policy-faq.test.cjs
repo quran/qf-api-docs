@@ -90,7 +90,6 @@ test('documents the required content policy FAQ questions and links', () => {
     'How long can I cache or store QF Content?',
     'Can I use Content Sync for Quran text or word-by-word data?',
     'What attribution or copyright information should I show?',
-    'How do I get help with licensing, attribution, or a policy question?',
   ];
 
   for (const question of requiredQuestions) {
@@ -103,10 +102,17 @@ test('documents the required content policy FAQ questions and links', () => {
     '/docs/tutorials/content-sync/getting-started#next-sync',
     '/docs/content_apis_versioned/4.0.0/content-apis/',
     '/docs/connected-apps#content-and-attribution-requirements',
-    'mailto:developers@quran.com',
   ]) {
     assert.match(faq, new RegExp(escapeRegExp(link)));
   }
+});
+
+test('removes the licensing-help FAQ entry without changing the Terms reporting duty', () => {
+  assert.equal(faqSectionSource('How do I get help with licensing, attribution, or a policy question?'), '');
+  assert.doesNotMatch(faq, /with your app, the content or API data involved/);
+  assert.doesNotMatch(faq, /Report actual or suspected unauthorised API-related access/);
+  assert.doesNotMatch(faq, /Do not include client secrets or access tokens/);
+  assert.match(developerTerms, /Promptly \(within \*\*24 hours\*\*\) report to \*\*developers@quran\.com\*\*/);
 });
 
 test('locks the safety-critical FAQ policy qualifiers', () => {
@@ -119,9 +125,6 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   const attributionAnswer = faqSection(
     'What attribution or copyright information should I show?',
-  );
-  const helpAnswer = faqSection(
-    'How do I get help with licensing, attribution, or a policy question?',
   );
 
   assert.match(commercialAnswer, /^Yes\./);
@@ -180,11 +183,6 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
     attributionAnswer,
     /Quran data provided by Quran Foundation\./,
   );
-  assert.match(
-    helpAnswer,
-    /Report actual or suspected unauthorised API-related access, security breach, or data exposure within 24 hours\./,
-  );
-  assert.match(helpAnswer, /Do not include client secrets or access tokens\./);
 });
 
 test('requires Content Sync as the only offline path for available resources', () => {
