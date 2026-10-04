@@ -88,7 +88,7 @@ test('documents the required content policy FAQ questions and links', () => {
     'Can I use QF Content in a commercial or freemium app?',
     'Why do I need Content Sync?',
     'How long can I cache or store QF Content?',
-    'What if a device is offline for more than seven days?',
+    'What if a device has no internet connection for more than seven days?',
     'Can I use Content Sync for Quran text or word-by-word data?',
     'What attribution or copyright information should I show?',
   ];
@@ -325,13 +325,13 @@ test('keeps resource descriptions consistent without source-uncertainty caveats'
 });
 
 test('explains prolonged offline retention and required catch-up sync in a dedicated FAQ', () => {
-  const answerSource = faqSectionSource('What if a device is offline for more than seven days?');
+  const answerSource = faqSectionSource('What if a device has no internet connection for more than seven days?');
   const answer = normalize(answerSource);
-  assert.ok(answer, 'expected a dedicated FAQ for outages longer than seven days');
-  assert.match(answer, /If a device cannot connect to Quran Foundation for more than seven days/);
+  assert.ok(answer, 'expected a dedicated FAQ for internet outages longer than seven days');
+  assert.match(answer, /If a device has no internet connection for more than seven days/);
   assert.match(answer, /may retain and continue using its previously synced Content Sync copy/);
-  assert.match(answer, /do not need to delete that content solely because the outage lasts longer than seven days/);
-  assert.match(answer, /must perform a next sync promptly when connectivity returns and apply all available changes/);
+  assert.match(answer, /do not need to delete that content solely because the internet outage lasts longer than seven days/);
+  assert.match(answer, /When internet connectivity returns, the application must perform a next sync as soon as Quran Foundation is reachable and apply all available changes/);
   assert.match(answer, /at least every seven days applies when connectivity to Quran Foundation permits/);
   assert.match(answerSource, /\/docs\/tutorials\/content-sync\/getting-started#next-sync/);
   assert.match(answerSource, /\/legal\/developer-terms\//);
