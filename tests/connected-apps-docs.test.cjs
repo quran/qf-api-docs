@@ -94,7 +94,7 @@ const headingIds = new Set(
   [...doc.matchAll(/^#{1,6} (.+)$/gm)].map((match) => slugify(match[1])),
 );
 const aliasIds = new Set(
-  [...doc.matchAll(/<a id="([a-z0-9-]+)"><\/a>/g)].map((match) => match[1]),
+  [...doc.matchAll(/<a id="([a-z0-9-]+)" className="connectedAppsLegacyAnchor"><\/a>/g)].map((match) => match[1]),
 );
 
 test('documents the RC1 Connected Apps release concepts', () => {
