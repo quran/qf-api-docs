@@ -16,6 +16,23 @@ again, your app asks:
 2. Which small rows can I update directly?
 3. Which full content copy do I need to download again?
 
+## Environments and Resource Availability
+
+Content Sync is available in prelive and production. Use the matching credentials and Content API base URL:
+
+| Environment | Content API base URL |
+| ----------- | -------------------- |
+| Prelive | `https://apis-prelive.quran.foundation/content/api/v4` |
+| Production | `https://apis.quran.foundation/content/api/v4` |
+
+The examples below use production. Resource publication and sync history are environment-specific: do not assume an example's production resource ID is published in prelive. Bootstrap returns only public resources matching your filter. A snapshot request for a resource that is not public returns `snapshot_not_found` (`404`).
+
+:::warning Prelive dataset and canonical Quran core
+Prelive is for testing and development, and its Quran content dataset contains only Al-Fatihah (surah 1) and Al-Baqarah (surah 2); see the [Quickstart](/docs/quickstart/). API feature support does not imply that every resource is published there. The `quran_core:1` contract requires the complete canonical Quran, including all 114 surahs, 6,236 verses, word text, and complete navigation boundaries. It is not a partial two-surah resource. Prelive's limited dataset does not satisfy that contract, so use the complete production resource with approved production access, or test other public prelive resources.
+:::
+
+Keep sync tokens, cursors, and local caches separate for each environment. Follow `next_page_url` and `snapshot_url` against the same environment that returned them, using that environment's credentials.
+
 ## Terms
 
 | Term            | Plain meaning                                                                                                |
@@ -31,27 +48,29 @@ again, your app asks:
 | Cursor          | A temporary page link. Use it only while finishing the current sync request.                                 |
 
 :::note Relative API paths
-When `next_page_url` or `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/translations/19`. You should prefix that path with `https://apis.quran.foundation/content`.
+When `next_page_url` or `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/translations/19`. Prefix that path with `https://apis-prelive.quran.foundation/content` for prelive or `https://apis.quran.foundation/content` for production. Always use the environment that returned the path.
 :::
 
 ## Content Available for Offline Sync
 
 Content Sync supports these resource groups: `quran_core`, `mushafs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`.
 
+If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. Perform a [next sync](#next-sync) at least every 7 days when connectivity to QF permits and apply all available changes. Previously synced content may remain available during connectivity outages; sync promptly when connectivity returns. See the [Developer Terms](/legal/developer-terms/) for the full storage conditions.
+
 | Resource group                 | What the full copy contains                                                           | Changes included                                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `mushafs`                      | Mushaf metadata, page mappings, and positioned words. Font files and images are not included. | Mushaf, page, and word changes.                                                       |
-| `quran_core`                   | Singleton `1`: canonical Uthmani text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. No Mushaf-specific pages. | Chapter, verse, and boundary row changes.                            |
+| `quran_core`                   | Singleton `1`: canonical Uthmani verse text, word-level IndoPak and Uthmani Tajweed text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. No Mushaf-specific pages. | Chapter, verse, word, and boundary row changes.                            |
 | `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `word_by_word_transliterations` | Word transliteration rows for an eligible one-word transliteration resource.          | Word transliteration row changes.                                                   |
 | `tafsirs`                      | Tafsir rows for the resource. One row can cover several verses; see [Tafsir Records](/docs/tutorials/content-sync/full-copies-and-recovery#tafsir-records). | Tafsir row changes.                                                                 |
-| `recitations`                  | Ayah audio files and compatible chapter audio files for the legacy ayah recitation.  | Ayah audio file and compatible chapter audio file changes.                          |
-| `chapter_recitations`          | Chapter audio file rows for one chapter recitation.                                   | Chapter audio file changes.                                                         |
+| `recitations`                  | Ayah audio files plus compatible chapter audio files and timing segments for the legacy ayah recitation. | Ayah audio file and compatible chapter audio file and segment changes.              |
+| `chapter_recitations`          | Chapter audio file rows and associated verse and word timing segment rows.             | Chapter audio file and segment changes.                                             |
 | `articles`                     | Visible article localizations.                                                        | Article localization changes and resource-level refresh, delete, or restore events. |
 
 :::note Supported groups only
-If a resource group is not listed above, it is not accepted by this sync endpoint. Continue using that resource's regular API endpoint when available.
+If a resource group is not listed above, it is not accepted by this sync endpoint. Use that resource's regular API endpoint for online reads when available, subject to the storage conditions in the [Developer Terms](/legal/developer-terms/).
 :::
 
 `word_by_word_translations` and `word_by_word_transliterations` are separate
@@ -62,11 +81,14 @@ resource `60`.
 
 ### Canonical Quran Core and Mushaf Layout
 
-Select `quran_core:1;mushafs:1` for canonical verse text and
-navigation boundaries alongside Mushaf-specific layout. The core snapshot has
-114 `chapter`, 6,236 `verse`, 30 `juz`, 60 `hizb`, and 240 `rub_el_hizb`
-records. Its `resource_content_id` is `null`. Each row has a `record_type` and
-`id`; use `(resource_group, resource_id, record_type, id)` as the local key.
+Select `quran_core:1;mushafs:1` for canonical verse text, word-level IndoPak
+and Uthmani Tajweed text, and navigation boundaries alongside Mushaf-specific
+layout. The core snapshot has 114 `chapter`, 6,236 `verse`, 83,665 `word`,
+30 `juz`, 60 `hizb`, and 240 `rub_el_hizb` records. Word rows expose
+`text_indopak` and `text_uthmani_tajweed` with verse, position, location, and
+character-type
+identifiers. Its `resource_content_id` is `null`. Each row has a `record_type`
+and `id`; use `(resource_group, resource_id, record_type, id)` as the local key.
 Unlike Mushaf page mapping, `chapters.pages` is not part of Quran core.
 
 ### Audio Resource Identities
@@ -77,11 +99,14 @@ The `recitations` group is the legacy ayah-by-ayah resource, keyed by the
 `Audio::Recitation.id`. These IDs and groups are distinct even when both
 resources use the same underlying resource content.
 
-Chapter-recitation snapshots contain only `chapter_audio_file` records. For
-backward compatibility, chapter-file mutations for the selected approved
-chapter recitation may also be emitted through the linked legacy `recitations`
-resource. New clients that want an independently addressable chapter audio
-resource should use `chapter_recitations`.
+Chapter-recitation snapshots contain `chapter_audio_file` records and their
+associated `audio_segment` verse and word timing records. Incremental file and
+segment changes use row mutations; identify each row by
+`(resource_group, resource_id, record_type, record_key)`. For backward
+compatibility, compatible chapter-file and segment records and mutations for
+the selected approved chapter recitation may also be emitted through the linked
+legacy `recitations` resource. New clients that want an independently
+addressable chapter audio resource should use `chapter_recitations`.
 
 ### Mushaf rendering assets
 

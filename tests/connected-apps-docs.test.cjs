@@ -46,7 +46,7 @@ test('keeps generated Connected Apps header examples MDX-safe', () => {
       'Set-Cookie'
     ].example;
 
-  assert.equal(cookieExample, '_csrf=opaque-value; Path=/; SameSite=Lax');
+  assert.match(cookieExample, /^_csrf=[^<>\s;]+; Path=\/; SameSite=Lax$/);
   assert.doesNotMatch(JSON.stringify(preliveUserApi), /<opaque>/);
 });
 
@@ -78,116 +78,147 @@ test('adds a production Connected Apps docs page', () => {
 
   assert.doesNotMatch(
     doc,
-    /\[FILL:|ƒ|Â|â|�/,
-    'expected production page to exclude placeholders and mojibake',
+    /\[FILL|ƒ|Â|â|�/,
+    'expected production page to exclude launch placeholders and mojibake',
   );
 });
 
-test('documents the core Connected Apps production concepts', () => {
+const slugify = (heading) =>
+  heading
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9 -]/g, '')
+    .replace(/ /g, '-');
+
+const headingIds = new Set(
+  [...doc.matchAll(/^#{1,6} (.+)$/gm)].map((match) => slugify(match[1])),
+);
+const aliasIds = new Set(
+  [...doc.matchAll(/<a id="([a-z0-9-]+)"><\/a>/g)].map((match) => match[1]),
+);
+
+test('documents the RC1 Connected Apps release concepts', () => {
   const requiredPatterns = [
-    /\*\*Policy version:\*\* 1\.2/,
-    /\*\*Last updated:\*\* \d{4}-\d{2}-\d{2}/,
-    /\*\*Effective date:\*\* \d{4}-\d{2}-\d{2}/,
-    /Connected Apps\*\* tab/,
-    /readiness check/,
-    /weekly delta sync/,
-    /Quran App Store/,
-    /source of truth for the Connected Apps program/,
-    /The Developer Console/,
-    /https:\/\/dev-console\.quran\.foundation\/projects/,
-    /listing package/i,
-    /What review looks at/i,
-    /homepage/i,
-    /directory/i,
-    /does not mean\s+Quran Foundation owns the app/,
-    /do not describe a directory listing as broad\s+endorsement/i,
-    /Quran\.com\/apps/,
-    /Connect Quran\.com user accounts/,
-    /What your app must tell users/,
-    /Tell us before shipping material changes/,
-    /Commercial changes/,
-    /AI explanations/,
+    /\*\*Version:\*\* 1\.0 · \*\*Published:\*\* \d{4}-\d{2}-\d{2} · \*\*Effective date:\*\* \d{4}-\d{2}-\d{2}/,
+    /\*\*Quran App Store\*\* at \[Quran\.com\/apps\]\(https:\/\/quran\.com\/apps\)/,
+    /Scholarly, engineering, and UX review then run in parallel and can complete in any order/,
+    /within \*\*5 business days\*\*/,
+    /within \*\*1 to 2 business days\*\*/,
+    /within \*\*3 calendar weeks\*\*/,
+    /the three-week target restarts/,
+    /Up to \*\*40 characters\*\*/,
+    /Up to \*\*60 characters\*\*/,
+    /Up to \*\*160 characters\*\*/,
+    /at least \*\*512 x 512 px\*\*/,
+    /Study tools, Reflections, Quran Reader, Community, Hadith and Sunnah, and Audio/,
+    /\*\*Indexed \(searchable\) App\*\*/,
+    /\*\*Verified Listing App\*\*/,
+    /\*\*Vision Aligned App\*\*/,
+    /\*\*Transformational \(user enabled\) App\*\*/,
+    /:::tip Aim for Transformational/,
+    /Quran Foundation OAuth as the \*\*sole source of backend user authentication\*\*/,
+    /A published app cannot open a new submission while it is live/,
+    /Quran data provided by \[Quran\.Foundation\]\(https:\/\/quran\.foundation\/\)/,
+    /every seven days when connectivity permits/,
+    /\[Content Sync guide\]\(https:\/\/api-docs\.quran\.foundation\/docs\/tutorials\/content-sync\/getting-started\/\)/,
+    /https:\/\/calendar\.app\.google\/Xi4TJMrLtqHj8C5o7/,
     /developers@quran\.com/,
-    /Check whether your app is eligible/,
-    /\*\*pass\/fail\*\*,\s+and they are the baseline protections/,
-    /No app may be indexed or\s+listed, receive a reviewed label, reach Transformational status, or receive\s+featured placement/,
-    /App statuses/,
-    /Higher levels of visibility, trust, and ecosystem participation/,
-    /Indexed \(searchable\) App/,
-    /Verified Listing App/,
-    /Vision Aligned App/,
-    /Transformational \(user enabled\) App/,
-    /Featured placement \(temporary editorial promotion\)/,
-    /Visibility is not for sale/,
-    /Connect Quran\.com user accounts/,
-    /Terms and compliance/,
-    /Quran\.com Terms &(?:amp;)? Conditions/,
-    /Quran Foundation Developer Terms/,
-    /Card specs/,
-    /40 characters maximum/,
-    /60 characters maximum/,
-    /160 characters maximum/,
-    /minimum 512 x 512 px/,
-    /Content and attribution requirements/,
-    /Quran data provided by \[Quran Foundation\]\(https:\/\/quran\.foundation\/\)/,
-    /Gamification/,
-    /AI must never replace or modify canonical source material/,
-    /Human oversight/,
-    /Grounding/,
-    /Resolve compliance issues/,
-    /Get help/,
-    /Partner office hours[\s\S]*available at various times throughout the week/,
-    /Change log/,
     /14-day notice period/,
   ];
 
   for (const pattern of requiredPatterns) {
     assert.match(doc, pattern);
   }
+
+  assert.doesNotMatch(doc, /weekly delta sync/i);
+  assert.doesNotMatch(doc, /\bPopular\b/, 'Popular is not a selectable category');
 });
 
 test('orders the guide around the developer journey', () => {
-  const consoleIndex = doc.indexOf('## The Developer Console');
-  const processIndex = doc.indexOf('## Follow the Connected Apps process');
-  const eligibilityIndex = doc.indexOf('## Check whether your app is eligible');
-  const listingIndex = doc.indexOf('## Prepare your listing');
-  const statusesIndex = doc.indexOf('## App statuses');
+  const headings = [
+    '## The Developer Console',
+    '## Follow the Connected Apps process',
+    '## Check whether your app is eligible',
+    '## Prepare your listing',
+    '## How to submit',
+    '## App statuses',
+    '## After publication',
+  ];
+  const indexes = headings.map((heading) => doc.indexOf(`\n${heading}\n`));
 
-  assert.ok(consoleIndex >= 0, 'expected Developer Console heading');
-  assert.ok(processIndex >= 0, 'expected Connected Apps process heading');
-  assert.ok(eligibilityIndex >= 0, 'expected eligibility heading');
-  assert.ok(listingIndex >= 0, 'expected listing preparation heading');
-  assert.ok(statusesIndex >= 0, 'expected app statuses heading');
-  assert.ok(
-    consoleIndex < processIndex,
-    'expected the Developer Console before the process',
+  indexes.forEach((index, position) => {
+    assert.ok(index >= 0, `expected heading: ${headings[position]}`);
+    if (position > 0) {
+      assert.ok(
+        indexes[position - 1] < index,
+        `expected ${headings[position - 1]} before ${headings[position]}`,
+      );
+    }
+  });
+});
+
+test('meets the RC1 copy conventions', () => {
+  assert.equal(
+    (doc.match(/^# /gm) || []).length,
+    1,
+    'expected exactly one H1',
   );
-  assert.ok(
-    processIndex < eligibilityIndex,
-    'expected eligibility after the process',
-  );
-  assert.ok(
-    eligibilityIndex < listingIndex,
-    'expected listing preparation after eligibility',
-  );
-  assert.ok(
-    listingIndex < statusesIndex,
-    'expected app statuses after listing preparation',
-  );
+  assert.doesNotMatch(doc, /—/, 'expected no em dashes');
+  assert.doesNotMatch(doc, /[“”‘’]/, 'expected straight quotes');
+  assert.doesNotMatch(doc, /<!--/, 'expected no internal maintainer notes');
+  assert.doesNotMatch(doc, /\bQF\b/, 'expected Quran Foundation in full');
+});
+
+test('resolves every in-page anchor and keeps legacy anchors', () => {
+  for (const [, anchor] of doc.matchAll(/\]\(#([a-z0-9-]+)\)/g)) {
+    assert.ok(
+      headingIds.has(anchor) || aliasIds.has(anchor),
+      `expected in-page anchor to resolve: #${anchor}`,
+    );
+  }
+
+  for (const legacyAnchor of [
+    'who-should-use-this-guide',
+    'what-review-looks-at',
+    'gate-1-content-integrity-and-updates',
+    'gate-2-security-and-privacy-baseline',
+    'gate-3-api-and-platform-compliance',
+    'gate-4-maintenance-and-responsiveness',
+    'card-specs',
+    'indexed-searchable-app',
+    'verified-listing-app',
+    'vision-aligned-app',
+    'transformational-user-enabled-app',
+    'featured-placement-temporary-editorial-promotion',
+    'what-a-status-does-and-does-not-mean',
+    'directory-listing-versus-homepage-promotion',
+    'connect-qurancom-user-accounts',
+    'what-your-app-must-tell-users',
+    'build-toward-trust',
+    'avoid-avoidable-harm',
+    'tell-us-before-shipping-material-changes',
+    'terms-and-compliance',
+  ]) {
+    assert.ok(aliasIds.has(legacyAnchor), `expected legacy anchor alias: #${legacyAnchor}`);
+  }
+
+  for (const consoleAnchor of [
+    'ai-features-and-generated-religious-content',
+    'review-stages-and-timing',
+    'terms-and-commercial-use',
+    'content-and-attribution-requirements',
+  ]) {
+    assert.ok(headingIds.has(consoleAnchor), `expected linked heading: #${consoleAnchor}`);
+  }
 });
 
 test('routes self-service setup through the Developer Console', () => {
   assert.doesNotMatch(doc, /to="\/request-access"/);
-  assert.doesNotMatch(doc, /\[FILL: Developer Console URL\]/);
   assert.match(
     doc,
     /\[Developer Console\]\(https:\/\/dev-console\.quran\.foundation\/projects\)/,
   );
-  assert.match(doc, /\[four eligibility gates\]\(#check-whether-your-app-is-eligible\)/);
-  assert.match(
-    doc,
-    /\[prepare your listing and submit it from the Developer Console\]\(#prepare-your-listing\)/,
-  );
+  assert.match(doc, /\[eligibility gates\]\(#check-whether-your-app-is-eligible\)/);
   assert.doesNotMatch(
     doc,
     /docs\.google\.com\/document/,
@@ -196,14 +227,17 @@ test('routes self-service setup through the Developer Console', () => {
 });
 
 test('uses the current Quran Foundation name in hand-authored guides', () => {
+  const attributionLine =
+    'Quran data provided by [Quran.Foundation](https://quran.foundation/).';
+
   for (const [name, source] of [
-    ['Connected Apps', doc],
+    ['Connected Apps', doc.replace(attributionLine, '')],
     ['OAuth getting started', oauthGuide],
   ]) {
     assert.doesNotMatch(
       source,
       /Quran\.Foundation/,
-      `${name} should use the current Quran Foundation name`,
+      `${name} should use the current Quran Foundation name outside the attribution line`,
     );
   }
 });

@@ -14,17 +14,21 @@ test('the OpenAPI contract exposes only the canonical singleton alongside Mushaf
   const example = snapshot.responses['200'].content['application/json'].examples.quran_core_snapshot.value;
 
   assert.ok(groups.includes('quran_core'));
-  for (const type of ['chapter', 'verse', 'juz', 'hizb', 'rub_el_hizb']) {
+  for (const type of ['chapter', 'verse', 'word', 'juz', 'hizb', 'rub_el_hizb']) {
     assert.ok(types.includes(type));
   }
   assert.equal(example.resource_group, 'quran_core');
   assert.equal(example.resource_id, 1);
   assert.equal(example.resource_content_id, null);
-  assert.deepEqual(example.records.map((record) => record.record_type), ['chapter', 'verse', 'juz']);
+  assert.deepEqual(example.records.map((record) => record.record_type), ['chapter', 'verse', 'word', 'juz']);
   assert.equal(example.records[1].text_uthmani, 'بِسْمِ ٱللَّهِ');
+  assert.equal(example.records[2].text_indopak, 'بِسْمِ');
+  assert.equal(example.records[2].text_uthmani_tajweed, 'بِسْمِ');
   assert.ok(!('pages' in example.records[0]));
-  assert.match(snapshot.description, /redistribution terms/);
+  assert.match(snapshot.description, /Use of the canonical text remains subject to the Developer Terms and attribution requirements\./);
+  assert.doesNotMatch(snapshot.description, /source-specific/);
   assert.match(snapshot.description, /The singleton `quran_core:1` snapshot contains/);
+  assert.match(snapshot.description, /83,665 word records/);
   assert.doesNotMatch(snapshot.description, /forthcoming|publication pending|once published|after publication/i);
   assert.match(api.paths['/resources/sync'].get.description, /quran_core:1/);
 });
@@ -37,6 +41,7 @@ test('generated endpoint pages reflect the new group and record types', () => {
     assert.match(snapshot, /quran_core_snapshot/);
     assert.match(sync, /quran_core:1/);
     assert.match(sync, /rub_el_hizb/);
+    assert.match(sync, /text_uthmani_tajweed/);
   }
 });
 

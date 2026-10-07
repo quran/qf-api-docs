@@ -10830,7 +10830,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Recitation Info",
-        "description": "Get information for a specific ayah-by-ayah recitation. Use a `recitation_id` from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here. Could include detail about the reciter, recitation style, and recording.",
+        "description": "Get information for a specific ayah-by-ayah recitation. Use a `recitation_id` from [/resources/recitations](/docs/content_apis_versioned/recitations). Do not use chapter-reciter IDs from [/resources/chapter_reciters](/docs/content_apis_versioned/chapter-reciters) here.",
         "operationId": "recitation-info",
         "parameters": [
           {
@@ -10969,7 +10969,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Translation Info",
-        "description": "Get information of a specific translation. Could include detail about the author, publishing date and publisher etc.",
+        "description": "Get descriptive information for a specific translation.",
         "operationId": "translation-info",
         "parameters": [
           {
@@ -11460,7 +11460,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Tafsir Info",
-        "description": "Get the information of a specific tafsir. Could include information about the author, when it was published etc.",
+        "description": "Get descriptive information for a specific tafsir.",
         "operationId": "tafsir-info",
         "parameters": [
           {
@@ -19677,7 +19677,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Sync public content resources",
-        "description": "Use this endpoint when your app keeps a local copy of public Quran Foundation content and needs to know what changed without downloading everything again.\n\nA resource is one public content item, such as `quran_core:1`, `mushafs:1`, `translations:19`, `tafsirs:151`, `recitations:10`, `chapter_recitations:159`, `word_by_word_transliterations:60`, or `articles:123`. Chapter-recitation resources are keyed by `Audio::Recitation.id`; the legacy `recitations` group remains keyed by ayah-recitation IDs. A full copy, called a snapshot in the API, is the complete current row list for one resource. Mushaf snapshots include metadata, page mappings, and positioned words. Font files and images are not included. The singleton `quran_core:1` contains canonical Uthmani verse text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries; Mushaf-specific pages and glyphs remain in `mushafs:<id>`.\n\n`word_by_word_translations` and `word_by_word_transliterations` are separate resource groups. The former contains translation-only rows with record type `word_translation`; the latter contains approved, shareable one-word transliteration resources with record type `word_transliteration`.\n\nWhen `next_page_url` or mutation `snapshot_url` is present and non-null, we return a relative `/api/v4/...` API path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/word_by_word_transliterations/60`. You should prefix that path with the Content service e.g.  `https://apis.quran.foundation/content`.\n\nRecommended client flow:\n1. First sync: call with `bootstrap=true` and a `resources` filter.\n2. Follow `next_page_url` until `has_more` is `false`.\n3. Fetch every non-null `snapshot_url` and replace the local rows for that resource.\n4. Store `next_sync_token` from the final page only.\n5. Later syncs: call with `sync_token` and the same canonical `resources` filter to receive only newer changes.\n\nChange handling:\n- `RESOURCE_CREATE` and `RESOURCE_INVALIDATE`: fetch `snapshot_url`, then replace all local rows for that resource.\n- `RESOURCE_DELETE`: remove or hide the full local resource.\n- `ROW_CREATE` and `ROW_UPDATE`: upsert one local row using `record_type` and `record_key`.\n- `ROW_DELETE`: delete one local row using `record_type` and `record_key`.\n- `RESOURCE_UPDATE`: freshness marker only. Keep existing local rows.\n\nBootstrap example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=chapter_recitations:159;mushafs:1;translations:19;tafsirs:151;word_by_word_transliterations:60&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nIncremental example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=chapter_recitations:159;mushafs:1;translations:19;tafsirs:151;word_by_word_transliterations:60&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSync responses are not cacheable and return `Cache-Control: no-store`.",
+        "description": "Use this endpoint when your app keeps a local copy of public Quran Foundation content and needs to know what changed without downloading everything again.\n\nA resource is one public content item, such as `quran_core:1`, `mushafs:1`, `translations:19`, `tafsirs:151`, `recitations:10`, `chapter_recitations:159`, `word_by_word_transliterations:60`, or `articles:123`. Chapter-recitation resources are keyed by `Audio::Recitation.id`; their snapshots contain `chapter_audio_file` records and `audio_segment` verse and word timing records. Segment corrections are delivered as row mutations. The legacy `recitations` group remains keyed by ayah-recitation IDs. A full copy, called a snapshot in the API, is the complete current row list for one resource. Mushaf snapshots include metadata, page mappings, and positioned words. Font files and images are not included. The singleton `quran_core:1` contains canonical Uthmani verse text, word-level IndoPak and Uthmani Tajweed text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries; Mushaf-specific pages and glyphs remain in `mushafs:<id>`.\n\n`word_by_word_translations` and `word_by_word_transliterations` are separate resource groups. The former contains translation-only rows with record type `word_translation`; the latter contains approved, shareable one-word transliteration resources with record type `word_transliteration`.\n\nWhen `next_page_url` or mutation `snapshot_url` is present and non-null, we return a relative `/api/v4/...` API path, such as `/api/v4/resources/sync?cursor=...` or `/api/v4/resources/snapshots/word_by_word_transliterations/60`. Prefix that path with `https://apis-prelive.quran.foundation/content` for prelive or `https://apis.quran.foundation/content` for production. Always use the environment that returned the path, using that environment's credentials.\n\nRecommended client flow:\n1. First sync: call with `bootstrap=true` and a `resources` filter.\n2. Follow `next_page_url` until `has_more` is `false`.\n3. Fetch every non-null `snapshot_url` and replace the local rows for that resource.\n4. Store `next_sync_token` from the final page only.\n5. Later syncs: call with `sync_token` and the same canonical `resources` filter to receive only newer changes.\n\nChange handling:\n- `RESOURCE_CREATE` and `RESOURCE_INVALIDATE`: fetch `snapshot_url`, then replace all local rows for that resource.\n- `RESOURCE_DELETE`: remove or hide the full local resource.\n- `ROW_CREATE` and `ROW_UPDATE`: upsert one local row using `record_type` and `record_key`.\n- `ROW_DELETE`: delete one local row using `record_type` and `record_key`.\n- `RESOURCE_UPDATE`: freshness marker only. Keep existing local rows.\n\nBootstrap example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=chapter_recitations:159;mushafs:1;translations:19;tafsirs:151;word_by_word_transliterations:60&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nIncremental example:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=chapter_recitations:159;mushafs:1;translations:19;tafsirs:151;word_by_word_transliterations:60&per_page=100\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSync responses are not cacheable and return `Cache-Control: no-store`.",
         "operationId": "resources-sync",
         "parameters": [
           {
@@ -19711,7 +19711,7 @@
           {
             "name": "cursor",
             "in": "query",
-            "description": "Opaque pagination cursor from `next_page_url`. Use the returned relative path and do not construct cursors manually. Prefix the returned `/api/v4/...` path with the Content API gateway root: `https://apis.quran.foundation/content`.",
+            "description": "Opaque pagination cursor from `next_page_url`. Use the returned relative path and do not construct cursors manually. Prefix the returned `/api/v4/...` path with `https://apis-prelive.quran.foundation/content` for prelive or `https://apis.quran.foundation/content` for production. Always use the environment that returned the path, using that environment's credentials.",
             "required": false,
             "schema": {
               "type": "string"
@@ -19979,7 +19979,7 @@
       "get": {
         "tags": ["Resources"],
         "summary": "Get content resource snapshot",
-        "description": "Use this endpoint to fetch a full copy of one public content resource. The API calls this full copy a snapshot.\n\nA snapshot returns all current rows for one resource in `records`. For example, a Mushaf snapshot returns metadata, page mappings, and positioned words. Font files and images are not included. A translation snapshot returns all current translation rows for that translation resource. A tafsir row can cover a range of verses, given by `start_verse_id` and `end_verse_id`, so a tafsir snapshot may not have one row per verse. To show tafsir for a verse, use the row with non-empty `text` whose range contains that verse's ID. See [Tafsir Records](/docs/tutorials/content-sync/full-copies-and-recovery#tafsir-records) for details. Production word-by-word transliteration resource `60` currently contains 77,429 records. Its snapshot returns approved, shareable one-word transliteration rows ordered by `word_id` and then `id`. Its exact row fields are `id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`, `language_name`, `text`, and `updated_at`. In this group, `resource_id == resource_content_id == ResourceContent.id` identifies the owning resource, while `word_id` is the normalized Word owner ID. A legacy `recitations` snapshot returns ayah audio file rows and compatible chapter audio file rows. A `chapter_recitations` snapshot, keyed by `Audio::Recitation.id`, returns only chapter audio file rows. Chapter-file mutations may also be emitted through the legacy group for backward compatibility. The singleton `quran_core:1` snapshot contains 114 chapters, 6,236 canonical Uthmani verses, 30 Juz, 60 Hizb, and 240 Rub-el-Hizb boundary records, ordered by chapter number, verse index, and boundary number. Its `resource_content_id` is `null`; records use `record_type` (`chapter`, `verse`, `juz`, `hizb`, `rub_el_hizb`) and `id`. `chapters.pages` and other Mushaf-specific layout remain in `mushafs:<id>`. Use of the canonical text remains subject to the Developer Terms, source-specific redistribution terms, and attribution requirements.\n\nTypical client flow:\n1. Call [GET /resources/sync](../resources-sync/).\n2. If a change has a non-null `snapshot_url`, call this endpoint using that change's `resource_group` and `resource_id`.\n3. Delete existing local rows for that one resource.\n4. Insert the returned `records` as the new local copy.\n5. Continue applying later sync changes normally.\n\nExample:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/snapshots/word_by_word_transliterations/60\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
+        "description": "Use this endpoint to fetch a full copy of one public content resource. The API calls this full copy a snapshot.\n\nA snapshot returns all current rows for one resource in `records`. For example, a Mushaf snapshot returns metadata, page mappings, and positioned words. Font files and images are not included. A translation snapshot returns all current translation rows for that translation resource. A tafsir row can cover a range of verses, given by `start_verse_id` and `end_verse_id`, so a tafsir snapshot may not have one row per verse. To show tafsir for a verse, use the row with non-empty `text` whose range contains that verse's ID. See [Tafsir Records](/docs/tutorials/content-sync/full-copies-and-recovery#tafsir-records) for details. Production word-by-word transliteration resource `60` currently contains 77,429 records. Its snapshot returns approved, shareable one-word transliteration rows ordered by `word_id` and then `id`. Its exact row fields are `id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`, `language_name`, `text`, and `updated_at`. In this group, `resource_id == resource_content_id == ResourceContent.id` identifies the owning resource, while `word_id` is the normalized Word owner ID. A legacy `recitations` snapshot returns ayah audio file rows plus compatible chapter audio file and audio segment rows. A `chapter_recitations` snapshot, keyed by `Audio::Recitation.id`, returns chapter audio file rows and associated audio segment verse and word timings. Chapter-file and segment mutations may also be emitted through the legacy group for backward compatibility. The singleton `quran_core:1` snapshot contains 114 chapters, 6,236 canonical Uthmani verses, 83,665 word records with IndoPak and Uthmani Tajweed text, 30 Juz, 60 Hizb, and 240 Rub-el-Hizb boundary records, ordered by chapter number, verse index, word verse/position, and boundary number. Its `resource_content_id` is `null`; records use `record_type` (`chapter`, `verse`, `word`, `juz`, `hizb`, `rub_el_hizb`) and `id`. `chapters.pages` and other Mushaf-specific layout remain in `mushafs:<id>`. Use of the canonical text remains subject to the Developer Terms and attribution requirements.\n\nTypical client flow:\n1. Call [GET /resources/sync](../resources-sync/).\n2. If a change has a non-null `snapshot_url`, call this endpoint using that change's `resource_group` and `resource_id`.\n3. Delete existing local rows for that one resource.\n4. Insert the returned `records` as the new local copy.\n5. Continue applying later sync changes normally.\n\nExample:\n```bash\ncurl \"https://apis.quran.foundation/content/api/v4/resources/snapshots/word_by_word_transliterations/60\" \\\n  -H \"x-auth-token: $ACCESS_TOKEN\" \\\n  -H \"x-client-id: $CLIENT_ID\"\n```\n\nSnapshots are current at fetch time and are not tied to a specific sync sequence. Snapshot responses are not cacheable and return `Cache-Control: no-store`.",
         "operationId": "resources-snapshot",
         "parameters": [
           {
@@ -20089,6 +20089,20 @@
                           "verse_index": 1,
                           "verse_key": "1:1",
                           "text_uthmani": "بِسْمِ ٱللَّهِ",
+                          "updated_at": "2026-09-21T00:00:00Z"
+                        },
+                        {
+                          "record_type": "word",
+                          "id": 1,
+                          "verse_id": 1,
+                          "chapter_id": 1,
+                          "position": 1,
+                          "verse_key": "1:1",
+                          "location": "1:1:1",
+                          "char_type_id": 1,
+                          "char_type_name": "word",
+                          "text_indopak": "بِسْمِ",
+                          "text_uthmani_tajweed": "بِسْمِ",
                           "updated_at": "2026-09-21T00:00:00Z"
                         },
                         {
@@ -20234,6 +20248,23 @@
                           "audio_recitation_id": 30,
                           "chapter_id": 1,
                           "audio_url": "https://example.com/audio/001.mp3"
+                        },
+                        {
+                          "record_type": "audio_segment",
+                          "id": 3001,
+                          "audio_file_id": 2001,
+                          "audio_recitation_id": 30,
+                          "chapter_id": 1,
+                          "verse_id": 1,
+                          "verse_key": "1:1",
+                          "verse_number": 1,
+                          "timestamp_from": 0,
+                          "timestamp_to": 6420,
+                          "timestamp_median": 3210,
+                          "duration": 6,
+                          "duration_ms": 6420,
+                          "segments": [[1, 120, 810], [2, 820, 1510]],
+                          "updated_at": "2026-09-29T00:00:00Z"
                         }
                       ]
                     }
@@ -20253,6 +20284,23 @@
                           "audio_recitation_id": 159,
                           "chapter_id": 1,
                           "audio_url": "https://example.com/audio/001.mp3"
+                        },
+                        {
+                          "record_type": "audio_segment",
+                          "id": 3001,
+                          "audio_file_id": 2001,
+                          "audio_recitation_id": 159,
+                          "chapter_id": 1,
+                          "verse_id": 1,
+                          "verse_key": "1:1",
+                          "verse_number": 1,
+                          "timestamp_from": 0,
+                          "timestamp_to": 6420,
+                          "timestamp_median": 3210,
+                          "duration": 6,
+                          "duration_ms": 6420,
+                          "segments": [[1, 120, 810], [2, 820, 1510]],
+                          "updated_at": "2026-09-29T00:00:00Z"
                         }
                       ]
                     }
@@ -22932,10 +22980,11 @@
       "ContentSyncRecordType": {
         "type": "string",
         "nullable": true,
-        "description": "Row type inside the resource. Present for row-level changes. Current values include `chapter`, `verse`, `juz`, `hizb`, `rub_el_hizb`, `mushaf`, `mushaf_page`, `font_asset`, `mushaf_word`, `translation`, `word_translation`, `word_transliteration`, `tafsir`, `audio_file`, `chapter_audio_file`, and `article_localization`. Chapter-recitation snapshots use `chapter_audio_file` records with `id`, `audio_recitation_id`, `chapter_id`, and `audio_url`. Word-by-word transliteration snapshots use `word_transliteration` records with `id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`, `language_name`, `text`, and `updated_at`.",
+        "description": "Row type inside the resource. Present for row-level changes. Current values include `chapter`, `verse`, `word`, `juz`, `hizb`, `rub_el_hizb`, `mushaf`, `mushaf_page`, `font_asset`, `mushaf_word`, `translation`, `word_translation`, `word_transliteration`, `tafsir`, `audio_file`, `chapter_audio_file`, `audio_segment`, and `article_localization`. Quran core `word` records contain `id`, `verse_id`, `chapter_id`, `position`, `verse_key`, `location`, `char_type_id`, `char_type_name`, `text_indopak`, `text_uthmani_tajweed`, and `updated_at`. Chapter-recitation snapshots use `chapter_audio_file` records and associated `audio_segment` records. Segment records contain `id`, `audio_file_id`, `audio_recitation_id`, `chapter_id`, `verse_id`, `verse_key`, `verse_number`, `timestamp_from`, `timestamp_to`, `timestamp_median`, `duration`, `duration_ms`, `segments`, and `updated_at`. All `timestamp_*` values and segment boundaries are milliseconds from the start of the chapter audio file. Each `segments` entry is `[word_index, start_ms, end_ms]`, where `word_index` is the 1-based position in the verse. `duration_ms` is the exact verse-window length (`timestamp_to - timestamp_from`); `duration` is a legacy whole-seconds compatibility value that can lose subsecond precision. Word-by-word transliteration snapshots use `word_transliteration` records with `id`, `resource_content_id`, `resource_id`, `word_id`, `language_id`, `language_name`, `text`, and `updated_at`.",
         "enum": [
           "chapter",
           "verse",
+          "word",
           "juz",
           "hizb",
           "rub_el_hizb",
@@ -22949,6 +22998,7 @@
           "tafsir",
           "audio_file",
           "chapter_audio_file",
+          "audio_segment",
           "article_localization",
           null
         ]
@@ -23024,7 +23074,7 @@
           "snapshot_url": {
             "type": "string",
             "nullable": true,
-            "description": "Present for `RESOURCE_CREATE` and `RESOURCE_INVALIDATE`. Fetch this full copy and replace local rows for the resource. When present, we return a relative `/api/v4/...` path; prefix it with `https://apis.quran.foundation/content`. `RESOURCE_UPDATE` does not include a snapshot URL."
+            "description": "Present for `RESOURCE_CREATE` and `RESOURCE_INVALIDATE`. Fetch this full copy and replace local rows for the resource. When present, we return a relative `/api/v4/...` path; prefix it with `https://apis-prelive.quran.foundation/content` for prelive or `https://apis.quran.foundation/content` for production. Always use the environment that returned the path, using that environment's credentials. `RESOURCE_UPDATE` does not include a snapshot URL."
           },
           "unavailable_reason": {
             "type": "string",
@@ -23077,7 +23127,7 @@
               "next_page_url": {
                 "type": "string",
                 "nullable": true,
-                "description": "Next page path when `has_more` is true. When present, we return a relative `/api/v4/...` path, such as `/api/v4/resources/sync?cursor=...`; prefix it with `https://apis.quran.foundation/content`."
+                "description": "Next page path when `has_more` is true. When present, we return a relative `/api/v4/...` path, such as `/api/v4/resources/sync?cursor=...`; prefix it with `https://apis-prelive.quran.foundation/content` for prelive or `https://apis.quran.foundation/content` for production. Always use the environment that returned the path, using that environment's credentials."
               },
               "next_sync_token": {
                 "type": "string",
