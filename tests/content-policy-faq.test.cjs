@@ -182,7 +182,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     attributionAnswer,
-    /Quran data provided by Quran Foundation\./,
+    /Quran data provided by Quran\.Foundation\./,
   );
 });
 
@@ -282,7 +282,7 @@ test('aligns the Connected Apps charging answer with the Developer Terms', () =>
   assert.ok(chargingAnswer, 'expected the Connected Apps charging FAQ answer');
   assert.match(
     normalize(commercialSection),
-    /Selling, sublicensing, or separately redistributing Quran Foundation content or raw data requires a written commercial license\./,
+    /Selling, sublicensing, or separately redistributing Quran Foundation content or raw data requires a signed commercial license\./,
   );
   assert.match(chargingAnswer, /\[Terms and commercial use\]\(#terms-and-commercial-use\)/);
   for (const text of [commercialSection, chargingAnswer]) {
