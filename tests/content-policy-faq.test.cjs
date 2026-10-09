@@ -182,7 +182,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     attributionAnswer,
-    /Quran data provided by Quran Foundation\./,
+    /Quran data provided by Quran\.Foundation\./,
   );
 });
 
@@ -223,12 +223,12 @@ test('omits source-specific licensing caveats while preserving source attributio
     'utf8',
   );
   for (const document of [developerTerms, faq, connectedApps, recoveryGuide]) {
-    assert.doesNotMatch(normalize(document), /source-specific|underlying rights holders|within their licensing terms/i);
+    assert.doesNotMatch(normalize(document), /source-specific|underlying rights holders|within their licens(?:e|ing) terms/i);
   }
   assert.doesNotMatch(developerTerms, /additional restrictions/i);
   assert.match(
     normalize(connectedApps),
-    /Commercial use of Quranic content\*\* within an app's end-user experience is permitted under the Developer Terms/,
+    /Charging for an app, displaying ads, or accepting donations can be permitted under the Developer Terms\./,
   );
 
   assert.match(
@@ -276,17 +276,18 @@ test('scopes the seven-day sync duty to Content Sync users', () => {
 
 test('aligns the Connected Apps charging answer with the Developer Terms', () => {
   const connectedApps = fs.readFileSync(path.join(docsDir, 'connected-apps.mdx'), 'utf8');
-  const chargingAnswer = connectedApps.split('**Can my app charge for a service?**')[1]?.split('**Can we show ads or accept donations?**')[0];
+  const commercialSection = connectedApps.split('## Terms and commercial use')[1]?.split('\n## ')[0];
+  const chargingAnswer = connectedApps.split('### Can my app charge, show ads, or accept donations?')[1]?.split('\n### ')[0];
+  assert.ok(commercialSection, 'expected the Connected Apps terms and commercial use section');
   assert.ok(chargingAnswer, 'expected the Connected Apps charging FAQ answer');
   assert.match(
-    normalize(chargingAnswer),
-    /Charging for an app's end-user experience does not require a separate commercial license under the Developer Terms\./,
+    normalize(commercialSection),
+    /Selling, sublicensing, or separately redistributing Quran Foundation content or raw data requires a signed commercial license\./,
   );
-  assert.match(
-    normalize(chargingAnswer),
-    /Selling, sublicensing, or redistributing QF Content or raw API data as a separately distributed product requires a signed commercial license\./,
-  );
-  assert.doesNotMatch(normalize(chargingAnswer), /Commercial content use may require separate written permission/);
+  assert.match(chargingAnswer, /\[Terms and commercial use\]\(#terms-and-commercial-use\)/);
+  for (const text of [commercialSection, chargingAnswer]) {
+    assert.doesNotMatch(normalize(text), /Commercial content use may require separate written permission/);
+  }
 });
 
 test('describes font and Mushaf-image caching without a separate-permission label', () => {
