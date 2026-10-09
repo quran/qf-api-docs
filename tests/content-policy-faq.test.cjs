@@ -223,7 +223,7 @@ test('omits source-specific licensing caveats while preserving source attributio
     'utf8',
   );
   for (const document of [developerTerms, faq, connectedApps, recoveryGuide]) {
-    assert.doesNotMatch(normalize(document), /source-specific|underlying rights holders|within their licensing terms/i);
+    assert.doesNotMatch(normalize(document), /source-specific|underlying rights holders|within their licens(?:e|ing) terms/i);
   }
   assert.doesNotMatch(developerTerms, /additional restrictions/i);
   assert.match(

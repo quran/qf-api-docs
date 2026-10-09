@@ -202,6 +202,20 @@ test('resolves every in-page anchor and keeps legacy anchors', () => {
     assert.ok(aliasIds.has(legacyAnchor), `expected legacy anchor alias: #${legacyAnchor}`);
   }
 
+  for (const [rowAnchor, rowLabel] of [
+    ['gate-1-content-integrity-and-updates', '**1. Content integrity and updates**'],
+    ['gate-2-security-and-privacy-baseline', '**2. Security and privacy**'],
+    ['gate-3-api-and-platform-compliance', '**3. API and platform compliance**'],
+    ['gate-4-maintenance-and-responsiveness', '**4. Maintenance and responsiveness**'],
+    ['indexed-searchable-app', '**Indexed (searchable) App**'],
+    ['verified-listing-app', '**Verified Listing App**'],
+  ]) {
+    assert.ok(
+      doc.includes(`| <a id="${rowAnchor}" className="connectedAppsLegacyAnchor"></a>${rowLabel} |`),
+      `expected #${rowAnchor} on its matching table row`,
+    );
+  }
+
   for (const consoleAnchor of [
     'ai-features-and-generated-religious-content',
     'review-stages-and-timing',
