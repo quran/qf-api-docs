@@ -36,7 +36,7 @@ test('keeps the requested content-rights clarifications without expanding the de
   assert.match(developerTerms, /Serving QF Content from a Developer-controlled backend/);
   assert.doesNotMatch(developerTerms, /underlying rights holders|source-specific license requirements|additional restrictions/);
   assert.match(developerTerms, /\*\*Derived Materials\*\*/);
-  assert.match(developerTerms, /Recitation metadata and audio URLs are distinct from the underlying recordings/);
+  assert.doesNotMatch(developerTerms, /\*\*Audio\.\*\*|Recitation metadata and audio URLs are distinct from the underlying recordings/);
   assert.match(developerTerms, /Content Sync storage exception does not itself authorize distributing a prepackaged database/);
   assert.match(developerTerms, /Retrieval-augmented generation \(RAG\) within the Application is distinct from/);
   assert.doesNotMatch(developerTerms, /no additional rights verified|model evaluation|permanent media-cache/i);
