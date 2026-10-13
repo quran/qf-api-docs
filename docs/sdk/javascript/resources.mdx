@@ -137,12 +137,17 @@ const core = await client.resources.findSnapshot<QuranCoreSnapshotRecord>(
 for (const record of core.records) {
   if (record.recordType === "verse") console.log(record.verseKey, record.textUthmani);
   if (record.recordType === "word") {
-    console.log(record.location, record.textIndopak, record.textUthmaniTajweed);
+    console.log(record.location, record.textIndopakNastaleeq, record.textUthmaniTajweed);
   }
 }
 ```
 
-The SDK camel-cases `text_uthmani` and other response keys. Continue using
+The SDK camel-cases `text_uthmani` and other response keys. Use
+`textIndopakNastaleeq` (`text_indopak_nastaleeq`) for IndoPak text and render it
+with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font);
+`textIndopak` is deprecated and retained for compatibility. The typed field
+requires an SDK version that includes it, and existing local copies receive the
+value after the resource is re-snapshotted or backfilled. Continue using
 the same `resources` filter when polling, and replace all local core rows when
 `RESOURCE_INVALIDATE` supplies a snapshot URL.
 

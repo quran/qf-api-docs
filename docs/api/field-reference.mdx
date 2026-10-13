@@ -12,7 +12,7 @@ These fields can be used in the `fields` query parameter:
 | Field | Description |
 |-------|-------------|
 | `chapter_id` | Chapter number of this verse |
-| `text_indopak` | — |
+| `text_indopak` | Deprecated IndoPak text, retained for compatibility. Use `text_indopak_nastaleeq` |
 | `text_imlaei_simple` | — |
 | `text_imlaei` | Word text in simple/Imlaei script |
 | `text_uthmani` | Word text in Uthmanic script |
@@ -22,7 +22,7 @@ These fields can be used in the `fields` query parameter:
 | `qpc_uthmani_hafs` | # deprecated alias of text_qpc_hafs |
 | `text_qpc_nastaleeq_hafs` | — |
 | `text_qpc_nastaleeq` | — |
-| `text_indopak_nastaleeq` | — |
+| `text_indopak_nastaleeq` | IndoPak Nastaleeq text used by Quran.com. Render only with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font) |
 | `image_url` | — |
 | `image_width` | — |
 | `code_v1` | — |
@@ -40,7 +40,8 @@ These fields can be used in the `word_fields` query parameter:
 | `verse_id` | ID of the verse the word belongs to |
 | `chapter_id` | — |
 | `text_uthmani` | Word text in Uthmanic script |
-| `text_indopak` | — |
+| `text_indopak` | Deprecated IndoPak text, retained for compatibility. Use `text_indopak_nastaleeq` |
+| `text_indopak_nastaleeq` | IndoPak Nastaleeq word text used by Quran.com. Render only with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font) |
 | `text_imlaei_simple` | — |
 | `text_imlaei` | Word text in simple/Imlaei script |
 | `text_uthmani_simple` | — |

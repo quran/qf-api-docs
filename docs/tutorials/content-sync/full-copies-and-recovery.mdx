@@ -62,8 +62,12 @@ Client rule: `records` is the full current content for that one resource. Delete
 
 The singleton `quran_core:1` has `resource_content_id: null`. Its snapshot
 contains `chapter`, `verse`, `word`, `juz`, `hizb`, and `rub_el_hizb` records.
-The `word` rows carry `text_indopak` and `text_uthmani_tajweed` plus their verse,
-position, location, and character-type identifiers. For example:
+The `word` rows carry `text_indopak_nastaleeq`, `text_indopak`, and
+`text_uthmani_tajweed` plus their verse, position, location, and character-type
+identifiers. Use `text_indopak_nastaleeq` for IndoPak rendering; it displays
+correctly only with the compatible [IndoPak Nastaleeq font file](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font) (`indopak-nastaleeq-waqf-lazim-v4.2.1`). `text_indopak` is deprecated and
+retained for compatibility. Clients that synced before the field was added
+receive it after the resource is re-snapshotted or backfilled. For example:
 
 ```json
 {
@@ -75,7 +79,7 @@ position, location, and character-type identifiers. For example:
   "records": [
     {"record_type": "chapter", "id": 1, "chapter_number": 1, "name_arabic": "الفاتحة", "verses_count": 7},
     {"record_type": "verse", "id": 1, "chapter_id": 1, "verse_number": 1, "verse_index": 1, "verse_key": "1:1", "text_uthmani": "بِسْمِ ٱللَّهِ"},
-    {"record_type": "word", "id": 1, "verse_id": 1, "chapter_id": 1, "position": 1, "verse_key": "1:1", "location": "1:1:1", "char_type_id": 1, "char_type_name": "word", "text_indopak": "بِسْمِ", "text_uthmani_tajweed": "بِسْمِ"},
+    {"record_type": "word", "id": 1, "verse_id": 1, "chapter_id": 1, "position": 1, "verse_key": "1:1", "location": "1:1:1", "char_type_id": 1, "char_type_name": "word", "text_indopak_nastaleeq": "بِسْمِ", "text_indopak": "بِسْمِ", "text_uthmani_tajweed": "بِسْمِ"},
     {"record_type": "juz", "id": 1, "juz_number": 1, "first_verse_id": 1, "last_verse_id": 148, "verses_count": 148, "verse_mapping": {"1": "1-7"}}
   ]
 }
