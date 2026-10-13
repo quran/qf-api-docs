@@ -113,4 +113,11 @@ test('OpenAPI contract lists text_indopak_nastaleeq on Quran core and word recor
   assert.equal(wordSchema.text_indopak_nastaleeq.type, 'string');
   assert.equal(wordSchema.text_indopak_nastaleeq.nullable, true);
   assert.match(wordSchema.text_indopak_nastaleeq.description, /indopak-nastaleeq-font/);
+
+  for (const name of ['verse', 'QuranVerseText']) {
+    const props = api.components.schemas[name].properties;
+    assert.equal(props.text_indopak.deprecated, true, `${name}.text_indopak is deprecated`);
+    assert.match(props.text_indopak.description, /Use `text_indopak_nastaleeq`/);
+    assert.match(props.text_indopak_nastaleeq.description, /indopak-nastaleeq-font/);
+  }
 });

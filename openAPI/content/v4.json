@@ -20908,7 +20908,14 @@
             "type": "string"
           },
           "text_indopak": {
-            "type": "string"
+            "type": "string",
+            "deprecated": true,
+            "description": "Deprecated IndoPak text, retained for compatibility. Use `text_indopak_nastaleeq`."
+          },
+          "text_indopak_nastaleeq": {
+            "type": "string",
+            "nullable": true,
+            "description": "IndoPak Nastaleeq text used by Quran.com. Render only with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font)."
           },
           "text_uthmani_tajweed": {
             "type": "string"
@@ -22703,10 +22710,13 @@
             "type": "string"
           },
           "text_indopak": {
-            "type": "string"
+            "type": "string",
+            "deprecated": true,
+            "description": "Deprecated IndoPak text, retained for compatibility. Use `text_indopak_nastaleeq`."
           },
           "text_indopak_nastaleeq": {
-            "type": "string"
+            "type": "string",
+            "description": "IndoPak Nastaleeq text used by Quran.com. Render only with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font)."
           },
           "text_imlaei": {
             "type": "string"
