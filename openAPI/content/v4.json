@@ -2319,7 +2319,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -2697,7 +2697,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -3067,7 +3067,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -3438,7 +3438,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -3809,7 +3809,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -4160,7 +4160,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -4533,7 +4533,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -5030,7 +5030,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -5399,7 +5399,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -5776,7 +5776,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }
@@ -18624,7 +18624,7 @@
           {
             "name": "fields",
             "in": "query",
-            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
+            "description": "Comma-separated list of verse-level fields to include in response. Use `fields=text_uthmani,text_indopak_nastaleeq` to include Arabic text. [See full field reference](/docs/api/field-reference#verse-level-fields).",
             "schema": {
               "type": "string"
             }

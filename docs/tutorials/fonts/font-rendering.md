@@ -190,13 +190,15 @@ Each word in the API response has a `char_type_name` field indicating its type:
 | Type          | Description           | Rendering Notes                  |
 | --------------- | ----------------------- | ---------------------------------- |
 | `word`        | Regular Quranic word  | Standard rendering               |
-| `end`         | Verse end marker (۝) | Always use`UthmanicHafs` font    |
+| `end`         | Verse end marker (۝) | QCF fields: use the `UthmanicHafs` font. `text_indopak_nastaleeq`: keep the IndoPak Nastaleeq font |
 | `pause`       | Pause/stop mark       | May skip rendering in some views |
 | `sajdah`      | Prostration marker    | Special styling may apply        |
 | `rub-el-hizb` | Quarter Hizb marker   | Special styling may apply        |
 
-> ⚠️ **Important:** For `end` markers, always use the Unicode font (`UthmanicHafs`), not QCF fonts,
-> as the verse number glyphs render better with the Unicode font.
+> ⚠️ **Important:** When rendering QCF fields (`code_v1`, `code_v2`), use the Unicode font (`UthmanicHafs`)
+> for `end` markers, not QCF fonts, as the verse number glyphs render better with the Unicode font.
+> When rendering `text_indopak_nastaleeq`, keep `end` markers in the compatible IndoPak Nastaleeq font;
+> other fonts do not render its verse-end markers correctly.
 
 ### API Request Examples
 
@@ -1140,12 +1142,13 @@ Unicode fonts are simpler - one font file works for all text.
       font-family: 'IndoPakNastaleeq';
       src: url('https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff2') format('woff2'),
            url('https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff') format('woff');
-      font-display: swap;
+      font-display: block;
     }
 
     .quran-text {
-      /* text_indopak_nastaleeq works only with the compatible IndoPak Nastaleeq font */
-      font-family: 'IndoPakNastaleeq', serif;
+      /* text_indopak_nastaleeq works only with the compatible IndoPak Nastaleeq font,
+         so there is no fallback font; text is shown only after the font loads. */
+      font-family: 'IndoPakNastaleeq';
       font-size: 32px;
       line-height: 2.5;
       direction: rtl;
@@ -1164,6 +1167,15 @@ Unicode fonts are simpler - one font file works for all text.
 
     async function fetchAndRender(chapterNumber) {
       const container = document.getElementById('quran');
+
+      // Show the text only after the compatible font has loaded. Do not fall
+      // back to another font: it would render waqf signs and verse-end markers incorrectly.
+      const fontSpec = "32px 'IndoPakNastaleeq'";
+      const faces = await document.fonts.load(fontSpec).catch(() => []);
+      if (faces.length === 0 || !document.fonts.check(fontSpec)) {
+        container.textContent = 'The IndoPak Nastaleeq font could not be loaded. Please try again.';
+        return;
+      }
 
       // Verse-level text via `fields`. For per-word rendering, request
       // `words=true&word_fields=text_indopak_nastaleeq` and read it from each word.
