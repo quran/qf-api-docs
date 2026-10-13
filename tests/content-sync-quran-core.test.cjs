@@ -95,3 +95,22 @@ test('field reference lists text_indopak_nastaleeq at verse and word level and d
     assert.match(section, /\| `text_indopak` \| Deprecated/);
   }
 });
+
+test('OpenAPI contract lists text_indopak_nastaleeq on Quran core and word records and deprecates text_indopak', () => {
+  const recordType = api.components.schemas.ContentSyncRecordType.description;
+  assert.match(recordType, /`char_type_name`, `text_indopak_nastaleeq`, `text_indopak`, `text_uthmani_tajweed`, and `updated_at`/);
+  assert.match(recordType, /`text_indopak` is deprecated and retained for compatibility/);
+  assert.ok(recordType.includes('/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font'));
+
+  const snapshot = api.paths['/resources/snapshots/{resource_group}/{id}'].get;
+  const example = snapshot.responses['200'].content['application/json'].examples.quran_core_snapshot.value;
+  const word = example.records.find((record) => record.record_type === 'word');
+  assert.equal(word.text_indopak_nastaleeq, 'بِسْمِ');
+  assert.equal(word.text_indopak, 'بِسْمِ');
+
+  const wordSchema = api.components.schemas.word.properties;
+  assert.equal(wordSchema.text_indopak.deprecated, true);
+  assert.equal(wordSchema.text_indopak_nastaleeq.type, 'string');
+  assert.equal(wordSchema.text_indopak_nastaleeq.nullable, true);
+  assert.match(wordSchema.text_indopak_nastaleeq.description, /indopak-nastaleeq-font/);
+});
