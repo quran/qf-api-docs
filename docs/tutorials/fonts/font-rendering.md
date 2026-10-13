@@ -12,7 +12,7 @@ and techniques used on Quran.com. You'll learn how to:
 - Fetch verse data with the correct API parameters for font rendering
 - Load and apply Quran fonts
 - Render Arabic text with proper styling
-- Handle different script types (Madani, IndoPak, Uthmani, Tajweed)
+- Handle different script types (Madani, IndoPak Nastaleeq, Uthmani, Tajweed)
 
 ---
 
@@ -44,7 +44,7 @@ and techniques used on Quran.com. You'll learn how to:
 | If you want...             | Use this font | API field                 |
 | ---------------------------- | --------------- | --------------------------- |
 | **Fastest implementation** | QPC Hafs      | `text_qpc_hafs`           |
-| **South Asian script**     | IndoPak       | `text_indopak`            |
+| **South Asian script**     | IndoPak Nastaleeq | `text_indopak_nastaleeq` (verse-level `fields`) |
 | **Pixel-perfect Mushaf**   | QCF V2        | `code_v2` + `page_number` |
 | **Tajweed color rules**    | QCF V4        | `code_v2` + `page_number` |
 
@@ -116,7 +116,7 @@ Quran.com supports two categories of fonts:
 | Category              | Description                                | Fonts                      | Pros                           | Cons                             |
 | ----------------------- | -------------------------------------------- | ---------------------------- | -------------------------------- | ---------------------------------- |
 | **QCF (Glyph-Based)** | Special glyph codes mapped to custom fonts | V1, V2, V4 (Tajweed)       | Pixel-perfect Mushaf rendering | Requires per-page font loading   |
-| **Unicode**           | Standard Arabic Unicode text               | QPC Hafs, Uthmani, IndoPak | Simple to implement            | Standard text rendering          |
+| **Unicode**           | Standard Arabic Unicode text               | QPC Hafs, Uthmani, IndoPak Nastaleeq | Simple to implement            | Standard text rendering          |
 
 ### Available Fonts
 
@@ -128,7 +128,7 @@ Quran.com supports two categories of fonts:
 | **QCF V4 Tajweed** | `code_v2`       | 19        | Glyph-based | Colored Tajweed rules              |
 | **QPC Hafs**       | `text_qpc_hafs` | 5         | Unicode     | Use with the `UthmanicHafs` font family (`UthmanicHafs1Ver18` files) |
 | **Uthmani**        | `text_uthmani`  | 4         | Unicode     | Standard Uthmani text |
-| **IndoPak**        | `text_indopak`  | 3, 6, 7   | Unicode     | South Asian users                  |
+| **IndoPak Nastaleeq** | `text_indopak_nastaleeq` | 3, 6, 7 | Unicode | South Asian users. Requires the compatible IndoPak Nastaleeq font file (see [Font Files](#indopak-nastaleeq-font)) |
 
 ### Choosing a Font
 
@@ -174,7 +174,10 @@ The key word fields needed for font rendering:
 | `code_v1`       | QCF V1 glyph codes    | V1 font rendering       |
 | `code_v2`       | QCF V2 glyph codes    | V2 or V4 font rendering |
 | `text_qpc_hafs` | QPC Hafs Unicode text | Unicode font rendering  |
-| `text_indopak`  | IndoPak script text   | IndoPak font rendering  |
+
+:::note IndoPak Nastaleeq text
+Quran.com uses `text_indopak_nastaleeq`; the older `text_indopak` field is deprecated. Request it as a verse-level field with `fields=text_indopak_nastaleeq` (it is not returned in `word_fields`). This text works only with the compatible [IndoPak Nastaleeq font file](#indopak-nastaleeq-font) (`indopak-nastaleeq-waqf-lazim-v4.2.1`); with other fonts, waqf signs and verse-end markers will not render correctly.
+:::
 
 📚 **Full field reference:** [Word-level Fields Documentation](https://api-docs.quran.foundation/docs/api/field-reference/#-word-level-fields-word_fields)
 
@@ -780,7 +783,11 @@ https://verses.quran.foundation/fonts/quran/hafs/uthmanic_hafs/UthmanicHafs1Ver1
 https://verses.quran.foundation/fonts/quran/hafs/uthmanic_hafs/UthmanicHafs1Ver18.ttf
 ```
 
+<a id="indopak-nastaleeq-font"></a>
+
 **IndoPak Nastaleeq:**
+
+Use this font file with `text_indopak_nastaleeq`. The text works only with this compatible font version; other IndoPak or Nastaliq fonts will not render its waqf signs and verse-end markers correctly.
 
 ```text
 https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff2
@@ -1126,17 +1133,18 @@ Unicode fonts are simpler - one font file works for all text.
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>Quran IndoPak Rendering</title>
+  <title>Quran IndoPak Nastaleeq Rendering</title>
   <style>
     @font-face {
-      font-family: 'IndoPak';
+      font-family: 'IndoPakNastaleeq';
       src: url('https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff2') format('woff2'),
            url('https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff') format('woff');
       font-display: swap;
     }
 
     .quran-text {
-      font-family: 'IndoPak', 'Noto Nastaliq Urdu', serif;
+      /* text_indopak_nastaleeq works only with the compatible IndoPak Nastaleeq font */
+      font-family: 'IndoPakNastaleeq', serif;
       font-size: 32px;
       line-height: 2.5;
       direction: rtl;
@@ -1156,10 +1164,10 @@ Unicode fonts are simpler - one font file works for all text.
     async function fetchAndRender(chapterNumber) {
       const container = document.getElementById('quran');
 
-      // Use mushaf=3 for IndoPak
+      // text_indopak_nastaleeq is a verse-level field (use `fields`, not `word_fields`)
       const response = await fetch(
         `${API_BASE}/verses/by_chapter/${chapterNumber}?` +
-        `words=true&word_fields=text_indopak&mushaf=3`,
+        `fields=text_indopak_nastaleeq`,
         {
           headers: {
             'x-auth-token': accessToken,
@@ -1171,8 +1179,7 @@ Unicode fonts are simpler - one font file works for all text.
 
       data.verses.forEach(verse => {
         const div = document.createElement('div');
-        const text = verse.words.map(w => w.text_indopak).join(' ');
-        div.textContent = text;
+        div.textContent = verse.text_indopak_nastaleeq;
         container.appendChild(div);
       });
     }
@@ -2034,7 +2041,7 @@ async function loadFontForPage(page) {
 const response = await fetch(url + '&word_fields=code_v2');
 
 // Bad: Request everything
-const response = await fetch(url + '&word_fields=code_v1,code_v2,text_uthmani,text_indopak,...');
+const response = await fetch(url + '&word_fields=code_v1,code_v2,text_uthmani,text_qpc_hafs,...');
 ```
 
 ---
