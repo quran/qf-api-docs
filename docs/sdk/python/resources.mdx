@@ -94,10 +94,16 @@ for record in core["records"]:
     if record["record_type"] == "word":
         print(
             record["location"],
-            record["text_indopak"],
+            record.get("text_indopak_nastaleeq"),
             record["text_uthmani_tajweed"],
         )
 ```
+
+Use `text_indopak_nastaleeq` for IndoPak text and render it with the compatible
+[IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font);
+`text_indopak` is deprecated and retained for compatibility. Existing local
+copies receive the new field after the resource is re-snapshotted or
+backfilled, so read it with `.get()` until then.
 
 Use the same combined filter for incremental sync, and replace the complete
 resource on `RESOURCE_INVALIDATE`.

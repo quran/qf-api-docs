@@ -44,7 +44,7 @@ and techniques used on Quran.com. You'll learn how to:
 | If you want...             | Use this font | API field                 |
 | ---------------------------- | --------------- | --------------------------- |
 | **Fastest implementation** | QPC Hafs      | `text_qpc_hafs`           |
-| **South Asian script**     | IndoPak Nastaleeq | `text_indopak_nastaleeq` (verse-level `fields`) |
+| **South Asian script**     | IndoPak Nastaleeq | `text_indopak_nastaleeq` (`fields` or `word_fields`) |
 | **Pixel-perfect Mushaf**   | QCF V2        | `code_v2` + `page_number` |
 | **Tajweed color rules**    | QCF V4        | `code_v2` + `page_number` |
 
@@ -174,9 +174,10 @@ The key word fields needed for font rendering:
 | `code_v1`       | QCF V1 glyph codes    | V1 font rendering       |
 | `code_v2`       | QCF V2 glyph codes    | V2 or V4 font rendering |
 | `text_qpc_hafs` | QPC Hafs Unicode text | Unicode font rendering  |
+| `text_indopak_nastaleeq` | IndoPak Nastaleeq Unicode text | IndoPak Nastaleeq rendering (compatible font only) |
 
 :::note IndoPak Nastaleeq text
-Quran.com uses `text_indopak_nastaleeq`; the older `text_indopak` field is deprecated. Request it as a verse-level field with `fields=text_indopak_nastaleeq` (it is not returned in `word_fields`). This text works only with the compatible [IndoPak Nastaleeq font file](#indopak-nastaleeq-font) (`indopak-nastaleeq-waqf-lazim-v4.2.1`); with other fonts, waqf signs and verse-end markers will not render correctly.
+Quran.com uses `text_indopak_nastaleeq`; the older `text_indopak` field is deprecated. Request it for whole verses with `fields=text_indopak_nastaleeq`, or per word with `words=true&word_fields=text_indopak_nastaleeq`. This text works only with the compatible [IndoPak Nastaleeq font file](#indopak-nastaleeq-font) (`indopak-nastaleeq-waqf-lazim-v4.2.1`); with other fonts, waqf signs and verse-end markers will not render correctly.
 :::
 
 📚 **Full field reference:** [Word-level Fields Documentation](https://api-docs.quran.foundation/docs/api/field-reference/#-word-level-fields-word_fields)
@@ -1164,7 +1165,8 @@ Unicode fonts are simpler - one font file works for all text.
     async function fetchAndRender(chapterNumber) {
       const container = document.getElementById('quran');
 
-      // text_indopak_nastaleeq is a verse-level field (use `fields`, not `word_fields`)
+      // Verse-level text via `fields`. For per-word rendering, request
+      // `words=true&word_fields=text_indopak_nastaleeq` and read it from each word.
       const response = await fetch(
         `${API_BASE}/verses/by_chapter/${chapterNumber}?` +
         `fields=text_indopak_nastaleeq`,

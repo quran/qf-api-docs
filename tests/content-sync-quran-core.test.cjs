@@ -62,3 +62,36 @@ test('tutorials and SDK guides distinguish the released canonical text from layo
     );
   }
 });
+
+test('Quran core word docs prefer text_indopak_nastaleeq and keep text_indopak as deprecated', () => {
+  const fontLink = '/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font';
+  for (const file of [
+    ['tutorials', 'content-sync', 'getting-started.mdx'],
+    ['tutorials', 'content-sync', 'full-copies-and-recovery.mdx'],
+    ['tutorials', 'faq.mdx'],
+  ]) {
+    const doc = readDoc(...file);
+    assert.match(doc, /`text_indopak_nastaleeq`, `text_indopak`, and\s+`text_uthmani_tajweed`/);
+    assert.match(doc, /`text_indopak` is deprecated and\s+retained for compatibility/);
+    assert.ok(doc.includes(fontLink), `${file.join('/')} links the compatible font`);
+    assert.match(doc, /indopak-nastaleeq-waqf-lazim-v4\.2\.1/);
+    assert.match(doc, /re-snapshotted or\s+backfilled/);
+  }
+
+  const recovery = readDoc('tutorials', 'content-sync', 'full-copies-and-recovery.mdx');
+  const example = JSON.parse(recovery.match(/```json\n(\{\s*"resource_group": "quran_core"[\s\S]*?)\n```/)[1]);
+  const word = example.records.find((record) => record.record_type === 'word');
+  assert.equal(word.text_indopak_nastaleeq, 'بِسْمِ');
+  assert.equal(word.text_indopak, 'بِسْمِ');
+});
+
+test('field reference lists text_indopak_nastaleeq at verse and word level and deprecates text_indopak', () => {
+  const doc = readDoc('api', 'field-reference.mdx');
+  const [verseSection, wordSection] = doc
+    .split(/^## /m)
+    .filter((section) => /`(word_)?fields`/.test(section.split('\n')[0]));
+  for (const section of [verseSection, wordSection]) {
+    assert.match(section, /\| `text_indopak_nastaleeq` \| .*indopak-nastaleeq-font/);
+    assert.match(section, /\| `text_indopak` \| Deprecated/);
+  }
+});
