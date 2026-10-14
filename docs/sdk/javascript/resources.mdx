@@ -119,8 +119,8 @@ must be fetched and replaced.
 
 ### Canonical Quran Core
 
-`quran_core:1` provides canonical Uthmani verse text, word-level IndoPak and
-Uthmani Tajweed text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. The
+`quran_core:1` provides canonical Uthmani verse text, word-level IndoPak,
+Uthmani Tajweed, and Imla'i text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. The
 resource is separate from Mushaf-specific pages and glyphs. The SDK exports the
 `QuranCoreWordSnapshotRecord` variant for these word rows.
 
@@ -137,7 +137,7 @@ const core = await client.resources.findSnapshot<QuranCoreSnapshotRecord>(
 for (const record of core.records) {
   if (record.recordType === "verse") console.log(record.verseKey, record.textUthmani);
   if (record.recordType === "word") {
-    console.log(record.location, record.textIndopakNastaleeq, record.textUthmaniTajweed);
+    console.log(record.location, record.textIndopakNastaleeq, record.textUthmaniTajweed, record.textImlaei);
   }
 }
 ```
@@ -150,6 +150,10 @@ requires an SDK version that includes it, and existing local copies receive the
 value after the resource is re-snapshotted or backfilled. Continue using
 the same `resources` filter when polling, and replace all local core rows when
 `RESOURCE_INVALIDATE` supplies a snapshot URL.
+
+`textImlaei` (`text_imlaei`) is the word text in the Imla'i (simple) script. It
+also requires an SDK version that types it, and existing local copies receive it
+after the resource is re-snapshotted or invalidated.
 
 ### Word-by-Word Transliterations
 

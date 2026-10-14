@@ -71,7 +71,7 @@ test('Quran core word docs prefer text_indopak_nastaleeq and keep text_indopak a
     ['tutorials', 'faq.mdx'],
   ]) {
     const doc = readDoc(...file);
-    assert.match(doc, /`text_indopak_nastaleeq`, `text_indopak`, and\s+`text_uthmani_tajweed`/);
+    assert.match(doc, /`text_indopak_nastaleeq`, `text_indopak`,\s+`text_uthmani_tajweed`, and\s+`text_imlaei`/);
     assert.match(doc, /`text_indopak` is deprecated and\s+retained for compatibility/);
     assert.ok(doc.includes(fontLink), `${file.join('/')} links the compatible font`);
     assert.match(doc, /indopak-nastaleeq-waqf-lazim-v4\.2\.1/);
@@ -98,7 +98,7 @@ test('field reference lists text_indopak_nastaleeq at verse and word level and d
 
 test('OpenAPI contract lists text_indopak_nastaleeq on Quran core and word records and deprecates text_indopak', () => {
   const recordType = api.components.schemas.ContentSyncRecordType.description;
-  assert.match(recordType, /`char_type_name`, `text_indopak_nastaleeq`, `text_indopak`, `text_uthmani_tajweed`, and `updated_at`/);
+  assert.match(recordType, /`char_type_name`, `text_indopak_nastaleeq`, `text_indopak`, `text_uthmani_tajweed`, `text_imlaei`, and `updated_at`/);
   assert.match(recordType, /`text_indopak` is deprecated and retained for compatibility/);
   assert.ok(recordType.includes('/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font'));
 
@@ -120,4 +120,27 @@ test('OpenAPI contract lists text_indopak_nastaleeq on Quran core and word recor
     assert.match(props.text_indopak.description, /Use `text_indopak_nastaleeq`/);
     assert.match(props.text_indopak_nastaleeq.description, /indopak-nastaleeq-font/);
   }
+});
+
+test('Quran core word docs list text_imlaei and the re-snapshot/invalidation note', () => {
+  for (const file of [
+    ['tutorials', 'content-sync', 'getting-started.mdx'],
+    ['tutorials', 'content-sync', 'full-copies-and-recovery.mdx'],
+    ['tutorials', 'faq.mdx'],
+  ]) {
+    const doc = readDoc(...file);
+    assert.match(doc, /`text_imlaei`[\s\S]*Imla'i\s+\(simple\) script/);
+    assert.match(doc, /`text_imlaei`[\s\S]*?re-snapshotted or\s+invalidated/);
+  }
+
+  const recovery = readDoc('tutorials', 'content-sync', 'full-copies-and-recovery.mdx');
+  const example = JSON.parse(recovery.match(/```json\n(\{\s*"resource_group": "quran_core"[\s\S]*?)\n```/)[1]);
+  assert.equal(example.records.find((record) => record.record_type === 'word').text_imlaei, 'بِسْمِ');
+
+  const recordType = api.components.schemas.ContentSyncRecordType.description;
+  assert.match(recordType, /`text_imlaei` \(string or null\) is the word text in the Imla'i \(simple\) script/);
+  assert.match(recordType, /before `text_imlaei` was added receive it after the resource is re-snapshotted or invalidated/);
+  const snapshot = api.paths['/resources/snapshots/{resource_group}/{id}'].get;
+  const coreExample = snapshot.responses['200'].content['application/json'].examples.quran_core_snapshot.value;
+  assert.equal(coreExample.records.find((record) => record.record_type === 'word').text_imlaei, 'بِسْمِ');
 });
