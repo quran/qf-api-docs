@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Content APIs",
-    "description": "Quran Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::warning Prelive Content API limitation\nThe prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.\n:::\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. \n\n```mermaid\nsequenceDiagram\n    participant App as Your App\n    participant Auth as Quran Foundation<br/>Authorization Server\n    participant API as Quran Foundation<br/>Resources Server\n\n    App->>Auth: Request Token with Client Credentials\n    Auth-->>App: Token Response (access_token)\n    App->>API: Use token to call API\n    API-->>App: Requested resource\n\n    Note over App,Auth: Access token expires (1 hour)\n\n    App->>Auth: Re-issue access_token using client_credentials\n    Auth-->>App: New access_token\n```\n\n After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`. This spec also includes a small subset of Quran Reflect post-read endpoints that are compatible with the `client_credentials` grant. These operations still require `x-auth-token` and `x-client-id`, but they do not use the `content` scope. Use `post.read` for `/quran-reflect/v1/posts/feed`, `/quran-reflect/v1/posts/{id}`, and `/quran-reflect/v1/posts/user-posts/{id}`. Use `comment.read` for `/quran-reflect/v1/posts/{id}/comments` and `/quran-reflect/v1/posts/{id}/all-comments`. These are Quran Reflect gateway endpoints, not `/content/api/v4/...` endpoints. The Qira'at endpoints under `/content/api/v4/qiraat/...` are scope-gated: they require the `qiraat.read` scope (or the parent `qiraat` scope) instead of `content`, so request the Qira'at scope your client has been approved for when you [get an access token](/docs/user_related_apis_versioned/scopes#qiraat).",
+    "description": "Quran Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::warning Prelive Content API limitation\nThe prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.\n:::\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. \n\n```mermaid\nsequenceDiagram\n    participant App as Your App\n    participant Auth as Quran Foundation<br/>Authorization Server\n    participant API as Quran Foundation<br/>Resources Server\n\n    App->>Auth: Request Token with Client Credentials\n    Auth-->>App: Token Response (access_token)\n    App->>API: Use token to call API\n    API-->>App: Requested resource\n\n    Note over App,Auth: Access token expires (1 hour)\n\n    App->>Auth: Re-issue access_token using client_credentials\n    Auth-->>App: New access_token\n```\n\n After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`. This spec also includes a small subset of Quran Reflect post-read endpoints that are compatible with the `client_credentials` grant. These operations still require `x-auth-token` and `x-client-id`, but they do not use the `content` scope. Use `post.read` for `/quran-reflect/v1/posts/feed`, `/quran-reflect/v1/posts/{id}`, and `/quran-reflect/v1/posts/user-posts/{id}`. Use `comment.read` for `/quran-reflect/v1/posts/{id}/comments` and `/quran-reflect/v1/posts/{id}/all-comments`. These are Quran Reflect gateway endpoints, not `/content/api/v4/...` endpoints. **Coming soon.** The Qira'at endpoints under `/content/api/v4/qiraat/...` are not yet available in production. Once released, they are scope-gated: they require the `qiraat.read` scope (or the parent `qiraat` scope) instead of `content`, so request the Qira'at scope your client has been approved for when you [get an access token](/docs/user_related_apis_versioned/scopes#qiraat).",
     "version": "v4"
   },
   "servers": [
@@ -20401,8 +20401,8 @@
     "/qiraat/readers": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "List Qira'at readers",
-        "description": "Get the Qira'at readers (the reciters whose readings are compared), ordered by `position`. Optionally embed each reader's transmitters with `include=transmitters`. The reader biography is included in the `bio` object whenever one exists for the requested language. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "List Qira'at readers (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get the Qira'at readers (the reciters whose readings are compared), ordered by `position`. Optionally embed each reader's transmitters with `include=transmitters`. The reader biography is included in the `bio` object whenever one exists for the requested language. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "list-qiraat-readers",
         "parameters": [
           {
@@ -20491,8 +20491,8 @@
     "/qiraat/readers/{id}": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "Get a Qira'at reader",
-        "description": "Get a single Qira'at reader with the reader's transmitters and biography (`bio.text` and `bio.short_text`) when available. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "Get a Qira'at reader (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get a single Qira'at reader with the reader's transmitters and biography (`bio.text` and `bio.short_text`) when available. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "get-qiraat-reader",
         "parameters": [
           {
@@ -20602,8 +20602,8 @@
     "/qiraat/transmitters": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "List Qira'at transmitters",
-        "description": "Get the Qira'at transmitters (rawis), ordered by `position`, each with its parent reader. Use `reader_id` to return only the transmitters of one reader. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "List Qira'at transmitters (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get the Qira'at transmitters (rawis), ordered by `position`, each with its parent reader. Use `reader_id` to return only the transmitters of one reader. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "list-qiraat-transmitters",
         "parameters": [
           {
@@ -20689,8 +20689,8 @@
     "/qiraat/transmitters/{id}": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "Get a Qira'at transmitter",
-        "description": "Get a single Qira'at transmitter with its parent reader and biography (`bio.text`) when available. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "Get a Qira'at transmitter (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get a single Qira'at transmitter with its parent reader and biography (`bio.text`) when available. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "get-qiraat-transmitter",
         "parameters": [
           {
@@ -20797,8 +20797,8 @@
     "/qiraat/junctures/by_verse/{verse_key}": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "List Qira'at junctures for a verse",
-        "description": "Get the approved Qira'at junctures (points of variation) that touch a verse, ordered by `position`. The response is not paginated. A verse with no junctures returns `200` with an empty `junctures` array and `meta.total_junctures` set to `0`. Use `include=readings` to embed a summary of each juncture's readings. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "List Qira'at junctures for a verse (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get the approved Qira'at junctures (points of variation) that touch a verse, ordered by `position`. The response is not paginated. A verse with no junctures returns `200` with an empty `junctures` array and `meta.total_junctures` set to `0`. Use `include=readings` to embed a summary of each juncture's readings. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "list-qiraat-junctures-by-verse",
         "parameters": [
           {
@@ -20929,8 +20929,8 @@
     "/qiraat/junctures/by_chapter/{chapter_number}": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "List Qira'at junctures for a chapter",
-        "description": "Get the approved Qira'at junctures in a chapter, ordered by `position`, with page-based pagination. This endpoint does not support `include`; each juncture carries `readings_count` instead. Use the juncture or matrix endpoints for reading details. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "List Qira'at junctures for a chapter (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get the approved Qira'at junctures in a chapter, ordered by `position`, with page-based pagination. This endpoint does not support `include`; each juncture carries `readings_count` instead. Use the juncture or matrix endpoints for reading details. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "list-qiraat-junctures-by-chapter",
         "parameters": [
           {
@@ -21077,8 +21077,8 @@
     "/qiraat/junctures/{id}": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "Get a Qira'at juncture",
-        "description": "Get a single approved Qira'at juncture with all of its readings, including grammatical form, root letters, color, translation, transliteration, and explanations. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "Get a Qira'at juncture (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get a single approved Qira'at juncture with all of its readings, including grammatical form, root letters, color, translation, transliteration, and explanations. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "get-qiraat-juncture",
         "parameters": [
           {
@@ -21198,8 +21198,8 @@
     "/qiraat/readings/{id}": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "Get a Qira'at reading",
-        "description": "Get a single reading of an approved juncture, with its translation, transliteration, explanations, and the readers and transmitters it is attributed to. A reading whose juncture is not approved returns `404`. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "Get a Qira'at reading (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get a single reading of an approved juncture, with its translation, transliteration, explanations, and the readers and transmitters it is attributed to. A reading whose juncture is not approved returns `404`. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "get-qiraat-reading",
         "parameters": [
           {
@@ -21330,8 +21330,8 @@
     "/qiraat/matrix/by_verse/{verse_key}": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "Get the Qira'at matrix for a verse",
-        "description": "Get the full Qira'at matrix for a verse: every approved juncture touching the verse, each reading, and which readers and transmitters are attributed to each reading. The response also lists all readers and transmitters (the matrix axes) and links to the previous and next verses that have Qira'at variations. A verse with no approved junctures returns `404` (`NOT_FOUND`, \"No qiraat variations found for verse <verse_key>\"); use the count endpoint or the junctures endpoint to discover which verses have variations. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "Get the Qira'at matrix for a verse (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get the full Qira'at matrix for a verse: every approved juncture touching the verse, each reading, and which readers and transmitters are attributed to each reading. The response also lists all readers and transmitters (the matrix axes) and links to the previous and next verses that have Qira'at variations. A verse with no approved junctures returns `404` (`NOT_FOUND`, \"No qiraat variations found for verse <verse_key>\"); use the count endpoint or the junctures endpoint to discover which verses have variations. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "get-qiraat-matrix-by-verse",
         "parameters": [
           {
@@ -21587,8 +21587,8 @@
     "/qiraat/matrix/by_chapter/{chapter_number}": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "Get the Qira'at matrix for a chapter",
-        "description": "Get the Qira'at matrix for a chapter: the approved junctures in the chapter with their readings and reader/transmitter attributions, paginated by juncture, together with all readers and transmitters. Unlike the by-verse matrix, readings here carry the translation but not explanations, and a chapter with no variations returns `200` with an empty `junctures` array. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "Get the Qira'at matrix for a chapter (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get the Qira'at matrix for a chapter: the approved junctures in the chapter with their readings and reader/transmitter attributions, paginated by juncture, together with all readers and transmitters. Unlike the by-verse matrix, readings here carry the translation but not explanations, and a chapter with no variations returns `200` with an empty `junctures` array. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "get-qiraat-matrix-by-chapter",
         "parameters": [
           {
@@ -21790,8 +21790,8 @@
     "/qiraat/matrix/count_within_range": {
       "get": {
         "tags": ["Qiraat"],
-        "summary": "Count Qira'at junctures within a verse range",
-        "description": "Get a map of verse keys to the number of approved Qira'at junctures in an inclusive verse range. Only verses with at least one juncture appear in the map, so an empty object means no variations in the range. Use it to decide which verses to request from the matrix endpoints. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "summary": "Count Qira'at junctures within a verse range (Coming soon)",
+        "description": "Coming soon: this endpoint is not yet available in production. Get a map of verse keys to the number of approved Qira'at junctures in an inclusive verse range. Only verses with at least one juncture appear in the map, so an empty object means no variations in the range. Use it to decide which verses to request from the matrix endpoints. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
         "operationId": "count-qiraat-matrix-within-range",
         "parameters": [
           {
