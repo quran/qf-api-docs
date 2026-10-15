@@ -20859,7 +20859,7 @@
                       "junctures": [
                         {
                           "id": 10,
-                          "verse_key": "1:4",
+                          "verse_key": "2:6",
                           "position": 1,
                           "word_id": 24,
                           "word_position": 1,
@@ -21349,7 +21349,14 @@
             "description": "Script used for verse, juncture, and reading text. The `text_` prefix is optional (`imlaei` is the same as `text_imlaei`). Any other value resolves to `text_uthmani`.",
             "schema": {
               "type": "string",
-              "enum": ["text_uthmani", "text_imlaei", "text_qpc_hafs"],
+              "enum": [
+                "text_uthmani",
+                "text_imlaei",
+                "text_qpc_hafs",
+                "uthmani",
+                "imlaei",
+                "qpc_hafs"
+              ],
               "default": "text_uthmani"
             }
           },
@@ -21601,7 +21608,14 @@
             "description": "Script used for verse, juncture, and reading text. The `text_` prefix is optional (`imlaei` is the same as `text_imlaei`). Any other value resolves to `text_uthmani`.",
             "schema": {
               "type": "string",
-              "enum": ["text_uthmani", "text_imlaei", "text_qpc_hafs"],
+              "enum": [
+                "text_uthmani",
+                "text_imlaei",
+                "text_qpc_hafs",
+                "uthmani",
+                "imlaei",
+                "qpc_hafs"
+              ],
               "default": "text_uthmani"
             }
           },
