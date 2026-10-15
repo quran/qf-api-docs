@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Content APIs",
-    "description": "Quran Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::warning Prelive Content API limitation\nThe prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.\n:::\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. \n\n```mermaid\nsequenceDiagram\n    participant App as Your App\n    participant Auth as Quran Foundation<br/>Authorization Server\n    participant API as Quran Foundation<br/>Resources Server\n\n    App->>Auth: Request Token with Client Credentials\n    Auth-->>App: Token Response (access_token)\n    App->>API: Use token to call API\n    API-->>App: Requested resource\n\n    Note over App,Auth: Access token expires (1 hour)\n\n    App->>Auth: Re-issue access_token using client_credentials\n    Auth-->>App: New access_token\n```\n\n After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`. This spec also includes a small subset of Quran Reflect post-read endpoints that are compatible with the `client_credentials` grant. These operations still require `x-auth-token` and `x-client-id`, but they do not use the `content` scope. Use `post.read` for `/quran-reflect/v1/posts/feed`, `/quran-reflect/v1/posts/{id}`, and `/quran-reflect/v1/posts/user-posts/{id}`. Use `comment.read` for `/quran-reflect/v1/posts/{id}/comments` and `/quran-reflect/v1/posts/{id}/all-comments`. These are Quran Reflect gateway endpoints, not `/content/api/v4/...` endpoints.",
+    "description": "Quran Foundation Content APIs offer programmatic access to the Quran's core content like chapters, verses, recitations, translations, and more, distinct from user-specific data like notes and bookmarks provided by [User-related APIs](/docs/category/user-related-apis).\n\n:::warning Prelive Content API limitation\nThe prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.\n:::\n\n:::important Integrity of Translations\nPlease **disable any automatic browser-translation features** (e.g. Google-Translate-in-Chrome) when displaying text returned by the *Translations* endpoints.  \nRe-translating an already vetted Quranic translation can introduce serious semantic errors.\n:::\n\n ## How to get access \n\n We are using OAuth2 flows to authenticate and authorize requests. To get started, you need to [get an access token](/docs/tutorials/oidc/getting-started-with-oauth2#obtaining-oauth-20-client-credentials) to make requests to our APIs. Since the APIs are not user-related, you will need to use the `client_credentials` grant type and [`content` scope](/docs/user_related_apis_versioned/scopes#content) when sending a request to [The OAuth 2.0 Token Endpoint](/docs/oauth2_apis_versioned/oauth-2-token-exchange) to get the access token. \n\n```mermaid\nsequenceDiagram\n    participant App as Your App\n    participant Auth as Quran Foundation<br/>Authorization Server\n    participant API as Quran Foundation<br/>Resources Server\n\n    App->>Auth: Request Token with Client Credentials\n    Auth-->>App: Token Response (access_token)\n    App->>API: Use token to call API\n    API-->>App: Requested resource\n\n    Note over App,Auth: Access token expires (1 hour)\n\n    App->>Auth: Re-issue access_token using client_credentials\n    Auth-->>App: New access_token\n```\n\n After getting a valid access token, each request to get resources will have to include 2 headers mentioned below: `x-auth-token` and `x-client-id`. This spec also includes a small subset of Quran Reflect post-read endpoints that are compatible with the `client_credentials` grant. These operations still require `x-auth-token` and `x-client-id`, but they do not use the `content` scope. Use `post.read` for `/quran-reflect/v1/posts/feed`, `/quran-reflect/v1/posts/{id}`, and `/quran-reflect/v1/posts/user-posts/{id}`. Use `comment.read` for `/quran-reflect/v1/posts/{id}/comments` and `/quran-reflect/v1/posts/{id}/all-comments`. These are Quran Reflect gateway endpoints, not `/content/api/v4/...` endpoints. The Qira'at endpoints under `/content/api/v4/qiraat/...` are scope-gated: they require the `qiraat.read` scope (or the parent `qiraat` scope) instead of `content`, so request the Qira'at scope your client has been approved for when you [get an access token](/docs/user_related_apis_versioned/scopes#qiraat).",
     "version": "v4"
   },
   "servers": [
@@ -20397,6 +20397,1532 @@
           }
         }
       }
+    },
+    "/qiraat/readers": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "List Qira'at readers",
+        "description": "Get the Qira'at readers (the reciters whose readings are compared), ordered by `position`. Optionally embed each reader's transmitters with `include=transmitters`. The reader biography is included in the `bio` object whenever one exists for the requested language. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "list-qiraat-readers",
+        "parameters": [
+          {
+            "name": "include",
+            "in": "query",
+            "description": "Comma-separated list of optional sections. Use `transmitters` to embed each reader's transmitters. Biographies (`bio`) are always returned when available.",
+            "schema": {
+              "type": "string",
+              "example": "transmitters"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatReadersResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "readers": [
+                        {
+                          "id": 1,
+                          "name": "Nafi",
+                          "abbreviation": "N",
+                          "death_year_hijri": 169,
+                          "death_year_gregorian": 785,
+                          "position": 1,
+                          "translated_name": "Nafi",
+                          "transmitters": [
+                            {
+                              "id": 1,
+                              "name": "Qalun",
+                              "abbreviation": "Q",
+                              "is_primary": true
+                            }
+                          ]
+                        }
+                      ],
+                      "meta": {
+                        "total": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/readers/{id}": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "Get a Qira'at reader",
+        "description": "Get a single Qira'at reader with the reader's transmitters and biography (`bio.text` and `bio.short_text`) when available. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "get-qiraat-reader",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Reader identifier, as returned by the readers endpoint.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatReaderResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "reader": {
+                        "id": 1,
+                        "name": "Nafi",
+                        "abbreviation": "N",
+                        "death_year_hijri": 169,
+                        "death_year_gregorian": 785,
+                        "position": 1,
+                        "translated_name": "Nafi",
+                        "transmitters": [
+                          {
+                            "id": 1,
+                            "name": "Qalun",
+                            "abbreviation": "Q",
+                            "is_primary": true
+                          }
+                        ],
+                        "bio": {
+                          "text": "...",
+                          "short_text": "..."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. Returned when the reader does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "example": {
+                  "details": {
+                    "status": 404,
+                    "error": {
+                      "code": "NOT_FOUND",
+                      "message": "Reader with id 999 not found"
+                    }
+                  },
+                  "message": "Reader with id 999 not found",
+                  "type": "not_found",
+                  "success": false
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/transmitters": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "List Qira'at transmitters",
+        "description": "Get the Qira'at transmitters (rawis), ordered by `position`, each with its parent reader. Use `reader_id` to return only the transmitters of one reader. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "list-qiraat-transmitters",
+        "parameters": [
+          {
+            "name": "reader_id",
+            "in": "query",
+            "description": "Return only the transmitters that belong to this reader identifier.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatTransmittersResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "transmitters": [
+                        {
+                          "id": 1,
+                          "name": "Qalun",
+                          "abbreviation": "Q",
+                          "is_primary": true,
+                          "death_year_hijri": 220,
+                          "death_year_gregorian": 835,
+                          "position": 1,
+                          "translated_name": "Qalun",
+                          "reader": {
+                            "id": 1,
+                            "name": "Nafi",
+                            "abbreviation": "N"
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/transmitters/{id}": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "Get a Qira'at transmitter",
+        "description": "Get a single Qira'at transmitter with its parent reader and biography (`bio.text`) when available. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "get-qiraat-transmitter",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Transmitter identifier, as returned by the transmitters endpoint.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatTransmitterResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "transmitter": {
+                        "id": 1,
+                        "name": "Qalun",
+                        "abbreviation": "Q",
+                        "is_primary": true,
+                        "death_year_hijri": 220,
+                        "death_year_gregorian": 835,
+                        "position": 1,
+                        "translated_name": "Qalun",
+                        "reader": {
+                          "id": 1,
+                          "name": "Nafi",
+                          "abbreviation": "N"
+                        },
+                        "bio": {
+                          "text": "..."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. Returned when the transmitter does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "example": {
+                  "details": {
+                    "status": 404,
+                    "error": {
+                      "code": "NOT_FOUND",
+                      "message": "Transmitter with id 999 not found"
+                    }
+                  },
+                  "message": "Transmitter with id 999 not found",
+                  "type": "not_found",
+                  "success": false
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/junctures/by_verse/{verse_key}": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "List Qira'at junctures for a verse",
+        "description": "Get the approved Qira'at junctures (points of variation) that touch a verse, ordered by `position`. The response is not paginated. A verse with no junctures returns `200` with an empty `junctures` array and `meta.total_junctures` set to `0`. Use `include=readings` to embed a summary of each juncture's readings. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "list-qiraat-junctures-by-verse",
+        "parameters": [
+          {
+            "name": "verse_key",
+            "in": "path",
+            "description": "Verse key in `chapter:verse` format, for example `2:255`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter junctures by category: `A` (meaning difference), `B` (orthographic difference with the same meaning), or `C` (phonetic difference only). Any other value is ignored.",
+            "schema": {
+              "type": "string",
+              "enum": ["A", "B", "C"]
+            }
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "Comma-separated list of optional sections. Use `readings` to embed each juncture's readings (`id`, `position`, `text_uthmani`, and `translation` when available).",
+            "schema": {
+              "type": "string",
+              "example": "readings"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatJuncturesByVerseResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "verse": {
+                        "verse_key": "2:6",
+                        "verse_number": 6,
+                        "chapter_number": 2,
+                        "text_uthmani": "..."
+                      },
+                      "junctures": [
+                        {
+                          "id": 10,
+                          "verse_key": "2:6",
+                          "position": 1,
+                          "word_id": 24,
+                          "word_position": 1,
+                          "start_word_position": 1,
+                          "end_word_position": 1,
+                          "text_uthmani": "...",
+                          "text_imlaei": "...",
+                          "category": "A",
+                          "readings_count": 2
+                        }
+                      ],
+                      "meta": {
+                        "total_junctures": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. Returned when the verse does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "example": {
+                  "details": {
+                    "status": 404,
+                    "error": {
+                      "code": "NOT_FOUND",
+                      "message": "Verse 300:1 not found"
+                    }
+                  },
+                  "message": "Verse 300:1 not found",
+                  "type": "not_found",
+                  "success": false
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/junctures/by_chapter/{chapter_number}": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "List Qira'at junctures for a chapter",
+        "description": "Get the approved Qira'at junctures in a chapter, ordered by `position`, with page-based pagination. This endpoint does not support `include`; each juncture carries `readings_count` instead. Use the juncture or matrix endpoints for reading details. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "list-qiraat-junctures-by-chapter",
+        "parameters": [
+          {
+            "name": "chapter_number",
+            "in": "path",
+            "description": "Chapter (surah) number, from 1 to 114.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 114
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter junctures by category: `A` (meaning difference), `B` (orthographic difference with the same meaning), or `C` (phonetic difference only). Any other value is ignored.",
+            "schema": {
+              "type": "string",
+              "enum": ["A", "B", "C"]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "1-based page number. Defaults to `1`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Number of junctures per page. Defaults to `20`; values above `100` are capped at `100`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatJuncturesByChapterResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "chapter": {
+                        "id": 1,
+                        "chapter_number": 1,
+                        "name_simple": "Al-Fatihah"
+                      },
+                      "junctures": [
+                        {
+                          "id": 10,
+                          "verse_key": "1:4",
+                          "position": 1,
+                          "word_id": 24,
+                          "word_position": 1,
+                          "start_word_position": 1,
+                          "end_word_position": 1,
+                          "text_uthmani": "...",
+                          "text_imlaei": "...",
+                          "category": "A",
+                          "readings_count": 2
+                        }
+                      ],
+                      "pagination": {
+                        "current_page": 1,
+                        "total_pages": 1,
+                        "total_count": 1,
+                        "per_page": 20
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. Returned when the chapter does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "example": {
+                  "details": {
+                    "status": 404,
+                    "error": {
+                      "code": "NOT_FOUND",
+                      "message": "Chapter 999 not found"
+                    }
+                  },
+                  "message": "Chapter 999 not found",
+                  "type": "not_found",
+                  "success": false
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/junctures/{id}": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "Get a Qira'at juncture",
+        "description": "Get a single approved Qira'at juncture with all of its readings, including grammatical form, root letters, color, translation, transliteration, and explanations. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "get-qiraat-juncture",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Juncture identifier, as returned by the junctures endpoints.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatJunctureResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "juncture": {
+                        "id": 10,
+                        "verse_key": "1:4",
+                        "position": 1,
+                        "word_id": 24,
+                        "word_position": 1,
+                        "start_word_position": 1,
+                        "end_word_position": 1,
+                        "text_uthmani": "...",
+                        "text_imlaei": "...",
+                        "explanation": "...",
+                        "readings": [
+                          {
+                            "id": 20,
+                            "text_uthmani": "...",
+                            "text_imlaei": "...",
+                            "grammatical_form": null,
+                            "root_letters": null,
+                            "color": null,
+                            "translation": "...",
+                            "transliteration": "...",
+                            "explanations": [
+                              {
+                                "text": "...",
+                                "source": "..."
+                              }
+                            ]
+                          }
+                        ],
+                        "readings_count": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. Returned when the juncture does not exist or is not approved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "example": {
+                  "details": {
+                    "status": 404,
+                    "error": {
+                      "code": "NOT_FOUND",
+                      "message": "Juncture with id 999999 not found"
+                    }
+                  },
+                  "message": "Juncture with id 999999 not found",
+                  "type": "not_found",
+                  "success": false
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/readings/{id}": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "Get a Qira'at reading",
+        "description": "Get a single reading of an approved juncture, with its translation, transliteration, explanations, and the readers and transmitters it is attributed to. A reading whose juncture is not approved returns `404`. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "get-qiraat-reading",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Reading identifier, as returned by the juncture and matrix endpoints.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatReadingResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "reading": {
+                        "id": 20,
+                        "juncture_id": 10,
+                        "verse_key": "1:4",
+                        "text_uthmani": "...",
+                        "text_imlaei": "...",
+                        "position": 1,
+                        "color": null,
+                        "translation": "...",
+                        "transliteration": "...",
+                        "explanation": {
+                          "id": 5,
+                          "text": "...",
+                          "source": "..."
+                        },
+                        "explanations": [
+                          {
+                            "id": 5,
+                            "text": "...",
+                            "source": "..."
+                          }
+                        ],
+                        "attributed_to": {
+                          "readers": [
+                            {
+                              "id": 1,
+                              "name": "Nafi",
+                              "abbreviation": "N",
+                              "scope": "all_transmitters"
+                            }
+                          ],
+                          "transmitters": [
+                            {
+                              "id": 2,
+                              "name": "Warsh",
+                              "abbreviation": "W",
+                              "reader_id": 1,
+                              "reader_name": "Nafi"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. Returned when the reading does not exist or its juncture is not approved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "example": {
+                  "details": {
+                    "status": 404,
+                    "error": {
+                      "code": "NOT_FOUND",
+                      "message": "Reading with id 999999 not found"
+                    }
+                  },
+                  "message": "Reading with id 999999 not found",
+                  "type": "not_found",
+                  "success": false
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/matrix/by_verse/{verse_key}": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "Get the Qira'at matrix for a verse",
+        "description": "Get the full Qira'at matrix for a verse: every approved juncture touching the verse, each reading, and which readers and transmitters are attributed to each reading. The response also lists all readers and transmitters (the matrix axes) and links to the previous and next verses that have Qira'at variations. A verse with no approved junctures returns `404` (`NOT_FOUND`, \"No qiraat variations found for verse <verse_key>\"); use the count endpoint or the junctures endpoint to discover which verses have variations. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "get-qiraat-matrix-by-verse",
+        "parameters": [
+          {
+            "name": "verse_key",
+            "in": "path",
+            "description": "Verse key in `chapter:verse` format, for example `2:255`.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "text_field",
+            "in": "query",
+            "description": "Script used for verse, juncture, and reading text. The `text_` prefix is optional (`imlaei` is the same as `text_imlaei`). Any other value resolves to `text_uthmani`.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "text_uthmani",
+                "text_imlaei",
+                "text_qpc_hafs",
+                "uthmani",
+                "imlaei",
+                "qpc_hafs"
+              ],
+              "default": "text_uthmani"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatMatrixByVerseResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "verse": {
+                        "verse_key": "1:4",
+                        "chapter_number": 1,
+                        "verse_number": 4,
+                        "text": "...",
+                        "text_field": "text_uthmani"
+                      },
+                      "navigation": {
+                        "previous_verse": null,
+                        "next_verse": {
+                          "verse_key": "2:6",
+                          "chapter_id": 2,
+                          "verse_id": 6
+                        }
+                      },
+                      "readers": [
+                        {
+                          "id": 1,
+                          "name": "Nafi",
+                          "translated_name": "Nafi",
+                          "abbreviation": "N",
+                          "position": 1,
+                          "city": "...",
+                          "bio": "..."
+                        }
+                      ],
+                      "transmitters": [
+                        {
+                          "id": 1,
+                          "name": "Qalun",
+                          "translated_name": "Qalun",
+                          "abbreviation": "Q",
+                          "reader_id": 1,
+                          "position": 1,
+                          "is_primary": true
+                        }
+                      ],
+                      "junctures": [
+                        {
+                          "id": 10,
+                          "position": 1,
+                          "verse_key": "1:4",
+                          "verse_range": "1:4",
+                          "cross_verse": false,
+                          "text": "...",
+                          "text_simple": "...",
+                          "category": "A",
+                          "segments": [
+                            {
+                              "id": 30,
+                              "verse_key": "1:4",
+                              "verse_id": 4,
+                              "text": "...",
+                              "position": 1
+                            }
+                          ],
+                          "readings": [
+                            {
+                              "id": 20,
+                              "position": 1,
+                              "text": "...",
+                              "text_uthmani": "...",
+                              "text_imlaei": "...",
+                              "grammatical_form": null,
+                              "root_letters": null,
+                              "color": null,
+                              "translation": "...",
+                              "matrix": {
+                                "readers": [1],
+                                "transmitters": [1],
+                                "cells": [
+                                  {
+                                    "reader_id": 1,
+                                    "transmitter_id": null,
+                                    "type": "reader"
+                                  },
+                                  {
+                                    "reader_id": 1,
+                                    "transmitter_id": 1,
+                                    "type": "transmitter"
+                                  }
+                                ]
+                              },
+                              "explanations": [
+                                {
+                                  "id": 5,
+                                  "text": "...",
+                                  "source": "..."
+                                }
+                              ]
+                            }
+                          ],
+                          "combined_translation": "..."
+                        }
+                      ],
+                      "meta": {
+                        "language": "en",
+                        "direction": "ltr",
+                        "text_field": "text_uthmani",
+                        "total_junctures": 1,
+                        "total_readings": 1,
+                        "generated_at": "2026-01-01T00:00:00Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameter. Returned when `verse_key` is not in `chapter:verse` format.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "example": {
+                  "details": {
+                    "status": 400,
+                    "error": {
+                      "code": "INVALID_PARAMETER",
+                      "message": "Invalid verse_key format. Expected format: chapter:verse (e.g., 12:12)",
+                      "details": {
+                        "parameter": "verse_key",
+                        "provided": "2-255",
+                        "expected": "12:12"
+                      }
+                    }
+                  },
+                  "message": "Invalid verse_key format. Expected format: chapter:verse (e.g., 12:12)",
+                  "type": "invalid_request",
+                  "success": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. Returned when the verse does not exist, or when the verse has no approved Qira'at variations.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "examples": {
+                  "no_variations": {
+                    "summary": "Verse without Qira'at variations",
+                    "value": {
+                      "details": {
+                        "status": 404,
+                        "error": {
+                          "code": "NOT_FOUND",
+                          "message": "No qiraat variations found for verse 2:6"
+                        }
+                      },
+                      "message": "No qiraat variations found for verse 2:6",
+                      "type": "not_found",
+                      "success": false
+                    }
+                  },
+                  "verse_not_found": {
+                    "summary": "Verse does not exist",
+                    "value": {
+                      "details": {
+                        "status": 404,
+                        "error": {
+                          "code": "NOT_FOUND",
+                          "message": "Verse 300:1 not found"
+                        }
+                      },
+                      "message": "Verse 300:1 not found",
+                      "type": "not_found",
+                      "success": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/matrix/by_chapter/{chapter_number}": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "Get the Qira'at matrix for a chapter",
+        "description": "Get the Qira'at matrix for a chapter: the approved junctures in the chapter with their readings and reader/transmitter attributions, paginated by juncture, together with all readers and transmitters. Unlike the by-verse matrix, readings here carry the translation but not explanations, and a chapter with no variations returns `200` with an empty `junctures` array. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "get-qiraat-matrix-by-chapter",
+        "parameters": [
+          {
+            "name": "chapter_number",
+            "in": "path",
+            "description": "Chapter (surah) number, from 1 to 114.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 114
+            }
+          },
+          {
+            "name": "text_field",
+            "in": "query",
+            "description": "Script used for verse, juncture, and reading text. The `text_` prefix is optional (`imlaei` is the same as `text_imlaei`). Any other value resolves to `text_uthmani`.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "text_uthmani",
+                "text_imlaei",
+                "text_qpc_hafs",
+                "uthmani",
+                "imlaei",
+                "qpc_hafs"
+              ],
+              "default": "text_uthmani"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "1-based page number. Defaults to `1`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Number of junctures per page. Defaults to `20`; values above `100` are capped at `100`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Language ISO code for translated names, translations, and explanations. Defaults to `en`. An unknown code resolves to `en`. Content that is missing in a language other than `en` or `ar` falls back to English; `ar` does not fall back.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatMatrixByChapterResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "chapter": {
+                        "id": 1,
+                        "chapter_number": 1,
+                        "name_simple": "Al-Fatihah"
+                      },
+                      "readers": [
+                        {
+                          "id": 1,
+                          "name": "Nafi",
+                          "abbreviation": "N",
+                          "position": 1
+                        }
+                      ],
+                      "transmitters": [
+                        {
+                          "id": 1,
+                          "name": "Qalun",
+                          "abbreviation": "Q",
+                          "reader_id": 1,
+                          "position": 1,
+                          "is_primary": true
+                        }
+                      ],
+                      "junctures": [
+                        {
+                          "id": 10,
+                          "verse_key": "1:4",
+                          "position": 1,
+                          "word_id": 24,
+                          "word_position": 1,
+                          "start_word_position": 1,
+                          "end_word_position": 1,
+                          "text": "...",
+                          "category": "A",
+                          "readings": [
+                            {
+                              "id": 20,
+                              "text": "...",
+                              "text_uthmani": "...",
+                              "text_imlaei": "...",
+                              "translation": "...",
+                              "matrix": {
+                                "readers": [1],
+                                "transmitters": [1],
+                                "cells": [
+                                  {
+                                    "reader_id": 1,
+                                    "transmitter_id": null,
+                                    "type": "reader"
+                                  },
+                                  {
+                                    "reader_id": 1,
+                                    "transmitter_id": 1,
+                                    "type": "transmitter"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "pagination": {
+                        "current_page": 1,
+                        "total_pages": 1,
+                        "total_count": 1,
+                        "per_page": 20
+                      },
+                      "meta": {
+                        "language": "en",
+                        "direction": "ltr",
+                        "text_field": "text_uthmani",
+                        "generated_at": "2026-01-01T00:00:00Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found. Returned when the chapter does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "example": {
+                  "details": {
+                    "status": 404,
+                    "error": {
+                      "code": "NOT_FOUND",
+                      "message": "Chapter 999 not found"
+                    }
+                  },
+                  "message": "Chapter 999 not found",
+                  "type": "not_found",
+                  "success": false
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/qiraat/matrix/count_within_range": {
+      "get": {
+        "tags": ["Qiraat"],
+        "summary": "Count Qira'at junctures within a verse range",
+        "description": "Get a map of verse keys to the number of approved Qira'at junctures in an inclusive verse range. Only verses with at least one juncture appear in the map, so an empty object means no variations in the range. Use it to decide which verses to request from the matrix endpoints. Requires the `qiraat.read` scope (or the parent `qiraat` scope); a token with only the `content` scope receives `403` with `type: insufficient_scope`.",
+        "operationId": "count-qiraat-matrix-within-range",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Starting verse key in `chapter:verse` format, for example `1:1`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1:1"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Ending verse key in `chapter:verse` format, for example `2:10`. Must not come before `from`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2:10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatMatrixCountWithinRangeResponse"
+                },
+                "examples": {
+                  "default_success": {
+                    "summary": "Successful response",
+                    "value": {
+                      "1:4": 2,
+                      "2:6": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameter. Returned when `from` or `to` is missing, malformed, not a valid verse, or when `from` comes after `to`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QiraatErrorResponse"
+                },
+                "examples": {
+                  "missing_parameters": {
+                    "summary": "Missing parameters",
+                    "value": {
+                      "details": {
+                        "status": 400,
+                        "error": {
+                          "code": "INVALID_PARAMETER",
+                          "message": "Missing required parameters: from and to",
+                          "details": {
+                            "required": ["from", "to"]
+                          }
+                        }
+                      },
+                      "message": "Missing required parameters: from and to",
+                      "type": "invalid_request",
+                      "success": false
+                    }
+                  },
+                  "invalid_format": {
+                    "summary": "Invalid verse key format",
+                    "value": {
+                      "details": {
+                        "status": 400,
+                        "error": {
+                          "code": "INVALID_PARAMETER",
+                          "message": "Invalid verse_key format. Expected format: chapter:verse (e.g., 1:1)",
+                          "details": {
+                            "from": "1-1",
+                            "to": "2:10",
+                            "expected": "1:1"
+                          }
+                        }
+                      },
+                      "message": "Invalid verse_key format. Expected format: chapter:verse (e.g., 1:1)",
+                      "type": "invalid_request",
+                      "success": false
+                    }
+                  },
+                  "invalid_range": {
+                    "summary": "from comes after to",
+                    "value": {
+                      "details": {
+                        "status": 400,
+                        "error": {
+                          "code": "INVALID_PARAMETER",
+                          "message": "Invalid range: from verse must come before to verse"
+                        }
+                      },
+                      "message": "Invalid range: from verse must come before to verse",
+                      "type": "invalid_request",
+                      "success": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/rateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -23241,6 +24767,1201 @@
               }
             }
           }
+        }
+      },
+      "QiraatErrorResponse": {
+        "title": "QiraatErrorResponse",
+        "type": "object",
+        "description": "Error body as returned through the Quran Foundation gateway: the Qira'at service error is nested under `details`.",
+        "required": ["details", "message", "type", "success"],
+        "properties": {
+          "details": {
+            "type": "object",
+            "description": "The error body returned by the Qira'at service.",
+            "required": ["status", "error"],
+            "properties": {
+              "status": {
+                "type": "integer",
+                "example": 404
+              },
+              "error": {
+                "type": "object",
+                "required": ["code", "message"],
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "enum": ["INVALID_PARAMETER", "NOT_FOUND"]
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "details": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "description": "Optional structured details, for example the offending parameter."
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message (the same text as `details.error.message`)."
+          },
+          "type": {
+            "type": "string",
+            "enum": ["invalid_request", "not_found"]
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "QiraatReaderRef": {
+        "title": "QiraatReaderRef",
+        "type": "object",
+        "required": ["id", "name", "abbreviation"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "abbreviation": {
+            "type": "string"
+          }
+        }
+      },
+      "QiraatTransmitterInReader": {
+        "title": "QiraatTransmitterInReader",
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "abbreviation": {
+            "type": "string"
+          },
+          "is_primary": {
+            "type": "boolean"
+          }
+        }
+      },
+      "QiraatReader": {
+        "title": "QiraatReader",
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "abbreviation": {
+            "type": "string"
+          },
+          "death_year_hijri": {
+            "type": "integer",
+            "nullable": true
+          },
+          "death_year_gregorian": {
+            "type": "integer",
+            "nullable": true
+          },
+          "position": {
+            "type": "integer"
+          },
+          "translated_name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Reader name in the requested language, when available."
+          },
+          "transmitters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatTransmitterInReader"
+            },
+            "description": "Present when `include=transmitters` is requested, and always on the single-reader endpoint."
+          },
+          "bio": {
+            "type": "object",
+            "description": "Reader biography in the requested language, when available.",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "short_text": {
+                "type": "string",
+                "description": "Only present on the single-reader endpoint."
+              }
+            }
+          }
+        }
+      },
+      "QiraatReadersResponse": {
+        "title": "QiraatReadersResponse",
+        "type": "object",
+        "required": ["readers", "meta"],
+        "properties": {
+          "readers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatReader"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "required": ["total"],
+            "properties": {
+              "total": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "QiraatReaderResponse": {
+        "title": "QiraatReaderResponse",
+        "type": "object",
+        "required": ["reader"],
+        "properties": {
+          "reader": {
+            "$ref": "#/components/schemas/QiraatReader"
+          }
+        }
+      },
+      "QiraatTransmitter": {
+        "title": "QiraatTransmitter",
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "abbreviation": {
+            "type": "string"
+          },
+          "is_primary": {
+            "type": "boolean"
+          },
+          "death_year_hijri": {
+            "type": "integer",
+            "nullable": true
+          },
+          "death_year_gregorian": {
+            "type": "integer",
+            "nullable": true
+          },
+          "position": {
+            "type": "integer"
+          },
+          "translated_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "reader": {
+            "$ref": "#/components/schemas/QiraatReaderRef"
+          },
+          "bio": {
+            "type": "object",
+            "description": "Transmitter biography in the requested language, when available (single-transmitter endpoint).",
+            "properties": {
+              "text": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "QiraatTransmittersResponse": {
+        "title": "QiraatTransmittersResponse",
+        "type": "object",
+        "required": ["transmitters", "meta"],
+        "properties": {
+          "transmitters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatTransmitter"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "required": ["total"],
+            "properties": {
+              "total": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "QiraatTransmitterResponse": {
+        "title": "QiraatTransmitterResponse",
+        "type": "object",
+        "required": ["transmitter"],
+        "properties": {
+          "transmitter": {
+            "$ref": "#/components/schemas/QiraatTransmitter"
+          }
+        }
+      },
+      "QiraatJunctureSummary": {
+        "title": "QiraatJunctureSummary",
+        "type": "object",
+        "required": ["id", "verse_key", "position", "readings_count"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "verse_key": {
+            "type": "string",
+            "description": "Verse key of the juncture, or a range such as `2:5-6` for a juncture that spans verses."
+          },
+          "position": {
+            "type": "integer"
+          },
+          "word_id": {
+            "type": "integer",
+            "nullable": true
+          },
+          "word_position": {
+            "type": "integer",
+            "nullable": true
+          },
+          "start_word_position": {
+            "type": "integer",
+            "nullable": true
+          },
+          "end_word_position": {
+            "type": "integer",
+            "nullable": true
+          },
+          "text_uthmani": {
+            "type": "string",
+            "nullable": true
+          },
+          "text_imlaei": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "enum": ["A", "B", "C"],
+            "nullable": true,
+            "description": "`A` meaning difference, `B` orthographic difference with the same meaning, `C` phonetic difference only."
+          },
+          "flags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional classification flags, present only when set."
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Juncture explanation in the requested language, present only when available."
+          },
+          "readings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "position": {
+                  "type": "integer"
+                },
+                "text_uthmani": {
+                  "type": "string"
+                },
+                "translation": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Present only when `include=readings` is requested on the by-verse endpoint."
+          },
+          "readings_count": {
+            "type": "integer"
+          }
+        }
+      },
+      "QiraatJuncturesByVerseResponse": {
+        "title": "QiraatJuncturesByVerseResponse",
+        "type": "object",
+        "required": ["verse", "junctures", "meta"],
+        "properties": {
+          "verse": {
+            "type": "object",
+            "properties": {
+              "verse_key": {
+                "type": "string"
+              },
+              "verse_number": {
+                "type": "integer"
+              },
+              "chapter_number": {
+                "type": "integer"
+              },
+              "text_uthmani": {
+                "type": "string"
+              }
+            }
+          },
+          "junctures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatJunctureSummary"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "required": ["total_junctures"],
+            "properties": {
+              "total_junctures": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "QiraatPagination": {
+        "title": "QiraatPagination",
+        "type": "object",
+        "required": ["current_page", "total_pages", "total_count", "per_page"],
+        "properties": {
+          "current_page": {
+            "type": "integer"
+          },
+          "total_pages": {
+            "type": "integer"
+          },
+          "total_count": {
+            "type": "integer"
+          },
+          "per_page": {
+            "type": "integer"
+          }
+        }
+      },
+      "QiraatJuncturesByChapterResponse": {
+        "title": "QiraatJuncturesByChapterResponse",
+        "type": "object",
+        "required": ["chapter", "junctures", "pagination"],
+        "properties": {
+          "chapter": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "chapter_number": {
+                "type": "integer"
+              },
+              "name_simple": {
+                "type": "string"
+              }
+            }
+          },
+          "junctures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatJunctureSummary"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/QiraatPagination"
+          }
+        }
+      },
+      "QiraatJunctureResponse": {
+        "title": "QiraatJunctureResponse",
+        "type": "object",
+        "required": ["juncture"],
+        "properties": {
+          "juncture": {
+            "type": "object",
+            "required": ["id", "verse_key", "position", "readings", "readings_count"],
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "verse_key": {
+                "type": "string"
+              },
+              "position": {
+                "type": "integer"
+              },
+              "word_id": {
+                "type": "integer",
+                "nullable": true
+              },
+              "word_position": {
+                "type": "integer",
+                "nullable": true
+              },
+              "start_word_position": {
+                "type": "integer",
+                "nullable": true
+              },
+              "end_word_position": {
+                "type": "integer",
+                "nullable": true
+              },
+              "text_uthmani": {
+                "type": "string",
+                "nullable": true
+              },
+              "text_imlaei": {
+                "type": "string",
+                "nullable": true
+              },
+              "flags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "explanation": {
+                "type": "string"
+              },
+              "readings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "text_uthmani": {
+                      "type": "string"
+                    },
+                    "text_imlaei": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "grammatical_form": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "root_letters": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "color": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "translation": {
+                      "type": "string"
+                    },
+                    "transliteration": {
+                      "type": "string"
+                    },
+                    "explanations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "text": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "description": "Shared explanations for the reading in the requested language."
+                    }
+                  }
+                }
+              },
+              "readings_count": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "QiraatReadingResponse": {
+        "title": "QiraatReadingResponse",
+        "type": "object",
+        "required": ["reading"],
+        "properties": {
+          "reading": {
+            "type": "object",
+            "required": ["id", "juncture_id", "attributed_to"],
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "juncture_id": {
+                "type": "integer"
+              },
+              "verse_key": {
+                "type": "string",
+                "nullable": true
+              },
+              "text_uthmani": {
+                "type": "string",
+                "nullable": true
+              },
+              "text_imlaei": {
+                "type": "string",
+                "nullable": true
+              },
+              "position": {
+                "type": "integer"
+              },
+              "color": {
+                "type": "string",
+                "nullable": true
+              },
+              "translation": {
+                "type": "string",
+                "nullable": true
+              },
+              "transliteration": {
+                "type": "string",
+                "nullable": true
+              },
+              "explanation": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                },
+                "description": "First explanation, when available."
+              },
+              "explanations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              },
+              "attributed_to": {
+                "type": "object",
+                "required": ["readers", "transmitters"],
+                "properties": {
+                  "readers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "abbreviation": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "scope": {
+                          "type": "string",
+                          "enum": ["all_transmitters"],
+                          "description": "The attribution covers all transmitters of the reader."
+                        }
+                      }
+                    },
+                    "description": "Readers attributed to the reading without a specific transmitter."
+                  },
+                  "transmitters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "abbreviation": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "reader_id": {
+                          "type": "integer"
+                        },
+                        "reader_name": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      }
+                    },
+                    "description": "Transmitters attributed to the reading."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "QiraatMatrixCell": {
+        "title": "QiraatMatrixCell",
+        "type": "object",
+        "required": ["reader_id", "type"],
+        "properties": {
+          "reader_id": {
+            "type": "integer"
+          },
+          "transmitter_id": {
+            "type": "integer",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "enum": ["reader", "transmitter"]
+          }
+        }
+      },
+      "QiraatMatrixAttribution": {
+        "title": "QiraatMatrixAttribution",
+        "type": "object",
+        "description": "Attribution of the reading to the readers and transmitters axes.",
+        "required": ["readers", "transmitters", "cells"],
+        "properties": {
+          "readers": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "Reader identifiers attributed to the reading."
+          },
+          "transmitters": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "Transmitter identifiers attributed to the reading."
+          },
+          "cells": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatMatrixCell"
+            }
+          }
+        }
+      },
+      "QiraatMatrixReader": {
+        "title": "QiraatMatrixReader",
+        "type": "object",
+        "required": ["id", "name", "abbreviation", "position"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "abbreviation": {
+            "type": "string"
+          },
+          "position": {
+            "type": "integer"
+          }
+        }
+      },
+      "QiraatMatrixTransmitter": {
+        "title": "QiraatMatrixTransmitter",
+        "type": "object",
+        "required": ["id", "name", "abbreviation", "reader_id", "position"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "abbreviation": {
+            "type": "string"
+          },
+          "reader_id": {
+            "type": "integer"
+          },
+          "position": {
+            "type": "integer"
+          },
+          "is_primary": {
+            "type": "boolean"
+          }
+        }
+      },
+      "QiraatMatrixByVerseResponse": {
+        "title": "QiraatMatrixByVerseResponse",
+        "type": "object",
+        "required": ["verse", "navigation", "readers", "transmitters", "junctures", "meta"],
+        "properties": {
+          "verse": {
+            "type": "object",
+            "properties": {
+              "verse_key": {
+                "type": "string"
+              },
+              "chapter_number": {
+                "type": "integer"
+              },
+              "verse_number": {
+                "type": "integer"
+              },
+              "text": {
+                "type": "string"
+              },
+              "text_field": {
+                "type": "string"
+              }
+            }
+          },
+          "navigation": {
+            "type": "object",
+            "description": "Nearest verses before and after this one that have approved Qira'at variations; `null` when there is none.",
+            "properties": {
+              "previous_verse": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "verse_key": {
+                    "type": "string"
+                  },
+                  "chapter_id": {
+                    "type": "integer"
+                  },
+                  "verse_id": {
+                    "type": "integer",
+                    "description": "Verse number within the chapter."
+                  }
+                }
+              },
+              "next_verse": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "verse_key": {
+                    "type": "string"
+                  },
+                  "chapter_id": {
+                    "type": "integer"
+                  },
+                  "verse_id": {
+                    "type": "integer",
+                    "description": "Verse number within the chapter."
+                  }
+                }
+              }
+            }
+          },
+          "readers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "name", "abbreviation", "position"],
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "translated_name": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "abbreviation": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "integer"
+                },
+                "city": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "bio": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            },
+            "description": "All readers, in matrix column order."
+          },
+          "transmitters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatMatrixTransmitter"
+            },
+            "description": "All transmitters, in matrix column order."
+          },
+          "junctures": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "position", "segments", "readings"],
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "position": {
+                  "type": "integer"
+                },
+                "verse_key": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "verse_range": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "cross_verse": {
+                  "type": "boolean"
+                },
+                "text": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "text_simple": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "category": {
+                  "type": "string",
+                  "enum": ["A", "B", "C"],
+                  "nullable": true,
+                  "description": "`A` meaning difference, `B` orthographic difference with the same meaning, `C` phonetic difference only."
+                },
+                "segments": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "verse_key": {
+                        "type": "string"
+                      },
+                      "verse_id": {
+                        "type": "integer"
+                      },
+                      "text": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "position": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "readings": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "position", "text", "matrix"],
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "position": {
+                        "type": "integer"
+                      },
+                      "text": {
+                        "type": "string"
+                      },
+                      "text_uthmani": {
+                        "type": "string"
+                      },
+                      "text_imlaei": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "grammatical_form": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "root_letters": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "color": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "translation": {
+                        "type": "string"
+                      },
+                      "translations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "text": {
+                              "type": "string"
+                            },
+                            "source": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      },
+                      "transliteration": {
+                        "type": "string"
+                      },
+                      "explanations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "text": {
+                              "type": "string"
+                            },
+                            "source": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      },
+                      "explanation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "matrix": {
+                        "$ref": "#/components/schemas/QiraatMatrixAttribution"
+                      }
+                    }
+                  }
+                },
+                "commentary": {
+                  "type": "string",
+                  "description": "Same text as `combined_translation`."
+                },
+                "combined_translation": {
+                  "type": "string",
+                  "description": "Combined translation of the juncture in the requested language, when available."
+                }
+              }
+            }
+          },
+          "meta": {
+            "type": "object",
+            "required": ["language", "direction", "text_field", "total_junctures", "total_readings", "generated_at"],
+            "properties": {
+              "language": {
+                "type": "string"
+              },
+              "direction": {
+                "type": "string",
+                "enum": ["ltr", "rtl"]
+              },
+              "text_field": {
+                "type": "string"
+              },
+              "total_junctures": {
+                "type": "integer"
+              },
+              "total_readings": {
+                "type": "integer"
+              },
+              "generated_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      "QiraatMatrixByChapterResponse": {
+        "title": "QiraatMatrixByChapterResponse",
+        "type": "object",
+        "required": ["chapter", "readers", "transmitters", "junctures", "pagination", "meta"],
+        "properties": {
+          "chapter": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "chapter_number": {
+                "type": "integer"
+              },
+              "name_simple": {
+                "type": "string"
+              }
+            }
+          },
+          "readers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatMatrixReader"
+            }
+          },
+          "transmitters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QiraatMatrixTransmitter"
+            }
+          },
+          "junctures": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "verse_key", "position", "readings"],
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "verse_key": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "integer"
+                },
+                "word_id": {
+                  "type": "integer",
+                  "nullable": true
+                },
+                "word_position": {
+                  "type": "integer",
+                  "nullable": true
+                },
+                "start_word_position": {
+                  "type": "integer",
+                  "nullable": true
+                },
+                "end_word_position": {
+                  "type": "integer",
+                  "nullable": true
+                },
+                "text": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "category": {
+                  "type": "string",
+                  "enum": ["A", "B", "C"],
+                  "nullable": true,
+                  "description": "`A` meaning difference, `B` orthographic difference with the same meaning, `C` phonetic difference only."
+                },
+                "readings": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "text", "matrix"],
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "text": {
+                        "type": "string"
+                      },
+                      "text_uthmani": {
+                        "type": "string"
+                      },
+                      "text_imlaei": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "translation": {
+                        "type": "string"
+                      },
+                      "matrix": {
+                        "$ref": "#/components/schemas/QiraatMatrixAttribution"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/QiraatPagination"
+          },
+          "meta": {
+            "type": "object",
+            "required": ["language", "direction", "text_field", "generated_at"],
+            "properties": {
+              "language": {
+                "type": "string"
+              },
+              "direction": {
+                "type": "string",
+                "enum": ["ltr", "rtl"]
+              },
+              "text_field": {
+                "type": "string"
+              },
+              "generated_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      "QiraatMatrixCountWithinRangeResponse": {
+        "title": "QiraatMatrixCountWithinRangeResponse",
+        "type": "object",
+        "description": "Map of verse key to the number of approved junctures in that verse. Verses without junctures are omitted.",
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "example": {
+          "1:4": 2,
+          "2:6": 1
         }
       }
     },

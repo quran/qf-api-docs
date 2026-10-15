@@ -24,6 +24,7 @@ Do not also request child scopes unless those child scopes were separately appro
 | `note`                         | `note`                   | `note.read note.create note.update note.delete note.publish` |
 | `post`                         | `post`                   | `post.read post.create post.update post.delete post.save post.like post.report post.log post.export` |
 | `collection`                   | `collection`             | `collection.read collection.create collection.update collection.delete` |
+| `qiraat`                       | `qiraat`                 | `qiraat.read`                             |
 
 Requesting a scope that is not approved for your client can cause the authorization server to return
 `invalid_scope`, even when a parent scope would be enough for the API call.
@@ -40,6 +41,19 @@ Requesting a scope that is not approved for your client can cause the authorizat
 | Scope   | Description                                                                      |
 | ------- | -------------------------------------------------------------------------------- |
 | content | Read Quran Foundation's non user-related content e.g. Tafsirs, Translations, etc |
+
+## Qira'at
+
+| Scope       | Description                                                          |
+| ----------- | -------------------------------------------------------------------- |
+| qiraat      | Manage access to Qira'at (Quran recitation variants) content        |
+| qiraat.read | Read Qira'at readers, transmitters, junctures, readings, and matrix data |
+
+`qiraat` grants the same read access as `qiraat.read`. The Qira'at endpoints under
+`/content/api/v4/qiraat/` are scope-gated: the `content` scope alone is not enough and returns `403`
+(`insufficient_scope`). Request `qiraat.read`, or the parent `qiraat` scope if that is what your
+client is approved for. See the
+[Content API Qira'at endpoints](/docs/content_apis_versioned/4.0.0/list-qiraat-readers).
 
 ## Search
 
