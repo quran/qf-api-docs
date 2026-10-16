@@ -75,8 +75,8 @@ chapter-recitation snapshot.
 
 ### Canonical Quran Core
 
-`quran_core:1` provides canonical Uthmani verse text, word-level IndoPak and
-Uthmani Tajweed text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. The
+`quran_core:1` provides canonical Uthmani verse text, word-level IndoPak,
+Uthmani Tajweed, and Imla'i text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. The
 SDK exports `QuranCoreSnapshotRecord` and typed chapter, verse, word, and
 boundary variants, including `QuranCoreWordSnapshotRecord`. Its
 `resource_content_id` is `None`; local rows use `(record_type, id)` as their
@@ -96,6 +96,7 @@ for record in core["records"]:
             record["location"],
             record.get("text_indopak_nastaleeq"),
             record["text_uthmani_tajweed"],
+            record.get("text_imlaei"),
         )
 ```
 
@@ -103,7 +104,9 @@ Use `text_indopak_nastaleeq` for IndoPak text and render it with the compatible
 [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font);
 `text_indopak` is deprecated and retained for compatibility. Existing local
 copies receive the new field after the resource is re-snapshotted or
-backfilled, so read it with `.get()` until then.
+backfilled, so read it with `.get()` until then. `text_imlaei` is the word text
+in the Imla'i (simple) script; existing local copies receive it after the
+resource is re-snapshotted or invalidated, so read it with `.get()` as well.
 
 Use the same combined filter for incremental sync, and replace the complete
 resource on `RESOURCE_INVALIDATE`.
