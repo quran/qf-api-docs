@@ -40,6 +40,12 @@ For web apps, the recommended pattern is to store the user session in your backe
 
 For confidential web integrations, route the resource request through your backend or serverless proxy instead of calling Quran Foundation directly from the page.
 
+## I get HTTP 403 with `error code: 1010`. What does it mean?
+
+This plain-text (non-JSON) response means the `User-Agent` header your client sends is being blocked before the request reaches the API. Python's default `urllib` User-Agent (`Python-urllib/3.x`) is blocked. We verified that the same requests with a custom `User-Agent` such as `MyApp/1.0`, or with the default `httpx` User-Agent, return the normal JSON responses.
+
+Set your own `User-Agent` header, or use `requests`, `httpx`, or `curl`. See [Manual Authentication](/docs/quickstart/manual-authentication#troubleshooting-http-403-with-error-code-1010) for a `urllib` example.
+
 ## What are the best practices for refresh tokens?
 
 Store refresh tokens securely and reuse them until they expire. Refresh tokens allow you to obtain new access tokens without asking the user to re-authorize.

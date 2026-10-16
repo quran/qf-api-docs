@@ -154,6 +154,36 @@ getToken()
 
 </details>
 
+### Troubleshooting: HTTP 403 with `error code: 1010`
+
+If the token request returns HTTP 403 with a plain-text (non-JSON) body of `error code: 1010`, your client's default `User-Agent` header is being blocked. Python's built-in `urllib` default (`Python-urllib/3.x`) is blocked. Set your own `User-Agent` header (for example `MyApp/1.0`), or use `requests`, `httpx`, or `curl`.
+
+```python
+import base64
+import os
+import urllib.parse
+import urllib.request
+
+credentials = base64.b64encode(
+    f"{os.environ['QF_CLIENT_ID']}:{os.environ['QF_CLIENT_SECRET']}".encode()
+).decode()
+
+request = urllib.request.Request(
+    "https://prelive-oauth2.quran.foundation/oauth2/token",
+    data=urllib.parse.urlencode(
+        {"grant_type": "client_credentials", "scope": "content"}
+    ).encode(),
+    headers={
+        "Authorization": f"Basic {credentials}",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "MyApp/1.0",
+    },
+    method="POST",
+)
+with urllib.request.urlopen(request, timeout=30) as response:
+    print(response.status)
+```
+
 ### Sample Token Response
 
 ```json
