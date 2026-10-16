@@ -139,6 +139,10 @@ Check the HTTP status before trusting the response body. Content API error respo
 | `429` | Rate limit exceeded | Back off and retry later. Prefer exponential backoff with jitter. |
 | `500`, `502`, `503`, `504` | Temporary server or upstream failure | Retry with bounded backoff, then surface a temporary failure. |
 
+:::note HTTP 403 with `error code: 1010`
+A 403 with a plain-text body of `error code: 1010` means your client's default `User-Agent` is being blocked (Python's `urllib` default is). Set your own `User-Agent` header or use `requests`, `httpx`, or `curl`. See the [manual authentication troubleshooting note](/docs/quickstart/manual-authentication#troubleshooting-http-403-with-error-code-1010).
+:::
+
 Client Credentials does not use a `refresh_token`. When a Content API token expires, re-request a new token from `/oauth2/token`. See [token management](/docs/quickstart/token-management) for the full cache and retry-once pattern.
 
 ## Backend Proxy Pattern
