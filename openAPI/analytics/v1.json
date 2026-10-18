@@ -242,15 +242,15 @@
             }
           }
         },
+        "x-qf-live-request-current-timestamp-fields": [
+          "occurred_at"
+        ],
         "x-code-samples": [
           {
             "label": "cURL",
             "lang": "bash",
             "source": "OCCURRED_AT=\"$(date -u '+%Y-%m-%dT%H:%M:%SZ')\"\n\ncurl --request POST \\\n  'https://apis.quran.foundation/analytics/v1/events:batch' \\\n  --header 'Content-Type: application/json' \\\n  --header 'x-client-id: <YOUR_CLIENT_ID>' \\\n  --header 'x-auth-token: <YOUR_ACCESS_TOKEN>' \\\n  --data \"{\\\"events\\\":[{\\\"event_id\\\":\\\"evt_01j60x3y6n7r8s9t0v1w2x3y4z\\\",\\\"name\\\":\\\"quran.reader.verse_viewed\\\",\\\"version\\\":1,\\\"occurred_at\\\":\\\"$OCCURRED_AT\\\",\\\"user_id\\\":\\\"4f5bb0d7-8c13-4f06-8dbd-2f1d4ed3ba90\\\",\\\"properties\\\":{\\\"chapter_number\\\":1,\\\"verse_number\\\":1,\\\"surface\\\":\\\"reader\\\"}}]}\""
           }
-        ],
-        "x-qf-live-request-current-timestamp-fields": [
-          "occurred_at"
         ]
       }
     }
