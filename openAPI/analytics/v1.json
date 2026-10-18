@@ -227,7 +227,7 @@
             }
           },
           "503": {
-            "description": "The durable event queue is temporarily unavailable. Retry the request with the same event IDs; duplicates are possible and are identified downstream by client ID and event ID.",
+            "description": "The durable event queue is temporarily unavailable or the collector's batch admission capacity is exhausted. Retry the request with the same event IDs; duplicates are possible and are identified downstream by client ID and event ID.",
             "content": {
               "application/json": {
                 "schema": {
