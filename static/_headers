@@ -88,6 +88,16 @@
 /search/
   X-Robots-Tag: noindex, follow
 
+# Pre-live User API docs mirror production; keep them out of search results
+/docs/user_related_apis_prelive/*
+  X-Robots-Tag: noindex, follow
+
+/docs/category/user-related-apis-pre-live
+  X-Robots-Tag: noindex, follow
+
+/docs/category/user-related-apis-pre-live/
+  X-Robots-Tag: noindex, follow
+
 /.well-known/http-message-signatures-directory
   Content-Type: application/http-message-signatures-directory+json
   Cache-Control: public, max-age=86400
