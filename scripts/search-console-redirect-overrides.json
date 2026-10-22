@@ -117,6 +117,10 @@
       "target": "/docs/tutorials/oidc/user-apis-quickstart/"
     },
     {
+      "source": "/docs/user-related-apis/reading-sessions-vs-activity-days",
+      "target": "/docs/user-related-apis/1.0.0/reading-sessions-vs-activity-days/"
+    },
+    {
       "source": "/docs/user_related_apis_versioned",
       "target": "/docs/user_related_apis_versioned/1.0.0/user-related-apis/"
     },
