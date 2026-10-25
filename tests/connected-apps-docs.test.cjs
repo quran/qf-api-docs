@@ -101,7 +101,7 @@ test('documents the RC1 Connected Apps release concepts', () => {
   const requiredPatterns = [
     /\*\*Version:\*\* 1\.0 · \*\*Published:\*\* \d{4}-\d{2}-\d{2} · \*\*Effective date:\*\* \d{4}-\d{2}-\d{2}/,
     /\*\*Quran App Store\*\* at \[Quran\.com\/apps\]\(https:\/\/quran\.com\/apps\)/,
-    /Scholarly, engineering, and UX review then run in parallel and can complete in any order/,
+    /Scholarly, engineering, and user experience \(UX\) review then run in parallel and can complete in any order/,
     /within \*\*5 business days\*\*/,
     /within \*\*1 to 2 business days\*\*/,
     /within \*\*3 calendar weeks\*\*/,
@@ -111,16 +111,31 @@ test('documents the RC1 Connected Apps release concepts', () => {
     /Up to \*\*160 characters\*\*/,
     /at least \*\*512 x 512 px\*\*/,
     /Study tools, Reflections, Quran Reader, Community, Hadith and Sunnah, and Audio/,
-    /\*\*Integrated App\*\* \| Uses Quran Foundation APIs\. Eligible to apply for inclusion in the Quran App Store\. \| Not publicly listed\. \| Not required\. \|/,
-    /\*\*Verified App\*\* \| Meets standards for trusted content, responsible practices, and alignment with the Foundation's principles\. \| Indexed and searchable\. \| Not required\. \|/,
-    /\*\*Vision-Aligned App\*\* \| Scholarly reviewed, strongly aligned with the Foundation's mission, and integrated with Quran ID for user continuity\. \| Listed on the Quran App Store\. \| Integrated with Quran ID for user continuity\. \|/,
-    /\*\*Transformational App\*\* \| An exceptional partner app offering unique value, high scholarly standards, exclusive Quran ID integration, and meaningful tracking of users' Quran journeys, with a focus on da'wah\. \| Prominent App Store placement, with potential Quran\.com homepage featuring\./,
-    /New submissions default to Verified App/,
-    /Quran ID and Transformational status are the goal: apps should ultimately help users carry a meaningful Quran journey across the ecosystem\./,
+    /\| Status \| Requirements \| Visibility \| Quran ID \|/,
+    /\*\*Integrated App\*\* \| Registered in the Developer Console and uses Quran Foundation APIs; has not applied to or been admitted to the Quran App Store\. \| Not publicly listed\. \| Not required by status\. \|/,
+    /\*\*Verified App\*\* \| Trusted content, agreement to Quran Foundation principles, and responsible practices\. \| Searchable only; excluded from browsable sections\. \| Not required by status\. \|/,
+    /\*\*Vision-Aligned App\*\* \| Scholarly reviewed, strongly aligned with the Quran Foundation mission, and uses Quran ID for user continuity\. \| Listed in the Quran App Store\. \| Required\. \|/,
+    /\*\*Transformational App\*\* \| Upholds the highest partner standards: unique value and meaningful contribution, high scholarly standards, exclusive Quran ID authentication for user continuity, support for tracking users' Quran journeys and meaningful progress, and a da'wah-oriented purpose\. \| High visibility in the Quran App Store; potential Quran\.com homepage featuring, requested by email\. \| Exclusive authentication\. \|/,
+    /Integrated Apps are registered in the Developer Console and use Quran Foundation APIs\. They have not applied to or been admitted to the Quran App Store\. Applicants must pass all four eligibility gates/,
+    /Verified App, Vision-Aligned App, and Transformational App are assigned after review\. Submitting an application does not grant a reviewed status\./,
+    /\[Quran ID\]\(#connect-quran-id\) \(Quran Foundation OAuth\) connects a user's Quran Foundation account to participating apps\./,
+    /Visibility follows the assigned status and ongoing compliance\./,
+    /Transformational is the goal: help users carry a meaningful Quran journey across the ecosystem\./,
     /:::tip Aim for Transformational/,
-    /Quran Foundation OAuth as the \*\*sole source of backend user authentication\*\*/,
+    /Quran ID is the sole source of backend user authentication/,
+    /Signing in does not automatically synchronize all account data\./,
+    /Transformational partners may request Quran\.com homepage consideration by emailing \[developers@quran\.com\]/,
+    /### Journey tracking and shared insights/,
+    /Never sell user data or repurpose it beyond disclosed features\./,
+    /Status, ranking, and editorial placement cannot be bought through donations/,
     /A published app cannot open a new submission while it is live/,
-    /Quran data provided by \[Quran\.Foundation\]\(https:\/\/quran\.foundation\/\)/,
+    /Prior approval does not approve new functionality\./,
+    /material changes to disclosed data collection, sharing, or purposes/,
+    /Voluntary withdrawal and resubmission starts a new three-week target\./,
+    /### Does every app need Quran ID\?/,
+    /\[Developer Privacy Policy Packet\]\(https:\/\/api-docs\.quran\.foundation\/legal\/developer-privacy\/\)/,
+    /\[Quran Foundation Developer Terms of Service: License Grant\]\(https:\/\/api-docs\.quran\.foundation\/legal\/developer-terms\/#2-license-grant\)/,
+    /Quran data provided by \[Quran Foundation\]\(https:\/\/quran\.foundation\/\)/,
     /every seven days when connectivity permits/,
     /\[Content Sync guide\]\(https:\/\/api-docs\.quran\.foundation\/docs\/tutorials\/content-sync\/getting-started\/\)/,
     /https:\/\/calendar\.app\.google\/Xi4TJMrLtqHj8C5o7/,
@@ -139,6 +154,23 @@ test('documents the RC1 Connected Apps release concepts', () => {
     'expected only the current app status names',
   );
   assert.doesNotMatch(doc, /\bPopular\b/, 'Popular is not a selectable category');
+
+  for (const retiredCopy of [
+    /New submissions default to Verified App/,
+    /Every status, including Integrated App/,
+    /Quran Foundation SSO/,
+    /\[Developer Terms\]/,
+    /developer privacy requirements/,
+    /Prominent App Store placement/,
+    /briefed to the relevant teams rather than re-reviewed/,
+  ]) {
+    assert.doesNotMatch(doc, retiredCopy, `expected retired copy to be removed: ${retiredCopy}`);
+  }
+  assert.equal(
+    (doc.match(/Quran Foundation OAuth/g) || []).length,
+    1,
+    'expected Quran Foundation OAuth only at the first Quran ID mention',
+  );
 });
 
 test('orders the guide around the developer journey', () => {
@@ -149,7 +181,7 @@ test('orders the guide around the developer journey', () => {
     '## Prepare your listing',
     '## How to submit',
     '## App statuses',
-    '## After publication',
+    '## After approval: updates and status changes',
   ];
   const indexes = headings.map((heading) => doc.indexOf(`\n${heading}\n`));
 
@@ -208,6 +240,9 @@ test('resolves every in-page anchor and keeps legacy anchors', () => {
     'avoid-avoidable-harm',
     'tell-us-before-shipping-material-changes',
     'terms-and-compliance',
+    'after-publication',
+    'connect-quran-foundation-user-accounts',
+    'does-every-app-need-oauth',
   ]) {
     assert.ok(aliasIds.has(legacyAnchor), `expected legacy anchor alias: #${legacyAnchor}`);
   }
@@ -242,6 +277,8 @@ test('resolves every in-page anchor and keeps legacy anchors', () => {
     'review-stages-and-timing',
     'terms-and-commercial-use',
     'content-and-attribution-requirements',
+    'connect-quran-id',
+    'after-approval-updates-and-status-changes',
   ]) {
     assert.ok(headingIds.has(consoleAnchor), `expected linked heading: #${consoleAnchor}`);
   }
@@ -262,17 +299,14 @@ test('routes self-service setup through the Developer Console', () => {
 });
 
 test('uses the current Quran Foundation name in hand-authored guides', () => {
-  const attributionLine =
-    'Quran data provided by [Quran.Foundation](https://quran.foundation/).';
-
   for (const [name, source] of [
-    ['Connected Apps', doc.replace(attributionLine, '')],
+    ['Connected Apps', doc],
     ['OAuth getting started', oauthGuide],
   ]) {
     assert.doesNotMatch(
       source,
       /Quran\.Foundation/,
-      `${name} should use the current Quran Foundation name outside the attribution line`,
+      `${name} should use the current Quran Foundation name`,
     );
   }
 });
