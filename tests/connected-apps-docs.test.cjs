@@ -111,10 +111,12 @@ test('documents the RC1 Connected Apps release concepts', () => {
     /Up to \*\*160 characters\*\*/,
     /at least \*\*512 x 512 px\*\*/,
     /Study tools, Reflections, Quran Reader, Community, Hadith and Sunnah, and Audio/,
-    /\*\*Indexed \(searchable\) App\*\*/,
-    /\*\*Verified Listing App\*\*/,
-    /\*\*Vision Aligned App\*\*/,
-    /\*\*Transformational \(user enabled\) App\*\*/,
+    /\*\*Integrated App\*\* \| Uses Quran Foundation APIs\. Eligible to apply for inclusion in the Quran App Store\. \| Not publicly listed\. \| Not required\. \|/,
+    /\*\*Verified App\*\* \| Meets standards for trusted content, responsible practices, and alignment with the Foundation's principles\. \| Indexed and searchable\. \| Not required\. \|/,
+    /\*\*Vision-Aligned App\*\* \| Scholarly reviewed, strongly aligned with the Foundation's mission, and integrated with Quran ID for user continuity\. \| Listed on the Quran App Store\. \| Integrated with Quran ID for user continuity\. \|/,
+    /\*\*Transformational App\*\* \| An exceptional partner app offering unique value, high scholarly standards, exclusive Quran ID integration, and meaningful tracking of users' Quran journeys, with a focus on da'wah\. \| Prominent App Store placement, with potential Quran\.com homepage featuring\./,
+    /New submissions default to Verified App/,
+    /Quran ID and Transformational status are the goal: apps should ultimately help users carry a meaningful Quran journey across the ecosystem\./,
     /:::tip Aim for Transformational/,
     /Quran Foundation OAuth as the \*\*sole source of backend user authentication\*\*/,
     /A published app cannot open a new submission while it is live/,
@@ -131,6 +133,11 @@ test('documents the RC1 Connected Apps release concepts', () => {
   }
 
   assert.doesNotMatch(doc, /weekly delta sync/i);
+  assert.doesNotMatch(
+    doc,
+    /Indexed App|Indexed \(searchable\)|Verified Listing|Vision Aligned|user enabled\) App/,
+    'expected only the current app status names',
+  );
   assert.doesNotMatch(doc, /\bPopular\b/, 'Popular is not a selectable category');
 });
 
@@ -189,6 +196,9 @@ test('resolves every in-page anchor and keeps legacy anchors', () => {
     'verified-listing-app',
     'vision-aligned-app',
     'transformational-user-enabled-app',
+    'integrated-app',
+    'verified-app',
+    'transformational-app',
     'featured-placement-temporary-editorial-promotion',
     'what-a-status-does-and-does-not-mean',
     'directory-listing-versus-homepage-promotion',
@@ -207,12 +217,23 @@ test('resolves every in-page anchor and keeps legacy anchors', () => {
     ['gate-2-security-and-privacy-baseline', '**2. Security and privacy**'],
     ['gate-3-api-and-platform-compliance', '**3. API and platform compliance**'],
     ['gate-4-maintenance-and-responsiveness', '**4. Maintenance and responsiveness**'],
-    ['indexed-searchable-app', '**Indexed (searchable) App**'],
-    ['verified-listing-app', '**Verified Listing App**'],
   ]) {
     assert.ok(
       doc.includes(`| <a id="${rowAnchor}" className="connectedAppsLegacyAnchor"></a>${rowLabel} |`),
       `expected #${rowAnchor} on its matching table row`,
+    );
+  }
+
+  const anchorTag = (id) => `<a id="${id}" className="connectedAppsLegacyAnchor"></a>`;
+  for (const [rowAnchors, rowLabel] of [
+    [['integrated-app', 'indexed-searchable-app'], '**Integrated App**'],
+    [['verified-app', 'verified-listing-app'], '**Verified App**'],
+    [['vision-aligned-app'], '**Vision-Aligned App**'],
+    [['transformational-app', 'transformational-user-enabled-app'], '**Transformational App**'],
+  ]) {
+    assert.ok(
+      doc.includes(`| ${rowAnchors.map(anchorTag).join('')}${rowLabel} |`),
+      `expected #${rowAnchors.join(', #')} on the ${rowLabel} status row`,
     );
   }
 
