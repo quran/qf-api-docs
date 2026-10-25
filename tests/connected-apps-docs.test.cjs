@@ -226,9 +226,9 @@ test('resolves every in-page anchor and keeps legacy anchors', () => {
 
   const anchorTag = (id) => `<a id="${id}" className="connectedAppsLegacyAnchor"></a>`;
   for (const [rowAnchors, rowLabel] of [
-    [['integrated-app', 'indexed-searchable-app'], '**Integrated App**'],
-    [['verified-app', 'verified-listing-app'], '**Verified App**'],
-    [['vision-aligned-app'], '**Vision-Aligned App**'],
+    [['integrated-app'], '**Integrated App**'],
+    [['verified-app', 'indexed-searchable-app'], '**Verified App**'],
+    [['vision-aligned-app', 'verified-listing-app'], '**Vision-Aligned App**'],
     [['transformational-app', 'transformational-user-enabled-app'], '**Transformational App**'],
   ]) {
     assert.ok(
