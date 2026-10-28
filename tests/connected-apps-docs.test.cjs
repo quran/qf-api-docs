@@ -99,7 +99,7 @@ const aliasIds = new Set(
 
 test('documents the RC1 Connected Apps release concepts', () => {
   const requiredPatterns = [
-    /\*\*Version:\*\* 1\.0 · \*\*Published:\*\* \d{4}-\d{2}-\d{2} · \*\*Effective date:\*\* \d{4}-\d{2}-\d{2}/,
+    /\*\*Version:\*\* 1\.1 · \*\*Published:\*\* \d{4}-\d{2}-\d{2} · \*\*Effective date:\*\* \d{4}-\d{2}-\d{2}/,
     /\*\*Quran App Store\*\* at \[Quran\.com\/apps\]\(https:\/\/quran\.com\/apps\)/,
     /Scholarly, engineering, and user experience \(UX\) review then run in parallel and can complete in any order/,
     /within \*\*5 business days\*\*/,
