@@ -7,9 +7,9 @@ displayed_sidebar: "APIsSidebar"
 
 # Connected Apps
 
-> **Version:** 1.0 · **Published:** 2026-10-09 · **Effective date:** 2026-10-09
+> **Version:** 1.1 · **Published:** 2026-10-28 · **Effective date:** 2026-10-28
 
-Connected Apps is Quran Foundation's developer program for independent apps built with its content, APIs, and account services. The **Quran App Store** at [Quran.com/apps](https://quran.com/apps) is the public directory where users discover approved apps.
+Connected Apps is Quran Foundation's developer program for independent apps built with its content, APIs, and account services. The **Quran App Store** at [Quran.com/apps](https://quran.com/apps) is the public directory where users discover approved apps. [Quran ID](#connect-quran-id) (Quran Foundation OAuth) connects a user's Quran Foundation account to participating apps.
 
 This guide explains eligibility, submission, review, app statuses, and ongoing responsibilities. For implementation detail, use the API references and integration guides.
 
@@ -17,8 +17,8 @@ This guide explains eligibility, submission, review, app statuses, and ongoing r
 
 - **Build with Quran Foundation APIs:** sign in to the [Developer Console](https://dev-console.quran.foundation/projects), create your app, and get credentials.
 - **Submit your app to the Quran App Store:** check the [eligibility gates](#check-whether-your-app-is-eligible), prepare your listing, and complete the [submission steps](#how-to-submit).
-- **Connect Quran Foundation accounts:** read the [account requirements](#connect-quran-foundation-user-accounts), then request the scopes your app needs in the console.
-- **Use AI features or AI-generated content:** read the [AI requirements](#ai-features-and-generated-religious-content) before building or submitting those features.
+- **Connect Quran ID:** read the [Quran ID requirements](#connect-quran-id), then request the scopes your app needs in the console.
+- **Use artificial intelligence (AI) features or AI-generated content:** read the [AI requirements](#ai-features-and-generated-religious-content) before building or submitting those features.
 
 <a id="who-should-use-this-guide" className="connectedAppsLegacyAnchor"></a>
 
@@ -31,7 +31,7 @@ This guide explains eligibility, submission, review, app statuses, and ongoing r
 ## Why build with Quran Foundation
 
 - **Content and infrastructure:** build on APIs and content supported by ongoing scholarly review and corrections.
-- **Account continuity:** with user consent and approved User APIs, connect bookmarks, progress, notes, goals, and preferences across participating apps.
+- **Account continuity:** Use Quran ID and approved Quran Foundation User APIs to connect supported account features across participating apps, with user consent.
 - **Discovery:** submit your app for review and discovery in the Quran App Store.
 - **Developer guidance:** get help with onboarding, integration, and review from the Quran Foundation developer relations team.
 
@@ -50,9 +50,9 @@ Use the [Developer Console](https://dev-console.quran.foundation/projects) to:
 - View app activity and switch between your apps.
 - Submit Connected Apps applications and follow reviewer conversations.
 
-The console links to API documentation, SDKs, developer policies, and support. It replaces the previous request-access form and listing submission document.
+The console links to API documentation, software development kits (SDKs), developer policies, and support. It replaces the previous request-access form and listing submission document.
 
-Credentials and configuration are self-service. Scope approval, listing approval, app status, and Featured placement remain separate reviewed decisions.
+Credentials and configuration are self-service. Scope approval, listing approval, reviewed app statuses, and Featured placement remain separate reviewed decisions.
 
 ## Follow the Connected Apps process
 
@@ -61,18 +61,18 @@ Credentials and configuration are self-service. Scope approval, listing approval
 3. **Prepare your submission.** Gather your public listing copy, content and rights information, integration details, and operational contacts.
 4. **Submit for review.** Complete the six application sections and resolve readiness errors.
 5. **Work with reviewers.** Follow the review conversation and respond to requests for information or changes.
-6. **Publish at the assigned status.** Approved apps become discoverable according to their status. Indexed Apps are searchable by name, and the other three statuses have browsable listings.
-7. **Keep the app current.** Maintain content, support, and integration details, and submit material updates as described under [After publication](#after-publication).
+6. **Receive your reviewed status and visibility.** Approved apps receive the visibility described under [App statuses](#app-statuses). Integrated Apps are not publicly listed.
+7. **Keep the app current.** Maintain content, support, and integration details. Follow [After approval: updates and status changes](#after-approval-updates-and-status-changes) for material updates.
 
 ### Review stages and timing
 
-After submission, developer relations makes initial contact and arranges an exploratory call. Scholarly, engineering, and UX review then run in parallel and can complete in any order, followed by a decision. Reviewers may request changes before that decision.
+After submission, developer relations makes initial contact and arranges an exploratory call. Scholarly, engineering, and user experience (UX) review then run in parallel and can complete in any order, followed by a decision. Reviewers may request changes before that decision.
 
 | Milestone | Timing |
 | --- | --- |
 | Submission acknowledgement | We acknowledge every submission within **5 business days**. This is a commitment. |
 | Initial contact | We aim to make initial contact within **1 to 2 business days**, including arranging an exploratory call. |
-| Review and onboarding | We aim to complete Quran Foundation's review work within **3 calendar weeks** of a complete submission. Complex content, OAuth, AI, or commercial cases may take longer. |
+| Review and onboarding | We aim to complete Quran Foundation's review work within **3 calendar weeks** of a complete submission. Complex content, Quran ID, artificial intelligence, or commercial cases may take longer. |
 
 The three-week target covers Quran Foundation's review work. Manageable reviewer-requested changes can stay within the original target. When substantial developer work is needed, the target pauses while that work is completed and resumes when the updated submission is ready.
 
@@ -90,23 +90,26 @@ Follow progress and messages in the review conversation on your submission. The 
 - **Product quality:** does the app work reliably and provide a clear user support route?
 - **Commercial model:** are charges, advertising, donations, and sponsorships transparent and respectful?
 - **Accountability:** can the owner maintain the app, respond to issues, and cooperate with review and corrective action?
+- **Status requirements:** Assess scholarly standards, mission alignment, Quran ID implementation, user continuity, and support for meaningful Quran journeys, as appropriate to the status sought.
 
-Listing approval does not automatically approve OAuth scopes, Featured placement, or future product changes.
+Listing approval does not automatically approve Quran ID scopes, Featured placement, or future product changes.
 
 ## Check whether your app is eligible
 
-Every status, including Indexed App, requires all four gates below. Popularity, marketing reach, or a large user base cannot offset a failed gate. An app that stops meeting these requirements may have its visibility or access restricted.
+Integrated Apps are registered in the Developer Console and use Quran Foundation APIs. They have not applied to or been admitted to the Quran App Store. Applicants must pass all four eligibility gates to receive Verified App, Vision-Aligned App, or Transformational App status. API use remains subject to the [Quran Foundation Developer Terms of Service](https://api-docs.quran.foundation/legal/developer-terms/). Popularity or reach cannot offset a failed gate.
+
+An app that stops meeting these requirements may have its visibility or access restricted.
 
 | Gate | Requirement | Review evidence |
 | --- | --- | --- |
 | <a id="gate-1-content-integrity-and-updates" className="connectedAppsLegacyAnchor"></a>**1. Content integrity and updates** | Use approved Quran Foundation endpoints or a written license for Quran Foundation content. Establish rights, attribution, and required category-specific approvals for external content. Maintain content according to the applicable update requirements. | Sources, rights records, attribution, API use, and update process. |
 | <a id="gate-2-security-and-privacy-baseline" className="connectedAppsLegacyAnchor"></a>**2. Security and privacy** | Publish a privacy policy and terms of service, protect data, avoid deceptive or harmful data practices, and provide an incident contact. | Public policy links, data minimization, security measures, and incident-response arrangements. |
-| <a id="gate-3-api-and-platform-compliance" className="connectedAppsLegacyAnchor"></a>**3. API and platform compliance** | Follow the Developer Terms, applicable usage requirements, branding rules, and content licenses. | Accepted terms, declarations, and evidence of compliant use. |
+| <a id="gate-3-api-and-platform-compliance" className="connectedAppsLegacyAnchor"></a>**3. API and platform compliance** | Follow the [Quran Foundation Developer Terms of Service](https://api-docs.quran.foundation/legal/developer-terms/), applicable usage requirements, branding rules, and content licenses. | Accepted terms, declarations, and evidence of compliant use. |
 | <a id="gate-4-maintenance-and-responsiveness" className="connectedAppsLegacyAnchor"></a>**4. Maintenance and responsiveness** | Name a technical contact and maintain a process for responding to corrections, incidents, breaking changes, and deprecations within agreed timelines. | Technical contact, support route, and maintenance commitment. |
 
 ## Prepare your listing
 
-Your listing should help users understand what the app does, who operates it, where to use it, how to get support, and whether it connects to their Quran Foundation account.
+Your listing should help users understand what the app does, who operates it, where to use it, how to get support, and whether it connects to Quran ID.
 
 ### The listing package
 
@@ -119,7 +122,7 @@ The console collects your submission in six sections:
 | **Content and rights** | Content sources, attribution approach, and licenses or permissions. This section is for review and is not displayed on the listing. |
 | **Integration** | Production APIs or services used, scope and sign-in configuration, and whether the app uses AI features or AI-generated content. AI details are required when you select Yes. |
 | **Business and operations** | Commercial model, technical contact, incident contact, maintenance and content-update process, and branding declaration. |
-| **Declarations** | Confirmation of accuracy, rights and permissions, and acceptance of the Developer Terms and Connected Apps requirements. |
+| **Declarations** | Confirmation of accuracy, rights and permissions, and acceptance of the [Quran Foundation Developer Terms of Service](https://api-docs.quran.foundation/legal/developer-terms/) and Connected Apps requirements. |
 
 The optional **Note to reviewers** field can provide demo access, screenshot links, additional context, or a summary of changes since a previous submission. Update the relevant application fields as well; a note does not replace them.
 
@@ -168,7 +171,7 @@ The application is locked during review. Each request keeps a read-only record o
 - **Reviewer-requested changes:** when reviewers reopen editing, update the requested information and resubmit through the same flow.
 - **Changes you initiate:** withdraw the submission, update the relevant fields or App Settings, and resubmit. Use the reviewer note to explain what changed.
 
-Resubmission creates a new review request with its own data. Previous submissions remain read-only, and earlier conversations and notices are retained. Withdrawal and resubmission restarts the three-week target, as explained under [review timing](#review-stages-and-timing).
+Resubmission creates a new review request with its own data. Previous submissions remain read-only, and earlier conversations and notices are retained. Reviewer-requested edits follow the [review timing rules above](#review-stages-and-timing). Substantial developer work pauses the target until the update is ready. Voluntary withdrawal and resubmission starts a new three-week target.
 
 ### Use the right route
 
@@ -177,38 +180,37 @@ Resubmission creates a new review request with its own data. Previous submission
 | Credentials, redirect URIs, and confidential-client secrets | Developer Console App Settings. |
 | New or expanded scopes | Request scopes in the console and wait for approval before using the additional access. |
 | First listing submission and pre-decision edits | The Connected Apps tab in the console. |
-| Updates and status changes after publication | Contact developer relations by [email](mailto:developers@quran.com) or [partner office hours](https://calendar.app.google/Xi4TJMrLtqHj8C5o7); see [After publication](#after-publication). |
+| Updates or a higher status after approval | Contact developer relations by [email](mailto:developers@quran.com) or [partner office hours](https://calendar.app.google/Xi4TJMrLtqHj8C5o7); see [After approval: updates and status changes](#after-approval-updates-and-status-changes). |
+| Quran.com homepage featuring consideration | Transformational partners: email [developers@quran.com](mailto:developers@quran.com). |
 | Reviewer questions during review | The review conversation on the submission. |
 | General guidance or a blocked workflow | [developers@quran.com](mailto:developers@quran.com). |
 
 ## App statuses
 
-The four statuses describe review outcomes and ecosystem participation. Every status requires the eligibility gates. Statuses are distinct from the application's workflow state, such as Draft or In review. The clarifiers in parentheses below explain the two less obvious statuses; they are not part of the official names.
+App statuses describe participation in the Quran Foundation ecosystem. Integrated App identifies an app registered in the Developer Console that uses Quran Foundation APIs and has not applied to the Quran App Store. Verified App, Vision-Aligned App, and Transformational App are assigned after review. Submitting an application does not grant a reviewed status. Application states, such as Draft and In review, track the submission separately.
 
-| Status | Requirements beyond the common gates | Discovery and opportunities |
-| --- | --- | --- |
-| <a id="indexed-searchable-app" className="connectedAppsLegacyAnchor"></a>**Indexed (searchable) App** | Meets governance and content-sourcing requirements, but further integration or demonstrated user value is needed for a browsable listing, as identified in review. | Searchable by name in the Quran App Store; not shown in browsable sections. |
-| <a id="verified-listing-app" className="connectedAppsLegacyAnchor"></a>**Verified Listing App** | Confirmed content provenance and attribution, verified update and maintenance arrangements, and reliable basic UX. OAuth is not required. | Browsable Quran App Store listing. |
-| <a id="vision-aligned-app" className="connectedAppsLegacyAnchor"></a>**Vision Aligned App** | Meets Verified Listing App requirements, demonstrates mission alignment and clear user value, maintains responsible use and change management, and has a credible path toward meaningful account continuity. OAuth need not already be implemented. | Browsable listing; eligible for curated roundups, partner showcases, and additional discovery opportunities. |
-| <a id="transformational-user-enabled-app" className="connectedAppsLegacyAnchor"></a>**Transformational (user enabled) App** | Meets Vision Aligned App requirements and implements OAuth and approved User APIs to deliver meaningful continuity and user value. Quran Foundation sign-in is preferably the primary sign-in. | Browsable listing; eligible for enhanced placement and closer collaboration. Featured consideration has the additional conditions below. |
+| Status | Requirements | Visibility | Quran ID |
+| --- | --- | --- | --- |
+| <a id="integrated-app" className="connectedAppsLegacyAnchor"></a>**Integrated App** | Registered in the Developer Console and uses Quran Foundation APIs; has not applied to or been admitted to the Quran App Store. | Not publicly listed. | Not required by status. |
+| <a id="verified-app" className="connectedAppsLegacyAnchor"></a><a id="indexed-searchable-app" className="connectedAppsLegacyAnchor"></a>**Verified App** | Trusted content, agreement to Quran Foundation principles, and responsible practices. | Searchable only; excluded from browsable sections. | Not required by status. |
+| <a id="vision-aligned-app" className="connectedAppsLegacyAnchor"></a><a id="verified-listing-app" className="connectedAppsLegacyAnchor"></a>**Vision-Aligned App** | Scholarly reviewed, strongly aligned with the Quran Foundation mission, and uses Quran ID for user continuity. | Listed in the Quran App Store. | Required. |
+| <a id="transformational-app" className="connectedAppsLegacyAnchor"></a><a id="transformational-user-enabled-app" className="connectedAppsLegacyAnchor"></a>**Transformational App** | Upholds the highest partner standards: unique value and meaningful contribution, high scholarly standards, exclusive Quran ID authentication for user continuity, support for tracking users' Quran journeys and meaningful progress, and a da'wah-oriented purpose. | High visibility in the Quran App Store; potential Quran.com homepage featuring, requested by email. | Exclusive authentication. |
 
-These opportunities are discretionary. A status does not guarantee a showcase, collaboration, placement, traffic, or data-sharing arrangement.
+Visibility follows the assigned status and ongoing compliance. Specific rankings, editorial promotions, Quran.com homepage featuring, traffic, and collaboration are not guaranteed.
 
 :::tip Aim for Transformational
-Not every app needs Transformational status. Where an app has no meaningful account experience to connect, a content status is the right fit. For the majority of apps, though, Transformational is the aim: keep looking for ways to integrate Quran Foundation content and account features that genuinely strengthen your product and carry users further in their journey.
+Transformational is the goal: help users carry a meaningful Quran journey across the ecosystem. Verified App status suits apps without a meaningful account experience to connect. Add Quran ID and account features where they strengthen the product and support continuity.
 :::
 
-Content-focused apps commonly start at Verified Listing App status. Look for account integration that strengthens the experience rather than adding OAuth solely to obtain a higher status.
-
-To seek a higher status once your app is published, contact developer relations as described under [After publication](#after-publication).
+Apply through the Connected Apps tab in the Developer Console. During review, follow [Editing and resubmission](#editing-and-resubmission). After approval, [contact developer relations](#after-approval-updates-and-status-changes) about updates or a higher status.
 
 <a id="featured-placement-temporary-editorial-promotion" className="connectedAppsLegacyAnchor"></a>
 
 ### Featured placement
 
-Featured is **temporary editorial placement**, not a fifth status. Quran Foundation selects it for a particular surface or campaign and reassesses it over time. It cannot be purchased or applied for as a guaranteed placement.
+Featured is temporary editorial promotion, separate from app status. When considering an app for featuring, the Quran Foundation review team looks at factors such as Transformational App status, mission alignment, sustained user value, reliability, availability, and support readiness. Selection remains discretionary and cannot be purchased.
 
-Eligibility requires Transformational status, Quran Foundation OAuth as the **sole source of backend user authentication**, close mission alignment, and demonstrated sustained user value, reliability, availability, and support readiness. Partners may express interest, but selection remains discretionary.
+Transformational partners may request Quran.com homepage consideration by emailing [developers@quran.com](mailto:developers@quran.com). A request does not guarantee selection.
 
 <a id="what-a-status-does-and-does-not-mean" className="connectedAppsLegacyAnchor"></a><a id="directory-listing-versus-homepage-promotion" className="connectedAppsLegacyAnchor"></a>
 
@@ -218,30 +220,38 @@ A listing identifies an independent app that has passed the checks for its assig
 
 Listing approval does not guarantee Quran.com homepage promotion. Homepage and Featured placement are selective editorial decisions.
 
-Public badges for reviewed statuses are planned for a future update. Until they ship, statuses are reflected through placement in the Quran App Store rather than badge artwork.
+Public status badges are planned. Until available, reviewed statuses are reflected through their applicable search or directory visibility. Integrated Apps have no public listing.
 
 ### Visibility is not for sale
 
-Directory visibility, status, ranking, and editorial placement cannot be bought or improved through donations, sponsorships, advertising, privileged access, data-sharing arrangements, or other commercial relationships with Quran Foundation.
+Status, ranking, and editorial placement cannot be bought through donations, sponsorships, advertising, data-sharing arrangements, or other commercial relationships. Decisions reflect eligibility, integration, trust, and user value.
 
-Decisions reflect eligibility, integration, trust, and user value. Fundraising does not itself disqualify an app, but its claims and practices must meet the same transparency and responsible-use requirements.
+Fundraising does not itself disqualify an app, but its claims and practices must meet the same transparency and responsible-use requirements.
 
 ### Statuses reflect the journey
 
-Beyond their technical requirements, the statuses describe a journey. Each step up should reflect real progress along the transformational funnel and real gains in ecosystem continuity: one account, through Quran Foundation SSO, carrying a user's bookmarks, progress, notes, goals, and preferences across participating apps so their journey continues wherever they go. Integration earns a status when it moves users forward, not when it merely satisfies a checklist.
+Statuses progress from API integration to trusted practices, scholarly review and account continuity, then exceptional contribution and support for meaningful Quran journeys. Higher status requires demonstrated value and the applicable status requirements.
 
-<a id="connect-qurancom-user-accounts" className="connectedAppsLegacyAnchor"></a>
+### Journey tracking and shared insights
 
-## Connect Quran Foundation user accounts
+Quran Foundation will work alongside highly trusted partners to support meaningful Quran journeys through in-depth data sharing and analysis. Shared insights will help improve user experiences, understand meaningful progress, and strengthen continuity across the ecosystem.
 
-Use Quran Foundation OAuth when your app connects a Quran Foundation account or accesses Quran Foundation User APIs. Having accounts or signed-in features in your own app does not, by itself, require Quran Foundation OAuth.
+<a id="connect-qurancom-user-accounts" className="connectedAppsLegacyAnchor"></a><a id="connect-quran-foundation-user-accounts" className="connectedAppsLegacyAnchor"></a>
+
+## Connect Quran ID
+
+Quran ID is required for Vision-Aligned Apps and is the exclusive authentication service for Transformational Apps. Transformational Apps must support user continuity and ecosystem engagement through Quran ID and implemented Quran Foundation User APIs. Integrated and Verified Apps need Quran ID when connecting Quran Foundation accounts or accessing Quran Foundation User APIs.
+
+**Exclusive authentication** means Quran ID is the sole source of backend user authentication for the app. Quran ID sign-in alone does not demonstrate user continuity: reviewers assess the implemented Quran Foundation User APIs and the connected experience.
+
+Continuity depends on implemented features, available APIs, approved scopes, and user consent. Signing in does not automatically synchronize all account data.
 
 | Integration | Authentication |
 | --- | --- |
-| Content APIs | Client Credentials. An SDK implements the relevant flow; it is not a separate authentication method. |
-| User APIs and account continuity | Authorization Code with PKCE; use OpenID Connect for identity. |
+| Quran Foundation Content APIs | Client Credentials. An SDK implements the relevant flow; it is not a separate authentication method. |
+| Quran Foundation User APIs and account continuity | Authorization Code with Proof Key for Code Exchange (PKCE); use OpenID Connect for identity. |
 
-Follow the client type configured in the console: confidential clients exchange tokens on the server, and public frontend or mobile clients use PKCE without a client secret. Follow the [OAuth guide](https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/) for implementation.
+Follow the client type configured in the console: confidential clients exchange tokens on the server, and public frontend or mobile clients use PKCE without a client secret. Follow the [Quran ID integration guide](https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/) for implementation.
 
 Request only necessary scopes and explain their purpose before user consent. New or expanded scopes require console approval. If data use materially changes, update consent information and obtain any required renewed consent.
 
@@ -255,13 +265,13 @@ Use approved Quran Foundation endpoints or a written license for Quran Foundatio
 
 Credit Quran Foundation where its data is surfaced:
 
-> Quran data provided by [Quran.Foundation](https://quran.foundation/).
+> Quran data provided by [Quran Foundation](https://quran.foundation/).
 
 Credit translations, tafsir editions, and recitations by their named source or edition, and identify Quran Foundation as the source of access where applicable. Your private source declaration does not replace attribution in the product, and public listing claims must identify sources accurately.
 
 ### Storage and updates
 
-Content storage and synchronization rules are set in the [Developer Terms](https://api-docs.quran.foundation/legal/developer-terms/) and the [Content Sync guide](https://api-docs.quran.foundation/docs/tutorials/content-sync/getting-started/). In brief: supported offline resources sync at least every seven days when connectivity permits, and promptly when connectivity returns. Previously synced content may remain available during an outage. Other resources and assets follow their documented storage conditions.
+Content storage and synchronization rules are set in the [Quran Foundation Developer Terms of Service](https://api-docs.quran.foundation/legal/developer-terms/) and the [Content Sync guide](https://api-docs.quran.foundation/docs/tutorials/content-sync/getting-started/). In brief: supported offline resources sync at least every seven days when connectivity permits, and promptly when connectivity returns. Previously synced content may remain available during an outage. Other resources and assets follow their documented storage conditions.
 
 Explain your update process in **Business and operations**, including how you apply corrections, removals, and restrictions. External content must also remain current under its source and license requirements.
 
@@ -277,6 +287,10 @@ Tell users, at the relevant point in the experience:
 - Whether AI, advertising, purchases, donations, or sponsorships are involved.
 
 Use the app, listing, consent screens, privacy policy, and support pages as appropriate. Every disclosure does not need to fit into the short listing description.
+
+Explain data collection and sharing clearly. Collect and share only what is needed for the agreed purpose. Use Quran ID identity only after the user has authenticated and consented. Never sell user data or repurpose it beyond disclosed features.
+
+Interpret behavioral signals alongside scholarly guidance and user research to better understand and support users' Quran journeys.
 
 <a id="build-toward-trust" className="connectedAppsLegacyAnchor"></a><a id="avoid-avoidable-harm" className="connectedAppsLegacyAnchor"></a>
 
@@ -313,30 +327,31 @@ These requirements apply to live AI features and AI-generated content prepared b
 | Authority | Do not present AI output as binding religious authority, fatwas, halal or haram verdicts, or personalized religious directives. Do not claim verification or scholarly review that has not occurred. | Product wording and behavior. |
 | Sensitive questions | Do not present one sectarian or madhhab position as the sole Islamic view. Refer users to qualified scholars or present recognized views without endorsing one. | Behavior on contested questions. |
 | Human oversight | Human-review AI content prepared for publication. Substantive interpretive, legal, theological, or sectarian claims need review appropriate to their risk, including qualified scholarly review where necessary. | Review process and records. |
-| Grounding | Follow the current grounding, attribution, and safety requirements for any Quran Foundation MCP or AI integration used. | Integration behavior and the applicable published requirements. |
+| Grounding | Follow the current grounding, attribution, and safety requirements for any Quran Foundation MCP (Model Context Protocol) or AI integration used. | Integration behavior and the applicable published requirements. |
 | Data and providers | Do not train models on Quran Foundation user data or restricted content without written permission. Minimize prompt data, disclose third-party processing and material subprocessors, configure providers not to retain or train on that data, and disclose material model or provider changes. | Privacy disclosures and provider configuration. |
 | Safety | AI features must not misrepresent Islam, promote extremism, or incite sectarian hatred. | Product safeguards and review evidence. |
 | Accountability | Let users report inaccurate or inappropriate output and maintain a process to review and correct it. | Reporting route and correction process. |
 
 Quran Foundation permission does not replace user consent or other applicable privacy obligations. Describe the AI's purpose, provider, source handling, labeling, data use, and review process in your application, and use reviewer notes for supporting links and context.
 
-<a id="tell-us-before-shipping-material-changes" className="connectedAppsLegacyAnchor"></a>
+<a id="tell-us-before-shipping-material-changes" className="connectedAppsLegacyAnchor"></a><a id="after-publication" className="connectedAppsLegacyAnchor"></a>
 
-## After publication
+## After approval: updates and status changes
 
-Publication is the beginning of an ongoing partnership. From that point you have an established channel with the developer relations team, and most matters are handled through direct communication rather than the automated submission flow.
+After approval, contact developer relations before material updates or a status change. Plan substantial changes early so reviewers can agree the required assessment and timing.
 
-A published app cannot open a new submission while it is live. To update material information or seek a status change:
+A published app cannot open a new submission while it is live. To update material information or seek a status change for a published app:
 
-1. Contact developer relations by [email](mailto:developers@quran.com) or through [partner office hours](https://calendar.app.google/Xi4TJMrLtqHj8C5o7). For substantial planned changes, reach out early so the review and timing can be planned together.
+1. Contact developer relations by [email](mailto:developers@quran.com) or through [partner office hours](https://calendar.app.google/Xi4TJMrLtqHj8C5o7).
 2. Quran Foundation coordinates a short unpublish window for the app.
 3. Resubmit through the Connected Apps tab with the updated information. The resubmission keeps the review history accurate by recording what changed and when.
-4. Because the app has already cleared scholarly, engineering, and UX review, updates are briefed to the relevant teams rather than re-reviewed from scratch. The three-week target does not apply again, and the app returns at its updated status once the changes are confirmed.
+
+Reviewers may reuse earlier evidence and assess changed features or additional status requirements. Prior approval does not approve new functionality. Agree the review scope and timing with developer relations.
 
 Material information includes:
 
 - **Product and ownership:** owner, primary purpose or experience, support availability, and official destinations.
-- **Data and security:** data use, consent wording, processors, and security or incident-response arrangements.
+- **Data and security:** data use, consent wording, processors, security or incident-response arrangements, and material changes to disclosed data collection, sharing, or purposes.
 - **Content and AI:** sources, rights, attribution, generated religious content, AI behavior, and material model or provider changes involving user data.
 - **Commercial model:** advertising, subscriptions, purchases, donations, sponsorships, affiliate links, or paid features.
 - **Public listing:** title, tagline, description, categories, platform links, screenshots supplied for review, and relationship claims.
@@ -363,9 +378,9 @@ Respond to a notice, request reinstatement, or seek reconsideration by sending u
 
 ## Terms and commercial use
 
-Listed apps must follow these requirements and applicable law. API use is governed by the [Developer Terms](https://api-docs.quran.foundation/legal/developer-terms/) and [developer privacy requirements](https://api-docs.quran.foundation/legal/developer-privacy/). Direct use of Quran.com services is also subject to the Quran.com Terms and Conditions.
+Listed apps must follow these requirements and applicable law. API use is governed by the [Quran Foundation Developer Terms of Service](https://api-docs.quran.foundation/legal/developer-terms/) and the [Developer Privacy Policy Packet](https://api-docs.quran.foundation/legal/developer-privacy/). Direct use of Quran.com services is also subject to the Quran.com Terms and Conditions.
 
-Charging for an app, displaying ads, or accepting donations can be permitted under the Developer Terms. Selling, sublicensing, or separately redistributing Quran Foundation content or raw data requires a signed commercial license. Consult the [License Grant](https://api-docs.quran.foundation/legal/developer-terms/#2-license-grant) for the distinction and asset-specific conditions.
+Charging for an app, displaying ads, or accepting donations can be permitted under the Quran Foundation Developer Terms of Service. Selling, sublicensing, or separately redistributing Quran Foundation content or raw data requires a signed commercial license. Consult the [Quran Foundation Developer Terms of Service: License Grant](https://api-docs.quran.foundation/legal/developer-terms/#2-license-grant) for the distinction and asset-specific conditions.
 
 Commercial practices must remain transparent, proportionate, and respectful. They do not purchase visibility or status.
 
@@ -380,9 +395,11 @@ We aim to respond to general partner questions within 1 to 2 business days. Subm
 
 ## FAQ
 
-### Does every app need OAuth?
+<a id="does-every-app-need-oauth" className="connectedAppsLegacyAnchor"></a>
 
-No. OAuth is required for Quran Foundation account integration and User APIs. The status-specific requirements are explained under [App statuses](#app-statuses).
+### Does every app need Quran ID?
+
+No. Requirements depend on app status and use of Quran Foundation account services. See [Connect Quran ID](#connect-quran-id).
 
 ### Can my app charge, show ads, or accept donations?
 
@@ -398,7 +415,7 @@ No. Use the Developer Console for credentials and scopes, and its Connected Apps
 
 ### How do I change an application after submitting it?
 
-Before a decision, follow [Editing and resubmission](#editing-and-resubmission). After publication, follow [After publication](#after-publication).
+Before a decision, follow [Editing and resubmission](#editing-and-resubmission). After approval, follow [After approval: updates and status changes](#after-approval-updates-and-status-changes).
 
 ## Glossary
 
@@ -407,10 +424,11 @@ Before a decision, follow [Editing and resubmission](#editing-and-resubmission).
 | Connected Apps | The Quran Foundation developer program. |
 | Quran App Store | The public app directory at Quran.com/apps. |
 | Application state | Where a submission is in its workflow, such as Draft or In review. |
-| App status | The assigned program status: Indexed App, Verified Listing App, Vision Aligned App, or Transformational App. |
+| App status | An app's participation level: Integrated App, Verified App, Vision-Aligned App, or Transformational App. |
 | Featured placement | Temporary editorial promotion, separate from app status. |
-| Quran Foundation SSO | One Quran Foundation account that signs users into participating apps with a continued journey through the User APIs. |
-| Account continuity | Approved use of account services and User APIs to connect relevant parts of a user's experience across apps, with consent. |
+| Quran ID | A user's Quran Foundation account and the sign-in service connecting it to participating apps. |
+| Quran ID single sign-on | Signing into participating apps through the same Quran Foundation account. |
+| Account continuity | Connecting supported account features across apps through approved Quran Foundation User APIs, with user consent. |
 | Scope | A permission requested for API access. |
 | Prelive | The testing environment, separate from production. |
 | Content source | The provider, edition, or origin of content used by the app. |
@@ -423,3 +441,4 @@ Material changes to this page are recorded here. Registered partner contacts are
 | Version | Date | Changes |
 | --- | --- | --- |
 | 1.0 | 2026-10-09 | Initial public release. |
+| 1.1 | 2026-10-28 | Updated app statuses, search-only Verified visibility, Quran ID requirements, Transformational journey criteria and shared insights, and homepage featuring requests. Standardized product and policy names. |
