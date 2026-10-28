@@ -74,9 +74,15 @@
 /*.svg
   Cache-Control: public, max-age=31536000, immutable
 
-# Sitemap and OpenSearch: cache for 1 day
+# Sitemap and OpenSearch: cache for 1 day. Noindex keeps the sitemap file itself
+# out of search results; Google still reads it as a sitemap.
 /sitemap.xml
   Cache-Control: public, max-age=86400
+  X-Robots-Tag: noindex
+
+# Raw OpenAPI specs are for tools and agents; the rendered docs are the indexable pages
+/openAPI/*
+  X-Robots-Tag: noindex
 
 /robots.txt
   ! Cache-Control
