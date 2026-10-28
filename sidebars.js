@@ -702,6 +702,11 @@ const buildTutorialsSidebarItems = () => [
     ],
   },
   {
+    type: "doc",
+    id: "tutorials/webhooks",
+    label: "Webhooks",
+  },
+  {
     type: "category",
     label: "Offline-first Sync",
     collapsible: true,

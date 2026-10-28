@@ -469,3 +469,4 @@ This limitation applies to Quran content in the Content API, not to User-related
 - [OpenID Connect](https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/)
 - [Page Layout API Guide](https://api-docs.quran.foundation/docs/tutorials/fonts/page-layout/)
 - [React Native](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/)
+- [Webhooks](https://api-docs.quran.foundation/docs/tutorials/webhooks/)
