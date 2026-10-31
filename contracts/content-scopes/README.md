@@ -99,4 +99,7 @@ This contract covers the 95 Content-family entries. The remaining 113 rows (User
 are retained as regression inventory with full provenance and are **not** migrated: their policies
 stay independent and changing them needs separate approval. In particular, the existing user-data
 `sync` scope is unrelated to `content.sync.read`, and Qiraat keeps its own explicit gateway policy
-outside this migration.
+(`qiraat.read`) outside this migration. The 11 Qira'at operations published in
+`openAPI/content/v4.json` are listed one by one under `outOfScopeOperations` in `v1.json`, so they
+carry no `x-qf-scopes` metadata, while any other unmapped operation still fails
+`contract:openapi:check`.

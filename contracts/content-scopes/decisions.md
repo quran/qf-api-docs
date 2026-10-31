@@ -48,8 +48,26 @@ and are permanent once a token has been issued with them.
 
 Counts are post-D2. Pre-D2 they are 18 / 39 / 3 / 12 / 11 / 2 / 2 / 3 / 5.
 
+**Issuance gate (plan C7 stage 1).** Until `v1.json` reads `"status": "approved"`, no granular
+scope may be newly granted to any client, on any path: the new-client baseline, scope requests,
+manual and automated approvals, and Hydra synchronization. The one exception is an explicit
+allowlist of controlled test clients, held as operator configuration in Platform; it never includes
+integrator clients. Independently of the status, a granular scope is never newly granted to a client
+that cannot mint an application token (see the app-token rule below). Scopes a client already holds
+are never revoked by this gate. `granularIssuance` in `v1.json` records this; Platform enforces it.
+
+**App-token rule.** All nine names authorize only application tokens minted with
+`client_credentials` (`appCredentialsOnlyScopes`). The gateway refuses a user-bound token with
+`403 insufficient_scope` when every scope it carries that the route accepts is granular. A user
+token is still authorized on a Content route by a legacy alternative it also carries (`content` or
+`content.read`, or the `post`/`comment` alternatives on the public reflection routes), so existing
+integrations are unaffected. Consequence for integrators: a backend that signs users in with
+Authorization Code + PKCE and reads Content with granular scopes needs a **separate**
+client-credentials token for the Content calls; the user's token is for User APIs. Source:
+`quran/qf-api-gateway` `src/validators/token.ts`.
+
 **Approval gate.** API/security owner approves spelling and permanent semantics *before any token
-is issued with them*.
+is issued with them*, and approves the app-token rule as product policy.
 
 | Owner role | Decision | Rationale | Date | Policy sha256 | Contract sha256 |
 | --- | --- | --- | --- | --- | --- |
@@ -131,25 +149,41 @@ strategy. Do not claim isolation from path checks, and do not strip fields from 
 
 ## D5 — New-client baseline
 
-**Recommendation.** Replace only the legacy content-read component of each environment baseline
-with the eight C8 successors. Retain every unrelated existing default. Do not auto-grant separately
-approved `search`, Qiraat, analytics, or user/admin rights.
+**Recommendation.** For brand-new OAuth identities only, replace the Content component of each
+environment baseline according to the client kind. Retain every unrelated existing default. Do not
+auto-grant separately approved `search`, Qiraat, analytics, or user/admin rights. Existing and
+imported clients keep exactly what they hold.
 
-- Remove for new identities: `content`, `content.read`
-- Add for new identities: the eight C8 scopes
-- Add `content.reflections.read` only where that environment's baseline already covers all five
-  public reflection routes
+The split follows from the app-token rule in D1: the granular scopes authorize only application
+tokens, and only a confidential client can mint one.
+
+| New client kind | Remove | Add |
+| --- | --- | --- |
+| **Confidential**: Platform client type `confidential`, a backend client that keeps a Client Secret and can mint application tokens with `client_credentials` | `content`, `content.read` | the eight C8 scopes, only if the baseline held `content` or `content.read`; `content.reflections.read` only where that baseline already covers all five public reflection routes |
+| **Public**: any other client type, including browser and mobile PKCE clients | `content`, `content.read` and all nine granular scopes | nothing |
+
+- A new public client gets **no Content scope**. It keeps PKCE for User APIs and reads Content
+  through its own backend, which holds a confidential client.
+- An unknown client type is treated as public, so it fails closed to the kind that receives no
+  Content grant.
+- This mirrors `quran/qf-platform-api` `src/content_scopes.rs` (`apply_new_client_baseline`,
+  `ClientKind::from_client_type`). `newClientBaseline.byClientKind` in `v1.json` records it, and
+  the generator refuses a policy that gives a public client any Content scope.
+
+**Activation.** The rule is inactive until the contract status is `approved` **and** Platform's
+`QF_CONTENT_SCOPES_V1_NEW_CLIENT_POLICY` flag is switched on. Until then every new client receives
+the legacy baseline unchanged, including `content`, and the integrator guidance says so.
 
 The inspected production baseline already includes `post.read` and `comment.read` alongside
-`content` and `offline_access`, so it can support all nine categories without inventing a new user
-permission. **That is not a reason to grant nine scopes to a historically content-only client** —
-per-client migration still follows D3.
+`content` and `offline_access`, so it can support all nine categories for a confidential client
+without inventing a new user permission. **That is not a reason to grant nine scopes to a
+historically content-only client**: per-client migration still follows D3.
 
 Optional least-privilege subsets require an explicit product rule. Tokens should still request only
 what each operation needs.
 
-**Approval gate.** Provisioning/security owner approves the exact baseline and any optional subset
-policy, per environment and client type.
+**Approval gate.** Provisioning/security owner approves the exact baseline per client kind and
+environment, the public-client exclusion, and any optional subset policy.
 
 | Owner role | Decision | Rationale | Date | Policy sha256 | Contract sha256 |
 | --- | --- | --- | --- | --- | --- |
@@ -169,6 +203,15 @@ granular-only credentials. Say so plainly in the docs rather than implying it wo
 | Owner role | Decision | Rationale | Date | Policy sha256 | Contract sha256 |
 | --- | --- | --- | --- | --- | --- |
 | _SDK_ | _open_ | | | | |
+
+## Out of scope: Qira'at operations
+
+`openAPI/content/v4.json` publishes 11 Qira'at operations under `/qiraat/`. They are **not** part of
+the nine Content scopes and are not migrated. They keep their existing gateway policy, `qiraat.read`
+(or its parent `qiraat`); `content` alone does not authorize them today and no granular scope ever
+will. `v1.json` lists each one under `outOfScopeOperations` with that disposition, and the OpenAPI
+metadata pass writes no `x-qf-scopes` for them. Any other operation without a disposition still
+fails `contract:openapi:check`. See `route-reconciliation.md` section 3a.
 
 ## Inputs this record applies to
 
