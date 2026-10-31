@@ -81,12 +81,12 @@ test('publishes word-by-word transliterations as a separate resource contract', 
   );
   assert.equal(transliterationSnapshot.resource_id, 60);
   assert.equal(transliterationSnapshot.resource_content_id, 60);
-  assert.match(snapshotOperation.description, /77,431 records/);
+  assert.match(snapshotOperation.description, /77,429 records/);
   assert.match(snapshotOperation.description, /ordered by `word_id` and then `id`/);
   assert.equal(record.id, 1);
   assert.equal(record.resource_id, 60);
   assert.equal(record.resource_content_id, 60);
-  assert.equal(record.word_id, 60);
+  assert.equal(record.word_id, 1);
   assert.equal(record.text, "bis'mi");
   assert.deepEqual(
     Object.keys(record).sort(),
@@ -118,7 +118,7 @@ test('documents production transliteration facts and SDK field casing', () => {
   );
   const pythonGuide = readDoc('docs', 'sdk', 'python', 'resources.mdx');
 
-  assert.match(tutorial, /resource `60` currently contains 77,431 records/);
+  assert.match(tutorial, /resource `60` currently contains 77,429 records/);
   assert.match(tutorial, /ordered by `word_id`, then `id`/);
   assert.match(
     javascriptGuide,
@@ -126,7 +126,7 @@ test('documents production transliteration facts and SDK field casing', () => {
   );
   assert.match(
     javascriptGuide,
-    /resource `60`\s+currently contains 77,431 records/,
+    /resource `60`\s+currently contains 77,429 records/,
   );
   assert.match(
     pythonGuide,
@@ -134,6 +134,6 @@ test('documents production transliteration facts and SDK field casing', () => {
   );
   assert.match(
     pythonGuide,
-    /resource `60`\s+currently contains 77,431 records/,
+    /resource `60`\s+currently contains 77,429 records/,
   );
 });

@@ -177,6 +177,27 @@ granting access to the scopes your app is requesting first.
 | note.delete  | Delete your notes  |
 | note.publish | Publish your notes |
 
+## App State
+
+| Scope           | Description                                               |
+| --------------- | --------------------------------------------------------- |
+| app_state       | Store and sync approved private app-specific user state  |
+| app_state.read  | Read and synchronize approved App State collections      |
+| app_state.write | Create, update, and delete approved App State documents  |
+
+`app_state` grants both read and write access. When your client is approved for the child scopes and
+needs least privilege, request `app_state.read`, `app_state.write`, or both instead. Request only the
+scopes approved for your OAuth client.
+
+Any App State scope can read the active data-group configuration from
+`GET /auth/v1/app-state:config`. This reports the allowed collection names and effective limits; it
+does not return stored user values. A user-delegated access token is required; client-credentials
+tokens cannot use this endpoint.
+
+Read the [complete App State API, reconciliation, lifecycle, and SDK guide](/docs/user_related_apis_prelive/app-state/)
+before integrating. Publication does not enable partner traffic or the user interface; App State
+remains NO-LAUNCH until the deployed pre-live acceptance gate passes.
+
 ## Sync
 
 | Scope | Description                                  |

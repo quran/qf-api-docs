@@ -1,0 +1,155 @@
+---
+title: "App State"
+description: "Store and reconcile approved private app data with the JavaScript SDK."
+slug: /sdk/javascript/app-state
+---
+
+# App State
+
+:::warning Pre-live, NO-LAUNCH
+App State is available only for approved pre-live integration work. It is not enabled for general
+partner or production traffic. Use pre-live credentials and service URLs until production rollout is
+explicitly approved.
+:::
+
+App State requires a signed-in user token and an OAuth client approved for `app_state`,
+`app_state.read`, `app_state.write`, or an approved combination of the child scopes. Request only
+the scopes assigned to your client. See the [App State API contract](/docs/user_related_apis_prelive/app-state/)
+and [OAuth2 scopes](/docs/user_related_apis_prelive/scopes#app-state).
+
+Use `@quranjs/api/public` in browser or mobile applications and `@quranjs/api/server` in trusted
+backend code. Configure the client as shown in the [public quickstart](/docs/sdk/javascript/public-quickstart) or
+[server quickstart](/docs/sdk/javascript/server-quickstart), including a user session whose token contains the approved
+App State scope. The SDK sends `x-auth-token` and `x-client-id` automatically.
+
+## Low-level operations
+
+```ts
+const appState = client.auth.v1.appState;
+
+const configuration = await appState.getConfiguration();
+
+let bootstrapPage = await appState.bootstrap({ limit: 100 });
+while (bootstrapPage.data.hasMore) {
+  bootstrapPage = await appState.bootstrap({
+    cursor: bootstrapPage.data.nextCursor!,
+    limit: 100,
+  });
+}
+const firstChangePage = await appState.getChanges(
+  bootstrapPage.data.nextSyncToken!,
+  { limit: 100 },
+);
+
+const documents = await appState.listDocuments("settings", { limit: 100 });
+const created = await appState.putDocument(
+  "settings",
+  "theme",
+  { value: { mode: "dark" }, schemaVersion: 1 },
+  { idempotencyKey: crypto.randomUUID(), ifNoneMatch: "*" },
+);
+const current = await appState.getDocument("settings", "theme");
+console.log(current.value);
+
+const replaced = await appState.putDocument(
+  "settings",
+  "theme",
+  { value: { mode: "light" }, schemaVersion: 1 },
+  { idempotencyKey: crypto.randomUUID(), ifMatch: created.etag! },
+);
+
+await appState.deleteDocument("settings", "theme", {
+  idempotencyKey: crypto.randomUUID(),
+  ifMatch: replaced.etag!,
+});
+```
+
+`putDocument()` is a complete replacement, not a JSON merge. Store ETags exactly as returned. Reuse
+an idempotency key only when retrying the same method, path, body bytes, and preconditions.
+
+## Pagination and initial bootstrap
+
+A new local account has no sync token. Bootstrap first, committing each complete page and cursor in
+one local transaction. The terminal bootstrap page returns `nextSyncToken`; pull `getChanges()` from
+that token until `hasMore` is false before exposing the completed server shadow.
+
+For an existing account, call `getChanges(savedToken)` and atomically commit each page with its
+`nextSyncToken`. On `410 bootstrap_required` or `410 sync_token_expired`, preserve pending local
+mutations, rebuild through bootstrap, drain changes, promote the staged snapshot, replay pending
+mutations, and pull again.
+
+## Transactional reconciliation
+
+```ts
+import {
+  createAppStateReconciler,
+  type AppStateStore,
+} from "@quranjs/api/public";
+
+const reconciler = createAppStateReconciler({
+  accountId: signedInAccountId,
+  store: durableAccountScopedStore satisfies AppStateStore,
+  transport: client.auth.v1.appState,
+});
+
+await reconciler.putDocument("settings", "theme", {
+  schemaVersion: 1,
+  value: { mode: "dark" },
+});
+await reconciler.reconcile();
+
+const visibleTheme = (await reconciler.getState()).visible["settings/theme"];
+```
+
+`putDocument()` and `deleteDocument()` queue local intent. `reconcile()` bootstraps when needed, then
+pulls, replays the captured pending set, and pulls again. Use durable transactional storage in
+production; `createAppStateMemoryStore()` is only a reference for tests and short-lived sessions.
+
+## Account switching
+
+Switch the account identifier and its account-bound transport together:
+
+```ts
+import { createPublicClient } from "@quranjs/api/public";
+
+const accountBClient = createPublicClient({
+  clientId: "approved-client-id",
+  clientType: "public",
+  services: {
+    gatewayUrl: "https://apis-prelive.quran.foundation",
+    oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
+  },
+  userSession: accountBSession,
+});
+
+await reconciler.switchAccount(accountBId, accountBClient.auth.v1.appState);
+```
+
+Create a separate client/transport whose immutable session belongs to the target account. Do not
+reuse a facade that reads a mutable cross-account session at request time. In-flight work keeps the
+transport captured for its original account, and a late result cannot commit after the account
+generation changes.
+
+## Errors
+
+```ts
+import { isAppStateHttpError } from "@quranjs/api/public";
+
+try {
+  await reconciler.reconcile();
+} catch (error) {
+  if (isAppStateHttpError(error, "precondition_failed")) {
+    // Preserve complete-replacement intent and let the app resolve the conflict.
+  } else if (
+    isAppStateHttpError(error, "bootstrap_required") ||
+    isAppStateHttpError(error, "sync_token_expired")
+  ) {
+    // The reconciler performs bounded bootstrap recovery automatically.
+  } else {
+    throw error;
+  }
+}
+```
+
+For the full status and recovery matrix, read
+[Transactional App State reconciliation](/docs/user_related_apis_prelive/app-state/reconciliation/).

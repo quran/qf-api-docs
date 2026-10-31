@@ -6,7 +6,7 @@ description: "List translations, tafsirs, recitations, languages, and syncable r
 # Resources API
 
 ```python
-from quran_foundation import QuranClient
+from quran_foundation import ChapterRecitationSnapshotRecord, QuranClient
 
 client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
 
@@ -15,7 +15,12 @@ translation_info = client.get_translation_info(131)
 recitations = client.list_recitations()
 snapshot = client.get_resource_snapshot("translations", 131)
 mushaf_snapshot = client.get_mushaf_snapshot(1)
+core_snapshot = client.get_quran_core_snapshot()
 chapter_snapshot = client.get_chapter_recitation_snapshot(159)
+chapter_records: list[ChapterRecitationSnapshotRecord] = chapter_snapshot["records"]
+for record in chapter_records:
+    if record["record_type"] == "audio_segment":
+        print(record["verse_key"], record["segments"])
 transliteration_snapshot = client.get_word_by_word_transliteration_snapshot(60)
 ```
 
@@ -38,17 +43,73 @@ Supported helpers:
 - `get_word_by_word_translation_snapshot(word_by_word_translation_id, params=None)`
 - `get_word_by_word_transliteration_snapshot(word_by_word_transliteration_id, params=None)`
 - `get_mushaf_snapshot(mushaf_id, params=None)`
+- `get_quran_core_snapshot(params=None)` (singleton `quran_core:1`)
 
 Use `mushafs:<id>` in `sync_resources(...)`, then call
 `get_mushaf_snapshot(...)` to download metadata, page mappings, positioned
-words, and layout data. Font files and images are not included. See
-[Mushaf Fonts and Images](/legal/mushaf-fonts-and-images/).
+words, and layout data. Font files and Mushaf images are not included. See the
+[Font Rendering guide](/docs/tutorials/fonts/font-rendering/) for implementation
+details and the [Developer Terms](/legal/developer-terms/) for caching and bundling conditions.
 
 Use `chapter_recitations:<id>` to sync chapter audio, where `<id>` is an
 `Audio::Recitation.id`, then call `get_chapter_recitation_snapshot(id)`.
-The returned records are `chapter_audio_file` rows. This is distinct from the
-legacy `recitations:<id>` group, which is keyed by an ayah-recitation ID and
-may include compatible chapter audio for existing clients.
+The returned records are `chapter_audio_file` rows and associated
+`audio_segment` verse and word timings. The SDK exports
+`ChapterAudioFileSnapshotRecord`, `AudioSegmentSnapshotRecord`, and the
+`ChapterRecitationSnapshotRecord` union. This is distinct from the legacy
+`recitations:<id>` group, which is keyed by an ayah-recitation ID and may include
+compatible chapter audio and timing rows for existing clients. Segment
+timestamps and tuple boundaries are milliseconds from the start of the chapter
+file; each tuple is `[one_based_word_index, start_ms, end_ms]`. Use
+`duration_ms` for exact arithmetic; `duration` is the legacy whole-seconds
+compatibility value.
+
+Bootstrap returns `RESOURCE_CREATE` entries with `snapshot_url`; it does not
+return timing rows inline. Fetch and apply every referenced snapshot, including
+the `audio_segment` rows, before storing the final sync token. For incremental
+`audio_segment` `ROW_CREATE`, `ROW_UPDATE`, and `ROW_DELETE` mutations, use
+`(resource_group, resource_id, record_type, record_key)` as the stable local
+key. Do not depend on `source_record_id` or `data`, because either may be `None`
+for a delete. When `RESOURCE_INVALIDATE` is returned, replace the complete
+chapter-recitation snapshot.
+
+### Canonical Quran Core
+
+`quran_core:1` provides canonical Uthmani verse text, word-level IndoPak,
+Uthmani Tajweed, and Imla'i text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. The
+SDK exports `QuranCoreSnapshotRecord` and typed chapter, verse, word, and
+boundary variants, including `QuranCoreWordSnapshotRecord`. Its
+`resource_content_id` is `None`; local rows use `(record_type, id)` as their
+key. Mushaf-specific page/line/glyph data remains in `mushafs:<id>`.
+
+```python
+changes = client.sync_resources(params={
+    "bootstrap": True,
+    "resources": "mushafs:1;quran_core:1",
+})
+core = client.get_quran_core_snapshot()
+for record in core["records"]:
+    if record["record_type"] == "verse":
+        print(record["verse_key"], record["text_uthmani"])
+    if record["record_type"] == "word":
+        print(
+            record["location"],
+            record.get("text_indopak_nastaleeq"),
+            record["text_uthmani_tajweed"],
+            record.get("text_imlaei"),
+        )
+```
+
+Use `text_indopak_nastaleeq` for IndoPak text and render it with the compatible
+[IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font);
+`text_indopak` is deprecated and retained for compatibility. Existing local
+copies receive the new field after the resource is re-snapshotted or
+backfilled, so read it with `.get()` until then. `text_imlaei` is the word text
+in the Imla'i (simple) script; existing local copies receive it after the
+resource is re-snapshotted or invalidated, so read it with `.get()` as well.
+
+Use the same combined filter for incremental sync, and replace the complete
+resource on `RESOURCE_INVALIDATE`.
 
 ### Word-by-Word Transliterations
 
@@ -73,8 +134,8 @@ Each `word_transliteration` snapshot record has exactly these fields:
 `language_name`, `text`, and `updated_at`. Snapshots are ordered by `word_id`,
 then `id`. `resource_id == resource_content_id == ResourceContent.id` identifies
 the owning resource, while `word_id` identifies the normalized Word owner.
-Production resource `60` currently contains 77,431 records; row `id: 1` has
-normalized `word_id: 60` and text `"bis'mi"`. Incremental row mutations use
+Production resource `60` currently contains 77,429 records; row `id: 1` has
+normalized `word_id: 1` and text `"bis'mi"`. Incremental row mutations use
 `record_type="word_transliteration"`.
 
 Read next:

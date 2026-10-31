@@ -69,25 +69,91 @@ The flow is:
 4. Apply row mutations directly.
 5. When a mutation has a non-null `snapshot_url`, fetch the snapshot for that `resource_group` and `resource_id` and replace that local resource.
 
-The `resources` filter uses plural group names (`articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `chapter_recitations:159;mushafs:1;translations:19,20;word_by_word_transliterations:60`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
+The `resources` filter accepts the singleton `quran_core` and plural group names (`articles`, `chapter_recitations`, `mushafs`, `recitations`, `tafsirs`, `translations`, `word_by_word_translations`, `word_by_word_transliterations`). Use `*` for all public resources in a group or comma-separated IDs for specific resources, for example `chapter_recitations:159;mushafs:1;translations:19,20;word_by_word_transliterations:60`. Sync tokens are bound to the canonical resource filter, so use the same `resources` value for bootstrap and incremental requests.
 
-`chapter_recitations` is keyed by `Audio::Recitation.id` and contains chapter
-audio files. The legacy `recitations` group is keyed by the ayah-recitation
-ID; its snapshots and compatible mutations may also include chapter audio for
-existing clients.
+`chapter_recitations` is keyed by `Audio::Recitation.id`. Its snapshots contain
+`chapter_audio_file` records and the associated `audio_segment` verse and word
+timings. Segment updates are delivered as row mutations, so existing clients can
+apply corrections without downloading unrelated recitations. The legacy
+`recitations` group is keyed by the ayah-recitation ID; its snapshots and
+compatible mutations may also include chapter audio and segment records for
+existing clients. Segment timestamps and tuple boundaries are milliseconds from
+the start of the chapter file; each tuple is
+`[oneBasedWordIndex, startMs, endMs]`. Use `durationMs` for exact arithmetic;
+`duration` is the legacy whole-seconds compatibility value.
 
 Mushaf snapshots contain metadata, page mappings, and positioned words. Font
-files and images are not included. See [Mushaf Fonts and Images](/legal/mushaf-fonts-and-images/).
+files and Mushaf images are not included. See the [Font Rendering guide](/docs/tutorials/fonts/font-rendering/)
+for implementation details and the [Developer Terms](/legal/developer-terms/) for caching and bundling conditions.
 
 ```ts
+import type { ChapterRecitationSnapshotRecord } from "@quranjs/api";
+
 const bootstrap = await client.content.v4.resources.sync({
   bootstrap: true,
   resources: "chapter_recitations:159;mushafs:1;word_by_word_transliterations:60",
 });
-const snapshot = await client.resources.findSnapshot("chapter_recitations", 159);
+const snapshot =
+  await client.resources.findSnapshot<ChapterRecitationSnapshotRecord>(
+    "chapter_recitations",
+    159,
+  );
+
+for (const record of snapshot.records) {
+  if (record.recordType === "audio_segment") {
+    console.log(record.verseKey, record.segments);
+  }
+}
 ```
 
+Bootstrap returns `RESOURCE_CREATE` entries with `snapshotUrl`; it does not
+return timing rows inline. Fetch and apply every referenced snapshot, including
+the `audio_segment` rows, before storing the final sync token. For incremental
+`audio_segment` `ROW_CREATE`, `ROW_UPDATE`, and `ROW_DELETE` mutations, use
+`(resourceGroup, resourceId, recordType, recordKey)` as the stable local key.
+Do not depend on `sourceRecordId` or `data`, because either may be null for a
+delete. A `RESOURCE_INVALIDATE` means the complete chapter-recitation snapshot
+must be fetched and replaced.
+
 `RESOURCE_UPDATE` is only a resource-level freshness marker. It does not include `snapshot_url`; keep existing local rows unless row mutations, `RESOURCE_INVALIDATE`, or `RESOURCE_DELETE` later change them.
+
+### Canonical Quran Core
+
+`quran_core:1` provides canonical Uthmani verse text, word-level IndoPak,
+Uthmani Tajweed, and Imla'i text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. The
+resource is separate from Mushaf-specific pages and glyphs. The SDK exports the
+`QuranCoreWordSnapshotRecord` variant for these word rows.
+
+```ts
+import type { QuranCoreSnapshotRecord } from "@quranjs/api";
+
+await client.content.v4.resources.sync({
+  bootstrap: true,
+  resources: "mushafs:1;quran_core:1",
+});
+const core = await client.resources.findSnapshot<QuranCoreSnapshotRecord>(
+  "quran_core", 1,
+);
+for (const record of core.records) {
+  if (record.recordType === "verse") console.log(record.verseKey, record.textUthmani);
+  if (record.recordType === "word") {
+    console.log(record.location, record.textIndopakNastaleeq, record.textUthmaniTajweed, record.textImlaei);
+  }
+}
+```
+
+The SDK camel-cases `text_uthmani` and other response keys. Use
+`textIndopakNastaleeq` (`text_indopak_nastaleeq`) for IndoPak text and render it
+with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font);
+`textIndopak` is deprecated and retained for compatibility. The typed field
+requires an SDK version that includes it, and existing local copies receive the
+value after the resource is re-snapshotted or backfilled. Continue using
+the same `resources` filter when polling, and replace all local core rows when
+`RESOURCE_INVALIDATE` supplies a snapshot URL.
+
+`textImlaei` (`text_imlaei`) is the word text in the Imla'i (simple) script. It
+also requires an SDK version that types it, and existing local copies receive it
+after the resource is re-snapshotted or invalidated.
 
 ### Word-by-Word Transliterations
 
@@ -119,8 +185,8 @@ The SDK camel-cases the exact eight API fields to `id`, `resourceContentId`,
 Here `resourceId == resourceContentId == ResourceContent.id` identifies the
 owning resource, while `wordId` identifies the normalized Word owner.
 Snapshots are ordered by `wordId`, then `id`. Production resource `60`
-currently contains 77,431 records and includes row `id: 1` with normalized
-`wordId: 60` and text `"bis'mi"`.
+currently contains 77,429 records and includes row `id: 1` with normalized
+`wordId: 1` and text `"bis'mi"`.
 Incremental row mutations use `recordType: "word_transliteration"`.
 
 Use the Content API reference for the sync endpoints:

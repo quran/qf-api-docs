@@ -443,3 +443,9 @@ a.navbar__item--request-access:hover {
   transform: translateY(-1px);
   box-shadow: var(--qf-shadow-md);
 }
+
+/* Legacy Connected Apps section anchors land below the sticky navbar, like headings. */
+.connectedAppsLegacyAnchor {
+  display: block;
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
+}

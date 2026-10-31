@@ -2,6 +2,12 @@
 
 > API documentation for Quran.com analytics, content, search, user, and authentication APIs.
 
+## Environment limitations
+
+**Prelive Content API limitation:** The prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.
+
+This limitation applies to Quran content in the Content API, not to User-related APIs. See the [Content APIs Quickstart](https://api-docs.quran.foundation/docs/quickstart/) for environment URLs and setup.
+
 ## OpenAPI Specifications
 
 - [Content APIs v4](https://api-docs.quran.foundation/openAPI/content/v4.json): Verses, chapters, translations, tafsirs, audio
@@ -13,7 +19,8 @@
 
 ## Policies and Rendering
 
-- [Mushaf Fonts and Images](https://api-docs.quran.foundation/legal/mushaf-fonts-and-images/): Content Sync scope, rendering methods, and documented providers or delivery sources
+- [Developer Terms](https://api-docs.quran.foundation/legal/developer-terms/): Content usage, caching, bundling, attribution, and redistribution requirements
+- [Font Rendering](https://api-docs.quran.foundation/docs/tutorials/fonts/font-rendering/): Quran font URLs and rendering guidance
 
 ## Agent Prompts and Starters
 
@@ -39,7 +46,6 @@
 - [First Content API Call](https://api-docs.quran.foundation/docs/quickstart/first-api-call/)
 - [Manual Authentication for Content APIs](https://api-docs.quran.foundation/docs/quickstart/manual-authentication/)
 - [Migrate from api.quran.com to Quran Foundation Content APIs](https://api-docs.quran.foundation/docs/quickstart/migration/)
-- [Quran Foundation Content APIs OAuth2 Quickstart](https://api-docs.quran.foundation/docs/quickstart/)
 - [Token Management for Content APIs](https://api-docs.quran.foundation/docs/quickstart/token-management/)
 
 ## SDKs
@@ -61,6 +67,8 @@
 - [Common Errors](https://api-docs.quran.foundation/docs/sdk/python/common-errors/)
 - [Answers API](https://api-docs.quran.foundation/docs/sdk/javascript/answers/)
 - [Answers API](https://api-docs.quran.foundation/docs/sdk/python/answers/)
+- [App State](https://api-docs.quran.foundation/docs/sdk/javascript/app-state/)
+- [App State](https://api-docs.quran.foundation/docs/sdk/python/app-state/)
 - [Audio API](https://api-docs.quran.foundation/docs/sdk/javascript/audio/)
 - [Audio API](https://api-docs.quran.foundation/docs/sdk/python/audio/)
 - [Chapters API](https://api-docs.quran.foundation/docs/sdk/javascript/chapters/)
@@ -189,6 +197,8 @@
 - [Add or update user reading session](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/add-or-update-user-reading-session/)
 - [Add user bookmark](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/add-user-bookmark/)
 - [Add/update activity day](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/add-update-activity-day/)
+- [App State API contract](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/app-state/)
+- [App State lifecycle and launch policy](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/app-state/lifecycle/)
 - [Bookmarks](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/bookmarks/)
 - [Bulk add or update preferences](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/bulk-add-or-update-preferences/)
 - [Collections](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/collections/)
@@ -280,6 +290,7 @@
 - [Toggle post like](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-like/)
 - [Toggle post save](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-save/)
 - [Track post view](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/posts-controller-view-tracking/)
+- [Transactional App State reconciliation](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/app-state/reconciliation/)
 - [Unfollow a page](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/rooms-controller-unfollow-page/)
 - [Update a goal](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/update-a-goal/)
 - [Update a group](https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/rooms-controller-update-group/)
@@ -304,7 +315,11 @@
 - [Add or update user reading session](https://api-docs.quran.foundation/docs/user_related_apis_prelive/add-or-update-user-reading-session/)
 - [Add user bookmark](https://api-docs.quran.foundation/docs/user_related_apis_prelive/add-user-bookmark/)
 - [Add/update activity day](https://api-docs.quran.foundation/docs/user_related_apis_prelive/add-update-activity-day/)
+- [App State API contract](https://api-docs.quran.foundation/docs/user_related_apis_prelive/app-state/)
+- [App State API Reference](https://api-docs.quran.foundation/docs/user_related_apis_prelive/app-state-api-reference/)
+- [App State lifecycle and launch policy](https://api-docs.quran.foundation/docs/user_related_apis_prelive/app-state/lifecycle/)
 - [Bookmarks](https://api-docs.quran.foundation/docs/user_related_apis_prelive/bookmarks/)
+- [Bootstrap App State](https://api-docs.quran.foundation/docs/user_related_apis_prelive/bootstrap-app-state/)
 - [Bulk add or update preferences](https://api-docs.quran.foundation/docs/user_related_apis_prelive/bulk-add-or-update-preferences/)
 - [Collections](https://api-docs.quran.foundation/docs/user_related_apis_prelive/collections/)
 - [Comments](https://api-docs.quran.foundation/docs/user_related_apis_prelive/comments/)
@@ -312,9 +327,11 @@
 - [Create a new comment](https://api-docs.quran.foundation/docs/user_related_apis_prelive/comments-controller-create/)
 - [Create a new group](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-create-new-group/)
 - [Create a new page](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-create-new-page/)
+- [Create or replace an App State document](https://api-docs.quran.foundation/docs/user_related_apis_prelive/put-app-state-document/)
 - [Create post](https://api-docs.quran.foundation/docs/user_related_apis_prelive/posts-controller-create/)
 - [Delete a comment](https://api-docs.quran.foundation/docs/user_related_apis_prelive/comments-controller-delete-comment/)
 - [Delete a goal](https://api-docs.quran.foundation/docs/user_related_apis_prelive/delete-a-goal/)
+- [Delete an App State document](https://api-docs.quran.foundation/docs/user_related_apis_prelive/delete-app-state-document/)
 - [Delete Bookmark](https://api-docs.quran.foundation/docs/user_related_apis_prelive/delete-bookmark/)
 - [Delete collection](https://api-docs.quran.foundation/docs/user_related_apis_prelive/delete-collection/)
 - [Delete collection bookmark by details](https://api-docs.quran.foundation/docs/user_related_apis_prelive/delete-collection-bookmark-by-details/)
@@ -332,6 +349,7 @@
 - [Get all collections](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-all-collections/)
 - [Get all notes](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-all-notes/)
 - [Get all post comments](https://api-docs.quran.foundation/docs/user_related_apis_prelive/posts-controller-get-all-comment/)
+- [Get an App State document](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-app-state-document/)
 - [Get bookmark](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-bookmark/)
 - [Get bookmark collections](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-bookmark-collections/)
 - [Get bookmarks within a range of Ayahs](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-bookmarks-within-a-range-of-ayahs/)
@@ -359,6 +377,7 @@
 - [Get room profile by ID](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-get-room-profile-by-id/)
 - [Get room profile by URL or subdomain](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-get-room-profile/)
 - [Get streaks](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-streaks/)
+- [Get the active App State configuration](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-app-state-configuration/)
 - [Get today's goal plan](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-todays-goal-plan/)
 - [Get user bookmarks](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-user-bookmarks/)
 - [Get user followers](https://api-docs.quran.foundation/docs/user_related_apis_prelive/users-controller-get-user-followers/)
@@ -372,6 +391,7 @@
 - [Invite user to room](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-invite-user-to-room/)
 - [Join a group](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-join-room/)
 - [Leave a group](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-leave-group/)
+- [List App State documents](https://api-docs.quran.foundation/docs/user_related_apis_prelive/list-app-state-documents/)
 - [Notes](https://api-docs.quran.foundation/docs/user_related_apis_prelive/notes/)
 - [OAuth2 Scopes](https://api-docs.quran.foundation/docs/user_related_apis_prelive/scopes/)
 - [Posts](https://api-docs.quran.foundation/docs/user_related_apis_prelive/posts/)
@@ -388,12 +408,14 @@
 - [Search rooms](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-search-rooms/)
 - [Streaks](https://api-docs.quran.foundation/docs/user_related_apis_prelive/streaks/)
 - [Sync local mutations](https://api-docs.quran.foundation/docs/user_related_apis_prelive/sync-local-mutations/)
+- [Synchronize App State changes](https://api-docs.quran.foundation/docs/user_related_apis_prelive/get-app-state-changes/)
 - [Tags](https://api-docs.quran.foundation/docs/user_related_apis_prelive/tags/)
 - [Toggle follow/unfollow a user](https://api-docs.quran.foundation/docs/user_related_apis_prelive/users-controller-toggle-follow/)
 - [Toggle like/unlike a comment](https://api-docs.quran.foundation/docs/user_related_apis_prelive/comments-controller-toggle-like/)
 - [Toggle post like](https://api-docs.quran.foundation/docs/user_related_apis_prelive/posts-controller-toggle-like/)
 - [Toggle post save](https://api-docs.quran.foundation/docs/user_related_apis_prelive/posts-controller-toggle-save/)
 - [Track post view](https://api-docs.quran.foundation/docs/user_related_apis_prelive/posts-controller-view-tracking/)
+- [Transactional App State reconciliation](https://api-docs.quran.foundation/docs/user_related_apis_prelive/app-state/reconciliation/)
 - [Unfollow a page](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-unfollow-page/)
 - [Update a goal](https://api-docs.quran.foundation/docs/user_related_apis_prelive/update-a-goal/)
 - [Update a group](https://api-docs.quran.foundation/docs/user_related_apis_prelive/rooms-controller-update-group/)
@@ -417,7 +439,7 @@
 
 ## Search APIs v1
 
-- [Quran Foundation Search API](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/)
+- [Quran.Foundation Search API](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/)
 - [Search](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/search/)
 - [Search Quran content](https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/search-controller-search/)
 
@@ -438,11 +460,10 @@
 - [Getting Started with Content Sync](https://api-docs.quran.foundation/docs/tutorials/content-sync/getting-started/)
 - [Getting Started with Data Sync](https://api-docs.quran.foundation/docs/tutorials/sync/getting-started/)
 - [Handling Sync Conflicts](https://api-docs.quran.foundation/docs/tutorials/sync/handling-conflicts/)
-- [Integrating Quran Font Rendering](https://api-docs.quran.foundation/docs/tutorials/fonts/font-rendering/)
 - [iOS](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/)
 - [Mobile Apps](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/)
 - [OAuth2 Client Setup](https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/)
-- [OAuth2 Web Integration Example](https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/)
+- [OAuth2 Web Integration Reference](https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/)
 - [Offline Content Cache Patterns](https://api-docs.quran.foundation/docs/tutorials/content-sync/offline-cache-patterns/)
 - [Offline-First Architecture Patterns](https://api-docs.quran.foundation/docs/tutorials/sync/offline-first-patterns/)
 - [OpenID Connect](https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/)

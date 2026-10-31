@@ -266,7 +266,7 @@ Each verse contains words with position information:
 | `line_number` | Line number within the page (1-15 or 1-16) |
 | `text_uthmani` | Unicode Uthmani text |
 | `code_v1`, `code_v2` | QCF glyph codes for custom fonts |
-| `text_indopak` | IndoPak script text |
+| `text_indopak` | IndoPak script text (deprecated; use `text_indopak_nastaleeq` with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font)) |
 
 ---
 

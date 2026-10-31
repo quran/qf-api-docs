@@ -308,7 +308,145 @@ function filterMissingSidebarItems(items, validDocIds, tagDocIds = new Set()) {
   }, []);
 }
 
-function normalizeGeneratedSidebar(filePath, validDocIds, tagDocIds) {
+function categoryOwnsDoc(items, docId) {
+  return items.some((item) => {
+    if (!item || typeof item !== 'object') {
+      return false;
+    }
+
+    if (
+      item.type === 'category' &&
+      item.link?.type === 'doc' &&
+      item.link.id === docId
+    ) {
+      return true;
+    }
+
+    return Array.isArray(item.items) && categoryOwnsDoc(item.items, docId);
+  });
+}
+
+function ensureTagSidebarCategories(items, tagCategories) {
+  const missingCategories = tagCategories
+    .filter(({ id }) => !categoryOwnsDoc(items, id))
+    .map(({ id, label, items: categoryItems }) => ({
+      type: 'category',
+      label,
+      link: {
+        type: 'doc',
+        id,
+      },
+      items: categoryItems,
+    }));
+
+  return [...items, ...missingCategories];
+}
+
+function getFrontMatterString(content, fieldName) {
+  const match = content.match(new RegExp(`^${fieldName}:\\s*(.+)\\r?$`, 'm'));
+
+  if (!match) {
+    return null;
+  }
+
+  const value = match[1].trim();
+
+  try {
+    return JSON.parse(value);
+  } catch (_error) {
+    return value;
+  }
+}
+
+function getGeneratedApiMetadata(filePath, content) {
+  const apiMatch = content.match(/^api:\s*(\{.+\})\r?$/m);
+
+  if (!apiMatch) {
+    return null;
+  }
+
+  try {
+    const api = JSON.parse(apiMatch[1]);
+    return {
+      docId: getDocId(filePath),
+      label:
+        getFrontMatterString(content, 'sidebar_label') ||
+        getFrontMatterString(content, 'title') ||
+        getDocSlugFromPath(filePath),
+      method: api.method,
+      tags: Array.isArray(api.tags) ? api.tags : [],
+    };
+  } catch (_error) {
+    return null;
+  }
+}
+
+function getDocIdPrefix(docId) {
+  return docId.split('/').slice(0, -1).join('/');
+}
+
+function buildTagSidebarCategories(generatedDocs, sidebarDocIdPrefix) {
+  const categoriesByLabel = new Map();
+  const operations = [];
+
+  for (const filePath of generatedDocs) {
+    const docId = getDocId(filePath);
+
+    if (getDocIdPrefix(docId) !== sidebarDocIdPrefix) {
+      continue;
+    }
+
+    const content = fs.readFileSync(filePath, 'utf8');
+
+    if (/\.tag\.mdx$/.test(filePath)) {
+      const label = getFrontMatterString(content, 'title');
+
+      if (label) {
+        categoriesByLabel.set(label, { id: docId, label, items: [] });
+      }
+      continue;
+    }
+
+    const metadata = getGeneratedApiMetadata(filePath, content);
+
+    if (metadata) {
+      operations.push(metadata);
+    }
+  }
+
+  for (const operation of operations) {
+    for (const tag of operation.tags) {
+      const category = categoriesByLabel.get(tag);
+
+      if (!category) {
+        continue;
+      }
+
+      category.items.push({
+        type: 'doc',
+        id: operation.docId,
+        label: operation.label,
+        ...(operation.method ? { className: `api-method ${operation.method}` } : {}),
+      });
+    }
+  }
+
+  return [...categoriesByLabel.values()].filter(({ items }) => items.length > 0);
+}
+
+function getSidebarDocIdPrefix(filePath) {
+  return path
+    .relative(path.join(siteDir, 'docs'), path.dirname(filePath))
+    .split(path.sep)
+    .join('/');
+}
+
+function normalizeGeneratedSidebar(
+  filePath,
+  validDocIds,
+  tagDocIds,
+  tagCategories,
+) {
   delete require.cache[require.resolve(filePath)];
   const sidebarItems = require(filePath);
   const filteredSidebarItems = filterMissingSidebarItems(
@@ -316,7 +454,11 @@ function normalizeGeneratedSidebar(filePath, validDocIds, tagDocIds) {
     validDocIds,
     tagDocIds,
   );
-  const dedupedSidebarItems = dedupeSidebarItems(filteredSidebarItems);
+  const completeSidebarItems = ensureTagSidebarCategories(
+    filteredSidebarItems,
+    tagCategories,
+  );
+  const dedupedSidebarItems = dedupeSidebarItems(completeSidebarItems);
   const normalizedSidebarItems = normalizeRubElHizbSidebarLabels(dedupedSidebarItems);
   const serializedSidebar = `module.exports = ${JSON.stringify(normalizedSidebarItems)};`;
 
@@ -365,7 +507,15 @@ function main() {
 
       const originalContent = fs.readFileSync(filePath, 'utf8');
       const normalizedContent = generatedSidebarPattern.test(filePath)
-        ? normalizeGeneratedSidebar(filePath, validDocIds, tagDocIds)
+        ? normalizeGeneratedSidebar(
+            filePath,
+            validDocIds,
+            tagDocIds,
+            buildTagSidebarCategories(
+              generatedDocs,
+              getSidebarDocIdPrefix(filePath),
+            ),
+          )
         : normalizeRubElHizbDocLabels(
             filePath,
             normalizeGeneratedLabels(originalContent, filePath),
@@ -394,6 +544,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  ensureTagSidebarCategories,
   filterMissingSidebarItems,
   getDisplayedSidebarId,
   hasUsableSidebarLink,
