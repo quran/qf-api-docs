@@ -47,9 +47,9 @@ Requesting a scope that is not approved for your client can cause the authorizat
 :::info Not yet available
 
 The granular content scopes below are a **proposal under review**. They are not issued to any
-client yet, and no date is set for issuing them. `content` is the scope to request today. This
-section is published so integrators can see what is coming; nothing here changes an existing
-integration.
+client yet, and no date is set for issuing them. `content` is the scope to request today, for
+existing and new credentials alike. This section is published so integrators can see what is
+coming; nothing here changes an existing integration.
 
 :::
 
@@ -76,7 +76,7 @@ They are also **read-only.** None of them authorizes a write, and `content.creat
 unrelated.
 
 `content.sync.read` reads *public content* deltas. It is a different permission from the user-data
-`sync` scope further down this page, and neither implies the other.
+`sync` scope, and neither implies the other.
 
 `content.reflections.read` covers only the five public QuranReflect reads: the public feed, a public
 post, a public user's posts, and a post's comments and all-comments. It grants no private posts, no
@@ -92,6 +92,16 @@ scopes, so either the legacy or the granular scope can authorize the request. Th
 scopes are application-credentials only: they do not authorize user-bound access tokens, even if a
 granular name appears in such a token's `scope` claim.
 
+**If your backend also signs users in.** A user's access token from Authorization Code + PKCE is
+never authorized by a granular content scope alone: when every scope on a user token that a route
+accepts is granular, the API returns `403`. A backend that signs users in and reads Content with
+granular scopes therefore requests a separate application token with `client_credentials` for the
+Content calls, and uses the user's token for User APIs. A user token that carries `content` keeps
+working as it does today.
+
+The Qira'at endpoints are not part of this split. They keep their own `qiraat.read` scope (see
+[Qira'at](#qiraat)), and none of the nine scopes authorizes them.
+
 `x-qf-scopes` exists because these endpoints authenticate with the `x-auth-token` and `x-client-id`
 headers together, which OpenAPI models as two `apiKey` schemes. OpenAPI can only attach scopes to
 an `oauth2` scheme, so the scope list could not go in `security` without misrepresenting the
@@ -102,7 +112,8 @@ transport. These are not `Authorization: Bearer` credentials.
 Nothing to do, and nothing to change.
 
 - Your existing scopes keep working. `content` and `content.read` continue to authorize every read
-  they authorize today.
+  they authorize today. This holds for every client that already has them, including browser and
+  mobile clients.
 - **No secret rotation, no re-authorization, no new client, and no forced user login.** Access
   tokens you have already been issued stay valid for their normal lifetime with their original
   scopes.
@@ -116,19 +127,36 @@ Nothing to do, and nothing to change.
 - Rate limits are unchanged. Your aggregate content allowance is not split per scope, and a request
   is not charged twice because a token carries both a legacy and a granular scope.
 
-### If you are issued granular-only credentials
+### New credentials, once granular scopes are issued
 
-Request the specific scopes your integration calls, and check your SDK version.
+Until Quran Foundation announces that granular scopes are being issued, a new client is set up
+exactly as today and requests `content`. After the announcement, what a **new** client receives
+depends on where its code runs:
+
+- **New backend (confidential) client**: one that keeps a Client Secret on a server and uses
+  `client_credentials`. It is approved for the granular scopes instead of `content`. Request the
+  specific scopes your integration calls, space-separated in the `scope` parameter, for example
+  `content.quran.read content.translations.read`. Requesting `content` with such a client returns
+  `invalid_scope`.
+- **New browser or mobile (public) client**: no Content scope at all, legacy or granular, because
+  it cannot hold a Client Secret and so cannot obtain an application token. Keep Authorization
+  Code + PKCE for User APIs, and read Content through your own backend, which uses a confidential
+  client.
+
+Check your SDK version before using new credentials:
 
 - An SDK that hard-codes a `content` scope request cannot work with credentials that were never
   granted `content`. Use a release that lets you choose the scopes, or set them explicitly.
-- The minimum SDK versions will be published with the release; until then, granular-only
+- The minimum SDK versions will be published with the announcement. Until then, granular-only
   credentials are not issued, so no integration is affected.
+
+Two different errors can follow a scope mistake:
+
 - A scope your client was not approved for is rejected at the **token endpoint** with
-  `invalid_scope` (HTTP 400). A valid token that lacks the scope a route needs is rejected by the
-  **API** with an insufficient-scope error (HTTP 403). They are different failures: the first means
-  fix the scope request or the client's approvals, the second means request the right scope for
-  that call.
+  `invalid_scope` (HTTP 400). Fix the scope request or the client's approvals.
+- A valid token that lacks the scope a route needs is rejected by the **API** with an
+  insufficient-scope error (HTTP 403). Request the right scope for that call; for a user token,
+  see [If your backend also signs users in](#what-each-endpoint-needs).
 
 ### Endpoint families, not data filtering
 

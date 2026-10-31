@@ -276,3 +276,29 @@ test('documentation explains why the scopes live in an extension', () => {
   assert.match(scopesDoc, /x-qf-scopes/u);
   assert.match(scopesDoc, /not `Authorization: Bearer` credentials|not `Authorization: Bearer`/u);
 });
+
+test('documentation splits guidance between existing and new credentials', () => {
+  assert.match(scopesDoc, /### If you already have credentials/u);
+  assert.match(scopesDoc, /### New credentials, once granular scopes are issued/u);
+  assert.match(scopesDoc, /New backend \(confidential\) client/u);
+  assert.match(scopesDoc, /New browser or mobile \(public\) client\*\*: no Content scope at all/u);
+  assert.match(scopesDoc, /a new client is set up\s+exactly as today and requests `content`/u);
+});
+
+test('documentation states the app-token rule for backends that sign users in', () => {
+  assert.match(scopesDoc, /If your backend also signs users in/u);
+  assert.match(scopesDoc, /separate application token with `client_credentials`/u);
+});
+
+test('quickstart pages carry the same existing/new credential split', () => {
+  for (const page of ['index.md', 'manual-authentication.md']) {
+    const doc = fs.readFileSync(path.join(repoRoot, 'docs/quickstart', page), 'utf8');
+    assert.match(doc, /Which Content scope to request/u, page);
+    assert.match(doc, /Request `scope=content` today/u, page);
+    assert.match(doc, /new \*\*Frontend or mobile app\*\* gets no Content scope/u, page);
+  }
+  for (const page of ['first-api-call.md', 'migration.md', 'token-management.md']) {
+    const doc = fs.readFileSync(path.join(repoRoot, 'docs/quickstart', page), 'utf8');
+    assert.match(doc, /scopes#granular-content-scopes/u, page);
+  }
+});

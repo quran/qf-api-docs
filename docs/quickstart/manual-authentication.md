@@ -43,6 +43,17 @@ The token is environment-specific. A prelive token will not work against product
 
 Request the access token from your backend with OAuth2 Client Credentials.
 
+:::note Which Content scope to request
+Request `scope=content` today. Credentials that already have `content` keep working, with no change, whatever kind of app they belong to.
+
+Quran Foundation plans to replace `content` with narrower read scopes, such as `content.quran.read`, for **new** credentials only. Until that change is announced, new apps still receive `content`. After it:
+
+- A new **Backend/server app** is approved for the granular Content scopes it needs and requests those instead of `content`. Asking for `content` then returns `invalid_scope`.
+- A new **Frontend or mobile app** gets no Content scope. It calls your own backend, which holds a Backend/server app's credentials, for Content.
+
+If your app's approved permissions in Developer Console list granular Content scopes rather than `content`, request those. See [granular content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes).
+:::
+
 Request details:
 
 - Method: `POST`
@@ -197,6 +208,8 @@ with urllib.request.urlopen(request, timeout=30) as response:
 
 Track `access_token` and `expires_in`. Client Credentials does not return a refresh token for this quickstart flow.
 
+If the token endpoint returns `invalid_scope` (HTTP 400), you asked for a scope your client is not approved for. A client issued granular Content scopes instead of `content` must request those scopes.
+
 ## Server-Only Rule
 
 Do not call the token endpoint from browser or mobile code. The request requires `client_secret`, and exposing that secret breaks the security model of the integration.
@@ -221,7 +234,7 @@ Implement Quran Foundation Content API token retrieval on the backend.
 Requirements
 - Read QF_CLIENT_ID, QF_CLIENT_SECRET, and QF_ENV from environment variables.
 - Use prelive -> https://prelive-oauth2.quran.foundation and production -> https://oauth2.quran.foundation.
-- Request POST /oauth2/token with HTTP Basic auth, grant_type=client_credentials, and scope=content.
+- Request POST /oauth2/token with HTTP Basic auth, grant_type=client_credentials, and scope=content. If the client's approved permissions list granular Content scopes (for example content.quran.read) instead of content, request those space-separated instead.
 - Return access_token and expires_in from the token response.
 - Do not expose client_secret to browser or mobile code.
 
