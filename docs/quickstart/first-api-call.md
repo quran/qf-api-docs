@@ -135,7 +135,7 @@ Check the HTTP status before trusting the response body. Content API error respo
 | --- | --- | --- |
 | `400` or `422` | Missing headers, invalid query parameters, or validation failure | Fix the request before retrying. |
 | `401` | The access token is missing, expired, or invalid | Clear the cached token, request a new Client Credentials token, and retry once. |
-| `403` | Wrong client, wrong environment, or missing `content` scope/permission | Confirm `x-client-id`, token environment, and `scope=content`. Do not retry in a loop. |
+| `403` | Wrong client, wrong environment, or missing scope/permission | Confirm `x-client-id`, token environment, and that the token was requested with `scope=content` or, for a client issued [granular Content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes), the granular scope this endpoint needs. Do not retry in a loop. |
 | `429` | Rate limit exceeded | Back off and retry later. Prefer exponential backoff with jitter. |
 | `500`, `502`, `503`, `504` | Temporary server or upstream failure | Retry with bounded backoff, then surface a temporary failure. |
 
@@ -183,7 +183,7 @@ Requirements
 - Reuse the existing backend token helper instead of requesting a new token for every request.
 - Handle non-2xx responses safely:
   - 401: clear cached token, re-request a Client Credentials token, and retry once.
-  - 403: check client credentials, environment, and scope=content.
+  - 403: check client credentials, environment, and scope=content (or the granular Content scope the endpoint needs, if the client was issued granular scopes instead of content).
   - 429 and 5xx: retry only with bounded backoff.
   - 400/422: surface a request validation error instead of retrying blindly.
 - Expose a backend route or service method that returns the chapters response without leaking credentials to the frontend.

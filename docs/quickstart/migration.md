@@ -38,7 +38,7 @@ The main changes are the base URL and authentication model. The endpoints, query
 
 1. Request Quran Foundation API access and store the credentials on your backend.
 2. Replace the old `api.quran.com` base URL with the correct Quran Foundation Content API base URL.
-3. Add OAuth2 Client Credentials token retrieval with `scope=content`.
+3. Add OAuth2 Client Credentials token retrieval with `scope=content`. Existing credentials keep `content`; a new Backend/server app issued [granular Content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes) requests those instead.
 4. Cache the token and re-request it before expiry.
 5. Add `x-auth-token` and `x-client-id` to every Content API request.
 6. Verify the migration with `GET /content/api/v4/chapters`.
@@ -131,7 +131,8 @@ async function fetchChapters() {
 
 - Tokens are environment-specific. Do not use prelive tokens against production or the reverse.
 - This quickstart flow does not use refresh tokens. Re-request the access token instead.
-- A `403` usually points to missing permissions or the wrong scope. Use `scope=content`.
+- A `403` usually points to missing permissions or the wrong scope. Use `scope=content`, or the granular Content scopes your client was approved for if it has no `content`.
+- Content API credentials belong to a Backend/server app. Do not move them into browser or mobile code during the migration: those apps call your backend for Content.
 - A `401` usually means the token expired or was invalid. Re-request once and retry once.
 
 ## AI Handoff Prompt
@@ -146,7 +147,7 @@ Migrate an existing api.quran.com Content API integration to Quran Foundation Co
 
 Requirements
 - Replace the old base URL with the correct Quran Foundation prelive or production base URL.
-- Add backend-only OAuth2 Client Credentials token retrieval with scope=content.
+- Add backend-only OAuth2 Client Credentials token retrieval with scope=content. If the client's approved permissions list granular Content scopes (for example content.quran.read) instead of content, request those space-separated instead.
 - Add x-auth-token and x-client-id to every Content API request.
 - Preserve existing endpoint paths, query parameters, and response handling where the API contract is unchanged.
 - Verify the migration with GET /content/api/v4/chapters.

@@ -129,6 +129,19 @@ test('Express confidential-client walkthrough binds PKCE and nonce across the OA
   assert.doesNotMatch(example, /quran-oauth2-client-example/);
 });
 
+test('preserves Client Credentials as the required token path for all Content APIs', () => {
+  const appShapes = readDoc('sdk/javascript/app-shapes.mdx');
+  const authMatrix = readDoc('sdk/javascript/auth-matrix.mdx');
+  const oauthTutorial = readDoc('tutorials/oidc/getting-started-with-oauth2.mdx');
+
+  assert.match(appShapes, /If you want \*\*Content\*\* or \*\*Search\*\*, use a backend/);
+  assert.match(authMatrix, /Apps that need Content or Search require a backend\/server integration/);
+  assert.match(oauthTutorial, /Use \*\*Client Credentials\*\* for \*\*Content APIs\*\*/);
+  for (const guide of [appShapes, authMatrix, oauthTutorial]) {
+    assert.doesNotMatch(guide, /Content reads?[^\n]*(?:user token|PKCE token)/i);
+  }
+});
+
 test('React Native OAuth guidance branches on the Console app type', () => {
   const reactNative = readDoc('tutorials/oidc/mobile-apps/react-native.mdx');
 

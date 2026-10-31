@@ -24,6 +24,17 @@ Use this quickstart after choosing Content APIs from the [Developer Journey](/do
 A browser or mobile app must not embed a Content API `client_secret`. If it needs Content API data, call your own backend, which holds the secret and makes the Content API request.
 :::
 
+:::note Which Content scope to request
+Request `scope=content` today. Credentials that already have `content` keep working, with no change, whatever kind of app they belong to.
+
+Quran Foundation plans to replace `content` with narrower read scopes, such as `content.quran.read`, for **new** credentials only. Until that change is announced, new apps still receive `content`. After it:
+
+- A new **Backend/server app** with the Client Credentials grant receives, in place of `content`, the eight granular read scopes `content.quran.read`, `content.translations.read`, `content.tafsirs.read`, `content.audio.read`, `content.hadith.read`, `content.metadata.read`, `content.sync.read` and `content.answers.read` (where its default permissions included `content`). It also receives `content.reflections.read` only where its defaults already cover the public QuranReflect post and comment reads. It requests the scopes it calls; asking for `content` returns `invalid_scope`.
+- A new **Frontend or mobile app** gets no Content scope. It calls your own backend, which holds a Backend/server app's credentials, for Content.
+
+If your app's approved permissions in Developer Console list granular Content scopes rather than `content`, request those. See [granular content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes).
+:::
+
 :::info Quick Summary
 **Audience:** Backend teams, server-rendered apps, and web apps that proxy Content API calls through a server.
 
@@ -123,7 +134,7 @@ These examples default to pre-live and use `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, a
 | Item | Value |
 | --- | --- |
 | OAuth2 flow | `client_credentials` |
-| Required scope | `content` |
+| Required scope | `content` (new Backend/server apps request granular Content scopes once announced; see the note above) |
 | Token endpoint path | `/oauth2/token` |
 | Access token lifetime | `3600` seconds |
 | Required API headers | `x-auth-token`, `x-client-id` |
@@ -145,7 +156,7 @@ Check the response status and the error body's `type` and `message`; do not blin
 | --- | --- |
 | `400` / `422` | Correct missing headers or invalid parameters; do not retry the same request unchanged. |
 | `401` | Clear the cached token, obtain a new one, and retry **once**. |
-| `403` | Check the client ID, matching environment, approved permissions, and `content` scope; do not loop. |
+| `403` | Check the client ID, matching environment, approved permissions, and that the token carries `content` or the granular Content scope the endpoint needs; do not loop. |
 | `429` | Respect rate limits; retry later with bounded exponential backoff and jitter. |
 | `5xx` | Retry transient failures with bounded backoff, then surface the error. |
 

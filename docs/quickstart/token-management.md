@@ -48,6 +48,8 @@ return the new token
 
 This keeps your integration fast and avoids unnecessary token requests.
 
+The examples request `scope=content`, which is correct for credentials issued today. If your client's approved permissions list [granular Content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes) instead of `content`, put those, space-separated, in the `scope` field. A cached token only carries the scopes it was requested with.
+
 <details>
 <summary><b>Expand for Python and Node.js cache examples</b></summary>
 
