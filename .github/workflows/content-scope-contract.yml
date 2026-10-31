@@ -1,4 +1,5 @@
-# The content scope contract is the artifact eight other repositories pin by sha256.
+# The content scope contract is the artifact other repositories pin: Gateway and Platform vendor
+# v1.json, and the SDKs and Console pin its sha256.
 #
 # Until now nothing ran on a pull request here: the 225-test suite and the two --check gates
 # existed but only ever ran on a contributor's machine. A contract that can drift without anything
@@ -25,6 +26,8 @@ on:
       - 'scripts/lib/json-schema-lite.cjs'
       - 'scripts/run-tests.cjs'
       - 'docs/user_related_apis_versioned/scopes.mdx'
+      - 'docs/quickstart/**'
+      - 'docs/connected-apps.mdx'
       - 'tests/**'
       - 'package.json'
       - 'yarn.lock'
@@ -40,6 +43,8 @@ on:
       - 'scripts/lib/json-schema-lite.cjs'
       - 'scripts/run-tests.cjs'
       - 'docs/user_related_apis_versioned/scopes.mdx'
+      - 'docs/quickstart/**'
+      - 'docs/connected-apps.mdx'
       - 'tests/**'
       - 'package.json'
       - 'yarn.lock'
