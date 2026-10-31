@@ -46,8 +46,8 @@ Requesting a scope that is not approved for your client can cause the authorizat
 
 :::info Not yet available
 
-The granular content scopes below are a **proposal under review**. They are not issued to any
-client yet, and no date is set for issuing them. `content` is the scope to request today, for
+The granular content scopes below are a **proposal under review**. They are not issued to
+integrators yet, and no date is set for issuing them. `content` is the scope to request today, for
 existing and new credentials alike. This section is published so integrators can see what is
 coming; nothing here changes an existing integration.
 
@@ -133,13 +133,17 @@ Until Quran Foundation announces that granular scopes are being issued, a new cl
 exactly as today and requests `content`. After the announcement, what a **new** client receives
 depends on where its code runs:
 
-- **New backend (confidential) client**: one that keeps a Client Secret on a server and uses
-  `client_credentials`. It is approved for the granular scopes instead of `content`. Request the
-  specific scopes your integration calls, space-separated in the `scope` parameter, for example
-  `content.quran.read content.translations.read`. Requesting `content` with such a client returns
-  `invalid_scope`.
-- **New browser or mobile (public) client**: no Content scope at all, legacy or granular, because
-  it cannot hold a Client Secret and so cannot obtain an application token. Keep Authorization
+- **New backend (confidential) client**: one that keeps a Client Secret on a server and has the
+  `client_credentials` grant. In place of `content` it receives the eight read scopes
+  `content.quran.read`, `content.translations.read`, `content.tafsirs.read`,
+  `content.audio.read`, `content.hadith.read`, `content.metadata.read`, `content.sync.read` and
+  `content.answers.read`, where its default permissions included `content`. It receives
+  `content.reflections.read` only where its defaults already cover all five public QuranReflect
+  reads. Request the specific scopes your integration calls, space-separated in the `scope`
+  parameter, for example `content.quran.read content.translations.read`. Requesting `content`
+  with such a client returns `invalid_scope`.
+- **New browser or mobile (public) client**, or any client without `client_credentials`: no
+  Content scope at all, legacy or granular, because it cannot obtain an application token. Keep Authorization
   Code + PKCE for User APIs, and read Content through your own backend, which uses a confidential
   client.
 

@@ -29,7 +29,7 @@ Request `scope=content` today. Credentials that already have `content` keep work
 
 Quran Foundation plans to replace `content` with narrower read scopes, such as `content.quran.read`, for **new** credentials only. Until that change is announced, new apps still receive `content`. After it:
 
-- A new **Backend/server app** is approved for the granular Content scopes it needs and requests those instead of `content`. Asking for `content` then returns `invalid_scope`.
+- A new **Backend/server app** with the Client Credentials grant receives, in place of `content`, the eight granular read scopes `content.quran.read`, `content.translations.read`, `content.tafsirs.read`, `content.audio.read`, `content.hadith.read`, `content.metadata.read`, `content.sync.read` and `content.answers.read` (where its default permissions included `content`). It also receives `content.reflections.read` only where its defaults already cover the public QuranReflect post and comment reads. It requests the scopes it calls; asking for `content` returns `invalid_scope`.
 - A new **Frontend or mobile app** gets no Content scope. It calls your own backend, which holds a Backend/server app's credentials, for Content.
 
 If your app's approved permissions in Developer Console list granular Content scopes rather than `content`, request those. See [granular content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes).
