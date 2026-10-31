@@ -483,6 +483,86 @@ const build = () => {
   const reflectionRoutes = operations.filter(
     (op) => op.granularAnyOf[0] === 'content.reflections.read',
   );
+  const granularScopes = scopeCatalog.map((s) => s.machineName);
+  const legacyContentScopes = policy.deprecatedForNewClients.scopes;
+  const sameSet = (a, b) =>
+    a.length === b.length && new Set(a).size === a.length && a.every((scope) => b.includes(scope));
+
+  // ---- out-of-scope operations (A3) -------------------------------------------------
+  // Published Content operations this contract deliberately does not map (today: Qira'at). Each
+  // is listed by method, path and operationId so the OpenAPI metadata check still fails on any
+  // operation nobody has assigned a disposition to. They keep their existing scope policy, which
+  // must be one of the out-of-scope scopes: never a granular scope and never `content`.
+  const outOfScopeOperations = [];
+  const coveredOpenApiKeys = new Set(
+    operations
+      .filter((op) => op.openApiPath)
+      .map((op) => `${op.method} ${op.openApiPath}`),
+  );
+  for (const group of policy.outOfScopeOperations?.groups ?? []) {
+    for (const scope of group.acceptedScopes ?? []) {
+      if (!policy.outOfScope.scopes.includes(scope)) {
+        fail(`out-of-scope group ${group.id}: accepted scope ${scope} is not listed in outOfScope.scopes`);
+      }
+    }
+    for (const entry of group.operations ?? []) {
+      const method = entry.method.toUpperCase();
+      const key = `${method} ${entry.openApiPath}`;
+      if (coveredOpenApiKeys.has(key)) {
+        fail(`out-of-scope ${key} is also mapped by the contract`);
+        continue;
+      }
+      coveredOpenApiKeys.add(key);
+      outOfScopeOperations.push({
+        group: group.id,
+        disposition: group.disposition,
+        method,
+        openApiPath: entry.openApiPath,
+        openApiDocument: 'openAPI/content/v4.json',
+        operationId: entry.operationId,
+        gatewayService: 'content',
+        gatewayPath: resolveGatewayPath('content', entry.openApiPath),
+        acceptedScopes: group.acceptedScopes,
+        acceptedScopesSource: group.acceptedScopesSource,
+        reason: group.reason,
+      });
+    }
+  }
+
+  // ---- new-client baseline (D5) -------------------------------------------------------
+  // The client-kind split must agree with the scope sets above, so a policy edit cannot give a
+  // public client a scope it can never use or hand a confidential client anything beyond C8.
+  const baseline = policy.newClientBaseline;
+  const confidential = baseline.byClientKind?.confidential;
+  const publicKind = baseline.byClientKind?.public;
+  if (!confidential || !publicKind) {
+    fail('newClientBaseline must define byClientKind.confidential and byClientKind.public');
+  } else {
+    if (!sameSet(baseline.removeFromBaseline, legacyContentScopes)) {
+      fail('newClientBaseline.removeFromBaseline must be exactly the legacy content scopes');
+    }
+    if (!sameSet(confidential.removeFromBaseline, legacyContentScopes)) {
+      fail('newClientBaseline confidential clients must lose exactly the legacy content scopes');
+    }
+    if (!sameSet(confidential.addToBaseline, c8)) {
+      fail('newClientBaseline confidential clients must gain exactly the C8 scopes');
+    }
+    if (!sameSet(publicKind.removeFromBaseline, [...legacyContentScopes, ...granularScopes])) {
+      fail('newClientBaseline public clients must lose every legacy and granular Content scope');
+    }
+    if (publicKind.addToBaseline.length !== 0) {
+      fail('newClientBaseline public clients must gain no scope');
+    }
+    if (baseline.unknownClientKindTreatedAs !== 'public') {
+      fail('newClientBaseline must treat an unknown client kind as public (fail closed)');
+    }
+  }
+
+  // ---- granular issuance gate (D1, C7 stage 1) ---------------------------------------
+  const issuance = policy.granularIssuance;
+  if (!issuance || issuance.requiresContractStatus !== 'approved') {
+    fail('granularIssuance must require an approved contract before granular scopes are issued');
+  }
 
   const contract = {
     contractVersion: policy.contractVersion,
@@ -563,6 +643,11 @@ const build = () => {
       ],
     },
     newClientBaseline: policy.newClientBaseline,
+    granularIssuance: { ...issuance, $comment: issuance.$comment.join(' ') },
+    outOfScopeOperations: {
+      $comment: policy.outOfScopeOperations.$comment.join(' '),
+      operations: outOfScopeOperations,
+    },
     quotaPolicy: {
       globalBucketAlwaysCharged: policy.quotaPolicy.globalBucketAlwaysCharged,
       note: policy.quotaPolicy.$comment.join(' '),
@@ -587,6 +672,7 @@ const build = () => {
       supplementalOperationsAssigned: supplementalOperations.length,
       supplementalOperationsUnassigned: (supplemental.deliberatelyUnassigned ?? []).length,
       operationsTotal: operations.length,
+      outOfScopeOperations: outOfScopeOperations.length,
       regressionInventoryRows: provenance.filter(
         (p) => p.disposition === 'regression-inventory-not-migrated',
       ).length,

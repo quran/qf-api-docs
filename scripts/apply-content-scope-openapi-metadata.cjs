@@ -84,13 +84,35 @@ const apply = (inputDocument) => {
   for (const operation of documented) {
     byPath.set(`${operation.method} ${operation.openApiPath}`, operation);
   }
+  // Operations the contract deliberately leaves out (today: Qira'at, which keeps its own
+  // `qiraat.read` policy). Each is listed explicitly, so an operation with no disposition at all
+  // still fails below. They must never carry x-qf-scopes: an SDK would read it as a Content scope.
+  const outOfScope = new Map();
+  for (const operation of contract.outOfScopeOperations?.operations ?? []) {
+    outOfScope.set(`${operation.method} ${operation.openApiPath}`, operation);
+  }
 
   let applied = 0;
+  let excluded = 0;
   for (const [pathKey, pathItem] of Object.entries(document.paths)) {
     for (const [method, operation] of Object.entries(pathItem)) {
       if (!HTTP_METHODS.has(method)) continue;
       if (!operation || typeof operation !== 'object' || !operation.operationId) {
         errors.push(`${method.toUpperCase()} ${pathKey}: missing operationId`);
+        continue;
+      }
+
+      const excludedOperation = outOfScope.get(`${method.toUpperCase()} ${pathKey}`);
+      if (excludedOperation) {
+        if (excludedOperation.operationId !== operation.operationId) {
+          errors.push(
+            `${method.toUpperCase()} ${pathKey}: operationId drift, contract says ` +
+              `${excludedOperation.operationId} but the document says ${operation.operationId}`,
+          );
+          continue;
+        }
+        delete operation[EXTENSION];
+        excluded += 1;
         continue;
       }
 
@@ -115,6 +137,11 @@ const apply = (inputDocument) => {
   if (applied !== documented.length) {
     errors.push(
       `applied metadata to ${applied} operations but the contract documents ${documented.length}`,
+    );
+  }
+  if (excluded !== outOfScope.size) {
+    errors.push(
+      `found ${excluded} out-of-scope operations but the contract lists ${outOfScope.size}`,
     );
   }
 
@@ -142,12 +169,12 @@ const apply = (inputDocument) => {
     throw new Error(`OpenAPI metadata failed:\n  - ${errors.join('\n  - ')}`);
   }
 
-  return { document, applied };
+  return { document, applied, excluded };
 };
 
 const main = () => {
   const checkOnly = process.argv.includes('--check');
-  const { document, applied } = apply();
+  const { document, applied, excluded } = apply();
   const next = `${JSON.stringify(document, null, 2)}\n`;
 
   if (checkOnly) {
@@ -159,7 +186,9 @@ const main = () => {
       );
       process.exit(1);
     }
-    console.log(`content scope OpenAPI metadata up to date (${applied} operations)`);
+    console.log(
+      `content scope OpenAPI metadata up to date (${applied} operations, ${excluded} out of scope)`,
+    );
     return;
   }
 

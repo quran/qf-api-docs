@@ -53,6 +53,45 @@ test('every content operation carries scope metadata pinned to the contract', ()
   }
 });
 
+test('every operation is either mapped or explicitly out of scope, never both', () => {
+  const mapped = new Set(
+    contract.operations.filter((op) => op.openApiPath).map((op) => `${op.method} ${op.openApiPath}`),
+  );
+  const excluded = new Map(
+    contract.outOfScopeOperations.operations.map((op) => [`${op.method} ${op.openApiPath}`, op]),
+  );
+  assert.equal(excluded.size, 11);
+  for (const { pathKey, method, operation } of allOperations()) {
+    const key = `${method} ${pathKey}`;
+    assert.ok(mapped.has(key) !== excluded.has(key), `${key} needs exactly one disposition`);
+    if (excluded.has(key)) {
+      assert.equal(operation[EXTENSION], undefined, `${key} must not carry Content scope metadata`);
+      assert.equal(operation.operationId, excluded.get(key).operationId);
+    }
+  }
+});
+
+test("Qira'at keeps its own scope and gains no Content scope", () => {
+  for (const op of contract.outOfScopeOperations.operations) {
+    assert.equal(op.group, 'qiraat');
+    assert.match(op.openApiPath, /^\/qiraat\//u);
+    assert.deepEqual(op.acceptedScopes, ['qiraat.read', 'qiraat']);
+    for (const scope of op.acceptedScopes) {
+      assert.ok(!GRANULAR.includes(scope), `${scope} must not be a granular Content scope`);
+      assert.ok(!['content', 'content.read'].includes(scope));
+    }
+  }
+});
+
+test('an operation with no disposition fails the metadata check', () => {
+  const { apply } = require('../scripts/apply-content-scope-openapi-metadata.cjs');
+  const document = structuredClone(contentApi);
+  document.paths['/qiraat/new-thing'] = {
+    get: { operationId: 'new-qiraat-thing', responses: {} },
+  };
+  assert.throws(() => apply(document), /GET \/qiraat\/new-thing is not covered by the contract/u);
+});
+
 test('metadata matches the contract operation for the same path and method', () => {
   const byKey = new Map(
     contract.operations.map((operation) => [
@@ -150,7 +189,8 @@ test('no empty security alternative is ever introduced', () => {
 
 test('the metadata pass changes nothing else in the document', () => {
   // Operation identity, transport and paths are what SDKs and existing integrations depend on.
-  assert.equal(Object.keys(contentApi.paths).length, 95);
+  // 95 contract operations plus the 11 Qira'at operations the contract leaves out on purpose.
+  assert.equal(Object.keys(contentApi.paths).length, 106);
 
   const operationIds = allOperations().map(({ operation }) => operation.operationId);
   assert.equal(new Set(operationIds).size, operationIds.length, 'operationIds must stay unique');

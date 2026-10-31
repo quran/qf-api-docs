@@ -438,6 +438,69 @@ test('contract stays inert until the decisions are approved', () => {
   }
 });
 
+test('D5: a new confidential client trades the legacy content scopes for C8', () => {
+  const baseline = contract.newClientBaseline;
+  const confidential = baseline.byClientKind.confidential;
+  assert.deepEqual([...confidential.removeFromBaseline].sort(), ['content', 'content.read']);
+  assert.deepEqual([...confidential.addToBaseline].sort(), [...contract.migration.c8].sort());
+  assert.ok(!confidential.addToBaseline.includes('content.reflections.read'));
+  assert.equal(confidential.addOnlyIfBaselineHeldLegacyContentRead, true);
+  assert.equal(confidential.addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes, true);
+  assert.equal(baseline.activation.requiresContractStatus, 'approved');
+  assert.equal(baseline.activation.whileInactive, 'legacy-baseline-unchanged');
+});
+
+test('D5: a new public client receives no Content scope at all', () => {
+  const baseline = contract.newClientBaseline;
+  const publicKind = baseline.byClientKind.public;
+  assert.deepEqual(publicKind.addToBaseline, []);
+  assert.deepEqual(
+    [...publicKind.removeFromBaseline].sort(),
+    ['content', 'content.read', ...GRANULAR].sort(),
+  );
+  assert.equal(baseline.unknownClientKindTreatedAs, 'public');
+});
+
+test('D5: the generator refuses a baseline that gives a public client a Content scope', () => {
+  const policyPath = path.join(contractDir, 'policy.json');
+  const original = fs.readFileSync(policyPath, 'utf8');
+  const broken = JSON.parse(original);
+  broken.newClientBaseline.byClientKind.public.addToBaseline = ['content.quran.read'];
+  try {
+    fs.writeFileSync(policyPath, JSON.stringify(broken));
+    assert.throws(() => build(), /public clients must gain no scope/u);
+  } finally {
+    fs.writeFileSync(policyPath, original);
+  }
+});
+
+test('granular scopes are not issuable before approval, except to allowlisted test clients', () => {
+  assert.equal(contract.granularIssuance.requiresContractStatus, 'approved');
+  assert.equal(contract.granularIssuance.beforeApproval, 'refuse-except-allowlisted-test-clients');
+  assert.equal(contract.granularIssuance.requiresApplicationTokenCapability, true);
+  assert.equal(contract.granularIssuance.requiresDecision, 'D1');
+});
+
+test('the app-token rule is recorded with the app-credentials-only scopes', () => {
+  assert.match(contract.appCredentialsOnlyScopes.$comment, /App-token rule \(D1, D5\)/u);
+  assert.match(contract.appCredentialsOnlyScopes.$comment, /client_credentials token to read Content/u);
+});
+
+test("Qira'at operations are out of scope with their existing scope, not unmapped", () => {
+  const ops = contract.outOfScopeOperations.operations;
+  assert.equal(ops.length, 11);
+  assert.equal(contract.counts.outOfScopeOperations, 11);
+  const mapped = new Set(contract.operations.map((op) => `${op.method} ${op.openApiPath}`));
+  for (const op of ops) {
+    assert.ok(!mapped.has(`${op.method} ${op.openApiPath}`), `${op.openApiPath} is also mapped`);
+    assert.equal(op.disposition, 'out-of-scope-existing-scope-policy');
+    assert.ok(op.gatewayPath.startsWith('/api/v4/qiraat/'));
+    for (const scope of op.acceptedScopes) {
+      assert.ok(contract.outOfScopeScopes.includes(scope), `${scope} must be an out-of-scope scope`);
+    }
+  }
+});
+
 test('legacy umbrella is documented as still broad, with no sunset date', () => {
   const umbrella = contract.legacyScopes.find((scope) => scope.machineName === 'content');
   assert.equal(umbrella.deprecatedForNewClients, true);

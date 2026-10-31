@@ -227,6 +227,13 @@
       "granular scopes. A confidential backend keeps the Client Secret and mints the application",
       "token. Browser, Android, and iOS code must never receive that secret.",
       "",
+      "App-token rule (D1, D5): the gateway refuses a user-bound token (403 insufficient_scope) when",
+      "every scope it carries that the route accepts is granular. Such a token is authorized only by a",
+      "legacy alternative it also carries (content or content.read, or the route's post/comment",
+      "alternatives on the public reflection routes). A backend that signs users in therefore mints a",
+      "separate client_credentials token to read Content with granular scopes; the user's token is for",
+      "User APIs. Source: quran/qf-api-gateway src/validators/token.ts.",
+      "",
       "Legacy authorization alternatives remain outside this list so the scope split does not",
       "silently revoke behavior from existing clients. Retiring or tightening a legacy alternative",
       "requires a separately approved compatibility decision.",
@@ -290,31 +297,120 @@
 
   "newClientBaseline": {
     "$comment": [
-      "D5. Replaces only the legacy content-read component of the existing environment baseline.",
+      "D5. Replaces only the Content component of the existing environment baseline, and only for",
+      "brand-new OAuth identities. Existing and imported clients keep what they hold.",
       "Unrelated pre-existing baseline entries are retained verbatim by the Platform policy code;",
       "this contract does not enumerate them and must not be used to widen them.",
       "Inspected production baseline already includes post.read and comment.read alongside",
       "content and offline_access: quran/qf-platform-api src/developer_repository.rs.",
-      "Revalidate on the implementation branch before activation."
+      "",
+      "The rule depends on the client kind, because the granular scopes authorize only application",
+      "tokens (appCredentialsOnlyScopes). A public client can never mint one, so granting it a",
+      "granular scope would be unusable, and the legacy umbrella is no longer issued to new clients.",
+      "Mirrors quran/qf-platform-api src/content_scopes.rs :: apply_new_client_baseline and",
+      "ClientKind::from_client_type. Revalidate on the implementation branch before activation.",
+      "",
+      "Inactive until the contract status is 'approved' AND Platform's new-client policy flag is",
+      "switched on. Until then every new client receives the legacy baseline unchanged."
     ],
+    "activation": {
+      "requiresContractStatus": "approved",
+      "requiresPlatformFlag": "QF_CONTENT_SCOPES_V1_NEW_CLIENT_POLICY",
+      "whileInactive": "legacy-baseline-unchanged"
+    },
     "removeFromBaseline": ["content", "content.read"],
-    "addToBaseline": [
-      "content.quran.read",
-      "content.translations.read",
-      "content.tafsirs.read",
-      "content.audio.read",
-      "content.hadith.read",
-      "content.metadata.read",
-      "content.sync.read",
-      "content.answers.read"
-    ],
-    "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": true,
+    "byClientKind": {
+      "confidential": {
+        "definition": "Platform client type 'confidential': a backend client that keeps a Client Secret and can mint application tokens with the client_credentials grant.",
+        "removeFromBaseline": ["content", "content.read"],
+        "addToBaseline": [
+          "content.quran.read",
+          "content.translations.read",
+          "content.tafsirs.read",
+          "content.audio.read",
+          "content.hadith.read",
+          "content.metadata.read",
+          "content.sync.read",
+          "content.answers.read"
+        ],
+        "addOnlyIfBaselineHeldLegacyContentRead": true,
+        "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": true
+      },
+      "public": {
+        "definition": "Any other Platform client type, including browser and mobile PKCE clients with no Client Secret. It cannot mint an application token.",
+        "removeFromBaseline": [
+          "content",
+          "content.read",
+          "content.quran.read",
+          "content.translations.read",
+          "content.tafsirs.read",
+          "content.audio.read",
+          "content.hadith.read",
+          "content.metadata.read",
+          "content.sync.read",
+          "content.answers.read",
+          "content.reflections.read"
+        ],
+        "addToBaseline": [],
+        "contentAccess": "No Content scope. The app keeps PKCE for User APIs and reads Content through its own backend, which holds a confidential client."
+      }
+    },
+    "unknownClientKindTreatedAs": "public",
     "requiresDecision": "D5"
+  },
+
+  "granularIssuance": {
+    "$comment": [
+      "D1 and plan C7 stage 1. While the contract status is not 'approved', no granular scope may be",
+      "newly granted to any client on any path (new-client baseline, scope requests, manual and",
+      "automated approvals, Hydra synchronization), except to clients on an explicit allowlist of",
+      "controlled test identities. The allowlist is operator configuration in Platform and never",
+      "includes integrator clients. Independently of status, a granular scope is never newly granted",
+      "to a client that cannot mint an application token. Scopes a client already holds are never",
+      "revoked by this gate. Enforced by quran/qf-platform-api."
+    ],
+    "requiresContractStatus": "approved",
+    "beforeApproval": "refuse-except-allowlisted-test-clients",
+    "requiresApplicationTokenCapability": true,
+    "enforcedBy": "quran/qf-platform-api",
+    "requiresDecision": "D1"
   },
 
   "outOfScope": {
     "$comment": "A3. Never granted as content successors, and never merged with the new scopes.",
     "scopes": ["qiraat", "qiraat.read", "search", "sync", "analytics.events.write"],
     "note": "Qiraat keeps its explicit gateway route policy and precedence. The existing user-data 'sync' scope is unrelated to content.sync.read."
+  },
+
+  "outOfScopeOperations": {
+    "$comment": [
+      "A3. Operations published in openAPI/content/v4.json that this contract deliberately does not",
+      "map. They keep their existing, separately approved scope policy: no granular scope authorizes",
+      "them, the migration adds nothing for them, and no x-qf-scopes metadata is written for them.",
+      "Listed one by one so a new operation in the OpenAPI document still fails the metadata check",
+      "until someone decides its disposition. route-reconciliation.md section 3a."
+    ],
+    "groups": [
+      {
+        "id": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "acceptedScopes": ["qiraat.read", "qiraat"],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today.",
+        "operations": [
+          { "method": "GET", "openApiPath": "/qiraat/readers", "operationId": "list-qiraat-readers" },
+          { "method": "GET", "openApiPath": "/qiraat/readers/{id}", "operationId": "get-qiraat-reader" },
+          { "method": "GET", "openApiPath": "/qiraat/transmitters", "operationId": "list-qiraat-transmitters" },
+          { "method": "GET", "openApiPath": "/qiraat/transmitters/{id}", "operationId": "get-qiraat-transmitter" },
+          { "method": "GET", "openApiPath": "/qiraat/junctures/by_verse/{verse_key}", "operationId": "list-qiraat-junctures-by-verse" },
+          { "method": "GET", "openApiPath": "/qiraat/junctures/by_chapter/{chapter_number}", "operationId": "list-qiraat-junctures-by-chapter" },
+          { "method": "GET", "openApiPath": "/qiraat/junctures/{id}", "operationId": "get-qiraat-juncture" },
+          { "method": "GET", "openApiPath": "/qiraat/readings/{id}", "operationId": "get-qiraat-reading" },
+          { "method": "GET", "openApiPath": "/qiraat/matrix/by_verse/{verse_key}", "operationId": "get-qiraat-matrix-by-verse" },
+          { "method": "GET", "openApiPath": "/qiraat/matrix/by_chapter/{chapter_number}", "operationId": "get-qiraat-matrix-by-chapter" },
+          { "method": "GET", "openApiPath": "/qiraat/matrix/count_within_range", "operationId": "count-qiraat-matrix-within-range" }
+        ]
+      }
+    ]
   }
 }

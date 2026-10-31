@@ -227,7 +227,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.audio-reciter-timestamp",
           "service": "content",
@@ -503,7 +503,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.audio-reciter-lookup",
           "service": "content",
@@ -777,7 +777,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-chapters",
           "service": "content",
@@ -1014,7 +1014,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.GET-chapter",
           "service": "content",
@@ -1286,7 +1286,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-chapter-info",
           "service": "content",
@@ -1516,7 +1516,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.hadith-references-by-ayah",
           "service": "content",
@@ -1848,7 +1848,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.hadiths-by-ayah",
           "service": "content",
@@ -2009,7 +2009,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.hadith-count-within-range",
           "service": "content",
@@ -2206,7 +2206,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-pages",
           "service": "content",
@@ -2490,7 +2490,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-pages-lookup",
           "service": "content",
@@ -2665,7 +2665,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-pages-page-number",
           "service": "content",
@@ -3077,7 +3077,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_chapter_number",
           "service": "content",
@@ -3496,7 +3496,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_page_number",
           "service": "content",
@@ -3907,7 +3907,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_juz_number",
           "service": "content",
@@ -4319,7 +4319,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_hizb_number",
           "service": "content",
@@ -4711,7 +4711,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_rub_el_hizb_number",
           "service": "content",
@@ -5125,7 +5125,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_manzil_number",
           "service": "content",
@@ -5953,7 +5953,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_ruku_number",
           "service": "content",
@@ -6372,7 +6372,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_range",
           "service": "content",
@@ -6732,7 +6732,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_verse_key",
           "service": "content",
@@ -7152,7 +7152,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.random_verse",
           "service": "content",
@@ -7333,7 +7333,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-juzs",
           "service": "content",
@@ -7654,7 +7654,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.quran-verses-by-script",
           "service": "content",
@@ -7942,7 +7942,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.QURAN-verses-indopak",
           "service": "content",
@@ -8230,7 +8230,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.QURAN-verses-indopak-nastaleeq",
           "service": "content",
@@ -8518,7 +8518,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.QURAN-verses-uthmani-tajweed",
           "service": "content",
@@ -8806,7 +8806,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.QURAN-verses-uthmani",
           "service": "content",
@@ -9094,7 +9094,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.QURAN-verses-uthmani_simple",
           "service": "content",
@@ -9382,7 +9382,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.QURAN-verses-Imlaei",
           "service": "content",
@@ -9587,7 +9587,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.recitations",
           "service": "content",
@@ -9906,7 +9906,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.recitation-audio-files",
           "service": "content",
@@ -10273,7 +10273,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.translation",
           "service": "content",
@@ -10460,7 +10460,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.chapter-reciters",
           "service": "content",
@@ -10880,7 +10880,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.tafsir",
           "service": "content",
@@ -11152,7 +11152,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.QURAN-verses-code_v1",
           "service": "content",
@@ -11424,7 +11424,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.QURAN-verses-code_v2",
           "service": "content",
@@ -11670,7 +11670,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-surah-recitation",
           "service": "content",
@@ -11902,7 +11902,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-juz-recitation",
           "service": "content",
@@ -12134,7 +12134,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-page-recitation",
           "service": "content",
@@ -12366,7 +12366,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-rub-el-hizb-recitation",
           "service": "content",
@@ -12598,7 +12598,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-hizb-recitation",
           "service": "content",
@@ -12829,7 +12829,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-ayah-recitation",
           "service": "content",
@@ -13009,7 +13009,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.recitation-info",
           "service": "content",
@@ -13188,7 +13188,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.translation-info",
           "service": "content",
@@ -13402,7 +13402,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.translations",
           "service": "content",
@@ -13617,7 +13617,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.tafsirs",
           "service": "content",
@@ -13799,7 +13799,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.tafsir-info",
           "service": "content",
@@ -13975,7 +13975,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.recitation-styles",
           "service": "content",
@@ -14178,7 +14178,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.languages",
           "service": "content",
@@ -14408,7 +14408,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.chapter-info",
           "service": "content",
@@ -14637,7 +14637,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verse-media",
           "service": "content",
@@ -14861,7 +14861,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-manzil-recitation",
           "service": "content",
@@ -15085,7 +15085,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-ruku-recitation",
           "service": "content",
@@ -15341,7 +15341,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-surah-translations",
           "service": "content",
@@ -15602,7 +15602,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-page-translations",
           "service": "content",
@@ -15863,7 +15863,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-juz-translations",
           "service": "content",
@@ -16124,7 +16124,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-rub-el-hizb-translations",
           "service": "content",
@@ -16385,7 +16385,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-hizb-translations",
           "service": "content",
@@ -16646,7 +16646,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-manzil-translations",
           "service": "content",
@@ -16907,7 +16907,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-ruku-translations",
           "service": "content",
@@ -17152,7 +17152,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-ayah-translations",
           "service": "content",
@@ -17406,7 +17406,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-surah-tafsirs",
           "service": "content",
@@ -17663,7 +17663,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-page-tafsirs",
           "service": "content",
@@ -17920,7 +17920,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-juz-tafsirs",
           "service": "content",
@@ -18177,7 +18177,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-rub-el-hizb-tafsirs",
           "service": "content",
@@ -18434,7 +18434,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-hizb-tafsirs",
           "service": "content",
@@ -18691,7 +18691,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-manzil-tafsirs",
           "service": "content",
@@ -18948,7 +18948,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-ruku-tafsirs",
           "service": "content",
@@ -19228,7 +19228,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-ayah-tafsirs",
           "service": "content",
@@ -19412,7 +19412,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-juz",
           "service": "content",
@@ -19585,7 +19585,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-hizbs",
           "service": "content",
@@ -19763,7 +19763,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-hizb",
           "service": "content",
@@ -19934,7 +19934,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-rub-el-hizbs",
           "service": "content",
@@ -20110,7 +20110,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-rub-el-hizb",
           "service": "content",
@@ -20281,7 +20281,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-rukus",
           "service": "content",
@@ -20457,7 +20457,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-ruku",
           "service": "content",
@@ -20628,7 +20628,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-manzils",
           "service": "content",
@@ -20804,7 +20804,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-manzil",
           "service": "content",
@@ -20972,7 +20972,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-foot-note",
           "service": "content",
@@ -21311,7 +21311,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "quran-reflect.v1.public.PostsController_feed",
           "service": "quran-reflect",
@@ -21416,7 +21416,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "quran-reflect.v1.public.PostsController_findOne",
           "service": "quran-reflect",
@@ -21574,7 +21574,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "quran-reflect.v1.public.PostsController_getUserPost",
           "service": "quran-reflect",
@@ -21736,7 +21736,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "quran-reflect.v1.public.PostsController_getComments",
           "service": "quran-reflect",
@@ -21869,7 +21869,7 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "quran-reflect.v1.public.PostsController_getAllComment",
           "service": "quran-reflect",
@@ -22023,7 +22023,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.chapter-reciter-audio-files",
           "service": "content",
@@ -22372,7 +22372,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.chapter-reciter-audio-file",
           "service": "content",
@@ -22712,7 +22712,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.verses-by_rub_el_hizb_number-rub-el-hizb",
           "service": "content",
@@ -22921,7 +22921,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-rub-el-hizb-translations-rub",
           "service": "content",
@@ -23126,7 +23126,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-rub-el-hizb-tafsirs-rub",
           "service": "content",
@@ -23306,7 +23306,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-rub-el-hizb-recitation-rub-el-hizb",
           "service": "content",
@@ -23507,7 +23507,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.list-ayah-answers",
           "service": "content",
@@ -23634,7 +23634,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.get-answer-by-id",
           "service": "content",
@@ -23799,7 +23799,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.count-answers-within-range",
           "service": "content",
@@ -24139,7 +24139,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.resources-sync",
           "service": "content",
@@ -24316,7 +24316,9 @@
                           "first_verse_id": 1,
                           "last_verse_id": 148,
                           "verses_count": 148,
-                          "verse_mapping": { "1": "1-7" },
+                          "verse_mapping": {
+                            "1": "1-7"
+                          },
                           "updated_at": "2026-09-21T00:00:00Z"
                         }
                       ]
@@ -24467,7 +24469,18 @@
                           "timestamp_median": 3210,
                           "duration": 6,
                           "duration_ms": 6420,
-                          "segments": [[1, 120, 810], [2, 820, 1510]],
+                          "segments": [
+                            [
+                              1,
+                              120,
+                              810
+                            ],
+                            [
+                              2,
+                              820,
+                              1510
+                            ]
+                          ],
                           "updated_at": "2026-09-29T00:00:00Z"
                         }
                       ]
@@ -24503,7 +24516,18 @@
                           "timestamp_median": 3210,
                           "duration": 6,
                           "duration_ms": 6420,
-                          "segments": [[1, 120, 810], [2, 820, 1510]],
+                          "segments": [
+                            [
+                              1,
+                              120,
+                              810
+                            ],
+                            [
+                              2,
+                              820,
+                              1510
+                            ]
+                          ],
                           "updated_at": "2026-09-29T00:00:00Z"
                         }
                       ]
@@ -24601,7 +24625,7 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60",
+          "contractSha256": "154deaa744ec60852beb609c3a232f386928acf8c87baa92f287ef303c82d6c2",
           "contractStatus": "proposed-pending-approval",
           "routeId": "content.v4.resources-snapshot",
           "service": "content",
@@ -24639,7 +24663,9 @@
     },
     "/qiraat/readers": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -24735,7 +24761,9 @@
     },
     "/qiraat/readers/{id}": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -24804,6 +24832,12 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Not Found. Returned when the reader does not exist.",
             "content": {
@@ -24826,12 +24860,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
@@ -24852,7 +24880,9 @@
     },
     "/qiraat/transmitters": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -24945,7 +24975,9 @@
     },
     "/qiraat/transmitters/{id}": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -25011,6 +25043,12 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Not Found. Returned when the transmitter does not exist.",
             "content": {
@@ -25033,12 +25071,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
@@ -25059,7 +25091,9 @@
     },
     "/qiraat/junctures/by_verse/{verse_key}": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -25085,7 +25119,11 @@
             "description": "Filter junctures by category: `A` (meaning difference), `B` (orthographic difference with the same meaning), or `C` (phonetic difference only). Any other value is ignored.",
             "schema": {
               "type": "string",
-              "enum": ["A", "B", "C"]
+              "enum": [
+                "A",
+                "B",
+                "C"
+              ]
             }
           },
           {
@@ -25149,6 +25187,12 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Not Found. Returned when the verse does not exist.",
             "content": {
@@ -25171,12 +25215,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
@@ -25197,7 +25235,9 @@
     },
     "/qiraat/junctures/by_chapter/{chapter_number}": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -25225,7 +25265,11 @@
             "description": "Filter junctures by category: `A` (meaning difference), `B` (orthographic difference with the same meaning), or `C` (phonetic difference only). Any other value is ignored.",
             "schema": {
               "type": "string",
-              "enum": ["A", "B", "C"]
+              "enum": [
+                "A",
+                "B",
+                "C"
+              ]
             }
           },
           {
@@ -25303,6 +25347,12 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Not Found. Returned when the chapter does not exist.",
             "content": {
@@ -25325,12 +25375,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
@@ -25351,7 +25395,9 @@
     },
     "/qiraat/junctures/{id}": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -25430,6 +25476,12 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Not Found. Returned when the juncture does not exist or is not approved.",
             "content": {
@@ -25452,12 +25504,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
@@ -25478,7 +25524,9 @@
     },
     "/qiraat/readings/{id}": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -25568,6 +25616,12 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Not Found. Returned when the reading does not exist or its juncture is not approved.",
             "content": {
@@ -25590,12 +25644,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
@@ -25616,7 +25664,9 @@
     },
     "/qiraat/matrix/by_verse/{verse_key}": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -25743,8 +25793,12 @@
                               "color": null,
                               "translation": "...",
                               "matrix": {
-                                "readers": [1],
-                                "transmitters": [1],
+                                "readers": [
+                                  1
+                                ],
+                                "transmitters": [
+                                  1
+                                ],
                                 "cells": [
                                   {
                                     "reader_id": 1,
@@ -25811,6 +25865,12 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Not Found. Returned when the verse does not exist, or when the verse has no approved Qira'at variations.",
             "content": {
@@ -25853,12 +25913,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
@@ -25879,7 +25933,9 @@
     },
     "/qiraat/matrix/by_chapter/{chapter_number}": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -26003,8 +26059,12 @@
                               "text_imlaei": "...",
                               "translation": "...",
                               "matrix": {
-                                "readers": [1],
-                                "transmitters": [1],
+                                "readers": [
+                                  1
+                                ],
+                                "transmitters": [
+                                  1
+                                ],
                                 "cells": [
                                   {
                                     "reader_id": 1,
@@ -26040,6 +26100,12 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
           "404": {
             "description": "Not Found. Returned when the chapter does not exist.",
             "content": {
@@ -26062,12 +26128,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/forbidden"
-          },
           "429": {
             "$ref": "#/components/responses/rateLimitExceeded"
           },
@@ -26088,7 +26148,9 @@
     },
     "/qiraat/matrix/count_within_range": {
       "get": {
-        "tags": ["Qiraat"],
+        "tags": [
+          "Qiraat"
+        ],
         "servers": [
           {
             "url": "https://apis.quran.foundation/content/api/v4",
@@ -26157,7 +26219,10 @@
                           "code": "INVALID_PARAMETER",
                           "message": "Missing required parameters: from and to",
                           "details": {
-                            "required": ["from", "to"]
+                            "required": [
+                              "from",
+                              "to"
+                            ]
                           }
                         }
                       },
@@ -29239,12 +29304,20 @@
         "title": "QiraatErrorResponse",
         "type": "object",
         "description": "Error body as returned through the Quran Foundation gateway: the Qira'at service error is nested under `details`.",
-        "required": ["details", "message", "type", "success"],
+        "required": [
+          "details",
+          "message",
+          "type",
+          "success"
+        ],
         "properties": {
           "details": {
             "type": "object",
             "description": "The error body returned by the Qira'at service.",
-            "required": ["status", "error"],
+            "required": [
+              "status",
+              "error"
+            ],
             "properties": {
               "status": {
                 "type": "integer",
@@ -29252,11 +29325,17 @@
               },
               "error": {
                 "type": "object",
-                "required": ["code", "message"],
+                "required": [
+                  "code",
+                  "message"
+                ],
                 "properties": {
                   "code": {
                     "type": "string",
-                    "enum": ["INVALID_PARAMETER", "NOT_FOUND"]
+                    "enum": [
+                      "INVALID_PARAMETER",
+                      "NOT_FOUND"
+                    ]
                   },
                   "message": {
                     "type": "string"
@@ -29276,7 +29355,10 @@
           },
           "type": {
             "type": "string",
-            "enum": ["invalid_request", "not_found"]
+            "enum": [
+              "invalid_request",
+              "not_found"
+            ]
           },
           "success": {
             "type": "boolean",
@@ -29287,7 +29369,11 @@
       "QiraatReaderRef": {
         "title": "QiraatReaderRef",
         "type": "object",
-        "required": ["id", "name", "abbreviation"],
+        "required": [
+          "id",
+          "name",
+          "abbreviation"
+        ],
         "properties": {
           "id": {
             "type": "integer"
@@ -29303,7 +29389,10 @@
       "QiraatTransmitterInReader": {
         "title": "QiraatTransmitterInReader",
         "type": "object",
-        "required": ["id", "name"],
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer"
@@ -29322,7 +29411,10 @@
       "QiraatReader": {
         "title": "QiraatReader",
         "type": "object",
-        "required": ["id", "name"],
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer"
@@ -29374,7 +29466,10 @@
       "QiraatReadersResponse": {
         "title": "QiraatReadersResponse",
         "type": "object",
-        "required": ["readers", "meta"],
+        "required": [
+          "readers",
+          "meta"
+        ],
         "properties": {
           "readers": {
             "type": "array",
@@ -29384,7 +29479,9 @@
           },
           "meta": {
             "type": "object",
-            "required": ["total"],
+            "required": [
+              "total"
+            ],
             "properties": {
               "total": {
                 "type": "integer"
@@ -29396,7 +29493,9 @@
       "QiraatReaderResponse": {
         "title": "QiraatReaderResponse",
         "type": "object",
-        "required": ["reader"],
+        "required": [
+          "reader"
+        ],
         "properties": {
           "reader": {
             "$ref": "#/components/schemas/QiraatReader"
@@ -29406,7 +29505,10 @@
       "QiraatTransmitter": {
         "title": "QiraatTransmitter",
         "type": "object",
-        "required": ["id", "name"],
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer"
@@ -29452,7 +29554,10 @@
       "QiraatTransmittersResponse": {
         "title": "QiraatTransmittersResponse",
         "type": "object",
-        "required": ["transmitters", "meta"],
+        "required": [
+          "transmitters",
+          "meta"
+        ],
         "properties": {
           "transmitters": {
             "type": "array",
@@ -29462,7 +29567,9 @@
           },
           "meta": {
             "type": "object",
-            "required": ["total"],
+            "required": [
+              "total"
+            ],
             "properties": {
               "total": {
                 "type": "integer"
@@ -29474,7 +29581,9 @@
       "QiraatTransmitterResponse": {
         "title": "QiraatTransmitterResponse",
         "type": "object",
-        "required": ["transmitter"],
+        "required": [
+          "transmitter"
+        ],
         "properties": {
           "transmitter": {
             "$ref": "#/components/schemas/QiraatTransmitter"
@@ -29484,7 +29593,12 @@
       "QiraatJunctureSummary": {
         "title": "QiraatJunctureSummary",
         "type": "object",
-        "required": ["id", "verse_key", "position", "readings_count"],
+        "required": [
+          "id",
+          "verse_key",
+          "position",
+          "readings_count"
+        ],
         "properties": {
           "id": {
             "type": "integer"
@@ -29522,7 +29636,11 @@
           },
           "category": {
             "type": "string",
-            "enum": ["A", "B", "C"],
+            "enum": [
+              "A",
+              "B",
+              "C"
+            ],
             "nullable": true,
             "description": "`A` meaning difference, `B` orthographic difference with the same meaning, `C` phonetic difference only."
           },
@@ -29566,7 +29684,11 @@
       "QiraatJuncturesByVerseResponse": {
         "title": "QiraatJuncturesByVerseResponse",
         "type": "object",
-        "required": ["verse", "junctures", "meta"],
+        "required": [
+          "verse",
+          "junctures",
+          "meta"
+        ],
         "properties": {
           "verse": {
             "type": "object",
@@ -29593,7 +29715,9 @@
           },
           "meta": {
             "type": "object",
-            "required": ["total_junctures"],
+            "required": [
+              "total_junctures"
+            ],
             "properties": {
               "total_junctures": {
                 "type": "integer"
@@ -29605,7 +29729,12 @@
       "QiraatPagination": {
         "title": "QiraatPagination",
         "type": "object",
-        "required": ["current_page", "total_pages", "total_count", "per_page"],
+        "required": [
+          "current_page",
+          "total_pages",
+          "total_count",
+          "per_page"
+        ],
         "properties": {
           "current_page": {
             "type": "integer"
@@ -29624,7 +29753,11 @@
       "QiraatJuncturesByChapterResponse": {
         "title": "QiraatJuncturesByChapterResponse",
         "type": "object",
-        "required": ["chapter", "junctures", "pagination"],
+        "required": [
+          "chapter",
+          "junctures",
+          "pagination"
+        ],
         "properties": {
           "chapter": {
             "type": "object",
@@ -29654,11 +29787,19 @@
       "QiraatJunctureResponse": {
         "title": "QiraatJunctureResponse",
         "type": "object",
-        "required": ["juncture"],
+        "required": [
+          "juncture"
+        ],
         "properties": {
           "juncture": {
             "type": "object",
-            "required": ["id", "verse_key", "position", "readings", "readings_count"],
+            "required": [
+              "id",
+              "verse_key",
+              "position",
+              "readings",
+              "readings_count"
+            ],
             "properties": {
               "id": {
                 "type": "integer"
@@ -29764,11 +29905,17 @@
       "QiraatReadingResponse": {
         "title": "QiraatReadingResponse",
         "type": "object",
-        "required": ["reading"],
+        "required": [
+          "reading"
+        ],
         "properties": {
           "reading": {
             "type": "object",
-            "required": ["id", "juncture_id", "attributed_to"],
+            "required": [
+              "id",
+              "juncture_id",
+              "attributed_to"
+            ],
             "properties": {
               "id": {
                 "type": "integer"
@@ -29839,7 +29986,10 @@
               },
               "attributed_to": {
                 "type": "object",
-                "required": ["readers", "transmitters"],
+                "required": [
+                  "readers",
+                  "transmitters"
+                ],
                 "properties": {
                   "readers": {
                     "type": "array",
@@ -29859,7 +30009,9 @@
                         },
                         "scope": {
                           "type": "string",
-                          "enum": ["all_transmitters"],
+                          "enum": [
+                            "all_transmitters"
+                          ],
                           "description": "The attribution covers all transmitters of the reader."
                         }
                       }
@@ -29902,7 +30054,10 @@
       "QiraatMatrixCell": {
         "title": "QiraatMatrixCell",
         "type": "object",
-        "required": ["reader_id", "type"],
+        "required": [
+          "reader_id",
+          "type"
+        ],
         "properties": {
           "reader_id": {
             "type": "integer"
@@ -29913,7 +30068,10 @@
           },
           "type": {
             "type": "string",
-            "enum": ["reader", "transmitter"]
+            "enum": [
+              "reader",
+              "transmitter"
+            ]
           }
         }
       },
@@ -29921,7 +30079,11 @@
         "title": "QiraatMatrixAttribution",
         "type": "object",
         "description": "Attribution of the reading to the readers and transmitters axes.",
-        "required": ["readers", "transmitters", "cells"],
+        "required": [
+          "readers",
+          "transmitters",
+          "cells"
+        ],
         "properties": {
           "readers": {
             "type": "array",
@@ -29948,7 +30110,12 @@
       "QiraatMatrixReader": {
         "title": "QiraatMatrixReader",
         "type": "object",
-        "required": ["id", "name", "abbreviation", "position"],
+        "required": [
+          "id",
+          "name",
+          "abbreviation",
+          "position"
+        ],
         "properties": {
           "id": {
             "type": "integer"
@@ -29967,7 +30134,13 @@
       "QiraatMatrixTransmitter": {
         "title": "QiraatMatrixTransmitter",
         "type": "object",
-        "required": ["id", "name", "abbreviation", "reader_id", "position"],
+        "required": [
+          "id",
+          "name",
+          "abbreviation",
+          "reader_id",
+          "position"
+        ],
         "properties": {
           "id": {
             "type": "integer"
@@ -29992,7 +30165,14 @@
       "QiraatMatrixByVerseResponse": {
         "title": "QiraatMatrixByVerseResponse",
         "type": "object",
-        "required": ["verse", "navigation", "readers", "transmitters", "junctures", "meta"],
+        "required": [
+          "verse",
+          "navigation",
+          "readers",
+          "transmitters",
+          "junctures",
+          "meta"
+        ],
         "properties": {
           "verse": {
             "type": "object",
@@ -30056,7 +30236,12 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["id", "name", "abbreviation", "position"],
+              "required": [
+                "id",
+                "name",
+                "abbreviation",
+                "position"
+              ],
               "properties": {
                 "id": {
                   "type": "integer"
@@ -30097,7 +30282,12 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["id", "position", "segments", "readings"],
+              "required": [
+                "id",
+                "position",
+                "segments",
+                "readings"
+              ],
               "properties": {
                 "id": {
                   "type": "integer"
@@ -30126,7 +30316,11 @@
                 },
                 "category": {
                   "type": "string",
-                  "enum": ["A", "B", "C"],
+                  "enum": [
+                    "A",
+                    "B",
+                    "C"
+                  ],
                   "nullable": true,
                   "description": "`A` meaning difference, `B` orthographic difference with the same meaning, `C` phonetic difference only."
                 },
@@ -30158,7 +30352,12 @@
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": ["id", "position", "text", "matrix"],
+                    "required": [
+                      "id",
+                      "position",
+                      "text",
+                      "matrix"
+                    ],
                     "properties": {
                       "id": {
                         "type": "integer"
@@ -30264,14 +30463,24 @@
           },
           "meta": {
             "type": "object",
-            "required": ["language", "direction", "text_field", "total_junctures", "total_readings", "generated_at"],
+            "required": [
+              "language",
+              "direction",
+              "text_field",
+              "total_junctures",
+              "total_readings",
+              "generated_at"
+            ],
             "properties": {
               "language": {
                 "type": "string"
               },
               "direction": {
                 "type": "string",
-                "enum": ["ltr", "rtl"]
+                "enum": [
+                  "ltr",
+                  "rtl"
+                ]
               },
               "text_field": {
                 "type": "string"
@@ -30293,7 +30502,14 @@
       "QiraatMatrixByChapterResponse": {
         "title": "QiraatMatrixByChapterResponse",
         "type": "object",
-        "required": ["chapter", "readers", "transmitters", "junctures", "pagination", "meta"],
+        "required": [
+          "chapter",
+          "readers",
+          "transmitters",
+          "junctures",
+          "pagination",
+          "meta"
+        ],
         "properties": {
           "chapter": {
             "type": "object",
@@ -30325,7 +30541,12 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["id", "verse_key", "position", "readings"],
+              "required": [
+                "id",
+                "verse_key",
+                "position",
+                "readings"
+              ],
               "properties": {
                 "id": {
                   "type": "integer"
@@ -30358,7 +30579,11 @@
                 },
                 "category": {
                   "type": "string",
-                  "enum": ["A", "B", "C"],
+                  "enum": [
+                    "A",
+                    "B",
+                    "C"
+                  ],
                   "nullable": true,
                   "description": "`A` meaning difference, `B` orthographic difference with the same meaning, `C` phonetic difference only."
                 },
@@ -30366,7 +30591,11 @@
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": ["id", "text", "matrix"],
+                    "required": [
+                      "id",
+                      "text",
+                      "matrix"
+                    ],
                     "properties": {
                       "id": {
                         "type": "integer"
@@ -30398,14 +30627,22 @@
           },
           "meta": {
             "type": "object",
-            "required": ["language", "direction", "text_field", "generated_at"],
+            "required": [
+              "language",
+              "direction",
+              "text_field",
+              "generated_at"
+            ],
             "properties": {
               "language": {
                 "type": "string"
               },
               "direction": {
                 "type": "string",
-                "enum": ["ltr", "rtl"]
+                "enum": [
+                  "ltr",
+                  "rtl"
+                ]
               },
               "text_field": {
                 "type": "string"

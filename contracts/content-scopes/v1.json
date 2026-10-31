@@ -11,7 +11,7 @@
     },
     "policy": {
       "path": "contracts/content-scopes/policy.json",
-      "sha256": "bc167d09e6aa41ad458b042693f343f748197e6bb2c89a76d5b7804c17274608"
+      "sha256": "ae28be742948ae77dc09df468845c921d5e42327ec0ee4fe008173498251dfc0"
     }
   },
   "responseBoundary": {
@@ -237,7 +237,7 @@
     "analytics.events.write"
   ],
   "appCredentialsOnlyScopes": {
-    "$comment": "All nine granular Content scopes require an application token minted with client_credentials. This preserves the endpoint inventory's existing Auth Type = App credentials decision; the scope split changes permission granularity, not the supported OAuth token type.  A user-bound Authorization Code + PKCE token must not be authorized solely by one of these granular scopes. A confidential backend keeps the Client Secret and mints the application token. Browser, Android, and iOS code must never receive that secret.  Legacy authorization alternatives remain outside this list so the scope split does not silently revoke behavior from existing clients. Retiring or tightening a legacy alternative requires a separately approved compatibility decision.  content.reflections.read has an additional safety reason: its QuranReflect upstream derives user identity from a forwarded user token and can return owner, private-room, or administrator views. Requiring an application token also preserves the public-only boundary promised by D3.",
+    "$comment": "All nine granular Content scopes require an application token minted with client_credentials. This preserves the endpoint inventory's existing Auth Type = App credentials decision; the scope split changes permission granularity, not the supported OAuth token type.  A user-bound Authorization Code + PKCE token must not be authorized solely by one of these granular scopes. A confidential backend keeps the Client Secret and mints the application token. Browser, Android, and iOS code must never receive that secret.  App-token rule (D1, D5): the gateway refuses a user-bound token (403 insufficient_scope) when every scope it carries that the route accepts is granular. Such a token is authorized only by a legacy alternative it also carries (content or content.read, or the route's post/comment alternatives on the public reflection routes). A backend that signs users in therefore mints a separate client_credentials token to read Content with granular scopes; the user's token is for User APIs. Source: quran/qf-api-gateway src/validators/token.ts.  Legacy authorization alternatives remain outside this list so the scope split does not silently revoke behavior from existing clients. Retiring or tightening a legacy alternative requires a separately approved compatibility decision.  content.reflections.read has an additional safety reason: its QuranReflect upstream derives user identity from a forwarded user token and can return owner, private-room, or administrator views. Requiring an application token also preserves the public-only boundary promised by D3.",
     "scopes": [
       "content.audio.read",
       "content.quran.read",
@@ -385,29 +385,261 @@
   },
   "newClientBaseline": {
     "$comment": [
-      "D5. Replaces only the legacy content-read component of the existing environment baseline.",
+      "D5. Replaces only the Content component of the existing environment baseline, and only for",
+      "brand-new OAuth identities. Existing and imported clients keep what they hold.",
       "Unrelated pre-existing baseline entries are retained verbatim by the Platform policy code;",
       "this contract does not enumerate them and must not be used to widen them.",
       "Inspected production baseline already includes post.read and comment.read alongside",
       "content and offline_access: quran/qf-platform-api src/developer_repository.rs.",
-      "Revalidate on the implementation branch before activation."
+      "",
+      "The rule depends on the client kind, because the granular scopes authorize only application",
+      "tokens (appCredentialsOnlyScopes). A public client can never mint one, so granting it a",
+      "granular scope would be unusable, and the legacy umbrella is no longer issued to new clients.",
+      "Mirrors quran/qf-platform-api src/content_scopes.rs :: apply_new_client_baseline and",
+      "ClientKind::from_client_type. Revalidate on the implementation branch before activation.",
+      "",
+      "Inactive until the contract status is 'approved' AND Platform's new-client policy flag is",
+      "switched on. Until then every new client receives the legacy baseline unchanged."
     ],
+    "activation": {
+      "requiresContractStatus": "approved",
+      "requiresPlatformFlag": "QF_CONTENT_SCOPES_V1_NEW_CLIENT_POLICY",
+      "whileInactive": "legacy-baseline-unchanged"
+    },
     "removeFromBaseline": [
       "content",
       "content.read"
     ],
-    "addToBaseline": [
-      "content.quran.read",
-      "content.translations.read",
-      "content.tafsirs.read",
-      "content.audio.read",
-      "content.hadith.read",
-      "content.metadata.read",
-      "content.sync.read",
-      "content.answers.read"
-    ],
-    "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": true,
+    "byClientKind": {
+      "confidential": {
+        "definition": "Platform client type 'confidential': a backend client that keeps a Client Secret and can mint application tokens with the client_credentials grant.",
+        "removeFromBaseline": [
+          "content",
+          "content.read"
+        ],
+        "addToBaseline": [
+          "content.quran.read",
+          "content.translations.read",
+          "content.tafsirs.read",
+          "content.audio.read",
+          "content.hadith.read",
+          "content.metadata.read",
+          "content.sync.read",
+          "content.answers.read"
+        ],
+        "addOnlyIfBaselineHeldLegacyContentRead": true,
+        "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": true
+      },
+      "public": {
+        "definition": "Any other Platform client type, including browser and mobile PKCE clients with no Client Secret. It cannot mint an application token.",
+        "removeFromBaseline": [
+          "content",
+          "content.read",
+          "content.quran.read",
+          "content.translations.read",
+          "content.tafsirs.read",
+          "content.audio.read",
+          "content.hadith.read",
+          "content.metadata.read",
+          "content.sync.read",
+          "content.answers.read",
+          "content.reflections.read"
+        ],
+        "addToBaseline": [],
+        "contentAccess": "No Content scope. The app keeps PKCE for User APIs and reads Content through its own backend, which holds a confidential client."
+      }
+    },
+    "unknownClientKindTreatedAs": "public",
     "requiresDecision": "D5"
+  },
+  "granularIssuance": {
+    "$comment": "D1 and plan C7 stage 1. While the contract status is not 'approved', no granular scope may be newly granted to any client on any path (new-client baseline, scope requests, manual and automated approvals, Hydra synchronization), except to clients on an explicit allowlist of controlled test identities. The allowlist is operator configuration in Platform and never includes integrator clients. Independently of status, a granular scope is never newly granted to a client that cannot mint an application token. Scopes a client already holds are never revoked by this gate. Enforced by quran/qf-platform-api.",
+    "requiresContractStatus": "approved",
+    "beforeApproval": "refuse-except-allowlisted-test-clients",
+    "requiresApplicationTokenCapability": true,
+    "enforcedBy": "quran/qf-platform-api",
+    "requiresDecision": "D1"
+  },
+  "outOfScopeOperations": {
+    "$comment": "A3. Operations published in openAPI/content/v4.json that this contract deliberately does not map. They keep their existing, separately approved scope policy: no granular scope authorizes them, the migration adds nothing for them, and no x-qf-scopes metadata is written for them. Listed one by one so a new operation in the OpenAPI document still fails the metadata check until someone decides its disposition. route-reconciliation.md section 3a.",
+    "operations": [
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/readers",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "list-qiraat-readers",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/readers",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/readers/{id}",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "get-qiraat-reader",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/readers/:id",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/transmitters",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "list-qiraat-transmitters",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/transmitters",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/transmitters/{id}",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "get-qiraat-transmitter",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/transmitters/:id",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/junctures/by_verse/{verse_key}",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "list-qiraat-junctures-by-verse",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/junctures/by_verse/:verse_key",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/junctures/by_chapter/{chapter_number}",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "list-qiraat-junctures-by-chapter",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/junctures/by_chapter/:chapter_number",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/junctures/{id}",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "get-qiraat-juncture",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/junctures/:id",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/readings/{id}",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "get-qiraat-reading",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/readings/:id",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/matrix/by_verse/{verse_key}",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "get-qiraat-matrix-by-verse",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/matrix/by_verse/:verse_key",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/matrix/by_chapter/{chapter_number}",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "get-qiraat-matrix-by-chapter",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/matrix/by_chapter/:chapter_number",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      },
+      {
+        "group": "qiraat",
+        "disposition": "out-of-scope-existing-scope-policy",
+        "method": "GET",
+        "openApiPath": "/qiraat/matrix/count_within_range",
+        "openApiDocument": "openAPI/content/v4.json",
+        "operationId": "count-qiraat-matrix-within-range",
+        "gatewayService": "content",
+        "gatewayPath": "/api/v4/qiraat/matrix/count_within_range",
+        "acceptedScopes": [
+          "qiraat.read",
+          "qiraat"
+        ],
+        "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
+        "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today."
+      }
+    ]
   },
   "quotaPolicy": {
     "globalBucketAlwaysCharged": true,
@@ -724,6 +956,7 @@
     "supplementalOperationsAssigned": 11,
     "supplementalOperationsUnassigned": 3,
     "operationsTotal": 106,
+    "outOfScopeOperations": 11,
     "regressionInventoryRows": 113,
     "byScope": {
       "content.audio.read": 18,

@@ -18,6 +18,8 @@
     "appCredentialsOnlyScopes",
     "migration",
     "newClientBaseline",
+    "granularIssuance",
+    "outOfScopeOperations",
     "quotaPolicy",
     "aliasReconciliation",
     "precedencePairs",
@@ -238,28 +240,150 @@
 
     "newClientBaseline": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
+        "activation",
         "removeFromBaseline",
-        "addToBaseline",
-        "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes",
+        "byClientKind",
+        "unknownClientKindTreatedAs",
         "requiresDecision"
       ],
+      "description": "D5. Brand-new OAuth identities only. A confidential client trades the legacy content scopes for the C8 successors; a public client receives no Content scope at all.",
       "properties": {
         "$comment": { "type": ["string", "array"] },
+        "activation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["requiresContractStatus", "requiresPlatformFlag", "whileInactive"],
+          "properties": {
+            "requiresContractStatus": { "const": "approved" },
+            "requiresPlatformFlag": { "type": "string", "minLength": 1 },
+            "whileInactive": { "const": "legacy-baseline-unchanged" }
+          }
+        },
         "removeFromBaseline": {
           "type": "array",
           "items": { "enum": ["content", "content.read"] },
           "minItems": 2
         },
-        "addToBaseline": {
-          "type": "array",
-          "minItems": 8,
-          "maxItems": 8,
-          "uniqueItems": true,
-          "items": { "$ref": "#/definitions/granularScope" }
+        "byClientKind": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["confidential", "public"],
+          "properties": {
+            "confidential": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "definition",
+                "removeFromBaseline",
+                "addToBaseline",
+                "addOnlyIfBaselineHeldLegacyContentRead",
+                "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes"
+              ],
+              "properties": {
+                "definition": { "type": "string", "minLength": 1 },
+                "removeFromBaseline": {
+                  "type": "array",
+                  "items": { "enum": ["content", "content.read"] },
+                  "minItems": 2
+                },
+                "addToBaseline": {
+                  "type": "array",
+                  "minItems": 8,
+                  "maxItems": 8,
+                  "uniqueItems": true,
+                  "items": { "$ref": "#/definitions/granularScope" }
+                },
+                "addOnlyIfBaselineHeldLegacyContentRead": { "const": true },
+                "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": { "const": true }
+              }
+            },
+            "public": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["definition", "removeFromBaseline", "addToBaseline", "contentAccess"],
+              "properties": {
+                "definition": { "type": "string", "minLength": 1 },
+                "removeFromBaseline": {
+                  "type": "array",
+                  "minItems": 11,
+                  "maxItems": 11,
+                  "uniqueItems": true,
+                  "items": { "type": "string" }
+                },
+                "addToBaseline": { "type": "array", "maxItems": 0 },
+                "contentAccess": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
         },
-        "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": { "const": true },
+        "unknownClientKindTreatedAs": { "const": "public" },
         "requiresDecision": { "const": "D5" }
+      }
+    },
+
+    "granularIssuance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requiresContractStatus",
+        "beforeApproval",
+        "requiresApplicationTokenCapability",
+        "enforcedBy",
+        "requiresDecision"
+      ],
+      "description": "D1 and C7 stage 1. No granular scope is newly granted to any client until the contract is approved, except allowlisted controlled test clients.",
+      "properties": {
+        "$comment": { "type": "string" },
+        "requiresContractStatus": { "const": "approved" },
+        "beforeApproval": { "const": "refuse-except-allowlisted-test-clients" },
+        "requiresApplicationTokenCapability": { "const": true },
+        "enforcedBy": { "type": "string", "minLength": 1 },
+        "requiresDecision": { "const": "D1" }
+      }
+    },
+
+    "outOfScopeOperations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operations"],
+      "description": "Published Content operations deliberately left outside this contract. They keep their existing scope policy and carry no x-qf-scopes metadata.",
+      "properties": {
+        "$comment": { "type": "string" },
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "group",
+              "disposition",
+              "method",
+              "openApiPath",
+              "openApiDocument",
+              "operationId",
+              "gatewayService",
+              "gatewayPath",
+              "acceptedScopes",
+              "acceptedScopesSource",
+              "reason"
+            ],
+            "properties": {
+              "group": { "type": "string", "minLength": 1 },
+              "disposition": { "const": "out-of-scope-existing-scope-policy" },
+              "method": { "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
+              "openApiPath": { "type": "string", "minLength": 1 },
+              "openApiDocument": { "const": "openAPI/content/v4.json" },
+              "operationId": { "type": "string", "minLength": 1 },
+              "gatewayService": { "const": "content" },
+              "gatewayPath": { "$ref": "#/definitions/gatewayPath" },
+              "acceptedScopes": { "$ref": "#/definitions/scopeList" },
+              "acceptedScopesSource": { "type": "string", "minLength": 1 },
+              "reason": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
       }
     },
 
@@ -375,6 +499,7 @@
         "supplementalOperationsAssigned",
         "supplementalOperationsUnassigned",
         "operationsTotal",
+        "outOfScopeOperations",
         "regressionInventoryRows",
         "byScope"
       ],
@@ -384,6 +509,7 @@
         "supplementalOperationsAssigned": { "type": "integer", "minimum": 0 },
         "supplementalOperationsUnassigned": { "type": "integer", "minimum": 0 },
         "operationsTotal": { "type": "integer", "minimum": 95 },
+        "outOfScopeOperations": { "type": "integer", "minimum": 0 },
         "regressionInventoryRows": { "const": 113 },
         "byScope": {
           "type": "object",
