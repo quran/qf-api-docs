@@ -30,10 +30,14 @@ const scopesDoc = fs.readFileSync(
 
 const GRANULAR = contract.scopes.map((scope) => scope.machineName);
 
+const HTTP_METHODS = new Set(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']);
+
 const allOperations = () => {
   const entries = [];
   for (const [pathKey, pathItem] of Object.entries(contentApi.paths)) {
     for (const [method, operation] of Object.entries(pathItem)) {
+      // Path Items also hold `parameters`, `servers`, `summary` and `$ref`; only methods are operations.
+      if (!HTTP_METHODS.has(method)) continue;
       if (typeof operation !== 'object' || operation === null) continue;
       entries.push({ pathKey, method: method.toUpperCase(), operation });
     }
@@ -81,6 +85,17 @@ test("Qira'at keeps its own scope and gains no Content scope", () => {
       assert.ok(!['content', 'content.read'].includes(scope));
     }
   }
+});
+
+test('the metadata check ignores formatting and compares the parsed document', () => {
+  const { apply } = require('../scripts/apply-content-scope-openapi-metadata.cjs');
+  const reformatted = JSON.parse(JSON.stringify(contentApi));
+  assert.deepEqual(apply(reformatted).document, contentApi);
+  const source = fs.readFileSync(
+    path.join(repoRoot, 'scripts/apply-content-scope-openapi-metadata.cjs'),
+    'utf8',
+  );
+  assert.match(source, /isDeepStrictEqual\(current, document\)/u);
 });
 
 test('an operation with no disposition fails the metadata check', () => {
@@ -281,7 +296,8 @@ test('documentation splits guidance between existing and new credentials', () =>
   assert.match(scopesDoc, /### If you already have credentials/u);
   assert.match(scopesDoc, /### New credentials, once granular scopes are issued/u);
   assert.match(scopesDoc, /New backend \(confidential\) client/u);
-  assert.match(scopesDoc, /New browser or mobile \(public\) client\*\*: no Content scope at all/u);
+  assert.match(scopesDoc, /New browser or mobile \(public\) client\*\*, or any client without\s+`client_credentials`: no\s+Content scope at all/u);
+  assert.match(scopesDoc, /not issued to\s+integrators yet/u);
   assert.match(scopesDoc, /a new client is set up\s+exactly as today and requests `content`/u);
 });
 

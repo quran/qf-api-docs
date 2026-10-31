@@ -6,7 +6,9 @@ pins one approved version of this contract instead of hard-coding scope strings.
 
 **Nothing here is deployed policy.** `v1.json` carries `"status": "proposed-pending-approval"`.
 Decisions D1–D6 in [`decisions.md`](./decisions.md) are all open, and consumers must refuse to
-activate issuance or enforcement while the status reads that value.
+activate issuance or enforcement while the status reads that value. The one exception is the
+allowlist of controlled internal test identities in D1 (plan C7 stage 1); no v1 scope is issued to
+integrators yet.
 
 ## Files
 
@@ -16,7 +18,7 @@ activate issuance or enforcement while the status reads that value.
 | `policy.json` | Reviewed policy inputs. Each value is either an owner decision (cited to a D-number) or an observed fact about currently deployed authorization (cited to a pinned source file). |
 | `v1.json` | Generated contract. What consumers pin. |
 | `v1.sha256` | Canonical contract hash for consumers to record. |
-| `v1.schema.json` | Schema `v1.json` is validated against, in CI and in every consumer's build. |
+| `v1.schema.json` | Schema `v1.json` is validated against in this repository's tests. Consumers vendor `v1.json` only and check the fields they use in their own tests. |
 | `provenance.json` | All 208 rows with an explicit disposition: mapped, mapped-with-approved-override, or regression-inventory-not-migrated. |
 | `decisions.md` | D1–D6 record. Currently all open. |
 | `route-reconciliation.md` | Disposition for every difference between the live Rails v4 route surface and the contract. Records one open decision that blocks D5. |

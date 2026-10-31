@@ -158,9 +158,16 @@ const matchLegacyRule = (rules, { gatewayService, method, gatewayPath }) => {
   );
 };
 
-const build = () => {
+/**
+ * @param {{ policy?: object }} [options] - `policy` replaces the committed policy.json, so tests
+ *   can exercise a malformed policy without touching the file on disk.
+ */
+const build = ({ policy: injectedPolicy } = {}) => {
   const snapshotRaw = normalizeEol(fs.readFileSync(snapshotPath, 'utf8'));
-  const policyRaw = normalizeEol(fs.readFileSync(policyPath, 'utf8'));
+  const policyRaw =
+    injectedPolicy === undefined
+      ? normalizeEol(fs.readFileSync(policyPath, 'utf8'))
+      : `${JSON.stringify(injectedPolicy, null, 2)}\n`;
   const policy = JSON.parse(policyRaw);
   const scopeMap = withoutComments(policy.scopeMap);
   const labelOverrides = withoutComments(policy.labelOverrides);
@@ -486,8 +493,18 @@ const build = () => {
   );
   const granularScopes = scopeCatalog.map((s) => s.machineName);
   const legacyContentScopes = policy.deprecatedForNewClients.scopes;
+  const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
+  const isStringArray = (value) =>
+    Array.isArray(value) && value.every((item) => typeof item === 'string' && item !== '');
+  const isNonEmptyString = (value) => typeof value === 'string' && value !== '';
+  // False, never a TypeError, for a missing or malformed list, so the build reports its own error.
   const sameSet = (a, b) =>
-    a.length === b.length && new Set(a).size === a.length && a.every((scope) => b.includes(scope));
+    isStringArray(a) &&
+    a.length === b.length &&
+    new Set(a).size === a.length &&
+    a.every((scope) => b.includes(scope));
+  const commentText = (comment) =>
+    Array.isArray(comment) ? comment.join(' ') : typeof comment === 'string' ? comment : '';
 
   // ---- out-of-scope operations (A3) -------------------------------------------------
   // Published Content operations this contract deliberately does not map (today: Qira'at). Each
@@ -500,14 +517,62 @@ const build = () => {
       .filter((op) => op.openApiPath)
       .map((op) => `${op.method} ${op.openApiPath}`),
   );
-  for (const group of policy.outOfScopeOperations?.groups ?? []) {
-    for (const scope of group.acceptedScopes ?? []) {
-      if (!policy.outOfScope.scopes.includes(scope)) {
-        fail(`out-of-scope group ${group.id}: accepted scope ${scope} is not listed in outOfScope.scopes`);
+  const outOfScopePolicy = policy.outOfScopeOperations;
+  if (!isObject(outOfScopePolicy) || !Array.isArray(outOfScopePolicy.groups)) {
+    fail('policy.outOfScopeOperations.groups must be an array');
+  }
+  const outOfScopeGroups = Array.isArray(outOfScopePolicy?.groups) ? outOfScopePolicy.groups : [];
+  const outOfScopeScopes = isStringArray(policy.outOfScope?.scopes) ? policy.outOfScope.scopes : [];
+  const HTTP_METHOD_NAMES = new Set(['GET', 'PUT', 'POST', 'DELETE', 'PATCH']);
+  for (const [index, group] of outOfScopeGroups.entries()) {
+    const label = `out-of-scope group ${isObject(group) && group.id ? group.id : `#${index}`}`;
+    if (!isObject(group)) {
+      fail(`${label} must be an object`);
+      continue;
+    }
+    for (const field of ['id', 'disposition', 'acceptedScopesSource', 'reason']) {
+      if (!isNonEmptyString(group[field])) fail(`${label}: ${field} is required`);
+    }
+    if (group.disposition !== 'out-of-scope-existing-scope-policy') {
+      fail(`${label}: disposition must be out-of-scope-existing-scope-policy`);
+    }
+    if (!isStringArray(group.acceptedScopes) || group.acceptedScopes.length === 0) {
+      fail(`${label}: acceptedScopes must be a non-empty list of scopes`);
+    } else {
+      for (const scope of group.acceptedScopes) {
+        if (!outOfScopeScopes.includes(scope)) {
+          fail(`${label}: accepted scope ${scope} is not listed in outOfScope.scopes`);
+        }
       }
     }
-    for (const entry of group.operations ?? []) {
-      const method = entry.method.toUpperCase();
+    if (!Array.isArray(group.operations) || group.operations.length === 0) {
+      fail(`${label}: operations must be a non-empty array`);
+      continue;
+    }
+    for (const entry of group.operations) {
+      if (!isObject(entry)) {
+        fail(`${label}: every operation must be an object`);
+        continue;
+      }
+      const method = typeof entry.method === 'string' ? entry.method.toUpperCase() : '';
+      if (!HTTP_METHOD_NAMES.has(method)) {
+        fail(`${label}: ${JSON.stringify(entry.method)} is not an HTTP method`);
+        continue;
+      }
+      if (!isNonEmptyString(entry.openApiPath) || !isNonEmptyString(entry.operationId)) {
+        fail(`${label}: ${method} entries need openApiPath and operationId`);
+        continue;
+      }
+      // The gateway's own spelling (e.g. :verseKey), recorded from its route file. It must have
+      // the same shape as the OpenAPI path; only parameter names may differ.
+      const shape = (value) => value.replace(/\{[^}]+\}|:[^/]+/gu, ':p');
+      if (
+        !isNonEmptyString(entry.gatewayPath) ||
+        shape(entry.gatewayPath) !== shape(`${CONTENT_UPSTREAM_PREFIX}${entry.openApiPath}`)
+      ) {
+        fail(`${label}: ${method} ${entry.openApiPath} needs a gatewayPath of the same shape`);
+        continue;
+      }
       const key = `${method} ${entry.openApiPath}`;
       if (coveredOpenApiKeys.has(key)) {
         fail(`out-of-scope ${key} is also mapped by the contract`);
@@ -522,7 +587,7 @@ const build = () => {
         openApiDocument: 'openAPI/content/v4.json',
         operationId: entry.operationId,
         gatewayService: 'content',
-        gatewayPath: resolveGatewayPath('content', entry.openApiPath),
+        gatewayPath: entry.gatewayPath,
         acceptedScopes: group.acceptedScopes,
         acceptedScopesSource: group.acceptedScopesSource,
         reason: group.reason,
@@ -533,14 +598,20 @@ const build = () => {
   // ---- new-client baseline (D5) -------------------------------------------------------
   // The client-kind split must agree with the scope sets above, so a policy edit cannot give a
   // public client a scope it can never use or hand a confidential client anything beyond C8.
-  const baseline = policy.newClientBaseline;
+  const baseline = isObject(policy.newClientBaseline) ? policy.newClientBaseline : {};
   const confidential = baseline.byClientKind?.confidential;
   const publicKind = baseline.byClientKind?.public;
-  if (!confidential || !publicKind) {
+  if (!isObject(confidential) || !isObject(publicKind)) {
     fail('newClientBaseline must define byClientKind.confidential and byClientKind.public');
   } else {
-    if (!sameSet(baseline.removeFromBaseline, legacyContentScopes)) {
-      fail('newClientBaseline.removeFromBaseline must be exactly the legacy content scopes');
+    if ('removeFromBaseline' in baseline || 'addToBaseline' in baseline) {
+      fail('newClientBaseline must not carry top-level add/remove lists; use byClientKind');
+    }
+    if (
+      confidential.requiresClientType !== 'confidential' ||
+      confidential.requiresGrantType !== 'client_credentials'
+    ) {
+      fail('newClientBaseline confidential clients must require type confidential and client_credentials');
     }
     if (!sameSet(confidential.removeFromBaseline, legacyContentScopes)) {
       fail('newClientBaseline confidential clients must lose exactly the legacy content scopes');
@@ -551,7 +622,7 @@ const build = () => {
     if (!sameSet(publicKind.removeFromBaseline, [...legacyContentScopes, ...granularScopes])) {
       fail('newClientBaseline public clients must lose every legacy and granular Content scope');
     }
-    if (publicKind.addToBaseline.length !== 0) {
+    if (!Array.isArray(publicKind.addToBaseline) || publicKind.addToBaseline.length !== 0) {
       fail('newClientBaseline public clients must gain no scope');
     }
     if (baseline.unknownClientKindTreatedAs !== 'public') {
@@ -560,16 +631,21 @@ const build = () => {
   }
 
   // ---- granular issuance gate (D1, C7 stage 1) ---------------------------------------
-  const issuance = policy.granularIssuance;
+  const issuance = isObject(policy.granularIssuance) ? policy.granularIssuance : null;
   if (!issuance || issuance.requiresContractStatus !== 'approved') {
     fail('granularIssuance must require an approved contract before granular scopes are issued');
+  } else if (
+    issuance.allowlistedGrantsMakeNamesPermanent !== false ||
+    issuance.allowlistedGrantsOnD1Rename !== 'revoke'
+  ) {
+    fail('granularIssuance must keep allowlisted test grants provisional and revocable');
   }
 
   const contract = {
     contractVersion: policy.contractVersion,
     status: policy.status,
     statusNote:
-      'Proposed. D1-D5 must be approved and recorded in decisions.md before any token is issued with these scopes. See Appendix A callout.',
+      'Proposed. D1-D5 must be approved and recorded in decisions.md before any token carrying these scopes is issued to an integrator. Until then only allowlisted internal test identities may hold them (granularIssuance, C7 stage 1). See Appendix A callout.',
     generatedBy: 'scripts/build-content-scope-contract.cjs',
     inputs: {
       sourceSnapshot: {
@@ -644,9 +720,9 @@ const build = () => {
       ],
     },
     newClientBaseline: policy.newClientBaseline,
-    granularIssuance: { ...issuance, $comment: issuance.$comment.join(' ') },
+    granularIssuance: { ...issuance, $comment: commentText(issuance?.$comment) },
     outOfScopeOperations: {
-      $comment: policy.outOfScopeOperations.$comment.join(' '),
+      $comment: commentText(outOfScopePolicy?.$comment),
       operations: outOfScopeOperations,
     },
     quotaPolicy: {

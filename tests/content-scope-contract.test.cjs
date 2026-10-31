@@ -461,16 +461,57 @@ test('D5: a new public client receives no Content scope at all', () => {
   assert.equal(baseline.unknownClientKindTreatedAs, 'public');
 });
 
+const brokenPolicy = (mutate) => {
+  const copy = structuredClone(policy);
+  mutate(copy);
+  return copy;
+};
+
 test('D5: the generator refuses a baseline that gives a public client a Content scope', () => {
-  const policyPath = path.join(contractDir, 'policy.json');
-  const original = fs.readFileSync(policyPath, 'utf8');
-  const broken = JSON.parse(original);
-  broken.newClientBaseline.byClientKind.public.addToBaseline = ['content.quran.read'];
-  try {
-    fs.writeFileSync(policyPath, JSON.stringify(broken));
-    assert.throws(() => build(), /public clients must gain no scope/u);
-  } finally {
-    fs.writeFileSync(policyPath, original);
+  // The policy is injected, so the committed policy.json is never rewritten by a test.
+  const before = fs.readFileSync(path.join(contractDir, 'policy.json'), 'utf8');
+  assert.throws(
+    () => build({ policy: brokenPolicy((p) => { p.newClientBaseline.byClientKind.public.addToBaseline = ['content.quran.read']; }) }),
+    /public clients must gain no scope/u,
+  );
+  assert.equal(fs.readFileSync(path.join(contractDir, 'policy.json'), 'utf8'), before);
+});
+
+test('D5: the confidential branch needs both the confidential type and client_credentials', () => {
+  const confidential = contract.newClientBaseline.byClientKind.confidential;
+  assert.equal(confidential.requiresClientType, 'confidential');
+  assert.equal(confidential.requiresGrantType, 'client_credentials');
+  assert.match(contract.newClientBaseline.byClientKind.public.definition, /without the client_credentials grant/u);
+  assert.equal('removeFromBaseline' in contract.newClientBaseline, false);
+  assert.equal('addToBaseline' in contract.newClientBaseline, false);
+  assert.throws(
+    () => build({ policy: brokenPolicy((p) => { delete p.newClientBaseline.byClientKind.confidential.requiresGrantType; }) }),
+    /must require type confidential and client_credentials/u,
+  );
+});
+
+test('a missing or malformed policy section is reported, never a TypeError', () => {
+  const cases = [
+    [(p) => { delete p.granularIssuance; }, /granularIssuance must require an approved contract/u],
+    [(p) => { delete p.outOfScopeOperations; }, /outOfScopeOperations\.groups must be an array/u],
+    [(p) => { delete p.newClientBaseline.byClientKind.public.addToBaseline; }, /public clients must gain no scope/u],
+    [(p) => { p.newClientBaseline.byClientKind.confidential.addToBaseline = 'content.quran.read'; }, /must gain exactly the C8 scopes/u],
+    [(p) => { delete p.outOfScopeOperations.groups[0].acceptedScopes; }, /acceptedScopes must be a non-empty list/u],
+    [(p) => { delete p.outOfScopeOperations.groups[0].disposition; }, /disposition is required/u],
+    [(p) => { delete p.outOfScopeOperations.groups[0].operations[0].operationId; }, /need openApiPath and operationId/u],
+    [(p) => { p.outOfScopeOperations.groups[0].operations[0].method = 'FETCH'; }, /is not an HTTP method/u],
+    [(p) => { p.newClientBaseline.removeFromBaseline = ['content', 'content.read']; }, /must not carry top-level add\/remove lists/u],
+  ];
+  for (const [mutate, expected] of cases) {
+    let error;
+    try {
+      build({ policy: brokenPolicy(mutate) });
+    } catch (caught) {
+      error = caught;
+    }
+    assert.ok(error, `expected a build failure for ${expected}`);
+    assert.ok(!(error instanceof TypeError), `TypeError instead of a build error: ${error.message}`);
+    assert.match(error.message, expected);
   }
 });
 
@@ -479,6 +520,9 @@ test('granular scopes are not issuable before approval, except to allowlisted te
   assert.equal(contract.granularIssuance.beforeApproval, 'refuse-except-allowlisted-test-clients');
   assert.equal(contract.granularIssuance.requiresApplicationTokenCapability, true);
   assert.equal(contract.granularIssuance.requiresDecision, 'D1');
+  assert.equal(contract.granularIssuance.allowlist, 'controlled-internal-test-identities-only');
+  assert.equal(contract.granularIssuance.allowlistedGrantsMakeNamesPermanent, false);
+  assert.equal(contract.granularIssuance.allowlistedGrantsOnD1Rename, 'revoke');
 });
 
 test('the app-token rule is recorded with the app-credentials-only scopes', () => {
@@ -495,6 +539,8 @@ test("Qira'at operations are out of scope with their existing scope, not unmappe
     assert.ok(!mapped.has(`${op.method} ${op.openApiPath}`), `${op.openApiPath} is also mapped`);
     assert.equal(op.disposition, 'out-of-scope-existing-scope-policy');
     assert.ok(op.gatewayPath.startsWith('/api/v4/qiraat/'));
+    // Gateway spelling (qiraat.ts uses camelCase params), never the OpenAPI snake_case names.
+    assert.doesNotMatch(op.gatewayPath, /[{}]|:[a-z]+_[a-z]/u, op.gatewayPath);
     for (const scope of op.acceptedScopes) {
       assert.ok(contract.outOfScopeScopes.includes(scope), `${scope} must be an out-of-scope scope`);
     }

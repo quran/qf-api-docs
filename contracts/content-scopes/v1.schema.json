@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://api-docs.quran.foundation/contracts/content-scopes/v1.schema.json",
   "title": "Quran.Foundation content scope contract, version 1",
-  "description": "Shape of contracts/content-scopes/v1.json. Every consumer (gateway, Platform, Admin Dashboard, Developer Console, JS SDK, Python SDK) validates the pinned contract against this schema at build time. Runtime never fetches policy from a mutable branch or a live spreadsheet.",
+  "description": "Shape of contracts/content-scopes/v1.json, validated by this repository's tests. Consumers vendor the contract itself and check the fields they rely on in their own tests. Runtime never fetches policy from a mutable branch or a live spreadsheet.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -243,12 +243,11 @@
       "additionalProperties": false,
       "required": [
         "activation",
-        "removeFromBaseline",
         "byClientKind",
         "unknownClientKindTreatedAs",
         "requiresDecision"
       ],
-      "description": "D5. Brand-new OAuth identities only. A confidential client trades the legacy content scopes for the C8 successors; a public client receives no Content scope at all.",
+      "description": "D5. Brand-new OAuth identities only. A confidential client with the client_credentials grant trades the legacy content scopes for the C8 successors; every other client receives no Content scope at all.",
       "properties": {
         "$comment": { "type": ["string", "array"] },
         "activation": {
@@ -261,11 +260,6 @@
             "whileInactive": { "const": "legacy-baseline-unchanged" }
           }
         },
-        "removeFromBaseline": {
-          "type": "array",
-          "items": { "enum": ["content", "content.read"] },
-          "minItems": 2
-        },
         "byClientKind": {
           "type": "object",
           "additionalProperties": false,
@@ -276,6 +270,8 @@
               "additionalProperties": false,
               "required": [
                 "definition",
+                "requiresClientType",
+                "requiresGrantType",
                 "removeFromBaseline",
                 "addToBaseline",
                 "addOnlyIfBaselineHeldLegacyContentRead",
@@ -283,6 +279,8 @@
               ],
               "properties": {
                 "definition": { "type": "string", "minLength": 1 },
+                "requiresClientType": { "const": "confidential" },
+                "requiresGrantType": { "const": "client_credentials" },
                 "removeFromBaseline": {
                   "type": "array",
                   "items": { "enum": ["content", "content.read"] },
@@ -329,15 +327,21 @@
       "required": [
         "requiresContractStatus",
         "beforeApproval",
+        "allowlist",
+        "allowlistedGrantsMakeNamesPermanent",
+        "allowlistedGrantsOnD1Rename",
         "requiresApplicationTokenCapability",
         "enforcedBy",
         "requiresDecision"
       ],
-      "description": "D1 and C7 stage 1. No granular scope is newly granted to any client until the contract is approved, except allowlisted controlled test clients.",
+      "description": "D1 and C7 stage 1. No granular scope is newly granted to any client until the contract is approved, except allowlisted controlled internal test identities, whose grants are provisional and revoked if D1 renames a scope.",
       "properties": {
         "$comment": { "type": "string" },
         "requiresContractStatus": { "const": "approved" },
         "beforeApproval": { "const": "refuse-except-allowlisted-test-clients" },
+        "allowlist": { "const": "controlled-internal-test-identities-only" },
+        "allowlistedGrantsMakeNamesPermanent": { "const": false },
+        "allowlistedGrantsOnD1Rename": { "const": "revoke" },
         "requiresApplicationTokenCapability": { "const": true },
         "enforcedBy": { "type": "string", "minLength": 1 },
         "requiresDecision": { "const": "D1" }

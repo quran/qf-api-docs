@@ -13,7 +13,7 @@ and work packages T00, T01 and T04.
 | --- | --- |
 | Route surface | `quran/quran.com-api` @ `origin/testing-warsh` `596c7edcfcbc32171242ba26f34fd5499ac5f269`, `config/routes/api/v4.rb` |
 | Gateway policy | `quran/qf-api-gateway` @ `origin/testing` `0954eae442ab4ed47cca45102074bb01a88079cf` |
-| Contract | `contracts/content-scopes/v1.json`, sha256 `5cdc2ae2b2fb0f6ef6c08a3b62b0db627e0002ac8cfdcba01dea6e744f920f60` |
+| Contract | `contracts/content-scopes/v1.json`; its current sha256 is in `v1.sha256`. The route comparison does not depend on the contract revision beyond the operation list above. |
 
 **Method and its limit.** The route surface was obtained by statically parsing the routes DSL, not
 by running `rails routes`, which needs the full application environment. It found 109 GET routes.

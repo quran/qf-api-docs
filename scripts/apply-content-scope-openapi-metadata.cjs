@@ -26,6 +26,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const { isDeepStrictEqual } = require('node:util');
 
 const repoRoot = path.join(__dirname, '..');
 const contractDir = path.join(repoRoot, 'contracts', 'content-scopes');
@@ -178,8 +179,10 @@ const main = () => {
   const next = `${JSON.stringify(document, null, 2)}\n`;
 
   if (checkOnly) {
-    const current = normalizeEol(fs.readFileSync(openApiPath, 'utf8'));
-    if (current !== next) {
+    // Compare the parsed documents, not their text: the check guards the metadata, and a
+    // formatting-only difference (for example a prettier run on main) is not stale metadata.
+    const current = JSON.parse(normalizeEol(fs.readFileSync(openApiPath, 'utf8')));
+    if (!isDeepStrictEqual(current, document)) {
       console.error(
         'openAPI/content/v4.json is missing or has stale content scope metadata.\n' +
           'Run: node scripts/apply-content-scope-openapi-metadata.cjs',

@@ -13,13 +13,15 @@ What the open state does and does not block:
 
 | Blocked until approved | Allowed now |
 | --- | --- |
-| Issuing any token carrying a v1 scope | Building and reviewing this contract |
+| Issuing any token carrying a v1 scope to an integrator | Building and reviewing this contract |
 | Activating the new-client baseline | Writing golden fixtures and tests |
 | Running the migration in any environment | Disabled-by-default, feature-flagged implementation |
 | Publishing SDK defaults that request v1 scopes | Source inventory and route reconciliation |
+| | Granting v1 scopes to allowlisted internal test identities (C7 stage 1, see D1) |
 
 `v1.json` carries `"status": "proposed-pending-approval"`. Consumers must refuse to activate
-issuance or enforcement while it reads that value. Flip it to `approved` only in the same change
+issuance or enforcement while it reads that value, apart from the allowlisted internal test
+identities described under D1. Flip it to `approved` only in the same change
 that records the approvals below, and re-pin every consumer to the resulting contract hash.
 
 ## How to record an approval
@@ -32,7 +34,8 @@ hash: if policy or snapshot input changes, the decision must be re-confirmed.
 
 **Recommendation.** Use the nine machine names below. Column F of the sheet supplies *display
 labels* only; it is not a source of OAuth strings. Names are case-sensitive protocol identifiers
-and are permanent once a token has been issued with them.
+and become permanent once a token carrying them is issued to an integrator. Tokens minted for the
+allowlisted internal test identities below do not make a name permanent.
 
 | Display label (sheet column F) | Proposed machine name | Ops | In C8 |
 | --- | --- | --- | --- |
@@ -51,10 +54,17 @@ Counts are post-D2. Pre-D2 they are 18 / 39 / 3 / 12 / 11 / 2 / 2 / 3 / 5.
 **Issuance gate (plan C7 stage 1).** Until `v1.json` reads `"status": "approved"`, no granular
 scope may be newly granted to any client, on any path: the new-client baseline, scope requests,
 manual and automated approvals, and Hydra synchronization. The one exception is an explicit
-allowlist of controlled test clients, held as operator configuration in Platform; it never includes
-integrator clients. Independently of the status, a granular scope is never newly granted to a client
-that cannot mint an application token (see the app-token rule below). Scopes a client already holds
-are never revoked by this gate. `granularIssuance` in `v1.json` records this; Platform enforces it.
+allowlist of controlled internal test identities, held as operator configuration in Platform; it
+never includes an integrator's client. Grants to those identities are provisional:
+
+- A token minted for an allowlisted test identity does not make a scope name permanent.
+- If D1 renames or drops a scope, every grant of the old name to an allowlisted test identity is
+  revoked, and those identities request the approved name instead.
+
+Independently of the status, a granular scope is never newly granted to a client that cannot mint
+an application token (see the app-token rule below). Outside those test grants, this gate never
+revokes a scope a client already holds. `granularIssuance` in `v1.json` records this; Platform
+enforces it.
 
 **App-token rule.** All nine names authorize only application tokens minted with
 `client_credentials` (`appCredentialsOnlyScopes`). The gateway refuses a user-bound token with
@@ -67,7 +77,7 @@ client-credentials token for the Content calls; the user's token is for User API
 `quran/qf-api-gateway` `src/validators/token.ts`.
 
 **Approval gate.** API/security owner approves spelling and permanent semantics *before any token
-is issued with them*, and approves the app-token rule as product policy.
+carrying them is issued to an integrator*, and approves the app-token rule as product policy.
 
 | Owner role | Decision | Rationale | Date | Policy sha256 | Contract sha256 |
 | --- | --- | --- | --- | --- | --- |
@@ -159,16 +169,17 @@ tokens, and only a confidential client can mint one.
 
 | New client kind | Remove | Add |
 | --- | --- | --- |
-| **Confidential**: Platform client type `confidential`, a backend client that keeps a Client Secret and can mint application tokens with `client_credentials` | `content`, `content.read` | the eight C8 scopes, only if the baseline held `content` or `content.read`; `content.reflections.read` only where that baseline already covers all five public reflection routes |
-| **Public**: any other client type, including browser and mobile PKCE clients | `content`, `content.read` and all nine granular scopes | nothing |
+| **Confidential**: Platform client type `confidential` **and** the `client_credentials` grant, i.e. a backend client that keeps a Client Secret and can mint application tokens | `content`, `content.read` | the eight C8 scopes, only if the baseline held `content` or `content.read`; `content.reflections.read` only where that baseline already covers all five public reflection routes |
+| **Public**: every other client, including browser and mobile PKCE clients and a `confidential` client without `client_credentials` | `content`, `content.read` and all nine granular scopes | nothing |
 
 - A new public client gets **no Content scope**. It keeps PKCE for User APIs and reads Content
   through its own backend, which holds a confidential client.
-- An unknown client type is treated as public, so it fails closed to the kind that receives no
-  Content grant.
-- This mirrors `quran/qf-platform-api` `src/content_scopes.rs` (`apply_new_client_baseline`,
-  `ClientKind::from_client_type`). `newClientBaseline.byClientKind` in `v1.json` records it, and
-  the generator refuses a policy that gives a public client any Content scope.
+- An unknown client type, or a confidential client that lacks `client_credentials`, takes the
+  public branch, so it fails closed to the kind that receives no Content grant: it could not use a
+  granular scope anyway.
+- This mirrors `quran/qf-platform-api` `src/content_scopes.rs` (`apply_new_client_baseline`), which
+  is being aligned to require both conditions. `newClientBaseline.byClientKind` in `v1.json`
+  records it, and the generator refuses a policy that gives a public client any Content scope.
 
 **Activation.** The rule is inactive until the contract status is `approved` **and** Platform's
 `QF_CONTENT_SCOPES_V1_NEW_CLIENT_POLICY` flag is switched on. Until then every new client receives

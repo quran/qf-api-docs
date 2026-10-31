@@ -307,8 +307,10 @@
       "The rule depends on the client kind, because the granular scopes authorize only application",
       "tokens (appCredentialsOnlyScopes). A public client can never mint one, so granting it a",
       "granular scope would be unusable, and the legacy umbrella is no longer issued to new clients.",
-      "Mirrors quran/qf-platform-api src/content_scopes.rs :: apply_new_client_baseline and",
-      "ClientKind::from_client_type. Revalidate on the implementation branch before activation.",
+      "The confidential branch applies only to a client that is confidential AND has the",
+      "client_credentials grant; every other client, including a confidential one without that grant,",
+      "takes the public branch. Mirrors quran/qf-platform-api src/content_scopes.rs ::",
+      "apply_new_client_baseline. Revalidate on the implementation branch before activation.",
       "",
       "Inactive until the contract status is 'approved' AND Platform's new-client policy flag is",
       "switched on. Until then every new client receives the legacy baseline unchanged."
@@ -318,10 +320,11 @@
       "requiresPlatformFlag": "QF_CONTENT_SCOPES_V1_NEW_CLIENT_POLICY",
       "whileInactive": "legacy-baseline-unchanged"
     },
-    "removeFromBaseline": ["content", "content.read"],
     "byClientKind": {
       "confidential": {
-        "definition": "Platform client type 'confidential': a backend client that keeps a Client Secret and can mint application tokens with the client_credentials grant.",
+        "definition": "A client whose Platform client type is 'confidential' AND that has the client_credentials grant: a backend client that keeps a Client Secret and can mint application tokens. Both conditions are required.",
+        "requiresClientType": "confidential",
+        "requiresGrantType": "client_credentials",
         "removeFromBaseline": ["content", "content.read"],
         "addToBaseline": [
           "content.quran.read",
@@ -337,7 +340,7 @@
         "addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes": true
       },
       "public": {
-        "definition": "Any other Platform client type, including browser and mobile PKCE clients with no Client Secret. It cannot mint an application token.",
+        "definition": "Every other client: any client type other than 'confidential' (including browser and mobile PKCE clients with no Client Secret), and a 'confidential' client without the client_credentials grant. None of them can mint an application token.",
         "removeFromBaseline": [
           "content",
           "content.read",
@@ -363,14 +366,19 @@
     "$comment": [
       "D1 and plan C7 stage 1. While the contract status is not 'approved', no granular scope may be",
       "newly granted to any client on any path (new-client baseline, scope requests, manual and",
-      "automated approvals, Hydra synchronization), except to clients on an explicit allowlist of",
-      "controlled test identities. The allowlist is operator configuration in Platform and never",
-      "includes integrator clients. Independently of status, a granular scope is never newly granted",
-      "to a client that cannot mint an application token. Scopes a client already holds are never",
-      "revoked by this gate. Enforced by quran/qf-platform-api."
+      "automated approvals, Hydra synchronization), except to an explicit allowlist of controlled",
+      "internal test identities. The allowlist is operator configuration in Platform and never",
+      "includes an integrator's client. Grants to those identities are provisional: their tokens do",
+      "not make a scope name permanent, and if D1 renames or drops a scope, every grant of the old",
+      "name to them is revoked. Independently of status, a granular scope is never newly granted to",
+      "a client that cannot mint an application token. Outside those test grants, this gate never",
+      "revokes a scope a client already holds. Enforced by quran/qf-platform-api."
     ],
     "requiresContractStatus": "approved",
     "beforeApproval": "refuse-except-allowlisted-test-clients",
+    "allowlist": "controlled-internal-test-identities-only",
+    "allowlistedGrantsMakeNamesPermanent": false,
+    "allowlistedGrantsOnD1Rename": "revoke",
     "requiresApplicationTokenCapability": true,
     "enforcedBy": "quran/qf-platform-api",
     "requiresDecision": "D1"
@@ -398,17 +406,17 @@
         "acceptedScopesSource": "quran/qf-api-gateway src/utils/scopes/qiraat.ts :: qiraatScopedRoutes",
         "reason": "Qira'at is a restricted surface gated by its own qiraat.read scope (qiraat is its parent). It is not part of the nine Content scopes, and content alone does not authorize it today.",
         "operations": [
-          { "method": "GET", "openApiPath": "/qiraat/readers", "operationId": "list-qiraat-readers" },
-          { "method": "GET", "openApiPath": "/qiraat/readers/{id}", "operationId": "get-qiraat-reader" },
-          { "method": "GET", "openApiPath": "/qiraat/transmitters", "operationId": "list-qiraat-transmitters" },
-          { "method": "GET", "openApiPath": "/qiraat/transmitters/{id}", "operationId": "get-qiraat-transmitter" },
-          { "method": "GET", "openApiPath": "/qiraat/junctures/by_verse/{verse_key}", "operationId": "list-qiraat-junctures-by-verse" },
-          { "method": "GET", "openApiPath": "/qiraat/junctures/by_chapter/{chapter_number}", "operationId": "list-qiraat-junctures-by-chapter" },
-          { "method": "GET", "openApiPath": "/qiraat/junctures/{id}", "operationId": "get-qiraat-juncture" },
-          { "method": "GET", "openApiPath": "/qiraat/readings/{id}", "operationId": "get-qiraat-reading" },
-          { "method": "GET", "openApiPath": "/qiraat/matrix/by_verse/{verse_key}", "operationId": "get-qiraat-matrix-by-verse" },
-          { "method": "GET", "openApiPath": "/qiraat/matrix/by_chapter/{chapter_number}", "operationId": "get-qiraat-matrix-by-chapter" },
-          { "method": "GET", "openApiPath": "/qiraat/matrix/count_within_range", "operationId": "count-qiraat-matrix-within-range" }
+          { "method": "GET", "openApiPath": "/qiraat/readers", "gatewayPath": "/api/v4/qiraat/readers", "operationId": "list-qiraat-readers" },
+          { "method": "GET", "openApiPath": "/qiraat/readers/{id}", "gatewayPath": "/api/v4/qiraat/readers/:id", "operationId": "get-qiraat-reader" },
+          { "method": "GET", "openApiPath": "/qiraat/transmitters", "gatewayPath": "/api/v4/qiraat/transmitters", "operationId": "list-qiraat-transmitters" },
+          { "method": "GET", "openApiPath": "/qiraat/transmitters/{id}", "gatewayPath": "/api/v4/qiraat/transmitters/:id", "operationId": "get-qiraat-transmitter" },
+          { "method": "GET", "openApiPath": "/qiraat/junctures/by_verse/{verse_key}", "gatewayPath": "/api/v4/qiraat/junctures/by_verse/:verseKey", "operationId": "list-qiraat-junctures-by-verse" },
+          { "method": "GET", "openApiPath": "/qiraat/junctures/by_chapter/{chapter_number}", "gatewayPath": "/api/v4/qiraat/junctures/by_chapter/:chapterNumber", "operationId": "list-qiraat-junctures-by-chapter" },
+          { "method": "GET", "openApiPath": "/qiraat/junctures/{id}", "gatewayPath": "/api/v4/qiraat/junctures/:id", "operationId": "get-qiraat-juncture" },
+          { "method": "GET", "openApiPath": "/qiraat/readings/{id}", "gatewayPath": "/api/v4/qiraat/readings/:id", "operationId": "get-qiraat-reading" },
+          { "method": "GET", "openApiPath": "/qiraat/matrix/by_verse/{verse_key}", "gatewayPath": "/api/v4/qiraat/matrix/by_verse/:verseKey", "operationId": "get-qiraat-matrix-by-verse" },
+          { "method": "GET", "openApiPath": "/qiraat/matrix/by_chapter/{chapter_number}", "gatewayPath": "/api/v4/qiraat/matrix/by_chapter/:chapterNumber", "operationId": "get-qiraat-matrix-by-chapter" },
+          { "method": "GET", "openApiPath": "/qiraat/matrix/count_within_range", "gatewayPath": "/api/v4/qiraat/matrix/count_within_range", "operationId": "count-qiraat-matrix-within-range" }
         ]
       }
     ]
