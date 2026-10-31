@@ -31,8 +31,9 @@ const snapshotPath = path.join(contractDir, 'source', 'QF_API_Endpoints.snapshot
 const policyPath = path.join(contractDir, 'policy.json');
 const contractPath = path.join(contractDir, 'v1.json');
 const provenancePath = path.join(contractDir, 'provenance.json');
-// Canonical hash consumers pin. Every consumer repository vendors the contract and records this
-// value; CI in each consumer fails when its recorded hash drifts from the contract it ships.
+// Canonical hash consumers pin. Each consumer records this value alongside its copy of the
+// contract (or of the OpenAPI metadata generated from it). Whether a consumer's own CI checks its
+// recorded hash is up to that repository; `--check` here only guards this repository's artifacts.
 const hashPath = path.join(contractDir, 'v1.sha256');
 
 const CONTENT_FAMILY = 'Content APIs (v4)';
