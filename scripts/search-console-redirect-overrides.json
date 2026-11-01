@@ -185,10 +185,6 @@
       "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/"
     },
     {
-      "source": "/docs/user_related_apis_versioned/1.0.0/get-mutations",
-      "target": "/docs/user_related_apis_prelive/get-mutations/"
-    },
-    {
       "source": "/docs/user_related_apis_versioned/1.0.0/get-posts",
       "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-feed/"
     },
@@ -315,10 +311,6 @@
     {
       "source": "/docs/user_related_apis_versioned/get-group-settings",
       "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/"
-    },
-    {
-      "source": "/docs/user_related_apis_versioned/get-mutations",
-      "target": "/docs/user_related_apis_prelive/get-mutations/"
     },
     {
       "source": "/docs/user_related_apis_versioned/get-posts",
