@@ -3,7 +3,6 @@ id: getting-started
 title: Getting Started with Data Sync
 sidebar_label: Getting Started
 sidebar_position: 1
-draft: true
 ---
 
 # Getting Started with Data Sync
@@ -11,10 +10,8 @@ draft: true
 The Quran Foundation Sync API enables **offline-first mobile applications** to synchronize user data
 across devices. This guide covers the core concepts and helps you implement your first sync flow.
 
-:::warning Pre-live only
-The Sync API endpoints (`GET /v1/sync` and `POST /v1/sync`) are currently available in pre-live only. Endpoint paths in this guide are relative to the User API auth base URL: `https://apis-prelive.quran.foundation/auth` for pre-live, and `https://apis.quran.foundation/auth` for production direct endpoints. If the generated API reference shows a production server option for `/v1/sync`, do not use it yet; production `/v1/sync` is not supported until the Sync API is promoted.
-
-Production clients should continue using the direct User API endpoints until the Sync API is promoted to production. For Quran.com Favorites/default collection bookmarks in production, use `POST /v1/collections/__default__/bookmarks` to add Favorites. To remove Favorites, prefer `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` when you have the bookmark ID, or use `DELETE /v1/collections/__default__/bookmarks` with a JSON body containing either `bookmarkId` or the bookmark details.
+:::info Base URLs
+The Sync API endpoints (`GET /v1/sync` and `POST /v1/sync`) are available in production and pre-live. Endpoint paths in this guide are relative to the User API auth base URL: `https://apis.quran.foundation/auth` for production and `https://apis-prelive.quran.foundation/auth` for pre-live.
 :::
 
 ## Overview
@@ -51,6 +48,7 @@ Before using the Sync API, ensure you have:
    - [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks) — For syncing bookmarks
    - [`collection`](/docs/user_related_apis_versioned/scopes#collections) — For syncing collections
    - [`note`](/docs/user_related_apis_versioned/scopes#notes) — For syncing notes
+   - [`reading_session`](/docs/user_related_apis_versioned/scopes#reading-sessions) — For syncing reading sessions
 
 :::tip Scope Requirements
 You only receive mutations for resources your token has access to. If you request [`sync`](/docs/user_related_apis_versioned/scopes#sync) + [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks) but not [`collection`](/docs/user_related_apis_versioned/scopes#collections), you won't see collection changes.
@@ -66,6 +64,8 @@ The Sync API currently tracks these resources. All `/v1/sync` calls also require
 | `COLLECTION`          | User collections                   | [`collection`](/docs/user_related_apis_versioned/scopes#collections)                                                                   |
 | `COLLECTION_BOOKMARK` | Bookmarks within collections       | [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks), [`collection`](/docs/user_related_apis_versioned/scopes#collections) |
 | `NOTE`                | User notes/reflections             | [`note`](/docs/user_related_apis_versioned/scopes#notes)                                                                               |
+| `READING_SESSION`     | User reading sessions              | [`reading_session`](/docs/user_related_apis_versioned/scopes#reading-sessions)                                                         |
+| `READING_BOOKMARK`    | Reading bookmark slots             | [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks)                                                                       |
 
 :::note Resource IDs vs composite keys
 For `BOOKMARK`, `COLLECTION`, and `NOTE`, sync mutations include a single `resourceId`.
@@ -75,9 +75,9 @@ For `COLLECTION_BOOKMARK`, there is no single ID; omit `resourceId`. Create muta
 :::note Favorites/default collection
 The Quran.com Favorites collection uses the virtual collection ID `__default__`.
 
-After the pre-live backend support is deployed, push Favorites changes through `POST /v1/sync` as `COLLECTION_BOOKMARK` mutations with `data.collectionId: "__default__"`. Create mutations use a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete mutations may use either `data.bookmarkId` or the same bookmark details. The virtual collection does not create a real `CollectionBookmark` row, so pull-sync clients should read default collection membership from `BOOKMARK.isInDefaultCollection`, not from a separate `COLLECTION_BOOKMARK` mutation.
+Push Favorites changes through `POST /v1/sync` as `COLLECTION_BOOKMARK` mutations with `data.collectionId: "__default__"`. Create mutations use a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete mutations may use either `data.bookmarkId` or the same bookmark details. The virtual collection does not create a real `CollectionBookmark` row, so pull-sync clients should read default collection membership from `BOOKMARK.isInDefaultCollection`, not from a separate `COLLECTION_BOOKMARK` mutation.
 
-Production clients should keep using the direct collection endpoints until `/v1/sync` is promoted to production. Use `POST /v1/collections/__default__/bookmarks` to add Favorites. To remove Favorites, prefer `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` when you have the bookmark ID, or use `DELETE /v1/collections/__default__/bookmarks` with a JSON body containing either `bookmarkId` or the bookmark details.
+Clients that do not use the Sync API can keep using the direct collection endpoints. Use `POST /v1/collections/__default__/bookmarks` to add Favorites. To remove Favorites, prefer `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` when you have the bookmark ID, or use `DELETE /v1/collections/__default__/bookmarks` with a JSON body containing either `bookmarkId` or the bookmark details.
 :::
 
 ## Key Concepts
@@ -139,8 +139,8 @@ When the user creates data offline, push mutations to the server using `POST /v1
 
 ### API References
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations/)
-- [POST /v1/sync (Sync local mutations)](/docs/user_related_apis_prelive/sync-local-mutations/)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
+- [POST /v1/sync (Sync local mutations)](/docs/user_related_apis_versioned/1.0.0/sync-local-mutations/)
 
 ## Using metadataOnly for Efficiency
 
@@ -154,7 +154,7 @@ This is significantly faster than a full sync (single DB query vs multiple joins
 
 For the full request/response schema, see:
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations/)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
 
 ## Filtering & Pagination
 
@@ -169,8 +169,7 @@ When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagina
 ## Important Notes
 
 - **Mutation limits** — `POST /v1/sync` accepts a maximum of 100 mutations per request.
-- **Pre-live references** — The API reference links above intentionally point to the pre-live Sync API pages while `/v1/sync` remains pre-live-only.
-- **Favorites/default collection** — Use `COLLECTION_BOOKMARK` with `data.collectionId: "__default__"` to push default collection membership in pre-live. Create with a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete with either `data.bookmarkId` or bookmark details. Pull default membership from `BOOKMARK.isInDefaultCollection`.
+- **Favorites/default collection** — Use `COLLECTION_BOOKMARK` with `data.collectionId: "__default__"` to push default collection membership. Create with a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete with either `data.bookmarkId` or bookmark details. Pull default membership from `BOOKMARK.isInDefaultCollection`.
 
 ## Next Steps
 

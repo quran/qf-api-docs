@@ -105,18 +105,6 @@
       "target": "/docs/connected-apps/"
     },
     {
-      "source": "/docs/tutorials/sync/getting-started",
-      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
-    },
-    {
-      "source": "/docs/tutorials/sync/handling-conflicts",
-      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
-    },
-    {
-      "source": "/docs/tutorials/sync/offline-first-patterns",
-      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
-    },
-    {
       "source": "/docs/user-related-apis/reading-sessions-vs-activity-days",
       "target": "/docs/user-related-apis/1.0.0/reading-sessions-vs-activity-days/"
     },
