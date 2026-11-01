@@ -344,6 +344,82 @@ for each line in lines:
 
 1. **Cross-Verse Lines:** One line may contain words from multiple verses
 2. **Font Loading:** For QCF fonts, `page_number` determines which font file to load
+3. **Headings:** Surah names and the bismillah are not in the word data; see [Surah Headings and Bismillah](#surah-headings-and-bismillah)
+
+#### Surah Headings and Bismillah
+
+Mushaf word data contains only Quran words and ayah-end markers. Neither the verse endpoints nor the Content Sync Mushaf snapshot include rows for surah headings or the bismillah, so your app draws them itself, as Quran.com does.
+
+**Simple approach (used by Quran.com):** before any line whose first word is word 1 of ayah 1 (for example word `position` 1 of verse `4:1`), render the surah name, then the bismillah when the chapter's `bismillah_pre` is `true`. `bismillah_pre` comes from the [chapters endpoint](/docs/content_apis_versioned/list-chapters) and from the `quran_core` Content Sync data. It is `false` for Al-Fatihah (surah 1), whose bismillah is ayah 1 and is already in the word data, and for At-Tawbah (surah 9), which has no bismillah.
+
+**Exact Mushaf layout:** in the 15-line QCF Mushafs (`mushaf=1` QCF V2, `mushaf=2` QCF V1, `mushaf=19` QCF V4 Tajweed), the line numbers that have no words are exactly the heading slots. Lay out lines 1 to `lines_per_page` (15) and fill each empty line:
+
+- Each surah has a surah-name line followed by a bismillah line. Al-Fatihah and At-Tawbah have only the name line. Across the 604 pages there are 226 empty lines: 114 name lines and 112 bismillah lines.
+- An empty line belongs to the surah that starts next. The empty line directly above that surah's first ayah is the bismillah when `bismillah_pre` is `true`, otherwise it is the name. An empty line above that one is the name.
+- A heading can cross a page break. In QCF V2, for example, the name of An-Nisa (surah 4) is line 15 of page 76 and its bismillah is line 1 of page 77. Where this happens differs between Mushafs (QCF V4 Tajweed puts both lines at the top of page 77), so derive it from the data instead of hard-coding pages.
+- Pages 1 and 2 are decorated pages with 8 lines. Page 1 has the surah name on line 1 and ayat on lines 2-8. Page 2 has the surah name on line 1, the bismillah on line 2, and ayat on lines 3-8.
+
+```javascript
+// lines: Map of line_number -> words for one page, for example
+//   new Map(groupWordsByLine(verses).map((l) => [l.lineNumber, l.words]))
+//   using groupWordsByLine from the example below (each word carries verseKey).
+// chapters: Map of chapter id -> chapter object from the chapters endpoint.
+function buildPageRows(pageNumber, lines, chapters, linesPerPage = 15) {
+  const lineCount = pageNumber <= 2 ? 8 : linesPerPage;
+  const chapterOf = (word) => Number(word.verseKey.split(':')[0]);
+  const rows = [];
+
+  for (let line = 1; line <= lineCount; line++) {
+    if (lines.has(line)) {
+      rows.push({ line, type: 'words', words: lines.get(line) });
+      continue;
+    }
+
+    let next = line + 1;
+    while (next <= lineCount && !lines.has(next)) next++;
+
+    if (next > lineCount) {
+      // Bottom of the page: name of the surah that starts on the next page.
+      const lastWords = rows.findLast((row) => row.type === 'words').words;
+      rows.push({ line, type: 'surah-name', chapter: chapterOf(lastWords.at(-1)) + 1 });
+      continue;
+    }
+
+    const chapter = chapterOf(lines.get(next)[0]);
+    const isBismillah = next === line + 1 && chapters.get(chapter).bismillah_pre;
+    rows.push({ line, type: isBismillah ? 'bismillah' : 'surah-name', chapter });
+  }
+  return rows;
+}
+```
+
+**Surah name font:** Quran.com draws surah names with the surah-names font. Its ligatures turn the chapter number, zero-padded to three digits, into the calligraphic surah name, so the text `004` renders as An-Nisa. The text `surah` renders the word "Surah" if you want it next to the name.
+
+```css
+@font-face {
+  font-family: 'surahnames';
+  src: url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff2') format('woff2'),
+       url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff') format('woff');
+  font-display: block;
+}
+
+.surah-name {
+  font-family: 'surahnames';
+}
+```
+
+```javascript
+function renderSurahName(chapterId) {
+  const el = document.createElement('span');
+  el.className = 'surah-name';
+  el.textContent = String(chapterId).padStart(3, '0'); // 4 -> "004", 114 -> "114"
+  return el;
+}
+```
+
+The digits only become the surah name once the font has loaded and ligatures are enabled (browsers enable them by default), so keep the text hidden until the font is ready. Quran.com does this.
+
+**Bismillah:** there is no hosted bismillah image or font on the CDN. Quran.com bundles its own SVG. You can do the same, or render the text of ayah 1:1 (the bismillah) in a Quran font, leaving out its ayah-end marker (`char_type_name: "end"`).
 
 #### Complete Reading View Example (QCF V2)
 
@@ -796,6 +872,15 @@ Use this font file with `text_indopak_nastaleeq`. The text works only with this 
 https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff2
 https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff
 https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.ttf
+```
+
+#### Surah Names
+
+Used for surah headings; see [Surah Headings and Bismillah](#surah-headings-and-bismillah).
+
+```text
+https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff2
+https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff
 ```
 
 ### Font Caching and App Bundling
