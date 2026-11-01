@@ -16,7 +16,7 @@ A 409 `OutOfSyncError` happens when:
 1. **Another device synced** — User made changes on a different device
 2. **Concurrent mutations** — Server received mutations while you were offline
 3. **Missed header** — Client didn't capture the `X-Mutation-At` response header
-4. **First sync mismatch** — Sending wrong `lastMutationAt` for a new user
+4. **Made-up value** — Sending a value the server never returned, such as `-1`
 
 ```mermaid
 sequenceDiagram
@@ -43,13 +43,6 @@ When a conflict occurs, the server responds:
 - **Message:** `Invalid lastMutationAt, please re-sync your data and try again.`
 
 **HTTP Status:** `409 Conflict`
-
-### First-Sync Variant
-
-If this is a new user's first sync and you send the wrong `lastMutationAt`:
-
-- **Error code:** `OutOfSyncError`
-- **Message:** `First sync detected. Please use lastMutationAt=-1 for initial sync.`
 
 ## Conflict Resolution Flow
 

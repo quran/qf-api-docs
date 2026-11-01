@@ -92,31 +92,27 @@ A Unix timestamp (milliseconds) tracking the most recent mutation for a user. Th
 
 ### First Sync Behavior
 
-When a user has never synced before (no `lastMutationAt` stored on the server):
+Every user already has a sync head, even before their first sync. It is never `-1`: it is at least the time the account was created, and it moves forward with each change. `POST /v1/sync` only accepts the exact current head, so always read it from the server before your first push.
 
-| Scenario                        | Server Response               | Client Action                                     |
-| ------------------------------- | ----------------------------- | ------------------------------------------------- |
-| No sync history yet             | `lastMutationAt: -1`          | Store `-1`, treat as first-sync state             |
-| First mutation from this device | Send `lastMutationAt=-1`      | Server accepts, returns new timestamp             |
-| User already has sync history   | `lastMutationAt: <timestamp>` | Store timestamp, fetch mutations since `0` (or T) |
+| Scenario                     | What to do                                                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------- |
+| First sync on this device    | Call `GET /v1/sync?mutationsSince=0`, apply all pages, then store the returned `lastMutationAt`          |
+| First push from this device  | Send the `lastMutationAt` from your latest pull (or from `metadataOnly=true`), never a made-up value     |
+| Later syncs                  | Pull with `mutationsSince=<stored lastMutationAt>`, then push with the head from that pull or last push |
 
-:::warning First Sync Requirement
-For a user's very first mutation via `POST /v1/sync`, you **must** send `lastMutationAt=-1`. Any other value will be rejected.
+:::warning Don't send `-1`
+Older versions of this guide said to send `lastMutationAt=-1` for a user's first push. The API now rejects that with `409`. Read the head with `GET /v1/sync` first.
 :::
 
 ## Quick Start: Your First Sync
 
 ```mermaid
 flowchart TD
-    A[Start] --> B["GET /v1/sync?mutationsSince=0&metadataOnly=true"]
-    B --> C{lastMutationAt?}
-    C -->|"-1 (first-sync state)"| D["Store lastMutationAt = -1"]
-    C -->|"timestamp (existing user)"| E["GET /v1/sync?mutationsSince=0"]
-    E --> F["Apply mutations locally"]
-    F --> G["Store lastMutationAt"]
+    A[Start] --> B["GET /v1/sync?mutationsSince=0 (all pages)"]
+    B --> C["Apply mutations locally"]
+    C --> D["Store lastMutationAt"]
     D --> H{User makes changes offline?}
-    G --> H
-    H -->|Yes| I["POST /v1/sync?lastMutationAt=-1 (first time)<br/>or lastMutationAt=T (later)<br/>with mutations array"]
+    H -->|Yes| I["POST /v1/sync?lastMutationAt=T<br/>with mutations array"]
     I --> J["Update lastMutationAt from response"]
     J --> K[Done]
     H -->|No| K
@@ -124,14 +120,11 @@ flowchart TD
 
 ### Step 1: Check Sync Status
 
-First, check if the user has any existing data using `metadataOnly=true`. This returns only `lastMutationAt` without fetching mutations. (You still need to pass `mutationsSince`, even when `metadataOnly=true`.)
-
-- `lastMutationAt: -1` means no sync history yet (first-sync state)
-- Any positive number means existing data exists
+Optionally check the current head with `metadataOnly=true`. This returns only `lastMutationAt` without fetching mutations. (You still need to pass `mutationsSince`, even when `metadataOnly=true`.) Use it to skip a pull when nothing changed since your stored value.
 
 ### Step 2: Pull Existing Data
 
-If the user has data (`lastMutationAt > -1`), fetch all mutations and apply them locally. Store the `lastMutationAt` value for future requests.
+Fetch all mutations since `0` on a new device (or since your stored value later), page through until `hasMore=false`, and apply them locally. Store the `lastMutationAt` from the final page for future requests.
 
 ### Step 3: Push Local Changes
 
