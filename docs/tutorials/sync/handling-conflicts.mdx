@@ -119,6 +119,23 @@ See the full request/response schema in the API reference:
 
 - [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
 
+## Direct Mutation Endpoints
+
+Direct write endpoints such as `POST /v1/bookmarks` also advance the user's mutation head. They do
+not take a `lastMutationAt` parameter and do not reject stale clients with `409`, but a successful
+write returns the new head in the `X-Mutation-At` response header.
+
+If your app mixes direct writes with `POST /v1/sync`, store `X-Mutation-At` after each direct write
+and send it as `lastMutationAt` on your next `POST /v1/sync`; otherwise that push fails with `409`.
+Keep this write head separate from the `mutationsSince` cursor you use for pulls. Changes from other
+devices can land between your last pull and your direct write, so only move the pull cursor forward
+after a completed `GET /v1/sync`.
+
+:::tip Always capture the header
+If you miss an `X-Mutation-At` header, call `GET /v1/sync` with `metadataOnly=true` to recover the
+current head.
+:::
+
 ## Best Practices
 
 1. **Always handle 409** — Don't assume sync will succeed
