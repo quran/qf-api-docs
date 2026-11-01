@@ -10,7 +10,7 @@ sidebar_position: 3
 This guide covers best practices for building mobile apps that work seamlessly offline and sync reliably when connectivity is restored.
 
 :::tip SDK Implementations
-For production-ready implementations, see our [SDK docs](/docs/sdk).
+The SDKs handle the API calls, paging and conflict errors; see the SDK sync helpers for [JavaScript](/docs/sdk/javascript/sync) and [Python](/docs/sdk/python/sync).
 :::
 
 ## Core Principles
@@ -98,7 +98,7 @@ interface QueuedMutation {
 
 ## Sync Engine
 
-Your sync engine should follow a **pull → apply → push** cycle and handle 409 conflicts by re-syncing before retrying local mutations. For a production-ready implementation, see the [SDK docs](/docs/sdk).
+Your sync engine should follow a **pull → apply → push** cycle and handle 409 conflicts by re-syncing before retrying local mutations. For the API calls, paging and conflict errors, see the SDK sync helpers for [JavaScript](/docs/sdk/javascript/sync) and [Python](/docs/sdk/python/sync).
 
 ### Pull → Apply → Push (with pagination)
 

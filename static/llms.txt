@@ -83,6 +83,8 @@ This limitation applies to Quran content in the Content API, not to User-related
 - [Resources API](https://api-docs.quran.foundation/docs/sdk/python/resources/)
 - [SDKs](https://api-docs.quran.foundation/docs/sdk/)
 - [Search API](https://api-docs.quran.foundation/docs/sdk/javascript/search/)
+- [User Sync](https://api-docs.quran.foundation/docs/sdk/javascript/sync/)
+- [User Sync](https://api-docs.quran.foundation/docs/sdk/python/sync/)
 - [Verses API](https://api-docs.quran.foundation/docs/sdk/javascript/verses/)
 - [Verses API](https://api-docs.quran.foundation/docs/sdk/python/verses/)
 
