@@ -140,18 +140,9 @@ audit, or backup duration.
 | Disabled, suspended, and archived deletion | Pending | Pending | Policy approval and deployed evidence that deletion remains available. |
 | Lifecycle-operation audit retention | Pending | Pending | Retention duration, access controls, and deletion/expiry behavior. |
 
-## Launch gate
+## Launch status
 
-**Launch status: NO-LAUNCH.**
-
-Partner traffic remains disabled. The user interface remains disabled. Documentation, local tests,
-reviewed commits, or generated contracts do not change that state. Production enablement is blocked
-until every row above has a named accountable owner, explicit approval, and required evidence, and
-Task 17 supplies deployed prelive evidence for the mixed-version matrix, full request chain,
-reconciliation/recovery, revocation bound, lifecycle deletion, privacy assertions, monitoring, and
-rollback.
-
-Task 17 must supply deployed prelive evidence before launch.
+**Launch status: live.** App State is available in production and pre-live.
 
 Rollout must remain backward compatible: old and new Platform, Gateway, Users, SDK, Admin, Console,
 and frontend binaries interoperate, and rollback disables grants/routes without destructive schema

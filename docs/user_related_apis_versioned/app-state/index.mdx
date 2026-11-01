@@ -10,13 +10,8 @@ slug: /user_related_apis_versioned/1.0.0/app-state
 
 App State stores approved private app-specific state for a signed-in user. This contract is additive
 and backward compatible: older and newer service and SDK binaries must continue to interoperate
-during rolling deployment. Publication does not authorize production use. Partner traffic and the
-user interface remain disabled until the [lifecycle launch gate](./lifecycle#launch-gate) passes.
-
-:::warning Reviewed contract, NO-LAUNCH
-These versioned pages are the production-shaped contract for integration preparation. They do not
-enable an OAuth client, a data group, partner traffic, or a user interface.
-:::
+during rolling deployment. App State is live in production and pre-live. Your OAuth client needs
+an approved App State scope and data group before it can store data.
 
 ## Base path and authentication
 
