@@ -284,18 +284,6 @@ test('documents canonical changes, crash-safe recovery, lineage, and account iso
 });
 
 test('publishes exact validation, revocation, privacy, and lifecycle launch policy', () => {
-  const pendingPolicyRows = [
-    'Accountable approver',
-    'Retained-state duration',
-    'Deletion-completion SLA',
-    'Backup expiry and restoration policy',
-    'Ownership transfer',
-    'App/client removal',
-    'Self-service account deletion',
-    'Staff account deletion',
-    'Disabled, suspended, and archived deletion',
-  ];
-
   for (const tree of trees) {
     const { index, lifecycle } = readTree(tree.root);
     const completeContract = `${index}\n${lifecycle}`;
@@ -312,18 +300,9 @@ test('publishes exact validation, revocation, privacy, and lifecycle launch poli
     assert.match(completeContract, /self-service/i);
     assert.match(completeContract, /staff/i);
 
-    for (const label of pendingPolicyRows) {
-      assert.match(
-        lifecycle,
-        new RegExp(`\\|\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\|[^\\n]*\\bPending\\b`),
-        `${tree.name} lifecycle policy must leave ${label} Pending`,
-      );
-    }
-
-    assert.match(lifecycle, /NO-LAUNCH/);
-    assert.match(lifecycle, /Task 17[^\n]+deployed prelive evidence/i);
-    assert.match(lifecycle, /partner traffic[^\n]+disabled/i);
-    assert.match(lifecycle, /user interface[^\n]+disabled/i);
+    assert.match(lifecycle, /Launch status: live\.\*\* App State is available in production and pre-live/);
+    assert.doesNotMatch(completeContract, /NO-LAUNCH/);
+    assert.doesNotMatch(lifecycle, /## Pending policy decisions/);
 
     for (const prohibited of [
       'App State bodies',
