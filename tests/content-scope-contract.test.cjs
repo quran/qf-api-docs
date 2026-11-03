@@ -501,6 +501,9 @@ test('a missing or malformed policy section is reported, never a TypeError', () 
     [(p) => { delete p.outOfScopeOperations.groups[0].operations[0].operationId; }, /need openApiPath and operationId/u],
     [(p) => { p.outOfScopeOperations.groups[0].operations[0].method = 'FETCH'; }, /is not an HTTP method/u],
     [(p) => { p.newClientBaseline.removeFromBaseline = ['content', 'content.read']; }, /must not carry top-level add\/remove lists/u],
+    [(p) => { delete p.newClientBaseline.byClientKind.confidential.addOnlyIfBaselineHeldLegacyContentRead; }, /addOnlyIfBaselineHeldLegacyContentRead to true/u],
+    [(p) => { p.newClientBaseline.byClientKind.confidential.addOnlyIfBaselineHeldLegacyContentRead = false; }, /addOnlyIfBaselineHeldLegacyContentRead to true/u],
+    [(p) => { p.newClientBaseline.byClientKind.confidential.addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes = 'true'; }, /addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes to true/u],
   ];
   for (const [mutate, expected] of cases) {
     let error;

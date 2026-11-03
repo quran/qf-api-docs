@@ -619,6 +619,16 @@ const build = ({ policy: injectedPolicy } = {}) => {
     if (!sameSet(confidential.addToBaseline, c8)) {
       fail('newClientBaseline confidential clients must gain exactly the C8 scopes');
     }
+    // Platform's apply_new_client_baseline adds these only when the baseline held legacy content
+    // read, and only when it covers every public reflection route. Both must stay true.
+    for (const flag of [
+      'addOnlyIfBaselineHeldLegacyContentRead',
+      'addReflectionSuccessorOnlyIfBaselineCoversAllPublicReflectionRoutes',
+    ]) {
+      if (confidential[flag] !== true) {
+        fail(`newClientBaseline confidential clients must set ${flag} to true (Platform enforces it)`);
+      }
+    }
     if (!sameSet(publicKind.removeFromBaseline, [...legacyContentScopes, ...granularScopes])) {
       fail('newClientBaseline public clients must lose every legacy and granular Content scope');
     }

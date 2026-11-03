@@ -129,6 +129,12 @@ A token carrying this scope reads public posts and public comments only. It must
 posts, my-posts, private rooms, user-specific feeds, mutations or moderation, and upstream
 visibility filtering stays mandatory even on a public path.
 
+**Testing-only QuranReflect routes (not opened).** Testing now serves three further public
+QuranReflect routes: `GET /v1/posts/:id/related`, `GET /v1/posts/:id/re-reflections` and
+`GET /v1/posts/count-by-verse/:verseId`. They stay legacy-only for now and are **not** opened to
+`content.reflections.read`; the scope still covers exactly the five routes above. Changing that
+needs a product decision and a contract revision (new policy and contract hashes).
+
 **Approval gate.** QuranReflect/security owner approves the prerequisite and the downstream
 public-only behavior.
 
