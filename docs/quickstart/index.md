@@ -46,7 +46,7 @@ If your app's approved permissions in Developer Console list granular Content sc
 **Outcome:** A working `/chapters` request with the correct auth flow, headers, and environment URLs.
 :::
 
-:::warning Prelive Content API limitation
+:::note Prelive Content API limitation
 The prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.
 :::
 

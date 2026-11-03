@@ -405,6 +405,8 @@ word_fields=code_v2,text_qpc_hafs,page_number,line_number
 
 **Reference Implementation:** `src/components/QuranReader/ReadingView/groupLinesByVerses.ts`
 
+**Surah Headings:** The word data has no lines for surah names or the bismillah; in 15-line Mushafs the empty `line_number` slots are where they go. See [Surah Headings and Bismillah](/docs/tutorials/fonts/font-rendering#surah-headings-and-bismillah).
+
 #### Translation View (Verse-by-Verse)
 
 Renders verses directly without line grouping.
