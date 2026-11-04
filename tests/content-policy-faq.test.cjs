@@ -228,7 +228,7 @@ test('omits source-specific licensing caveats while preserving source attributio
   assert.doesNotMatch(developerTerms, /additional restrictions/i);
   assert.match(
     normalize(connectedApps),
-    /Charging for an app, displaying ads, or accepting donations can be permitted under the Developer Terms\./,
+    /Charging for an app, displaying ads, or accepting donations can be permitted under the Quran Foundation Developer Terms of Service\./,
   );
 
   assert.match(
