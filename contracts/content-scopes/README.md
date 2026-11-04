@@ -4,11 +4,13 @@ Canonical, versioned home of the content scope split. Every consumer — API gat
 Admin Dashboard, Developer Console, JS SDK, Python SDK, and the OpenAPI documents in this repo —
 pins one approved version of this contract instead of hard-coding scope strings.
 
-**Nothing here is deployed policy.** `v1.json` carries `"status": "proposed-pending-approval"`.
-Decisions D1–D6 in [`decisions.md`](./decisions.md) are all open, and consumers must refuse to
-activate issuance or enforcement while the status reads that value. The one exception is the
-allowlist of controlled internal test identities in D1 (plan C7 stage 1); no v1 scope is issued to
-integrators yet.
+**Approved.** `v1.json` carries `"status": "approved"`. Decisions D1–D6 in
+[`decisions.md`](./decisions.md) are approved, dated 2026-11-04, and each consumer re-pins to the
+approved contract hash in its own follow-up change. This repository deploys nothing by itself:
+Platform grants the scopes, the gateway enforces them, and the new-client baseline (D5) also waits
+for Platform's `QF_CONTENT_SCOPES_V1_NEW_CLIENT_POLICY` flag. The issuance gate in D1 stays in
+Platform, together with its allowlist of controlled internal test identities (plan C7 stage 1), and
+refuses granular grants under any contract whose status is not `approved`.
 
 ## Files
 
@@ -20,8 +22,8 @@ integrators yet.
 | `v1.sha256` | Canonical contract hash for consumers to record. |
 | `v1.schema.json` | Schema `v1.json` is validated against in this repository's tests. Consumers vendor `v1.json` only and check the fields they use in their own tests. |
 | `provenance.json` | All 208 rows with an explicit disposition: mapped, mapped-with-approved-override, or regression-inventory-not-migrated. |
-| `decisions.md` | D1–D6 record. Currently all open. |
-| `route-reconciliation.md` | Disposition for every difference between the live Rails v4 route surface and the contract. Records one open decision that blocks D5. |
+| `decisions.md` | D1–D6 record. All approved, with the policy and contract hashes each approval applies to. |
+| `route-reconciliation.md` | Disposition for every difference between the live Rails v4 route surface and the contract, plus its pre-existing open follow-ups (origin trust boundary, a `rails routes` re-run). |
 
 ## Regenerating
 
@@ -76,7 +78,8 @@ and quota settings.
 
 ## Downstream templates (T12)
 
-Assessed, no change required now.
+Assessed. No change is required for credentials that hold `content`; the follow-through for
+granular-only credentials is listed below.
 
 `quran/qf-starter-kit` reads its authorization-code scopes from a `SCOPES` environment variable
 defaulting to a user-scope list that contains no content scope, and makes its content calls through
@@ -85,11 +88,10 @@ defaulting to a user-scope list that contains no content scope, and makes its co
 unchanged for credentials issued today. It pins `@quranjs/api` at `^3.2.0`.
 
 A generated app would need two things to work with granular-only credentials: `contentScopeMode:
-"granular"` and an `@quranjs/api` release that supports it. That release is not published yet, so
-changing the starter now would pin it to a version that does not exist. The follow-through is
-therefore sequenced after the SDK release, per T12's dependency on T09/T10:
+"granular"` and an `@quranjs/api` release that supports it. That release is published as
+`@quranjs/api` 3.17.0. The follow-through is sequenced after it, per T12's dependency on T09/T10:
 
-1. Publish the SDK minor release carrying `contentScopeMode`.
+1. Publish the SDK minor release carrying `contentScopeMode` (done: 3.17.0).
 2. Update the human-maintained starter first, then synchronize `quran/quranjs-create-app` through
    the documented release workflow — do not hand-edit the generated copies.
 3. Smoke-test a freshly generated app with both a migrated client and a granular-only client, and

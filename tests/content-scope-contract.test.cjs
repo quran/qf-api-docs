@@ -426,8 +426,9 @@ test('environments come from the sheet, never from a branch name', () => {
   }
 });
 
-test('contract stays inert until the decisions are approved', () => {
-  assert.equal(contract.status, 'proposed-pending-approval');
+test('contract is approved, and decisions.md records every approval against its hashes', () => {
+  assert.equal(contract.status, 'approved');
+  assert.match(contract.statusNote, /^Approved\./u);
   assert.equal(contract.responseBoundary.requiresDecision, 'D4');
   assert.equal(contract.migration.reflectionsRule.requiresDecision, 'D3');
   assert.equal(contract.newClientBaseline.requiresDecision, 'D5');
@@ -435,6 +436,17 @@ test('contract stays inert until the decisions are approved', () => {
   const decisions = fs.readFileSync(path.join(contractDir, 'decisions.md'), 'utf8');
   for (const id of ['D1', 'D2', 'D3', 'D4', 'D5', 'D6']) {
     assert.ok(decisions.includes(`## ${id} `), `decisions.md must carry a ${id} section`);
+  }
+  assert.doesNotMatch(decisions, /\| _open_ \|/u, 'no decision may still read open');
+  const approvals = decisions
+    .split('\n')
+    .filter((line) => /\| \*\*approved\*\*, on merge of this PR \|/u.test(line));
+  assert.equal(approvals.length, 6, 'D1 to D6 each need one approved row');
+  const contractSha256 = fs.readFileSync(path.join(contractDir, 'v1.sha256'), 'utf8').split(/\s+/u)[0];
+  for (const row of approvals) {
+    assert.ok(row.includes('| 2026-11-04 |'), row);
+    assert.ok(row.includes(`\`${contract.inputs.policy.sha256}\``), 'approval must cite the policy hash');
+    assert.ok(row.includes(`\`${contractSha256}\``), 'approval must cite the contract hash');
   }
 });
 

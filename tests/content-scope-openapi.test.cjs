@@ -53,7 +53,7 @@ test('every content operation carries scope metadata pinned to the contract', ()
     const meta = operation[EXTENSION];
     assert.equal(meta.contractVersion, 'content-scopes/v1', `${method} ${pathKey}`);
     assert.equal(meta.contractSha256, contractHash, `${method} ${pathKey}`);
-    assert.equal(meta.contractStatus, 'proposed-pending-approval', `${method} ${pathKey}`);
+    assert.equal(meta.contractStatus, 'approved', `${method} ${pathKey}`);
   }
 });
 
@@ -237,7 +237,8 @@ test('generated metadata is idempotent and detectable when stale', () => {
 
 test('documentation states the scopes are not yet issued', () => {
   assert.match(scopesDoc, /Not yet available/iu);
-  assert.match(scopesDoc, /proposal under review/iu);
+  assert.match(scopesDoc, /scopes below are \*\*approved\*\*\. They are not issued to\s+integrators yet/u);
+  assert.doesNotMatch(scopesDoc, /proposal under review/iu);
   assert.match(scopesDoc, /`content` is the scope to request today/u);
 });
 
