@@ -651,11 +651,20 @@ const build = ({ policy: injectedPolicy } = {}) => {
     fail('granularIssuance must keep allowlisted test grants provisional and revocable');
   }
 
+  // ---- status (decisions.md) ---------------------------------------------------------
+  // The note travels with the status in policy.json, so flipping one without the other is a
+  // reviewed policy edit rather than a stale string left behind in the generator.
+  if (!['proposed-pending-approval', 'approved'].includes(policy.status)) {
+    fail('policy status must be proposed-pending-approval or approved');
+  }
+  if (!isNonEmptyString(policy.statusNote)) {
+    fail('policy must carry a statusNote describing its status');
+  }
+
   const contract = {
     contractVersion: policy.contractVersion,
     status: policy.status,
-    statusNote:
-      'Proposed. D1-D5 must be approved and recorded in decisions.md before any token carrying these scopes is issued to an integrator. Until then only allowlisted internal test identities may hold them (granularIssuance, C7 stage 1). See Appendix A callout.',
+    statusNote: policy.statusNote,
     generatedBy: 'scripts/build-content-scope-contract.cjs',
     inputs: {
       sourceSnapshot: {

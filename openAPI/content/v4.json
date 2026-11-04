@@ -227,8 +227,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.audio-reciter-timestamp",
           "service": "content",
           "anyOf": [
@@ -503,8 +503,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.audio-reciter-lookup",
           "service": "content",
           "anyOf": [
@@ -777,8 +777,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-chapters",
           "service": "content",
           "anyOf": [
@@ -1014,8 +1014,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.GET-chapter",
           "service": "content",
           "anyOf": [
@@ -1286,8 +1286,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-chapter-info",
           "service": "content",
           "anyOf": [
@@ -1516,8 +1516,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.hadith-references-by-ayah",
           "service": "content",
           "anyOf": [
@@ -1848,8 +1848,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.hadiths-by-ayah",
           "service": "content",
           "anyOf": [
@@ -2009,8 +2009,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.hadith-count-within-range",
           "service": "content",
           "anyOf": [
@@ -2206,8 +2206,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-pages",
           "service": "content",
           "anyOf": [
@@ -2490,8 +2490,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-pages-lookup",
           "service": "content",
           "anyOf": [
@@ -2665,8 +2665,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-pages-page-number",
           "service": "content",
           "anyOf": [
@@ -3077,8 +3077,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_chapter_number",
           "service": "content",
           "anyOf": [
@@ -3496,8 +3496,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_page_number",
           "service": "content",
           "anyOf": [
@@ -3907,8 +3907,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_juz_number",
           "service": "content",
           "anyOf": [
@@ -4319,8 +4319,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_hizb_number",
           "service": "content",
           "anyOf": [
@@ -4711,8 +4711,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_rub_el_hizb_number",
           "service": "content",
           "anyOf": [
@@ -5125,8 +5125,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_manzil_number",
           "service": "content",
           "anyOf": [
@@ -5953,8 +5953,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_ruku_number",
           "service": "content",
           "anyOf": [
@@ -6372,8 +6372,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_range",
           "service": "content",
           "anyOf": [
@@ -6732,8 +6732,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_verse_key",
           "service": "content",
           "anyOf": [
@@ -7152,8 +7152,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.random_verse",
           "service": "content",
           "anyOf": [
@@ -7333,8 +7333,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-juzs",
           "service": "content",
           "anyOf": [
@@ -7654,8 +7654,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.quran-verses-by-script",
           "service": "content",
           "anyOf": [
@@ -7942,8 +7942,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.QURAN-verses-indopak",
           "service": "content",
           "anyOf": [
@@ -8230,8 +8230,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.QURAN-verses-indopak-nastaleeq",
           "service": "content",
           "anyOf": [
@@ -8518,8 +8518,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.QURAN-verses-uthmani-tajweed",
           "service": "content",
           "anyOf": [
@@ -8806,8 +8806,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.QURAN-verses-uthmani",
           "service": "content",
           "anyOf": [
@@ -9094,8 +9094,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.QURAN-verses-uthmani_simple",
           "service": "content",
           "anyOf": [
@@ -9382,8 +9382,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.QURAN-verses-Imlaei",
           "service": "content",
           "anyOf": [
@@ -9587,8 +9587,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.recitations",
           "service": "content",
           "anyOf": [
@@ -9906,8 +9906,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.recitation-audio-files",
           "service": "content",
           "anyOf": [
@@ -10273,8 +10273,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.translation",
           "service": "content",
           "anyOf": [
@@ -10460,8 +10460,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.chapter-reciters",
           "service": "content",
           "anyOf": [
@@ -10880,8 +10880,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.tafsir",
           "service": "content",
           "anyOf": [
@@ -11152,8 +11152,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.QURAN-verses-code_v1",
           "service": "content",
           "anyOf": [
@@ -11424,8 +11424,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.QURAN-verses-code_v2",
           "service": "content",
           "anyOf": [
@@ -11670,8 +11670,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-surah-recitation",
           "service": "content",
           "anyOf": [
@@ -11902,8 +11902,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-juz-recitation",
           "service": "content",
           "anyOf": [
@@ -12134,8 +12134,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-page-recitation",
           "service": "content",
           "anyOf": [
@@ -12366,8 +12366,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-rub-el-hizb-recitation",
           "service": "content",
           "anyOf": [
@@ -12598,8 +12598,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-hizb-recitation",
           "service": "content",
           "anyOf": [
@@ -12829,8 +12829,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-ayah-recitation",
           "service": "content",
           "anyOf": [
@@ -13009,8 +13009,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.recitation-info",
           "service": "content",
           "anyOf": [
@@ -13188,8 +13188,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.translation-info",
           "service": "content",
           "anyOf": [
@@ -13402,8 +13402,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.translations",
           "service": "content",
           "anyOf": [
@@ -13617,8 +13617,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.tafsirs",
           "service": "content",
           "anyOf": [
@@ -13799,8 +13799,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.tafsir-info",
           "service": "content",
           "anyOf": [
@@ -13975,8 +13975,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.recitation-styles",
           "service": "content",
           "anyOf": [
@@ -14178,8 +14178,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.languages",
           "service": "content",
           "anyOf": [
@@ -14408,8 +14408,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.chapter-info",
           "service": "content",
           "anyOf": [
@@ -14637,8 +14637,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verse-media",
           "service": "content",
           "anyOf": [
@@ -14861,8 +14861,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-manzil-recitation",
           "service": "content",
           "anyOf": [
@@ -15085,8 +15085,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-ruku-recitation",
           "service": "content",
           "anyOf": [
@@ -15341,8 +15341,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-surah-translations",
           "service": "content",
           "anyOf": [
@@ -15602,8 +15602,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-page-translations",
           "service": "content",
           "anyOf": [
@@ -15863,8 +15863,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-juz-translations",
           "service": "content",
           "anyOf": [
@@ -16124,8 +16124,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-rub-el-hizb-translations",
           "service": "content",
           "anyOf": [
@@ -16385,8 +16385,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-hizb-translations",
           "service": "content",
           "anyOf": [
@@ -16646,8 +16646,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-manzil-translations",
           "service": "content",
           "anyOf": [
@@ -16907,8 +16907,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-ruku-translations",
           "service": "content",
           "anyOf": [
@@ -17152,8 +17152,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-ayah-translations",
           "service": "content",
           "anyOf": [
@@ -17406,8 +17406,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-surah-tafsirs",
           "service": "content",
           "anyOf": [
@@ -17663,8 +17663,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-page-tafsirs",
           "service": "content",
           "anyOf": [
@@ -17920,8 +17920,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-juz-tafsirs",
           "service": "content",
           "anyOf": [
@@ -18177,8 +18177,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-rub-el-hizb-tafsirs",
           "service": "content",
           "anyOf": [
@@ -18434,8 +18434,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-hizb-tafsirs",
           "service": "content",
           "anyOf": [
@@ -18691,8 +18691,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-manzil-tafsirs",
           "service": "content",
           "anyOf": [
@@ -18948,8 +18948,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-ruku-tafsirs",
           "service": "content",
           "anyOf": [
@@ -19228,8 +19228,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-ayah-tafsirs",
           "service": "content",
           "anyOf": [
@@ -19412,8 +19412,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-juz",
           "service": "content",
           "anyOf": [
@@ -19585,8 +19585,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-hizbs",
           "service": "content",
           "anyOf": [
@@ -19763,8 +19763,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-hizb",
           "service": "content",
           "anyOf": [
@@ -19934,8 +19934,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-rub-el-hizbs",
           "service": "content",
           "anyOf": [
@@ -20110,8 +20110,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-rub-el-hizb",
           "service": "content",
           "anyOf": [
@@ -20281,8 +20281,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-rukus",
           "service": "content",
           "anyOf": [
@@ -20457,8 +20457,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-ruku",
           "service": "content",
           "anyOf": [
@@ -20628,8 +20628,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-manzils",
           "service": "content",
           "anyOf": [
@@ -20804,8 +20804,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-manzil",
           "service": "content",
           "anyOf": [
@@ -20972,8 +20972,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-foot-note",
           "service": "content",
           "anyOf": [
@@ -21311,8 +21311,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "quran-reflect.v1.public.PostsController_feed",
           "service": "quran-reflect",
           "anyOf": [
@@ -21416,8 +21416,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "quran-reflect.v1.public.PostsController_findOne",
           "service": "quran-reflect",
           "anyOf": [
@@ -21574,8 +21574,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "quran-reflect.v1.public.PostsController_getUserPost",
           "service": "quran-reflect",
           "anyOf": [
@@ -21736,8 +21736,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "quran-reflect.v1.public.PostsController_getComments",
           "service": "quran-reflect",
           "anyOf": [
@@ -21869,8 +21869,8 @@
         ],
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "quran-reflect.v1.public.PostsController_getAllComment",
           "service": "quran-reflect",
           "anyOf": [
@@ -22023,8 +22023,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.chapter-reciter-audio-files",
           "service": "content",
           "anyOf": [
@@ -22372,8 +22372,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.chapter-reciter-audio-file",
           "service": "content",
           "anyOf": [
@@ -22712,8 +22712,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.verses-by_rub_el_hizb_number-rub-el-hizb",
           "service": "content",
           "anyOf": [
@@ -22921,8 +22921,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-rub-el-hizb-translations-rub",
           "service": "content",
           "anyOf": [
@@ -23126,8 +23126,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-rub-el-hizb-tafsirs-rub",
           "service": "content",
           "anyOf": [
@@ -23306,8 +23306,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-rub-el-hizb-recitation-rub-el-hizb",
           "service": "content",
           "anyOf": [
@@ -23507,8 +23507,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.list-ayah-answers",
           "service": "content",
           "anyOf": [
@@ -23634,8 +23634,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.get-answer-by-id",
           "service": "content",
           "anyOf": [
@@ -23799,8 +23799,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.count-answers-within-range",
           "service": "content",
           "anyOf": [
@@ -24139,8 +24139,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.resources-sync",
           "service": "content",
           "anyOf": [
@@ -24625,8 +24625,8 @@
         },
         "x-qf-scopes": {
           "contractVersion": "content-scopes/v1",
-          "contractSha256": "17aab2c6b1f8638b62aa68d9efd8d2b0881bde0e077f980742781e16b1c86281",
-          "contractStatus": "proposed-pending-approval",
+          "contractSha256": "0bba34fad8ac4ecc6d782eff14ae8f5cf50bac1784c832d5d1eb7d7f8be0ed36",
+          "contractStatus": "approved",
           "routeId": "content.v4.resources-snapshot",
           "service": "content",
           "anyOf": [

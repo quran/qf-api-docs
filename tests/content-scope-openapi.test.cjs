@@ -53,7 +53,7 @@ test('every content operation carries scope metadata pinned to the contract', ()
     const meta = operation[EXTENSION];
     assert.equal(meta.contractVersion, 'content-scopes/v1', `${method} ${pathKey}`);
     assert.equal(meta.contractSha256, contractHash, `${method} ${pathKey}`);
-    assert.equal(meta.contractStatus, 'proposed-pending-approval', `${method} ${pathKey}`);
+    assert.equal(meta.contractStatus, 'approved', `${method} ${pathKey}`);
   }
 });
 

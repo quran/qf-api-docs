@@ -6,10 +6,11 @@
     "The generator never infers policy from the spreadsheet's 'API Family' or 'Proposed scope' columns alone."
   ],
   "contractVersion": "content-scopes/v1",
-  "status": "proposed-pending-approval",
+  "status": "approved",
+  "statusNote": "Approved. Decisions D1-D6 are recorded as approved in decisions.md, dated 2026-11-04, approved on merge of the pull request that set this status. Platform may now grant the granular scopes to integrator clients that can mint an application token (granularIssuance). The new-client baseline (D5) also requires Platform's QF_CONTENT_SCOPES_V1_NEW_CLIENT_POLICY flag; while that flag is off, new clients receive the legacy baseline unchanged. Existing clients keep every scope they hold. Consumers re-pin to this contract's sha256.",
 
   "scopeMap": {
-    "$comment": "D1. Column F labels are DISPLAY labels; these are the proposed machine names.",
+    "$comment": "D1 (approved 2026-11-04). Column F labels are DISPLAY labels; these are the approved machine names.",
     "Audio scope": "content.audio.read",
     "Quran Scope": "content.quran.read",
     "Hadith Scope": "content.hadith.read",
@@ -35,10 +36,10 @@
 
   "labelOverrides": {
     "$comment": [
-      "D2. Proposed corrections to sheet rows 47 and 48, which carry 'Quran Scope' in column F",
+      "D2 (approved 2026-11-04). Corrections to sheet rows 47 and 48, which carry 'Quran Scope' in column F",
       "but address translation and tafsir resources respectively.",
       "The original column F value is preserved in each operation's sheetLabelOriginal field.",
-      "These overrides are inert until D2 is approved: see decisions.md.",
+      "D2 is approved, so these overrides are active: see decisions.md.",
       "An agent must NOT edit the source spreadsheet."
     ],
     "47": {
@@ -312,8 +313,9 @@
       "takes the public branch. Mirrors quran/qf-platform-api src/content_scopes.rs ::",
       "apply_new_client_baseline. Revalidate on the implementation branch before activation.",
       "",
-      "Inactive until the contract status is 'approved' AND Platform's new-client policy flag is",
-      "switched on. Until then every new client receives the legacy baseline unchanged."
+      "Active only when the contract status is 'approved' AND Platform's new-client policy flag is",
+      "switched on. The status is 'approved' (2026-11-04), so the flag is the remaining switch: while",
+      "it is off, every new client receives the legacy baseline unchanged."
     ],
     "activation": {
       "requiresContractStatus": "approved",
@@ -364,15 +366,18 @@
 
   "granularIssuance": {
     "$comment": [
-      "D1 and plan C7 stage 1. While the contract status is not 'approved', no granular scope may be",
-      "newly granted to any client on any path (new-client baseline, scope requests, manual and",
-      "automated approvals, Hydra synchronization), except to an explicit allowlist of controlled",
-      "internal test identities. The allowlist is operator configuration in Platform and never",
-      "includes an integrator's client. Grants to those identities are provisional: their tokens do",
-      "not make a scope name permanent, and if D1 renames or drops a scope, every grant of the old",
-      "name to them is revoked. Independently of status, a granular scope is never newly granted to",
-      "a client that cannot mint an application token. Outside those test grants, this gate never",
-      "revokes a scope a client already holds. Enforced by quran/qf-platform-api."
+      "D1 and plan C7 stage 1. The contract status is 'approved' (2026-11-04), so this gate now lets",
+      "Platform grant granular scopes to integrator clients on every path (new-client baseline,",
+      "scope requests, manual and automated approvals, Hydra synchronization); the new-client",
+      "baseline additionally waits for Platform's new-client policy flag (D5). The gate itself stays",
+      "in Platform: for any contract whose status is not 'approved', no granular scope may be newly",
+      "granted to any client, except to an explicit allowlist of controlled internal test",
+      "identities. The allowlist remains operator configuration in Platform and never includes an",
+      "integrator's client. Grants to those identities are provisional: their tokens do not make a",
+      "scope name permanent, and if a later contract revision renames or drops a scope, every grant",
+      "of the old name to them is revoked. Independently of status, a granular scope is never newly",
+      "granted to a client that cannot mint an application token. Outside those test grants, this",
+      "gate never revokes a scope a client already holds. Enforced by quran/qf-platform-api."
     ],
     "requiresContractStatus": "approved",
     "beforeApproval": "refuse-except-allowlisted-test-clients",
