@@ -235,10 +235,12 @@ test('generated metadata is idempotent and detectable when stale', () => {
   assert.deepEqual(first, contentApi, 'committed document is stale: re-run the metadata script');
 });
 
-test('documentation states the scopes are not yet issued', () => {
-  assert.match(scopesDoc, /Not yet available/iu);
-  assert.match(scopesDoc, /proposal under review/iu);
-  assert.match(scopesDoc, /`content` is the scope to request today/u);
+test('documentation describes the approved scopes as issued, with no pending callout', () => {
+  assert.doesNotMatch(scopesDoc, /Not yet available/iu);
+  assert.doesNotMatch(scopesDoc, /proposal under review/iu);
+  assert.doesNotMatch(scopesDoc, /not issued to\s+integrators yet/iu);
+  assert.match(scopesDoc, /`content` keeps working for every client that already holds it/u);
+  assert.match(scopesDoc, /It is no longer issued to new\s+clients/u);
 });
 
 test('documentation lists all nine scopes', () => {
@@ -294,11 +296,12 @@ test('documentation explains why the scopes live in an extension', () => {
 
 test('documentation splits guidance between existing and new credentials', () => {
   assert.match(scopesDoc, /### If you already have credentials/u);
-  assert.match(scopesDoc, /### New credentials, once granular scopes are issued/u);
+  assert.match(scopesDoc, /### New credentials\n/u);
   assert.match(scopesDoc, /New backend \(confidential\) client/u);
   assert.match(scopesDoc, /New browser or mobile \(public\) client\*\*, or any client without\s+`client_credentials`: no\s+Content scope at all/u);
-  assert.match(scopesDoc, /not issued to\s+integrators yet/u);
-  assert.match(scopesDoc, /a new client is set up\s+exactly as today and requests `content`/u);
+  assert.match(scopesDoc, /A \*\*new\*\* client no longer receives `content`/u);
+  assert.match(scopesDoc, /`@quranjs\/api` 3\.17\.0 or later/u);
+  assert.match(scopesDoc, /contentScopeMode: "granular"/u);
 });
 
 test('documentation states the app-token rule for backends that sign users in', () => {
@@ -310,7 +313,9 @@ test('quickstart pages carry the same existing/new credential split', () => {
   for (const page of ['index.md', 'manual-authentication.md']) {
     const doc = fs.readFileSync(path.join(repoRoot, 'docs/quickstart', page), 'utf8');
     assert.match(doc, /Which Content scope to request/u, page);
-    assert.match(doc, /Request `scope=content` today/u, page);
+    assert.match(doc, /\*\*Credentials that hold `content`\*\* keep requesting `scope=content`/u, page);
+    assert.match(doc, /scope=content\.quran\.read/u, page);
+    assert.doesNotMatch(doc, /Until that change is announced|once announced/u, page);
     assert.match(doc, /new \*\*Frontend or mobile app\*\* gets no Content scope/u, page);
   }
   for (const page of ['first-api-call.md', 'migration.md', 'token-management.md']) {
