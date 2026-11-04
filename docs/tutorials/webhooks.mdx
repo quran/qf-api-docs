@@ -62,6 +62,10 @@ The `data.environment` field in each event names the environment.
 - Make deletion idempotent: receiving the same event again, or an event for a user you have already removed, should succeed without error.
 - Respond quickly, then do the deletion work in the background (see [Delivery and retries](#delivery-and-retries)).
 
+**Account merges.** When a user merges two Quran Foundation accounts, the account that is merged away is deleted, and `user.deleted` is sent for its `sub`. The same person may continue to use your app under a different `sub`. Delete the data keyed to the old `sub`, and treat the other `sub` as a separate user.
+
+**Revoked access.** A user who disconnects your app (revokes its authorization) before deleting their account is no longer in the audience, so your app is not notified when the account is later deleted. Treat a revoked authorization, or a refresh token that stops working, as the end of your relationship with that user, and apply your own data retention rules from that point.
+
 The [Developer Privacy Policy Requirements](/legal/developer-privacy/) ask your privacy policy to state that a user's associated data in your app is deleted when they delete their main Quran Foundation account. The `user.deleted` webhook tells your app when that happens, under the conditions [above](#who-receives-user-deleted).
 
 ## Set up an endpoint in Developer Console
@@ -77,6 +81,12 @@ Webhooks are configured per app and per environment in [Developer Console](https
 7. Repeat for the other environment when you are ready. Each environment gets its own secret.
 
 You can rotate the signing secret later from the same place. The new secret is also shown only once. If you delete an endpoint, its secret is deleted with it.
+
+### Disabled endpoints and app ownership transfers
+
+Events are only delivered to an endpoint that is enabled and subscribed to the event type. If an endpoint is disabled, deleted, or no longer subscribed to an event, or the app is no longer active, pending deliveries to it are dropped. They are not queued, and they are not sent later when the endpoint is enabled again.
+
+Transferring an app to a new owner deletes all of the app's webhook endpoints and their signing secrets, in both environments. The previous owner chose those URLs and knows those secrets, so the new owner must add a new endpoint and store the new secret. Deliveries that were still pending for the deleted endpoints are dropped.
 
 ### Endpoint URL requirements
 
@@ -106,7 +116,7 @@ webhook-signature: v1,K5oZfzN95Z9UVu1EsfQmfVNQhnkZ2pj9o9NDN/H/pI4=
 
 | Header | Description |
 | --- | --- |
-| `webhook-id` | Unique message ID in the form `msg_` followed by a UUID. It stays the same across retries of the same message. Use it to detect duplicates. |
+| `webhook-id` | Message ID in the form `msg_` followed by an ID for the event. It is the same on every retry and on every endpoint that receives the event. Use it to detect duplicates. |
 | `webhook-timestamp` | Unix time in seconds when this delivery attempt was signed. Each retry is signed again. |
 | `webhook-signature` | A space-separated list of signatures, each in the form `v1,` followed by a base64 signature. Accept the request if any `v1` signature matches. |
 
@@ -341,7 +351,7 @@ If your endpoint rejects a delivery because it still has the old secret, that de
 
 ### 1. Send a test event
 
-After saving your endpoint, send a test event from Developer Console. Quran Foundation sends one signed `webhook.test` event to the saved URL and shows whether it was delivered, the HTTP status code your endpoint returned, how long it took, and the reason for a failure. A test event is sent once and is not retried. You can send a test event for an endpoint at most once every 10 seconds.
+After saving your endpoint, send a test event from Developer Console. Quran Foundation sends one signed `webhook.test` event to the saved URL and shows whether it was delivered, the HTTP status code your endpoint returned, how long it took, and the reason for a failure. A test event is sent once and is not retried. You can send a test event at most once every 10 seconds for each app and environment. Deleting and recreating the endpoint does not reset this limit.
 
 Use the test event to confirm that your endpoint is reachable, that signature verification passes with your secret, and that you respond with `2xx` within 10 seconds.
 
@@ -368,5 +378,5 @@ The user must still have an active authorization for your app when the account i
 | Test shows a timeout | Your endpoint took longer than 10 seconds to respond. | Respond after verifying and queueing. Do the deletion work in the background. |
 | Test cannot connect or the destination is blocked | The host is not publicly reachable, resolves to a private address, or the URL breaks the [URL requirements](#endpoint-url-requirements). | Use a public HTTPS host. For local development, use a tunnel with a public HTTPS host name. |
 | Test returns a non-2xx status | Your handler rejected the request, for example a `3xx` redirect, `401`, `404`, or `500`. | Register the final URL, remove authentication in front of the route (the signature authenticates Quran Foundation), and check your handler logs. |
-| No `user.deleted` arrives | The endpoint is disabled, not subscribed to `user.deleted`, or configured in the other environment; the app is not active; or the user had no active authorization for your app when the account was deleted. | Check the endpoint in Developer Console for the matching environment and repeat the [prelive check](#prelive-end-to-end-check). |
+| No `user.deleted` arrives | The endpoint is disabled, not subscribed to `user.deleted`, configured in the other environment, or was deleted by an app ownership transfer; the app is not active; or the user had no active authorization for your app when the account was deleted. | Check the endpoint in Developer Console for the matching environment and repeat the [prelive check](#prelive-end-to-end-check). |
 | The same event is processed twice | Retries and at-least-once delivery. | Deduplicate on `webhook-id` and make deletion idempotent. |
