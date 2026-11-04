@@ -84,24 +84,26 @@ Production clients should keep using the direct collection endpoints until `/v1/
 
 ### lastMutationAt
 
-A Unix timestamp (milliseconds) tracking the most recent mutation for a user. This is your sync cursor.
+`lastMutationAt` is the user's **sync head**: a server-assigned Unix timestamp in milliseconds for the most recent mutation, including virtual resources such as the default Favorites collection.
 
-- **Stored locally** — Your app saves this after each successful sync
-- **Sent with requests** — Include it to get only newer changes or validate your state
-- **Updated by server** — The server assigns timestamps, ensuring consistent ordering
+- **Authoritative on the server** — it is always assigned by the server; clients never invent it
+- **Stored locally** — persist the value returned by the latest `GET` or `POST`
+- **Sent as a precondition on push** — `POST /v1/sync` requires the current head and rejects a stale or different value with `409`
+
+`lastMutationAt` is **not** the pull cursor. Pull with `mutationsSince`, which is the timestamp of the last mutation your client has applied.
 
 ### First Sync Behavior
 
-When a user has never synced before (no `lastMutationAt` stored on the server):
+There is no "first sync" sentinel value. A brand-new user still gets a positive `lastMutationAt`, because the sync head includes virtual resources such as the default Favorites collection.
 
-| Scenario                        | Server Response               | Client Action                                     |
-| ------------------------------- | ----------------------------- | ------------------------------------------------- |
-| No sync history yet             | `lastMutationAt: -1`          | Store `-1`, treat as first-sync state             |
-| First mutation from this device | Send `lastMutationAt=-1`      | Server accepts, returns new timestamp             |
-| User already has sync history   | `lastMutationAt: <timestamp>` | Store timestamp, fetch mutations since `0` (or T) |
+| Scenario                        | Server Response                          | Client Action                                                         |
+| ------------------------------- | ---------------------------------------- | --------------------------------------------------------------------- |
+| No local state yet              | `lastMutationAt: <positive timestamp>`   | Store the head, pull with `mutationsSince=0`, push with the stored head |
+| First mutation from this device | Returns the new head                     | Store the returned `lastMutationAt`                                    |
+| Another device synced first     | `409 OutOfSyncError` on push             | Pull, replay local changes, push again with the new head               |
 
-:::warning First Sync Requirement
-For a user's very first mutation via `POST /v1/sync`, you **must** send `lastMutationAt=-1`. Any other value will be rejected.
+:::warning Do not send `-1`
+`POST /v1/sync` accepts only the head returned by the most recent `GET`, pull, or push. Sending `-1`, `0`, or a value captured before a pull returns `409 OutOfSyncError`.
 :::
 
 ## Quick Start: Your First Sync
@@ -109,33 +111,35 @@ For a user's very first mutation via `POST /v1/sync`, you **must** send `lastMut
 ```mermaid
 flowchart TD
     A[Start] --> B["GET /v1/sync?mutationsSince=0&metadataOnly=true"]
-    B --> C{lastMutationAt?}
-    C -->|"-1 (first-sync state)"| D["Store lastMutationAt = -1"]
-    C -->|"timestamp (existing user)"| E["GET /v1/sync?mutationsSince=0"]
-    E --> F["Apply mutations locally"]
-    F --> G["Store lastMutationAt"]
-    D --> H{User makes changes offline?}
-    G --> H
-    H -->|Yes| I["POST /v1/sync?lastMutationAt=-1 (first time)<br/>or lastMutationAt=T (later)<br/>with mutations array"]
-    I --> J["Update lastMutationAt from response"]
-    J --> K[Done]
-    H -->|No| K
+    B --> C["Store lastMutationAt (positive sync head)"]
+    C --> D{"Local changes to push?"}
+    D -->|No| E["GET /v1/sync?mutationsSince=0"]
+    E --> F["Apply mutations locally<br/>store the returned head"]
+    D -->|Yes| G["Pull first with mutationsSince=applied cursor"]
+    G --> F
+    F --> H["POST /v1/sync?lastMutationAt=current head<br/>with the mutations array"]
+    H --> I["Store the lastMutationAt from the response"]
+    I --> J[Done]
 ```
 
-### Step 1: Check Sync Status
+### Step 1: Read the Sync Head
 
-First, check if the user has any existing data using `metadataOnly=true`. This returns only `lastMutationAt` without fetching mutations. (You still need to pass `mutationsSince`, even when `metadataOnly=true`.)
+Call `GET /v1/sync` with `metadataOnly=true` to read the current head without fetching mutations. (You still need to pass `mutationsSince`, even when `metadataOnly=true`.)
 
-- `lastMutationAt: -1` means no sync history yet (first-sync state)
-- Any positive number means existing data exists
+- The response is always a positive `lastMutationAt`, including for a user with no history
+- Store it: it is the precondition for your next push
 
-### Step 2: Pull Existing Data
+### Step 2: Pull and Apply Mutations
 
-If the user has data (`lastMutationAt > -1`), fetch all mutations and apply them locally. Store the `lastMutationAt` value for future requests.
+Call `GET /v1/sync?mutationsSince=<cursor>` with `mutationsSince=0` for a full pull, and apply each mutation locally. Persist `lastMutationAt` only after the final page.
+
+For pagination, page 2 and later must send the `lastMutationAt` returned by page 1. If the head moves while you are paging, the request fails with `409` and the pull must restart from page 1 with the original cursor.
 
 ### Step 3: Push Local Changes
 
-When the user creates data offline, push mutations to the server using `POST /v1/sync?lastMutationAt=...`. Update your local `lastMutationAt` from the response.
+When the user creates data offline, send `POST /v1/sync?lastMutationAt=<current head>` with up to 100 mutations, using the head returned by the latest `GET`, pull, or push. Store the head returned by the response.
+
+If the push returns `409 OutOfSyncError`, another device wrote first: pull, replay the local changes on top, then push again with the new head.
 
 ### API References
 
@@ -163,6 +167,7 @@ For the full request/response schema, see:
 - `resources=BOOKMARK,COLLECTION` limits results to those resources
 - `limit` and `page` paginate results (max `limit` is 1000)
 - Continue fetching pages until `hasMore=false`
+- Page 2 and later must also send the `lastMutationAt` returned by page 1. A missing continuation head, or a head that changed between pages, returns `409` and the pull restarts from page 1.
 
 When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagination fields).
 
