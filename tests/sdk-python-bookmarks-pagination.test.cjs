@@ -17,20 +17,28 @@ const PYTHON_SDK_PAGES = [
   'docs/sdk/python/common-errors.mdx',
 ];
 
-test('/v1/bookmarks uses cursor pagination in the pinned specs', () => {
+test('/v1/bookmarks pages with cursors and requires mushafId', () => {
   for (const specPath of SPECS) {
     const spec = JSON.parse(read(specPath));
-    const parameterNames = spec.paths['/v1/bookmarks'].get.parameters.map(
-      (parameter) => parameter.name,
+    const byName = new Map(
+      spec.paths['/v1/bookmarks'].get.parameters.map((parameter) => [
+        parameter.name,
+        parameter,
+      ]),
     );
 
     assert.ok(
-      parameterNames.includes('first') && parameterNames.includes('after'),
+      byName.has('first') && byName.has('after'),
       `${specPath} should expose the first/after cursor parameters for /v1/bookmarks`,
     );
     assert.ok(
-      !parameterNames.includes('page'),
+      !byName.has('page'),
       `${specPath} does not accept a page parameter on /v1/bookmarks`,
+    );
+    assert.equal(
+      byName.get('mushafId')?.required,
+      true,
+      `${specPath} requires mushafId on /v1/bookmarks`,
     );
   }
 });
@@ -41,8 +49,8 @@ test('the Python SDK bookmark examples use the cursor parameter', () => {
 
     assert.match(
       content,
-      /user_request\("\/bookmarks", params=\{"first": 10\}\)/u,
-      `${page} should page bookmarks with first`,
+      /user_request\("\/bookmarks", params=\{"mushafId": 1, "first": 10\}\)/u,
+      `${page} should page bookmarks with the required mushafId and the first cursor`,
     );
     assert.doesNotMatch(
       content,
