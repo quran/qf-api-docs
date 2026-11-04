@@ -23,9 +23,6 @@ import { createServerClient } from "@quranjs/api/server";
 const client = createServerClient({
   clientId: process.env.QF_CLIENT_ID!,
   clientSecret: process.env.QF_CLIENT_SECRET!,
-  // New Backend/server apps hold granular Content scopes. Remove this line
-  // for credentials that hold `content`.
-  contentScopeMode: "granular",
 });
 
 const references = await client.content.v4.hadithReferences.byAyah("12:12");

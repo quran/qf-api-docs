@@ -33,21 +33,12 @@ const client = createServerClient({
     gatewayUrl: "https://apis-prelive.quran.foundation",
     oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
   },
-  // New Backend/server apps hold granular Content scopes. Remove this line
-  // for credentials that hold `content`.
-  contentScopeMode: "granular",
 });
 
 const chapters = await client.content.v4.chapters.list();
 ```
 
 The explicit service URLs keep a new Console app and its credentials in pre-live. After production permissions are granted, switch the credentials and both service URLs to production together.
-
-## Content Scopes
-
-`contentScopeMode: "granular"` needs `@quranjs/api` 3.17.0 or later. It makes each Content call request the granular scope it needs, such as `content.quran.read` for `chapters.list()`, instead of `content`. A new Backend/server app is issued the [granular Content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes) in place of `content`, so it needs this setting.
-
-Credentials that hold `content` remove the line and keep the default `contentScopeMode: "legacy"`, which requests `content` exactly as before. Do not switch them to granular mode unless they were also granted the granular scopes: the token endpoint rejects a scope your credentials were not granted with `invalid_scope`.
 
 ## Add Search After Permission
 

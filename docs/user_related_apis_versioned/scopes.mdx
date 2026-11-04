@@ -42,17 +42,19 @@ Requesting a scope that is not approved for your client can cause the authorizat
 | ------- | -------------------------------------------------------------------------------- |
 | content | Read Quran Foundation's non user-related content e.g. Tafsirs, Translations, etc |
 
-`content` keeps working for every client that already holds it. It is no longer issued to new
-clients: a new backend client receives the [granular content scopes](#granular-content-scopes)
-below in its place, and a new browser or mobile client receives no Content scope.
-
 ### Granular content scopes
 
-The `content` umbrella is split into nine narrower read scopes, so a new integration can ask for
-the Quran text without also gaining access to audio, hadith or public reflections. Which scopes a
-client holds depends on when and how it was set up: see
-[If you already have credentials](#if-you-already-have-credentials) and
-[New credentials](#new-credentials).
+:::info Not yet available
+
+The granular content scopes below are **approved**. They are not issued to
+integrators yet, and no date is set for issuing them. `content` is the scope to request today, for
+existing and new credentials alike. This section is published so integrators can see what is
+coming; nothing here changes an existing integration.
+
+:::
+
+The `content` umbrella is being split into nine narrower read scopes, so a new integration can ask
+for the Quran text without also gaining access to audio, hadith or public reflections.
 
 | Scope                       | Reads                                                                   |
 | --------------------------- | ----------------------------------------------------------------------- |
@@ -125,9 +127,11 @@ Nothing to do, and nothing to change.
 - Rate limits are unchanged. Your aggregate content allowance is not split per scope, and a request
   is not charged twice because a token carries both a legacy and a granular scope.
 
-### New credentials
+### New credentials, once granular scopes are issued
 
-A **new** client no longer receives `content`. What it receives depends on where its code runs:
+Until Quran Foundation announces that granular scopes are being issued, a new client is set up
+exactly as today and requests `content`. After the announcement, what a **new** client receives
+depends on where its code runs:
 
 - **New backend (confidential) client**: one that keeps a Client Secret on a server and has the
   `client_credentials` grant. In place of `content` it receives the eight read scopes
@@ -147,12 +151,8 @@ Check your SDK version before using new credentials:
 
 - An SDK that hard-codes a `content` scope request cannot work with credentials that were never
   granted `content`. Use a release that lets you choose the scopes, or set them explicitly.
-- JavaScript and TypeScript: use `@quranjs/api` 3.17.0 or later, and create the backend client with
-  `createServerClient` and `contentScopeMode: "granular"` so each call requests the scope it needs.
-  Earlier releases always request `content` and cannot use these credentials. Credentials that
-  hold `content` stay on the default `contentScopeMode`.
-- Python: `client_credentials()` takes an explicit `scope`, so pass the granular scopes you call.
-  Release 0.12.0 adds `quran_foundation.content_scopes` with constants for the nine names.
+- The minimum SDK versions will be published with the announcement. Until then, granular-only
+  credentials are not issued, so no integration is affected.
 
 Two different errors can follow a scope mistake:
 

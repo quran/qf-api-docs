@@ -16,7 +16,7 @@ What approval unblocks, and what still has its own switch:
 | Unblocked by approval | Still gated separately |
 | --- | --- |
 | Issuing tokens carrying a v1 scope to integrator clients that can mint an application token (D1) | The new-client baseline (D5): also needs Platform's `QF_CONTENT_SCOPES_V1_NEW_CLIENT_POLICY` flag |
-| Publishing the integrator docs for the granular scopes | Running the migration for existing clients (A6): an operator-run step per environment |
+| Consumers re-pinning to the approved hash, and then the migration for existing clients (A6), an operator-run step per environment | Publishing the integrator guidance for new credentials: released when production's new-client policy flag turns on, after the production migration (C7) |
 | SDK releases with an opt-in granular mode (D6) | Changing an SDK default: a deliberately versioned release with notes (D6) |
 
 `v1.json` carries `"status": "approved"`. Every consumer re-pins to the resulting contract hash in

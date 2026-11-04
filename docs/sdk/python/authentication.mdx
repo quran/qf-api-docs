@@ -23,39 +23,6 @@ user_client = QuranClient(
 )
 ```
 
-## Content App Token
-
-Request the app access token from trusted server-side code with `client_credentials()`. It always takes an explicit `scope`, and which scope to pass depends on your credentials. Check your app's approved permissions in Developer Console.
-
-A new Backend/server app is issued the [granular Content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes) in place of `content`. Request the ones you call. `content_scopes` (release 0.12.0 or later) has a constant for each of the nine names, and `scope_string()` builds the value:
-
-```python
-from quran_foundation import QuranClient, content_scopes
-from quran_foundation.oauth import client_credentials
-
-token = client_credentials(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-    scope=content_scopes.scope_string(
-        content_scopes.CONTENT_QURAN_READ,
-        content_scopes.CONTENT_TRANSLATIONS_READ,
-    ),
-)
-content_client = QuranClient(client_id="YOUR_CLIENT_ID", access_token=token["access_token"])
-```
-
-Credentials that hold `content` keep requesting it, with no change:
-
-```python
-token = client_credentials(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-    scope="content",
-)
-```
-
-Requesting a scope your credentials were not granted fails with `invalid_scope`, raised as `QuranAuthError`. The granular scopes authorize app tokens only: keep them out of the authorization-code login below, where a user token whose only matching scope is granular is refused for Content calls (403).
-
 ## OAuth2 Helpers
 
 Use OAuth helpers only from trusted server-side code. `exchange_code()` and `refresh_token()` use `client_secret`.

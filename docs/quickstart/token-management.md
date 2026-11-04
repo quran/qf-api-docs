@@ -48,7 +48,7 @@ return the new token
 
 This keeps your integration fast and avoids unnecessary token requests.
 
-The examples request `content.quran.read`, the [granular Content scope](/docs/user_related_apis_versioned/scopes#granular-content-scopes) a new Backend/server app requests for `/chapters`. Put the scopes your client's approved permissions list, space-separated, in the `scope` field; credentials that hold `content` request `content`. A cached token only carries the scopes it was requested with.
+The examples request `scope=content`, which is correct for credentials issued today. If your client's approved permissions list [granular Content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes) instead of `content`, put those, space-separated, in the `scope` field. A cached token only carries the scopes it was requested with.
 
 <details>
 <summary><b>Expand for Python and Node.js cache examples</b></summary>
@@ -110,7 +110,7 @@ class QfTokenCache:
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
                 data={
                     "grant_type": "client_credentials",
-                    "scope": "content.quran.read",
+                    "scope": "content",
                 },
                 timeout=30,
             )
@@ -161,7 +161,7 @@ async function fetchToken() {
     },
     body: new URLSearchParams({
       grant_type: "client_credentials",
-      scope: "content.quran.read",
+      scope: "content",
     }),
   });
 
