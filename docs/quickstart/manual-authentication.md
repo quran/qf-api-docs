@@ -44,15 +44,14 @@ The token is environment-specific. A prelive token will not work against product
 Request the access token from your backend with OAuth2 Client Credentials.
 
 :::note Which Content scope to request
-Request `scope=content` today. Credentials that already have `content` keep working, with no change, whatever kind of app they belong to.
+Request the Content scopes listed in your app's approved permissions in [Developer Console](https://dev-console.quran.foundation/projects):
 
-Quran Foundation plans to replace `content` with narrower read scopes, such as `content.quran.read`, for **new** credentials only. Until that change is announced, new apps still receive `content`. After it:
-
-- A new **Backend/server app** with the Client Credentials grant receives, in place of `content`, the eight granular read scopes `content.quran.read`, `content.translations.read`, `content.tafsirs.read`, `content.audio.read`, `content.hadith.read`, `content.metadata.read`, `content.sync.read` and `content.answers.read` (where its default permissions included `content`). It also receives `content.reflections.read` only where its defaults already cover the public QuranReflect post and comment reads. It requests the scopes it calls; asking for `content` returns `invalid_scope`.
+- **Credentials that hold `content`** keep requesting `scope=content`, with no change, whatever kind of app they belong to.
+- A new **Backend/server app** with the Client Credentials grant receives, in place of `content`, the eight granular read scopes `content.quran.read`, `content.translations.read`, `content.tafsirs.read`, `content.audio.read`, `content.hadith.read`, `content.metadata.read`, `content.sync.read` and `content.answers.read` (where its default permissions included `content`). It also receives `content.reflections.read` only where its defaults already cover the public QuranReflect post and comment reads. It requests the scopes it calls, space-separated, for example `scope=content.quran.read` for `/chapters`; asking for `content` returns `invalid_scope`.
 - A new **Backend/server app** without the Client Credentials grant gets no Content scope, like a frontend app. Add the grant, or call Content through a backend app that has it.
 - A new **Frontend or mobile app** gets no Content scope. It calls your own backend, which holds a Backend/server app's credentials, for Content.
 
-If your app's approved permissions in Developer Console list granular Content scopes rather than `content`, request those. See [granular content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes).
+The examples below request `content.quran.read`, the scope `/chapters` needs. If your credentials hold `content`, send `scope=content` instead. See [granular content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes).
 :::
 
 Request details:
@@ -61,14 +60,14 @@ Request details:
 - URL: `{authBaseUrl}/oauth2/token`
 - Auth: HTTP Basic with `client_id:client_secret`
 - Content-Type: `application/x-www-form-urlencoded`
-- Body: `grant_type=client_credentials&scope=content`
+- Body: `grant_type=client_credentials&scope=content.quran.read` (or `scope=content` for credentials that hold `content`)
 
 ```bash
 curl --request POST \
   --url https://prelive-oauth2.quran.foundation/oauth2/token \
   --user 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' \
   --header 'Content-Type: application/x-www-form-urlencoded' \
-  --data 'grant_type=client_credentials&scope=content'
+  --data 'grant_type=client_credentials&scope=content.quran.read'
 ```
 
 <details>
@@ -104,7 +103,7 @@ response = requests.post(
     headers={"Content-Type": "application/x-www-form-urlencoded"},
     data={
         "grant_type": "client_credentials",
-        "scope": "content",
+        "scope": "content.quran.read",
     },
     timeout=30,
 )
@@ -144,7 +143,7 @@ async function getToken() {
     },
     body: new URLSearchParams({
       grant_type: "client_credentials",
-      scope: "content",
+      scope: "content.quran.read",
     }),
   });
 
@@ -183,7 +182,7 @@ credentials = base64.b64encode(
 request = urllib.request.Request(
     "https://prelive-oauth2.quran.foundation/oauth2/token",
     data=urllib.parse.urlencode(
-        {"grant_type": "client_credentials", "scope": "content"}
+        {"grant_type": "client_credentials", "scope": "content.quran.read"}
     ).encode(),
     headers={
         "Authorization": f"Basic {credentials}",
@@ -203,13 +202,13 @@ with urllib.request.urlopen(request, timeout=30) as response:
   "access_token": "YOUR_ACCESS_TOKEN",
   "token_type": "bearer",
   "expires_in": 3600,
-  "scope": "content"
+  "scope": "content.quran.read"
 }
 ```
 
 Track `access_token` and `expires_in`. Client Credentials does not return a refresh token for this quickstart flow.
 
-If the token endpoint returns `invalid_scope` (HTTP 400), you asked for a scope your client is not approved for. A client issued granular Content scopes instead of `content` must request those scopes.
+If the token endpoint returns `invalid_scope` (HTTP 400), you asked for a scope your client is not approved for. A new Backend/server app holds granular Content scopes instead of `content` and must request those scopes; credentials that hold `content` request `content`.
 
 ## Server-Only Rule
 
@@ -235,7 +234,7 @@ Implement Quran Foundation Content API token retrieval on the backend.
 Requirements
 - Read QF_CLIENT_ID, QF_CLIENT_SECRET, and QF_ENV from environment variables.
 - Use prelive -> https://prelive-oauth2.quran.foundation and production -> https://oauth2.quran.foundation.
-- Request POST /oauth2/token with HTTP Basic auth, grant_type=client_credentials, and scope=content. If the client's approved permissions list granular Content scopes (for example content.quran.read) instead of content, request those space-separated instead.
+- Request POST /oauth2/token with HTTP Basic auth, grant_type=client_credentials, and the Content scopes the client's approved permissions list, space-separated. A new Backend/server app holds granular Content scopes (for example content.quran.read for /chapters); credentials that hold content request scope=content.
 - Return access_token and expires_in from the token response.
 - Do not expose client_secret to browser or mobile code.
 
