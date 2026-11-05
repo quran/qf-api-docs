@@ -17,6 +17,7 @@ A 409 `OutOfSyncError` happens when:
 2. **Concurrent mutations** — Server received mutations while you were offline
 3. **Missed header** — Client didn't capture the `X-Mutation-At` response header
 4. **Made-up value** — Sending a value the server never returned, such as `-1`
+5. **Head changed mid-pull (production `GET`)** — Page 2 or later of a pull sent the page-1 head after another write landed. Restart the pull from page 1 with the original `mutationsSince`, `resources` and `limit`; no local mutations need retrying
 
 ```mermaid
 sequenceDiagram
