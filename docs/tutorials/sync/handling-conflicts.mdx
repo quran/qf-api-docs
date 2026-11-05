@@ -3,7 +3,6 @@ id: handling-conflicts
 title: Handling Sync Conflicts
 sidebar_label: Handling Conflicts
 sidebar_position: 2
-draft: true
 ---
 
 # Handling Sync Conflicts
@@ -17,7 +16,7 @@ A 409 `OutOfSyncError` happens when:
 1. **Another device synced** — User made changes on a different device
 2. **Concurrent mutations** — Server received mutations while you were offline
 3. **Missed header** — Client didn't capture the `X-Mutation-At` response header
-4. **First sync mismatch** — Sending wrong `lastMutationAt` for a new user
+4. **Made-up value** — Sending a value the server never returned, such as `-1`
 
 ```mermaid
 sequenceDiagram
@@ -44,13 +43,6 @@ When a conflict occurs, the server responds:
 - **Message:** `Invalid lastMutationAt, please re-sync your data and try again.`
 
 **HTTP Status:** `409 Conflict`
-
-### First-Sync Variant
-
-If this is a new user's first sync and you send the wrong `lastMutationAt`:
-
-- **Error code:** `OutOfSyncError`
-- **Message:** `First sync detected. Please use lastMutationAt=-1 for initial sync.`
 
 ## Conflict Resolution Flow
 
@@ -88,7 +80,7 @@ sequenceDiagram
 
 ## Code Example
 
-For production-ready implementations, see the [SDK docs](/docs/sdk).
+The SDKs implement this flow; see the SDK sync helpers for [JavaScript](/docs/sdk/javascript/sync) and [Python](/docs/sdk/python/sync).
 
 ## Conflict Resolution Strategies
 
@@ -118,7 +110,24 @@ This quickly retrieves the current `lastMutationAt` without fetching all mutatio
 
 See the full request/response schema in the API reference:
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations/)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
+
+## Direct Mutation Endpoints
+
+Direct write endpoints such as `POST /v1/bookmarks` also advance the user's mutation head. They do
+not take a `lastMutationAt` parameter and do not reject stale clients with `409`, but a successful
+write returns the new head in the `X-Mutation-At` response header.
+
+If your app mixes direct writes with `POST /v1/sync`, store `X-Mutation-At` after each direct write
+and send it as `lastMutationAt` on your next `POST /v1/sync`; otherwise that push fails with `409`.
+Keep this write head separate from the `mutationsSince` cursor you use for pulls. Changes from other
+devices can land between your last pull and your direct write, so only move the pull cursor forward
+after a completed `GET /v1/sync`.
+
+:::tip Always capture the header
+If you miss an `X-Mutation-At` header, call `GET /v1/sync` with `metadataOnly=true` to recover the
+current head.
+:::
 
 ## Best Practices
 

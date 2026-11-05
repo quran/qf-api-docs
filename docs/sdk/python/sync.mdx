@@ -1,0 +1,81 @@
+---
+title: "User Sync"
+description: "Pull and push bookmark, collection, note and reading changes with the Python SDK."
+slug: /sdk/python/sync
+---
+
+# User Sync
+
+The User Sync API (`GET /v1/sync` and `POST /v1/sync`) lets offline-first apps pull the changes a
+user made on other devices and push the changes made locally. It covers `BOOKMARK`, `COLLECTION`,
+`COLLECTION_BOOKMARK`, `NOTE`, `READING_SESSION` and `READING_BOOKMARK`. Read the
+[Sync API guide](/docs/tutorials/sync/getting-started/) for the concepts.
+
+Every call needs a signed-in user access token with the `sync` scope plus each resource's scope.
+You only receive mutations for resources your token can access.
+
+## Pull, apply, push
+
+```python
+from quran_foundation import QuranClient, QuranOutOfSyncError, UserSyncMutation
+
+client = QuranClient(
+    client_id="YOUR_CLIENT_ID",
+    access_token="USER_ACCESS_TOKEN",
+)
+
+# Pull every page since the stored cursor (0 on a new device).
+pulled = client.pull_all_user_sync_mutations(
+    stored_cursor,
+    resources=["BOOKMARK", "COLLECTION", "NOTE"],
+    limit=500,
+)
+apply_locally(pulled.mutations)
+stored_cursor = pulled.last_mutation_at  # persist only after applying every page
+
+# Push local changes against the head you just pulled.
+try:
+    pushed = client.push_user_sync_mutations(
+        [UserSyncMutation(type="CREATE", resource="COLLECTION", data={"name": "Duas"})],
+        last_mutation_at=pulled.last_mutation_at,
+    )
+    stored_cursor = pushed.last_mutation_at
+except QuranOutOfSyncError:
+    ...  # another device wrote first: pull again, re-resolve local changes, retry
+```
+
+## Methods
+
+| Method                                                                                          | Request         | Returns               |
+| ----------------------------------------------------------------------------------------------- | --------------- | --------------------- |
+| `get_user_sync_mutations(mutations_since, *, last_mutation_at, resources, metadata_only, limit, page)` | `GET /v1/sync`  | `UserSyncPullResponse` |
+| `push_user_sync_mutations(mutations, *, last_mutation_at)`                                       | `POST /v1/sync` | `UserSyncPushResponse` |
+| `pull_all_user_sync_mutations(mutations_since, *, resources, limit, max_restarts=2)`            | `GET /v1/sync`  | `UserSyncPullResult`   |
+
+- Pass `metadata_only=True` to `get_user_sync_mutations()` to read only the current head.
+- Responses keep the raw `body` and expose `mutations`, `last_mutation_at` and `mutation_at`.
+  `mutation_at` is the `X-Mutation-At` response header in Unix milliseconds. Use it only as an
+  optimistic write precondition, never as a pull cursor; the pull cursor is `last_mutation_at`.
+- `push_user_sync_mutations()` accepts `UserSyncMutation` objects or plain dicts and applies up to 100
+  mutations in order. Larger batches are rejected before sending.
+- Send the exact head returned by `GET /v1/sync` or the previous push. Never send a made-up value
+  such as `-1`.
+
+## Paging and conflicts
+
+A stale head raises `QuranOutOfSyncError`, a `QuranHttpError` subclass for `409 OutOfSyncError`.
+Other conflicts, such as a duplicate collection name, raise a plain `QuranHttpError`.
+
+When paging manually, every page after the first must send the `lastMutationAt` returned by page 1
+and keep the original `mutations_since`, `resources` and `limit`. If a page raises
+`QuranOutOfSyncError`, restart from page 1 with the original cursor.
+`pull_all_user_sync_mutations()` follows that contract and restarts at most `max_restarts` times
+before re-raising the error. See [Handling Sync Conflicts](/docs/tutorials/sync/handling-conflicts/)
+for recovery strategies.
+
+## Related pages
+
+- [Sync API guide](/docs/tutorials/sync/getting-started/)
+- [GET /v1/sync reference](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
+- [POST /v1/sync reference](/docs/user_related_apis_versioned/1.0.0/sync-local-mutations/)
+- [OAuth2 scopes](/docs/user_related_apis_versioned/scopes#sync)

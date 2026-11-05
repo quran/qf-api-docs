@@ -6,16 +6,10 @@ slug: /sdk/javascript/app-state
 
 # App State
 
-:::warning Pre-live, NO-LAUNCH
-App State is available only for approved pre-live integration work. It is not enabled for general
-partner or production traffic. Use pre-live credentials and service URLs until production rollout is
-explicitly approved.
-:::
-
 App State requires a signed-in user token and an OAuth client approved for `app_state`,
 `app_state.read`, `app_state.write`, or an approved combination of the child scopes. Request only
-the scopes assigned to your client. See the [App State API contract](/docs/user_related_apis_prelive/app-state/)
-and [OAuth2 scopes](/docs/user_related_apis_prelive/scopes#app-state).
+the scopes assigned to your client. See the [App State API contract](/docs/user_related_apis_versioned/1.0.0/app-state/)
+and [OAuth2 scopes](/docs/user_related_apis_versioned/scopes#app-state).
 
 Use `@quranjs/api/public` in browser or mobile applications and `@quranjs/api/server` in trusted
 backend code. Configure the client as shown in the [public quickstart](/docs/sdk/javascript/public-quickstart) or
@@ -152,4 +146,4 @@ try {
 ```
 
 For the full status and recovery matrix, read
-[Transactional App State reconciliation](/docs/user_related_apis_prelive/app-state/reconciliation/).
+[Transactional App State reconciliation](/docs/user_related_apis_versioned/1.0.0/app-state/reconciliation/).
