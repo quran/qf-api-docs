@@ -77,6 +77,8 @@ The Quran.com Favorites collection uses the virtual collection ID `__default__`.
 
 Push Favorites changes through `POST /v1/sync` as `COLLECTION_BOOKMARK` mutations with `data.collectionId: "__default__"`. Create mutations use a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete mutations may use either `data.bookmarkId` or the same bookmark details. The virtual collection does not create a real `CollectionBookmark` row. Pulls return Favorites changes as `COLLECTION_BOOKMARK` mutations with `__default__` as the collection, and the bookmark itself carries `BOOKMARK.isInDefaultCollection`; treat `isInDefaultCollection` as the source of truth for membership.
 
+Creating a `BOOKMARK` (other than a reading bookmark) also adds it to Favorites. A following `__default__` create for the same bookmark changes nothing and returns the unchanged `lastMutationAt`.
+
 Removing a bookmark from Favorites deletes the bookmark when it is in no other collection and is not used as a reading bookmark. The pull then also returns a `BOOKMARK` `DELETE`.
 
 Clients that do not use the Sync API can keep using the direct collection endpoints. Use `POST /v1/collections/__default__/bookmarks` to add Favorites. To remove Favorites, prefer `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` when you have the bookmark ID, or use `DELETE /v1/collections/__default__/bookmarks` with a JSON body containing either `bookmarkId` or the bookmark details.
