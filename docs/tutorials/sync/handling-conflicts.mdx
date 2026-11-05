@@ -18,6 +18,7 @@ A 409 `OutOfSyncError` happens when:
 2. **Concurrent mutations** — Server received mutations while you were offline
 3. **Missed header** — Client didn't capture the `X-Mutation-At` response header
 4. **Head mismatch** — Sending a value that is not the current sync head, such as `-1`, `0`, or a head captured before a pull
+5. **Head changed mid-pull (production `GET`)** — Page 2 or later of a pull sent the page-1 head after another write landed. Restart the pull from page 1 with the original `mutationsSince`, `resources` and `limit`; no local mutations need retrying
 
 ```mermaid
 sequenceDiagram
@@ -63,7 +64,7 @@ sequenceDiagram
 
     Note over Client: Start recovery...
 
-    Client->>Server: GET /v1/sync?mutationsSince=T1
+    Client->>Server: GET /v1/sync?mutationsSince=C (last applied)
     Server-->>Client: { mutations: [...], lastMutationAt: T_server }
 
     Client->>Client: Apply server changes locally
@@ -78,7 +79,7 @@ sequenceDiagram
 ### Step-by-Step Recovery
 
 1. **Catch the 409 error**
-2. **Fetch server changes** — `GET /v1/sync?mutationsSince=<your_lastMutationAt>`
+2. **Fetch server changes** — `GET /v1/sync?mutationsSince=<last applied mutation timestamp>` (the pull cursor, not the head)
 3. **Apply server mutations** to your local database
 4. **Resolve conflicts** if the same resource was modified both locally and remotely
 5. **Retry your mutations** with the new `lastMutationAt`

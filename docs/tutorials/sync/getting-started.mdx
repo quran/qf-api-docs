@@ -89,6 +89,7 @@ Production clients should keep using the direct collection endpoints until `/v1/
 - **Authoritative on the server** — it is always assigned by the server; clients never invent it
 - **Stored locally** — persist the value returned by the latest `GET` or `POST`
 - **Sent as a precondition on push** — `POST /v1/sync` requires the current head and rejects a stale or different value with `409`
+- **Sent as the continuation head on production pulls** — page 2 and later of a production `GET /v1/sync` pull send the head returned by page 1 (see [Step 2](#step-2-pull-and-apply-mutations))
 
 `lastMutationAt` is **not** the pull cursor. Pull with `mutationsSince`, which is the timestamp of the last mutation your client has applied.
 
@@ -133,7 +134,10 @@ Call `GET /v1/sync` with `metadataOnly=true` to read the current head without fe
 
 Call `GET /v1/sync?mutationsSince=<cursor>` with `mutationsSince=0` for a full pull, and apply each mutation locally. Persist `lastMutationAt` only after the final page.
 
-For pagination, keep the same `mutationsSince` across pages. On production, page 2 and later must also send `lastMutationAt` set to the head returned by page 1. A missing or changed head returns `409 OutOfSyncError`: restart the pull from page 1 with the original `mutationsSince`. (The pre-live contract does not declare this parameter yet.)
+For pagination, keep `mutationsSince`, `resources` and `limit` the same on every page of a pull.
+
+- **Production:** page 2 and later must also send `lastMutationAt` set to the head returned by page 1. If the head changed, the server returns `409 OutOfSyncError` because another write landed mid-pull: restart from page 1 with the original `mutationsSince`. A missing head also returns `409`; that is a request bug, so add the parameter rather than restarting.
+- **Pre-live:** do not send `lastMutationAt` on `GET /v1/sync` (pre-live rejects the parameter). Instead, compare the `lastMutationAt` returned by each page with page 1's, and restart from page 1 if it changed.
 
 ### Step 3: Push Local Changes
 
@@ -167,7 +171,7 @@ For the full request/response schema, see:
 - `resources=BOOKMARK,COLLECTION` limits results to those resources
 - `limit` and `page` paginate results (max `limit` is 1000)
 - Continue fetching pages until `hasMore=false`
-- Page 2 and later keep the same `mutationsSince` and, on production, must send the page-1 `lastMutationAt`. A missing or changed head returns `409`, and the pull restarts from page 1.
+- Page 2 and later follow the continuation rules in [Step 2](#step-2-pull-and-apply-mutations)
 
 When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagination fields).
 
