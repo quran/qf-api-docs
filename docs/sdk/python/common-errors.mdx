@@ -37,5 +37,5 @@ Use service request helpers to avoid hard-coding base URLs:
 ```python
 client.content_request("/chapters", params={"language": "en"})
 client.search_request("/api/v1/search", params={"query": "mercy"})
-client.user_request("/bookmarks", params={"page": 1})
+client.user_request("/bookmarks", params={"mushafId": 1, "first": 10})
 ```
