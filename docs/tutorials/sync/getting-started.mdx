@@ -3,7 +3,6 @@ id: getting-started
 title: Getting Started with Data Sync
 sidebar_label: Getting Started
 sidebar_position: 1
-draft: true
 ---
 
 # Getting Started with Data Sync
@@ -11,10 +10,8 @@ draft: true
 The Quran Foundation Sync API enables **offline-first mobile applications** to synchronize user data
 across devices. This guide covers the core concepts and helps you implement your first sync flow.
 
-:::warning Pre-live only
-The Sync API endpoints (`GET /v1/sync` and `POST /v1/sync`) are currently available in pre-live only. Endpoint paths in this guide are relative to the User API auth base URL: `https://apis-prelive.quran.foundation/auth` for pre-live, and `https://apis.quran.foundation/auth` for production direct endpoints. If the generated API reference shows a production server option for `/v1/sync`, do not use it yet; production `/v1/sync` is not supported until the Sync API is promoted.
-
-Production clients should continue using the direct User API endpoints until the Sync API is promoted to production. For Quran.com Favorites/default collection bookmarks in production, use `POST /v1/collections/__default__/bookmarks` to add Favorites. To remove Favorites, prefer `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` when you have the bookmark ID, or use `DELETE /v1/collections/__default__/bookmarks` with a JSON body containing either `bookmarkId` or the bookmark details.
+:::info Base URLs
+The Sync API endpoints (`GET /v1/sync` and `POST /v1/sync`) are available in production and pre-live. Endpoint paths in this guide are relative to the User API auth base URL: `https://apis.quran.foundation/auth` for production and `https://apis-prelive.quran.foundation/auth` for pre-live.
 :::
 
 ## Overview
@@ -51,6 +48,7 @@ Before using the Sync API, ensure you have:
    - [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks) — For syncing bookmarks
    - [`collection`](/docs/user_related_apis_versioned/scopes#collections) — For syncing collections
    - [`note`](/docs/user_related_apis_versioned/scopes#notes) — For syncing notes
+   - [`reading_session`](/docs/user_related_apis_versioned/scopes#reading-sessions) — For syncing reading sessions
 
 :::tip Scope Requirements
 You only receive mutations for resources your token has access to. If you request [`sync`](/docs/user_related_apis_versioned/scopes#sync) + [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks) but not [`collection`](/docs/user_related_apis_versioned/scopes#collections), you won't see collection changes.
@@ -66,6 +64,8 @@ The Sync API currently tracks these resources. All `/v1/sync` calls also require
 | `COLLECTION`          | User collections                   | [`collection`](/docs/user_related_apis_versioned/scopes#collections)                                                                   |
 | `COLLECTION_BOOKMARK` | Bookmarks within collections       | [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks), [`collection`](/docs/user_related_apis_versioned/scopes#collections) |
 | `NOTE`                | User notes/reflections             | [`note`](/docs/user_related_apis_versioned/scopes#notes)                                                                               |
+| `READING_SESSION`     | User reading sessions              | [`reading_session`](/docs/user_related_apis_versioned/scopes#reading-sessions)                                                         |
+| `READING_BOOKMARK`    | Reading bookmark slots             | [`bookmark`](/docs/user_related_apis_versioned/scopes#bookmarks)                                                                       |
 
 :::note Resource IDs vs composite keys
 For `BOOKMARK`, `COLLECTION`, and `NOTE`, sync mutations include a single `resourceId`.
@@ -75,9 +75,13 @@ For `COLLECTION_BOOKMARK`, there is no single ID; omit `resourceId`. Create muta
 :::note Favorites/default collection
 The Quran.com Favorites collection uses the virtual collection ID `__default__`.
 
-After the pre-live backend support is deployed, push Favorites changes through `POST /v1/sync` as `COLLECTION_BOOKMARK` mutations with `data.collectionId: "__default__"`. Create mutations use a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete mutations may use either `data.bookmarkId` or the same bookmark details. The virtual collection does not create a real `CollectionBookmark` row, so pull-sync clients should read default collection membership from `BOOKMARK.isInDefaultCollection`, not from a separate `COLLECTION_BOOKMARK` mutation.
+Push Favorites changes through `POST /v1/sync` as `COLLECTION_BOOKMARK` mutations with `data.collectionId: "__default__"`. Create mutations use a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete mutations may use either `data.bookmarkId` or the same bookmark details. The virtual collection does not create a real `CollectionBookmark` row. Pulls return Favorites changes as `COLLECTION_BOOKMARK` mutations with `__default__` as the collection, and the bookmark itself carries `BOOKMARK.isInDefaultCollection`; treat `isInDefaultCollection` as the source of truth for membership.
 
-Production clients should keep using the direct collection endpoints until `/v1/sync` is promoted to production. Use `POST /v1/collections/__default__/bookmarks` to add Favorites. To remove Favorites, prefer `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` when you have the bookmark ID, or use `DELETE /v1/collections/__default__/bookmarks` with a JSON body containing either `bookmarkId` or the bookmark details.
+Creating a `BOOKMARK` (other than a reading bookmark) also adds it to Favorites. A following `__default__` create for the same bookmark changes nothing and returns the unchanged `lastMutationAt`.
+
+Removing a bookmark from Favorites deletes the bookmark when it is in no other collection and is not used as a reading bookmark. The pull then also returns a `BOOKMARK` `DELETE`.
+
+Clients that do not use the Sync API can keep using the direct collection endpoints. Use `POST /v1/collections/__default__/bookmarks` to add Favorites. To remove Favorites, prefer `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` when you have the bookmark ID, or use `DELETE /v1/collections/__default__/bookmarks` with a JSON body containing either `bookmarkId` or the bookmark details.
 :::
 
 ## Key Concepts
@@ -91,48 +95,41 @@ Production clients should keep using the direct collection endpoints until `/v1/
 - **Sent as a precondition on push** — `POST /v1/sync` requires the current head and rejects a stale or different value with `409`
 - **Sent as the continuation head on production pulls** — page 2 and later of a production `GET /v1/sync` pull send the head returned by page 1 (see [Step 2](#step-2-pull-and-apply-mutations))
 
-`lastMutationAt` is **not** the pull cursor. Pull with `mutationsSince`, which is the timestamp of the last mutation your client has applied.
-
 ### First Sync Behavior
 
-There is no "first sync" sentinel value. A brand-new user still gets a positive `lastMutationAt`, because the sync head includes virtual resources such as the default Favorites collection.
+Every user already has a sync head, even before their first sync. It is never `-1`: it is at least the time the account was created, and it moves forward with each change. `POST /v1/sync` only accepts the exact current head, so always read it from the server before your first push.
 
-| Scenario                        | Server Response                          | Client Action                                                         |
-| ------------------------------- | ---------------------------------------- | --------------------------------------------------------------------- |
-| No local state yet              | `lastMutationAt: <positive timestamp>`   | Store the head, pull with `mutationsSince=0`, push with the stored head |
-| First mutation from this device | Returns the new head                     | Store the returned `lastMutationAt`                                    |
-| Another device synced first     | `409 OutOfSyncError` on push             | Pull, replay local changes, push again with the new head               |
+| Scenario                     | What to do                                                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------- |
+| First sync on this device    | Call `GET /v1/sync?mutationsSince=0`, apply all pages, then store the returned `lastMutationAt`          |
+| First push from this device  | Send the `lastMutationAt` from your latest pull (or from `metadataOnly=true`), never a made-up value     |
+| Later syncs                  | Pull with `mutationsSince=<stored lastMutationAt>`, then push with the head from that pull or last push |
 
-:::warning Do not send `-1`
-`POST /v1/sync` accepts only the head returned by the most recent `GET`, pull, or push. Sending `-1`, `0`, or a value captured before a pull returns `409 OutOfSyncError`.
+:::warning Don't send `-1`
+Older versions of this guide said to send `lastMutationAt=-1` for a user's first push. The API now rejects that with `409`. Read the head with `GET /v1/sync` first.
 :::
 
 ## Quick Start: Your First Sync
 
 ```mermaid
 flowchart TD
-    A[Start] --> B["GET /v1/sync?mutationsSince=0&metadataOnly=true"]
-    B --> C["Store lastMutationAt (positive sync head)"]
-    C --> D{"Local changes to push?"}
-    D -->|No| E["GET /v1/sync?mutationsSince=0"]
-    E --> F["Apply mutations locally<br/>store the returned head"]
-    D -->|Yes| G["Pull first with mutationsSince=applied cursor"]
-    G --> F
-    F --> H["POST /v1/sync?lastMutationAt=current head<br/>with the mutations array"]
-    H --> I["Store the lastMutationAt from the response"]
-    I --> J[Done]
+    A[Start] --> B["GET /v1/sync?mutationsSince=0 (all pages)"]
+    B --> C["Apply mutations locally"]
+    C --> D["Store lastMutationAt"]
+    D --> H{User makes changes offline?}
+    H -->|Yes| I["POST /v1/sync?lastMutationAt=T<br/>with mutations array"]
+    I --> J["Update lastMutationAt from response"]
+    J --> K[Done]
+    H -->|No| K
 ```
 
 ### Step 1: Read the Sync Head
 
-Call `GET /v1/sync` with `metadataOnly=true` to read the current head without fetching mutations. (You still need to pass `mutationsSince`, even when `metadataOnly=true`.)
-
-- The response is always a positive `lastMutationAt`, including for a user with no history
-- Store it: it is the precondition for your next push
+Optionally check the current head with `metadataOnly=true`. This returns only `lastMutationAt` without fetching mutations. (You still need to pass `mutationsSince`, even when `metadataOnly=true`.) Use it to skip a pull when nothing changed since your stored value.
 
 ### Step 2: Pull and Apply Mutations
 
-Call `GET /v1/sync?mutationsSince=<cursor>` with `mutationsSince=0` for a full pull, and apply each mutation locally. Persist `lastMutationAt` only after the final page.
+Fetch all mutations since `0` on a new device (or since your stored value later), page through until `hasMore=false`, and apply them locally. Store the `lastMutationAt` from the final page for future requests.
 
 For pagination, keep `mutationsSince`, `resources` and `limit` the same on every page of a pull.
 
@@ -147,8 +144,8 @@ If the push returns `409 OutOfSyncError`, another device wrote first: pull, repl
 
 ### API References
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations/)
-- [POST /v1/sync (Sync local mutations)](/docs/user_related_apis_prelive/sync-local-mutations/)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
+- [POST /v1/sync (Sync local mutations)](/docs/user_related_apis_versioned/1.0.0/sync-local-mutations/)
 
 ## Using metadataOnly for Efficiency
 
@@ -162,7 +159,7 @@ This is significantly faster than a full sync (single DB query vs multiple joins
 
 For the full request/response schema, see:
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations/)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
 
 ## Filtering & Pagination
 
@@ -178,8 +175,7 @@ When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagina
 ## Important Notes
 
 - **Mutation limits** — `POST /v1/sync` accepts a maximum of 100 mutations per request.
-- **Pre-live references** — The API reference links above intentionally point to the pre-live Sync API pages while `/v1/sync` remains pre-live-only.
-- **Favorites/default collection** — Use `COLLECTION_BOOKMARK` with `data.collectionId: "__default__"` to push default collection membership in pre-live. Create with a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete with either `data.bookmarkId` or bookmark details. Pull default membership from `BOOKMARK.isInDefaultCollection`.
+- **Favorites/default collection** — Use `COLLECTION_BOOKMARK` with `data.collectionId: "__default__"` to push default collection membership. Create with a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete with either `data.bookmarkId` or bookmark details. Pull default membership from `BOOKMARK.isInDefaultCollection`. Removing a bookmark that is in no other collection deletes the bookmark.
 
 ## Next Steps
 

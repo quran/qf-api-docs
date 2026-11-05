@@ -1,0 +1,84 @@
+---
+title: "User Sync"
+description: "Pull and push bookmark, collection, note and reading changes with the JavaScript SDK."
+slug: /sdk/javascript/sync
+---
+
+# User Sync
+
+The User Sync API (`GET /v1/sync` and `POST /v1/sync`) lets offline-first apps pull the changes a
+user made on other devices and push the changes made locally. It covers bookmarks, collections,
+collection bookmarks, notes, reading sessions and reading bookmarks. Read the
+[Sync API guide](/docs/tutorials/sync/getting-started/) for the concepts.
+
+The SDK exposes it under `client.auth.v1.sync` on both `@quranjs/api/public` and
+`@quranjs/api/server`. Every call needs a signed-in user token with the `sync` scope plus the scope
+of each resource you sync, for example `bookmark`, `collection`, `note` or `reading_session`.
+
+## Pull, apply, push
+
+```ts
+import { isUserSyncOutOfSyncError } from "@quranjs/api/public";
+
+const sync = client.auth.v1.sync;
+
+// Pull every page since the stored cursor (0 on a new device).
+const pulled = await sync.pullAllMutations({
+  mutationsSince: storedCursor,
+  resources: ["BOOKMARK", "NOTE"],
+});
+await applyLocally(pulled.mutations);
+storedCursor = pulled.lastMutationAt; // Persist only after every page is applied.
+
+try {
+  const pushed = await sync.pushMutations({
+    lastMutationAt: storedCursor,
+    mutations: [
+      {
+        resource: "NOTE",
+        type: "CREATE",
+        data: { body: "...", ranges: ["2:255-2:255"] },
+      },
+    ],
+  });
+  storedCursor = pushed.data.lastMutationAt;
+} catch (error) {
+  if (isUserSyncOutOfSyncError(error)) {
+    // Another device wrote first: pull again, resolve conflicts, then push again.
+  }
+  throw error;
+}
+```
+
+## Methods
+
+| Method                                      | Request         | Notes                                                                                                                     |
+| ------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `getMutations(options)`                     | `GET /v1/sync`  | One page. Options: `mutationsSince`, `lastMutationAt`, `resources`, `metadataOnly`, `limit` (1-1000), `page`.              |
+| `pushMutations({ lastMutationAt, mutations })` | `POST /v1/sync` | Up to 100 mutations, applied in order. Larger batches are rejected before sending.                                       |
+| `pullAllMutations(options)`                 | `GET /v1/sync`  | Pulls every page for a cursor. Returns `{ mutations, lastMutationAt, pages, restarts }`. `maxRestarts` defaults to `2`.   |
+
+- Pass `metadataOnly: true` to `getMutations()` to read only the current `lastMutationAt`.
+- `lastMutationAt` on a push must be the exact current sync head: the value from `getMutations()`,
+  `pullAllMutations()` or the previous push, unchanged. Never send a made-up value such as `-1`.
+- `getMutations()` and `pushMutations()` also return `mutationAt`, parsed from the `X-Mutation-At`
+  response header. Use it only as an optimistic write precondition, never as a pull cursor.
+
+## Paging and conflicts
+
+`pullAllMutations()` follows the pagination contract for you: pages after the first send page 1's
+`lastMutationAt` and keep the original `mutationsSince`, `resources` and `limit`. If a later page
+returns `409`, it restarts from page 1 with the original cursor, up to `maxRestarts` times, then
+throws `UserSyncPullRestartLimitError` with the last `409` as `cause`. A `409` on page 1 and any other
+error are thrown without a restart.
+
+`isUserSyncOutOfSyncError(error)` recognizes the `409 OutOfSyncError` from both the Gateway and the
+service, and ignores other `409` responses such as a duplicate collection name. See
+[Handling Sync Conflicts](/docs/tutorials/sync/handling-conflicts/) for recovery strategies.
+
+## Related pages
+
+- [Sync API guide](/docs/tutorials/sync/getting-started/)
+- [GET /v1/sync reference](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
+- [POST /v1/sync reference](/docs/user_related_apis_versioned/1.0.0/sync-local-mutations/)
+- [OAuth2 scopes](/docs/user_related_apis_versioned/scopes#sync)

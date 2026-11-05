@@ -3,7 +3,6 @@ id: offline-first-patterns
 title: Offline-First Architecture Patterns
 sidebar_label: Offline-First Patterns
 sidebar_position: 3
-draft: true
 ---
 
 # Offline-First Architecture Patterns
@@ -11,7 +10,7 @@ draft: true
 This guide covers best practices for building mobile apps that work seamlessly offline and sync reliably when connectivity is restored.
 
 :::tip SDK Implementations
-For production-ready implementations, see our [SDK docs](/docs/sdk).
+The SDKs handle the API calls, paging and conflict errors; see the SDK sync helpers for [JavaScript](/docs/sdk/javascript/sync) and [Python](/docs/sdk/python/sync).
 :::
 
 ## Core Principles
@@ -99,13 +98,13 @@ interface QueuedMutation {
 
 ## Sync Engine
 
-Your sync engine should follow a **pull → apply → push** cycle and handle 409 conflicts by re-syncing before retrying local mutations. For a production-ready implementation, see the [SDK docs](/docs/sdk).
+Your sync engine should follow a **pull → apply → push** cycle and handle 409 conflicts by re-syncing before retrying local mutations. For the API calls, paging and conflict errors, see the SDK sync helpers for [JavaScript](/docs/sdk/javascript/sync) and [Python](/docs/sdk/python/sync).
 
 ### Pull → Apply → Push (with pagination)
 
 1. **Pull** — Call `GET /v1/sync?mutationsSince=T` and page through results (`page`/`limit`) until `hasMore=false`, following the [continuation rules](/docs/tutorials/sync/getting-started#step-2-pull-and-apply-mutations) for page 2 and later.
 2. **Apply** — Apply mutations in timestamp order and update local records.
-3. **Push** — Send queued mutations with `POST /v1/sync?lastMutationAt=<head>`, using the head returned by the pull (not the `mutationsSince` cursor), and store the head from the response.
+3. **Push** — Send queued mutations with `POST /v1/sync?lastMutationAt=<head>`, using the head returned by the pull (not the `T` you pulled with), and store the head from the response.
 
 ## Connectivity Handling
 
@@ -119,7 +118,7 @@ Apply local changes immediately, then enqueue mutations for sync. When the serve
 
 ### Handling Sync Results
 
-When the server returns mutation results, update local records with server IDs and timestamps, then dequeue the synced mutations and persist the returned `lastMutationAt`.
+When the server returns mutation results, update local records with server IDs and timestamps, then dequeue the synced mutations and persist the returned `lastMutationAt`. If you also write through direct endpoints such as `POST /v1/bookmarks`, read the new head from their `X-Mutation-At` response header (see [Direct Mutation Endpoints](/docs/tutorials/sync/handling-conflicts/#direct-mutation-endpoints)).
 
 ## Error Handling & Retry
 

@@ -3,7 +3,6 @@ id: handling-conflicts
 title: Handling Sync Conflicts
 sidebar_label: Handling Conflicts
 sidebar_position: 2
-draft: true
 ---
 
 # Handling Sync Conflicts
@@ -17,7 +16,7 @@ A 409 `OutOfSyncError` happens when:
 1. **Another device synced** — User made changes on a different device
 2. **Concurrent mutations** — Server received mutations while you were offline
 3. **Missed header** — Client didn't capture the `X-Mutation-At` response header
-4. **Head mismatch** — Sending a value that is not the current sync head, such as `-1`, `0`, or a head captured before a pull
+4. **Made-up value** — Sending a value the server never returned, such as `-1`
 5. **Head changed mid-pull (production `GET`)** — Page 2 or later of a pull sent the page-1 head after another write landed. Restart the pull from page 1 with the original `mutationsSince`, `resources` and `limit`; no local mutations need retrying
 
 ```mermaid
@@ -46,10 +45,6 @@ When a conflict occurs, the server responds:
 
 **HTTP Status:** `409 Conflict`
 
-### No First-Sync Exception
-
-There is no separate error for a new user, and no special value for a first push. A user with no history already has a positive sync head (it includes virtual resources such as the default Favorites collection), so a first push uses the same rule as every later push: send the head returned by the most recent `GET`, pull, or push. Any other value, including `-1`, returns the same `OutOfSyncError` shown above.
-
 ## Conflict Resolution Flow
 
 Here's the standard recovery pattern:
@@ -64,7 +59,7 @@ sequenceDiagram
 
     Note over Client: Start recovery...
 
-    Client->>Server: GET /v1/sync?mutationsSince=C (last applied)
+    Client->>Server: GET /v1/sync?mutationsSince=T1
     Server-->>Client: { mutations: [...], lastMutationAt: T_server }
 
     Client->>Client: Apply server changes locally
@@ -79,14 +74,14 @@ sequenceDiagram
 ### Step-by-Step Recovery
 
 1. **Catch the 409 error**
-2. **Fetch server changes** — `GET /v1/sync?mutationsSince=<last applied mutation timestamp>` (the pull cursor, not the head)
+2. **Fetch server changes** — `GET /v1/sync?mutationsSince=<your_lastMutationAt>`
 3. **Apply server mutations** to your local database
 4. **Resolve conflicts** if the same resource was modified both locally and remotely
 5. **Retry your mutations** with the new `lastMutationAt`
 
 ## Code Example
 
-For production-ready implementations, see the [SDK docs](/docs/sdk).
+The SDKs implement this flow; see the SDK sync helpers for [JavaScript](/docs/sdk/javascript/sync) and [Python](/docs/sdk/python/sync).
 
 ## Conflict Resolution Strategies
 
@@ -116,7 +111,24 @@ This quickly retrieves the current `lastMutationAt` without fetching all mutatio
 
 See the full request/response schema in the API reference:
 
-- [GET /v1/sync (Get mutations)](/docs/user_related_apis_prelive/get-mutations/)
+- [GET /v1/sync (Get mutations)](/docs/user_related_apis_versioned/1.0.0/get-mutations/)
+
+## Direct Mutation Endpoints
+
+Direct write endpoints such as `POST /v1/bookmarks` also advance the user's mutation head. They do
+not take a `lastMutationAt` parameter and do not reject stale clients with `409`, but a successful
+write returns the new head in the `X-Mutation-At` response header.
+
+If your app mixes direct writes with `POST /v1/sync`, store `X-Mutation-At` after each direct write
+and send it as `lastMutationAt` on your next `POST /v1/sync`; otherwise that push fails with `409`.
+Keep this write head separate from the `mutationsSince` cursor you use for pulls. Changes from other
+devices can land between your last pull and your direct write, so only move the pull cursor forward
+after a completed `GET /v1/sync`.
+
+:::tip Always capture the header
+If you miss an `X-Mutation-At` header, call `GET /v1/sync` with `metadataOnly=true` to recover the
+current head.
+:::
 
 ## Best Practices
 

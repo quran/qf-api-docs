@@ -47,8 +47,13 @@ test('the sync tutorials do not document a -1 first-push sentinel', () => {
   for (const page of SYNC_TUTORIALS) {
     const content = read(page);
 
+    // A historical note ("Older versions of this guide said to send ...") is allowed.
+    const instructions = content
+      .split('\n')
+      .filter((line) => !/Older versions of this guide/u.test(line))
+      .join('\n');
     assert.doesNotMatch(
-      content,
+      instructions,
       /lastMutationAt\s*[=:]\s*-1/u,
       `${page} must not tell clients to push with lastMutationAt=-1`,
     );
@@ -70,12 +75,7 @@ test('the sync getting-started guide explains that the first head is positive', 
 
   assert.match(
     content,
-    /positive `lastMutationAt`/u,
+    /never `-1`/u,
     'the guide should state that a new user already has a positive sync head',
-  );
-  assert.match(
-    content,
-    /not\*\* the pull cursor/u,
-    'the guide should separate the push precondition from the pull cursor',
   );
 });

@@ -13,12 +13,16 @@ const productionScopes = read(
 );
 const preliveScopes = read("docs", "user_related_apis_prelive", "scopes.mdx");
 
-test("sync scope is documented only for the pre-live scopes page", () => {
-  assert.doesNotMatch(productionScopes, /\|\s*sync\s*\|/);
+test("sync scope is documented on the production and pre-live scopes pages", () => {
+  assert.match(productionScopes, /^## Sync$/m);
+  assert.match(productionScopes, /\|\s*sync\s*\|[^\n]*`GET\/POST \/v1\/sync`\s*\|/);
   assert.match(
     preliveScopes,
-    /\|\s*sync\s*\|\s*Access pre-live offline-first sync endpoints\s*\|/,
+    /\|\s*sync\s*\|\s*Access offline-first sync endpoints\s*\|/,
   );
+  for (const scopes of [productionScopes, preliveScopes]) {
+    assert.doesNotMatch(scopes, /pre-live offline-first sync/);
+  }
 });
 
 test("analytics event ingestion documents client credentials and optional user correlation", () => {

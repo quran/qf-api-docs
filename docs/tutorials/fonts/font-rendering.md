@@ -162,7 +162,7 @@ This section covers the specific API parameters needed for font rendering. For c
 | -------------- | -------------------------------- | ------------------------------------------------------- |
 | `words`        | Include word-level data          | `words=true`                                            |
 | `word_fields`  | Which text fields to return      | `word_fields=code_v2,text_qpc_hafs,text_uthmani_simple` |
-| `mushaf`       | Mushaf layout/format ID          | `mushaf=1` (QCF V2)                                     |
+| `mushaf`       | Mushaf layout ID, for page-based endpoints only (`/verses/by_page`, `/pages`, `/juzs`) | `mushaf=1` (QCF V2)                                     |
 | `translations` | Translation resource IDs to include | `translations=131,95` (comma-separated)              |
 
 ### Word Fields for Font Rendering
@@ -205,7 +205,7 @@ Each word in the API response has a `char_type_name` field indicating its type:
 #### For QCF V2 (Glyph-Based)
 
 ```bash
-curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1" \
+curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?words=true&word_fields=code_v2,text_qpc_hafs" \
   -H "x-auth-token: YOUR_ACCESS_TOKEN" \
   -H "x-client-id: YOUR_CLIENT_ID"
 ```
@@ -221,10 +221,16 @@ curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?wo
 #### For Tajweed V4
 
 ```bash
-curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?words=true&word_fields=code_v2,text_qpc_hafs&mushaf=19" \
+curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?words=true&word_fields=code_v2,text_qpc_hafs" \
   -H "x-auth-token: YOUR_ACCESS_TOKEN" \
   -H "x-client-id: YOUR_CLIENT_ID"
 ```
+
+The request is the same as for QCF V2: Tajweed V4 also uses `code_v2` glyph codes, and what changes is the font files you load (see [Font Files](#qcf-v4-tajweed-604-page-files)).
+
+:::note Choosing a Mushaf layout
+`/verses/by_chapter` does not take a `mushaf` parameter. The `page_number` and `line_number` it returns come from the glyph set you request in `word_fields` (`code_v1` or `code_v2`). To fetch a page in a specific Mushaf layout, use [`/verses/by_page/{page_number}`](/docs/content_apis_versioned/4.0.0/verses-by-page-number) with `mushaf` (for example `mushaf=1` for QCF V2 or `mushaf=19` for QCF V4 Tajweed). See the [Page Layout guide](/docs/tutorials/fonts/page-layout).
+:::
 
 ### API Response Structure
 
@@ -910,7 +916,7 @@ const API_BASE = 'https://apis.quran.foundation/content/api/v4';
 async function fetchVerses(chapter, accessToken, clientId) {
   const response = await fetch(
     `${API_BASE}/verses/by_chapter/${chapter}?` +
-    `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1`,
+    `words=true&word_fields=code_v2,text_qpc_hafs`,
     {
       headers: {
         'x-auth-token': accessToken,
@@ -1073,7 +1079,7 @@ function renderWordWithFallback(word, fontLoaded) {
       // Fetch verses (with authentication)
       const response = await fetch(
         `${API_BASE}/verses/by_chapter/${chapterNumber}?` +
-        `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1`,
+        `words=true&word_fields=code_v2,text_qpc_hafs`,
         {
           headers: {
             'x-auth-token': accessToken,
@@ -1409,7 +1415,7 @@ function QuranChapter({ chapterNumber, accessToken, clientId }) {
       try {
         const response = await fetch(
           `${API_BASE}/verses/by_chapter/${chapterNumber}?` +
-          `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1`,
+          `words=true&word_fields=code_v2,text_qpc_hafs`,
           {
             headers: {
               'x-auth-token': accessToken,
@@ -1511,7 +1517,7 @@ async function fetchVerses() {
   try {
     const response = await fetch(
       `${API_BASE}/verses/by_chapter/${props.chapterNumber}?` +
-      `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1`,
+      `words=true&word_fields=code_v2,text_qpc_hafs`,
       {
         headers: {
           'x-auth-token': props.accessToken,
@@ -1922,7 +1928,7 @@ function getTajweedFontPath(pageNumber, theme) {
 
       const response = await fetch(
         `${API_BASE}/verses/by_chapter/${chapter}?` +
-        `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=19`,
+        `words=true&word_fields=code_v2,text_qpc_hafs`,
         {
           headers: {
             'x-auth-token': accessToken,
@@ -2182,7 +2188,7 @@ fontFace.load()
 
 **Solutions:**
 
-1. Verify `mushaf` parameter matches font type
+1. When fetching pages with `/verses/by_page`, verify the `mushaf` parameter matches the font type
 2. For IndoPak, check 15 vs 16 lines setting
 
 ### Firefox V1 Mushaf Spacing Issues
