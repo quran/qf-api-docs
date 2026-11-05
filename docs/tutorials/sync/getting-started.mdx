@@ -75,7 +75,9 @@ For `COLLECTION_BOOKMARK`, there is no single ID; omit `resourceId`. Create muta
 :::note Favorites/default collection
 The Quran.com Favorites collection uses the virtual collection ID `__default__`.
 
-Push Favorites changes through `POST /v1/sync` as `COLLECTION_BOOKMARK` mutations with `data.collectionId: "__default__"`. Create mutations use a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete mutations may use either `data.bookmarkId` or the same bookmark details. The virtual collection does not create a real `CollectionBookmark` row, so pull-sync clients should read default collection membership from `BOOKMARK.isInDefaultCollection`, not from a separate `COLLECTION_BOOKMARK` mutation.
+Push Favorites changes through `POST /v1/sync` as `COLLECTION_BOOKMARK` mutations with `data.collectionId: "__default__"`. Create mutations use a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete mutations may use either `data.bookmarkId` or the same bookmark details. The virtual collection does not create a real `CollectionBookmark` row. Pulls return Favorites changes as `COLLECTION_BOOKMARK` mutations with `__default__` as the collection, and the bookmark itself carries `BOOKMARK.isInDefaultCollection`; treat `isInDefaultCollection` as the source of truth for membership.
+
+Removing a bookmark from Favorites deletes the bookmark when it is in no other collection and is not used as a reading bookmark. The pull then also returns a `BOOKMARK` `DELETE`.
 
 Clients that do not use the Sync API can keep using the direct collection endpoints. Use `POST /v1/collections/__default__/bookmarks` to add Favorites. To remove Favorites, prefer `DELETE /v1/collections/__default__/bookmarks/{bookmarkId}` when you have the bookmark ID, or use `DELETE /v1/collections/__default__/bookmarks` with a JSON body containing either `bookmarkId` or the bookmark details.
 :::
@@ -162,7 +164,7 @@ When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagina
 ## Important Notes
 
 - **Mutation limits** — `POST /v1/sync` accepts a maximum of 100 mutations per request.
-- **Favorites/default collection** — Use `COLLECTION_BOOKMARK` with `data.collectionId: "__default__"` to push default collection membership. Create with a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete with either `data.bookmarkId` or bookmark details. Pull default membership from `BOOKMARK.isInDefaultCollection`.
+- **Favorites/default collection** — Use `COLLECTION_BOOKMARK` with `data.collectionId: "__default__"` to push default collection membership. Create with a collection-bookmark request body: ayah bodies use `key` and `verseNumber`, while surah/juz/page bodies use `key`; include `type`, `mushafId`, and `mushaf` according to the collection bookmark schema. Delete with either `data.bookmarkId` or bookmark details. Pull default membership from `BOOKMARK.isInDefaultCollection`. Removing a bookmark that is in no other collection deletes the bookmark.
 
 ## Next Steps
 
