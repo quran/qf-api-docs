@@ -133,7 +133,7 @@ Call `GET /v1/sync` with `metadataOnly=true` to read the current head without fe
 
 Call `GET /v1/sync?mutationsSince=<cursor>` with `mutationsSince=0` for a full pull, and apply each mutation locally. Persist `lastMutationAt` only after the final page.
 
-For pagination, keep the same `mutationsSince` across pages. The production `GET /v1/sync` contract also declares a `lastMutationAt` continuation head for page 2 and later: when your deployment accepts it, send the head returned by page 1, and a head that changes mid-pull returns `409`, which restarts the pull from page 1 with the original cursor. The pre-live contract does not declare that parameter yet.
+For pagination, keep the same `mutationsSince` across pages. On production, page 2 and later must also send `lastMutationAt` set to the head returned by page 1. A missing or changed head returns `409 OutOfSyncError`: restart the pull from page 1 with the original `mutationsSince`. (The pre-live contract does not declare this parameter yet.)
 
 ### Step 3: Push Local Changes
 
@@ -167,7 +167,7 @@ For the full request/response schema, see:
 - `resources=BOOKMARK,COLLECTION` limits results to those resources
 - `limit` and `page` paginate results (max `limit` is 1000)
 - Continue fetching pages until `hasMore=false`
-- Page 2 and later keep the same `mutationsSince`. The production contract additionally accepts the page-1 `lastMutationAt` as a continuation head; where it is supported, a changed head returns `409` and the pull restarts from page 1.
+- Page 2 and later keep the same `mutationsSince` and, on production, must send the page-1 `lastMutationAt`. A missing or changed head returns `409`, and the pull restarts from page 1.
 
 When `metadataOnly=true`, the response includes only `lastMutationAt` (no pagination fields).
 

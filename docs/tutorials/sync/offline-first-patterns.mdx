@@ -103,7 +103,7 @@ Your sync engine should follow a **pull → apply → push** cycle and handle 40
 
 ### Pull → Apply → Push (with pagination)
 
-1. **Pull** — Call `GET /v1/sync?mutationsSince=T` and page through results (`page`/`limit`) until `hasMore=false`.
+1. **Pull** — Call `GET /v1/sync?mutationsSince=T` and page through results (`page`/`limit`) until `hasMore=false`, sending the page-1 `lastMutationAt` on page 2 and later.
 2. **Apply** — Apply mutations in timestamp order and update local records.
 3. **Push** — Send queued mutations with `POST /v1/sync?lastMutationAt=T` and update `lastMutationAt` from the response.
 
