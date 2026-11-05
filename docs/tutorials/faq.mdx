@@ -64,6 +64,10 @@ See [Logout with Redirect](/docs/tutorials/oidc/example-integration#4-logout-wit
 
 Your logo is displayed automatically if `logo_uri` is configured in your OAuth2 client registration. See [Client Configuration](/docs/tutorials/oidc/client-setup) for details on setting up your client metadata.
 
+## How do I know when a user deletes their Quran Foundation account?
+
+Set up a webhook endpoint for your app in [Developer Console](https://dev-console.quran.foundation/projects) and subscribe it to `user.deleted`. When a user who authorized your app deletes their Quran Foundation account, Quran Foundation sends a signed `user.deleted` event with the user's `sub`, so you can delete or anonymize the data you hold for them. Requests are authenticated with a signing secret in the Standard Webhooks format, and you can send a test event from Developer Console. See [Webhooks](/docs/tutorials/webhooks) for setup, signature verification, delivery, and testing on prelive.
+
 ## Can I use QF Content in a commercial or freemium app?
 
 Yes. A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model without a separate commercial license, provided that:

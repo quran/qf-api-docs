@@ -69,6 +69,10 @@ After OAuth2 login, validate the ID token according to your OIDC library and use
 Always use `sub` as the foreign key to link users. Email addresses can change, but `sub` is permanent and unique.
 :::
 
+:::tip Handle account deletion
+When a user who authorized your app deletes their Quran Foundation account, Quran Foundation sends a signed `user.deleted` [webhook](/docs/tutorials/webhooks) with the same `sub` to your app's webhook endpoint, if you have set one up in Developer Console. Use it to delete or anonymize the data you store for that user.
+:::
+
 ---
 
 ## Overview

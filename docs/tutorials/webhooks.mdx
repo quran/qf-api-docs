@@ -1,0 +1,382 @@
+---
+title: "Webhooks"
+description: "Receive signed Quran Foundation webhook events, starting with user.deleted, so your app can delete or anonymize a user's data when they delete their Quran Foundation account."
+sidebar_label: "Webhooks"
+displayed_sidebar: APIsSidebar
+keywords:
+  - quran foundation webhooks
+  - user deleted webhook
+  - quran foundation account deletion
+  - standard webhooks signature verification
+  - delete user data oauth2
+---
+
+# Webhooks
+
+Quran Foundation webhooks are signed HTTPS `POST` requests that Quran Foundation sends to your server when something happens that your app needs to act on.
+
+The first event is `user.deleted`. When a user who authorized your app deletes their Quran Foundation account, Quran Foundation sends `user.deleted` to your app's webhook endpoint so you can delete or anonymize the data you hold for that user.
+
+:::info Quick Summary
+**Audience:** Apps that sign users in with Quran Foundation [OAuth2 / OpenID Connect](/docs/tutorials/oidc/getting-started-with-oauth2) and store their own data linked to the user's `sub`.
+
+**Setup:** One HTTPS endpoint per environment (prelive and production), configured for your app in [Developer Console](https://dev-console.quran.foundation/projects).
+
+**Authentication:** Every request is signed with your endpoint's signing secret in the [Standard Webhooks](https://www.standardwebhooks.com) format. Your endpoint verifies the signature. You do not need an access token or API call to receive events.
+
+**Testing:** Send a `webhook.test` event from Developer Console, then run an end-to-end account deletion on prelive.
+:::
+
+## Event catalog
+
+| Event type | Subscribe to it? | Sent when |
+| --- | --- | --- |
+| `user.deleted` | Yes, select it for your endpoint | A user who authorized your app deletes their Quran Foundation account. |
+| `webhook.test` | No, it is always allowed | You send a test event from Developer Console. |
+
+More event types may be added to the catalog later. Developer Console lists the event types you can select. Your endpoint should acknowledge event types it does not handle with a `2xx` response.
+
+## Who receives `user.deleted` {#who-receives-user-deleted}
+
+Quran Foundation sends `user.deleted` for a deleted user to an app's endpoint in an environment only when all of the following are true:
+
+1. The app has an enabled webhook endpoint in that environment, subscribed to `user.deleted`.
+2. The app is active.
+3. When the account was deleted, the user had an active authorization (OAuth consent) for at least one of the app's OAuth clients in that environment.
+
+Apps the user never authorized are never told about the deletion. If the user authorized more than one of your app's clients, your endpoint receives one delivery, and `data.clientIds` lists the clients the user had authorized.
+
+### Environments
+
+Prelive and production are separate. Each environment has its own endpoint configuration and signing secret.
+
+- A production Quran Foundation account deletion is sent to your **production** endpoint.
+- A prelive account deletion, for example a test user on [prelive.quran.com](https://prelive.quran.com), is sent to your **prelive** endpoint.
+
+The `data.environment` field in each event names the environment.
+
+### What to do with `user.deleted`
+
+`data.sub` is the same value your app received as the `sub` claim in the user's ID token and from the [UserInfo endpoint](/docs/oauth2_apis_versioned/get-oidc-user-info). If you [store `sub` as the key for your own records](/docs/tutorials/oidc/getting-started-with-oauth2#how-to-link-qf-users-to-your-data), look up the user by `sub` in the matching environment and delete or anonymize the data you hold for them.
+
+- Make deletion idempotent: receiving the same event again, or an event for a user you have already removed, should succeed without error.
+- Respond quickly, then do the deletion work in the background (see [Delivery and retries](#delivery-and-retries)).
+
+**Account merges.** When a user merges two Quran Foundation accounts, the account that is merged away is deleted, and `user.deleted` is sent for its `sub`. The same person may continue to use your app under a different `sub`. Delete the data keyed to the old `sub`, and treat the other `sub` as a separate user.
+
+**Revoked access.** A user who disconnects your app (revokes its authorization) before deleting their account is no longer in the audience, so your app is not notified when the account is later deleted. Treat a revoked authorization, or a refresh token that stops working, as the end of your relationship with that user, and apply your own data retention rules from that point.
+
+The [Developer Privacy Policy Requirements](/legal/developer-privacy/) ask your privacy policy to state that a user's associated data in your app is deleted when they delete their main Quran Foundation account. The `user.deleted` webhook tells your app when that happens, under the conditions [above](#who-receives-user-deleted).
+
+## Set up an endpoint in Developer Console
+
+Webhooks are configured per app and per environment in [Developer Console](https://dev-console.quran.foundation/projects):
+
+1. Open your app in Developer Console.
+2. Choose the environment: **prelive** or **production**.
+3. Add your endpoint URL.
+4. Select `user.deleted` as an event to receive.
+5. Save, then copy the signing secret. It is shown **only once**. Store it in your server's secret store.
+6. Send a test event and confirm your endpoint returns a `2xx` response.
+7. Repeat for the other environment when you are ready. Each environment gets its own secret.
+
+You can rotate the signing secret later from the same place. The new secret is also shown only once. If you delete an endpoint, its secret is deleted with it.
+
+### Disabled endpoints and app ownership transfers
+
+Events are only delivered to an endpoint that is enabled and subscribed to the event type. If an endpoint is disabled, deleted, or no longer subscribed to an event, or the app is no longer active, pending deliveries to it are dropped. They are not queued, and they are not sent later when the endpoint is enabled again.
+
+Transferring an app to a new owner deletes all of the app's webhook endpoints and their signing secrets, in both environments. The previous owner chose those URLs and knows those secrets, so the new owner must add a new endpoint and store the new secret. Deliveries that were still pending for the deleted endpoints are dropped.
+
+### Endpoint URL requirements
+
+Developer Console checks these rules when you save the URL, and Quran Foundation checks them again on every delivery:
+
+- The URL must use `https://` and be at most 2048 characters.
+- It must not contain a username or password (`https://user:pass@...`) or a fragment (`#...`).
+- The host must be publicly reachable. `localhost`, hosts ending in `.localhost`, `.local`, or `.internal`, and private, loopback, or other non-public IP addresses are rejected. At delivery time, every address the host name resolves to must be publicly routable.
+- Redirects are not followed. Use the final URL of your handler.
+
+To receive events on a development machine, expose your local server through a tunnel that gives it a public HTTPS host name, and register that URL for your prelive endpoint.
+
+## Request format
+
+Quran Foundation webhooks follow the [Standard Webhooks](https://www.standardwebhooks.com) specification.
+
+```http
+POST /webhooks/quran-foundation HTTP/1.1
+Content-Type: application/json
+User-Agent: QuranFoundation-Webhooks/1.0
+webhook-id: msg_2b1f0a3c-5d6e-4f70-8a91-b2c3d4e5f607
+webhook-timestamp: 1793188800
+webhook-signature: v1,K5oZfzN95Z9UVu1EsfQmfVNQhnkZ2pj9o9NDN/H/pI4=
+
+{"type":"user.deleted","timestamp":"2026-10-28T12:00:00Z","data":{...}}
+```
+
+| Header | Description |
+| --- | --- |
+| `webhook-id` | Message ID in the form `msg_` followed by an ID for the event. It is the same on every retry and on every endpoint that receives the event. Use it to detect duplicates. |
+| `webhook-timestamp` | Unix time in seconds when this delivery attempt was signed. Each retry is signed again. |
+| `webhook-signature` | A space-separated list of signatures, each in the form `v1,` followed by a base64 signature. Accept the request if any `v1` signature matches. |
+
+The example header values above are illustrative.
+
+### `user.deleted` payload
+
+```json
+{
+  "type": "user.deleted",
+  "timestamp": "2026-10-28T12:00:00Z",
+  "data": {
+    "sub": "the-users-sub",
+    "environment": "production",
+    "clientIds": ["your-client-id"]
+  }
+}
+```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `type` | string | Always `user.deleted`. |
+| `timestamp` | string | Event time as an ISO 8601 UTC timestamp. |
+| `data.sub` | string | The deleted user's identifier. The same value your app received as `sub` in ID tokens and from UserInfo. |
+| `data.environment` | string | `production` or `prelive`. |
+| `data.clientIds` | array of strings | Your app's OAuth client IDs that the user had authorized. |
+
+### `webhook.test` payload
+
+```json
+{
+  "type": "webhook.test",
+  "timestamp": "2026-10-28T12:00:00Z",
+  "data": {
+    "environment": "prelive",
+    "appId": "0b9a1d6e-3f2c-4a8b-9e7d-5c1f2a3b4c5d"
+  }
+}
+```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `type` | string | Always `webhook.test`. |
+| `timestamp` | string | Event time as an ISO 8601 UTC timestamp. |
+| `data.environment` | string | The environment of the endpoint that was tested: `production` or `prelive`. |
+| `data.appId` | string | Your app's ID (a UUID). |
+
+A test event is signed exactly like a real event. Verify it, then return a `2xx` response without changing any user data.
+
+## Verify signatures
+
+Verify every request before you act on it. Requests that fail verification should get a `4xx` response and no further processing.
+
+**Signing secret.** The secret has the form `whsec_` followed by base64. The HMAC key is the base64-decoded part after `whsec_`, which is 32 bytes.
+
+**Signed content.** The signature is the base64 HMAC-SHA256 of this string, using the decoded key:
+
+```text
+{webhook-id}.{webhook-timestamp}.{raw request body}
+```
+
+**Checks.**
+
+- Use the **raw request body** exactly as received. Do not parse the JSON and serialize it again before verifying, because any change in spacing or key order changes the signature.
+- Reject requests whose `webhook-timestamp` is more than **5 minutes** away from your server's clock.
+- Compare signatures in **constant time**.
+
+Any Standard Webhooks library performs these checks. The examples below use the official `standardwebhooks` packages for Node.js and Python.
+
+### Node.js (Express)
+
+```bash
+npm install standardwebhooks
+```
+
+```js
+import express from "express";
+import { Webhook } from "standardwebhooks";
+
+const app = express();
+const webhook = new Webhook(process.env.QF_WEBHOOK_SECRET); // "whsec_..."
+
+app.post(
+  "/webhooks/quran-foundation",
+  express.raw({ type: "application/json" }), // keep the exact bytes
+  async (req, res) => {
+    let event;
+    try {
+      event = webhook.verify(req.body, req.headers);
+    } catch {
+      return res.status(400).send("Invalid signature");
+    }
+
+    const messageId = req.get("webhook-id");
+    if (await alreadyProcessed(messageId)) {
+      return res.sendStatus(200);
+    }
+
+    if (event.type === "user.deleted") {
+      await queueUserDeletion(event.data.sub, event.data.environment);
+    }
+    // webhook.test and any other type: acknowledge without further action.
+
+    await markProcessed(messageId);
+    return res.sendStatus(200);
+  },
+);
+```
+
+Register the `express.raw()` route before any app-wide `express.json()` middleware, so the body reaches `verify()` as an unparsed `Buffer`. `verify()` checks the timestamp tolerance and compares signatures in constant time, then returns the parsed JSON. `alreadyProcessed`, `markProcessed`, and `queueUserDeletion` stand for your own storage and job queue.
+
+### Python (Flask)
+
+```bash
+pip install standardwebhooks
+```
+
+```python
+import os
+
+from flask import Flask, request
+from standardwebhooks import Webhook, WebhookVerificationError
+
+app = Flask(__name__)
+webhook = Webhook(os.environ["QF_WEBHOOK_SECRET"])  # "whsec_..."
+
+
+@app.post("/webhooks/quran-foundation")
+def quran_foundation_webhook():
+    try:
+        event = webhook.verify(request.get_data(), request.headers)
+    except (WebhookVerificationError, ValueError):
+        return "Invalid signature", 400
+
+    message_id = request.headers["webhook-id"]
+    if already_processed(message_id):
+        return "", 200
+
+    if event["type"] == "user.deleted":
+        queue_user_deletion(event["data"]["sub"], event["data"]["environment"])
+    # webhook.test and any other type: acknowledge without further action.
+
+    mark_processed(message_id)
+    return "", 200
+```
+
+`request.get_data()` returns the raw body bytes. In other frameworks, pass the unparsed body (for example `await request.body()` in FastAPI or `request.body` in Django) and the request headers.
+
+### Manual verification (Node.js, no library)
+
+If you cannot use a Standard Webhooks library, verify the signature with the standard crypto module:
+
+```js
+import crypto from "node:crypto";
+
+const TOLERANCE_SECONDS = 5 * 60;
+
+// rawBody: Buffer with the exact request body. headers: lower-case header names.
+export function verifyQuranFoundationWebhook(rawBody, headers, secret) {
+  const id = headers["webhook-id"];
+  const timestamp = headers["webhook-timestamp"];
+  const signatures = headers["webhook-signature"];
+  if (!id || !timestamp || !signatures) {
+    throw new Error("Missing webhook headers");
+  }
+
+  const signedAt = Number(timestamp);
+  const now = Math.floor(Date.now() / 1000);
+  if (!Number.isInteger(signedAt) || Math.abs(now - signedAt) > TOLERANCE_SECONDS) {
+    throw new Error("Timestamp outside the 5-minute tolerance");
+  }
+
+  const key = Buffer.from(secret.replace(/^whsec_/, ""), "base64");
+  const expected = crypto
+    .createHmac("sha256", key)
+    .update(`${id}.${timestamp}.`)
+    .update(rawBody)
+    .digest();
+
+  const matched = signatures.split(" ").some((entry) => {
+    const [version, value] = entry.split(",");
+    if (version !== "v1" || !value) return false;
+    const received = Buffer.from(value, "base64");
+    return (
+      received.length === expected.length &&
+      crypto.timingSafeEqual(received, expected)
+    );
+  });
+  if (!matched) {
+    throw new Error("No matching signature");
+  }
+
+  return JSON.parse(rawBody.toString("utf8"));
+}
+```
+
+## Delivery and retries
+
+- **Success:** Your endpoint must return a `2xx` status within **10 seconds**. Any other status, a timeout, or a connection error counts as a failed attempt. Only the status code matters, so an empty response body is fine.
+- **No redirects:** A `3xx` response is not followed and counts as a failed attempt.
+- **At-least-once:** The same message can be delivered more than once. Deduplicate on `webhook-id`, which stays the same across retries.
+- **Ordering:** Messages may arrive out of order. Do not rely on delivery order.
+- **Retries:** After a failed attempt, Quran Foundation tries again on this schedule, about 27 hours in total. After the last failed attempt, the message is dropped.
+
+| Attempt | Delay after the previous failed attempt |
+| --- | --- |
+| 1 | Immediately (first delivery) |
+| 2 | 5 seconds |
+| 3 | 5 minutes |
+| 4 | 30 minutes |
+| 5 | 2 hours |
+| 6 | 5 hours |
+| 7 | 10 hours |
+| 8 | 10 hours |
+
+Because of the 10-second limit, verify the signature, record the `webhook-id`, queue the work, and respond. Delete the user's data in a background job rather than inside the request.
+
+### Rotating the signing secret
+
+When you rotate the secret in Developer Console, the next delivery attempt is signed with the new secret. There is no overlap period in which both secrets are used.
+
+To rotate without failed deliveries:
+
+1. Prepare your endpoint to accept a second secret: try the new secret first and fall back to the current one.
+2. Rotate in Developer Console and copy the new secret.
+3. Deploy the new secret to your endpoint.
+4. Remove the old secret once deliveries verify with the new one.
+
+If your endpoint rejects a delivery because it still has the old secret, that delivery is retried on the schedule above and is signed with the new secret on each retry, so it succeeds once your endpoint has the new secret.
+
+## Test your integration
+
+### 1. Send a test event
+
+After saving your endpoint, send a test event from Developer Console. Quran Foundation sends one signed `webhook.test` event to the saved URL and shows whether it was delivered, the HTTP status code your endpoint returned, how long it took, and the reason for a failure. A test event is sent once and is not retried. You can send a test event at most once every 10 seconds for each app and environment. Deleting and recreating the endpoint does not reset this limit.
+
+Use the test event to confirm that your endpoint is reachable, that signature verification passes with your secret, and that you respond with `2xx` within 10 seconds.
+
+### 2. Run an end-to-end check on prelive {#prelive-end-to-end-check}
+
+Before you rely on `user.deleted` in production, run the full flow on prelive:
+
+1. Configure your **prelive** endpoint subscribed to `user.deleted` and confirm a test event succeeds.
+2. Create a test user on [prelive.quran.com](https://prelive.quran.com).
+3. Sign in to your app with that user through your **prelive** OAuth client and approve the consent screen. Record the `sub` your app stores for the user, and create some app data for them.
+4. Keep your app authorized for that user, then delete the test user's Quran Foundation account on [prelive.quran.com](https://prelive.quran.com).
+5. Confirm your endpoint receives `user.deleted` with `data.environment` set to `prelive`, `data.sub` equal to the stored `sub`, and your prelive client ID in `data.clientIds`.
+6. Confirm your app deleted or anonymized that user's data.
+
+The user must still have an active authorization for your app when the account is deleted. If the authorization was revoked before the deletion, your app is not notified.
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| Signature never matches | The body was parsed and serialized again, decoded with a different encoding, or changed by middleware before verification. | Verify against the raw body bytes. In Express, use `express.raw()` for the webhook route. In Flask, use `request.get_data()`. |
+| Signature never matches | Wrong secret: from the other environment, an old secret after rotation, or the `whsec_` prefix handled incorrectly. | Use the secret for this environment's endpoint. Libraries accept the full `whsec_...` value. In manual code, base64-decode the part after `whsec_`. |
+| "Timestamp too old" or "too new" | Your server clock is more than 5 minutes off. | Synchronize the server clock (for example with NTP). |
+| Test shows a timeout | Your endpoint took longer than 10 seconds to respond. | Respond after verifying and queueing. Do the deletion work in the background. |
+| Test cannot connect or the destination is blocked | The host is not publicly reachable, resolves to a private address, or the URL breaks the [URL requirements](#endpoint-url-requirements). | Use a public HTTPS host. For local development, use a tunnel with a public HTTPS host name. |
+| Test returns a non-2xx status | Your handler rejected the request, for example a `3xx` redirect, `401`, `404`, or `500`. | Register the final URL, remove authentication in front of the route (the signature authenticates Quran Foundation), and check your handler logs. |
+| No `user.deleted` arrives | The endpoint is disabled, not subscribed to `user.deleted`, configured in the other environment, or was deleted by an app ownership transfer; the app is not active; or the user had no active authorization for your app when the account was deleted. | Check the endpoint in Developer Console for the matching environment and repeat the [prelive check](#prelive-end-to-end-check). |
+| The same event is processed twice | Retries and at-least-once delivery. | Deduplicate on `webhook-id` and make deletion idempotent. |
