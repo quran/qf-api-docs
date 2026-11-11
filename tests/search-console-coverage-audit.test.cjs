@@ -7,7 +7,9 @@ const {
   formatFailure,
   parseArgs,
   buildPathForPathname,
+  isIntentionallyNoindexed,
   isPathBlockedByRobots,
+  parseNoindexHeaderPatterns,
   parseSitemapUrls,
   resolveHttpUrl,
   resolveLocalUrl,
@@ -204,6 +206,126 @@ test('issue checks require redirected source URLs to be absent from sitemap', as
   assert.deepEqual(result.diagnostics, {
     sourceSitemapUrls: ['https://api-docs.quran.foundation/docs/old-page/'],
   });
+});
+
+const liveHtmlSignals = (overrides = {}) => async () => ({
+  canonical: '',
+  contentType: 'text/html',
+  metaRobots: '',
+  xRobotsTag: '',
+  ...overrides,
+});
+
+test('issue checks pass trailing-slash redirects whose target is the sitemap URL', async () => {
+  const result = await applySearchConsoleIssueChecks(
+    'https://api-docs.quran.foundation/docs/page',
+    'Page with redirect',
+    {
+      ok: true,
+      outcome: 'redirected',
+      finalStatus: 200,
+      finalUrl: 'https://preview.example.com/docs/page/',
+    },
+    {
+      robotsTxt: 'User-agent: *\nAllow: /\n',
+      sitemapUrls: new Set(['https://api-docs.quran.foundation/docs/page/']),
+    },
+    {
+      mode: 'live',
+      readIndexSignals: liveHtmlSignals({
+        canonical: 'https://api-docs.quran.foundation/docs/page/',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, true);
+});
+
+test('page-with-redirect issue accepts http URLs that the edge upgrades to https', async () => {
+  const result = await applySearchConsoleIssueChecks(
+    'http://api-docs.quran.foundation/',
+    'Page with redirect',
+    {
+      ok: true,
+      outcome: 'ok',
+      finalStatus: 200,
+      finalUrl: 'https://preview.example.com/',
+    },
+    {
+      robotsTxt: 'User-agent: *\nAllow: /\n',
+      sitemapUrls: new Set(['https://api-docs.quran.foundation/']),
+    },
+    {
+      mode: 'live',
+      readIndexSignals: liveHtmlSignals({
+        canonical: 'https://api-docs.quran.foundation/',
+      }),
+    },
+  );
+
+  assert.equal(result.ok, true);
+});
+
+test('noindex header patterns come from X-Robots-Tag rules in _headers', () => {
+  const patterns = parseNoindexHeaderPatterns([
+    '# comment',
+    '/*',
+    '  X-Frame-Options: SAMEORIGIN',
+    '/docs/user_related_apis_prelive/*',
+    '  X-Robots-Tag: noindex, follow',
+    '/search/',
+    '  X-Robots-Tag: noindex, follow',
+  ].join('\n'));
+
+  assert.equal(isIntentionallyNoindexed('/docs/user_related_apis_prelive/scopes/', patterns), true);
+  assert.equal(isIntentionallyNoindexed('/search/', patterns), true);
+  assert.equal(isIntentionallyNoindexed('/search/extra/', patterns), false);
+  assert.equal(isIntentionallyNoindexed('/docs/user_related_apis_versioned/1.0.0/scopes/', patterns), false);
+});
+
+test('issue checks accept intentional noindex only while the page is out of the sitemap', async () => {
+  const finalUrl = 'https://preview.example.com/docs/user_related_apis_prelive/scopes/';
+  const run = (sitemapUrls) => applySearchConsoleIssueChecks(
+    'https://api-docs.quran.foundation/docs/user_related_apis_prelive/scopes/',
+    'Excluded by \u2018noindex\u2019 tag',
+    { ok: true, outcome: 'ok', finalStatus: 200, finalUrl },
+    {
+      robotsTxt: 'User-agent: *\nAllow: /\n',
+      sitemapUrls,
+      noindexPatterns: [/^\/docs\/user_related_apis_prelive\/.*$/],
+    },
+    { mode: 'live', readIndexSignals: liveHtmlSignals({ xRobotsTag: 'noindex, follow' }) },
+  );
+
+  assert.equal((await run(new Set())).ok, true);
+
+  const listed = await run(new Set([
+    'https://api-docs.quran.foundation/docs/user_related_apis_prelive/scopes/',
+  ]));
+  assert.equal(listed.ok, false);
+  assert.equal(listed.outcome, 'noindex-url-in-sitemap');
+});
+
+test('issue checks still flag noindex on pages not meant to be noindexed', async () => {
+  const result = await applySearchConsoleIssueChecks(
+    'https://api-docs.quran.foundation/docs/quickstart/',
+    'Crawled - currently not indexed',
+    {
+      ok: true,
+      outcome: 'ok',
+      finalStatus: 200,
+      finalUrl: 'https://preview.example.com/docs/quickstart/',
+    },
+    {
+      robotsTxt: 'User-agent: *\nAllow: /\n',
+      sitemapUrls: new Set(),
+      noindexPatterns: [/^\/docs\/user_related_apis_prelive\/.*$/],
+    },
+    { mode: 'live', readIndexSignals: liveHtmlSignals({ metaRobots: 'noindex' }) },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.outcome, 'unexpected-noindex');
 });
 
 test('formatted audit failures include SEO diagnostics', () => {
