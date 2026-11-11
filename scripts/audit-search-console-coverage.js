@@ -10,6 +10,7 @@ const zlib = require("zlib");
 const siteDir = path.resolve(__dirname, "..");
 const buildDir = path.join(siteDir, "build");
 const redirectsPath = path.join(buildDir, "_redirects");
+const headersPath = path.join(siteDir, "static", "_headers");
 const siteOrigin = "https://api-docs.quran.foundation";
 const siteHost = new URL(siteOrigin).host;
 const defaultTimeoutMs = 10000;
@@ -388,6 +389,46 @@ function extractMetaRobots(html) {
   const tag = String(html || "").match(/<meta\b[^>]*name=["']robots["'][^>]*>/i)?.[0] ||
     String(html || "").match(/<meta\b[^>]*content=["'][^"']+["'][^>]*name=["']robots["'][^>]*>/i)?.[0];
   return tag ? extractHtmlAttr(tag, "content") : "";
+}
+
+// Paths that static/_headers deliberately serves with an X-Robots-Tag noindex
+// (pre-live docs, /search/, sitemap.xml, raw OpenAPI specs). A noindex on these
+// is intended, so the audit must not report it as "unexpected-noindex".
+function parseNoindexHeaderPatterns(headersText) {
+  const patterns = [];
+  let currentPath = null;
+
+  for (const line of String(headersText || "").split(/\r?\n/)) {
+    if (!line.trim() || line.trim().startsWith("#")) {
+      continue;
+    }
+
+    if (!/^\s/.test(line)) {
+      currentPath = line.trim();
+      continue;
+    }
+
+    const header = line.trim().match(/^x-robots-tag\s*:\s*(.*)$/i);
+    if (currentPath && header && header[1].toLowerCase().includes("noindex")) {
+      const escaped = currentPath
+        .split("*")
+        .map((part) => part.replace(/[.+?^${}()|[\]\\]/g, "\\$&"))
+        .join(".*");
+      patterns.push(new RegExp(`^${escaped}$`));
+    }
+  }
+
+  return patterns;
+}
+
+function readNoindexHeaderPatterns(filePath = headersPath) {
+  return fs.existsSync(filePath)
+    ? parseNoindexHeaderPatterns(fs.readFileSync(filePath, "utf8"))
+    : [];
+}
+
+function isIntentionallyNoindexed(pathname, patterns = []) {
+  return patterns.some((pattern) => pattern.test(pathname));
 }
 
 function hasNoindexSignal(signals) {
@@ -820,8 +861,10 @@ async function applySearchConsoleIssueChecks(rawUrl, issue, result, context, opt
     : await readSignals(finalUrl, options);
   const expectSitemapEntry = shouldExpectSitemapEntry(finalUrl, signals);
   const robotsBlocked = isPathBlockedByRobots(context.robotsTxt, finalPathname);
+  // The slash variant of a source can be the redirect target itself
+  // (/docs/page -> /docs/page/); that sitemap entry is the canonical page.
   const matchingSourceSitemapUrls = [...sourceSitemapUrls].filter((url) =>
-    context.sitemapUrls.has(url),
+    url !== finalSitemapUrl && context.sitemapUrls.has(url),
   );
 
   if (result.outcome === "redirected" && matchingSourceSitemapUrls.length > 0) {
@@ -830,7 +873,15 @@ async function applySearchConsoleIssueChecks(rawUrl, issue, result, context, opt
     });
   }
 
-  if (issue === pageWithRedirectIssue && result.outcome !== "redirected") {
+  // http:// URLs redirect to https:// at the edge; the resolver already
+  // requests them on the https origin, so that hop is not in the chain.
+  const upgradedFromHttp = new URL(rawUrl).protocol === "http:";
+
+  if (
+    issue === pageWithRedirectIssue &&
+    result.outcome !== "redirected" &&
+    !upgradedFromHttp
+  ) {
     return failIndexability(result, "expected-redirect", {
       issue,
     });
@@ -862,6 +913,19 @@ async function applySearchConsoleIssueChecks(rawUrl, issue, result, context, opt
     return failIndexability(result, "blocked-by-robots", {
       finalPathname,
     });
+  }
+
+  if (
+    hasNoindexSignal(signals) &&
+    isIntentionallyNoindexed(finalPathname, context.noindexPatterns)
+  ) {
+    if (context.sitemapUrls.has(finalSitemapUrl)) {
+      return failIndexability(result, "noindex-url-in-sitemap", {
+        finalSitemapUrl,
+      });
+    }
+
+    return result;
   }
 
   if (hasNoindexSignal(signals)) {
@@ -960,6 +1024,7 @@ async function auditSearchConsoleExports(files, options = {}) {
       (mode === "live" ? await readLiveRobotsTxt(options) : readLocalRobotsTxt()),
     sitemapUrls: options.sitemapUrls ||
       (mode === "live" ? await readLiveSitemapUrls(options) : readLocalSitemapUrls()),
+    noindexPatterns: options.noindexPatterns || readNoindexHeaderPatterns(),
   };
   const reports = [];
   let failedUrls = 0;
@@ -1115,8 +1180,10 @@ module.exports = {
   applySearchConsoleIssueChecks,
   formatFailure,
   hasNoindexSignal,
+  isIntentionallyNoindexed,
   isPathBlockedByRobots,
   parseArgs,
+  parseNoindexHeaderPatterns,
   parseSitemapUrls,
   pathnameFromUrl,
   readRedirectSources,
