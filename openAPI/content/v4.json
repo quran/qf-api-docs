@@ -10353,8 +10353,10 @@
                     "value": {
                       "reciters": [
                         {
-                          "id": 3,
+                          "id": 4,
+                          "reciter_id": 3,
                           "name": "Abu Bakr al-Shatri",
+                          "beta": false,
                           "style": {
                             "name": "Murattal",
                             "language_name": "english"
@@ -22116,7 +22118,8 @@
                         "chapter_id": 1,
                         "file_size": 710784,
                         "format": "mp3",
-                        "audio_url": "https://download.quranicaudio.com/qdc/abu_bakr_shatri/murattal/1.mp3"
+                        "audio_url": "https://download.quranicaudio.com/qdc/abu_bakr_shatri/murattal/1.mp3",
+                        "duration": 53000
                       }
                     }
                   },
@@ -22129,6 +22132,7 @@
                         "file_size": 710784,
                         "format": "mp3",
                         "audio_url": "https://download.quranicaudio.com/qdc/abu_bakr_shatri/murattal/1.mp3",
+                        "duration": 53000,
                         "timestamps": [
                           {
                             "verse_key": "1:1",
@@ -26381,6 +26385,12 @@
             "format": "uri",
             "example": "https://download.quranicaudio.com/qdc/abu_bakr_shatri/murattal/1.mp3"
           },
+          "duration": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Length of the audio file in milliseconds. `null` when the length is unknown.",
+            "example": 53000
+          },
           "timestamps": {
             "type": "array",
             "description": "Present when timing data is available. If `segments=true`, each item may include a `segments` array.",
@@ -27279,6 +27289,11 @@
           "audio_url": {
             "type": "string",
             "description": "The audio file's url"
+          },
+          "duration": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Length of the audio file in milliseconds. `null` when the length is unknown."
           }
         },
         "example": {
@@ -27302,17 +27317,28 @@
           "id",
           "name",
           "style",
-          "qirat"
+          "qirat",
+          "reciter_id",
+          "beta"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
-            "description": "Reciter ID"
+            "description": "Chapter-reciter ID. Use it as `reciter_id` in [/chapter_recitations/{reciter_id}](/docs/content_apis_versioned/chapter-reciter-audio-files)."
+          },
+          "reciter_id": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID of the person reciting. Several chapter reciters (for example, Murattal and Mujawwad styles of the same reciter) can share one `reciter_id`."
           },
           "name": {
             "type": "string",
             "description": "Name of reciter in English"
+          },
+          "beta": {
+            "type": "boolean",
+            "description": "`true` when Quran.com marks the recitation as beta."
           },
           "style": {
             "type": "object",
@@ -27354,8 +27380,10 @@
           }
         },
         "example": {
-          "id": 3,
+          "id": 4,
+          "reciter_id": 3,
           "name": "Abu Bakr al-Shatri",
+          "beta": false,
           "style": {
             "name": "Murattal",
             "language_name": "english"
