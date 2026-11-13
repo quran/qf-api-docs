@@ -405,7 +405,8 @@ function buildPageRows(pageNumber, lines, chapters, linesPerPage = 15) {
 @font-face {
   font-family: 'surahnames';
   src: url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff2') format('woff2'),
-       url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff') format('woff');
+       url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff') format('woff'),
+       url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.ttf') format('truetype');
   font-display: block;
 }
 
@@ -887,7 +888,10 @@ Used for surah headings; see [Surah Headings and Bismillah](#surah-headings-and-
 ```text
 https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff2
 https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff
+https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.ttf
 ```
+
+Use the TTF file on platforms that cannot load WOFF or WOFF2 fonts, such as Flutter and other native mobile apps. All three files are the same font (Version 1.1) with the same three-digit surah-name ligatures.
 
 ### Font Caching and App Bundling
 
