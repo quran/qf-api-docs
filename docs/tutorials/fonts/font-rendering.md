@@ -12,7 +12,7 @@ and techniques used on Quran.com. You'll learn how to:
 - Fetch verse data with the correct API parameters for font rendering
 - Load and apply Quran fonts
 - Render Arabic text with proper styling
-- Handle different script types (Madani, IndoPak, Uthmani, Tajweed)
+- Handle different script types (Madani, IndoPak Nastaleeq, Uthmani, Tajweed)
 
 ---
 
@@ -44,7 +44,7 @@ and techniques used on Quran.com. You'll learn how to:
 | If you want...             | Use this font | API field                 |
 | ---------------------------- | --------------- | --------------------------- |
 | **Fastest implementation** | QPC Hafs      | `text_qpc_hafs`           |
-| **South Asian script**     | IndoPak       | `text_indopak`            |
+| **South Asian script**     | IndoPak Nastaleeq | `text_indopak_nastaleeq` (`fields` or `word_fields`) |
 | **Pixel-perfect Mushaf**   | QCF V2        | `code_v2` + `page_number` |
 | **Tajweed color rules**    | QCF V4        | `code_v2` + `page_number` |
 
@@ -116,7 +116,7 @@ Quran.com supports two categories of fonts:
 | Category              | Description                                | Fonts                      | Pros                           | Cons                             |
 | ----------------------- | -------------------------------------------- | ---------------------------- | -------------------------------- | ---------------------------------- |
 | **QCF (Glyph-Based)** | Special glyph codes mapped to custom fonts | V1, V2, V4 (Tajweed)       | Pixel-perfect Mushaf rendering | Requires per-page font loading   |
-| **Unicode**           | Standard Arabic Unicode text               | QPC Hafs, Uthmani, IndoPak | Simple to implement            | Standard text rendering          |
+| **Unicode**           | Standard Arabic Unicode text               | QPC Hafs, Uthmani, IndoPak Nastaleeq | Simple to implement            | Standard text rendering          |
 
 ### Available Fonts
 
@@ -128,7 +128,7 @@ Quran.com supports two categories of fonts:
 | **QCF V4 Tajweed** | `code_v2`       | 19        | Glyph-based | Colored Tajweed rules              |
 | **QPC Hafs**       | `text_qpc_hafs` | 5         | Unicode     | Use with the `UthmanicHafs` font family (`UthmanicHafs1Ver18` files) |
 | **Uthmani**        | `text_uthmani`  | 4         | Unicode     | Standard Uthmani text |
-| **IndoPak**        | `text_indopak`  | 3, 6, 7   | Unicode     | South Asian users                  |
+| **IndoPak Nastaleeq** | `text_indopak_nastaleeq` | 3, 6, 7 | Unicode | South Asian users. Requires the compatible IndoPak Nastaleeq font file (see [Font Files](#indopak-nastaleeq-font)) |
 
 ### Choosing a Font
 
@@ -162,7 +162,7 @@ This section covers the specific API parameters needed for font rendering. For c
 | -------------- | -------------------------------- | ------------------------------------------------------- |
 | `words`        | Include word-level data          | `words=true`                                            |
 | `word_fields`  | Which text fields to return      | `word_fields=code_v2,text_qpc_hafs,text_uthmani_simple` |
-| `mushaf`       | Mushaf layout/format ID          | `mushaf=1` (QCF V2)                                     |
+| `mushaf`       | Mushaf layout ID, for page-based endpoints only (`/verses/by_page`, `/pages`, `/juzs`) | `mushaf=1` (QCF V2)                                     |
 | `translations` | Translation resource IDs to include | `translations=131,95` (comma-separated)              |
 
 ### Word Fields for Font Rendering
@@ -174,7 +174,11 @@ The key word fields needed for font rendering:
 | `code_v1`       | QCF V1 glyph codes    | V1 font rendering       |
 | `code_v2`       | QCF V2 glyph codes    | V2 or V4 font rendering |
 | `text_qpc_hafs` | QPC Hafs Unicode text | Unicode font rendering  |
-| `text_indopak`  | IndoPak script text   | IndoPak font rendering  |
+| `text_indopak_nastaleeq` | IndoPak Nastaleeq Unicode text | IndoPak Nastaleeq rendering (compatible font only) |
+
+:::note IndoPak Nastaleeq text
+Quran.com uses `text_indopak_nastaleeq`; the older `text_indopak` field is deprecated. Request it for whole verses with `fields=text_indopak_nastaleeq`, or per word with `words=true&word_fields=text_indopak_nastaleeq`. This text works only with the compatible [IndoPak Nastaleeq font file](#indopak-nastaleeq-font) (`indopak-nastaleeq-waqf-lazim-v4.2.1`); with other fonts, waqf signs and verse-end markers will not render correctly.
+:::
 
 📚 **Full field reference:** [Word-level Fields Documentation](https://api-docs.quran.foundation/docs/api/field-reference/#-word-level-fields-word_fields)
 
@@ -186,20 +190,22 @@ Each word in the API response has a `char_type_name` field indicating its type:
 | Type          | Description           | Rendering Notes                  |
 | --------------- | ----------------------- | ---------------------------------- |
 | `word`        | Regular Quranic word  | Standard rendering               |
-| `end`         | Verse end marker (۝) | Always use`UthmanicHafs` font    |
+| `end`         | Verse end marker (۝) | QCF fields: use the `UthmanicHafs` font. `text_indopak_nastaleeq`: keep the IndoPak Nastaleeq font |
 | `pause`       | Pause/stop mark       | May skip rendering in some views |
 | `sajdah`      | Prostration marker    | Special styling may apply        |
 | `rub-el-hizb` | Quarter Hizb marker   | Special styling may apply        |
 
-> ⚠️ **Important:** For `end` markers, always use the Unicode font (`UthmanicHafs`), not QCF fonts,
-> as the verse number glyphs render better with the Unicode font.
+> ⚠️ **Important:** When rendering QCF fields (`code_v1`, `code_v2`), use the Unicode font (`UthmanicHafs`)
+> for `end` markers, not QCF fonts, as the verse number glyphs render better with the Unicode font.
+> When rendering `text_indopak_nastaleeq`, keep `end` markers in the compatible IndoPak Nastaleeq font;
+> other fonts do not render its verse-end markers correctly.
 
 ### API Request Examples
 
 #### For QCF V2 (Glyph-Based)
 
 ```bash
-curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1" \
+curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?words=true&word_fields=code_v2,text_qpc_hafs" \
   -H "x-auth-token: YOUR_ACCESS_TOKEN" \
   -H "x-client-id: YOUR_CLIENT_ID"
 ```
@@ -215,10 +221,16 @@ curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?wo
 #### For Tajweed V4
 
 ```bash
-curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?words=true&word_fields=code_v2,text_qpc_hafs&mushaf=19" \
+curl -X GET "https://apis.quran.foundation/content/api/v4/verses/by_chapter/1?words=true&word_fields=code_v2,text_qpc_hafs" \
   -H "x-auth-token: YOUR_ACCESS_TOKEN" \
   -H "x-client-id: YOUR_CLIENT_ID"
 ```
+
+The request is the same as for QCF V2: Tajweed V4 also uses `code_v2` glyph codes, and what changes is the font files you load (see [Font Files](#qcf-v4-tajweed-604-page-files)).
+
+:::note Choosing a Mushaf layout
+`/verses/by_chapter` does not take a `mushaf` parameter. The `page_number` and `line_number` it returns come from the glyph set you request in `word_fields` (`code_v1` or `code_v2`). To fetch a page in a specific Mushaf layout, use [`/verses/by_page/{page_number}`](/docs/content_apis_versioned/4.0.0/verses-by-page-number) with `mushaf` (for example `mushaf=1` for QCF V2 or `mushaf=19` for QCF V4 Tajweed). See the [Page Layout guide](/docs/tutorials/fonts/page-layout).
+:::
 
 ### API Response Structure
 
@@ -338,6 +350,83 @@ for each line in lines:
 
 1. **Cross-Verse Lines:** One line may contain words from multiple verses
 2. **Font Loading:** For QCF fonts, `page_number` determines which font file to load
+3. **Headings:** Surah names and the bismillah are not in the word data; see [Surah Headings and Bismillah](#surah-headings-and-bismillah)
+
+#### Surah Headings and Bismillah
+
+Mushaf word data contains only Quran words and ayah-end markers. Neither the verse endpoints nor the Content Sync Mushaf snapshot include rows for surah headings or the bismillah, so your app draws them itself, as Quran.com does.
+
+**Simple approach (used by Quran.com):** before any line whose first word is word 1 of ayah 1 (for example word `position` 1 of verse `4:1`), render the surah name, then the bismillah when the chapter's `bismillah_pre` is `true`. `bismillah_pre` comes from the [chapters endpoint](/docs/content_apis_versioned/list-chapters) and from the `quran_core` Content Sync data. It is `false` for Al-Fatihah (surah 1), whose bismillah is ayah 1 and is already in the word data, and for At-Tawbah (surah 9), which has no bismillah.
+
+**Exact Mushaf layout:** in the 15-line QCF Mushafs (`mushaf=1` QCF V2, `mushaf=2` QCF V1, `mushaf=19` QCF V4 Tajweed), the line numbers that have no words are exactly the heading slots. Lay out lines 1 to `lines_per_page` (15) and fill each empty line:
+
+- Each surah has a surah-name line followed by a bismillah line. Al-Fatihah and At-Tawbah have only the name line. Across the 604 pages there are 226 empty lines: 114 name lines and 112 bismillah lines.
+- An empty line belongs to the surah that starts next. The empty line directly above that surah's first ayah is the bismillah when `bismillah_pre` is `true`, otherwise it is the name. An empty line above that one is the name.
+- A heading can cross a page break. In QCF V2, for example, the name of An-Nisa (surah 4) is line 15 of page 76 and its bismillah is line 1 of page 77. Where this happens differs between Mushafs (QCF V4 Tajweed puts both lines at the top of page 77), so derive it from the data instead of hard-coding pages.
+- Pages 1 and 2 are decorated pages with 8 lines. Page 1 has the surah name on line 1 and ayat on lines 2-8. Page 2 has the surah name on line 1, the bismillah on line 2, and ayat on lines 3-8.
+
+```javascript
+// lines: Map of line_number -> words for one page, for example
+//   new Map(groupWordsByLine(verses).map((l) => [l.lineNumber, l.words]))
+//   using groupWordsByLine from the example below (each word carries verseKey).
+// chapters: Map of chapter id -> chapter object from the chapters endpoint.
+function buildPageRows(pageNumber, lines, chapters, linesPerPage = 15) {
+  const lineCount = pageNumber <= 2 ? 8 : linesPerPage;
+  const chapterOf = (word) => Number(word.verseKey.split(':')[0]);
+  const rows = [];
+
+  for (let line = 1; line <= lineCount; line++) {
+    if (lines.has(line)) {
+      rows.push({ line, type: 'words', words: lines.get(line) });
+      continue;
+    }
+
+    let next = line + 1;
+    while (next <= lineCount && !lines.has(next)) next++;
+
+    if (next > lineCount) {
+      // Bottom of the page: name of the surah that starts on the next page.
+      const lastWords = rows.findLast((row) => row.type === 'words').words;
+      rows.push({ line, type: 'surah-name', chapter: chapterOf(lastWords.at(-1)) + 1 });
+      continue;
+    }
+
+    const chapter = chapterOf(lines.get(next)[0]);
+    const isBismillah = next === line + 1 && chapters.get(chapter).bismillah_pre;
+    rows.push({ line, type: isBismillah ? 'bismillah' : 'surah-name', chapter });
+  }
+  return rows;
+}
+```
+
+**Surah name font:** Quran.com draws surah names with the surah-names font. Its ligatures turn the chapter number, zero-padded to three digits, into the calligraphic surah name, so the text `004` renders as An-Nisa. The text `surah` renders the word "Surah" if you want it next to the name.
+
+```css
+@font-face {
+  font-family: 'surahnames';
+  src: url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff2') format('woff2'),
+       url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff') format('woff'),
+       url('https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.ttf') format('truetype');
+  font-display: block;
+}
+
+.surah-name {
+  font-family: 'surahnames';
+}
+```
+
+```javascript
+function renderSurahName(chapterId) {
+  const el = document.createElement('span');
+  el.className = 'surah-name';
+  el.textContent = String(chapterId).padStart(3, '0'); // 4 -> "004", 114 -> "114"
+  return el;
+}
+```
+
+The digits only become the surah name once the font has loaded and ligatures are enabled (browsers enable them by default), so keep the text hidden until the font is ready. Quran.com does this.
+
+**Bismillah:** there is no hosted bismillah image or font on the CDN. Quran.com bundles its own SVG. You can do the same, or render the text of ayah 1:1 (the bismillah) in a Quran font, leaving out its ayah-end marker (`char_type_name: "end"`).
 
 #### Complete Reading View Example (QCF V2)
 
@@ -780,13 +869,29 @@ https://verses.quran.foundation/fonts/quran/hafs/uthmanic_hafs/UthmanicHafs1Ver1
 https://verses.quran.foundation/fonts/quran/hafs/uthmanic_hafs/UthmanicHafs1Ver18.ttf
 ```
 
+<a id="indopak-nastaleeq-font"></a>
+
 **IndoPak Nastaleeq:**
+
+Use this font file with `text_indopak_nastaleeq`. The text works only with this compatible font version; other IndoPak or Nastaliq fonts will not render its waqf signs and verse-end markers correctly.
 
 ```text
 https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff2
 https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff
 https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.ttf
 ```
+
+#### Surah Names
+
+Used for surah headings; see [Surah Headings and Bismillah](#surah-headings-and-bismillah).
+
+```text
+https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff2
+https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.woff
+https://verses.quran.foundation/fonts/quran/surah-names/v1/sura_names.ttf
+```
+
+Use the TTF file on platforms that cannot load WOFF or WOFF2 fonts, such as Flutter and other native mobile apps. All three files are the same font (Version 1.1) with the same three-digit surah-name ligatures.
 
 ### Font Caching and App Bundling
 
@@ -815,7 +920,7 @@ const API_BASE = 'https://apis.quran.foundation/content/api/v4';
 async function fetchVerses(chapter, accessToken, clientId) {
   const response = await fetch(
     `${API_BASE}/verses/by_chapter/${chapter}?` +
-    `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1`,
+    `words=true&word_fields=code_v2,text_qpc_hafs`,
     {
       headers: {
         'x-auth-token': accessToken,
@@ -978,7 +1083,7 @@ function renderWordWithFallback(word, fontLoaded) {
       // Fetch verses (with authentication)
       const response = await fetch(
         `${API_BASE}/verses/by_chapter/${chapterNumber}?` +
-        `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1`,
+        `words=true&word_fields=code_v2,text_qpc_hafs`,
         {
           headers: {
             'x-auth-token': accessToken,
@@ -1126,17 +1231,19 @@ Unicode fonts are simpler - one font file works for all text.
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>Quran IndoPak Rendering</title>
+  <title>Quran IndoPak Nastaleeq Rendering</title>
   <style>
     @font-face {
-      font-family: 'IndoPak';
+      font-family: 'IndoPakNastaleeq';
       src: url('https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff2') format('woff2'),
            url('https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff') format('woff');
-      font-display: swap;
+      font-display: block;
     }
 
     .quran-text {
-      font-family: 'IndoPak', 'Noto Nastaliq Urdu', serif;
+      /* text_indopak_nastaleeq works only with the compatible IndoPak Nastaleeq font,
+         so there is no fallback font; text is shown only after the font loads. */
+      font-family: 'IndoPakNastaleeq';
       font-size: 32px;
       line-height: 2.5;
       direction: rtl;
@@ -1156,10 +1263,20 @@ Unicode fonts are simpler - one font file works for all text.
     async function fetchAndRender(chapterNumber) {
       const container = document.getElementById('quran');
 
-      // Use mushaf=3 for IndoPak
+      // Show the text only after the compatible font has loaded. Do not fall
+      // back to another font: it would render waqf signs and verse-end markers incorrectly.
+      const fontSpec = "32px 'IndoPakNastaleeq'";
+      const faces = await document.fonts.load(fontSpec).catch(() => []);
+      if (faces.length === 0 || !document.fonts.check(fontSpec)) {
+        container.textContent = 'The IndoPak Nastaleeq font could not be loaded. Please try again.';
+        return;
+      }
+
+      // Verse-level text via `fields`. For per-word rendering, request
+      // `words=true&word_fields=text_indopak_nastaleeq` and read it from each word.
       const response = await fetch(
         `${API_BASE}/verses/by_chapter/${chapterNumber}?` +
-        `words=true&word_fields=text_indopak&mushaf=3`,
+        `fields=text_indopak_nastaleeq`,
         {
           headers: {
             'x-auth-token': accessToken,
@@ -1171,8 +1288,7 @@ Unicode fonts are simpler - one font file works for all text.
 
       data.verses.forEach(verse => {
         const div = document.createElement('div');
-        const text = verse.words.map(w => w.text_indopak).join(' ');
-        div.textContent = text;
+        div.textContent = verse.text_indopak_nastaleeq;
         container.appendChild(div);
       });
     }
@@ -1303,7 +1419,7 @@ function QuranChapter({ chapterNumber, accessToken, clientId }) {
       try {
         const response = await fetch(
           `${API_BASE}/verses/by_chapter/${chapterNumber}?` +
-          `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1`,
+          `words=true&word_fields=code_v2,text_qpc_hafs`,
           {
             headers: {
               'x-auth-token': accessToken,
@@ -1405,7 +1521,7 @@ async function fetchVerses() {
   try {
     const response = await fetch(
       `${API_BASE}/verses/by_chapter/${props.chapterNumber}?` +
-      `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=1`,
+      `words=true&word_fields=code_v2,text_qpc_hafs`,
       {
         headers: {
           'x-auth-token': props.accessToken,
@@ -1816,7 +1932,7 @@ function getTajweedFontPath(pageNumber, theme) {
 
       const response = await fetch(
         `${API_BASE}/verses/by_chapter/${chapter}?` +
-        `words=true&word_fields=code_v2,text_qpc_hafs&mushaf=19`,
+        `words=true&word_fields=code_v2,text_qpc_hafs`,
         {
           headers: {
             'x-auth-token': accessToken,
@@ -2034,7 +2150,7 @@ async function loadFontForPage(page) {
 const response = await fetch(url + '&word_fields=code_v2');
 
 // Bad: Request everything
-const response = await fetch(url + '&word_fields=code_v1,code_v2,text_uthmani,text_indopak,...');
+const response = await fetch(url + '&word_fields=code_v1,code_v2,text_uthmani,text_qpc_hafs,...');
 ```
 
 ---
@@ -2076,7 +2192,7 @@ fontFace.load()
 
 **Solutions:**
 
-1. Verify `mushaf` parameter matches font type
+1. When fetching pages with `/verses/by_page`, verify the `mushaf` parameter matches the font type
 2. For IndoPak, check 15 vs 16 lines setting
 
 ### Firefox V1 Mushaf Spacing Issues

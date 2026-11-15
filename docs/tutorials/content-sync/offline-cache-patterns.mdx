@@ -7,7 +7,7 @@ sidebar_position: 3
 
 # Offline Content Cache Patterns
 
-Content Sync works best when your app treats the server as the source of truth and the local database as a readable cache.
+If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. Treat the server as the source of truth and the local database as a readable cache. Perform a next sync at least every 7 days when connectivity to QF permits and apply all available changes; see the [Developer Terms](/legal/developer-terms/) for the full storage conditions.
 
 ## Recommended Architecture
 
@@ -32,7 +32,7 @@ flowchart TB
     Engine --> DB
 ```
 
-The UI reads from local storage. The sync engine updates that storage in the background.
+The UI reads from local storage. The sync engine updates that storage in the background. If connectivity to QF is unavailable, previously synced Content Sync content may remain available beyond seven days; sync promptly when connectivity returns.
 
 ## Local Tables
 
@@ -83,7 +83,7 @@ Recommended triggers:
 | ------------------------- | -------------------------------------------------------------- |
 | App install or first open | Bootstrap only the resources the app needs.                    |
 | App launch                | Run incremental sync in the background.                        |
-| Network restored          | Run incremental sync.                                          |
+| Network restored          | Run incremental sync promptly.                                 |
 | Reader opens a resource   | Use local content immediately, then refresh in the background. |
 | Token rejected            | Re-bootstrap that resource filter.                             |
 
@@ -91,7 +91,7 @@ Recommended triggers:
 
 When a change includes `snapshot_url`, fetch the full copy and replace only that resource's cached rows in one local transaction. The transaction boundary is one resource, not the full sync run, and the snapshot request should finish before the transaction begins.
 
-When `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path like `/api/v4/resources/snapshots/translations/19`. You should prefix that path with `https://apis.quran.foundation/content`.
+When `snapshot_url` is present and non-null, we return a relative `/api/v4/...` path like `/api/v4/resources/snapshots/translations/19`. Prefix that path with `https://apis-prelive.quran.foundation/content` for prelive or `https://apis.quran.foundation/content` for production. Always use the environment that returned the path, using that environment's credentials.
 
 ```mermaid
 sequenceDiagram

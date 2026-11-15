@@ -13,7 +13,27 @@ sidebar_label: "Content APIs Quickstart"
 displayed_sidebar: "APIsSidebar"
 ---
 
-Use this quickstart after choosing Content APIs from the [Developer Journey](/docs/developer-journey). It gets you to your first authenticated Content API request without exposing credentials.
+Use this quickstart after choosing Content APIs from the [Developer Journey](/docs/developer-journey). It gets you to your first authenticated, read-only request for Quranic content such as chapters, verses, translations, and recitations without exposing credentials.
+
+:::important Choose the right API and OAuth2 flow
+| You need | API and flow | Where to start |
+| --- | --- | --- |
+| Quranic content from a backend | Content APIs with **Client Credentials** and your app's Content scopes | Continue with this quickstart. |
+| A signed-in person's data, such as bookmarks or collections | User-related APIs with **Authorization Code + PKCE** | Follow the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart). |
+
+A browser or mobile app must not embed a Content API `client_secret`. If it needs Content API data, call your own backend, which holds the secret and makes the Content API request.
+:::
+
+:::note Which Content scope to request
+Request the Content scopes listed in your app's approved permissions in [Developer Console](https://dev-console.quran.foundation/projects):
+
+- **Credentials that hold `content`** keep requesting `scope=content`, with no change, whatever kind of app they belong to.
+- A new **Backend/server app** with the Client Credentials grant receives, in place of `content`, the eight granular read scopes `content.quran.read`, `content.translations.read`, `content.tafsirs.read`, `content.audio.read`, `content.hadith.read`, `content.metadata.read`, `content.sync.read` and `content.answers.read` (where its default permissions included `content`). It also receives `content.reflections.read` only where its defaults already cover the public QuranReflect post and comment reads. It requests the scopes it calls, space-separated, for example `scope=content.quran.read` for `/chapters`; asking for `content` returns `invalid_scope`.
+- A new **Backend/server app** without the Client Credentials grant gets no Content scope, like a frontend app. Add the grant, or call Content through a backend app that has it.
+- A new **Frontend or mobile app** gets no Content scope. It calls your own backend, which holds a Backend/server app's credentials, for Content.
+
+The examples below request `content.quran.read`, the scope `/chapters` needs. If your credentials hold `content`, send `scope=content` instead. See [granular content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes).
+:::
 
 :::info Quick Summary
 **Audience:** Backend teams, server-rendered apps, and web apps that proxy Content API calls through a server.
@@ -25,7 +45,7 @@ Use this quickstart after choosing Content APIs from the [Developer Journey](/do
 **Outcome:** A working `/chapters` request with the correct auth flow, headers, and environment URLs.
 :::
 
-:::warning Prelive Content API limitation
+:::note Prelive Content API limitation
 The prelive environment is for testing and development only. Its Quran content dataset includes only Al-Fatihah (surah 1) and Al-Baqarah (surah 2). Test content requests using these surahs. For the complete Quran dataset, use the production environment after production access is approved.
 :::
 
@@ -38,7 +58,7 @@ The manual examples in this section use `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, and 
 For Content APIs, the default and safest architecture is:
 
 1. Store `client_id` and `client_secret` on your backend only.
-2. Request an access token from `POST /oauth2/token` with `grant_type=client_credentials&scope=content`.
+2. Request an access token from `POST /oauth2/token` with `grant_type=client_credentials` and the Content scopes your app holds (see the note above).
 3. Cache the `access_token` until it is close to expiry.
 4. Send `x-auth-token` and `x-client-id` on every Content API request.
 5. If the API returns `401`, re-request a token once and retry once.
@@ -63,12 +83,23 @@ const client = createServerClient({
     gatewayUrl: "https://apis-prelive.quran.foundation",
     oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
   },
+  // New Backend/server apps hold granular Content scopes. Remove this line
+  // for credentials that hold `content`.
+  contentScopeMode: "granular",
 });
 
 const chapters = await client.content.v4.chapters.list();
 ```
 
-This example is for backend/server code because it uses `client_secret`, and it explicitly overrides the SDK's production defaults so a new Console app works in pre-live. After production permissions are granted, switch the credentials, `gatewayUrl`, and `oauth2BaseUrl` to production together. Continue with the [JavaScript SDK guide](/docs/sdk/javascript) for installation, runtime configuration, and endpoint-specific SDK examples.
+This example is for backend/server code because it uses `client_secret`, and it explicitly overrides the SDK's production defaults so a new Console app works in pre-live. `contentScopeMode: "granular"` needs `@quranjs/api` 3.17.0 or later and makes each call request the granular scope it needs, which is what a new Backend/server app holds. After production permissions are granted, switch the credentials, `gatewayUrl`, and `oauth2BaseUrl` to production together.
+
+| SDK entrypoint | Use it for | Credentials and flow |
+| --- | --- | --- |
+| [`@quranjs/api/server`](/docs/sdk/javascript/server-quickstart) | Backend Content API requests (and permitted server-side APIs) | Confidential client: `client_id` and server-only `client_secret`; Client Credentials for Content. |
+| [`@quranjs/api/public`](/docs/sdk/javascript/public-quickstart) | Browser/mobile User APIs with a **Frontend or mobile app** | `clientType: "public"`: `client_id` and Authorization Code + PKCE; the public client can exchange the code. **Not** for Content APIs. |
+| [`@quranjs/api/public`](/docs/sdk/javascript/full-stack) | Frontend User APIs with a **Backend/server app** | `clientType: "confidential-proxy"`: start login with PKCE in the frontend; exchange the code on the backend with `client_secret`. See the [full-stack quickstart](/docs/sdk/javascript/full-stack). |
+
+For runtime configuration and endpoint-specific examples, continue with the [JavaScript SDK guide](/docs/sdk/javascript).
 
 ## First Raw HTTP Request
 
@@ -79,10 +110,10 @@ curl --request POST \
   --url https://prelive-oauth2.quran.foundation/oauth2/token \
   --user 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' \
   --header 'Content-Type: application/x-www-form-urlencoded' \
-  --data 'grant_type=client_credentials&scope=content'
+  --data 'grant_type=client_credentials&scope=content.quran.read'
 ```
 
-Take the returned `access_token` and call the API with both required headers:
+If your credentials hold `content`, send `scope=content` instead. Take the returned `access_token` and call the API with both required headers:
 
 ```bash
 curl --request GET \
@@ -91,14 +122,22 @@ curl --request GET \
   --header "x-client-id: YOUR_CLIENT_ID"
 ```
 
-For the complete backend-safe version, continue with [manual authentication](/docs/quickstart/manual-authentication), [token management](/docs/quickstart/token-management), and [first API call](/docs/quickstart/first-api-call).
+### Python and Node.js without the SDK
+
+The same two-step flow is available as copyable, backend-only examples:
+
+1. [Request a token in Python (`requests`) or Node.js (`fetch`)](/docs/quickstart/manual-authentication#token-request). Both examples use HTTP Basic authentication, a form-encoded body, and a status check before reading the token.
+2. [Call `/chapters` in Python or Node.js](/docs/quickstart/first-api-call#first-request-list-chapters). Both examples send `x-auth-token` and `x-client-id` and check the response status.
+3. [Add caching and a single 401 retry](/docs/quickstart/token-management) before using a manual integration in a long-running service. Do not request a token for every API call or print tokens to logs.
+
+These examples default to pre-live and use `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, and optionally `QF_ENV`. Keep the secret in backend environment configuration, never browser or mobile code.
 
 ## Quick Reference
 
 | Item | Value |
 | --- | --- |
 | OAuth2 flow | `client_credentials` |
-| Required scope | `content` |
+| Required scope | The Content scopes your app holds: granular scopes such as `content.quran.read` for a new Backend/server app, or `content` for credentials that already hold it (see the note above) |
 | Token endpoint path | `/oauth2/token` |
 | Access token lifetime | `3600` seconds |
 | Required API headers | `x-auth-token`, `x-client-id` |
@@ -111,6 +150,20 @@ For the complete backend-safe version, continue with [manual authentication](/do
 | --- | --- | --- |
 | Pre-Production | `https://prelive-oauth2.quran.foundation` | `https://apis-prelive.quran.foundation` |
 | Production | `https://oauth2.quran.foundation` | `https://apis.quran.foundation` |
+
+### Troubleshooting
+
+Check the response status and the error body's `type` and `message`; do not blindly retry every failure. The [first API call guide](/docs/quickstart/first-api-call#handle-errors) has the full error table.
+
+| Status | Check or action |
+| --- | --- |
+| `400` / `422` | Correct missing headers or invalid parameters; do not retry the same request unchanged. |
+| `401` | Clear the cached token, obtain a new one, and retry **once**. |
+| `403` | Check the client ID, matching environment, approved permissions, and that the token carries `content` or the granular Content scope the endpoint needs; do not loop. |
+| `429` | Respect rate limits; retry later with bounded exponential backoff and jitter. |
+| `5xx` | Retry transient failures with bounded backoff, then surface the error. |
+
+If token retrieval itself fails, check the Client Credentials request, credentials, and auth environment in [manual authentication](/docs/quickstart/manual-authentication#token-request).
 
 ### Integration Rules
 

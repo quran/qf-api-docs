@@ -1,0 +1,3569 @@
+{
+  "contractVersion": "content-scopes/v1",
+  "sourceSnapshotSha256": "d5f1512280bfa5b71c5f6a37f0450403eadded41d78d9d2ce747161810047570",
+  "sheetUrl": "https://docs.google.com/spreadsheets/d/1eyyhzsAq925Hj9mE-FgvncOoENVLxZdqV3NB9s4fNhI/edit",
+  "sheetTab": "QF_API_Endpoints.csv",
+  "rows": [
+    {
+      "sheetRow": 2,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/audio/reciters/{reciter_id}/timestamp",
+      "operationId": "audio-reciter-timestamp",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.audio-reciter-timestamp",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 3,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/audio/reciters/{reciter_id}/lookup",
+      "operationId": "audio-reciter-lookup",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.audio-reciter-lookup",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 4,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/recitations",
+      "operationId": "recitations",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.recitations",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 5,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/recitations/{recitation_id}",
+      "operationId": "recitation-audio-files",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.recitation-audio-files",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 6,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/chapter_reciters",
+      "operationId": "chapter-reciters",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.chapter-reciters",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 7,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_chapter/{chapter_number}",
+      "operationId": "list-surah-recitation",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-surah-recitation",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 8,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_juz/{juz_number}",
+      "operationId": "list-juz-recitation",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-juz-recitation",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 9,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_page/{page_number}",
+      "operationId": "list-page-recitation",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-page-recitation",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 10,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_rub/{rub_el_hizb_number}",
+      "operationId": "list-rub-el-hizb-recitation",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-rub-el-hizb-recitation",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 11,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_hizb/{hizb_number}",
+      "operationId": "list-hizb-recitation",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-hizb-recitation",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 12,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_ayah/{ayah_key}",
+      "operationId": "list-ayah-recitation",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-ayah-recitation",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 13,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_manzil/{manzil_number}",
+      "operationId": "list-manzil-recitation",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-manzil-recitation",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 14,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_ruku/{ruku_number}",
+      "operationId": "list-ruku-recitation",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-ruku-recitation",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 15,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/chapter_recitations/{reciter_id}",
+      "operationId": "chapter-reciter-audio-files",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.chapter-reciter-audio-files",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 16,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/chapter_recitations/{reciter_id}/{chapter_number}",
+      "operationId": "chapter-reciter-audio-file",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.chapter-reciter-audio-file",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 17,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/recitations/{recitation_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "operationId": "list-rub-el-hizb-recitation-rub-el-hizb",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-rub-el-hizb-recitation-rub-el-hizb",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 18,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/chapters",
+      "operationId": "list-chapters",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-chapters",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 19,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/chapters/{id}",
+      "operationId": "GET-chapter",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.GET-chapter",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 20,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/chapters/{id}/info",
+      "operationId": "get-chapter-info",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-chapter-info",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 21,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/hadith_references/by_ayah/{ayah_key}",
+      "operationId": "hadith-references-by-ayah",
+      "sheetLabel": "Hadith Scope",
+      "approvedLabel": "Hadith Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.hadith-references-by-ayah",
+      "granularAnyOf": [
+        "content.hadith.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 22,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/hadith_references/by_ayah/{ayah_key}/hadiths",
+      "operationId": "hadiths-by-ayah",
+      "sheetLabel": "Hadith Scope",
+      "approvedLabel": "Hadith Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.hadiths-by-ayah",
+      "granularAnyOf": [
+        "content.hadith.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 23,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/hadith_references/count_within_range",
+      "operationId": "hadith-count-within-range",
+      "sheetLabel": "Hadith Scope",
+      "approvedLabel": "Hadith Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.hadith-count-within-range",
+      "granularAnyOf": [
+        "content.hadith.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 24,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/pages",
+      "operationId": "list-pages",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-pages",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 25,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/pages/lookup",
+      "operationId": "get-pages-lookup",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-pages-lookup",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 26,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/pages/{page_number}",
+      "operationId": "get-pages-page-number",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-pages-page-number",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 27,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_chapter/{chapter_number}",
+      "operationId": "verses-by_chapter_number",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_chapter_number",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 28,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_page/{page_number}",
+      "operationId": "verses-by_page_number",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_page_number",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 29,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_juz/{juz_number}",
+      "operationId": "verses-by_juz_number",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_juz_number",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 30,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_hizb/{hizb_number}",
+      "operationId": "verses-by_hizb_number",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_hizb_number",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 31,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_rub/{rub_el_hizb_number}",
+      "operationId": "verses-by_rub_el_hizb_number",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_rub_el_hizb_number",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 32,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_manzil/{manzil_number}",
+      "operationId": "verses-by_manzil_number",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_manzil_number",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 33,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_ruku/{ruku_number}",
+      "operationId": "verses-by_ruku_number",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_ruku_number",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 34,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_range",
+      "operationId": "verses-by_range",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_range",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 35,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_key/{verse_key}",
+      "operationId": "verses-by_verse_key",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_verse_key",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 36,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/random",
+      "operationId": "random_verse",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.random_verse",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 37,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/verses/by_rub_el_hizb/{rub_el_hizb_number}",
+      "operationId": "verses-by_rub_el_hizb_number-rub-el-hizb",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verses-by_rub_el_hizb_number-rub-el-hizb",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 38,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/juzs",
+      "operationId": "list-juzs",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-juzs",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 39,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/juzs/{id}",
+      "operationId": "get-juz",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-juz",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 40,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/{script}",
+      "operationId": "quran-verses-by-script",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.quran-verses-by-script",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 41,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/indopak",
+      "operationId": "QURAN-verses-indopak",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.QURAN-verses-indopak",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 42,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/indopak_nastaleeq",
+      "operationId": "QURAN-verses-indopak-nastaleeq",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.QURAN-verses-indopak-nastaleeq",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 43,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/uthmani_tajweed",
+      "operationId": "QURAN-verses-uthmani-tajweed",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.QURAN-verses-uthmani-tajweed",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 44,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/uthmani",
+      "operationId": "QURAN-verses-uthmani",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.QURAN-verses-uthmani",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 45,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/uthmani_simple",
+      "operationId": "QURAN-verses-uthmani_simple",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.QURAN-verses-uthmani_simple",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 46,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/imlaei",
+      "operationId": "QURAN-verses-Imlaei",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.QURAN-verses-Imlaei",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 47,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/translations/{translation_id}",
+      "operationId": "translation",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped-with-approved-override",
+      "dispositionReason": "/quran/translations/{translation_id} returns translation text, not Quran script.",
+      "routeId": "content.v4.translation",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 48,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/tafsirs/{tafsir_id}",
+      "operationId": "tafsir",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped-with-approved-override",
+      "dispositionReason": "/quran/tafsirs/{tafsir_id} returns tafsir text, not Quran script.",
+      "routeId": "content.v4.tafsir",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 49,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/code_v1",
+      "operationId": "QURAN-verses-code_v1",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.QURAN-verses-code_v1",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 50,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran/verses/code_v2",
+      "operationId": "QURAN-verses-code_v2",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.QURAN-verses-code_v2",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 51,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/recitations/{recitation_id}/info",
+      "operationId": "recitation-info",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.recitation-info",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 52,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/translations/{translation_id}/info",
+      "operationId": "translation-info",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.translation-info",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 53,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/translations",
+      "operationId": "translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 54,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/tafsirs",
+      "operationId": "tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 55,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/tafsirs/{tafsir_id}/info",
+      "operationId": "tafsir-info",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.tafsir-info",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 56,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/recitation_styles",
+      "operationId": "recitation-styles",
+      "sheetLabel": "Audio scope",
+      "approvedLabel": "Audio scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.recitation-styles",
+      "granularAnyOf": [
+        "content.audio.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 57,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/languages",
+      "operationId": "languages",
+      "sheetLabel": "Content Metadata Scope",
+      "approvedLabel": "Content Metadata Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.languages",
+      "granularAnyOf": [
+        "content.metadata.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 58,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/chapter_infos",
+      "operationId": "chapter-info",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.chapter-info",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 59,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/verse_media",
+      "operationId": "verse-media",
+      "sheetLabel": "Content Metadata Scope",
+      "approvedLabel": "Content Metadata Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.verse-media",
+      "granularAnyOf": [
+        "content.metadata.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 60,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/sync",
+      "operationId": "resources-sync",
+      "sheetLabel": "Content Sync Scope",
+      "approvedLabel": "Content Sync Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.resources-sync",
+      "granularAnyOf": [
+        "content.sync.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 61,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/resources/snapshots/{resource_group}/{id}",
+      "operationId": "resources-snapshot",
+      "sheetLabel": "Content Sync Scope",
+      "approvedLabel": "Content Sync Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.resources-snapshot",
+      "granularAnyOf": [
+        "content.sync.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 62,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_chapter/{chapter_number}",
+      "operationId": "list-surah-translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-surah-translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 63,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_page/{page_number}",
+      "operationId": "list-page-translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-page-translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 64,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_juz/{juz_number}",
+      "operationId": "list-juz-translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-juz-translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 65,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "operationId": "list-rub-el-hizb-translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-rub-el-hizb-translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 66,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_hizb/{hizb_number}",
+      "operationId": "list-hizb-translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-hizb-translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 67,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_manzil/{manzil_number}",
+      "operationId": "list-manzil-translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-manzil-translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 68,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_ruku/{ruku_number}",
+      "operationId": "list-ruku-translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-ruku-translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 69,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_ayah/{ayah_key}",
+      "operationId": "list-ayah-translations",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-ayah-translations",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 70,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/translations/{resource_id}/by_rub/{rub_el_hizb_number}",
+      "operationId": "list-rub-el-hizb-translations-rub",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-rub-el-hizb-translations-rub",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 71,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_chapter/{chapter_number}",
+      "operationId": "list-surah-tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-surah-tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 72,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_page/{page_number}",
+      "operationId": "list-page-tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-page-tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 73,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_juz/{juz_number}",
+      "operationId": "list-juz-tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-juz-tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 74,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_rub_el_hizb/{rub_el_hizb_number}",
+      "operationId": "list-rub-el-hizb-tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-rub-el-hizb-tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 75,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_hizb/{hizb_number}",
+      "operationId": "list-hizb-tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-hizb-tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 76,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_manzil/{manzil_number}",
+      "operationId": "list-manzil-tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-manzil-tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 77,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_ruku/{ruku_number}",
+      "operationId": "list-ruku-tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-ruku-tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 78,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_ayah/{ayah_key}",
+      "operationId": "list-ayah-tafsirs",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-ayah-tafsirs",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 79,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/tafsirs/{resource_id}/by_rub/{rub_el_hizb_number}",
+      "operationId": "list-rub-el-hizb-tafsirs-rub",
+      "sheetLabel": "Tafsir Scope",
+      "approvedLabel": "Tafsir Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-rub-el-hizb-tafsirs-rub",
+      "granularAnyOf": [
+        "content.tafsirs.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 80,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/hizbs",
+      "operationId": "list-hizbs",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-hizbs",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 81,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/hizbs/{id}",
+      "operationId": "get-hizb",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-hizb",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 82,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/rub_el_hizbs",
+      "operationId": "list-rub-el-hizbs",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-rub-el-hizbs",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 83,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/rub_el_hizbs/{id}",
+      "operationId": "get-rub-el-hizb",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-rub-el-hizb",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 84,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/rukus",
+      "operationId": "list-rukus",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-rukus",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 85,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/rukus/{id}",
+      "operationId": "get-ruku",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-ruku",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 86,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/manzils",
+      "operationId": "list-manzils",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-manzils",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 87,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/manzils/{id}",
+      "operationId": "get-manzil",
+      "sheetLabel": "Quran Scope",
+      "approvedLabel": "Quran Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-manzil",
+      "granularAnyOf": [
+        "content.quran.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 88,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/foot_notes/{id}",
+      "operationId": "get-foot-note",
+      "sheetLabel": "Translation Scope",
+      "approvedLabel": "Translation Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-foot-note",
+      "granularAnyOf": [
+        "content.translations.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 89,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran-reflect/v1/posts/feed",
+      "operationId": "PostsController_feed",
+      "sheetLabel": "Reflections and lessons public scope",
+      "approvedLabel": "Reflections and lessons public scope",
+      "authType": "App credentials (post.read)",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "quran-reflect.v1.public.PostsController_feed",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "legacyAnyOf": [
+        "post.read",
+        "post"
+      ]
+    },
+    {
+      "sheetRow": 90,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran-reflect/v1/posts/{id}",
+      "operationId": "PostsController_findOne",
+      "sheetLabel": "Reflections and lessons public scope",
+      "approvedLabel": "Reflections and lessons public scope",
+      "authType": "App credentials (post.read)",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "quran-reflect.v1.public.PostsController_findOne",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "legacyAnyOf": [
+        "post.read",
+        "post"
+      ]
+    },
+    {
+      "sheetRow": 91,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran-reflect/v1/posts/user-posts/{id}",
+      "operationId": "PostsController_getUserPost",
+      "sheetLabel": "Reflections and lessons public scope",
+      "approvedLabel": "Reflections and lessons public scope",
+      "authType": "App credentials (post.read)",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "quran-reflect.v1.public.PostsController_getUserPost",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "legacyAnyOf": [
+        "post.read",
+        "post"
+      ]
+    },
+    {
+      "sheetRow": 92,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran-reflect/v1/posts/{id}/comments",
+      "operationId": "PostsController_getComments",
+      "sheetLabel": "Reflections and lessons public scope",
+      "approvedLabel": "Reflections and lessons public scope",
+      "authType": "App credentials (comment.read)",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "quran-reflect.v1.public.PostsController_getComments",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "legacyAnyOf": [
+        "comment.read",
+        "comment",
+        "post"
+      ]
+    },
+    {
+      "sheetRow": 93,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/quran-reflect/v1/posts/{id}/all-comments",
+      "operationId": "PostsController_getAllComment",
+      "sheetLabel": "Reflections and lessons public scope",
+      "approvedLabel": "Reflections and lessons public scope",
+      "authType": "App credentials (comment.read)",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "quran-reflect.v1.public.PostsController_getAllComment",
+      "granularAnyOf": [
+        "content.reflections.read"
+      ],
+      "legacyAnyOf": [
+        "comment.read",
+        "comment",
+        "post"
+      ]
+    },
+    {
+      "sheetRow": 94,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/answers/by_ayah/{ayah_key}",
+      "operationId": "list-ayah-answers",
+      "sheetLabel": "Q&A Scope",
+      "approvedLabel": "Q&A Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.list-ayah-answers",
+      "granularAnyOf": [
+        "content.answers.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 95,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/answers/{question_id}",
+      "operationId": "get-answer-by-id",
+      "sheetLabel": "Q&A Scope",
+      "approvedLabel": "Q&A Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.get-answer-by-id",
+      "granularAnyOf": [
+        "content.answers.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 96,
+      "family": "Content APIs (v4)",
+      "method": "GET",
+      "sheetPath": "/answers/count_within_range",
+      "operationId": "count-answers-within-range",
+      "sheetLabel": "Q&A Scope",
+      "approvedLabel": "Q&A Scope",
+      "authType": "App credentials",
+      "consentCategory": "",
+      "environment": "production",
+      "disposition": "mapped",
+      "dispositionReason": null,
+      "routeId": "content.v4.count-answers-within-range",
+      "granularAnyOf": [
+        "content.answers.read"
+      ],
+      "legacyAnyOf": [
+        "content.read",
+        "content"
+      ]
+    },
+    {
+      "sheetRow": 97,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/collections",
+      "operationId": "authPostV1Collections",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 98,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/collections",
+      "operationId": "authGetV1Collections",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 99,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/collections/{collectionId}/bookmarks",
+      "operationId": "authPostV1CollectionsByCollectionIdBookmarks",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 100,
+      "family": "User APIs (v1)",
+      "method": "DELETE",
+      "sheetPath": "/v1/collections/{collectionId}/bookmarks",
+      "operationId": "authDeleteV1CollectionsByCollectionIdBookmarks",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 101,
+      "family": "User APIs (v1)",
+      "method": "DELETE",
+      "sheetPath": "/v1/collections/{collectionId}",
+      "operationId": "authDeleteV1CollectionsByCollectionId",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 102,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/collections/{collectionId}",
+      "operationId": "authGetV1CollectionsByCollectionId",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 103,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/collections/{collectionId}",
+      "operationId": "authPostV1CollectionsByCollectionId",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 104,
+      "family": "User APIs (v1)",
+      "method": "DELETE",
+      "sheetPath": "/v1/collections/{collectionId}/bookmarks/{bookmarkId}",
+      "operationId": "authDeleteV1CollectionsByCollectionIdBookmarksByBookmarkId",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 105,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/collections/all",
+      "operationId": "authGetV1CollectionsAll",
+      "sheetLabel": "Collections Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 106,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/bookmarks",
+      "operationId": "authPostV1Bookmarks",
+      "sheetLabel": "Bookmarks Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 107,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/bookmarks",
+      "operationId": "authGetV1Bookmarks",
+      "sheetLabel": "Bookmarks Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 108,
+      "family": "User APIs (v1)",
+      "method": "DELETE",
+      "sheetPath": "/v1/bookmarks/{bookmarkId}",
+      "operationId": "authDeleteV1BookmarksByBookmarkId",
+      "sheetLabel": "Bookmarks Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 109,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/bookmarks/ayahs-range",
+      "operationId": "authGetV1BookmarksAyahsRange",
+      "sheetLabel": "Bookmarks Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 110,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/bookmarks/bookmark",
+      "operationId": "authGetV1BookmarksBookmark",
+      "sheetLabel": "Bookmarks Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 111,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/bookmarks/collections",
+      "operationId": "authGetV1BookmarksCollections",
+      "sheetLabel": "Bookmarks Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 112,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/preferences",
+      "operationId": "authPostV1Preferences",
+      "sheetLabel": "Preferences Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 113,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/preferences",
+      "operationId": "authGetV1Preferences",
+      "sheetLabel": "Preferences Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 114,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/preferences/bulk",
+      "operationId": "authPostV1PreferencesBulk",
+      "sheetLabel": "Preferences Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 115,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/reading-sessions",
+      "operationId": "authPostV1ReadingSessions",
+      "sheetLabel": "Reading session Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 116,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/reading-sessions",
+      "operationId": "authGetV1ReadingSessions",
+      "sheetLabel": "Reading session Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 117,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/goals/get-todays-plan",
+      "operationId": "authGetV1GoalsGetTodaysPlan",
+      "sheetLabel": "Goal Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 118,
+      "family": "User APIs (v1)",
+      "method": "PUT",
+      "sheetPath": "/v1/goals/{id}",
+      "operationId": "authPutV1GoalsById",
+      "sheetLabel": "Goal Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 119,
+      "family": "User APIs (v1)",
+      "method": "DELETE",
+      "sheetPath": "/v1/goals/{id}",
+      "operationId": "authDeleteV1GoalsById",
+      "sheetLabel": "Goal Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 120,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/goals",
+      "operationId": "authPostV1Goals",
+      "sheetLabel": "Goal Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 121,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/goals/estimate",
+      "operationId": "authGetV1GoalsEstimate",
+      "sheetLabel": "Goal Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 122,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/streaks",
+      "operationId": "authGetV1Streaks",
+      "sheetLabel": "Streak Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 123,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/streaks/current-streak-days",
+      "operationId": "authGetV1StreaksCurrentStreakDays",
+      "sheetLabel": "Streak Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 124,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/activity-days",
+      "operationId": "authPostV1ActivityDays",
+      "sheetLabel": "User Activity Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 125,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/activity-days",
+      "operationId": "authGetV1ActivityDays",
+      "sheetLabel": "User Activity Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 126,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/activity-days/estimate-reading-time",
+      "operationId": "authGetV1ActivityDaysEstimateReadingTime",
+      "sheetLabel": "User Activity Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 127,
+      "family": "User APIs (v1)",
+      "method": "PATCH",
+      "sheetPath": "/v1/users/profile",
+      "operationId": "UsersController_editProfile",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 128,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/users/profile",
+      "operationId": "UsersController_profile",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 129,
+      "family": "User APIs (v1)",
+      "method": "PUT",
+      "sheetPath": "/v1/users/profile",
+      "operationId": "UsersController_updateProfile",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 130,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/notes",
+      "operationId": "authGetV1Notes",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 131,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/notes",
+      "operationId": "authPostV1Notes",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 132,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/notes/by-verse/{verseKey}",
+      "operationId": "authGetV1NotesByVerseByVerseKey",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 133,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/notes/by-attached-entity",
+      "operationId": "authGetV1NotesByAttachedEntity",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 134,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/notes/count-within-range",
+      "operationId": "authGetV1NotesCountWithinRange",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 135,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/notes/by-range",
+      "operationId": "authGetV1NotesByRange",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 136,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/notes/{noteId}",
+      "operationId": "authGetV1NotesByNoteId",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 137,
+      "family": "User APIs (v1)",
+      "method": "PATCH",
+      "sheetPath": "/v1/notes/{noteId}",
+      "operationId": "authPatchV1NotesByNoteId",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 138,
+      "family": "User APIs (v1)",
+      "method": "DELETE",
+      "sheetPath": "/v1/notes/{noteId}",
+      "operationId": "authDeleteV1NotesByNoteId",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 139,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/notes/{noteId}/publish",
+      "operationId": "authPostV1NotesByNoteIdPublish",
+      "sheetLabel": "Notes Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 140,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/users/my-rooms",
+      "operationId": "UsersController_rooms",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 141,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/users/search",
+      "operationId": "UsersController_search",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 142,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/users/{followeeId}/toggle-follow",
+      "operationId": "UsersController_toggleFollow",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 143,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/users/{followerId}/remove-follower",
+      "operationId": "UsersController_removeFollower",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 144,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/users/{id}",
+      "operationId": "UsersController_getUserProfile",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 145,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/users/{username}/profile",
+      "operationId": "UsersController_getUserProfile",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 146,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/users/{id}/followers",
+      "operationId": "UsersController_getUserFollowers",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 147,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/users/{id}/following",
+      "operationId": "UsersController_getUserFollowing",
+      "sheetLabel": "Users Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 148,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/rooms/admins-access",
+      "operationId": "RoomsController_adminsAccess",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 149,
+      "family": "User APIs (v1)",
+      "method": "PATCH",
+      "sheetPath": "/v1/rooms/groups",
+      "operationId": "RoomsController_updateGroup",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 150,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/rooms/groups",
+      "operationId": "RoomsController_createNewGroup",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 151,
+      "family": "User APIs (v1)",
+      "method": "PATCH",
+      "sheetPath": "/v1/rooms/pages",
+      "operationId": "RoomsController_updatePage",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 152,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/rooms/pages",
+      "operationId": "RoomsController_createNewPage",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 153,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/{id}/members",
+      "operationId": "RoomsController_getRoomMembers",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 154,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/rooms/{id}/invite",
+      "operationId": "RoomsController_inviteUserToRoom",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 155,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/{id}/accept-invite",
+      "operationId": "RoomsController_acceptInvite",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 156,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/{id}/reject-invite",
+      "operationId": "RoomsController_rejectInvite",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 157,
+      "family": "User APIs (v1)",
+      "method": "DELETE",
+      "sheetPath": "/v1/rooms/{id}/members/{userId}",
+      "operationId": "RoomsController_removeMember",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 158,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/joined-rooms",
+      "operationId": "RoomsController_getRooms",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 159,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/managed-rooms",
+      "operationId": "RoomsController_getRooms",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 160,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/search",
+      "operationId": "RoomsController_searchRooms",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 161,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/group/{url}",
+      "operationId": "RoomsController_getRoomProfile",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 162,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/page/{subdomain}",
+      "operationId": "RoomsController_getRoomProfile",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 163,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/group/{url}/accept/{token}",
+      "operationId": "RoomsController_acceptByPrivateToken",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 164,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/page/{subdomain}/accept/{token}",
+      "operationId": "RoomsController_acceptByPrivateToken",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 165,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/{id}",
+      "operationId": "RoomsController_getRoomProfileById",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 166,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/rooms/{id}/posts",
+      "operationId": "RoomsController_getRoomPosts",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 167,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/rooms/{groupId}/join",
+      "operationId": "RoomsController_joinRoom",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 168,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/rooms/{groupId}/leave",
+      "operationId": "RoomsController_leaveGroup",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 169,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/rooms/{pageId}/follow",
+      "operationId": "RoomsController_followPage",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 170,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/rooms/{pageId}/unfollow",
+      "operationId": "RoomsController_unfollowPage",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 171,
+      "family": "User APIs (v1)",
+      "method": "PATCH",
+      "sheetPath": "/v1/rooms/{roomId}/posts/{postId}/privacy",
+      "operationId": "RoomsController_updatePostPrivacy",
+      "sheetLabel": "Rooms Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 172,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/feed",
+      "operationId": "PostsController_feed",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 173,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/{postId}/related",
+      "operationId": "PostsController_getRelatedPosts",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 174,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/{postId}/re-reflections",
+      "operationId": "PostsController_getReReflections",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 175,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/my-posts",
+      "operationId": "PostsController_getLoggedinUserPosts",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 176,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/{id}/liked",
+      "operationId": "PostsController_getLikedState",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 177,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/{id}",
+      "operationId": "PostsController_findOne",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 178,
+      "family": "User APIs (v1)",
+      "method": "DELETE",
+      "sheetPath": "/v1/posts/{id}",
+      "operationId": "PostsController_delete",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 179,
+      "family": "User APIs (v1)",
+      "method": "PATCH",
+      "sheetPath": "/v1/posts/{id}",
+      "operationId": "PostsController_edit",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 180,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/posts/viewed/{id}",
+      "operationId": "PostsController_viewTracking",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 181,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/posts/read/{id}",
+      "operationId": "PostsController_readTracking",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 182,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/posts",
+      "operationId": "PostsController_create",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 183,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/posts/{id}/report",
+      "operationId": "PostsController_reportAbuse",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 184,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/user-posts/{id}",
+      "operationId": "PostsController_getUserPost",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 185,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/posts/{id}/toggle-like",
+      "operationId": "PostsController_toggleLike",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 186,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/posts/{id}/toggle-save",
+      "operationId": "PostsController_toggleSave",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 187,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/{id}/comments",
+      "operationId": "PostsController_getComments",
+      "sheetLabel": "QR Comments Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 188,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/{id}/all-comments",
+      "operationId": "PostsController_getAllComment",
+      "sheetLabel": "QR Comments Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 189,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/posts/export/pdf",
+      "operationId": "PostsController_exportMultiplePosts",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 190,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/count-within-range",
+      "operationId": "PostsController_getMyPostsCountWithinRange",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 191,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/count-by-verse/{verseId}",
+      "operationId": "PostsController_getPublicPostCountByVerse",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 192,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/by-verse/{verseKey}",
+      "operationId": "PostsController_getMyPostsByVerse",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 193,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/tags",
+      "operationId": "TagsController_find",
+      "sheetLabel": "Hashtags scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 194,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/comments",
+      "operationId": "CommentsController_create",
+      "sheetLabel": "QR Comments Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 195,
+      "family": "User APIs (v1)",
+      "method": "PATCH",
+      "sheetPath": "/v1/comments/{id}",
+      "operationId": "CommentsController_edit",
+      "sheetLabel": "QR Comments Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 196,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/comments/{id}/delete",
+      "operationId": "CommentsController_deleteComment",
+      "sheetLabel": "QR Comments Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 197,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/comments/{id}/toggle-like",
+      "operationId": "CommentsController_toggleLike",
+      "sheetLabel": "QR Comments Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 198,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/comments/{id}/replies",
+      "operationId": "CommentsController_get",
+      "sheetLabel": "QR Comments Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 199,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/trending-hashtags",
+      "operationId": "TrendingHashtagsController_find",
+      "sheetLabel": "Hashtags scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 200,
+      "family": "OAuth2 APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/oauth2/token",
+      "operationId": "oauth2TokenExchange",
+      "sheetLabel": "Authorization Scope",
+      "authType": "Client credentials / Auth code",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 201,
+      "family": "OAuth2 APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/oauth2/auth",
+      "operationId": "oAuth2Authorize",
+      "sheetLabel": "Authorization Scope",
+      "authType": "N/A",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 202,
+      "family": "OAuth2 APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/oauth2/introspect",
+      "operationId": "introspectOAuth2Token",
+      "sheetLabel": "Authorization Scope",
+      "authType": "Client credentials",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 203,
+      "family": "OAuth2 APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/oauth2/revoke",
+      "operationId": "revokeOAuth2Token",
+      "sheetLabel": "Authorization Scope",
+      "authType": "Client credentials",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 204,
+      "family": "OAuth2 APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/userinfo",
+      "operationId": "getOidcUserInfo",
+      "sheetLabel": "Authorization Scope",
+      "authType": "Bearer token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 205,
+      "family": "OAuth2 APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/oauth2/sessions/logout",
+      "operationId": "revokeOidcSession",
+      "sheetLabel": "Authorization Scope",
+      "authType": "Bearer token",
+      "consentCategory": "Account and preferences",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 206,
+      "family": "Search APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/api/v1/search",
+      "operationId": "SearchController_search",
+      "sheetLabel": "Search Scope",
+      "authType": "App credentials (search scope)",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "production",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 207,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/sync",
+      "operationId": "authGetV1Sync",
+      "sheetLabel": "Sync Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "prelive",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 208,
+      "family": "User APIs (v1)",
+      "method": "POST",
+      "sheetPath": "/v1/sync",
+      "operationId": "authPostV1Sync",
+      "sheetLabel": "Sync Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Content & Quran Journey",
+      "environment": "prelive",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    },
+    {
+      "sheetRow": 209,
+      "family": "User APIs (v1)",
+      "method": "GET",
+      "sheetPath": "/v1/posts/viewed/{id}",
+      "operationId": "PostsController_viewTracking",
+      "sheetLabel": "QR Post Scope",
+      "authType": "OAuth2 user token",
+      "consentCategory": "Community activity",
+      "environment": "prelive",
+      "disposition": "regression-inventory-not-migrated",
+      "dispositionReason": "Non-content API family. Appendix A3: preserve existing independent policy; requires separate approval to change."
+    }
+  ]
+}

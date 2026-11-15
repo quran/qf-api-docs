@@ -100,6 +100,16 @@ test('drops explicit Search Console redirect sources from the sitemap', () => {
   );
 });
 
+test('drops pre-live User API docs from the sitemap', () => {
+  assert.equal(shouldDropSitemapPath('/docs/user_related_apis_prelive/publish-note/'), true);
+  assert.equal(shouldDropSitemapPath('/docs/user_related_apis_prelive/'), true);
+  assert.equal(shouldDropSitemapPath('/docs/category/user-related-apis-pre-live/'), true);
+  assert.equal(
+    shouldDropSitemapPath('/docs/user_related_apis_versioned/1.0.0/posts-controller-feed/'),
+    false,
+  );
+});
+
 test('keeps the request-access page in the sitemap', () => {
   assert.equal(shouldDropSitemapPath('/request-access'), false);
   assert.equal(shouldDropSitemapPath('/request-access/'), false);

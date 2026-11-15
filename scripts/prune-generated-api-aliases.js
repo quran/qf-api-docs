@@ -165,7 +165,79 @@ function walkAllFiles(dir) {
   return results;
 }
 
+// Generated tag pages that would claim the same URL as a hand-written guide.
+// The App State guide (app-state/index.mdx) is published at .../app-state/, which
+// is also where the plugin writes the generated "App State" tag page. Rename the
+// tag page so the guide keeps its URL, and relabel its sidebar category so the
+// two "App State" entries can be told apart.
+const SHADOWED_TAG_DOCS = [
+  {
+    guideDir: "app-state",
+    tagSlug: "app-state",
+    renamedSlug: "app-state-api-reference",
+    renamedLabel: "App State API reference",
+  },
+];
+
+function readSidebarItems(sidebarFile) {
+  const content = fs.readFileSync(sidebarFile, "utf8");
+  const match = content.match(/^module\.exports\s*=\s*([\s\S]*?);?\s*$/);
+
+  if (!match) {
+    throw new Error(`Unexpected generated sidebar format: ${sidebarFile}`);
+  }
+
+  return JSON.parse(match[1]);
+}
+
+function renameShadowedTagDocs() {
+  let renamed = 0;
+
+  for (const docsDir of docsDirs) {
+    if (!fs.existsSync(docsDir)) {
+      continue;
+    }
+
+    for (const { guideDir, tagSlug, renamedSlug, renamedLabel } of SHADOWED_TAG_DOCS) {
+      if (!fs.existsSync(path.join(docsDir, guideDir, "index.mdx"))) {
+        continue;
+      }
+
+      for (const filePath of walkAllFiles(docsDir)) {
+        if (path.basename(filePath) !== `${tagSlug}.tag.mdx`) {
+          continue;
+        }
+
+        const targetPath = path.join(path.dirname(filePath), `${renamedSlug}.tag.mdx`);
+        const oldDocId = getDocId(filePath);
+        const newDocId = getDocId(targetPath);
+        const content = fs.readFileSync(filePath, "utf8");
+
+        fs.writeFileSync(targetPath, replaceFrontMatterId(content, renamedSlug), "utf8");
+        fs.unlinkSync(filePath);
+
+        const sidebarFile = path.join(path.dirname(filePath), "sidebar.js");
+        if (fs.existsSync(sidebarFile)) {
+          const items = readSidebarItems(sidebarFile);
+          for (const item of items) {
+            if (item?.type === "category" && item.link?.id === oldDocId) {
+              item.link.id = newDocId;
+              item.label = renamedLabel;
+            }
+          }
+          fs.writeFileSync(sidebarFile, `module.exports = ${JSON.stringify(items)};\n`, "utf8");
+        }
+
+        renamed += 1;
+      }
+    }
+  }
+
+  return renamed;
+}
+
 function main() {
+  const renamedTagDocs = renameShadowedTagDocs();
   let normalized = 0;
   const replacements = [];
   const redirects = [];
@@ -214,6 +286,7 @@ function main() {
   console.log(
     `[api-cleanup] Normalized ${normalized} generated auth API docs and recorded ${redirects.length} redirects`,
   );
+  console.log(`[api-cleanup] Renamed ${renamedTagDocs} generated tag pages shadowed by guides`);
 }
 
 if (require.main === module) {

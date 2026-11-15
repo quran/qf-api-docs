@@ -135,9 +135,13 @@ Check the HTTP status before trusting the response body. Content API error respo
 | --- | --- | --- |
 | `400` or `422` | Missing headers, invalid query parameters, or validation failure | Fix the request before retrying. |
 | `401` | The access token is missing, expired, or invalid | Clear the cached token, request a new Client Credentials token, and retry once. |
-| `403` | Wrong client, wrong environment, or missing `content` scope/permission | Confirm `x-client-id`, token environment, and `scope=content`. Do not retry in a loop. |
+| `403` | Wrong client, wrong environment, or missing scope/permission | Confirm `x-client-id`, token environment, and that the token was requested with the [granular Content scope](/docs/user_related_apis_versioned/scopes#granular-content-scopes) this endpoint needs (a new Backend/server app, for example `content.quran.read` for `/chapters`) or with `scope=content` (credentials that hold `content`). Do not retry in a loop. |
 | `429` | Rate limit exceeded | Back off and retry later. Prefer exponential backoff with jitter. |
 | `500`, `502`, `503`, `504` | Temporary server or upstream failure | Retry with bounded backoff, then surface a temporary failure. |
+
+:::note HTTP 403 with `error code: 1010`
+A 403 with a plain-text body of `error code: 1010` means your client's default `User-Agent` is being blocked (Python's `urllib` default is). Set your own `User-Agent` header or use `requests`, `httpx`, or `curl`. See the [manual authentication troubleshooting note](/docs/quickstart/manual-authentication#troubleshooting-http-403-with-error-code-1010).
+:::
 
 Client Credentials does not use a `refresh_token`. When a Content API token expires, re-request a new token from `/oauth2/token`. See [token management](/docs/quickstart/token-management) for the full cache and retry-once pattern.
 
@@ -179,7 +183,7 @@ Requirements
 - Reuse the existing backend token helper instead of requesting a new token for every request.
 - Handle non-2xx responses safely:
   - 401: clear cached token, re-request a Client Credentials token, and retry once.
-  - 403: check client credentials, environment, and scope=content.
+  - 403: check client credentials, environment, and that the token carries the granular Content scope the endpoint needs (new Backend/server apps) or content (credentials that hold content).
   - 429 and 5xx: retry only with bounded backoff.
   - 400/422: surface a request validation error instead of retrying blindly.
 - Expose a backend route or service method that returns the chapters response without leaking credentials to the frontend.

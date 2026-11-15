@@ -154,10 +154,15 @@ const client = createServerClient({
     gatewayUrl: "https://apis-prelive.quran.foundation",
     oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
   },
+  // New Backend/server apps hold granular Content scopes. Remove this line
+  // for credentials that hold `content`.
+  contentScopeMode: "granular",
 });
 
 const chapters = await client.content.v4.chapters.list();
 ```
+
+A new Backend/server app is issued [granular Content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes) in place of `content`, so it sets `contentScopeMode: "granular"` (`@quranjs/api` 3.17.0 or later). Credentials that hold `content` remove that line and keep the default legacy mode. See [Content Scopes](/docs/sdk/javascript/server-quickstart#content-scopes).
 
 ### Public
 
@@ -225,6 +230,9 @@ const client = createServerClient({
     gatewayUrl: "https://apis-prelive.quran.foundation",
     oauth2BaseUrl: "https://prelive-oauth2.quran.foundation",
   },
+  // New Backend/server apps hold granular Content scopes. Remove this line
+  // for credentials that hold `content`.
+  contentScopeMode: "granular",
 });
 
 const chapters = await client.content.v4.chapters.list();

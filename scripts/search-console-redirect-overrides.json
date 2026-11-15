@@ -5,6 +5,10 @@
       "target": "/docs/tutorials/oidc/mobile-apps/"
     },
     {
+      "source": "/docs/category/oauth2open-id-connect",
+      "target": "/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/"
+    },
+    {
       "source": "/docs/content_apis_versioned",
       "target": "/docs/content_apis_versioned/4.0.0/content-apis/"
     },
@@ -101,16 +105,8 @@
       "target": "/docs/connected-apps/"
     },
     {
-      "source": "/docs/tutorials/sync/getting-started",
-      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
-    },
-    {
-      "source": "/docs/tutorials/sync/handling-conflicts",
-      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
-    },
-    {
-      "source": "/docs/tutorials/sync/offline-first-patterns",
-      "target": "/docs/tutorials/oidc/user-apis-quickstart/"
+      "source": "/docs/user-related-apis/reading-sessions-vs-activity-days",
+      "target": "/docs/user-related-apis/1.0.0/reading-sessions-vs-activity-days/"
     },
     {
       "source": "/docs/user_related_apis_versioned",
@@ -129,8 +125,40 @@
       "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-create/"
     },
     {
+      "source": "/docs/user_related_apis_versioned/1.0.0/assign-user-as-a-group-admin",
+      "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-admins-access/"
+    },
+    {
       "source": "/docs/user_related_apis_versioned/1.0.0/comments-controller-success",
       "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/delete-a-comment",
+      "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/get-user-groups",
+      "target": "/docs/user_related_apis_versioned/1.0.0/users-controller-rooms/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/remove-user-from-group",
+      "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-remove-member/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/report-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-report-abuse/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/toggle-save-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-save/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/update-a-comment",
+      "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-edit/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/1.0.0/update-user-profile",
+      "target": "/docs/user_related_apis_versioned/1.0.0/users-controller-update-profile/"
     },
     {
       "source": "/docs/user_related_apis_versioned/1.0.0/users-controller-delete-account",
@@ -155,10 +183,6 @@
     {
       "source": "/docs/user_related_apis_versioned/1.0.0/get-group-settings",
       "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/"
-    },
-    {
-      "source": "/docs/user_related_apis_versioned/1.0.0/get-mutations",
-      "target": "/docs/user_related_apis_prelive/get-mutations/"
     },
     {
       "source": "/docs/user_related_apis_versioned/1.0.0/get-posts",
@@ -229,8 +253,40 @@
       "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-create/"
     },
     {
+      "source": "/docs/user_related_apis_versioned/assign-user-as-a-group-admin",
+      "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-admins-access/"
+    },
+    {
       "source": "/docs/user_related_apis_versioned/comments-controller-success",
       "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/delete-a-comment",
+      "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-delete-comment/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/get-user-groups",
+      "target": "/docs/user_related_apis_versioned/1.0.0/users-controller-rooms/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/remove-user-from-group",
+      "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-remove-member/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/report-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-report-abuse/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/toggle-save-a-post",
+      "target": "/docs/user_related_apis_versioned/1.0.0/posts-controller-toggle-save/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/update-a-comment",
+      "target": "/docs/user_related_apis_versioned/1.0.0/comments-controller-edit/"
+    },
+    {
+      "source": "/docs/user_related_apis_versioned/update-user-profile",
+      "target": "/docs/user_related_apis_versioned/1.0.0/users-controller-update-profile/"
     },
     {
       "source": "/docs/user_related_apis_versioned/users-controller-delete-account",
@@ -255,10 +311,6 @@
     {
       "source": "/docs/user_related_apis_versioned/get-group-settings",
       "target": "/docs/user_related_apis_versioned/1.0.0/rooms-controller-get-room-profile-by-id/"
-    },
-    {
-      "source": "/docs/user_related_apis_versioned/get-mutations",
-      "target": "/docs/user_related_apis_prelive/get-mutations/"
     },
     {
       "source": "/docs/user_related_apis_versioned/get-posts",

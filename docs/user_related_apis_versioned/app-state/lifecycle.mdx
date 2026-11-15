@@ -104,41 +104,11 @@ unresolved; deleted state must not be restored without explicit approved policy 
 
 The positive introspection cache uses the shorter of token lifetime and 60 seconds. Its key is a
 token hash and its value contains only safe introspection fields; raw credentials are never cached.
-The technical exposure cannot exceed 60 seconds, but accountable approval and deployed evidence
-remain Pending and block launch.
+The technical exposure cannot exceed 60 seconds.
 
-## Pending policy decisions
+## Launch status
 
-`Pending` means no owner, approval, duration, or evidence is inferred from code, example limits, or
-local tests. `changeRetentionDays` is change-stream recovery configuration, not approval for
-retained App State, audit, or backup duration.
-
-| Policy decision | Status | Accountable owner/approver | Approval/evidence required |
-| --- | --- | --- | --- |
-| Accountable approver | Pending | Pending | Named human approver and recorded decision. |
-| Revocation access SLA (implemented maximum: 60 seconds) | Pending | Pending | Product/security approval and deployed pre-live evidence. |
-| Retained-state duration | Pending | Pending | Duration, legal/privacy basis, and deletion trigger. |
-| Deletion-completion SLA | Pending | Pending | User/staff expectation, retry escalation, and measurement. |
-| Backup expiry and restoration policy | Pending | Pending | Expiry, restore limits, deletion propagation, and controls. |
-| Ownership transfer | Pending | Pending | Whether allowed and how consent, isolation, and audit work. |
-| App/client removal | Pending | Pending | Closure/removal policy and repair owner beyond grouping. |
-| App closure | Pending | Pending | Data/grant disposition and user communication. |
-| Self-service account deletion | Pending | Pending | Product/privacy approval and deployed evidence. |
-| Staff account deletion | Pending | Pending | Authorized roles, audit requirements, and deployed evidence. |
-| Disabled, suspended, and archived deletion | Pending | Pending | Policy approval and deployed deletion evidence. |
-| Lifecycle-operation audit retention | Pending | Pending | Duration, access controls, and expiry behavior. |
-
-## Launch gate
-
-**Launch status: NO-LAUNCH.**
-
-Partner traffic remains disabled. The user interface remains disabled. Documentation, generated
-contracts, local tests, or reviewed commits do not enable production. Every Pending row needs a
-named accountable owner, explicit approval, and evidence. Task 17 must provide deployed prelive
-evidence for mixed-version interoperability, the full request chain, recovery, revocation,
-lifecycle deletion, privacy, monitoring, and rollback before any pilot or UI rollout.
-
-Task 17 must provide deployed prelive evidence before launch.
+**Launch status: live.** App State is available in production and pre-live.
 
 Old/new service and SDK binaries must interoperate throughout rolling deployment. Rollback disables
 grants or routes and never depends on destructive schema reversal.

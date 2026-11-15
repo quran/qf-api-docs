@@ -266,7 +266,7 @@ Each verse contains words with position information:
 | `line_number` | Line number within the page (1-15 or 1-16) |
 | `text_uthmani` | Unicode Uthmani text |
 | `code_v1`, `code_v2` | QCF glyph codes for custom fonts |
-| `text_indopak` | IndoPak script text |
+| `text_indopak` | IndoPak script text (deprecated; use `text_indopak_nastaleeq` with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font)) |
 
 ---
 
@@ -404,6 +404,8 @@ word_fields=code_v2,text_qpc_hafs,page_number,line_number
 ```
 
 **Reference Implementation:** `src/components/QuranReader/ReadingView/groupLinesByVerses.ts`
+
+**Surah Headings:** The word data has no lines for surah names or the bismillah; in 15-line Mushafs the empty `line_number` slots are where they go. See [Surah Headings and Bismillah](/docs/tutorials/fonts/font-rendering#surah-headings-and-bismillah).
 
 #### Translation View (Verse-by-Verse)
 

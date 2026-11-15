@@ -43,20 +43,31 @@ The token is environment-specific. A prelive token will not work against product
 
 Request the access token from your backend with OAuth2 Client Credentials.
 
+:::note Which Content scope to request
+Request the Content scopes listed in your app's approved permissions in [Developer Console](https://dev-console.quran.foundation/projects):
+
+- **Credentials that hold `content`** keep requesting `scope=content`, with no change, whatever kind of app they belong to.
+- A new **Backend/server app** with the Client Credentials grant receives, in place of `content`, the eight granular read scopes `content.quran.read`, `content.translations.read`, `content.tafsirs.read`, `content.audio.read`, `content.hadith.read`, `content.metadata.read`, `content.sync.read` and `content.answers.read` (where its default permissions included `content`). It also receives `content.reflections.read` only where its defaults already cover the public QuranReflect post and comment reads. It requests the scopes it calls, space-separated, for example `scope=content.quran.read` for `/chapters`; asking for `content` returns `invalid_scope`.
+- A new **Backend/server app** without the Client Credentials grant gets no Content scope, like a frontend app. Add the grant, or call Content through a backend app that has it.
+- A new **Frontend or mobile app** gets no Content scope. It calls your own backend, which holds a Backend/server app's credentials, for Content.
+
+The examples below request `content.quran.read`, the scope `/chapters` needs. If your credentials hold `content`, send `scope=content` instead. See [granular content scopes](/docs/user_related_apis_versioned/scopes#granular-content-scopes).
+:::
+
 Request details:
 
 - Method: `POST`
 - URL: `{authBaseUrl}/oauth2/token`
 - Auth: HTTP Basic with `client_id:client_secret`
 - Content-Type: `application/x-www-form-urlencoded`
-- Body: `grant_type=client_credentials&scope=content`
+- Body: `grant_type=client_credentials&scope=content.quran.read` (or `scope=content` for credentials that hold `content`)
 
 ```bash
 curl --request POST \
   --url https://prelive-oauth2.quran.foundation/oauth2/token \
   --user 'YOUR_CLIENT_ID:YOUR_CLIENT_SECRET' \
   --header 'Content-Type: application/x-www-form-urlencoded' \
-  --data 'grant_type=client_credentials&scope=content'
+  --data 'grant_type=client_credentials&scope=content.quran.read'
 ```
 
 <details>
@@ -92,7 +103,7 @@ response = requests.post(
     headers={"Content-Type": "application/x-www-form-urlencoded"},
     data={
         "grant_type": "client_credentials",
-        "scope": "content",
+        "scope": "content.quran.read",
     },
     timeout=30,
 )
@@ -132,7 +143,7 @@ async function getToken() {
     },
     body: new URLSearchParams({
       grant_type: "client_credentials",
-      scope: "content",
+      scope: "content.quran.read",
     }),
   });
 
@@ -154,6 +165,36 @@ getToken()
 
 </details>
 
+### Troubleshooting: HTTP 403 with `error code: 1010`
+
+If the token request returns HTTP 403 with a plain-text (non-JSON) body of `error code: 1010`, your client's default `User-Agent` header is being blocked. Python's built-in `urllib` default (`Python-urllib/3.x`) is blocked. Set your own `User-Agent` header (for example `MyApp/1.0`), or use `requests`, `httpx`, or `curl`.
+
+```python
+import base64
+import os
+import urllib.parse
+import urllib.request
+
+credentials = base64.b64encode(
+    f"{os.environ['QF_CLIENT_ID']}:{os.environ['QF_CLIENT_SECRET']}".encode()
+).decode()
+
+request = urllib.request.Request(
+    "https://prelive-oauth2.quran.foundation/oauth2/token",
+    data=urllib.parse.urlencode(
+        {"grant_type": "client_credentials", "scope": "content.quran.read"}
+    ).encode(),
+    headers={
+        "Authorization": f"Basic {credentials}",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "MyApp/1.0",
+    },
+    method="POST",
+)
+with urllib.request.urlopen(request, timeout=30) as response:
+    print(response.status)
+```
+
 ### Sample Token Response
 
 ```json
@@ -161,11 +202,13 @@ getToken()
   "access_token": "YOUR_ACCESS_TOKEN",
   "token_type": "bearer",
   "expires_in": 3600,
-  "scope": "content"
+  "scope": "content.quran.read"
 }
 ```
 
 Track `access_token` and `expires_in`. Client Credentials does not return a refresh token for this quickstart flow.
+
+If the token endpoint returns `invalid_scope` (HTTP 400), you asked for a scope your client is not approved for. A new Backend/server app holds granular Content scopes instead of `content` and must request those scopes; credentials that hold `content` request `content`.
 
 ## Server-Only Rule
 
@@ -191,7 +234,7 @@ Implement Quran Foundation Content API token retrieval on the backend.
 Requirements
 - Read QF_CLIENT_ID, QF_CLIENT_SECRET, and QF_ENV from environment variables.
 - Use prelive -> https://prelive-oauth2.quran.foundation and production -> https://oauth2.quran.foundation.
-- Request POST /oauth2/token with HTTP Basic auth, grant_type=client_credentials, and scope=content.
+- Request POST /oauth2/token with HTTP Basic auth, grant_type=client_credentials, and the Content scopes the client's approved permissions list, space-separated. A new Backend/server app holds granular Content scopes (for example content.quran.read for /chapters); credentials that hold content request scope=content.
 - Return access_token and expires_in from the token response.
 - Do not expose client_secret to browser or mobile code.
 

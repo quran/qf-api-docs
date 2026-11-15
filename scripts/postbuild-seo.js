@@ -160,6 +160,11 @@ function shouldDropSitemapPath(pathname) {
     return true;
   }
 
+  // Pre-live docs mirror the production User APIs and are served noindex (see static/_headers).
+  if (/^\/docs\/(user_related_apis_prelive|category\/user-related-apis-pre-live)(\/|$)/.test(pathname)) {
+    return true;
+  }
+
   if (
     /^\/docs\/category\/(analytics-apis|content-apis|oauth2_apis|search-apis|user-related-apis)\/?$/.test(
       pathname,

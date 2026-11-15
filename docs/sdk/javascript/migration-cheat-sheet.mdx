@@ -30,3 +30,4 @@ Existing `import { QuranClient } from "@quranjs/api"` integrations remain suppor
 - Server work uses `server`.
 - Browser or mobile work uses `public`.
 - Content and Search stay on the server.
+- A new Backend/server app holds granular Content scopes: pass `contentScopeMode: "granular"` to `createServerClient`. Credentials that hold `content` keep the default. See [Content Scopes](/docs/sdk/javascript/server-quickstart#content-scopes).
