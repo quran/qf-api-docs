@@ -39,7 +39,7 @@ Keep sync tokens, cursors, and local caches separate for each environment. Follo
 | --------------- | ------------------------------------------------------------------------------------------------------------ |
 | Resource        | One content item your app tracks, such as translation `19`, word-by-word transliteration `60`, tafsir `151`, ayah recitation `10`, chapter recitation `159`, or article `123`. |
 | Resource filter | The list of content your app wants to keep in sync, for example `translations:19;tafsirs:151`.               |
-| Change          | One server event telling your app what changed. The API field is called `type`.                              |
+| Change          | One server event telling your app what changed. The API returns these in the `sync.mutations` array; each one's kind is in its `type` field. |
 | Full copy       | The complete current rows for one resource. The API calls this a `snapshot`.                                 |
 | Snapshot URL    | A relative API path returned on some changes. Fetch it to replace the full local copy for that one resource. |
 | Sync token      | A private checkpoint returned by the API. Store it and send it next time to get only newer changes.          |
@@ -144,10 +144,14 @@ sequenceDiagram
 ```
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=chapter_recitations:159;mushafs:1;translations:19;tafsirs:151;word_by_word_transliterations:60&per_page=100" \
+curl "https://apis.quran.foundation/content/api/v4/resources/sync?bootstrap=true&resources=chapter_recitations:159%3Bmushafs:1%3Btranslations:19%3Btafsirs:151%3Bword_by_word_transliterations:60&per_page=100" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```
+
+:::warning Encode the `;` between resource groups
+Resource groups are separated by `;`, which must be percent-encoded as `%3B` in the raw query string, as in the example above. An unencoded `;` is treated as a parameter separator, so only the first group is synced. HTTP clients that encode query parameters, such as `URLSearchParams` or Python `requests`/`httpx` `params`, do this for you; pass the readable value `chapter_recitations:159;mushafs:1` there.
+:::
 
 If `has_more` is `true`, call `next_page_url` until it becomes `false`. Store `next_sync_token` only from the final page.
 Fetch and apply any returned `snapshot_url` values before you mark the sync as complete locally.
@@ -264,7 +268,7 @@ sequenceDiagram
 ```
 
 ```bash
-curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=chapter_recitations:159;mushafs:1;translations:19;tafsirs:151;word_by_word_transliterations:60&per_page=100" \
+curl "https://apis.quran.foundation/content/api/v4/resources/sync?sync_token=$SYNC_TOKEN&resources=chapter_recitations:159%3Bmushafs:1%3Btranslations:19%3Btafsirs:151%3Bword_by_word_transliterations:60&per_page=100" \
   -H "x-auth-token: $ACCESS_TOKEN" \
   -H "x-client-id: $CLIENT_ID"
 ```
