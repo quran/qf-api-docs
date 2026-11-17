@@ -217,7 +217,22 @@ The `resource_id` is the `Audio::Recitation.id`; it is not the legacy
 `Recitation.id` used by the `recitations` group. Apply file and segment row
 mutations by `(resource_group, resource_id, record_type, record_key)`. This key
 remains available for `ROW_DELETE`, whose `data` is `null`; do not depend on
-`source_record_id`. The legacy group may also contain compatible chapter-file
+`source_record_id`.
+
+For `chapter_audio_file`, `audio_segment`, and legacy `audio_file` records,
+`record_key` is always the record's snapshot `id` converted to a string. The
+snapshot `id` is a number and `record_key` is a string, so store your local key
+as `String(record.id)`. Do not key audio rows by `id` alone: IDs are unique only
+within one `record_type`, and a `chapter_audio_file` can have the same `id` as an
+`audio_segment`. A row that is also delivered through the linked legacy
+`recitations` resource keeps the same `record_type` and `record_key` there; only
+`resource_group` and `resource_id` differ.
+
+Chapter-recitation snapshots contain only files for chapters 1 to 114. Some
+recitations also store extra tracks, such as du'a or introduction audio, with
+no chapter or with chapter `115`; these are not part of the snapshot. The
+`metadata` field of a `chapter_audio_file` is a JSON object (for example
+`{"album": "Quran", "track": "2/114"}`) or `null`. The legacy group may also contain compatible chapter-file
 and segment records and receive their mutations for backward compatibility, but
 its snapshot is not the independently addressable chapter-recitation resource.
 

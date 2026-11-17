@@ -113,7 +113,12 @@ resources use the same underlying resource content.
 Chapter-recitation snapshots contain `chapter_audio_file` records and their
 associated `audio_segment` verse and word timing records. Incremental file and
 segment changes use row mutations; identify each row by
-`(resource_group, resource_id, record_type, record_key)`. For backward
+`(resource_group, resource_id, record_type, record_key)`. For audio rows,
+`record_key` is the snapshot record's `id` as a string: the
+`chapter_audio_file` with `"id": 2001` has `record_key` `"2001"`, and the
+`audio_segment` with `"id": 3001` has `record_key` `"3001"`. IDs are unique
+only within one `record_type`, so a file and a segment can share the same `id`.
+For backward
 compatibility, compatible chapter-file and segment records and mutations for
 the selected approved chapter recitation may also be emitted through the linked
 legacy `recitations` resource. New clients that want an independently
