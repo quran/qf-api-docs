@@ -26,10 +26,10 @@
 
 .title {
   color: var(--qf-text-primary);
-  font-size: clamp(2.75rem, 7vw, 4.75rem);
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
   font-weight: 750;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
   margin: 0;
 }
 
@@ -109,8 +109,8 @@
 
 .steps {
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   list-style: none;
   margin: 3rem 0 0;
   padding: 0;
@@ -118,6 +118,8 @@
 
 .step {
   border-top: 2px solid var(--ifm-color-primary);
+  display: flex;
+  flex-direction: column;
   padding-top: 1rem;
 }
 
@@ -139,9 +141,103 @@
 
 .step p {
   color: var(--qf-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 0.9rem;
+}
+
+.stepLink {
+  font-size: 0.88rem;
+  font-weight: 650;
+  margin-top: auto;
+}
+
+.contentOnlyNote {
+  color: var(--qf-text-secondary);
   font-size: 0.93rem;
   line-height: 1.6;
-  margin: 0;
+  margin: 2.5rem 0 0;
+  max-width: 720px;
+}
+
+.contentOnlyNote strong {
+  color: var(--qf-text-primary);
+}
+
+.deeper {
+  align-items: center;
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--qf-radius-lg);
+  background: var(--qf-surface-card);
+  display: flex;
+  gap: 2rem;
+  margin-top: 4rem;
+  padding: 1.5rem;
+}
+
+/* The approved logos are drawn for light surfaces, so they keep a light plate in dark mode. */
+.deeperLogos {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--qf-border-card);
+  border-radius: var(--qf-radius-lg);
+  display: flex;
+  flex: 0 0 auto;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+}
+
+.deeperLogos img {
+  display: block;
+  height: 56px;
+  width: auto;
+}
+
+.deeperLogos img:first-child {
+  height: 40px;
+}
+
+.deeper h2,
+.help h2 {
+  color: var(--qf-text-primary);
+  font-size: 1.2rem;
+  margin: 0 0 0.35rem;
+}
+
+.deeper p,
+.help p {
+  color: var(--qf-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 0.6rem;
+  max-width: 640px;
+}
+
+.deeper a,
+.helpLinks a {
+  font-size: 0.93rem;
+  font-weight: 650;
+}
+
+.help {
+  align-items: center;
+  border-top: 1px solid var(--qf-border-card);
+  display: flex;
+  gap: 1.5rem 3rem;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 2rem;
+}
+
+.help p {
+  margin-bottom: 0;
+}
+
+.helpLinks {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .transitionNote {
@@ -151,7 +247,7 @@
   display: flex;
   gap: 2rem;
   justify-content: space-between;
-  margin-top: 4rem;
+  margin-top: 1.5rem;
   padding: 1.25rem 1.5rem;
 }
 
@@ -181,12 +277,6 @@
   font-weight: 650;
 }
 
-.footerLink {
-  color: var(--qf-text-muted);
-  font-size: 0.9rem;
-  margin: 1.5rem 0 0;
-}
-
 [data-theme='dark'] .page {
   background:
     radial-gradient(circle at 84% 8%, rgba(62, 193, 201, 0.1), transparent 30rem),
@@ -195,6 +285,12 @@
 
 [data-theme='dark'] .transitionNote {
   background: rgba(62, 193, 201, 0.08);
+}
+
+@media screen and (max-width: 996px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -221,10 +317,21 @@
     margin-bottom: 0.75rem;
   }
 
-  .transitionNote {
+  .transitionNote,
+  .deeper,
+  .help {
     align-items: flex-start;
     flex-direction: column;
     gap: 0.75rem;
+  }
+
+  .deeper {
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .stepLink {
+    margin-top: 0;
   }
 }
 

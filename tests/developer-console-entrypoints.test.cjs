@@ -9,19 +9,27 @@ const developerConsoleUrl = 'https://dev-console.quran.foundation/projects';
 const read = (...segments) =>
   fs.readFileSync(path.join(repoRoot, ...segments), 'utf8');
 
-test('routes the navbar through the request-access screen', () => {
+test('routes the navbar and homepage straight to Developer Console', () => {
   const config = require(path.join(repoRoot, 'docusaurus.config.js'));
   const navbarItems = config.themeConfig.navbar.items;
-  const requestAccessItem = navbarItems.find(
-    (item) => item.label === 'Request Access',
+  const createAppItem = navbarItems.find(
+    (item) => item.label === 'Create your app',
   );
 
-  assert.deepEqual(requestAccessItem, {
-    to: '/request-access',
-    label: 'Request Access',
+  assert.deepEqual(createAppItem, {
+    href: `${developerConsoleUrl}/new`,
+    label: 'Create your app',
     position: 'right',
     className: 'navbar__item--request-access',
   });
+  assert.ok(
+    navbarItems.some(
+      (item) =>
+        item.type === 'docSidebar' &&
+        item.sidebarId === 'scopesSidebar' &&
+        item.label === 'API permissions',
+    ),
+  );
 
   for (const relativePath of [
     ['src', 'components', 'DeveloperJourneyMap', 'index.tsx'],

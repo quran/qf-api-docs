@@ -96,7 +96,7 @@
 }
 
 .description {
-  margin: 0.75rem 0 0;
+  margin: 0 0 0.5rem;
   color: var(--ifm-color-emphasis-800);
   font-size: 0.92rem;
   line-height: 1.55;

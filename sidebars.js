@@ -677,7 +677,7 @@ const buildTutorialsSidebarItems = () => [
   },
   {
     type: "category",
-    label: "OAuth2 / OpenID Connect",
+    label: "Quran ID: OAuth2 / OIDC",
     collapsible: true,
     collapsed: false,
     items: [

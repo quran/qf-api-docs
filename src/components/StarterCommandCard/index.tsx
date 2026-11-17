@@ -8,16 +8,18 @@ type Props = {
   className?: string;
   description?: string;
   eyebrow?: string;
+  headingLevel?: "h2" | "h3";
   meta?: string;
   title?: string;
 };
 
 export default function StarterCommandCard({
   className,
-  description = "Includes OAuth2, reader, a permission-gated search surface, notes, bookmarks, and SDK wiring. Use this for the fastest working app. If you already have your own UI, start with the JavaScript SDK path below.",
+  description = "Customize a starter with Quran ID sign-in, a reader, notes, and bookmarks already connected.",
   eyebrow = "Next.js starter",
-  meta = "~5 min",
-  title = "Production-shaped app in one command",
+  headingLevel: Heading = "h2",
+  meta,
+  title = "Start with a working Next.js app",
 }: Props): JSX.Element {
   const [copyState, setCopyState] = React.useState<"idle" | "copied" | "failed">(
     "idle",
@@ -55,17 +57,18 @@ export default function StarterCommandCard({
       <div className={styles.header}>
         <div>
           <p className={styles.eyebrow}>{eyebrow}</p>
-          <h2 className={styles.title}>{title}</h2>
+          <Heading className={styles.title}>{title}</Heading>
         </div>
         {meta ? <span className={styles.meta}>{meta}</span> : null}
       </div>
+      <p className={styles.description}>{description}</p>
       <p className={styles.prerequisite}>
-        <strong>Before you run this:</strong> create a{" "}
+        First, create a{" "}
         <a href="https://dev-console.quran.foundation/projects/new">
           Backend/server app in Developer Console
         </a>{" "}
-        and save its one-time client secret. Search requires separate pre-live permission
-        before the included search surface works.
+        and save its client secret. The starter’s search feature needs separate
+        pre-live permission.
       </p>
       <div className={styles.commandRow}>
         <code className={styles.command}>{NEXT_JS_STARTER_COMMAND}</code>
@@ -77,7 +80,6 @@ export default function StarterCommandCard({
           {copyState === "copied" ? "Copied" : "Copy command"}
         </button>
       </div>
-      <p className={styles.description}>{description}</p>
       <p className={styles.copyStatus} aria-live="polite">
         {copyState === "failed" ? "Copy failed. Select the command manually." : ""}
       </p>
