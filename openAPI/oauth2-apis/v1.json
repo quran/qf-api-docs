@@ -627,6 +627,19 @@
               "type": "string",
               "example": "veimvfgqexjicockrwsgcb333o3a"
             }
+          },
+          {
+            "in": "query",
+            "name": "prompt",
+            "description": "Set to `login` to make the user sign in again, even if they already have an active Quran Foundation session in the browser. Without it, a user who is already signed in is signed in again automatically with that same account.\n\nUse it when the user chooses to sign in with a different account, or when your app needs a fresh sign-in. `select_account` is not supported.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "login"
+              ],
+              "example": "login"
+            }
           }
         ],
         "responses": {
