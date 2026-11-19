@@ -939,3 +939,74 @@ html .markdown h1:first-child {
   --ifm-h1-font-size: 2.5rem;
   line-height: 1.2;
 }
+
+/* Docusaurus pins body to the viewport height, so the landing page's
+   recessed background has to sit on the app root to reach the footer. */
+body.home-page #__docusaurus {
+  background: var(--qf-surface-sunken);
+}
+
+/* Buttons, as drawn in the handoff renders: pills, brand fill for primary,
+   elevated surface with a faint border for secondary. */
+.button {
+  border-radius: var(--qf-radius-full, 999px);
+}
+
+.button.button--primary {
+  background: var(--qf-brand-fill);
+  border-color: var(--qf-brand-fill);
+  color: var(--qf-on-brand);
+  border-radius: var(--qf-radius-full, 999px);
+  font-weight: var(--qf-label-weight);
+}
+
+.button.button--primary:hover {
+  background: var(--qf-brand-fill-hover);
+  border-color: var(--qf-brand-fill-hover);
+  color: var(--qf-on-brand);
+}
+
+.button.button--secondary {
+  background: var(--qf-surface-card);
+  border-color: var(--qf-border-card);
+  color: var(--qf-text-primary);
+}
+
+.button.button--secondary:hover {
+  background: var(--qf-surface-sunken);
+  border-color: var(--qf-border-card);
+  color: var(--qf-text-primary);
+}
+
+/* Landing page buttons share one size: Label/lg, 40px tall. */
+body.home-page header .button,
+body.home-page main .button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* The starter card keeps its own component styles; on the landing page it
+   is a recessed card like its neighbours, with a Mono/md eyebrow. */
+main [class*='starterCard_'] {
+  max-width: none;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+main [class*='starterCard_'] [class*='eyebrow_'] {
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  line-height: 1.538;
+  letter-spacing: 0.1em;
+  color: var(--qf-text-secondary);
+}
+
+main [class*='starterCard_'] [class*='copyButton_'] {
+  background: var(--qf-brand-fill);
+  border-color: var(--qf-brand-fill);
+  border-radius: var(--qf-radius-full, 999px);
+  color: var(--qf-on-brand);
+}

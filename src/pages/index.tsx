@@ -207,30 +207,28 @@ function AppStoreSection() {
   return (
     <section className={styles.section} aria-labelledby="app-store-title">
       <div className={`${styles.inner} ${styles.appStore}`}>
-        <div>
-          <h2 id="app-store-title" className={styles.sectionTitle}>
-            Build toward a connected Quran experience
-          </h2>
-          <p className={styles.sectionIntro}>
-            Aim for Transformational status by combining Quran ID with features
-            that support meaningful progress. Follow the Connected Apps guide
-            and submit your app for Quran App Store review through Developer
-            Console.
-          </p>
-          <div className={styles.sectionActions}>
-            <Link
-              className="button button--primary"
-              to="/docs/connected-apps/"
-            >
-              Read the Connected Apps guide
-            </Link>
-            <a
-              className="button button--secondary"
-              href="https://quran.com/apps"
-            >
-              Explore the Quran App Store
-            </a>
-          </div>
+        <h2 id="app-store-title" className={styles.sectionTitle}>
+          Build toward a connected Quran experience
+        </h2>
+        <p className={styles.sectionIntro}>
+          Aim for Transformational status by combining Quran ID with features
+          that support meaningful progress. Follow the Connected Apps guide
+          and submit your app for Quran App Store review through Developer
+          Console.
+        </p>
+        <div className={styles.sectionActions}>
+          <Link
+            className="button button--primary"
+            to="/docs/connected-apps/"
+          >
+            Read the Connected Apps guide
+          </Link>
+          <a
+            className="button button--secondary"
+            href="https://quran.com/apps"
+          >
+            Explore the Quran App Store
+          </a>
         </div>
       </div>
     </section>
@@ -244,15 +242,13 @@ function HelpSection() {
       aria-labelledby="help-title"
     >
       <div className={`${styles.inner} ${styles.help}`}>
-        <div>
-          <h2 id="help-title" className={styles.helpTitle}>
-            Need help with your integration?
-          </h2>
-          <p className={styles.helpText}>
-            Manage credentials and permissions in Developer Console. For
-            integration or review questions, contact our developer team.
-          </p>
-        </div>
+        <h2 id="help-title" className={styles.helpTitle}>
+          Need help with your integration?
+        </h2>
+        <p className={styles.helpText}>
+          Manage credentials and permissions in Developer Console. For
+          integration or review questions, contact our developer team.
+        </p>
         <div className={styles.helpLinks}>
           <a className="button button--primary" href={DEVELOPER_CONSOLE_URL}>
             Open Developer Console <span aria-hidden="true">↗</span>
