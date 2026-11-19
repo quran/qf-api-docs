@@ -1010,3 +1010,15 @@ main [class*='starterCard_'] [class*='copyButton_'] {
   border-radius: var(--qf-radius-full, 999px);
   color: var(--qf-on-brand);
 }
+
+/* The footer is configured with Docusaurus's dark style, which sets
+   near-white text. On the recessed footer, plain items (the contact
+   address) and hovered links need the theme's own text colours. */
+.footer,
+.footer .footer__item {
+  color: var(--qf-text-secondary);
+}
+
+.footer .footer__link-item:hover {
+  color: var(--ifm-color-primary);
+}
