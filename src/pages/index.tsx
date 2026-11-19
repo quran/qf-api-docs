@@ -10,6 +10,7 @@ import styles from "./index.module.css";
 const PAGE_TITLE = "Quran Foundation Developer Docs";
 const CREATE_APP_URL = "https://dev-console.quran.foundation/projects/new";
 const DEVELOPER_CONSOLE_URL = "https://dev-console.quran.foundation/projects";
+const QURAN_ID_OVERVIEW = "/docs/quran-id/";
 const QURAN_ID_GUIDE = "/docs/tutorials/oidc/getting-started-with-oauth2/";
 const SUPPORT_EMAIL_URL = "mailto:developers@quran.com";
 
@@ -41,7 +42,7 @@ const capabilities: Capability[] = [
       "Let users sign in with Quran ID across Quran.com, Quran Apps, and connected apps. Pair it with User APIs so supported progress and features can follow them, with their permission.",
     supporting: "Built on OAuth2 and OpenID Connect.",
     cta: "Integrate Quran ID",
-    href: QURAN_ID_GUIDE,
+    href: QURAN_ID_OVERVIEW,
   },
   {
     title: "User APIs",

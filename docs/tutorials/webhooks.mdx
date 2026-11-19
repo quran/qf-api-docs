@@ -18,7 +18,7 @@ Quran Foundation webhooks are signed HTTPS `POST` requests that Quran Foundation
 The first event is `user.deleted`. When a user who authorized your app deletes their Quran Foundation account, Quran Foundation sends `user.deleted` to your app's webhook endpoint so you can delete or anonymize the data you hold for that user.
 
 :::info Quick Summary
-**Audience:** Apps that sign users in with Quran Foundation [OAuth2 / OpenID Connect](/docs/tutorials/oidc/getting-started-with-oauth2) and store their own data linked to the user's `sub`.
+**Audience:** Apps that sign users in with [Quran ID](/docs/quran-id) ([OAuth2 / OpenID Connect](/docs/tutorials/oidc/getting-started-with-oauth2)) and store their own data linked to the user's `sub`.
 
 **Setup:** One HTTPS endpoint per environment (prelive and production), configured for your app in [Developer Console](https://dev-console.quran.foundation/projects).
 

@@ -14,9 +14,13 @@ This FAQ answers common questions developers have when working with Quran Founda
 
 The API already delivers peer-reviewed translations. Auto-translating them can distort meaning and create theological inaccuracies. Disable auto-translation using the HTML/CSP techniques linked in the [Content APIs Quickstart Guide](/docs/quickstart).
 
+## What is Quran ID?
+
+[Quran ID](/docs/quran-id) is the Quran Foundation account and sign-in service. Users sign in to your app with the same account they use on Quran.com, and, with their consent, your app can access their data through the User-related APIs. Quran ID is built on OAuth2 and OpenID Connect, so the OAuth2 terms in these docs describe how Quran ID works. Content APIs do not need Quran ID.
+
 ## How do I obtain OAuth2 credentials?
 
-Create an app in the [Developer Console](https://dev-console.quran.foundation/projects/new) to receive your `client_id`. Choosing **Backend/server app** also gives you a one-time `client_secret`; a **Frontend or mobile app** uses PKCE without a secret. These credentials let you request authorization tokens for accessing user data.
+Create an app in the [Developer Console](https://dev-console.quran.foundation/projects/new) to receive your `client_id`. Choosing **Backend/server app** also gives you a one-time `client_secret`; a **Frontend or mobile app** uses PKCE without a secret. These credentials let you request app tokens for Content APIs and add Quran ID sign-in for accessing user data.
 
 ## What is the difference between Content APIs and User-related APIs?
 

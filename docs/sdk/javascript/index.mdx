@@ -36,12 +36,13 @@ The SDK is the library: import `@quranjs/api/server` in backend code and
 `@quranjs/api/public` in browser or mobile-facing code.
 
 The starter is a generated Next.js app built with the SDK. It gives you a
-working reader, search, OAuth2 session, notes, bookmarks, collections, goals,
+working reader, search, Quran ID sign-in session, notes, bookmarks, collections, goals,
 preferences, and QuranReflect-related surfaces. Use the starter when you want a
 working app to customize. Use the SDK directly when you already have your own UI
 and backend.
 
-User APIs can be called with the SDK, but your app still needs OAuth2 login,
+User APIs can be called with the SDK, but your app still needs
+[Quran ID](/docs/quran-id) sign-in (OAuth2 login),
 session storage, token refresh, and approved scopes. The starter includes those
 pieces; SDK-only integrations must wire them according to the app type selected
 in Developer Console.
@@ -135,8 +136,8 @@ It does **not** support `client_secret`.
 | Content                                  | Yes               | Use `@quranjs/api/server`                                      |
 | Search                                   | Yes               | Use `@quranjs/api/server`                                      |
 | User APIs                                | Depends           | Public frontend/mobile apps can authenticate without a backend; origin restrictions may still require a proxy |
-| OAuth2 login for backend/server apps     | Yes               | Frontend starts PKCE, backend exchanges the code with client authentication |
-| OAuth2 login for frontend/mobile apps    | No                | Public client exchanges the code with PKCE and no secret       |
+| Quran ID sign-in for backend/server apps | Yes               | Frontend starts PKCE, backend exchanges the code with client authentication |
+| Quran ID sign-in for frontend/mobile apps | No                | Public client exchanges the code with PKCE and no secret       |
 
 If your app is deployed as an edge frontend, keep the confidential exchange, refresh, and shared session store in a backend or BFF layer. The edge can still be the entrypoint for users.
 

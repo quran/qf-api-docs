@@ -1,9 +1,12 @@
 ---
 sidebar_position: 1
 displayed_sidebar: APIsSidebar
-title: "Manual OAuth2/OIDC Implementation"
-description: "Manual OAuth2/OIDC implementation guide for Quran Foundation User APIs. Includes PKCE, token exchange, refresh, User API headers, and troubleshooting."
+title: "Integrate Quran ID Manually (OAuth2/OIDC)"
+sidebar_label: "Manual Integration (OAuth2/OIDC)"
+description: "Add Quran ID sign-in to your app with a manual OAuth2/OIDC implementation for Quran Foundation User APIs. Includes PKCE, token exchange, refresh, User API headers, and troubleshooting."
 keywords:
+  - quran id
+  - sign in with quran id
   - quran foundation oauth2
   - quran api authentication
   - oauth2 authorization code pkce
@@ -11,28 +14,28 @@ keywords:
   - quran user api access token
 ---
 
-# Manual OAuth2/OIDC Implementation
+# Integrate Quran ID Manually (OAuth2/OIDC)
 
 :::info Quick Summary
-**What:** Manual OAuth2 Authorization Code flow with PKCE for Quran Foundation User APIs.
+**What:** Manual [Quran ID](/docs/quran-id) integration: the OAuth2 Authorization Code flow with PKCE for Quran Foundation User APIs.
 **Who:** Developers implementing custom auth flows, mobile flows, non-JS stacks, or OAuth2 debugging.
 **Prerequisites:** An app and `client_id` from [Developer Console](https://dev-console.quran.foundation/projects). Your selected app type determines whether the client is confidential or public.
 **Time:** ~30 minutes to implement.
-**Result:** Your app can authenticate users and access their Quran.com synced data.
+**Result:** Users can sign in to your app with Quran ID, and your app can access their Quran.com synced data with their consent.
 :::
 
-Quran Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. Choose the matching app type in Developer Console: a **Backend/server app** uses a confidential client and performs code exchange and refresh on a server, while a **Frontend or mobile app** uses a public client and completes those steps with PKCE and no client secret.
+[**Quran ID**](/docs/quran-id) is the Quran Foundation account and sign-in service. It is built on OAuth 2.0 and OpenID Connect: Quran Foundation **User APIs** use the OAuth 2.0 **Authorization Code** flow with **PKCE** for authenticating users and authorizing access to their data. Choose the matching app type in Developer Console: a **Backend/server app** uses a confidential client and performs code exchange and refresh on a server, while a **Frontend or mobile app** uses a public client and completes those steps with PKCE and no client secret.
 
 For identity details (ID token), see [OpenID Connect](/docs/tutorials/oidc/openid-connect).
 
-Use this tutorial when you need to implement OAuth2/OIDC manually, adapt it for a mobile app, support a non-JS stack, or debug token exchange, refresh, scopes, and OpenID Connect validation.
+Use this tutorial when you need to implement Quran ID manually with OAuth2/OIDC, adapt it for a mobile app, support a non-JS stack, or debug token exchange, refresh, scopes, and OpenID Connect validation.
 
 If you want a generated JavaScript app, use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx). If you already have a JavaScript app and only need signed-in user API calls, use the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) with the [JavaScript SDK guide](/docs/sdk/javascript). If you only need Quran content without user login, start with the [Content APIs Quickstart](/docs/quickstart).
 
 > Flow split: Use **Client Credentials** for **Content APIs**. Use **Authorization Code with PKCE** for **User APIs**.
 
 :::tip Prefer a generated Next.js app?
-Use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx) if you want OAuth2, sessions, reader/search, and signed-in user routes already wired. Continue here if you need to implement or debug the OAuth2/OIDC flow manually. The scaffold command is `npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes`.
+Use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx) if you want Quran ID sign-in, sessions, reader/search, and signed-in user routes already wired. Continue here if you need to implement or debug the OAuth2/OIDC flow manually. The scaffold command is `npx @quranjs/create-app@latest my-quran-app --template next --package-manager npm --install --git --sdk-source npm --yes`.
 :::
 
 <!-- Canonical prompt ID: QF_NPX_STARTER_PROMPT_V1 -->
@@ -40,7 +43,7 @@ Use [Starter With NPX](/docs/tutorials/oidc/starter-with-npx) if you want OAuth2
 ## Client Types {#client-types}
 
 :::important Confidential vs Public Clients
-Quran Foundation issues two types of OAuth2 clients. This distinction affects how you exchange codes and refresh tokens in **every step below**.
+Quran ID supports two types of OAuth2 clients. This distinction affects how you exchange codes and refresh tokens in **every step below**.
 
 | | Confidential Client | Public Client |
 |---|---|---|
@@ -56,7 +59,7 @@ If you call `/oauth2/token` without client authentication on a confidential clie
 
 ## Link QF Users To Your Data {#how-to-link-qf-users-to-your-data}
 
-After OAuth2 login, validate the ID token according to your OIDC library and use the `sub` claim as the user's stable Quran Foundation identifier. Store `sub` as the foreign key in your own database so you can attach your app's custom records to the same user.
+After a user signs in with Quran ID, validate the ID token according to your OIDC library and use the `sub` claim as the user's stable Quran Foundation identifier. Store `sub` as the foreign key in your own database so you can attach your app's custom records to the same user.
 
 | ID Token Claim | Description                             | Use For                                |
 | -------------- | --------------------------------------- | -------------------------------------- |
@@ -77,7 +80,7 @@ When a user who authorized your app deletes their Quran Foundation account, Qura
 
 ## Overview
 
-Here's how the OAuth2 Authorization Code flow works when user consent is needed to access their data:
+Here's how Quran ID sign-in works. It follows the OAuth2 Authorization Code flow, used when user consent is needed to access their data:
 
 ```mermaid
 sequenceDiagram
@@ -87,7 +90,7 @@ sequenceDiagram
     participant Auth as Quran Foundation<br/>Authorization Server
     participant API as Quran Foundation<br/>Resources Server
 
-    User->>App: Click "Login"
+    User->>App: Click "Sign in with Quran ID"
     App->>Auth: Start login with PKCE
     Auth->>User: Login and consent
     User->>Auth: Approve
@@ -741,7 +744,7 @@ def refresh_access_token(refresh_token: str):
 
 ## Frequently Asked Questions
 
-### What scopes should I request for Quran Foundation OAuth2?
+### What scopes should I request for Quran ID?
 
 Use `openid offline_access` for authentication-only flows. If your app will call User APIs like the collections examples in this guide, request the corresponding API scopes as well, such as `user` and `collection`. Follow the principle of least privilege - only request additional scopes for things like user profile, bookmarks, collections, and similar features when your app actually needs them.
 

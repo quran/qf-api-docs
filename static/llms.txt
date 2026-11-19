@@ -46,6 +46,7 @@ This limitation applies to Quran content in the Content API, not to User-related
 - [First Content API Call](https://api-docs.quran.foundation/docs/quickstart/first-api-call/)
 - [Manual Authentication for Content APIs](https://api-docs.quran.foundation/docs/quickstart/manual-authentication/)
 - [Migrate from api.quran.com to Quran Foundation Content APIs](https://api-docs.quran.foundation/docs/quickstart/migration/)
+- [Quran ID](https://api-docs.quran.foundation/docs/quran-id/)
 - [Token Management for Content APIs](https://api-docs.quran.foundation/docs/quickstart/token-management/)
 
 ## SDKs
@@ -453,8 +454,8 @@ This limitation applies to Quran content in the Content API, not to User-related
 
 ## Tutorials
 
-- [Quran Foundation User APIs OAuth2 Quickstart](https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/)
-- [Manual OAuth2/OIDC Implementation](https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/)
+- [Quran Foundation User APIs Quickstart with Quran ID](https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/)
+- [Integrate Quran ID Manually (OAuth2/OIDC)](https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/)
 - [Android](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/)
 - [Content Sync Client Flow](https://api-docs.quran.foundation/docs/tutorials/content-sync/client-flow/)
 - [Frequently Asked Questions](https://api-docs.quran.foundation/docs/tutorials/faq/)
@@ -464,11 +465,11 @@ This limitation applies to Quran content in the Content API, not to User-related
 - [Handling Sync Conflicts](https://api-docs.quran.foundation/docs/tutorials/sync/handling-conflicts/)
 - [iOS](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/)
 - [Mobile Apps](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/)
-- [OAuth2 Client Setup](https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/)
-- [OAuth2 Web Integration Reference](https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/)
 - [Offline Content Cache Patterns](https://api-docs.quran.foundation/docs/tutorials/content-sync/offline-cache-patterns/)
 - [Offline-First Architecture Patterns](https://api-docs.quran.foundation/docs/tutorials/sync/offline-first-patterns/)
 - [OpenID Connect](https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/)
 - [Page Layout API Guide](https://api-docs.quran.foundation/docs/tutorials/fonts/page-layout/)
+- [Quran ID Client Setup](https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/)
+- [Quran ID Web Integration Reference](https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/)
 - [React Native](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/)
 - [Webhooks](https://api-docs.quran.foundation/docs/tutorials/webhooks/)

@@ -7,7 +7,7 @@ description: "Choose the right Python SDK token flow for Content, Search, and si
 
 `QuranClient` always sends `x-client-id`. When `access_token` is set, it also sends `x-auth-token`.
 
-Use an app access token from the client credentials flow for Content and Search API calls. Use a user access token from the OAuth2 authorization flow for signed-in User API calls.
+Use an app access token from the client credentials flow for Content and Search API calls. Use a user access token from the [Quran ID](/docs/quran-id) sign-in (the OAuth2 authorization flow) for signed-in User API calls.
 
 ```python
 from quran_foundation import QuranClient
@@ -95,6 +95,7 @@ new_tokens = refresh_token(
 
 Read next:
 
-- [OAuth2 / OpenID Connect](/docs/tutorials/oidc/getting-started-with-oauth2)
+- [Quran ID](/docs/quran-id)
+- [Manual Quran ID integration (OAuth2 / OpenID Connect)](/docs/tutorials/oidc/getting-started-with-oauth2)
 - [Client Setup](/docs/tutorials/oidc/client-setup)
 - [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes)
