@@ -357,8 +357,17 @@ const buildUserRelatedApisVersionedItems = () =>
     "user-related-apis/1.0.0/reading-sessions-vs-activity-days",
   );
 const buildUserRelatedApisPreLiveItems = () => {
-  const items = cloneSidebarItems(
-    safeRequire("./docs/user_related_apis_prelive/sidebar.js", []),
+  const items = insertDocsIntoCategory(
+    cloneSidebarItems(
+      safeRequire("./docs/user_related_apis_prelive/sidebar.js", []),
+    ),
+    "Posts",
+    [
+      makeApiDocSidebarItem(
+        "user-related-apis/post-mentions-tags-formatting",
+        "Mentions, tags and formatting",
+      ),
+    ],
   );
   const scopesDoc = makeApiDocSidebarItem(
     "user_related_apis_prelive/scopes",
@@ -638,6 +647,7 @@ const buildSdkSidebarItems = () => [
       "sdk/python/juzs",
       "sdk/python/search",
       "sdk/python/user-apis",
+      "sdk/python/quranreflect-posts",
       "sdk/python/app-state",
       "sdk/python/sync",
       "sdk/python/common-errors",

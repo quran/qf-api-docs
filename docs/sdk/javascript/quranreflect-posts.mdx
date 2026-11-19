@@ -80,6 +80,87 @@ await client.quranReflect.v1.posts.update(123, {
 const post = await client.quranReflect.v1.posts.get(123);
 ```
 
+## Formatting, Mentions and Tags
+
+The post `body` is plain text. Bold, italic, underline and lists travel beside it
+as `formatting` ranges, and tags that are not written in the body go in `tags`:
+
+```ts
+await client.quranReflect.v1.posts.create({
+  body: "Plan\nRead Al-Fatihah\nReflect on #patience",
+  draft: false,
+  mentions: [],
+  references: [{ chapterId: 1, from: 1, to: 7 }],
+  tags: ["gratitude"],
+  formatting: [
+    { type: "BOLD", start: 0, end: 4 },
+    { type: "BULLET_LIST", start: 5, end: 20 },
+    { type: "BULLET_LIST", start: 21, end: 41 },
+  ],
+});
+```
+
+`start` and `end` are JavaScript string indexes into the body, so
+`body.slice(start, end)` is the text a range covers. A list range covers exactly
+one line. When you edit a post, send the complete `formatting` set: updating
+`body` without `formatting` clears it.
+
+[Post Mentions, Tags and Formatting](/docs/user-related-apis/post-mentions-tags-formatting)
+has the full contract, including mention markers, validation and edit rules.
+
+## Render a Post
+
+`renderQuranReflectPostHtml` combines a post's `body`, `mentions` and
+`formatting` into one HTML string, and links mentions and hashtags:
+
+```ts
+import { renderQuranReflectPostHtml } from "@quranjs/api";
+
+const post = await client.quranReflect.v1.posts.get(124);
+const html = renderQuranReflectPostHtml(post);
+// <strong>Plan</strong><ul><li>Read Al-Fatihah</li>
+// <li>Reflect on <a class="hashtag" href="https://quranreflect.com/?tags=%23patience">#patience</a></li></ul>
+```
+
+The body text is escaped, so the result is safe to insert as HTML. It works for
+any post object, including posts from feeds, and a post without formatting
+renders as plain text with links. The helper is also exported from
+`@quranjs/api/public` and `@quranjs/api/server`.
+
+| Option | Default | Use |
+| --- | --- | --- |
+| `baseUrl` | `https://quranreflect.com` | Site that mention and hashtag links point to |
+| `mentionHref` | `{baseUrl}/{username}` | Build the mention link. Return `null` for plain text |
+| `hashtagHref` | `{baseUrl}/?tags=%23{tag}` | Build the hashtag link. Return `null` for plain text |
+| `lineBreak` | `<br>` | Markup placed between lines outside lists |
+
+```ts
+renderQuranReflectPostHtml(post, {
+  hashtagHref: (tag) => `/tags/${encodeURIComponent(tag)}`,
+  mentionHref: (mention) => `/users/${mention.id}`,
+});
+```
+
+Mention links get `class="mention"` and hashtag links get `class="hashtag"`.
+
+If you do not render HTML (React Native, or your own React components), use
+`getQuranReflectPostLines`. It returns one entry per line, each with styled
+segments:
+
+```ts
+import { getQuranReflectPostLines } from "@quranjs/api";
+
+for (const line of getQuranReflectPostLines(post)) {
+  // line.list is "BULLET_LIST", "NUMBERED_LIST" or undefined
+  for (const segment of line.segments) {
+    // segment.text, segment.bold, segment.italic, segment.underline,
+    // segment.mention (the mention object), segment.hashtag (tag name)
+  }
+}
+```
+
+Consecutive lines with the same `list` value belong to one list.
+
 ## Compatibility Shape
 
 This guide targets the typed QuranReflect post helper added with
@@ -131,4 +212,5 @@ exposes it, or use the compatibility wrapper `{ body: { post: ... } }`.
 
 ## Related REST Reference
 
+- [Post Mentions, Tags and Formatting](/docs/user-related-apis/post-mentions-tags-formatting)
 - [Create post](/docs/user_related_apis_prelive/posts-controller-create)

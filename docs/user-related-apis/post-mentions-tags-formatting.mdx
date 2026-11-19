@@ -1,0 +1,175 @@
+---
+title: Post Mentions, Tags and Formatting
+description: How QuranReflect posts carry mentions, hashtags and text formatting, and how to send and render them.
+displayed_sidebar: apiSidebar
+---
+
+A QuranReflect post keeps its `body` as plain text. Mentions, tags and formatting are sent and returned beside the body, never as markup inside it. An app that ignores them still shows a readable post.
+
+| Field | In a post response | Used for |
+| --- | --- | --- |
+| `mentions` | One entry per mention, with its `location` in the body | Linking a name to a user |
+| `tags` | The tags linked to the post (`id`, `name`, `language`) | Tag chips and filters |
+| `formatting` | Ranges of bold, italic, underline and list items | Styling the body |
+
+If you use an SDK, [`renderQuranReflectPostHtml`](/docs/sdk/javascript/quranreflect-posts#render-a-post) (JavaScript) and [`render_post_html`](/docs/sdk/python/quranreflect-posts) (Python) turn a post into HTML for you. The rest of this page describes the contract they implement.
+
+## Offsets
+
+Every `start` and `end` on this page is a zero-based position in the returned `body`, counted in UTF-16 code units. `start` is inclusive and `end` is exclusive, so in JavaScript `body.slice(start, end)` is the text the range covers.
+
+Strings in Swift, Kotlin, Dart, Python and other languages are not always indexed in UTF-16 code units. An emoji such as 🌙 is two UTF-16 units but one Python character. Convert the offsets before you slice, or let the SDK do it.
+
+## Read a Post
+
+```json
+{
+  "id": 124,
+  "body": "Plan\nAsk Mohamed\nReflect on #patience",
+  "mentions": [
+    {
+      "id": "11111111-1111-4111-8111-111111111111",
+      "username": "mohamed",
+      "displayName": "Mohamed",
+      "location": { "start": 9, "end": 16 }
+    }
+  ],
+  "tags": [
+    { "id": 101, "name": "patience" },
+    { "id": 102, "name": "gratitude" }
+  ],
+  "formatting": [
+    { "type": "BOLD", "start": 0, "end": 4 },
+    { "type": "ITALIC", "start": 5, "end": 8 },
+    { "type": "BULLET_LIST", "start": 5, "end": 16 },
+    { "type": "UNDERLINE", "start": 17, "end": 24 },
+    { "type": "BULLET_LIST", "start": 17, "end": 37 }
+  ]
+}
+```
+
+This post reads as a bold title followed by two bullet items:
+
+> **Plan**
+>
+> - _Ask_ [Mohamed](https://quranreflect.com/mohamed)
+> - <u>Reflect</u> on [#patience](https://quranreflect.com/?tags=%23patience)
+
+### Mentions
+
+Each entry is one occurrence of a mention. A user mentioned twice appears twice, with the same `id` and different `location` values. Entries also carry profile fields such as `firstName`, `lastName`, `verified` and `avatarUrls`. Link the text at `location` to the user, for example `https://quranreflect.com/{username}`.
+
+### Tags
+
+`tags` lists every tag linked to the post. It has no positions. Tags come from two places: hashtags written in the body (`#patience` above) and names sent in the `tags` array when the post was saved (`gratitude` above, which is not in the body).
+
+To link hashtags inside the body, look for `#` followed by letters, numbers, `_` or `-`, at the start of the body or after whitespace. That rule skips URL fragments such as `https://example.com/#top`.
+
+### Formatting
+
+| `type` | Meaning | HTML |
+| --- | --- | --- |
+| `BOLD` | Bold text | `<strong>` |
+| `ITALIC` | Italic text | `<em>` |
+| `UNDERLINE` | Underlined text | `<u>` |
+| `BULLET_LIST` | The line is a bullet item | `<li>` inside `<ul>` |
+| `NUMBERED_LIST` | The line is a numbered item | `<li>` inside `<ol>` |
+
+- `BOLD`, `ITALIC` and `UNDERLINE` ranges can overlap each other, a mention, a hashtag or a list item.
+- A list range covers exactly one line, without its newline. A three-item list is three ranges. Consecutive lines with the same list type form one list. A plain line, an empty line or the other list type ends it.
+- Bullets and numbers are presentation. They are not characters in `body`.
+- `formatting` can be missing, `null` or `[]`. All three mean plain text.
+- Ignore a `type` you do not know, so your app keeps working if more types are added.
+
+## Create a Post
+
+```json
+{
+  "post": {
+    "body": "Plan\nAsk Mohamed{{aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa}}\nReflect on #patience",
+    "draft": false,
+    "mentions": [
+      {
+        "userId": "11111111-1111-4111-8111-111111111111",
+        "displayName": "Mohamed",
+        "marker": "{{aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa}}"
+      }
+    ],
+    "tags": ["gratitude"],
+    "formatting": [
+      { "type": "BOLD", "start": 0, "end": 4 },
+      { "type": "ITALIC", "start": 5, "end": 8 },
+      { "type": "BULLET_LIST", "start": 5, "end": 16 },
+      { "type": "UNDERLINE", "start": 17, "end": 24 },
+      { "type": "BULLET_LIST", "start": 17, "end": 37 }
+    ],
+    "references": []
+  }
+}
+```
+
+### Send Mentions
+
+The request shape differs from the response shape. You do not send offsets for mentions:
+
+1. Write the user's display name in the body, exactly as their profile shows it.
+2. Put a marker right after the name: `{{` + a new UUID + `}}`. Use a different UUID for every occurrence.
+3. Add one `mentions` entry per occurrence with `userId`, `displayName` and that `marker`.
+
+The API removes the markers, works out each `location`, and returns the mention with `id` in place of `userId`. A mention is dropped, and its name stays as plain text, when the marker is missing, the name before the marker differs from `displayName`, the user does not exist, or the user's current display name differs.
+
+### Send Tags
+
+Hashtags in the body are linked automatically. Use `tags` for tags that are not written in the body. Send names, not IDs, with or without a leading `#`. A name can contain letters, numbers, `_` and `-`, up to 64 characters, and `tags` can hold up to 50 names. A name that does not exist yet is created. [Search and retrieve tags](/docs/user_related_apis_prelive/tags-controller-find) helps with autocomplete.
+
+### Send Formatting
+
+`formatting` is optional. Its offsets address the body **after** mention markers are removed, which is the body the API returns. In the example above, `Ask Mohamed` is the range 5 to 16 even though the submitted body has a marker inside that line.
+
+The API rejects the request with `422` when any range breaks one of these rules:
+
+- `type` is one of the five types, and the object has only `type`, `start` and `end`.
+- `start` and `end` are integers with `0 <= start < end <= body.length`.
+- `start` and `end` do not split a character, such as an emoji or an Arabic letter with its marks.
+- A list range covers one complete, non-empty line, and list ranges do not overlap.
+- No range is listed twice.
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "ValidationError",
+    "message": "Validation Error",
+    "details": { "formatting": "INVALID" }
+  }
+}
+```
+
+## Edit a Post
+
+`PATCH` takes the same fields without the `post` wrapper. Formatting follows the body:
+
+| Fields you send | Result |
+| --- | --- |
+| Neither `body` nor `formatting` | Formatting is kept |
+| `formatting` only | Replaces all formatting, checked against the current body |
+| `body` and `formatting` | Replaces both |
+| `body` without `formatting` | Formatting is cleared, even if the text is the same |
+| `formatting: []` | Formatting is cleared |
+
+`formatting` is always the complete set. To turn two bullet items into numbered items, send every range again with the two list types changed. Ranges you leave out are removed.
+
+Mentions and tags are also replaced when you send a new `body`. Send the body with a marker for each mention you want to keep, the full `mentions` list, and any `tags` that are not written in the body. A hashtag that is still in the body stays linked even when `tags` is `[]`.
+
+## Comments
+
+Comments and replies accept `mentions` with the same marker rules and return the same `location` ranges. They do not have `tags` or `formatting`.
+
+## Related API Docs
+
+- [Create post](/docs/user_related_apis_prelive/posts-controller-create)
+- [Edit post](/docs/user_related_apis_prelive/posts-controller-edit)
+- [Get post by ID](/docs/user_related_apis_prelive/posts-controller-find-one)
+- [Get posts feed](/docs/user_related_apis_prelive/posts-controller-feed)
+- [JavaScript SDK: QuranReflect Posts](/docs/sdk/javascript/quranreflect-posts)
+- [Python SDK: QuranReflect Posts](/docs/sdk/python/quranreflect-posts)

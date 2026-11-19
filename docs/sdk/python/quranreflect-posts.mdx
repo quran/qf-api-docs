@@ -1,0 +1,87 @@
+---
+title: "QuranReflect Posts"
+description: "Render QuranReflect posts with mentions, hashtags and formatting using the Python SDK."
+slug: /sdk/python/quranreflect-posts
+---
+
+# QuranReflect Posts
+
+A QuranReflect post keeps its `body` as plain text. Mentions and formatting (bold, italic,
+underline, bullet and numbered lists) are ranges over that text, and hashtags are the `#name`
+words inside it. `quran_foundation.quran_reflect` combines them for display. Read
+[Post Mentions, Tags and Formatting](/docs/user-related-apis/post-mentions-tags-formatting)
+for the API contract.
+
+## Render a Post
+
+```python
+from quran_foundation.quran_reflect import render_post_html
+
+post = {
+    "body": "Plan\nAsk Mohamed\nReflect on #patience",
+    "mentions": [
+        {"id": "1111", "username": "mohamed", "location": {"start": 9, "end": 16}},
+    ],
+    "formatting": [
+        {"type": "BOLD", "start": 0, "end": 4},
+        {"type": "BULLET_LIST", "start": 5, "end": 16},
+        {"type": "BULLET_LIST", "start": 17, "end": 37},
+    ],
+}
+
+html = render_post_html(post)
+# <strong>Plan</strong><ul><li>Ask <a class="mention" href="https://quranreflect.com/mohamed">
+# Mohamed</a></li><li>Reflect on <a class="hashtag" href="https://quranreflect.com/?tags=%23patience">
+# #patience</a></li></ul>
+```
+
+`post` is a post response from the API, or any mapping with `body` and optional `mentions` and
+`formatting`. The body text is escaped, so the result is safe to insert as HTML. A post without
+formatting renders as plain text with links.
+
+| Argument | Default | Use |
+| --- | --- | --- |
+| `base_url` | `https://quranreflect.com` | Site that mention and hashtag links point to |
+| `mention_href` | `{base_url}/{username}` | Callable that builds the mention link. Return `None` for plain text |
+| `hashtag_href` | `{base_url}/?tags=%23{tag}` | Callable that builds the hashtag link. Return `None` for plain text |
+| `line_break` | `<br>` | Markup placed between lines outside lists |
+
+```python
+html = render_post_html(
+    post,
+    mention_href=lambda mention: f"/users/{mention['id']}",
+    hashtag_href=lambda tag: f"/tags/{tag}",
+)
+```
+
+## Offsets and Python Strings
+
+The API counts `start` and `end` in UTF-16 code units, which is how JavaScript indexes strings.
+Python indexes by code point, so `body[start:end]` is wrong once the body has an emoji or another
+character outside the Basic Multilingual Plane. `render_post_html` and `get_post_lines` convert
+the offsets for you.
+
+## Render Without HTML
+
+`get_post_lines` returns one entry per line of the body, each with styled segments:
+
+```python
+from quran_foundation.quran_reflect import get_post_lines
+
+for line in get_post_lines(post):
+    line.get("list")  # "BULLET_LIST", "NUMBERED_LIST" or None
+    for segment in line["segments"]:
+        segment["text"]
+        segment.get("bold"), segment.get("italic"), segment.get("underline")
+        segment.get("mention")  # the mention object from the post
+        segment.get("hashtag")  # tag name without "#"
+```
+
+Consecutive lines with the same `list` value belong to one list.
+
+## Call the Post Endpoints
+
+The Python SDK has no dedicated helpers for the QuranReflect post endpoints yet. Call them with
+your own HTTP client and pass the response to the helpers above. See
+[Create post](/docs/user_related_apis_prelive/posts-controller-create) and
+[Get post by ID](/docs/user_related_apis_prelive/posts-controller-find-one).
