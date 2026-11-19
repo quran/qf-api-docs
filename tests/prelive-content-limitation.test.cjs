@@ -29,6 +29,6 @@ test('documents the same prelive Content API limitation at all four entry points
 
 test('scopes the troubleshooting answer to Content APIs rather than User APIs', () => {
   const faq = read('docs/tutorials/faq.mdx');
-  assert.match(faq, /^## Why is content unavailable for surahs 3–114 in prelive\?$/m);
+  assert.match(faq, /^### Why is content unavailable for surahs 3–114 in prelive\?$/m);
   assert.match(faq, /This limitation applies to Quran content in the Content API, not to User-related APIs\./);
 });
