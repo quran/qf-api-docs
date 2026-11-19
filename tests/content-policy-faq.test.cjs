@@ -70,6 +70,10 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
     developerTerms,
     /Selling, sublicensing, or redistributing QF Content or raw API data.*is not permitted\. QF does not offer licenses or paid arrangements for these uses\./,
   );
+  assert.match(developerTerms, /Files past this limit must be deleted; stopping playback is not sufficient\./);
+  assert.match(developerTerms, /are QF Content under these Terms whether or not they are obtained through the APIs/);
+  assert.match(developerTerms, /A finished social-media video may remain published indefinitely\./);
+  assert.match(developerTerms, /credentials and API access do not transfer\./);
   assert.match(developerTerms, /The APIs are provided free of charge\. QF does not charge per-request, subscription, or usage fees\./);
   assert.match(faq, /^## Is the API free to use\?$/m);
   for (const document of [developerTerms, faq, fs.readFileSync(path.join(docsDir, 'connected-apps.mdx'), 'utf8')]) {
