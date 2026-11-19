@@ -687,11 +687,7 @@ const buildTutorialsSidebarItems = () => [
   },
   {
     type: "category",
-    label: "Quran ID",
-    link: {
-      type: "doc",
-      id: "quran-id",
-    },
+    label: "Quran ID: OAuth2 / OIDC",
     collapsible: true,
     collapsed: false,
     items: [
