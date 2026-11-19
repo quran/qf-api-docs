@@ -1,75 +1,196 @@
 /**
  * Global styles for the Quran Foundation API Documentation Portal.
- * Design system based on the Figma design reference.
  *
- * Infima is the underlying Docusaurus CSS framework.
- * We override its tokens here to match our brand.
+ * Tokens below are mapped from RDS (Rehla Design System), the shared design
+ * system behind quran.org, the Developers page and Quran ID. Values are the
+ * resolved output of the RDS `Mode - Color` collection — Light and Dark modes.
+ *
+ * Infima is the underlying Docusaurus CSS framework. We override its tokens
+ * here so every generated page — docs, landing, OpenAPI reference — restyles
+ * from this one file.
+ *
+ * DO NOT hand-pick new colours. If a surface needs a value that is not below,
+ * it is an RDS gap: raise it rather than inventing a hex. Every colour here
+ * traces to an RDS token, named in the comment beside it.
  */
 
-/* ─── Google Font ─────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* ─── Typefaces ───────────────────────────────────────────────
+ * Figtree        → headings and labels   (RDS Title/*, Label/*)
+ * IBM Plex Sans  → body copy at WEIGHT 300 (RDS Text/* is Light, not Regular)
+ * IBM Plex Mono  → code
+ *
+ * Emphasis goes UP A WEIGHT, never to bold: body 300 → 400 for emphasis,
+ * 400 → 600 for strong. Do not brute-force 700.
+ * ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-/* ─── Design Tokens (Light) ───────────────────────────────── */
+/* ─── Design tokens — Light (RDS Mode - Color / Light) ─────── */
 :root {
-  /* Brand – teal palette */
-  --ifm-color-primary: #2ca4ab;
-  --ifm-color-primary-dark: #279499;
-  --ifm-color-primary-darker: #258c91;
-  --ifm-color-primary-darkest: #1e7377;
-  --ifm-color-primary-light: #31b4bd;
-  --ifm-color-primary-lighter: #38b9c1;
-  --ifm-color-primary-lightest: #54c6cd;
+  /* Brand.
+     RDS fg/intent/brand. NOTE: this resolves to Blue/530 through the
+     single-mode `Primitives` collection, so RDS `Mode - Accent` has no
+     effect on brand colour today. See HANDOFF.md § "Known RDS defect".
+     When that is fixed, this value changes in RDS and here only. */
+  --ifm-color-primary: #00559a;            /* fg/intent/brand */
+  --ifm-color-primary-dark: #004c8b;
+  --ifm-color-primary-darker: #004883;
+  --ifm-color-primary-darkest: #004074;
+  --ifm-color-primary-light: #1a66a4;
+  --ifm-color-primary-lighter: #266ea9;
+  --ifm-color-primary-lightest: #4080b3;
 
-  /* Typography */
-  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, Oxygen, Ubuntu, sans-serif;
-  --ifm-heading-font-family: 'Inter', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, sans-serif;
-  --ifm-font-size-base: 16px;
+  /* Brand FILL is a different token from brand TEXT in RDS:
+     bg/intent/brand for filled surfaces, fg/intent/brand for links/labels.
+     Infima conflates them in --ifm-color-primary, so the fill is split out. */
+  --qf-brand-fill: #006fc6;                /* bg/intent/brand */
+  --qf-brand-fill-hover: #00559a;          /* fg/intent/brand, one step down */
+  --qf-on-brand: rgba(255, 255, 255, 0.92);/* fg/intent/onBold */
+
+  /* Type */
+  --ifm-font-family-base: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ifm-heading-font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ifm-font-family-monospace: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ifm-font-size-base: 16px;              /* RDS Text/md */
+  --ifm-font-weight-base: 300;             /* RDS Text/* is Light */
+  --ifm-font-weight-semibold: 600;
+  --ifm-heading-font-weight: 600;          /* RDS Title/* is SemiBold */
+  --ifm-line-height-base: 1.5;             /* 24/16, RDS Text/md */
   --ifm-code-font-size: 94%;
+  --ifm-h1-font-size: 2.5rem;              /* 40px, RDS Title/2xl */
+  --ifm-h2-font-size: 1.4375rem;           /* 23px, RDS Title/lg */
+  --ifm-h3-font-size: 1.1875rem;           /* 19px, RDS Title/md */
 
-  /* Spacing & Radius */
-  --ifm-global-radius: 8px;
-  --qf-radius-lg: 12px;
-  --qf-radius-xl: 16px;
+  /* Radii — RDS Primitives */
+  --ifm-global-radius: 16px;               /* radius/200 */
+  --qf-radius-lg: 24px;                    /* radius/300 */
+  --qf-radius-xl: 24px;                    /* radius/300 */
+  --qf-radius-full: 999px;                 /* radius/full */
 
-  /* Shadows */
+  /* Surfaces */
+  --ifm-background-color: #f8f8f8;         /* bg/canvas */
+  --ifm-background-surface-color: #ffffff; /* bg/elevated */
+  --qf-surface-page: #f8f8f8;              /* bg/canvas */
+  --qf-surface-card: #ffffff;              /* bg/elevated */
+  --qf-surface-hero: #e5e6e7;              /* bg/recessed */
+  --qf-surface-sunken: #e5e6e7;            /* bg/recessed */
+
+  /* Text */
+  --ifm-font-color-base: #3a3d44;          /* fg/subtle */
+  --ifm-heading-color: #0a0b0d;            /* fg/bold */
+  --qf-text-primary: #0a0b0d;              /* fg/bold */
+  --qf-text-secondary: #3a3d44;            /* fg/subtle */
+  --qf-text-muted: #686c74;                /* fg/faint */
+
+  /* Borders — RDS border/faint is alpha/black/8, not a flat grey.
+     Kept as rgba so it composites correctly over any surface. */
+  --qf-border-card: rgba(0, 0, 0, 0.08);   /* border/faint */
+  --ifm-toc-border-color: rgba(0, 0, 0, 0.08);
+  --ifm-hr-border-color: rgba(0, 0, 0, 0.08);
+
+  /* Brand tint, for selected/active states */
+  --qf-brand-subtle: #edf4fb;              /* bg/intent/brand-subtle */
+
+  /* Remaining RDS intents — used by the sidebar method badges */
+  --qf-positive: #007f5e;                  /* fg/intent/positive */
+  --qf-positive-subtle: #f0fcf6;           /* bg/intent/positive-subtle */
+  --qf-negative: #c2262f;                  /* fg/intent/negative */
+  --qf-negative-subtle: #fcf7f6;           /* bg/intent/negative-subtle */
+  --qf-neutral: #4f535b;                   /* fg/intent/neutral */
+  --qf-neutral-subtle: rgba(0, 0, 0, 0.08);/* bg/intent/neutral-subtle */
+  --qf-border-brand: #00559a;              /* border/intent/brand */
+  --qf-border-positive: #007f5e;           /* border/intent/positive */
+  --qf-border-negative: #c2262f;           /* border/intent/negative */
+  --qf-border-neutral: rgba(0, 0, 0, 0.16);/* border/intent/neutral */
+
+  /* Infima emphasis ramp, pointed at RDS greys */
+  --ifm-color-emphasis-100: #e5e6e7;       /* bg/recessed */
+  --ifm-color-emphasis-200: rgba(0, 0, 0, 0.08);
+  --ifm-color-emphasis-700: #686c74;       /* fg/faint */
+  --ifm-color-emphasis-800: #3a3d44;       /* fg/subtle */
+
+  /* Links */
+  --ifm-link-color: #00559a;               /* fg/intent/brand */
+  --ifm-link-hover-color: #004074;
+
+  /* Navbar / sidebar / code */
+  --ifm-navbar-height: 64px;
+  --ifm-navbar-background-color: #ffffff;  /* bg/elevated */
+  --ifm-menu-color: #3a3d44;               /* fg/subtle */
+  --ifm-menu-color-active: #00559a;        /* fg/intent/brand */
+  --ifm-menu-color-background-active: #edf4fb; /* bg/intent/brand-subtle */
+  --ifm-code-background: #e5e6e7;          /* bg/recessed */
+  --ifm-pre-background: #e5e6e7;           /* bg/recessed */
+
+  /* Elevation. RDS has no shadow token — these are kept from the previous
+     build deliberately, and are the one set of values below not from RDS. */
   --qf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --qf-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --qf-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
 
-  /* Surfaces */
-  --qf-surface-hero: #f5f6f8;
-  --qf-surface-card: #ffffff;
-  --qf-surface-page: #ffffff;
-  --qf-border-card: #e5e7eb;
-  --qf-text-primary: #111827;
-  --qf-text-secondary: #4b5563;
-  --qf-text-muted: #6b7280;
-
-  /* Code highlight */
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.08);
 }
 
-/* ─── Design Tokens (Dark) ────────────────────────────────── */
+/* ─── Design tokens — Dark (RDS Mode - Color / Dark) ───────── */
 [data-theme='dark'] {
-  --ifm-color-primary: #3ec1c9;
-  --ifm-color-primary-dark: #2bb5bd;
-  --ifm-color-primary-darker: #28aab2;
-  --ifm-color-primary-darkest: #218c92;
-  --ifm-color-primary-light: #55cad1;
-  --ifm-color-primary-lighter: #63ced5;
-  --ifm-color-primary-lightest: #88dbe0;
+  --ifm-color-primary: #7ec1fe;            /* fg/intent/brand */
+  --ifm-color-primary-dark: #71aee5;
+  --ifm-color-primary-darker: #6ba4d8;
+  --ifm-color-primary-darkest: #5e91be;
+  --ifm-color-primary-light: #8bc7fe;
+  --ifm-color-primary-lighter: #91cafe;
+  --ifm-color-primary-lightest: #9ed0fe;
 
-  --qf-surface-hero: #111827;
-  --qf-surface-card: #1f2937;
-  --qf-surface-page: #111827;
-  --qf-border-card: #374151;
-  --qf-text-primary: #f9fafb;
-  --qf-text-secondary: #d1d5db;
-  --qf-text-muted: #9ca3af;
+  /* Dark-mode brand is a LIGHT blue, so onBold flips to near-black. */
+  --qf-brand-fill: #42aaff;                /* bg/intent/brand */
+  --qf-brand-fill-hover: #7ec1fe;          /* fg/intent/brand, one step up */
+  --qf-on-brand: rgba(0, 0, 0, 0.92);      /* fg/intent/onBold */
 
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-background-color: #16171a;         /* bg/canvas */
+  --ifm-background-surface-color: #1f2125; /* bg/elevated */
+  --qf-surface-page: #16171a;              /* bg/canvas */
+  --qf-surface-card: #1f2125;              /* bg/elevated */
+  --qf-surface-hero: #0a0b0d;              /* bg/recessed */
+  --qf-surface-sunken: #0a0b0d;            /* bg/recessed */
+
+  --ifm-font-color-base: #b9babe;          /* fg/subtle */
+  --ifm-heading-color: #f8f8f8;            /* fg/bold */
+  --qf-text-primary: #f8f8f8;              /* fg/bold */
+  --qf-text-secondary: #b9babe;            /* fg/subtle */
+  --qf-text-muted: #86898f;                /* fg/faint */
+
+  --qf-border-card: rgba(255, 255, 255, 0.08);  /* border/faint */
+  --ifm-toc-border-color: rgba(255, 255, 255, 0.08);
+  --ifm-hr-border-color: rgba(255, 255, 255, 0.08);
+
+  --qf-brand-subtle: #002a51;              /* bg/intent/brand-subtle */
+
+  --qf-positive: #1bdaa5;                  /* fg/intent/positive */
+  --qf-positive-subtle: #003223;           /* bg/intent/positive-subtle */
+  --qf-negative: #fe9b94;                  /* fg/intent/negative */
+  --qf-negative-subtle: #4f0a0e;           /* bg/intent/negative-subtle */
+  --qf-neutral: #d1d2d4;                   /* fg/intent/neutral */
+  --qf-neutral-subtle: rgba(255, 255, 255, 0.08); /* bg/intent/neutral-subtle */
+  --qf-border-brand: #7ec1fe;              /* border/intent/brand */
+  --qf-border-positive: #1bdaa5;           /* border/intent/positive */
+  --qf-border-negative: #fe9b94;           /* border/intent/negative */
+  --qf-border-neutral: rgba(255, 255, 255, 0.16); /* border/intent/neutral */
+
+  --ifm-color-emphasis-100: #0a0b0d;       /* bg/recessed */
+  --ifm-color-emphasis-200: rgba(255, 255, 255, 0.08);
+  --ifm-color-emphasis-700: #86898f;       /* fg/faint */
+  --ifm-color-emphasis-800: #b9babe;       /* fg/subtle */
+
+  --ifm-link-color: #7ec1fe;               /* fg/intent/brand */
+  --ifm-link-hover-color: #9ed0fe;
+
+  --ifm-navbar-background-color: #1f2125;  /* bg/elevated */
+  --ifm-menu-color: #b9babe;               /* fg/subtle */
+  --ifm-menu-color-active: #7ec1fe;        /* fg/intent/brand */
+  --ifm-menu-color-background-active: #002a51; /* bg/intent/brand-subtle */
+  --ifm-code-background: #0a0b0d;          /* bg/recessed */
+  --ifm-pre-background: #0a0b0d;           /* bg/recessed */
+
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
 }
 
 /* ─── Global ──────────────────────────────────────────────── */
@@ -87,7 +208,7 @@ html {
 }
 
 .navbar__title {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.95rem;
   color: var(--qf-text-primary);
 }
@@ -108,8 +229,8 @@ html {
 
 .navbar__item--request-access .navbar__link,
 a.navbar__item--request-access {
-  background: var(--ifm-color-primary);
-  color: #ffffff !important;
+  background: var(--qf-brand-fill);
+  color: var(--qf-on-brand) !important;
   border-radius: 999px;
   padding: 0.4rem 1.15rem;
   font-weight: 600;
@@ -120,7 +241,7 @@ a.navbar__item--request-access {
 
 .navbar__item--request-access .navbar__link:hover,
 a.navbar__item--request-access:hover {
-  background: var(--ifm-color-primary-dark);
+  background: var(--qf-brand-fill-hover);
   transform: translateY(-1px);
   text-decoration: none;
 }
@@ -175,7 +296,7 @@ a.navbar__item--request-access:hover {
   > .menu__list-item-collapsible
   > .menu__link {
   color: var(--qf-text-primary);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .theme-doc-sidebar-container .menu__list .menu__list {
@@ -189,13 +310,13 @@ a.navbar__item--request-access:hover {
   font-size: 0.85rem;
 }
 
-.theme-doc-sidebar-container .menu__list .menu__list .menu__link {
+.theme-doc-sidebar-container :where(.menu__list .menu__list) .menu__link {
   color: var(--ifm-color-emphasis-800);
   font-weight: 500;
   line-height: 1.35;
 }
 
-.theme-doc-sidebar-container .menu__list .menu__list .menu__list .menu__link {
+.theme-doc-sidebar-container :where(.menu__list .menu__list .menu__list) .menu__link {
   color: var(--ifm-color-emphasis-700);
   font-size: 0.8rem;
   font-weight: 450;
@@ -209,13 +330,18 @@ a.navbar__item--request-access:hover {
 
 .theme-doc-sidebar-container .menu__link--sublist {
   color: var(--qf-text-primary);
-  font-weight: 700;
+  font-weight: 600;
 }
 
+/* State must beat depth. The depth rules above wrap their nesting in
+   :where() so they contribute no specificity, which lets this single
+   rule win at ANY nesting level — not just the two that exist today.
+   Before, the active colour never reached a level-2+ item at all, i.e.
+   almost every endpoint page. */
 .theme-doc-sidebar-container .menu__link--active:not(.menu__link--sublist) {
-  background: rgba(62, 193, 201, 0.12);
+  background: var(--qf-brand-subtle);
   color: var(--ifm-color-primary-dark);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .theme-doc-sidebar-container .menu__list-item-collapsible--active {
@@ -231,20 +357,20 @@ a.navbar__item--request-access:hover {
 
 /* ─── Footer ──────────────────────────────────────────────── */
 .footer {
-  background: #1f2937;
+  background: var(--qf-surface-hero);
   padding: 2.5rem 0 2rem;
 }
 
 .footer__title {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.95rem;
-  color: #f9fafb;
+  color: var(--qf-text-primary);
   margin-bottom: 0.75rem;
 }
 
 .footer__link-item {
   font-size: 0.88rem;
-  color: #d1d5db;
+  color: var(--qf-text-secondary);
   transition: color 150ms ease;
 }
 
@@ -253,8 +379,10 @@ a.navbar__item--request-access:hover {
   text-decoration: none;
 }
 
+/* fg/faint on bg/recessed is 4.22:1 in light — below AA for 13px text.
+   fg/subtle clears it in both modes (8.70:1 light, 10.15:1 dark). */
 .footer__copyright {
-  color: #6b7280;
+  color: var(--qf-text-secondary);
   font-size: 0.82rem;
   margin-top: 1.5rem;
 }
@@ -283,7 +411,7 @@ a.navbar__item--request-access:hover {
 
 .form-input:focus {
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 0 0 3px rgba(44, 164, 171, 0.15);
+  box-shadow: 0 0 0 3px var(--qf-brand-subtle);
   outline: none;
 }
 
@@ -309,15 +437,15 @@ a.navbar__item--request-access:hover {
   --openapi-card-border-radius: var(--qf-radius-lg);
   --openapi-input-background: var(--ifm-background-color);
   --openapi-input-border: var(--ifm-color-primary);
-  --openapi-inverse-color: #ffffff;
+  --openapi-inverse-color: var(--qf-on-brand);
   --ifm-pre-padding: 16px;
 }
 
 [data-theme='dark'] .theme-api-markdown {
-  --openapi-card-background-color: #0f172a;
-  --openapi-input-background: #0b100e;
+  --openapi-card-background-color: var(--qf-surface-card);
+  --openapi-input-background: var(--qf-surface-page);
   --openapi-input-border: var(--ifm-color-primary);
-  --openapi-inverse-color: #0b100e;
+  --openapi-inverse-color: var(--qf-on-brand);
 }
 
 .theme-api-markdown .openapi-method-endpoint {
@@ -374,9 +502,9 @@ a.navbar__item--request-access:hover {
 }
 
 .theme-api-markdown .details__request-summary .button--secondary {
-  background: var(--ifm-color-primary);
-  border-color: var(--ifm-color-primary);
-  color: #ffffff;
+  background: var(--qf-brand-fill);
+  border-color: var(--qf-brand-fill);
+  color: var(--qf-on-brand);
 }
 
 .theme-api-markdown .details__request-summary .button--secondary:disabled {
@@ -410,7 +538,7 @@ a.navbar__item--request-access:hover {
   border: 1px solid currentColor;
   border-radius: 6px;
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.02em;
   margin-block: auto;
   margin-left: 0.45rem;
@@ -448,4 +576,195 @@ a.navbar__item--request-access:hover {
 .connectedAppsLegacyAnchor {
   display: block;
   scroll-margin-top: calc(var(--ifm-navbar-height) + 0.5rem);
+}
+
+/* ─── Sidebar icons & HTTP method badges ──────────────────────
+ * Append to src/css/custom.css.
+ *
+ * SECTION ICONS are RDS Icon Library glyphs (Style=Line, 24px) applied as
+ * mask-image, so each takes its colour from the menu item through
+ * currentColor — hover and active states included, light and dark, one
+ * asset per icon rather than one per theme.
+ *
+ * Ship the SVGs in static/icons/ and add one `className` per item in
+ * sidebars.js — see SIDEBARS-PATCH.md for the exact edits.
+ *
+ * METHOD BADGES need no code change at all. The OpenAPI plugin already
+ * stamps every endpoint item with `api-method get|post|put|patch|delete`
+ * — 492 of them across this site — and nothing renders them today.
+ * Colours are RDS intents; no new values are introduced.
+ * ─────────────────────────────────────────────────────────── */
+
+/* --- section icons ---------------------------------------- */
+.theme-doc-sidebar-container [class*="qf-nav--"] > .menu__link,
+.theme-doc-sidebar-container [class*="qf-nav--"] > .menu__list-item-collapsible > .menu__link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.theme-doc-sidebar-container [class*="qf-nav--"] > .menu__link::before,
+.theme-doc-sidebar-container [class*="qf-nav--"] > .menu__list-item-collapsible > .menu__link::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  background-color: currentColor;
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  opacity: 0.7;
+}
+
+.theme-doc-sidebar-container [class*="qf-nav--"] > .menu__link--active::before,
+.theme-doc-sidebar-container [class*="qf-nav--"] .menu__link--active::before {
+  opacity: 1;
+}
+
+.theme-doc-sidebar-container .qf-nav--journey > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--journey > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/route.svg"); mask-image: url("/icons/route.svg");   /* Developer Journey */
+}
+
+.theme-doc-sidebar-container .qf-nav--apps > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--apps > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/link-03.svg"); mask-image: url("/icons/link-03.svg");   /* Connected Apps */
+}
+
+.theme-doc-sidebar-container .qf-nav--ai > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--ai > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/stars-01.svg"); mask-image: url("/icons/stars-01.svg");   /* AI Agent Prompts */
+}
+
+.theme-doc-sidebar-container .qf-nav--quickstart > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--quickstart > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/zap.svg"); mask-image: url("/icons/zap.svg");   /* User APIs Quickstart · Content APIs Quickstart */
+}
+
+.theme-doc-sidebar-container .qf-nav--api > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--api > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/database-01.svg"); mask-image: url("/icons/database-01.svg");   /* API */
+}
+
+.theme-doc-sidebar-container .qf-nav--sdks > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--sdks > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/code-02.svg"); mask-image: url("/icons/code-02.svg");   /* SDKs */
+}
+
+.theme-doc-sidebar-container .qf-nav--updates > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--updates > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/announcement-02.svg"); mask-image: url("/icons/announcement-02.svg");   /* Updates */
+}
+
+.theme-doc-sidebar-container .qf-nav--faq > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--faq > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/help-circle.svg"); mask-image: url("/icons/help-circle.svg");   /* FAQ */
+}
+
+.theme-doc-sidebar-container .qf-nav--tutorials > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--tutorials > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/graduation-hat-02.svg"); mask-image: url("/icons/graduation-hat-02.svg");   /* Tutorials */
+}
+
+.theme-doc-sidebar-container .qf-nav--reference > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--reference > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/book-open-01.svg"); mask-image: url("/icons/book-open-01.svg");   /* API Reference */
+}
+
+.theme-doc-sidebar-container .qf-nav--content > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--content > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/book-closed.svg"); mask-image: url("/icons/book-closed.svg");   /* Content APIs */
+}
+
+.theme-doc-sidebar-container .qf-nav--user > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--user > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/user-01.svg"); mask-image: url("/icons/user-01.svg");   /* User APIs · User APIs (Pre-live) */
+}
+
+.theme-doc-sidebar-container .qf-nav--oauth > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--oauth > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/key-01.svg"); mask-image: url("/icons/key-01.svg");   /* OAuth2 APIs */
+}
+
+.theme-doc-sidebar-container .qf-nav--search > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--search > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/search-md.svg"); mask-image: url("/icons/search-md.svg");   /* Search APIs */
+}
+
+.theme-doc-sidebar-container .qf-nav--analytics > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--analytics > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/bar-chart-05.svg"); mask-image: url("/icons/bar-chart-05.svg");   /* Analytics APIs */
+}
+
+.theme-doc-sidebar-container .qf-nav--fields > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--fields > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/align-left.svg"); mask-image: url("/icons/align-left.svg");   /* Field Reference */
+}
+
+.theme-doc-sidebar-container .qf-nav--scopes > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--scopes > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/shield-tick.svg"); mask-image: url("/icons/shield-tick.svg");   /* OAuth2 Scopes */
+}
+
+/* --- HTTP method badges ----------------------------------- */
+.theme-doc-sidebar-container .api-method > .menu__link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-doc-sidebar-container .api-method > .menu__link::before {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 44px;
+  padding: 2px 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* RDS *-subtle fills are near-invisible on bg/canvas in light mode
+   (1.00–1.04:1), so each badge also carries a border/intent stroke. */
+.theme-doc-sidebar-container .api-method.get > .menu__link::before {
+  content: "get";
+  background: var(--qf-brand-subtle);
+  color: var(--ifm-color-primary);
+  border-color: var(--qf-border-brand);
+}
+
+.theme-doc-sidebar-container .api-method.post > .menu__link::before {
+  content: "post";
+  background: var(--qf-positive-subtle);
+  color: var(--qf-positive);
+  border-color: var(--qf-border-positive);
+}
+
+.theme-doc-sidebar-container .api-method.delete > .menu__link::before {
+  content: "del";
+  background: var(--qf-negative-subtle);
+  color: var(--qf-negative);
+  border-color: var(--qf-border-negative);
+}
+
+/* RDS has no warning intent, so PUT and PATCH share neutral and the
+   label carries the distinction. */
+.theme-doc-sidebar-container .api-method.put > .menu__link::before {
+  content: "put";
+  background: var(--qf-neutral-subtle);
+  color: var(--qf-neutral);
+  border-color: var(--qf-border-neutral);
+}
+
+.theme-doc-sidebar-container .api-method.patch > .menu__link::before {
+  content: "patch";
+  background: var(--qf-neutral-subtle);
+  color: var(--qf-neutral);
+  border-color: var(--qf-border-neutral);
+  font-size: 0.5625rem;
 }

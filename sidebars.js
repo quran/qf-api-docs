@@ -430,6 +430,7 @@ const buildAnalyticsApisVersionedItems = () =>
 
 const contentApisLatestConfig = {
   label: "Content APIs",
+  navClass: "qf-nav--content",
   introDocId: "content_apis_versioned/content-apis",
   versionLabel: "v4.0.0",
   versions: contentAPIsVersions,
@@ -441,6 +442,7 @@ const contentApisLatestConfig = {
 
 const contentApisVersionedConfig = {
   label: "Content APIs",
+  navClass: "qf-nav--content",
   introDocId: "content_apis_versioned/4.0.0/content-apis",
   versionLabel: "v4.0.0",
   versions: contentAPIsVersions,
@@ -452,6 +454,7 @@ const contentApisVersionedConfig = {
 
 const userRelatedApisLatestConfig = {
   label: "User APIs",
+  navClass: "qf-nav--user",
   introDocId: "user_related_apis_versioned/user-related-apis",
   versionLabel: "v1.0.0",
   versions: userRelatedAPIsVersions,
@@ -463,6 +466,7 @@ const userRelatedApisLatestConfig = {
 
 const userRelatedApisVersionedConfig = {
   label: "User APIs",
+  navClass: "qf-nav--user",
   introDocId: "user_related_apis_versioned/1.0.0/user-related-apis",
   versionLabel: "v1.0.0",
   versions: userRelatedAPIsVersions,
@@ -474,6 +478,7 @@ const userRelatedApisVersionedConfig = {
 
 const userRelatedApisPreLiveConfig = {
   label: "User APIs (Pre-live)",
+  navClass: "qf-nav--user",
   introDocId: "user_related_apis_prelive/user-related-apis",
   versionLabel: "pre-live",
   generatedIndexTitle: "User APIs (Pre-live)",
@@ -484,6 +489,7 @@ const userRelatedApisPreLiveConfig = {
 
 const oauth2ApisLatestConfig = {
   label: "OAuth2 APIs",
+  navClass: "qf-nav--oauth",
   introDocId: "oauth2_apis_versioned/oauth-2-apis",
   versionLabel: "v1.0.0",
   versions: oauth2APIsVersions,
@@ -495,6 +501,7 @@ const oauth2ApisLatestConfig = {
 
 const oauth2ApisVersionedConfig = {
   label: "OAuth2 APIs",
+  navClass: "qf-nav--oauth",
   introDocId: "oauth2_apis_versioned/1.0.0/oauth-2-apis",
   versionLabel: "v1.0.0",
   versions: oauth2APIsVersions,
@@ -506,6 +513,7 @@ const oauth2ApisVersionedConfig = {
 
 const searchApisLatestConfig = {
   label: "Search APIs",
+  navClass: "qf-nav--search",
   introDocId: "search_apis_versioned/quran-foundation-search-api",
   versionLabel: "v1.0.0",
   versions: searchAPIsVersions,
@@ -517,6 +525,7 @@ const searchApisLatestConfig = {
 
 const searchApisVersionedConfig = {
   label: "Search APIs",
+  navClass: "qf-nav--search",
   introDocId: "search_apis_versioned/1.0.0/quran-foundation-search-api",
   versionLabel: "v1.0.0",
   versions: searchAPIsVersions,
@@ -528,6 +537,7 @@ const searchApisVersionedConfig = {
 
 const analyticsApisLatestConfig = {
   label: "Analytics APIs",
+  navClass: "qf-nav--analytics",
   introDocId: "analytics_apis_versioned/analytics-events-api",
   versionLabel: "v1.0.0",
   versions: analyticsAPIsVersions,
@@ -539,6 +549,7 @@ const analyticsApisLatestConfig = {
 
 const analyticsApisVersionedConfig = {
   label: "Analytics APIs",
+  navClass: "qf-nav--analytics",
   introDocId: "analytics_apis_versioned/1.0.0/analytics-events-api",
   versionLabel: "v1.0.0",
   versions: analyticsAPIsVersions,
@@ -569,6 +580,7 @@ const makeApiFamilySidebar = (config) => [
   {
     type: "category",
     label: config.label,
+    className: config.navClass,
     link: {
       type: "generated-index",
       title: config.generatedIndexTitle,
@@ -582,6 +594,7 @@ const makeApiFamilySidebar = (config) => [
 const makeSharedApiFamilyCategory = (config) => ({
   type: "category",
   label: config.label,
+  className: config.navClass,
   link: {
     type: "doc",
     id: config.introDocId,
@@ -665,6 +678,7 @@ const contentQuickstartDocIds = [
 const makeContentQuickstartSidebarItem = (collapsed = false) => ({
   type: "category",
   label: "Content APIs Quickstart",
+  className: "qf-nav--quickstart",
   link: {
     type: "doc",
     id: "quickstart/index",
@@ -752,26 +766,31 @@ const makeSharedDocsSidebar = (apiFamilies) => [
     type: "doc",
     id: "developer-journey",
     label: "Developer Journey",
+    className: "qf-nav--journey",
   },
   {
     type: "doc",
     id: "connected-apps",
     label: "Connected Apps",
+    className: "qf-nav--apps",
   },
   {
     type: "doc",
     id: "ai-agents/index",
     label: "AI Agent Prompts",
+    className: "qf-nav--ai",
   },
   {
     type: "doc",
     id: "tutorials/oidc/user-apis-quickstart",
     label: "User APIs Quickstart",
+    className: "qf-nav--quickstart",
   },
   makeContentQuickstartSidebarItem(false),
   {
     type: "category",
     label: "API",
+    className: "qf-nav--api",
     collapsible: true,
     collapsed: false,
     items: [
@@ -779,23 +798,27 @@ const makeSharedDocsSidebar = (apiFamilies) => [
         type: "doc",
         id: "api-reference",
         label: "API Reference",
+        className: "qf-nav--reference",
       },
       ...apiFamilies.map(makeSharedApiFamilyCategory),
       {
         type: "doc",
         id: "api/field-reference",
         label: "Field Reference",
+        className: "qf-nav--fields",
       },
       {
         type: "doc",
         id: "user_related_apis_versioned/scopes",
         label: "OAuth2 Scopes",
+        className: "qf-nav--scopes",
       },
     ],
   },
   {
     type: "category",
     label: "SDKs",
+    className: "qf-nav--sdks",
     link: {
       type: "doc",
       id: "sdk/index",
@@ -808,15 +831,18 @@ const makeSharedDocsSidebar = (apiFamilies) => [
     type: "doc",
     id: "updates/index",
     label: "Updates",
+    className: "qf-nav--updates",
   },
   {
     type: "doc",
     id: "tutorials/faq",
     label: "FAQ",
+    className: "qf-nav--faq",
   },
   {
     type: "category",
     label: "Tutorials",
+    className: "qf-nav--tutorials",
     collapsible: true,
     collapsed: false,
     items: buildTutorialsSidebarItems(),
