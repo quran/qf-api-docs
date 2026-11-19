@@ -54,7 +54,12 @@ const faqSectionSource = (heading) => {
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
-  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-10-11/);
+  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-11-19/);
+  assert.match(developerTerms, /Recording files downloaded from those URLs may be cached or stored for no longer than 1 week; QF does not grant exceptions to this limit\./);
+  assert.match(developerTerms, /refresh the Application's device copies from that backend/);
+  assert.match(developerTerms, /Sharing by end users in this way is not redistribution\./);
+  assert.match(developerTerms, /train, fine-tune, evaluate, or otherwise develop machine-learning or artificial-intelligence models\. QF does not grant consent or exceptions for these uses\./);
+  assert.doesNotMatch(developerTerms, /machine-learning models without written consent/);
   assert.match(developerTerms, /Cache or store QF Content longer than \*\*1 week\*\*/);
   assert.doesNotMatch(developerTerms, /QF has expressly permitted longer storage/);
   assert.match(
