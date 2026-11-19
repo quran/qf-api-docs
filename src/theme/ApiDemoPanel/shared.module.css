@@ -16,7 +16,7 @@
   margin: 0 0 0.35rem;
   color: var(--qf-text-secondary);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -54,7 +54,7 @@
   background: var(--ifm-color-emphasis-100);
   color: var(--qf-text-secondary);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.06em;
   padding: 0.18rem 0.48rem;
   text-transform: uppercase;
@@ -65,7 +65,7 @@
   background: rgba(220, 38, 38, 0.1);
   color: #b91c1c;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.06em;
   padding: 0.18rem 0.48rem;
   text-transform: uppercase;
@@ -245,7 +245,7 @@
   background: var(--qf-surface-card);
   color: var(--qf-text-secondary);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.06em;
   padding: 0.2rem 0.5rem;
   text-transform: uppercase;
@@ -268,7 +268,7 @@
 .referenceGridItem dt {
   color: var(--qf-text-muted);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }

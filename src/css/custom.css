@@ -768,3 +768,25 @@ a.navbar__item--request-access:hover {
   border-color: var(--qf-border-neutral);
   font-size: 0.5625rem;
 }
+
+/* ─── Build corrections ───────────────────────────────────────
+ * The handoff stylesheet was checked against a layout harness. These rules
+ * make the real Docusaurus build land on the same handoff values.
+ * ─────────────────────────────────────────────────────────── */
+
+/* Infima never applies --ifm-font-weight-base to body text. */
+body {
+  font-weight: var(--ifm-font-weight-base);
+}
+
+/* Emphasis never goes to 700, which is not loaded. */
+:root {
+  --ifm-font-weight-bold: 600;
+  --ifm-table-head-font-weight: 600;
+}
+
+/* Docusaurus raises the first doc heading to 3rem; Title/2xl is 40 / 48. */
+html .markdown h1:first-child {
+  --ifm-h1-font-size: 2.5rem;
+  line-height: 1.2;
+}
