@@ -225,7 +225,12 @@ const config = {
             position: "left",
             label: "Connected Apps",
           },
-
+          {
+            type: "doc",
+            docId: "quran-id",
+            position: "left",
+            label: "Quran ID",
+          },
           {
             type: "docSidebar",
             sidebarId: "tutorialsSidebar",
@@ -319,6 +324,10 @@ const config = {
               {
                 label: "Content APIs",
                 to: "/docs/content_apis_versioned/4.0.0/content-apis/",
+              },
+              {
+                label: "Quran ID",
+                to: "/docs/quran-id",
               },
               {
                 label: "OAuth2 / OIDC APIs",

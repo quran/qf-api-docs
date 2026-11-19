@@ -1,0 +1,88 @@
+---
+title: "Quran ID"
+description: "Quran ID is the Quran Foundation account and sign-in service. Let users sign in to your app with the same account they use on Quran.com, and connect their notes, bookmarks, and reading progress with their permission."
+sidebar_label: "Quran ID"
+displayed_sidebar: "APIsSidebar"
+keywords:
+  - quran id
+  - sign in with quran id
+  - quran foundation sign-in
+  - quran foundation oauth2
+  - quran foundation openid connect
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Quran ID
+
+<p>
+  <img
+    src={useBaseUrl("/img/brand/quran-id.svg")}
+    alt="Quran ID"
+    width="56"
+    height="56"
+    style={{ background: "#fff", borderRadius: "12px", padding: "6px" }}
+  />
+</p>
+
+**Quran ID** is a user's Quran Foundation account, and the sign-in service that connects it to participating apps. It is the same account people use on Quran.com, QuranReflect, and the apps in the [Quran App Store](https://quran.com/apps).
+
+Add Quran ID to your app so users can sign in with an account they already have, and, with their permission, carry their Quran journey with them through the [User APIs](/docs/tutorials/oidc/user-apis-quickstart).
+
+:::info Quran ID and OAuth2
+Quran ID is built on the open standards **OAuth 2.0** and **OpenID Connect (OIDC)**. If you see OAuth2, OIDC, authorization code, or PKCE in these docs, the SDKs, or the API reference, they describe how Quran ID works under the hood. Any standards-compliant OAuth2/OIDC library can integrate Quran ID.
+:::
+
+## Why add Quran ID
+
+- **One account across apps.** Users sign in once with their Quran Foundation account and are recognized across Quran.com and connected apps.
+- **No user management to build.** Quran Foundation hosts sign-up, sign-in, password reset, and account recovery. Your app receives a stable user identifier and never handles passwords.
+- **A connected Quran journey.** Pair Quran ID with the User APIs so supported features such as bookmarks, collections, notes, reading progress, goals, and streaks can follow the user, with their consent.
+- **User consent built in.** Users see which permissions (scopes) your app requests and approve them before your app can access their data.
+- **A path to the Quran App Store.** Quran ID is required for Vision-Aligned Apps and is the exclusive authentication service for Transformational Apps. See [Connected Apps](/docs/connected-apps#connect-quran-id).
+
+Signing in does not synchronize account data on its own. Continuity depends on the User APIs your app implements, the scopes approved for it, and the user's consent.
+
+## How it works
+
+1. Your app sends the user to the Quran Foundation hosted sign-in screen.
+2. The user signs in with their Quran ID and approves the permissions your app requests.
+3. Quran Foundation redirects back to your app with an authorization code.
+4. Your app exchanges the code for tokens: an ID token that identifies the user, and an access token for the User APIs.
+5. Your app calls the User APIs on the user's behalf, within the approved scopes.
+
+In protocol terms, this is the OAuth 2.0 **Authorization Code** flow with **PKCE**, plus OpenID Connect for identity. Use the `sub` claim of the ID token as the user's stable Quran ID identifier in your own database.
+
+:::note Content APIs do not use Quran ID
+Reading Quran content needs no user sign-in. Content APIs use your app's own credentials (the OAuth2 **Client Credentials** flow). Use Quran ID only when you need to know who the user is or access their data. Start with the [Content APIs Quickstart](/docs/quickstart) if you only need content.
+:::
+
+## Choose your integration path
+
+| You are building | Start here |
+| --- | --- |
+| A new JavaScript app and want sign-in already wired | [Starter With NPX](/docs/tutorials/oidc/starter-with-npx) |
+| An existing JavaScript or TypeScript app | [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart) with the [JavaScript SDK](/docs/sdk/javascript) |
+| A Python backend | [Python SDK authentication](/docs/sdk/python/authentication) |
+| A mobile app | [Mobile Apps](/docs/tutorials/oidc/mobile-apps) (React Native, Android, iOS) |
+| Another stack, or a custom flow | [Manual Quran ID integration (OAuth2/OIDC)](/docs/tutorials/oidc/getting-started-with-oauth2) |
+| A Node.js + Express server | [Web Integration Reference](/docs/tutorials/oidc/example-integration) |
+
+## Before you start
+
+1. [Create your app in Developer Console](https://dev-console.quran.foundation/projects/new). Every app receives a `client_id`; a **Backend/server app** also receives a one-time `client_secret`. See [Quran ID Client Setup](/docs/tutorials/oidc/client-setup).
+2. Register each exact redirect URI your app uses.
+3. Request the [scopes](/docs/user_related_apis_versioned/scopes) your features need. Request `openid` to identify the user and `offline_access` to receive refresh tokens.
+4. Build and test in pre-live first, then move to production with your production credentials.
+
+## Reference
+
+- [OpenID Connect](/docs/tutorials/oidc/openid-connect): discovery, ID token validation, and user claims.
+- [OAuth2 APIs](/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/): the authorize, token, userinfo, introspection, and logout endpoints behind Quran ID.
+- [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes): the permissions a user can grant your app.
+- [Webhooks](/docs/tutorials/webhooks): get notified when a user who authorized your app deletes their account.
+- [Connected Apps](/docs/connected-apps#connect-quran-id): Quran ID requirements for each app status.
+
+## Naming it in your app
+
+Refer to the service as **Quran ID**, and label your sign-in button **Sign in with Quran ID**. Avoid protocol terms such as "OAuth" in user-facing copy: your users know the account, not the protocol.

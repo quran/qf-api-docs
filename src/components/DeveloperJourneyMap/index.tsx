@@ -11,7 +11,7 @@ const pathItems = [
   {
     question: "Need Quran data without login?",
     title: "Content APIs",
-    body: "Read verses, chapters, translations, tafsir, audio, and search with app credentials. No Quran.com user account or OAuth user session is involved.",
+    body: "Read verses, chapters, translations, tafsir, audio, and search with app credentials. No user sign-in or Quran ID is involved.",
     outcome: "Call from your backend with the SDK or raw HTTP.",
     code: "GET /content/api/v4/chapters",
     href: "/docs/quickstart",
@@ -20,8 +20,8 @@ const pathItems = [
   {
     question: "Prefer typed clients over raw HTTP?",
     title: "JavaScript SDK",
-    body: "Use the SDK when you are building in JavaScript or TypeScript and want typed clients for Content, Search, OAuth helpers, and User APIs.",
-    outcome: "Use the server entrypoint for backend/API calls and the public entrypoint only for browser or mobile-safe OAuth helpers.",
+    body: "Use the SDK when you are building in JavaScript or TypeScript and want typed clients for Content, Search, Quran ID sign-in helpers, and User APIs.",
+    outcome: "Use the server entrypoint for backend/API calls and the public entrypoint only for browser or mobile-safe Quran ID (OAuth2) helpers.",
     code: 'import { createServerClient } from "@quranjs/api/server";',
     href: "/docs/sdk/javascript",
     cta: "Open JavaScript SDK",
@@ -30,19 +30,19 @@ const pathItems = [
     question: "Need signed-in user data?",
     title: "User APIs",
     body: "Add Quran.com user features to an existing app: bookmarks, collections, notes, reading progress, goals, and preferences.",
-    outcome: "Requires OAuth login/session; call from your backend with the SDK or raw HTTP.",
+    outcome: "Requires users to sign in with Quran ID; call from your backend with the SDK or raw HTTP.",
     code: "GET /auth/v1/bookmarks",
     href: "/docs/tutorials/oidc/user-apis-quickstart",
     cta: "Open User APIs Quickstart",
   },
   {
-    question: "Need to implement auth yourself?",
-    title: "Manual OAuth2",
-    body: "Use this for custom token handling, non-JS stacks, mobile apps, or debugging OAuth2/OIDC behavior.",
+    question: "Need to implement sign-in yourself?",
+    title: "Manual Quran ID (OAuth2)",
+    body: "Use this to add Quran ID with custom token handling, non-JS stacks, or mobile apps, or to debug OAuth2/OIDC behavior.",
     outcome: "Protocol guide for PKCE, token exchange, refresh, scopes, and OIDC validation.",
     code: "POST /oauth2/token",
     href: "/docs/tutorials/oidc/getting-started-with-oauth2",
-    cta: "Open OAuth2 Tutorial",
+    cta: "Open Quran ID Guide",
   },
 ];
 
@@ -60,7 +60,7 @@ export default function DeveloperJourneyMap({ variant = "docs" }: Props) {
           <p className={styles.description}>
             Create your app in Developer Console first. Then choose the path that
             matches what you need: content without login, typed SDK clients,
-            signed-in user data, or manual OAuth2.
+            signed-in user data with Quran ID, or a manual OAuth2 integration.
           </p>
         </div>
 

@@ -1,9 +1,10 @@
 ---
 sidebar_position: 0
 displayed_sidebar: APIsSidebar
-title: "Quran Foundation User APIs OAuth2 Quickstart"
-description: "Quickstart for accessing Quran Foundation User APIs with OAuth2 Authorization Code flow, PKCE, OpenID Connect, and the exchange pattern selected in Developer Console."
+title: "Quran Foundation User APIs Quickstart with Quran ID"
+description: "Quickstart for accessing Quran Foundation User APIs with Quran ID sign-in: the OAuth2 Authorization Code flow, PKCE, OpenID Connect, and the exchange pattern selected in Developer Console."
 keywords:
+  - quran id
   - quran foundation oauth2 quickstart
   - quran foundation user apis
   - oauth2 authorization code pkce
@@ -12,18 +13,20 @@ keywords:
 sidebar_label: "User APIs Quickstart"
 ---
 
-# Quran Foundation User APIs OAuth2 Quickstart
+# Quran Foundation User APIs Quickstart with Quran ID
 
 :::info Quick Summary
 **Audience:** Developers adding signed-in Quran.com user features such as bookmarks, collections, notes, reading progress, goals, and preferences.
 **Prerequisites:** An app and pre-live `client_id` from [Developer Console](https://dev-console.quran.foundation/projects), plus at least one registered redirect URI. A **Backend/server app** also receives a one-time `client_secret`; a **Frontend or mobile app** does not.
-**Recommended flow:** Hosted login + PKCE in your app, followed by the exchange and refresh flow for the app type selected in Developer Console.
-**Outcome:** One User API call with an OAuth2 `access_token`, using the runtime boundary that matches your app type.
+**Recommended flow:** [Quran ID](/docs/quran-id) hosted sign-in + PKCE in your app, followed by the exchange and refresh flow for the app type selected in Developer Console.
+**Outcome:** One User API call with a Quran ID (OAuth2) `access_token`, using the runtime boundary that matches your app type.
 :::
 
 Use this quickstart after choosing User APIs from the [Developer Journey](/docs/developer-journey). It gets you to the architecture selected in Developer Console and one successful signed-in User API call.
 
-Use the [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) when you need the full manual flow, client-type details, token exchange examples, refresh handling, scopes, and troubleshooting.
+User APIs act on behalf of a user who signed in with [Quran ID](/docs/quran-id), the Quran Foundation account and sign-in service built on OAuth2 and OpenID Connect.
+
+Use the [manual Quran ID integration guide](/docs/tutorials/oidc/getting-started-with-oauth2) when you need the full manual flow, client-type details, token exchange examples, refresh handling, scopes, and troubleshooting.
 
 ## Production vs Pre-live
 
@@ -39,7 +42,7 @@ If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 ## Recommended Architecture
 
 :::important Server example: Backend/server app
-- Let your app or website open the Quran Foundation hosted login screen.
+- Let your app or website open the Quran ID hosted sign-in screen.
 - Generate PKCE, `state`, and `nonce` in the app or browser client.
 - After login, receive the authorization `code` at your redirect URI.
 - Send `code + code_verifier + redirect_uri` to your backend.
@@ -50,7 +53,7 @@ If you are testing User APIs in pre-live, keep the entire flow in pre-live.
 The SDK example below follows this confidential backend/server pattern. Direct browser calls from third-party origins may be rejected by CORS or origin allowlist checks.
 
 :::tip Public-client exception
-If you selected **Frontend or mobile app** in Developer Console, the client is public: exchange the code in the app using PKCE, then refresh with `client_id` and no `client_secret`. See the [manual OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2#client-types) for that flow; the server SDK example below is for a confidential **Backend/server app**.
+If you selected **Frontend or mobile app** in Developer Console, the client is public: exchange the code in the app using PKCE, then refresh with `client_id` and no `client_secret`. See the [manual Quran ID integration guide](/docs/tutorials/oidc/getting-started-with-oauth2#client-types) for that flow; the server SDK example below is for a confidential **Backend/server app**.
 :::
 
 ## First SDK Request
@@ -134,7 +137,7 @@ Do not log `access_token`, `refresh_token`, `id_token`, authorization codes, `co
 | React Native | **Frontend or mobile app:** in-app public exchange. **Backend/server app:** backend exchange. | [React Native guide](/docs/tutorials/oidc/mobile-apps/react-native) |
 | Android | **Frontend or mobile app:** AppAuth public exchange. **Backend/server app:** backend exchange. | [Android guide](/docs/tutorials/oidc/mobile-apps/android) |
 | iOS | **Frontend or mobile app:** AppAuth public exchange. **Backend/server app:** backend exchange. | [iOS guide](/docs/tutorials/oidc/mobile-apps/iOS) |
-| Full OAuth2 and OIDC details | Step-by-step flow, validation, refresh, scopes, and troubleshooting | [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) |
+| Full OAuth2 and OIDC details | Step-by-step flow, validation, refresh, scopes, and troubleshooting | [Manual Quran ID integration guide](/docs/tutorials/oidc/getting-started-with-oauth2) |
 
 ## Scope And Token Details
 
@@ -143,13 +146,13 @@ Request only the scopes your app needs. Start with `openid` for identity, add `o
 Use these references for the details:
 
 - [OAuth2 Scopes](/docs/user_related_apis_versioned/scopes) for available scopes.
-- [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) for token exchange, refresh, `state`, `nonce`, and troubleshooting.
+- [Manual Quran ID integration guide](/docs/tutorials/oidc/getting-started-with-oauth2) for token exchange, refresh, `state`, `nonce`, and troubleshooting.
 - [OpenID Connect guide](/docs/tutorials/oidc/openid-connect) for `id_token` claims and identity concepts.
 
 ## Next Steps
 
 - [JavaScript SDK guide](/docs/sdk/javascript) if you want typed SDK clients in an existing JS/TS backend.
-- [OAuth2 tutorial](/docs/tutorials/oidc/getting-started-with-oauth2) for the full Authorization Code with PKCE flow.
+- [Manual Quran ID integration guide](/docs/tutorials/oidc/getting-started-with-oauth2) for the full Authorization Code with PKCE flow.
 - [Web integration example](/docs/tutorials/oidc/example-integration) for a working server-side implementation.
 - [User APIs reference](/docs/category/user-related-apis) for endpoint-by-endpoint API details.
 

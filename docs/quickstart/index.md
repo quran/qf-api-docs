@@ -19,7 +19,7 @@ Use this quickstart after choosing Content APIs from the [Developer Journey](/do
 | You need | API and flow | Where to start |
 | --- | --- | --- |
 | Quranic content from a backend | Content APIs with **Client Credentials** and your app's Content scopes | Continue with this quickstart. |
-| A signed-in person's data, such as bookmarks or collections | User-related APIs with **Authorization Code + PKCE** | Follow the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart). |
+| A signed-in person's data, such as bookmarks or collections | User-related APIs with [Quran ID](/docs/quran-id) sign-in (**Authorization Code + PKCE**) | Follow the [User APIs Quickstart](/docs/tutorials/oidc/user-apis-quickstart). |
 
 A browser or mobile app must not embed a Content API `client_secret`. If it needs Content API data, call your own backend, which holds the secret and makes the Content API request.
 :::
