@@ -48,8 +48,8 @@ const faqSectionSource = (heading) => {
   if (headingIndex < 0) return '';
 
   const contentStart = faq.indexOf('\n', headingIndex) + 1;
-  const nextHeading = faq.indexOf('\n## ', contentStart);
-  return faq.slice(contentStart, nextHeading < 0 ? faq.length : nextHeading);
+  const nextHeadingMatch = /\n#{2,3} /.exec(faq.slice(contentStart));
+  return faq.slice(contentStart, nextHeadingMatch ? contentStart + nextHeadingMatch.index : faq.length);
 };
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
@@ -75,7 +75,10 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   assert.match(developerTerms, /A finished social-media video may remain published indefinitely\./);
   assert.match(developerTerms, /credentials and API access do not transfer\./);
   assert.match(developerTerms, /The APIs are provided free of charge\. QF does not charge per-request, subscription, or usage fees\./);
-  assert.match(faq, /^## Is the API free to use\?$/m);
+  assert.match(faq, /^### Is the API free to use\?$/m);
+  for (const group of ['Access, requests, and limits', 'Authentication and Quran ID', 'Commercial use and sharing', 'Storage, offline use, and Content Sync', 'Audio and recitations', 'Rights, attribution, and AI']) {
+    assert.match(faq, new RegExp(`^## ${escapeRegExp(group)}$`, 'm'));
+  }
   for (const document of [developerTerms, faq, fs.readFileSync(path.join(docsDir, 'connected-apps.mdx'), 'utf8')]) {
     assert.doesNotMatch(document, /signed commercial license|separate (?:written )?commercial license|written license for Quran Foundation content|commercial-license requirement/);
   }
@@ -108,7 +111,7 @@ test('documents the required content policy FAQ questions and links', () => {
   ];
 
   for (const question of requiredQuestions) {
-    assert.match(faq, new RegExp(`^## ${escapeRegExp(question)}$`, 'm'));
+    assert.match(faq, new RegExp(`^### ${escapeRegExp(question)}$`, 'm'));
   }
 
   for (const link of [
