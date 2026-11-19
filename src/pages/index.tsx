@@ -182,9 +182,19 @@ function ImplementationChoices() {
             </Link>
           </li>
         </ul>
+      </div>
+    </section>
+  );
+}
 
+function AiResources() {
+  return (
+    <section className={styles.section} aria-labelledby="ai-title">
+      <div className={styles.inner}>
+        <h2 id="ai-title" className={styles.sectionTitle}>
+          Building with an AI assistant?
+        </h2>
         <nav className={styles.resourceRow} aria-label="AI developer resources">
-          <span>Building with an AI assistant?</span>
           <a href="/agent-prompts/qf-next-starter.md">AI starter prompt</a>
           <a href="/llms.txt">LLMs.txt</a>
         </nav>
@@ -194,19 +204,9 @@ function ImplementationChoices() {
 }
 
 function AppStoreSection() {
-  const appStoreLogo = useBaseUrl("/img/brand/quran-app-store.svg");
-
   return (
     <section className={styles.section} aria-labelledby="app-store-title">
       <div className={`${styles.inner} ${styles.appStore}`}>
-        <span className={styles.appStoreLogo}>
-          <img
-            src={appStoreLogo}
-            alt="Quran App Store"
-            width={251}
-            height={200}
-          />
-        </span>
         <div>
           <h2 id="app-store-title" className={styles.sectionTitle}>
             Build toward a connected Quran experience
@@ -254,10 +254,12 @@ function HelpSection() {
           </p>
         </div>
         <div className={styles.helpLinks}>
-          <a href={DEVELOPER_CONSOLE_URL}>
+          <a className="button button--primary" href={DEVELOPER_CONSOLE_URL}>
             Open Developer Console <span aria-hidden="true">↗</span>
           </a>
-          <a href={SUPPORT_EMAIL_URL}>Contact the developer team</a>
+          <a className="button button--secondary" href={SUPPORT_EMAIL_URL}>
+            Contact the developer team
+          </a>
         </div>
       </div>
     </section>
@@ -275,6 +277,7 @@ export default function Home(): JSX.Element {
       <main>
         <CapabilityCards />
         <ImplementationChoices />
+        <AiResources />
         <AppStoreSection />
         <HelpSection />
       </main>

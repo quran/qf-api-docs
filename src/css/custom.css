@@ -769,6 +769,155 @@ a.navbar__item--request-access:hover {
   font-size: 0.5625rem;
 }
 
+/* ─── Label typography — patch 2 ──────────────────────────────
+ * Append to src/css/custom.css, after everything else.
+ *
+ * WHY: RDS has four type roles, and the first handoff only wired two.
+ *
+ *   Title/*  Figtree SemiBold 600   → headings        ✓ was wired
+ *   Text/*   IBM Plex Sans Light    → body copy       ✓ was wired
+ *   Label/*  Figtree Regular 400    → UI chrome       ✗ MISSED
+ *   Mono/*   IBM Plex Mono Regular  → code & tags     ✗ partly
+ *
+ * Infima has no "label font" variable, so every button, nav item, tab
+ * and footer link fell through to --ifm-font-family-base and rendered
+ * in IBM Plex Sans. The original file even said "Figtree → headings
+ * and labels" in its header and then never bound the labels. This is a
+ * gap in the handoff, not in the implementation.
+ *
+ * Label/* is Regular 400, line-height 100%, letter-spacing 0 —
+ * at every size (11 / 13 / 16 / 19).
+ * ─────────────────────────────────────────────────────────── */
+
+:root {
+  /* Same stack as the heading font, named for its own role so label
+     and heading can diverge later without one dragging the other. */
+  --qf-font-family-label: 'Figtree', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+  --qf-label-weight: 400;          /* RDS Label/* is Regular */
+}
+
+/* --- UI chrome: everything that carries a Label, not prose --- */
+.button,
+.button--primary,
+.button--secondary,
+[class*='button--'],
+.navbar__title,
+.navbar__link,
+.navbar__item,
+.dropdown__link,
+.navbar__item--request-access,
+.navbar__item--request-access a,
+.navbar__item--request-access .navbar__link,
+.menu__link,
+.tabs__item,
+.breadcrumbs__link,
+.pagination-nav__label,
+.footer__title,
+.footer__link-item,
+.card__header,
+.theme-doc-version-badge,
+.theme-doc-toc-mobile button {
+  font-family: var(--qf-font-family-label);
+  font-weight: var(--qf-label-weight);
+  letter-spacing: 0;
+}
+
+/* Two controls ship their own font-family and so inherit nothing.
+   Both were rendering in Arial. */
+.DocSearch-Button,
+.DocSearch-Button-Placeholder,
+.DocSearch-Input,
+.theme-code-block .clean-btn,
+[class*='copyButton'] {
+  font-family: var(--qf-font-family-label);
+  font-weight: var(--qf-label-weight);
+}
+
+/* The TOC is a list of labels, but it links to headings — keep it
+   Label, at the small size. */
+.table-of-contents__link {
+  font-family: var(--qf-font-family-label);
+  font-weight: var(--qf-label-weight);
+}
+
+/* The weight ladder, site-wide. Emphasis moves one step at a time and
+   never reaches bold:
+     400  base label — nav links, footer links, buttons, tabs
+     500  a parent or section label
+     600  the strongest state only — active sidebar item, primary CTA;
+          both of which already carry colour as well.
+   700 is not loaded, so it cannot creep back in unnoticed. */
+.theme-doc-sidebar-container .menu > .menu__list > .menu__list-item > .menu__link,
+.theme-doc-sidebar-container .menu__link--sublist {
+  font-weight: 500;
+}
+
+.theme-doc-sidebar-container .menu__link--active:not(.menu__link--sublist) {
+  font-weight: 600;
+}
+
+/* Site-specific eyebrows and card labels are NOT Label/* — in the design
+   they are RDS Mono/md: IBM Plex Mono Regular 13, uppercase, +10%
+   tracking, fg/faint. Mono is the eyebrow face on this site.
+   These are CSS-module classes, so the hash suffix varies per build and
+   the prefix is matched instead. RECOMMENDED: add a stable `qf-eyebrow`
+   class to these components and replace this block with it. */
+[class*='eyebrow_'],
+[class*='cardLabel_'] {
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 400;
+  font-size: 0.8125rem;            /* 13px — RDS Mono/md */
+  line-height: 1.538;              /* 20px */
+  letter-spacing: 0.1em;           /* RDS Mono/* */
+  text-transform: uppercase;
+  color: var(--qf-text-muted);     /* fg/faint */
+}
+
+/* Badges are Label/*, not Mono. */
+[class*='badge_'] {
+  font-family: var(--qf-font-family-label);
+  font-weight: var(--qf-label-weight);
+}
+
+/* --- headings that were never mapped ------------------------
+ * h1–h3 were wired in patch 1. RDS also has Title/sm and Title/xs. */
+h4 {
+  font-size: 1rem;                 /* 16px — RDS Title/sm */
+  line-height: 1.5;                /* 24px */
+}
+
+h5,
+h6 {
+  font-size: 0.8125rem;            /* 13px — RDS Title/xs */
+  line-height: 1.538;              /* 20px */
+}
+
+/* --- mono tracking ------------------------------------------
+ * RDS Mono/* carries +10% letter-spacing. That is meant for short
+ * mono LABELS — method badges, tags, version chips — and would be
+ * unreadable across a block of code, so it is applied to the badges
+ * only and explicitly zeroed on code. */
+.theme-doc-sidebar-container .api-method > .menu__link::before {
+  letter-spacing: 0.1em;           /* RDS Mono/* */
+}
+
+code,
+pre,
+pre code {
+  letter-spacing: 0;
+}
+
+/* Code must not inherit the body's Light 300 — IBM Plex Mono is loaded
+   at 400/500 only, so 300 was being synthesised. RDS Mono/* is Regular. */
+code,
+pre,
+pre code,
+kbd,
+samp {
+  font-weight: 400;
+}
+
 /* ─── Build corrections ───────────────────────────────────────
  * The handoff stylesheet was checked against a layout harness. These rules
  * make the real Docusaurus build land on the same handoff values.
