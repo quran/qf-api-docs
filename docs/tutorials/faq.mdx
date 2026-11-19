@@ -88,7 +88,9 @@ Providing scholarly-verified Quranic content is one of Quran Foundation's core g
 
 ## How long can I cache or store QF Content?
 
-Do not cache or store QF Content for more than 1 week unless it is obtained and maintained through the [Content Sync APIs](/docs/tutorials/content-sync/getting-started#content-available-for-offline-sync), or consists of font files or Mushaf images cached or bundled under the conditions below. If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. When using Content Sync, perform a [next sync](/docs/tutorials/content-sync/getting-started#next-sync) at least every 7 days when connectivity to QF permits and apply all available changes. Previously synced content may remain available while connectivity to QF is unavailable, even beyond seven days; sync promptly when connectivity returns. This applies to both backend and device copies. The Content Sync exception covers the rows returned by that API; recitation rows contain audio URLs, not the underlying recording files.
+Do not cache or store QF Content for more than 1 week unless it is obtained and maintained through the [Content Sync APIs](/docs/tutorials/content-sync/getting-started#content-available-for-offline-sync), or consists of font files or Mushaf images cached or bundled under the conditions below. If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. When using Content Sync, perform a [next sync](/docs/tutorials/content-sync/getting-started#next-sync) at least every 7 days when connectivity to QF permits and apply all available changes. Previously synced content may remain available while connectivity to QF is unavailable, even beyond seven days; sync promptly when connectivity returns. This applies to both backend and device copies. The Content Sync exception covers the rows returned by that API; recitation rows contain audio URLs, not the underlying recording files. Recording files downloaded from those URLs may be kept for up to 1 week, and we do not grant exceptions to this limit; stream recitations from their audio URLs for longer use.
+
+Your backend may obtain content through Content Sync and refresh your app's device copies from it, as long as the backend syncs with Quran Foundation at least every 7 days and devices refresh from the backend at least every 7 days when connectivity permits.
 
 Font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs may be cached or bundled for use in your application if you maintain an active [Developer Console](https://dev-console.quran.foundation/projects) account and credit Quran Foundation somewhere reasonably accessible in your application or associated credits. The files may be distributed only as an integrated part of your application, not through your own API, asset package, standalone download, or similar offering. We recommend refreshing cached files and updating bundled copies when corrections are released. The [Developer Terms](/legal/developer-terms/) are the authoritative source for the full conditions.
 
@@ -104,3 +106,40 @@ Content Sync supports `quran_core`, approved public Quran layouts through `musha
 
 The Developer Terms reserve all rights not expressly granted. For Connected Apps, display attribution wherever Quranic content is surfaced: “Quran data provided by [Quran.Foundation](https://quran.foundation/).” Also credit translations, tafsir editions, and recitations by their named source or edition. See [Content and attribution requirements](/docs/connected-apps#content-and-attribution-requirements) and the [Developer Terms](/legal/developer-terms).
 
+## Who holds the rights to a recitation or translation, or who authored it?
+
+Rights holders and licensing terms vary by recitation, recording, and translation edition. If you'd like to rehost or redistribute material from our website, we recommend checking the license for the specific recording or edition and contacting the relevant rights holder directly for any permission you need. You're welcome to link to the material on our website. We do not provide authorship, edition, or ownership details beyond the information included in our API resources.
+
+## Why did my video receive a YouTube Content ID claim?
+
+We do not register recitations with YouTube Content ID, and we cannot release or allowlist claims. Claims are filed by third parties who assert rights in a particular recording. If you receive one, you can use YouTube's dispute process or contact the claimant directly. Rights holders vary by recording, so we recommend checking the source of the specific recording before publishing.
+
+## Are there rate limits?
+
+We do not currently enforce fixed rate limits. If the API responds with HTTP `429 Too Many Requests`, back off: honor the `Retry-After` header when it is present, otherwise retry with exponential backoff and jitter, and avoid tight retry loops. Caching responses within the storage limits and using [Content Sync](/docs/tutorials/content-sync/getting-started) for offline copies also reduces request volume. Limits may be introduced in the future, and the [Developer Terms](/legal/developer-terms) prohibit exceeding published limits or circumventing technical restrictions.
+
+## Can my users share verses, images, or clips from my app?
+
+Yes. Letting your users share QF Content, such as verse images, cards, or short clips, to their own social-media accounts, messages, or devices is allowed and is not redistribution. See Section 2.2 of the [Developer Terms](/legal/developer-terms).
+
+## Can I change playback speed or recolor Mushaf pages?
+
+Yes. Adjusting recitation playback speed or recoloring Mushaf pages for a night or dark mode is a presentation change and does not modify the Quran text, as long as the text itself is not altered.
+
+## Can I build a website, printed book, or open-source project with QF Content?
+
+- **Website:** allowed if the content it serves is obtained and refreshed through [Content Sync](/docs/tutorials/content-sync/getting-started) at least every 7 days. A site generated once and left unsynced is a build-time bundle, which the Terms do not allow.
+- **Printed or downloadable documents for sale** (for example, PDF books): not covered by the Developer Terms. Rights holders and licensing terms vary by edition, so obtain any permission you need from the relevant rights holder.
+- **Public repositories and packages:** your code may be public, but do not include QF Content or raw API data. Publishing that data in a repository, package, or downloadable file is redistribution.
+
+## Can I use QF Content to train an AI model?
+
+No. QF Content may not be used to train, fine-tune, evaluate, or otherwise develop machine-learning or AI models, and we do not grant consent or exceptions for this. Retrieval-augmented generation within your app is a separate use and remains subject to the storage and use restrictions in the [Developer Terms](/legal/developer-terms).
+
+## Can you add a new reciter, translation, or Mushaf? Do you publish a roadmap?
+
+We do not publish a roadmap for new resources. You can suggest a reciter, translation, Mushaf, or feature at [feedback.quran.com](https://feedback.quran.com/). The resources currently available are listed by the [Content APIs](/docs/content_apis_versioned/4.0.0/content-apis/).
+
+## Which audio sites are operated by Quran Foundation?
+
+Among the audio and data sites developers commonly ask about, [QuranicAudio](https://quranicaudio.com/) is operated by Quran Foundation. EveryAyah, AlAdhan, Al Quran Cloud, and QUL are independent services, and their own terms apply.
