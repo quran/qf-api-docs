@@ -64,12 +64,17 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   assert.doesNotMatch(developerTerms, /QF has expressly permitted longer storage/);
   assert.match(
     developerTerms,
-    /commercial license:\*\* A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model/,
+    /Allowed under these Terms:\*\* A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model/,
   );
   assert.match(
     developerTerms,
-    /A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data/,
+    /Selling, sublicensing, or redistributing QF Content or raw API data.*is not permitted\. QF does not offer licenses or paid arrangements for these uses\./,
   );
+  assert.match(developerTerms, /The APIs are provided free of charge\. QF does not charge per-request, subscription, or usage fees\./);
+  assert.match(faq, /^## Is the API free to use\?$/m);
+  for (const document of [developerTerms, faq, fs.readFileSync(path.join(docsDir, 'connected-apps.mdx'), 'utf8')]) {
+    assert.doesNotMatch(document, /signed commercial license|separate (?:written )?commercial license|written license for Quran Foundation content|commercial-license requirement/);
+  }
   assert.match(
     developerTerms,
     /Social-media videos are not redistribution/,
@@ -136,7 +141,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   assert.match(commercialAnswer, /^Yes\./);
   assert.match(
     commercialAnswer,
-    /A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model without a separate commercial license/,
+    /A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model, provided that/,
   );
   assert.match(
     commercialAnswer,
@@ -148,7 +153,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     commercialAnswer,
-    /A Developer must obtain a signed commercial license before selling, sublicensing, or redistributing QF Content or raw API data/,
+    /Selling, sublicensing, or redistributing QF Content or raw API data.*is not permitted, and we do not offer licenses or paid arrangements for it/,
   );
   assert.match(
     commercialAnswer,
@@ -287,7 +292,7 @@ test('aligns the Connected Apps charging answer with the Developer Terms', () =>
   assert.ok(chargingAnswer, 'expected the Connected Apps charging FAQ answer');
   assert.match(
     normalize(commercialSection),
-    /Selling, sublicensing, or separately redistributing Quran Foundation content or raw data requires a signed commercial license\./,
+    /Selling, sublicensing, or separately redistributing Quran Foundation content or raw data is not permitted\./,
   );
   assert.match(chargingAnswer, /\[Terms and commercial use\]\(#terms-and-commercial-use\)/);
   for (const text of [commercialSection, chargingAnswer]) {
