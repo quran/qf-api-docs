@@ -55,8 +55,8 @@ const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
   assert.match(developerTerms, /\*\*Last updated:\*\* 2026-11-20/);
-  assert.match(developerTerms, /on an end user's device for offline playback for longer than 1 week, provided that/);
-  assert.match(developerTerms, /Recording files kept on a Developer's servers, or on a device without meeting these conditions, may be cached or stored for no longer than 1 week\./);
+  assert.match(developerTerms, /\*\*Offline recitation downloads \(no 1-week limit on devices\)\.\*\* An Application may let end users download recitation audio for offline listening/);
+  assert.match(developerTerms, /Recording files kept on a Developer's servers, or on a device without meeting the offline download conditions above, may be cached or stored for no longer than 1 week\./);
   assert.doesNotMatch(developerTerms, /QF does not grant exceptions to this limit/);
   assert.match(developerTerms, /refresh the Application's device copies from that backend/);
   assert.match(developerTerms, /Sharing by end users in this way is not redistribution\./);
