@@ -1031,3 +1031,14 @@ main [class*='starterCard_'] [class*='copyButton_'] {
 .footer .footer__link-item:hover {
   color: var(--ifm-color-primary);
 }
+
+/* Lockups sit in flex columns, which stretch an image to the full width
+   and centre its artwork. Keep them at their own width, aligned with the
+   text; the Quran.ai panel is the one centred layout. */
+body.home-page [class*='lockup_'] {
+  align-self: flex-start;
+}
+
+body.home-page [class*='aiPanel_'] [class*='lockup_'] {
+  align-self: center;
+}
