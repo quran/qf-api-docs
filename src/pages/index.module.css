@@ -1,25 +1,38 @@
 /**
  * Landing page — replacement for src/pages/index.module.css
  *
- * Matches Figma `Docs — Landing 1280 · Light` (248:1388) and its dark twin
- * (251:1572). Class names are unchanged from the current file, so this is a
- * drop-in: index.tsx needs only the three structural edits in LANDING-SPEC.md.
+ * Matches Figma `Docs — Landing 1280 · Light v2 (Kais revisions)` (281:2778)
+ * and its dark twin `Docs — Landing 1280 · Dark v2` (287:1832). Those two are
+ * the only landing artboards; earlier versions were deleted.
  *
- * Every value resolves through the RDS tokens already defined in custom.css.
+ * Every value resolves through the RDS tokens already in custom.css.
  * No colour, radius or font is introduced here.
  *
- * ELEVATION LADDER on this page — note the page itself is recessed, not canvas:
- *   bg/recessed   the page
+ * ── SURFACES ─────────────────────────────────────────────────
+ * Two alternating values, not three:
+ *
+ *   bg/canvas     the page
  *   bg/elevated   each section panel (+ border/faint, radius 24)
- *   bg/recessed   cards inside a panel (radius 16, no border)
- *   bg/elevated   the command strip inside the starter card (+ border)
+ *   bg/canvas     cards inside a panel (radius 16) — cut back to page colour
+ *   bg/elevated   the command strip inside the starter card
+ *
+ * Cards were `bg/recessed` in the first version. That step was too strong
+ * against an elevated panel, so they sit on canvas now.
+ *
+ * ── TEXT ON A CARD ───────────────────────────────────────────
+ *   title            fg/bold
+ *   body             fg/bold     ← not fg/subtle; deliberate
+ *   supporting line  fg/subtle
+ *   mono eyebrow     fg/subtle
+ *   link             fg/intent/brand
+ *
+ * Hierarchy inside a card runs on typeface and weight, not colour: the title
+ * is Figtree 600 and the body IBM Plex Sans 300, both on fg/bold.
  */
 
 /* ─── page shell ─────────────────────────────────────────── */
-/* Sections are panels on a recessed page, not full-bleed bands.
-   `home-page` is already toggled on <body> by HomepageHero. */
 :global(body.home-page) {
-  background: var(--qf-surface-sunken);
+  background: var(--qf-surface-page);          /* bg/canvas */
 }
 
 .heroBanner,
@@ -30,23 +43,12 @@
   background: transparent;
 }
 
-.heroBanner {
-  padding-top: 72px;
-}
+.heroBanner { padding-top: 72px; }
+.section    { padding-top: 24px; }             /* the gap between panels */
+.section:last-of-type { padding-bottom: 96px; }
 
-.section {
-  padding-top: 24px;         /* the 24px gap between panels */
-}
-
-.section:last-of-type {
-  padding-bottom: 96px;
-}
-
-/* sectionAlt no longer alternates a band — every section is a panel.
-   Kept so index.tsx keeps compiling if the class is still applied. */
-.sectionAlt {
-  background: transparent;
-}
+/* every section is a panel now — kept so the class still resolves */
+.sectionAlt { background: transparent; }
 
 /* ─── panels ─────────────────────────────────────────────── */
 .heroContent,
@@ -63,30 +65,32 @@
   border-radius: var(--qf-radius-lg);          /* radius/300 — 24px */
 }
 
-.heroContent {
-  padding: 56px;
+.heroContent { padding: 56px; }
+
+/* ─── product lockups ────────────────────────────────────────
+ * The hero and each journey card carry a product lockup rather than a
+ * mono eyebrow. Ship both themes and swap on [data-theme]; the artwork
+ * is brand-coloured and cannot be recoloured with currentColor. */
+.lockup {
+  display: block;
+  width: auto;
 }
+
+.lockupHero { height: 72px; }                  /* hero */
+.lockupCard { height: 38px; }                  /* journey card, Quran.ai */
+
+:global([data-theme='light']) .lockupDark,
+:global(html:not([data-theme='dark'])) .lockupDark { display: none; }
+:global([data-theme='dark']) .lockupLight { display: none; }
 
 /* ─── hero ───────────────────────────────────────────────── */
-/* The eyebrow is RDS Mono/md, not a Label — uppercase, +10% tracking. */
-.eyebrow {
-  margin: 0;
-  font-family: var(--ifm-font-family-monospace);
-  font-size: 0.8125rem;        /* 13px */
-  font-weight: 400;
-  line-height: 1.538;          /* 20px */
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--qf-text-muted); /* fg/faint */
-}
-
 .heroTitle {
   margin: 0;
   max-width: 782px;
   font-family: var(--ifm-heading-font-family);
   font-size: 2.5rem;           /* 40px — RDS Title/2xl */
   font-weight: 600;
-  line-height: 1.2;            /* 48px */
+  line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--qf-text-primary);
 }
@@ -96,7 +100,7 @@
   max-width: 640px;
   font-size: 1.1875rem;        /* 19px — RDS Text/lg */
   font-weight: 300;
-  line-height: 1.474;          /* 28px */
+  line-height: 1.474;
   color: var(--qf-text-secondary);
 }
 
@@ -113,12 +117,10 @@
   font-size: 0.8125rem;        /* 13px — RDS Text/sm */
   font-weight: 300;
   line-height: 1.538;
-  color: var(--qf-text-muted);
+  color: var(--qf-text-muted);  /* fg/faint — fine on bg/elevated */
 }
 
-.returningLink a {
-  color: var(--ifm-link-color);
-}
+.returningLink a { color: var(--ifm-link-color); }
 
 /* ─── section headings ───────────────────────────────────── */
 .sectionTitle {
@@ -126,7 +128,7 @@
   font-family: var(--ifm-heading-font-family);
   font-size: 1.4375rem;        /* 23px — RDS Title/lg */
   font-weight: 600;
-  line-height: 1.391;          /* 32px */
+  line-height: 1.391;
   letter-spacing: -0.02em;
   color: var(--qf-text-primary);
 }
@@ -135,7 +137,7 @@
   margin: 0;
   font-size: 1rem;             /* 16px — RDS Text/md */
   font-weight: 300;
-  line-height: 1.5;            /* 24px */
+  line-height: 1.5;
   color: var(--qf-text-secondary);
 }
 
@@ -147,21 +149,22 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  align-items: stretch;        /* equal-height cards */
 }
 
-.cardGridTwo {
-  grid-template-columns: repeat(2, 1fr);
-}
+.cardGridTwo { grid-template-columns: repeat(2, 1fr); }
 
 .card {
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 24px;
-  background: var(--qf-surface-sunken);        /* bg/recessed */
+  background: var(--qf-surface-page);          /* bg/canvas */
   border-radius: var(--ifm-global-radius);     /* radius/200 — 16px */
 }
 
+/* mono eyebrow — survives in "Choose how to build", replaced by lockups
+   in the hero and the journey cards */
 .cardLabel {
   display: flex;
   align-items: center;
@@ -173,57 +176,109 @@
   line-height: 1.538;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--qf-text-secondary);   /* fg/subtle — see note below */
-}
-
-.cardLogo {
-  flex: 0 0 auto;
-  width: 28px;
-  height: 28px;
+  color: var(--qf-text-secondary);
 }
 
 .cardTitle {
   margin: 0;
   font-family: var(--ifm-heading-font-family);
-  font-size: 1.1875rem;        /* 19px — RDS Title/md */
+  font-size: 1rem;             /* 16px — RDS Title/sm */
   font-weight: 600;
-  line-height: 1.474;          /* 28px */
+  line-height: 1.5;
   color: var(--qf-text-primary);
 }
 
+/* body on a card is fg/bold */
 .cardText {
   margin: 0;
   font-size: 0.8125rem;        /* 13px — RDS Text/sm */
   font-weight: 300;
-  line-height: 1.538;          /* 20px */
-  color: var(--qf-text-secondary);
+  line-height: 1.538;
+  color: var(--qf-text-primary);
 }
 
+/* the one step back */
 .cardSupporting {
   margin: 0;
   font-size: 0.8125rem;
   font-weight: 300;
   line-height: 1.538;
-  color: var(--qf-text-secondary);   /* fg/subtle — see note below */
+  color: var(--qf-text-secondary);
 }
-
-/* fg/faint on bg/recessed is 4.22:1 in light — below AA at 13px. Any faint
-   text sitting on a recessed surface steps up to fg/subtle (8.70:1 light,
-   10.15:1 dark). This is the third place the same RDS pairing has failed;
-   see HANDOFF.md § RDS findings. The Figma artboards were corrected to
-   match, so design and code agree. */
 
 .cardLink,
 .cardTextLink {
-  margin-top: auto;
   font-size: 0.8125rem;
   font-weight: 300;
   line-height: 1.538;
   color: var(--ifm-link-color);
 }
 
-.cardTextLink {
-  margin-top: 0;
+/* links follow the content; the card stretches below them, matching Figma */
+.cardLink { margin-top: 0; }
+
+/* ─── Quran.ai + MCP — centred, secondary ────────────────── */
+.aiPanel {
+  align-items: center;
+  text-align: center;
+  padding: 28px 32px;
+  gap: 6px;
+}
+
+.aiPanel .lockupCard { margin: 0 auto 6px; }
+
+.aiPanel .sectionTitle {
+  font-size: 1.1875rem;        /* 19px — RDS Title/md, a step down */
+  line-height: 1.474;
+  letter-spacing: 0;
+}
+
+.aiPanel .sectionIntro {
+  font-size: 0.8125rem;
+  line-height: 1.538;
+  max-width: 68ch;
+}
+
+.aiLinks {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 0.8125rem;
+  font-weight: 300;
+}
+
+/* ─── what we provide / what we ask ──────────────────────── */
+.exchangeColumns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.exchangeHeading {
+  margin: 0;
+  font-family: var(--ifm-heading-font-family);
+  font-size: 1.1875rem;        /* 19px — RDS Title/md */
+  font-weight: 600;
+  line-height: 1.474;
+  color: var(--qf-text-primary);
+}
+
+/* em-dash lead-ins, not list bullets */
+.exchangeList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.exchangeList li {
+  font-size: 0.8125rem;
+  font-weight: 300;
+  line-height: 1.538;
+  color: var(--qf-text-primary);   /* body on a card — fg/bold */
 }
 
 /* ─── Next.js starter ────────────────────────────────────── */
@@ -232,11 +287,11 @@
   flex-direction: column;
   gap: 10px;
   padding: 24px;
-  background: var(--qf-surface-sunken);        /* bg/recessed */
+  background: var(--qf-surface-page);          /* bg/canvas */
   border-radius: var(--ifm-global-radius);
 }
 
-/* the command strip goes back UP to elevated, on its recessed parent */
+/* the command strip goes back up to elevated on its canvas parent */
 .starterCard :global(pre),
 .starterCard :global(code) {
   background: var(--qf-surface-card);
@@ -245,7 +300,7 @@
   padding: 12px 16px;
 }
 
-/* ─── AI resources (now its own section — see LANDING-SPEC.md) ─ */
+/* ─── AI assistant ───────────────────────────────────────── */
 .resourceRow {
   display: flex;
   flex-wrap: wrap;
@@ -256,35 +311,32 @@
   color: var(--qf-text-secondary);
 }
 
-.resourceRow a {
-  color: var(--ifm-link-color);
-}
+.resourceRow a { color: var(--ifm-link-color); }
 
-/* ─── app store ──────────────────────────────────────────── */
-/* The redesign drops the 251x200 logo; the section is text + actions.
-   These two rules are kept only so the class names still resolve if the
-   markup is left in place. */
-.appStore {
+/* ─── Transformational progress ──────────────────────────── */
+.unlocksList {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.appStoreLogo {
-  display: none;
+.unlocksList li {
+  font-size: 1rem;             /* 16px — RDS Text/md */
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--qf-text-secondary);   /* on bg/elevated, not a card */
 }
 
 /* ─── help ───────────────────────────────────────────────── */
-.help {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.help { display: flex; flex-direction: column; gap: 20px; }
 
 .helpTitle {
   margin: 0;
   font-family: var(--ifm-heading-font-family);
-  font-size: 1.4375rem;        /* 23px — RDS Title/lg */
+  font-size: 1.4375rem;
   font-weight: 600;
   line-height: 1.391;
   letter-spacing: -0.02em;
@@ -299,67 +351,44 @@
   color: var(--qf-text-secondary);
 }
 
-/* In the redesign these are buttons, not bare links — see LANDING-SPEC.md.
-   Retained for the interim state. */
-.helpLinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
+.helpLinks { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* the redesign drops the App Store image; kept so the class resolves */
+.appStore { display: flex; flex-direction: column; gap: 20px; }
+.appStoreLogo { display: none; }
 
 /* ─── responsive ─────────────────────────────────────────── */
 @media screen and (max-width: 1280px) {
   .heroBanner,
-  .section {
-    padding-left: 48px;
-    padding-right: 48px;
-  }
+  .section { padding-left: 48px; padding-right: 48px; }
 }
 
 @media screen and (max-width: 996px) {
-  .cardGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .heroTitle {
-    font-size: 2.0625rem;      /* 33px — RDS Title/xl */
-    line-height: 1.212;        /* 40px */
-  }
+  .cardGrid { grid-template-columns: repeat(2, 1fr); }
+  .heroTitle { font-size: 2.0625rem; line-height: 1.212; }   /* Title/xl */
+  .lockupHero { height: 56px; }
 }
 
 @media screen and (max-width: 768px) {
   .heroBanner,
-  .section {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
+  .section { padding-left: 16px; padding-right: 16px; }
 
   .heroContent,
-  .inner {
-    padding: 24px;
-  }
+  .inner { padding: 24px; }
 
   .cardGrid,
-  .cardGridTwo {
-    grid-template-columns: 1fr;
-  }
+  .cardGridTwo,
+  .exchangeColumns { grid-template-columns: 1fr; }
 
-  .heroTitle {
-    font-size: 1.75rem;        /* 28px */
-    line-height: 1.286;        /* 36px */
-  }
-
-  .heroSubtitle {
-    font-size: 1rem;
-    line-height: 1.5;
-  }
+  .heroTitle { font-size: 1.75rem; line-height: 1.286; }
+  .heroSubtitle { font-size: 1rem; line-height: 1.5; }
+  .lockupHero { height: 48px; }
 }
 
 @media screen and (max-width: 480px) {
   .heroActions,
   .sectionActions,
-  .helpLinks {
-    flex-direction: column;
-    align-items: stretch;
-  }
+  .helpLinks { flex-direction: column; align-items: stretch; }
+
+  .aiLinks { flex-direction: column; gap: 8px; }
 }

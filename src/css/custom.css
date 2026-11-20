@@ -941,9 +941,9 @@ html .markdown h1:first-child {
 }
 
 /* Docusaurus pins body to the viewport height, so the landing page's
-   recessed background has to sit on the app root to reach the footer. */
+   canvas background has to sit on the app root to reach the footer. */
 body.home-page #__docusaurus {
-  background: var(--qf-surface-sunken);
+  background: var(--qf-surface-page);
 }
 
 /* Buttons, as drawn in the handoff renders: pills, brand fill for primary,
@@ -987,7 +987,7 @@ body.home-page main .button {
 }
 
 /* The starter card keeps its own component styles; on the landing page it
-   is a recessed card like its neighbours, with a Mono/md eyebrow. */
+   is a canvas card like its neighbours, with a Mono/md eyebrow. */
 main [class*='starterCard_'] {
   max-width: none;
   margin: 0;
@@ -1001,6 +1001,15 @@ main [class*='starterCard_'] [class*='eyebrow_'] {
   font-size: 0.8125rem;
   line-height: 1.538;
   letter-spacing: 0.1em;
+  color: var(--qf-text-secondary);
+}
+
+/* Text on a card: body is fg/bold, the supporting line steps back. */
+main [class*='starterCard_'] [class*='description_'] {
+  color: var(--qf-text-primary);
+}
+
+main [class*='starterCard_'] [class*='prerequisite_'] {
   color: var(--qf-text-secondary);
 }
 
