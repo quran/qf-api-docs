@@ -54,8 +54,10 @@ const faqSectionSource = (heading) => {
 const faqSection = (heading) => normalize(faqSectionSource(heading));
 
 test('keeps the FAQ policy answers grounded in the current source terms', () => {
-  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-11-19/);
-  assert.match(developerTerms, /Recording files downloaded from those URLs may be cached or stored for no longer than 1 week; QF does not grant exceptions to this limit\./);
+  assert.match(developerTerms, /\*\*Last updated:\*\* 2026-11-20/);
+  assert.match(developerTerms, /on an end user's device for offline playback for longer than 1 week, provided that/);
+  assert.match(developerTerms, /Recording files kept on a Developer's servers, or on a device without meeting these conditions, may be cached or stored for no longer than 1 week\./);
+  assert.doesNotMatch(developerTerms, /QF does not grant exceptions to this limit/);
   assert.match(developerTerms, /refresh the Application's device copies from that backend/);
   assert.match(developerTerms, /Sharing by end users in this way is not redistribution\./);
   assert.match(developerTerms, /train, fine-tune, evaluate, or otherwise develop machine-learning or artificial-intelligence models\. QF does not grant consent or exceptions for these uses\./);
@@ -70,7 +72,7 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
     developerTerms,
     /Selling, sublicensing, or redistributing QF Content or raw API data.*is not permitted\. QF does not offer licenses or paid arrangements for these uses\./,
   );
-  assert.match(developerTerms, /Files past this limit must be deleted; stopping playback is not sufficient\./);
+  assert.match(developerTerms, /Files past an applicable limit must be deleted; stopping playback is not sufficient\./);
   assert.match(developerTerms, /are QF Content under these Terms whether or not they are obtained through the APIs/);
   assert.match(developerTerms, /A finished social-media video may remain published indefinitely\./);
   assert.match(developerTerms, /credentials and API access do not transfer\./);
@@ -105,6 +107,7 @@ test('documents the required content policy FAQ questions and links', () => {
     'Can I use QF Content in a commercial or freemium app?',
     'Why do I need Content Sync?',
     'How long can I cache or store QF Content?',
+    'Can my app let users download recitations for offline listening?',
     'What if a device has no internet connection for more than seven days?',
     'Can I use Content Sync for Quran text or word-by-word data?',
     'What attribution or copyright information should I show?',
@@ -229,7 +232,7 @@ test('requires Content Sync as the only offline path for available resources', (
   );
   assert.match(
     faqSection('Can I use Content Sync for Quran text or word-by-word data?'),
-    /one-week storage limit still applies to content that is not available through Content Sync, except for font files and Mushaf images/,
+    /one-week storage limit still applies to content that is not available through Content Sync, except for font files and Mushaf images cached or bundled under the Terms, and recording files kept on a user's device for offline listening/,
   );
 });
 
@@ -464,4 +467,22 @@ test('synchronizes the exact Content Sync groups', () => {
     [...sourceGroups].sort(),
     'the FAQ Content Sync groups must match the source support matrix',
   );
+});
+
+test('allows device-only offline recitation downloads under Content Sync conditions', () => {
+  const answer = faqSection('Can my app let users download recitations for offline listening?');
+  assert.match(answer, /keep them on the user's device for offline listening, with no 1-week limit/);
+  assert.match(answer, /deletes a file and any clips or videos made from it when its recitation or audio file is removed from Content Sync/);
+  assert.match(answer, /including verse, chapter, and word-by-word recordings/);
+  assert.match(answer, /Clips and recitation videos your app makes from those files are covered too\./);
+  assert.match(answer, /Do not keep recording files on your own servers for more than 1 week or rehost them\./);
+});
+
+test('in-page links to the offline recitation FAQ resolve to existing headings', () => {
+  const slug = (heading) => heading.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-');
+  const slugs = new Set([...faq.matchAll(/^#{2,3} (.+)$/gm)].map((match) => slug(match[1])));
+  for (const anchor of ['can-my-app-let-users-download-recitations-for-offline-listening', 'can-my-users-share-verses-images-or-clips-from-my-app']) {
+    assert.ok(faq.includes(`](#${anchor})`), `expected a link to #${anchor}`);
+    assert.ok(slugs.has(anchor), `expected a heading for #${anchor}`);
+  }
 });
