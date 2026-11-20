@@ -21,7 +21,7 @@
   margin: 0 0 0.25rem;
   color: var(--ifm-color-primary-dark);
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -43,7 +43,7 @@
   color: var(--ifm-color-emphasis-800);
   background: var(--ifm-background-color);
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -86,7 +86,7 @@
   color: #ffffff;
   cursor: pointer;
   font-size: 0.86rem;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
 }
 

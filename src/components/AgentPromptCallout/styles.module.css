@@ -29,7 +29,7 @@
   margin: 0;
   color: var(--ifm-color-primary-dark);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -44,7 +44,7 @@
   color: var(--ifm-color-emphasis-800);
   background: var(--ifm-background-color);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .title {
@@ -92,7 +92,7 @@
   padding: 0.45rem 0.8rem;
   border-radius: 8px;
   font-size: 0.86rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   white-space: nowrap;
 }
