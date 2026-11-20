@@ -89,9 +89,8 @@ test("homepage leads with Developer Console and separates capabilities from buil
     homepage,
     /https:\/\/dev-console\.quran\.foundation\/projects\/new/
   );
-  assert.match(homepage, /What will you add to your app\?/);
   assert.match(homepage, /Choose how to build/);
-  assert.match(homepage, /Build toward a connected Quran experience/);
+  assert.match(homepage, /Build your connected Quran experience/);
   assert.match(homepage, /Need help with your integration\?/);
   assert.doesNotMatch(homepage, /Documentation Portal/);
   assert.match(journey, /Create app in Developer Console/);

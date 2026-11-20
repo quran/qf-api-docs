@@ -343,6 +343,7 @@ test('surfaces Connected Apps in navbar and shared sidebars', () => {
       type: 'doc',
       id: 'connected-apps',
       label: 'Connected Apps',
+      className: 'qf-nav--apps',
     });
   }
 });
