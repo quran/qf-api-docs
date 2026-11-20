@@ -14,7 +14,8 @@ const QURAN_ID_GUIDE = "/docs/tutorials/oidc/getting-started-with-oauth2/";
 const SUPPORT_EMAIL_URL = "mailto:developers@quran.com";
 const QURAN_AI_URL = "https://quran.ai/";
 const QURAN_MCP_URL = "https://mcp.quran.ai/";
-const USAGE_REQUIREMENTS_URL = "/legal/developer-terms/";
+const USAGE_REQUIREMENTS_URL =
+  "/docs/connected-apps/#content-and-attribution-requirements";
 
 // Brand lockups are served from the Brand Assets library, one file per theme.
 const BRAND_LOCKUPS_URL = "https://brand.quran.foundation/Logos%20For%20Dev/lockups";
