@@ -57,26 +57,26 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   assert.match(developerTerms, /\*\*Last updated:\*\* 2026-11-20/);
   assert.match(developerTerms, /\*\*Offline recitation downloads \(no 1-week limit on devices\)\.\*\* An Application may let end users download recitation audio for offline listening/);
   assert.match(developerTerms, /Recording files kept on a Developer's servers, or on a device without meeting the offline download conditions above, may be cached or stored for no longer than 1 week\./);
-  assert.doesNotMatch(developerTerms, /QF does not grant exceptions to this limit/);
+  assert.doesNotMatch(developerTerms, /Quran Foundation does not grant exceptions to this limit/);
   assert.match(developerTerms, /refresh the Application's device copies from that backend/);
   assert.match(developerTerms, /Sharing by end users in this way is not redistribution\./);
-  assert.match(developerTerms, /train, fine-tune, evaluate, or otherwise develop machine-learning or artificial-intelligence models\. QF does not grant consent or exceptions for these uses\./);
+  assert.match(developerTerms, /train, fine-tune, evaluate, or otherwise develop machine-learning or artificial-intelligence models\. Quran Foundation does not grant consent or exceptions for these uses\./);
   assert.doesNotMatch(developerTerms, /machine-learning models without written consent/);
-  assert.match(developerTerms, /Cache or store QF Content longer than \*\*1 week\*\*/);
-  assert.doesNotMatch(developerTerms, /QF has expressly permitted longer storage/);
+  assert.match(developerTerms, /Cache or store Quran Foundation Content longer than \*\*1 week\*\*/);
+  assert.doesNotMatch(developerTerms, /Quran Foundation has expressly permitted longer storage/);
   assert.match(
     developerTerms,
     /Allowed under these Terms:\*\* A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model/,
   );
   assert.match(
     developerTerms,
-    /Selling, sublicensing, or redistributing QF Content or raw API data.*is not permitted\. QF does not offer licenses or paid arrangements for these uses\./,
+    /Selling, sublicensing, or redistributing Quran Foundation Content or raw API data.*is not permitted\. Quran Foundation does not offer licenses or paid arrangements for these uses\./,
   );
   assert.match(developerTerms, /Files past an applicable limit must be deleted; stopping playback is not sufficient\./);
-  assert.match(developerTerms, /are QF Content under these Terms whether or not they are obtained through the APIs/);
+  assert.match(developerTerms, /are Quran Foundation Content under these Terms whether or not they are obtained through the APIs/);
   assert.match(developerTerms, /A finished social-media video may remain published indefinitely\./);
   assert.match(developerTerms, /credentials and API access do not transfer\./);
-  assert.match(developerTerms, /The APIs are provided free of charge\. QF does not charge per-request, subscription, or usage fees\./);
+  assert.match(developerTerms, /The APIs are provided free of charge\. Quran Foundation does not charge per-request, subscription, or usage fees\./);
   assert.match(faq, /^### Is the API free to use\?$/m);
   for (const group of ['Access, requests, and limits', 'Authentication and Quran ID', 'Commercial use and sharing', 'Storage, offline use, and Content Sync', 'Audio and recitations', 'Rights, attribution, and AI']) {
     assert.match(faq, new RegExp(`^## ${escapeRegExp(group)}$`, 'm'));
@@ -90,11 +90,11 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
   );
   assert.match(
     developerTerms,
-    /Serving QF Content from a Developer-controlled backend within the Application's end-user experience is not, by itself, redistribution/,
+    /Serving Quran Foundation Content from a Developer-controlled backend within the Application's end-user experience is not, by itself, redistribution/,
   );
   assert.match(
     developerTerms,
-    /may cache or bundle font files and Mushaf images obtained through QF APIs or documented CDN URLs[\s\S]*active account in the \[Developer Console\][\s\S]*credits Quran Foundation/,
+    /may cache or bundle font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs[\s\S]*active account in the \[Developer Console\][\s\S]*credits Quran Foundation/,
   );
   assert.match(developerTerms, /the Application complies with these Terms\./);
   assert.match(faq, /the Application complies with the \[Developer Terms\]\(\/legal\/developer-terms\)\./);
@@ -104,9 +104,9 @@ test('keeps the FAQ policy answers grounded in the current source terms', () => 
 
 test('documents the required content policy FAQ questions and links', () => {
   const requiredQuestions = [
-    'Can I use QF Content in a commercial or freemium app?',
+    'Can I use Quran Foundation Content in a commercial or freemium app?',
     'Why do I need Content Sync?',
-    'How long can I cache or store QF Content?',
+    'How long can I cache or store Quran Foundation Content?',
     'Can my app let users download recitations for offline listening?',
     'What if a device has no internet connection for more than seven days?',
     'Can I use Content Sync for Quran text or word-by-word data?',
@@ -114,7 +114,7 @@ test('documents the required content policy FAQ questions and links', () => {
   ];
 
   for (const question of requiredQuestions) {
-    assert.match(faq, new RegExp(`^### ${escapeRegExp(question)}$`, 'm'));
+    assert.match(faq, new RegExp(`^### ${escapeRegExp(question)}(?: \\{#[a-z0-9-]+\\})?$`, 'm'));
   }
 
   for (const link of [
@@ -138,9 +138,9 @@ test('removes the licensing-help FAQ entry without changing the Terms reporting 
 
 test('locks the safety-critical FAQ policy qualifiers', () => {
   const commercialAnswer = faqSection(
-    'Can I use QF Content in a commercial or freemium app?',
+    'Can I use Quran Foundation Content in a commercial or freemium app?',
   );
-  const storageAnswer = faqSection('How long can I cache or store QF Content?');
+  const storageAnswer = faqSection('How long can I cache or store Quran Foundation Content?');
   const contentSyncAnswer = faqSection(
     'Can I use Content Sync for Quran text or word-by-word data?',
   );
@@ -155,15 +155,15 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     commercialAnswer,
-    /QF Content is displayed only as part of the Application’s end-user experience/,
+    /Quran Foundation Content is displayed only as part of the Application’s end-user experience/,
   );
   assert.match(
     commercialAnswer,
-    /QF Content and raw API data are not sold, sublicensed, or redistributed/,
+    /Quran Foundation Content and raw API data are not sold, sublicensed, or redistributed/,
   );
   assert.match(
     commercialAnswer,
-    /Selling, sublicensing, or redistributing QF Content or raw API data.*is not permitted, and we do not offer licenses or paid arrangements for it/,
+    /Selling, sublicensing, or redistributing Quran Foundation Content or raw API data.*is not permitted, and we do not offer licenses or paid arrangements for it/,
   );
   assert.match(
     commercialAnswer,
@@ -171,17 +171,17 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     commercialAnswer,
-    /Using QF Content in a social-media video is not redistribution if you credit Quran Foundation/,
+    /Using Quran Foundation Content in a social-media video is not redistribution if you credit Quran Foundation/,
   );
   assert.match(
     storageAnswer,
-    /Do not cache or store QF Content for more than 1 week unless it is obtained and maintained through the Content Sync APIs/,
+    /Do not cache or store Quran Foundation Content for more than 1 week unless it is obtained and maintained through the Content Sync APIs/,
   );
   assert.match(
     storageAnswer,
-    /perform a next sync at least every 7 days when connectivity to QF permits and apply all available changes/,
+    /perform a next sync at least every 7 days when connectivity to Quran Foundation permits and apply all available changes/,
   );
-  assert.match(storageAnswer, /Previously synced content may remain available while connectivity to QF is unavailable, even beyond seven days/);
+  assert.match(storageAnswer, /Previously synced content may remain available while connectivity to Quran Foundation is unavailable, even beyond seven days/);
   assert.match(storageAnswer, /sync promptly when connectivity returns/);
   assert.match(storageAnswer, /Content Sync exception covers the rows returned by that API; recitation rows contain audio URLs, not the underlying recording files/);
   assert.match(
@@ -202,7 +202,7 @@ test('locks the safety-critical FAQ policy qualifiers', () => {
   );
   assert.match(
     attributionAnswer,
-    /Quran data provided by Quran\.Foundation\./,
+    /Quran data provided by Quran Foundation\./,
   );
 });
 
@@ -217,9 +217,9 @@ test('requires Content Sync as the only offline path for available resources', (
       document,
       /If a content resource is available through Content Sync, \*\*Content Sync is the only permitted path for obtaining and maintaining an offline copy\*\* of that resource; do not build an offline copy from regular API responses\./,
     );
-    assert.match(document, /at least every (?:\*\*)?7 days when connectivity to QF permits/);
+    assert.match(document, /at least every (?:\*\*)?7 days when connectivity to Quran Foundation permits/);
     assert.match(document, /apply all available changes/);
-    assert.doesNotMatch(document, /QF (?:has )?expressly permit(?:ted|s)? longer storage/);
+    assert.doesNotMatch(document, /Quran Foundation (?:has )?expressly permit(?:ted|s)? longer storage/);
   }
 
   assert.match(
@@ -278,7 +278,7 @@ test('explains Content Sync and scholarly review in a plain FAQ answer', () => {
   assert.match(answer, /updates and corrections/);
   assert.match(answer, /offline copy when it syncs/);
   assert.match(answer, /For resources available through Content Sync, use it to obtain and maintain offline copies/);
-  assert.match(answer, /at least every seven days when connectivity to QF permits/);
+  assert.match(answer, /at least every seven days when connectivity to Quran Foundation permits/);
   assert.match(answer, /sync promptly when connectivity returns after an outage/);
   assert.doesNotMatch(answer, /:::|\*\*|<aside/i);
 });
@@ -286,11 +286,11 @@ test('explains Content Sync and scholarly review in a plain FAQ answer', () => {
 test('scopes the seven-day sync duty to Content Sync users', () => {
   assert.match(
     normalize(developerTerms),
-    /When using Content Sync, you must perform a next sync at least every \*\*7 days when connectivity to QF permits\*\* and apply all available changes\./,
+    /When using Content Sync, you must perform a next sync at least every \*\*7 days when connectivity to Quran Foundation permits\*\* and apply all available changes\./,
   );
   assert.match(
-    faqSection('How long can I cache or store QF Content?'),
-    /When using Content Sync, perform a next sync at least every 7 days when connectivity to QF permits/,
+    faqSection('How long can I cache or store Quran Foundation Content?'),
+    /When using Content Sync, perform a next sync at least every 7 days when connectivity to Quran Foundation permits/,
   );
 });
 
@@ -317,7 +317,7 @@ test('describes font and Mushaf-image caching without a separate-permission labe
   assert.match(contentSync, /See the \[Developer Terms\]\(\/legal\/developer-terms\/\) for the full storage conditions\./);
   assert.match(
     developerTerms,
-    /may cache or bundle font files and Mushaf images obtained through QF APIs or documented CDN URLs/,
+    /may cache or bundle font files and Mushaf images obtained through Quran Foundation APIs or documented CDN URLs/,
   );
 });
 
@@ -386,7 +386,7 @@ test('documents font and Mushaf-image caching and bundling conditions consistent
   for (const document of [developerTerms, faq]) {
     assert.match(
       document,
-      /font files and Mushaf images obtained through (?:QF|Quran Foundation) APIs or documented CDN URLs/i,
+      /font files and Mushaf images obtained through (?:Quran Foundation|Quran Foundation) APIs or documented CDN URLs/i,
     );
     assert.match(document, /Developer Console/);
     assert.match(document, /credits? Quran Foundation/);

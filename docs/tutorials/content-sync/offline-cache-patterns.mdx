@@ -7,7 +7,7 @@ sidebar_position: 3
 
 # Offline Content Cache Patterns
 
-If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. Treat the server as the source of truth and the local database as a readable cache. Perform a next sync at least every 7 days when connectivity to QF permits and apply all available changes; see the [Developer Terms](/legal/developer-terms/) for the full storage conditions.
+If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. Treat the server as the source of truth and the local database as a readable cache. Perform a next sync at least every 7 days when connectivity to Quran Foundation permits and apply all available changes; see the [Developer Terms](/legal/developer-terms/) for the full storage conditions.
 
 ## Recommended Architecture
 
@@ -20,7 +20,7 @@ flowchart TB
         State["Stored sync tokens"]
     end
 
-    API["QF Content Sync API"]
+    API["Quran Foundation Content Sync API"]
     Snapshot["Full copy endpoint"]
 
     UI --> DB
@@ -32,7 +32,7 @@ flowchart TB
     Engine --> DB
 ```
 
-The UI reads from local storage. The sync engine updates that storage in the background. If connectivity to QF is unavailable, previously synced Content Sync content may remain available beyond seven days; sync promptly when connectivity returns.
+The UI reads from local storage. The sync engine updates that storage in the background. If connectivity to Quran Foundation is unavailable, previously synced Content Sync content may remain available beyond seven days; sync promptly when connectivity returns.
 
 ## Local Tables
 

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://api-docs.quran.foundation/contracts/content-scopes/v1.schema.json",
-  "title": "Quran.Foundation content scope contract, version 1",
+  "title": "Quran Foundation content scope contract, version 1",
   "description": "Shape of contracts/content-scopes/v1.json, validated by this repository's tests. Consumers vendor the contract itself and check the fields they rely on in their own tests. Runtime never fetches policy from a mutable branch or a live spreadsheet.",
   "type": "object",
   "additionalProperties": false,

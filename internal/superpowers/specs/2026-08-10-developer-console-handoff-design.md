@@ -2,7 +2,7 @@
 
 ## Goal
 
-Replace the API Docs request-access form with a clear handoff to the Quran.Foundation Developer Console while preserving the existing `/request-access` URL for bookmarks and search results.
+Replace the API Docs request-access form with a clear handoff to the Quran Foundation Developer Console while preserving the existing `/request-access` URL for bookmarks and search results.
 
 ## Experience
 
