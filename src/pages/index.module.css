@@ -382,6 +382,11 @@
 
   .heroTitle { font-size: 1.75rem; line-height: 1.286; }
   .heroSubtitle { font-size: 1rem; line-height: 1.5; }
+
+  /* the Quran.ai panel reads left-aligned at phone width, like the rest */
+  .aiPanel { align-items: flex-start; text-align: left; }
+  .aiPanel .lockupCard { margin: 0 0 6px; }
+  .aiLinks { justify-content: flex-start; }
   .lockupHero { height: 48px; }
 }
 
