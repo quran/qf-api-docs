@@ -21,10 +21,10 @@ test('does not advertise anonymous access to the token revocation endpoint', () 
   assert.deepEqual(revocationOperation.security, [{ basicAuth: [] }]);
 });
 
-test('defines notice delivery separately for QF and the external Developer', () => {
+test('defines notice delivery separately for Quran Foundation and the external Developer', () => {
   assert.match(
     developerTerms,
-    /Notices to QF .*sent to \*\*developers@quran\.com\*\*\./,
+    /Notices to Quran Foundation .*sent to \*\*developers@quran\.com\*\*\./,
   );
   assert.match(
     developerTerms,
@@ -33,7 +33,7 @@ test('defines notice delivery separately for QF and the external Developer', () 
 });
 
 test('keeps the requested content-rights clarifications without expanding the default grant', () => {
-  assert.match(developerTerms, /Serving QF Content from a Developer-controlled backend/);
+  assert.match(developerTerms, /Serving Quran Foundation Content from a Developer-controlled backend/);
   assert.doesNotMatch(developerTerms, /underlying rights holders|source-specific license requirements|additional restrictions/);
   assert.match(developerTerms, /\*\*Derived Materials\*\*/);
   assert.doesNotMatch(developerTerms, /\*\*Audio\.\*\*|Recitation metadata and audio URLs are distinct from the underlying recordings/);
@@ -44,7 +44,7 @@ test('keeps the requested content-rights clarifications without expanding the de
 
 test('keeps previously synced content available while connectivity is unavailable', () => {
   assert.match(developerTerms, /backend or an offline device/);
-  assert.match(developerTerms, /at least every \*\*7 days when connectivity to QF permits\*\*/);
+  assert.match(developerTerms, /at least every \*\*7 days when connectivity to Quran Foundation permits\*\*/);
   assert.match(developerTerms, /may continue using its previously synced Content Sync copy/);
   assert.match(developerTerms, /perform a next sync promptly when connectivity returns/);
 });

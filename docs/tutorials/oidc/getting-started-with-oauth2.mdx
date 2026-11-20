@@ -57,7 +57,7 @@ Your app type in Developer Console determines the client type: **Backend/server 
 If you call `/oauth2/token` without client authentication on a confidential client, Hydra returns `invalid_client`.
 :::
 
-## Link QF Users To Your Data {#how-to-link-qf-users-to-your-data}
+## Link Quran Foundation Users To Your Data {#how-to-link-qf-users-to-your-data}
 
 After a user signs in with Quran ID, validate the ID token according to your OIDC library and use the `sub` claim as the user's stable Quran Foundation identifier. Store `sub` as the foreign key in your own database so you can attach your app's custom records to the same user.
 
@@ -788,4 +788,4 @@ This usually means you're using some variant of the **public client** token exch
 
 ### How do I link Quran Foundation users to my own app's data?
 
-After a successful OAuth2 login, decode the `id_token` to get the `sub` claim — this is the user's unique, permanent identifier. Use `sub` as a foreign key in your own database to associate your app's custom data (premium status, preferences, analytics) with the Quran Foundation user. See [How to Link QF Users to Your Data](#how-to-link-qf-users-to-your-data) for code examples.
+After a successful OAuth2 login, decode the `id_token` to get the `sub` claim — this is the user's unique, permanent identifier. Use `sub` as a foreign key in your own database to associate your app's custom data (premium status, preferences, analytics) with the Quran Foundation user. See [How to Link Quran Foundation Users to Your Data](#how-to-link-qf-users-to-your-data) for code examples.

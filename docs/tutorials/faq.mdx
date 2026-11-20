@@ -90,47 +90,47 @@ Set up a webhook endpoint for your app in [Developer Console](https://dev-consol
 
 ## Commercial use and sharing
 
-### Can I use QF Content in a commercial or freemium app?
+### Can I use Quran Foundation Content in a commercial or freemium app? {#can-i-use-qf-content-in-a-commercial-or-freemium-app}
 
 Yes. A Developer may charge for an Application, offer subscriptions or in-app purchases, display advertising, accept donations, or use a freemium model, provided that:
 
-- QF Content is displayed only as part of the Application’s end-user experience;
-- QF Content and raw API data are not sold, sublicensed, or redistributed; and
+- Quran Foundation Content is displayed only as part of the Application’s end-user experience;
+- Quran Foundation Content and raw API data are not sold, sublicensed, or redistributed; and
 - the Application complies with the [Developer Terms](/legal/developer-terms).
 
-Selling, sublicensing, or redistributing QF Content or raw API data—for example, as a dataset, data feed, API, content package, or other separately distributed product—is not permitted, and we do not offer licenses or paid arrangements for it. Using QF Content in a social-media video is not redistribution if you credit Quran Foundation in the video, caption, description, credits, or another reasonably accessible place. Redistribution means offering the content or raw data to others as data, such as through your own API, dataset, feed, download, or content package.
+Selling, sublicensing, or redistributing Quran Foundation Content or raw API data—for example, as a dataset, data feed, API, content package, or other separately distributed product—is not permitted, and we do not offer licenses or paid arrangements for it. Using Quran Foundation Content in a social-media video is not redistribution if you credit Quran Foundation in the video, caption, description, credits, or another reasonably accessible place. Redistribution means offering the content or raw data to others as data, such as through your own API, dataset, feed, download, or content package.
 
 ### Can my app show ads?
 
-Yes. You may show ads, including through an ad SDK that uses the device advertising ID, as long as QF Content and User Data are not used to build advertising profiles and your privacy policy discloses the ad SDK. See the [Developer Privacy Policy Packet](/legal/developer-privacy/).
+Yes. You may show ads, including through an ad SDK that uses the device advertising ID, as long as Quran Foundation Content and User Data are not used to build advertising profiles and your privacy policy discloses the ad SDK. See the [Developer Privacy Policy Packet](/legal/developer-privacy/).
 
 ### Can my users share verses, images, or clips from my app?
 
-Yes. Letting your users share QF Content, such as verse images, cards, or short clips, to their own social-media accounts, messages, or devices is allowed and is not redistribution. See Section 2.2 of the [Developer Terms](/legal/developer-terms).
+Yes. Letting your users share Quran Foundation Content, such as verse images, cards, or short clips, to their own social-media accounts, messages, or devices is allowed and is not redistribution. See Section 2.2 of the [Developer Terms](/legal/developer-terms).
 
-### How long can a video that uses QF Content stay published?
+### How long can a video that uses Quran Foundation Content stay published? {#how-long-can-a-video-that-uses-qf-content-stay-published}
 
-A finished social-media video may remain published indefinitely, provided you credit Quran Foundation. Recitation videos stored within or served from your app are subject to the 1-week limit for recording files.
+A finished social-media video may remain published indefinitely, provided you credit Quran Foundation. Recitation videos stored within or served from your app are subject to the same conditions as [downloaded recording files](#can-my-app-let-users-download-recitations-for-offline-listening).
 
 ### Can I change playback speed or recolor Mushaf pages?
 
 Yes. Adjusting recitation playback speed or recoloring Mushaf pages for a night or dark mode is a presentation change and does not modify the Quran text, as long as the text itself is not altered.
 
-### Can I build a website, printed book, or open-source project with QF Content?
+### Can I build a website, printed book, or open-source project with Quran Foundation Content? {#can-i-build-a-website-printed-book-or-open-source-project-with-qf-content}
 
 - **Website:** allowed if the content it serves is obtained and refreshed through [Content Sync](/docs/tutorials/content-sync/getting-started) at least every 7 days. A site generated once and left unsynced is a build-time bundle, which the Terms do not allow.
 - **Printed or downloadable documents for sale** (for example, PDF books): not covered by the Developer Terms. Rights holders and licensing terms vary by edition, so obtain any permission you need from the relevant rights holder.
-- **Public repositories and packages:** your code may be public, but do not include QF Content or raw API data. Publishing that data in a repository, package, or downloadable file is redistribution.
+- **Public repositories and packages:** your code may be public, but do not include Quran Foundation Content or raw API data. Publishing that data in a repository, package, or downloadable file is redistribution.
 
 ## Storage, offline use, and Content Sync
 
 ### Why do I need Content Sync?
 
-Providing scholarly-verified Quranic content is one of Quran Foundation's core goals. Our scholarly team reviews our content, and we publish updates and corrections as that work continues. Content Sync delivers those changes to your application's offline copy when it syncs, helping users read current content rather than an outdated cached version. For resources available through Content Sync, use it to obtain and maintain offline copies. Sync at least every seven days when connectivity to QF permits, and sync promptly when connectivity returns after an outage. See the [Developer Terms](/legal/developer-terms/) for the full storage conditions.
+Providing scholarly-verified Quranic content is one of Quran Foundation's core goals. Our scholarly team reviews our content, and we publish updates and corrections as that work continues. Content Sync delivers those changes to your application's offline copy when it syncs, helping users read current content rather than an outdated cached version. For resources available through Content Sync, use it to obtain and maintain offline copies. Sync at least every seven days when connectivity to Quran Foundation permits, and sync promptly when connectivity returns after an outage. See the [Developer Terms](/legal/developer-terms/) for the full storage conditions.
 
-### How long can I cache or store QF Content?
+### How long can I cache or store Quran Foundation Content? {#how-long-can-i-cache-or-store-qf-content}
 
-Do not cache or store QF Content for more than 1 week unless it is obtained and maintained through the [Content Sync APIs](/docs/tutorials/content-sync/getting-started#content-available-for-offline-sync), or consists of font files or Mushaf images cached or bundled under the conditions below. If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. When using Content Sync, perform a [next sync](/docs/tutorials/content-sync/getting-started#next-sync) at least every 7 days when connectivity to QF permits and apply all available changes. Previously synced content may remain available while connectivity to QF is unavailable, even beyond seven days; sync promptly when connectivity returns. This applies to both backend and device copies. The Content Sync exception covers the rows returned by that API; recitation rows contain audio URLs, not the underlying recording files. Recording files downloaded from those URLs may be kept for up to 1 week, and we do not grant exceptions to this limit; stream recitations from their audio URLs for longer use. Delete downloaded recording files once they pass 1 week; stopping playback is not sufficient.
+Do not cache or store Quran Foundation Content for more than 1 week unless it is obtained and maintained through the [Content Sync APIs](/docs/tutorials/content-sync/getting-started#content-available-for-offline-sync), or consists of font files or Mushaf images cached or bundled under the conditions below. If a content resource is available through Content Sync, **Content Sync is the only permitted path for obtaining and maintaining an offline copy** of that resource; do not build an offline copy from regular API responses. When using Content Sync, perform a [next sync](/docs/tutorials/content-sync/getting-started#next-sync) at least every 7 days when connectivity to Quran Foundation permits and apply all available changes. Previously synced content may remain available while connectivity to Quran Foundation is unavailable, even beyond seven days; sync promptly when connectivity returns. This applies to both backend and device copies. The Content Sync exception covers the rows returned by that API; recitation rows contain audio URLs, not the underlying recording files. Your app may keep recording files downloaded from those URLs on the user's device for offline listening beyond 1 week under the conditions in [Can my app let users download recitations for offline listening?](#can-my-app-let-users-download-recitations-for-offline-listening). Recording files kept on your servers, or on a device without meeting those conditions, may be kept for up to 1 week; delete them once they pass 1 week, as stopping playback is not sufficient.
 
 Your backend may obtain content through Content Sync and refresh your app's device copies from it, as long as the backend syncs with Quran Foundation at least every 7 days and devices refresh from the backend at least every 7 days when connectivity permits.
 
@@ -142,13 +142,27 @@ If a device has no internet connection for more than seven days, it may retain a
 
 ### Can I use Content Sync for Quran text or word-by-word data?
 
-Content Sync supports `quran_core`, approved public Quran layouts through `mushafs`, as well as `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`. The singleton `quran_core:1` provides canonical Uthmani verse text, word-level IndoPak Nastaleeq, IndoPak, Uthmani Tajweed, and Imla'i text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. Quran core word rows use the `word` record type and expose `text_indopak_nastaleeq`, `text_indopak`, `text_uthmani_tajweed`, and `text_imlaei` (word text in the Imla'i (simple) script). Use `text_indopak_nastaleeq` with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font) (`indopak-nastaleeq-waqf-lazim-v4.2.1`); `text_indopak` is deprecated and retained for compatibility. Existing sync clients receive `text_indopak_nastaleeq` after the resource is re-snapshotted or backfilled, and `text_imlaei` after the resource is re-snapshotted or invalidated. The word-by-word translation and transliteration groups are separate; transliteration rows use the `word_transliteration` record type. Chapter-recitation resources are keyed by `Audio::Recitation.id` and contain chapter audio file rows plus associated verse and word timing segment rows; the legacy `recitations` group remains keyed by ayah-recitation IDs and may also contain compatible chapter-file and segment records and receive their mutations. Mushaf snapshots include metadata, page mappings, and positioned words; font files and images are not included. Use the relevant [regular content endpoint](/docs/content_apis_versioned/4.0.0/content-apis/) for unsupported Quran text variants and other data. The [Developer Terms' one-week storage limit](/legal/developer-terms) still applies to content that is not available through Content Sync, except for font files and Mushaf images cached or bundled under the Terms.
+Content Sync supports `quran_core`, approved public Quran layouts through `mushafs`, as well as `translations`, `word_by_word_translations`, `word_by_word_transliterations`, `tafsirs`, `recitations`, `chapter_recitations`, and `articles`. The singleton `quran_core:1` provides canonical Uthmani verse text, word-level IndoPak Nastaleeq, IndoPak, Uthmani Tajweed, and Imla'i text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. Quran core word rows use the `word` record type and expose `text_indopak_nastaleeq`, `text_indopak`, `text_uthmani_tajweed`, and `text_imlaei` (word text in the Imla'i (simple) script). Use `text_indopak_nastaleeq` with the compatible [IndoPak Nastaleeq font](/docs/tutorials/fonts/font-rendering#indopak-nastaleeq-font) (`indopak-nastaleeq-waqf-lazim-v4.2.1`); `text_indopak` is deprecated and retained for compatibility. Existing sync clients receive `text_indopak_nastaleeq` after the resource is re-snapshotted or backfilled, and `text_imlaei` after the resource is re-snapshotted or invalidated. The word-by-word translation and transliteration groups are separate; transliteration rows use the `word_transliteration` record type. Chapter-recitation resources are keyed by `Audio::Recitation.id` and contain chapter audio file rows plus associated verse and word timing segment rows; the legacy `recitations` group remains keyed by ayah-recitation IDs and may also contain compatible chapter-file and segment records and receive their mutations. Mushaf snapshots include metadata, page mappings, and positioned words; font files and images are not included. Use the relevant [regular content endpoint](/docs/content_apis_versioned/4.0.0/content-apis/) for unsupported Quran text variants and other data. The [Developer Terms' one-week storage limit](/legal/developer-terms) still applies to content that is not available through Content Sync, except for font files and Mushaf images cached or bundled under the Terms, and recording files kept on a user's device for [offline listening](#can-my-app-let-users-download-recitations-for-offline-listening).
 
 ## Audio and recitations
 
 ### Can I stream recitations directly from QuranicAudio or your audio CDN?
 
-Yes. Recordings streamed or downloaded directly from our audio hosts, such as quranicaudio.com, download.quranicaudio.com, verses.quran.com, verses.quran.foundation, and audio.qurancdn.com, are covered by the [Developer Terms](/legal/developer-terms) whether or not you use the API. Credit Quran Foundation and the reciter, keep downloaded files no longer than 1 week, and do not rehost them.
+Yes. Recordings streamed or downloaded directly from our audio hosts, such as quranicaudio.com, download.quranicaudio.com, verses.quran.com, verses.quran.foundation, and audio.qurancdn.com, are covered by the [Developer Terms](/legal/developer-terms) whether or not you use the API. Credit Quran Foundation and the reciter, keep downloaded files no longer than 1 week unless they meet the offline listening conditions below, and do not rehost them.
+
+### Can my app let users download recitations for offline listening?
+
+Yes. Your app may download recitation files from our audio URLs, including verse, chapter, and word-by-word recordings, and keep them on the user's device for offline listening, with no 1-week limit. Clips and recitation videos your app makes from those files are covered too. This applies as long as:
+
+- the user asks for the download, or turns on offline downloads in your app's settings;
+- the files stay in your app's private storage, and your app does not let users export the files or let other apps read them (users may still [share short clips](#can-my-users-share-verses-images-or-clips-from-my-app));
+- if the recitation is available through [Content Sync](/docs/tutorials/content-sync/getting-started), your app keeps its records current (syncing at least every 7 days when connectivity to Quran Foundation permits), deletes a file and any clips or videos made from it when its recitation or audio file is removed from Content Sync, and replaces the file when its audio URL changes;
+- your app credits Quran Foundation and the reciter; and
+- your app deletes the files when the user removes them, when we ask for their removal, or when your access under the Developer Terms ends.
+
+Word-by-word audio is not in Content Sync, so the Content Sync condition does not apply to it.
+
+These conditions cover device copies only. Do not keep recording files on your own servers for more than 1 week or rehost them. See Section 3.1 of the [Developer Terms](/legal/developer-terms/).
 
 ### Which audio sites are operated by Quran Foundation?
 
@@ -162,15 +176,15 @@ We do not register recitations with YouTube Content ID, and we cannot release or
 
 ### What attribution or copyright information should I show?
 
-The Developer Terms reserve all rights not expressly granted. For Connected Apps, display attribution wherever Quranic content is surfaced: “Quran data provided by [Quran.Foundation](https://quran.foundation/).” Also credit translations, tafsir editions, and recitations by their named source or edition. See [Content and attribution requirements](/docs/connected-apps#content-and-attribution-requirements) and the [Developer Terms](/legal/developer-terms).
+The Developer Terms reserve all rights not expressly granted. For Connected Apps, display attribution wherever Quranic content is surfaced: “Quran data provided by [Quran Foundation](https://quran.foundation/).” Also credit translations, tafsir editions, and recitations by their named source or edition. See [Content and attribution requirements](/docs/connected-apps#content-and-attribution-requirements) and the [Developer Terms](/legal/developer-terms).
 
 ### Who holds the rights to a recitation or translation, or who authored it?
 
 Rights holders and licensing terms vary by recitation, recording, and translation edition. If you'd like to rehost or redistribute material from our website, we recommend checking the license for the specific recording or edition and contacting the relevant rights holder directly for any permission you need. You're welcome to link to the material on our website. We do not provide authorship, edition, or ownership details beyond the information included in our API resources.
 
-### Can I use QF Content to train an AI model?
+### Can I use Quran Foundation Content to train an AI model? {#can-i-use-qf-content-to-train-an-ai-model}
 
-No. QF Content may not be used to train, fine-tune, evaluate, or otherwise develop machine-learning or AI models, and we do not grant consent or exceptions for this. Retrieval-augmented generation within your app is a separate use and remains subject to the storage and use restrictions in the [Developer Terms](/legal/developer-terms). Using QF Content as input to an AI model to generate in-app features, such as quizzes or summaries, is a retrieval-style use: it is allowed within the storage limits, and generated output that reproduces QF Content follows the same limits. Audio generated from QF Content, such as text-to-speech narration of a translation, is a Derived Material subject to the same storage limits as its source.
+No. Quran Foundation Content may not be used to train, fine-tune, evaluate, or otherwise develop machine-learning or AI models, and we do not grant consent or exceptions for this. Retrieval-augmented generation within your app is a separate use and remains subject to the storage and use restrictions in the [Developer Terms](/legal/developer-terms). Using Quran Foundation Content as input to an AI model to generate in-app features, such as quizzes or summaries, is a retrieval-style use: it is allowed within the storage limits, and generated output that reproduces Quran Foundation Content follows the same limits. Audio generated from Quran Foundation Content, such as text-to-speech narration of a translation, is a Derived Material subject to the same storage limits as its source.
 
 ### Can you add a new reciter, translation, or Mushaf? Do you publish a roadmap?
 

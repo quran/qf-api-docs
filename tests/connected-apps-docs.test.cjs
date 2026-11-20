@@ -60,7 +60,7 @@ test('adds a production Connected Apps docs page', () => {
     'Concept 01',
     'body.dark',
     'mobile-nav',
-    'Quran.Foundation / Connected Apps',
+    'Quran Foundation / Connected Apps',
     'Boundaries to communicate',
     'Internal visibility controls',
     'teams need',
