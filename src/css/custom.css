@@ -1042,3 +1042,9 @@ body.home-page [class*='lockup_'] {
 body.home-page [class*='aiPanel_'] [class*='lockup_'] {
   align-self: center;
 }
+
+@media screen and (max-width: 768px) {
+  body.home-page [class*='aiPanel_'] [class*='lockup_'] {
+    align-self: flex-start;
+  }
+}
