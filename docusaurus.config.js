@@ -5,12 +5,21 @@ const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const enableGtag = process.env.NODE_ENV === "production";
 
+const PRODUCTION_URL = "https://api-docs.quran.foundation";
+// Link previews need an absolute image URL. Cloudflare Pages preview builds
+// serve it from their own deployment, so a preview link shows the same image.
+const isPagesPreviewBuild =
+  Boolean(process.env.CF_PAGES_URL) && process.env.CF_PAGES_BRANCH !== "main";
+const previewImageOrigin = isPagesPreviewBuild
+  ? process.env.CF_PAGES_URL
+  : PRODUCTION_URL;
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Quran Foundation Documentation Portal",
   tagline: "Our API documentation is clear, concise, easy to understand and will help you create innovative and engaging Quran-related apps.",
   // Set the production url of your site here
-  url: "https://api-docs.quran.foundation",
+  url: PRODUCTION_URL,
   baseUrl: "/",
   trailingSlash: true,
   // Load a tiny client script to suppress noisy ResizeObserver errors in dev
@@ -30,6 +39,7 @@ const config = {
     mermaid: true,
   },
   customFields: {
+    landingPreviewImageUrl: `${previewImageOrigin}/img/quran-for-devs-preview.png`,
     scopeRequestApiBaseUrl:
       process.env.SCOPE_REQUEST_API_BASE_URL || "https://qf-form-handler.quran.foundation",
   },
