@@ -2,11 +2,14 @@ import React from "react";
 import Head from "@docusaurus/Head";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import StarterCommandCard from "@site/src/components/StarterCommandCard";
 
 import styles from "./index.module.css";
 
 const PAGE_TITLE = "Quran Foundation Developer Docs";
+const PAGE_DESCRIPTION =
+  "Add Quran content and connected user features to your app with Quran Foundation APIs and Quran ID.";
 const CREATE_APP_URL = "https://dev-console.quran.foundation/projects/new";
 const DEVELOPER_CONSOLE_URL = "https://dev-console.quran.foundation/projects";
 const QURAN_ID_OVERVIEW = "/docs/quran-id/";
@@ -400,11 +403,21 @@ function HelpSection() {
 }
 
 export default function Home(): JSX.Element {
+  const { siteConfig } = useDocusaurusContext();
+  const previewImageUrl = siteConfig.customFields
+    ?.landingPreviewImageUrl as string;
+
   return (
-    <Layout description="Build with trusted Quran content and keep users connected with Quran ID. Quran Foundation developer docs for Content APIs, User APIs, SDKs, and Developer Console.">
+    <Layout description={PAGE_DESCRIPTION}>
       <Head>
         <title>{PAGE_TITLE}</title>
         <meta property="og:title" content={PAGE_TITLE} />
+        <meta property="og:image" content={previewImageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Quran For Devs" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={previewImageUrl} />
       </Head>
       <HomepageHero />
       <main>
