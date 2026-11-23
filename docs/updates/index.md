@@ -9,6 +9,12 @@ displayed_sidebar: APIsSidebar
 
 We would like to inform our developers of the following changes made to the API:
 
+### Sign-in page moved to a quran.com host (November 2026)
+
+The OAuth2 sign-in page (`authorization_endpoint` in the discovery document) is now served from `https://oauth2.quran.com/oauth2/auth` in production and `https://prelive-oauth2.quran.com/oauth2/auth` in pre-production. The issuer, token, userinfo, JWKS and logout endpoints are unchanged on `oauth2.quran.foundation`. Old `/oauth2/auth` links on the issuer host are redirected, so most apps need no change. If your app checks that every discovery endpoint shares the issuer's host, allow the `quran.com` sign-in host. See [OIDC Discovery](/docs/tutorials/oidc/openid-connect#oidc-discovery--jwks).
+
+### Removed resources
+
 1. **Clear Quran Translation Removed**
 2. **Russian Word-for-Word Translation Removed**
 
