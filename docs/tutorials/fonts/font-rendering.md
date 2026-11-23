@@ -1731,6 +1731,52 @@ class _QuranChapterWidgetState extends State<QuranChapterWidget> {
 
 ---
 
+## Tajweed Markup Classes
+
+The `text_uthmani_tajweed` field marks each Tajweed rule with a class name you can style in your own CSS. Use it when you render Unicode text and want rule colors without the QCF V4 Tajweed fonts.
+
+- **Verse level** ([`/quran/verses/uthmani_tajweed`](/docs/content_apis_versioned/4.0.0/quran-verses-uthmani-tajweed)): rules are wrapped in `<tajweed class=...>`, and the verse number is wrapped in `<span class=end>`.
+- **Word level** (`word_fields=text_uthmani_tajweed`, and `quran_core` word rows in [Content Sync](/docs/tutorials/content-sync/getting-started)): rules are wrapped in `<rule class=...>`. Rules can be nested.
+
+```html
+<!-- Word 2 of 1:6, word level -->
+<rule class=ham_wasl>ٱ</rule><rule class=laam_shamsiyah>ل</rule>صِّر<rule class=madda_normal><rule class=custom-alef-maksora>ٰ</rule></rule>طَ
+```
+
+| Class | Rule | Suggested color |
+| --- | --- | --- |
+| `ham_wasl` | Hamzat al-wasl | `#AAAAAA` |
+| `slnt` | Silent letter | `#AAAAAA` |
+| `laam_shamsiyah` | Lam shamsiyyah | `#AAAAAA` |
+| `madda_normal` | Normal madd | `#537FFF` |
+| `madda_permissible` | Permissible madd | `#4050FF` |
+| `madda_necessary` | Necessary madd | `#000EBC` |
+| `madda_obligatory` | Obligatory madd (verse level) | `#2144C1` |
+| `madda_obligatory_mottasel` | Connected obligatory madd (word level) | `#2144C1` |
+| `madda_obligatory_monfasel` | Separated obligatory madd (word level) | `#2144C1` |
+| `qalaqah` | Qalqalah | `#DD0008` |
+| `ikhafa_shafawi` | Ikhfa shafawi | `#D500B7` |
+| `ikhafa` | Ikhfa | `#9400A8` |
+| `iqlab` | Iqlab | `#26BFFD` |
+| `idgham_shafawi` | Idgham shafawi | `#58B800` |
+| `idgham_ghunnah` | Idgham with ghunnah | `#169200` |
+| `idgham_wo_ghunnah` | Idgham without ghunnah | `#169200` |
+| `idgham_mutajanisayn` | Idgham mutajanisayn | `#A1A1A1` |
+| `idgham_mutaqaribayn` | Idgham mutaqaribayn | `#A1A1A1` |
+| `ghunnah` | Ghunnah | `#FF7E1E` |
+
+`custom-alef-maksora` is not a Tajweed rule. It marks a dagger alif (ٰ) inside a madd rule at word level, so leave it unstyled and let the outer rule's color apply. `end` is the verse-end number, not a rule.
+
+```css
+rule.madda_normal, tajweed.madda_normal { color: #537FFF; }
+rule.ghunnah, tajweed.ghunnah { color: #FF7E1E; }
+/* ...one selector per class in the table */
+```
+
+The colors are suggestions. You may choose your own palette, including for dark mode, as long as the Quran text itself is not changed.
+
+---
+
 ## Tajweed Color Themes
 
 Tajweed V4 fonts include colored glyphs for Tajweed rules. You need to handle themes.
