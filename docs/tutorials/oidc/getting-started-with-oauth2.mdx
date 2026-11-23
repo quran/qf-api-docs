@@ -282,7 +282,7 @@ function buildAuthorizationUrl({
   redirectUri,
   scope = "openid offline_access user collection",
 }) {
-  const { clientId } = getQfOAuthConfig();
+  const { authBaseUrl, clientId } = getQfOAuthConfig();
   const { codeVerifier, codeChallenge } = generatePkcePair();
 
   const state = randomString(16);
@@ -298,10 +298,14 @@ function buildAuthorizationUrl({
   params.set("code_challenge", codeChallenge);
   params.set("code_challenge_method", "S256");
 
-  // Sign-in page host (or read `authorization_endpoint` from discovery).
-  // Production: https://oauth2.quran.com/oauth2/auth
-  const authorizationEndpoint = "https://prelive-oauth2.quran.com/oauth2/auth";
-  const url = `${authorizationEndpoint}?${params.toString()}`;
+  // The sign-in page is on a quran.com host that matches your environment.
+  // You can also read `authorization_endpoint` from the discovery document.
+  const signInHostByIssuer = {
+    "https://prelive-oauth2.quran.foundation": "https://prelive-oauth2.quran.com",
+    "https://oauth2.quran.foundation": "https://oauth2.quran.com",
+  };
+  const signInHost = signInHostByIssuer[authBaseUrl] ?? authBaseUrl;
+  const url = `${signInHost}/oauth2/auth?${params.toString()}`;
 
   return {
     url,
