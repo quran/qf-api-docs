@@ -47,6 +47,7 @@ and techniques used on Quran.com. You'll learn how to:
 | **South Asian script**     | IndoPak Nastaleeq | `text_indopak_nastaleeq` (`fields` or `word_fields`) |
 | **Pixel-perfect Mushaf**   | QCF V2        | `code_v2` + `page_number` |
 | **Tajweed color rules**    | QCF V4        | `code_v2` + `page_number` |
+| **Tajweed colors with Unicode text** | Your own CSS | `text_uthmani_tajweed` ([classes](#tajweed-markup-classes)) |
 
 ## Quick Start
 
@@ -1736,11 +1737,15 @@ class _QuranChapterWidgetState extends State<QuranChapterWidget> {
 The `text_uthmani_tajweed` field marks each Tajweed rule with a class name you can style in your own CSS. Use it when you render Unicode text and want rule colors without the QCF V4 Tajweed fonts.
 
 - **Verse level** ([`/quran/verses/uthmani_tajweed`](/docs/content_apis_versioned/4.0.0/quran-verses-uthmani-tajweed)): rules are wrapped in `<tajweed class=...>`, and the verse number is wrapped in `<span class=end>`.
-- **Word level** (`word_fields=text_uthmani_tajweed`, and `quran_core` word rows in [Content Sync](/docs/tutorials/content-sync/getting-started)): rules are wrapped in `<rule class=...>`. Rules can be nested.
+- **Word level** (`word_fields=text_uthmani_tajweed`, and `quran_core` word rows in [Content Sync](/docs/tutorials/content-sync/getting-started)): rules are wrapped in `<rule class=...>`.
+
+At both levels, one rule can be nested inside another, so parse the markup as HTML rather than with a flat regular expression.
+
+The two levels use different Unicode characters. Word-level text uses U+06E1 for sukun and U+0670 for the dagger alif. Verse-level text uses U+0652 for sukun, U+0672 for some madd alifs, and U+06DF. Test your font with the level you use, because a font that renders one level correctly may show wrong letter shapes for the other.
 
 ```html
 <!-- Word 2 of 1:6, word level -->
-<rule class=ham_wasl>ٱ</rule><rule class=laam_shamsiyah>ل</rule>صِّر<rule class=madda_normal><rule class=custom-alef-maksora>ٰ</rule></rule>طَ
+<rule class=ham_wasl>ٱ</rule><rule class=laam_shamsiyah>ل</rule>صِّر<rule class=madda_normal><rule class=custom-alef-maksora>ٰ</rule></rule>طَ
 ```
 
 | Class | Rule | Suggested color |
@@ -1765,7 +1770,7 @@ The `text_uthmani_tajweed` field marks each Tajweed rule with a class name you c
 | `idgham_mutaqaribayn` | Idgham mutaqaribayn | `#A1A1A1` |
 | `ghunnah` | Ghunnah | `#FF7E1E` |
 
-`custom-alef-maksora` is not a Tajweed rule. It marks a dagger alif (ٰ) inside a madd rule at word level, so leave it unstyled and let the outer rule's color apply. `end` is the verse-end number, not a rule.
+`custom-alef-maksora` is not a Tajweed rule. It marks a dagger alif (ٰ) at word level and usually appears inside a madd rule. Leave it unstyled so that any outer rule's color applies. `end` is the verse-end number, not a rule.
 
 ```css
 rule.madda_normal, tajweed.madda_normal { color: #537FFF; }
@@ -2285,3 +2290,4 @@ if (needsSpacingFix) {
 1. For non-Firefox: Check `font-palette` CSS is applied
 2. For Firefox dark mode: Use OT-SVG font files
 3. Verify V4 font files are loaded (not V2)
+4. If you render `text_uthmani_tajweed` instead of V4 fonts, check that your CSS has a selector for each [Tajweed markup class](#tajweed-markup-classes)
