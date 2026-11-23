@@ -30,12 +30,12 @@ The discovery document includes:
 :::info Sign-in page host
 In production and pre-production, the browser sign-in page (`authorization_endpoint`) is served from a `quran.com` host, while every other endpoint stays on the issuer host:
 
-| Environment    | `authorization_endpoint`                       | Issuer, token, userinfo, JWKS and logout  |
+| Environment    | `authorization_endpoint`                       | Issuer and every other endpoint           |
 | -------------- | ---------------------------------------------- | ----------------------------------------- |
 | Production     | `https://oauth2.quran.com/oauth2/auth`         | `https://oauth2.quran.foundation`         |
 | Pre-Production | `https://prelive-oauth2.quran.com/oauth2/auth` | `https://prelive-oauth2.quran.foundation` |
 
-Read each endpoint from the discovery document instead of building it from the issuer, and do not require `authorization_endpoint` to share the issuer's host. Requests to `/oauth2/auth` on the issuer host are still redirected to the sign-in page, so existing links keep working.
+Read each endpoint from the discovery document instead of building it from the issuer, and do not require `authorization_endpoint` to share the issuer's host. Requests to `/oauth2/auth` on the issuer host are still redirected to the sign-in page, so existing links keep working. If your app restricts navigation or network hosts during sign-in (WebView, CSP, firewall), allow the `quran.com` sign-in host as well.
 :::
 
 ### Verifying ID Tokens
