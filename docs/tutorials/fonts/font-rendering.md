@@ -1786,6 +1786,23 @@ The colors are suggestions. You may choose your own palette, including for dark 
 
 Tajweed V4 fonts include colored glyphs for Tajweed rules. You need to handle themes.
 
+### Color Key
+
+To explain the colors to readers, you can show the key Quran.com uses with the QCF V4 Tajweed Mushaf. It groups the colors into eight rules, with one color per theme:
+
+| Rule | Light | Dark | Sepia |
+| --- | --- | --- | --- |
+| Silent letter | `#A5A5A5` | `#999999` | `#ABABAB` |
+| Normal madd (2) | `#CE9E00` | `#FFC1E0` | `#C09725` |
+| Separated madd (2/4/6) | `#FF7B00` | `#FF8E3B` | `#E67B00` |
+| Connected madd (4/5) | `#F40000` | `#FF5E8E` | `#FF0000` |
+| Necessary madd (6) | `#B50000` | `#E30000` | `#B7001C` |
+| Ghunna/ikhfa' | `#09B000` | `#26B55D` | `#09B000` |
+| Qalqala (echo) | `#2FADFF` | `#00DEFF` | `#00B4E0` |
+| Tafkhim (heavy) | `#3F48E6` | `#3C84D5` | `#134FE1` |
+
+This key is for the QCF V4 fonts, whose colors are built into the glyphs. If you render `text_uthmani_tajweed` with your own CSS instead, use the [Tajweed Markup Classes](#tajweed-markup-classes), where you choose the colors.
+
 ### Browser Support
 
 
