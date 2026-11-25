@@ -76,7 +76,7 @@ const oneChapterAudio =
   await client.content.v4.audio.chapterRecitation.get(reciterId, "1");
 ```
 
-`chapterRecitation.list()` returns an array. `chapterRecitation.get()` returns one chapter audio item. The SDK's current `ChapterRecitation` type exposes these base fields:
+`chapterRecitation.list()` returns an array. `chapterRecitation.get()` returns one chapter audio item. The SDK's `ChapterRecitation` type has these base fields:
 
 | Field | Meaning |
 | --- | --- |
@@ -95,7 +95,27 @@ const timedChapterAudio =
   });
 ```
 
-When timing data is available, the endpoint can add a `timestamps` array to the response. Each timestamp contains verse-level offsets, and may include word-level `segments` when requested. The current SDK `ChapterRecitation` type does not yet declare `timestamps`, so use the endpoint schema as the authoritative response reference for this optional data.
+When timing data is available, the response has a `timestamps` array, typed as `ChapterRecitationTimestamp[]` from `@quranjs/api` 3.18.2. Each entry gives one verse's offsets, in milliseconds from the start of the file:
+
+| Field | Meaning |
+| --- | --- |
+| `verseKey` | Verse the timing belongs to, such as `1:1`. |
+| `timestampFrom` | Start of the verse. |
+| `timestampTo` | End of the verse. |
+| `duration` | Length of the verse. It mirrors the source data, so it can be negative in legacy records. |
+| `segments` | Word timings, returned with `segments: true`. Each one is `[wordIndex, startMs, endMs]`, with a one-based word index. |
+
+```ts
+const firstVerse = timedChapterAudio.timestamps?.[0];
+
+for (const [wordIndex, startMs, endMs] of firstVerse?.segments ?? []) {
+  // Some legacy recitations return shorter entries, so check before using the times.
+  if (startMs === undefined || endMs === undefined) continue;
+  console.log(wordIndex, startMs, endMs);
+}
+```
+
+`segments` is only accepted by `chapterRecitation.get()`. The list endpoint has no timing data.
 
 Read the endpoint-level schemas for [all chapter files](/docs/content_apis_versioned/chapter-reciter-audio-files) and [one chapter file, including optional timing data](/docs/content_apis_versioned/chapter-reciter-audio-file).
 
