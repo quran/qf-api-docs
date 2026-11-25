@@ -151,6 +151,7 @@ test('OAuth2 tutorial documents prompt=login for account switching', () => {
   assert.match(tutorial, /`prompt=login` \(always show the login form/);
   assert.match(tutorial, /`select_account` is not supported/);
   assert.match(tutorial, /\/oauth2\/sessions\/logout/);
+  assert.match(tutorial, /Offer "Sign in with a different account" by adding prompt=login/);
   assert.ok((tutorial.match(/\]\(#sign-in-with-a-different-account\)/g) || []).length >= 3);
 });
 

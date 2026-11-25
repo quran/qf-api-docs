@@ -129,6 +129,7 @@ Follow these requirements:
 - Validate state on callback, then exchange code + redirect_uri + code_verifier at POST {authBaseUrl}/oauth2/token.
 - For confidential clients, exchange and refresh tokens on the backend with client authentication.
 - Store refresh tokens securely and refresh access tokens once when they expire.
+- Offer "Sign in with a different account" by adding prompt=login to the authorization URL. On sign-out, use OpenID Connect logout ({authBaseUrl}/oauth2/sessions/logout with id_token_hint) so the Quran ID session ends too.
 - Call User APIs through the backend or proxy with x-auth-token and x-client-id.
 - Never log authorization codes, code_verifier, access_token, refresh_token, id_token, or client_secret.
 
