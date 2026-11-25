@@ -129,6 +129,7 @@ Follow these requirements:
 - Validate state on callback, then exchange code + redirect_uri + code_verifier at POST {authBaseUrl}/oauth2/token.
 - For confidential clients, exchange and refresh tokens on the backend with client authentication.
 - Store refresh tokens securely and refresh access tokens once when they expire.
+- Offer "Sign in with a different account" by adding prompt=login to the authorization URL. On sign-out, use OpenID Connect logout ({authBaseUrl}/oauth2/sessions/logout with id_token_hint) so the Quran ID session ends too.
 - Call User APIs through the backend or proxy with x-auth-token and x-client-id.
 - Never log authorization codes, code_verifier, access_token, refresh_token, id_token, or client_secret.
 
@@ -168,7 +169,11 @@ Use these docs:
 - `nonce=RANDOM_STRING` (strongly recommended when requesting `openid`; some deployments **require** it. If an ID token is returned, verify the token’s `nonce` claim matches your original value.)
 - `code_challenge=BASE64URL_SHA256(code_verifier)`
 - `code_challenge_method=S256`
-- `ui_locales=LANGUAGE_TAGS` (optional OIDC preference for the hosted login and consent UI)
+
+**Optional query params:**
+
+- `ui_locales=LANGUAGE_TAGS` (OIDC preference for the hosted login and consent UI)
+- `prompt=login` (always show the login form; see [Let users sign in with a different account](#sign-in-with-a-different-account))
 
 **Environment bases**
 
@@ -310,6 +315,38 @@ module.exports = { buildAuthorizationUrl };
 
 
 
+
+### Let users sign in with a different account {#sign-in-with-a-different-account}
+
+Quran ID remembers which account is signed in on this browser. Quran.com and
+every other app that uses Quran ID share that session. When the same user starts your
+sign-in again, Quran ID signs them in automatically with that account and skips
+the login form.
+
+Add `prompt=login` to the authorization URL when the user needs to see the
+login form, for example when they choose "Sign in with a different account" in
+your app. In the [authorization URL builder](#step-2-build-authorization-url-with-pkce)
+above, that is one more query parameter:
+
+```js
+params.set("prompt", "login"); // inside buildAuthorizationUrl, before returning the URL
+```
+
+The user can then sign in with any account. That account becomes the Quran ID
+session for the whole browser, so Quran.com and other Quran ID apps will also
+use it. `select_account` is not supported.
+
+How your app signs the user out decides what the next sign-in does:
+
+- **Your app only clears its own session.** The user stays signed in to Quran ID
+  and Quran.com, so the next sign-in is automatic. Send `prompt=login` on that
+  sign-in if the user should be able to choose another account.
+- **Your app uses [OpenID Connect logout](/docs/oauth2_apis_versioned/1.0.0/revoke-oidc-session)**
+  (`/oauth2/sessions/logout` with the user's `id_token` as `id_token_hint`, as
+  in the [example integration](/docs/tutorials/oidc/example-integration#4-logout-with-redirect)).
+  This ends the Quran ID session too, so the next sign-in shows the login form.
+  Keep the `id_token` from sign-in; without it the example only clears your
+  app's session.
 
 ---
 
@@ -717,6 +754,7 @@ def refresh_access_token(refresh_token: str):
 - Token storage: Store `refresh_token` securely; rotate if compromised.
 - Browser-origin policy: Direct browser calls to User APIs require the calling origin to be allowlisted by the target service. If your origin is not allowlisted, call the API from your backend instead.
 - Clock skew: Ensure system time is correct (e.g., via NTP) to avoid `invalid_grant` due to time drift.
+- Account switching: Clearing only your app's session leaves the user signed in to Quran ID, so the next sign-in is automatic. Send `prompt=login` when the user should choose an account, or use OpenID Connect logout. See [Let users sign in with a different account](#sign-in-with-a-different-account).
 
 > Do not mix tokens across environments. A token from Pre-Production will not work on Production, and vice versa.
 
@@ -785,6 +823,10 @@ For web apps, your backend or serverless proxy should usually be the component t
 ### I'm getting `invalid_client` — what's wrong?
 
 This usually means you're using some variant of the **public client** token exchange flow (sending `client_id` in the request body without a secret) when your client was actually **confidential**. For confidential clients, the token exchange must be authenticated on the server with the client secret. Check the [Troubleshooting table](#common-issues-troubleshooting) for more details.
+
+### Why does sign-in skip the login form and use the same account?
+
+The user is still signed in to Quran ID in that browser (for example, your app cleared only its own session on sign-out), so Quran ID signs them in again automatically. To show the login form so they can use a different account, add `prompt=login` to the authorization URL. See [Let users sign in with a different account](#sign-in-with-a-different-account).
 
 ### How do I link Quran Foundation users to my own app's data?
 
