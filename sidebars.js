@@ -714,6 +714,7 @@ const buildTutorialsSidebarItems = () => [
       "tutorials/oidc/openid-connect",
       "tutorials/oidc/example-integration",
       "tutorials/oidc/client-setup",
+      "tutorials/oidc/branding",
       {
         type: "category",
         label: "Mobile Apps",

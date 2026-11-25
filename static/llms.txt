@@ -474,4 +474,5 @@ This limitation applies to Quran content in the Content API, not to User-related
 - [Quran ID Client Setup](https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/)
 - [Quran ID Web Integration Reference](https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/)
 - [React Native](https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/)
+- [Sign in with Quran ID: Branding and Partner Kit](https://api-docs.quran.foundation/docs/tutorials/oidc/branding/)
 - [Webhooks](https://api-docs.quran.foundation/docs/tutorials/webhooks/)
