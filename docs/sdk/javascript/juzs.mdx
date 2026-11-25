@@ -31,10 +31,12 @@ const client = createServerClient({
 const juzs = await client.content.v4.juzs.list();
 ```
 
-Without `mushaf`, the endpoint returns every juz once per verse mapping set, so the list has more than 30 entries. Pass a mushaf ID to get the juzs of one mapping set (`@quranjs/api` 3.18.2 or later):
+Without `mushaf`, the endpoint currently returns each juz twice with the same data (60 records). Keep one record per `juzNumber`.
+
+The `mushaf` option (`@quranjs/api` 3.18.2 or later) selects a verse mapping set. Today only the IndoPak mushafs, `6` and `7`, have their own set: they return 30 records, and 13 juzs start or end at different verses than in the default set. Any other mushaf ID returns the default 60 records.
 
 ```ts
-const juzs = await client.content.v4.juzs.list({ mushaf: 6 });
+const indopakJuzs = await client.content.v4.juzs.list({ mushaf: 6 });
 ```
 
-See [List juzs](/docs/content_apis_versioned/list-juzs) for the response schema.
+Use `juzNumber`, not a record's `id`, to refer to a juz. See [List juzs](/docs/content_apis_versioned/list-juzs) for the response schema.

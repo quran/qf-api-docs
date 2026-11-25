@@ -10,18 +10,29 @@ from quran_foundation import QuranClient
 
 client = QuranClient(client_id="YOUR_CLIENT_ID", access_token="APP_ACCESS_TOKEN")
 
-juzs = client.list_juzs(mushaf=6)
-juz = client.get_juz(1, mushaf=6)
+juzs = client.list_juzs()
+juz = client.get_juz(1)
 ```
 
-Without `mushaf`, `list_juzs()` returns every juz once per verse mapping set, so the list has
-more than 30 entries. Pass a mushaf ID to get the juzs of one mapping set. The `mushaf` argument
-needs `quran-foundation-api` 0.14.0 or later.
+Without `mushaf`, `list_juzs()` currently returns each juz twice with the same data (60
+records). Keep one record per `juz_number`.
+
+The `mushaf` keyword argument (`quran-foundation-api` 0.14.0 or later) selects a verse mapping
+set. Today only the IndoPak mushafs, `6` and `7`, have their own set: they return 30 records, and
+13 juzs start or end at different verses than in the default set. Any other mushaf ID returns the
+default 60 records.
+
+```python
+indopak_juzs = client.list_juzs(mushaf=6)
+indopak_juz = client.get_juz(1, mushaf=6)
+```
+
+`get_juz()` takes a `juz_number` from 1 to 30, not a listed record's `id`.
 
 Supported helpers:
 
-- `list_juzs(mushaf=None, params=None)`
-- `get_juz(juz_id, mushaf=None, params=None)`
+- `list_juzs(*, mushaf=None, params=None)`
+- `get_juz(juz_id, *, mushaf=None, params=None)`
 
 Read next:
 

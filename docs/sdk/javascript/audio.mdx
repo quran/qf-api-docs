@@ -102,7 +102,7 @@ When timing data is available, the response has a `timestamps` array, typed as `
 | `verseKey` | Verse the timing belongs to, such as `1:1`. |
 | `timestampFrom` | Start of the verse. |
 | `timestampTo` | End of the verse. |
-| `duration` | Length of the verse. It mirrors the source data, so it can be negative in legacy records. |
+| `duration` | Copied from the source data, and negative for many reciters. Use `timestampTo - timestampFrom` for the verse length. |
 | `segments` | Word timings, returned with `segments: true`. Each one is `[wordIndex, startMs, endMs]`, with a one-based word index. |
 
 ```ts
