@@ -317,21 +317,23 @@ module.exports = { buildAuthorizationUrl };
 
 ### Let users sign in with a different account {#sign-in-with-a-different-account}
 
-Quran ID remembers who is signed in in the browser. Quran.com and every other
-app that uses Quran ID share that session. When the same user starts your
+Quran ID remembers which account is signed in on this browser. Quran.com and
+every other app that uses Quran ID share that session. When the same user starts your
 sign-in again, Quran ID signs them in automatically with that account and skips
 the login form.
 
 Add `prompt=login` to the authorization URL when the user needs to see the
 login form, for example when they choose "Sign in with a different account" in
-your app:
+your app. In the [authorization URL builder](#step-2-build-authorization-url-with-pkce)
+above, that is one more query parameter:
 
 ```js
-params.set("prompt", "login");
+params.set("prompt", "login"); // inside buildAuthorizationUrl, before returning the URL
 ```
 
-The user can then enter any account. `login` is the only supported value;
-`select_account` is not supported.
+The user can then sign in with any account. That account becomes the Quran ID
+session for the whole browser, so Quran.com and other Quran ID apps will also
+use it. `select_account` is not supported.
 
 How your app signs the user out decides what the next sign-in does:
 
@@ -339,10 +341,11 @@ How your app signs the user out decides what the next sign-in does:
   and Quran.com, so the next sign-in is automatic. Send `prompt=login` on that
   sign-in if the user should be able to choose another account.
 - **Your app uses [OpenID Connect logout](/docs/oauth2_apis_versioned/1.0.0/revoke-oidc-session)**
-  (`/oauth2/sessions/logout`, as in the
-  [example integration](/docs/tutorials/oidc/example-integration#4-logout-with-redirect)).
-  This also signs the user out of Quran ID and Quran.com, so the next sign-in
-  shows the login form.
+  (`/oauth2/sessions/logout` with the user's `id_token` as `id_token_hint`, as
+  in the [example integration](/docs/tutorials/oidc/example-integration#4-logout-with-redirect)).
+  This ends the Quran ID session too, so the next sign-in shows the login form.
+  Keep the `id_token` from sign-in; without it the example only clears your
+  app's session.
 
 ---
 

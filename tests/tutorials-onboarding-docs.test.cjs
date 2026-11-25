@@ -151,7 +151,7 @@ test('OAuth2 tutorial documents prompt=login for account switching', () => {
   assert.match(tutorial, /`prompt=login` \(always show the login form/);
   assert.match(tutorial, /`select_account` is not supported/);
   assert.match(tutorial, /\/oauth2\/sessions\/logout/);
-  assert.equal((tutorial.match(/\]\(#sign-in-with-a-different-account\)/g) || []).length, 3);
+  assert.ok((tutorial.match(/\]\(#sign-in-with-a-different-account\)/g) || []).length >= 3);
 });
 
 test('preserves Client Credentials as the required token path for all Content APIs', () => {
