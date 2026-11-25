@@ -51,10 +51,10 @@ All four styles are the same 237 × 48 artwork; only the colours differ.
 
 | Style | Preview | Use on |
 | --- | --- | --- |
-| Green (default) | <img src={`${KIT}/assets/svg/quran-id-button-green.svg`} alt="Sign in with Quran ID" height="40" /> | White and light surfaces, **and dark mode** |
-| Dark | <img src={`${KIT}/assets/svg/quran-id-button-dark.svg`} alt="Sign in with Quran ID" height="40" /> | Light surfaces where green competes with your brand. Used inside the entry card |
-| White | <img src={`${KIT}/assets/svg/quran-id-button-white.svg`} alt="Sign in with Quran ID" height="40" /> | Green, dark or busy surfaces |
-| Black | <img src={`${KIT}/assets/svg/quran-id-button-black.svg`} alt="Sign in with Quran ID" height="40" /> | Single-ink and monochrome contexts only |
+| Green (default) | <span style={{ display: "inline-block", background: "#F8F8F8", padding: "10px 14px", borderRadius: "12px" }}><img src={`${KIT}/assets/svg/quran-id-button-green.svg`} alt="Sign in with Quran ID" style={{ display: "block", height: "40px", width: "auto", maxWidth: "none" }} /></span> | White and light surfaces, **and dark mode** |
+| Dark | <span style={{ display: "inline-block", background: "#F8F8F8", padding: "10px 14px", borderRadius: "12px" }}><img src={`${KIT}/assets/svg/quran-id-button-dark.svg`} alt="Sign in with Quran ID" style={{ display: "block", height: "40px", width: "auto", maxWidth: "none" }} /></span> | Light surfaces where green competes with your brand. Used inside the entry card |
+| White | <span style={{ display: "inline-block", background: "#003223", padding: "10px 14px", borderRadius: "12px" }}><img src={`${KIT}/assets/svg/quran-id-button-white.svg`} alt="Sign in with Quran ID" style={{ display: "block", height: "40px", width: "auto", maxWidth: "none" }} /></span> | Green, dark or busy surfaces |
+| Black | <span style={{ display: "inline-block", background: "#F8F8F8", padding: "10px 14px", borderRadius: "12px" }}><img src={`${KIT}/assets/svg/quran-id-button-black.svg`} alt="Sign in with Quran ID" style={{ display: "block", height: "40px", width: "auto", maxWidth: "none" }} /></span> | Single-ink and monochrome contexts only |
 
 On dark surfaces use **Green** or **White**. Dark and Black almost disappear against a dark background.
 
@@ -70,10 +70,10 @@ On dark surfaces use **Green** or **White**. Dark and Black almost disappear aga
 | Clear space | Half the button height on every side |
 | Beside other sign-in providers | 8–12 gap, and match their height exactly |
 | Hover / pressed | `brightness(.94)` / `brightness(.88)` with `scale(.985)` |
-| Focus | 3px solid `#0B7557`, offset 3px |
+| Focus | 3px solid `#0B7557` on light surfaces, `#1BDAA5` on dark surfaces; offset 3px |
 | Disabled | `opacity: .5` |
 
-The button's accessible name is always **"Sign in with Quran ID"**, as alt text on the image or as `aria-label`, `contentDescription` or `accessibilityLabel` on the control. Never name it "Sign in" alone.
+The button's accessible name is always **"Sign in with Quran ID"**, as alt text on the image or as `aria-label`, `contentDescription` or `accessibilityLabel` on the control. Never name it "Sign in" alone. If you inline an SVG instead of using it as an image, set this name on it yourself.
 
 ### What not to do
 
@@ -118,7 +118,7 @@ Use only these eight values. Do not derive your own tints or shades.
 | Surface | `#F8F8F8` | Card and panel fill |
 | Border | `#D6D6D6` | 1px card edge and dividers |
 
-Dark-mode values come from the Quran Foundation design system and are in `code/tokens/quran-id.css`, which switches on `prefers-color-scheme`. On dark surfaces, Quran ID Green is the correct link colour (8.92:1).
+Dark-mode values come from the Quran Foundation design system and are in `code/tokens/quran-id.css`, which switches on `prefers-color-scheme`. If your app has its own theme toggle, add the `qid-theme-dark` or `qid-theme-light` class to force one scheme on a section. On dark surfaces, Quran ID Green is the correct link colour (8.92:1).
 
 Type uses Figtree (interface), EB Garamond (entry-card headline only), IBM Plex Sans (fine print) and IBM Plex Mono (small labels), all under the SIL Open Font License. Never synthesise a bold or italic weight.
 
@@ -144,7 +144,7 @@ Add `qid-button--md` (40px) or `qid-button--sm` (32px) for the smaller sizes. Sw
 | Platform | In the kit |
 | --- | --- |
 | Web | `code/tokens/quran-id.css`, `code/web/quran-id.css`, `code/web/index.html` |
-| React | `code/react/QuranIdButton.tsx`, `code/react/QuranIdEntryCard.tsx` (approved copy exported as `QURAN_ID_COPY`) |
+| React | `code/react/QuranIdButton.tsx`, `code/react/QuranIdEntryCard.tsx` (approved copy exported as `QURAN_ID_COPY`). Serve `assets/svg/` at `/quran-id/`, or pass your own path as `assetBase` |
 | iOS (SwiftUI) | `code/swiftui/QuranIDButton.swift`. Add `assets/pdf/` to your asset catalogue with Preserve Vector Data |
 | Android (Compose) | `code/compose/QuranIDButton.kt`. Import `assets/svg/` with New → Vector Asset, or use `assets/android/` |
 
@@ -179,4 +179,4 @@ Use the mark alone only where the words "Quran ID" already appear beside it.
 | --- | --- | --- |
 | 1.0 | November 2026 | First release. English only |
 
-Earlier versions stay available at their versioned file names. For another language or a size the kit does not cover, contact [developers@quran.com](mailto:developers@quran.com).
+Each ZIP keeps its version in the file name, so earlier ZIPs stay available. The PDF and the individual files above always show the latest version. For another language or a size the kit does not cover, contact [developers@quran.com](mailto:developers@quran.com).
