@@ -61,7 +61,7 @@ If a content resource is available through Content Sync, **Content Sync is the o
 | ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `mushafs`                      | Mushaf metadata, page mappings, and positioned words. Font files and images are not included. | Mushaf, page, and word changes.                                                       |
 | `quran_core`                   | Singleton `1`: canonical Uthmani verse text, word-level IndoPak Nastaleeq, IndoPak, Uthmani Tajweed, and Imla'i text, Surah metadata, and Juz/Hizb/Rub-el-Hizb boundaries. No Mushaf-specific pages. | Chapter, verse, word, and boundary row changes.                            |
-| `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row.  | Translation row changes and footnote-driven translation row updates.                |
+| `translations`                 | Translation rows for the resource. Footnotes are nested inside each translation row in the `foot_notes` array, which is empty when the verse has no footnotes. | Translation row changes and footnote-driven translation row updates.                |
 | `word_by_word_translations`    | Word translation rows for an eligible one-word translation resource.                  | Word translation row changes.                                                       |
 | `word_by_word_transliterations` | Word transliteration rows for an eligible one-word transliteration resource.          | Word transliteration row changes.                                                   |
 | `tafsirs`                      | Tafsir rows for the resource. One row can cover several verses; see [Tafsir Records](/docs/tutorials/content-sync/full-copies-and-recovery#tafsir-records). | Tafsir row changes.                                                                 |
@@ -297,7 +297,7 @@ For example, if a run starts with `sync_until_sequence = 1000`, all of its pages
 | `RESOURCE_DELETE`     | Remove or hide the full local resource.                                                      |
 | `RESOURCE_UPDATE`     | Keep existing rows. Treat it as a resource-level freshness marker.                           |
 | `ROW_CREATE`          | Upsert one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
-| `ROW_UPDATE`          | Upsert one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
+| `ROW_UPDATE`          | Upsert one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. `data` is always the complete row; replace the stored row, do not merge fields. |
 | `ROW_DELETE`          | Delete one local row using `resource_group`, `resource_id`, `record_type`, and `record_key`. |
 
 Only `RESOURCE_CREATE` and `RESOURCE_INVALIDATE` include `snapshot_url`.

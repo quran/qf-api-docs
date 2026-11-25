@@ -58,7 +58,7 @@ flowchart TD
 | `RESOURCE_INVALIDATE` | Fetch `snapshot_url`, then replace all local rows for that resource.      |
 | `RESOURCE_DELETE`     | Remove or hide the full local resource. The resource is no longer public. |
 | `ROW_CREATE`          | Insert the row from `data`, or replace it if it already exists.           |
-| `ROW_UPDATE`          | Replace the local row with `data`.                                        |
+| `ROW_UPDATE`          | Replace the local row with `data`. `data` is always the complete row; do not merge fields. |
 | `ROW_DELETE`          | Delete that one local row.                                                |
 | `RESOURCE_UPDATE`     | Keep existing rows. Treat it as a freshness marker only.                  |
 
