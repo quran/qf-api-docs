@@ -168,8 +168,11 @@ Use these docs:
 - `nonce=RANDOM_STRING` (strongly recommended when requesting `openid`; some deployments **require** it. If an ID token is returned, verify the token’s `nonce` claim matches your original value.)
 - `code_challenge=BASE64URL_SHA256(code_verifier)`
 - `code_challenge_method=S256`
-- `ui_locales=LANGUAGE_TAGS` (optional OIDC preference for the hosted login and consent UI)
-- `prompt=login` (optional; always show the login form. See [Let users sign in with a different account](#sign-in-with-a-different-account))
+
+**Optional query params:**
+
+- `ui_locales=LANGUAGE_TAGS` (OIDC preference for the hosted login and consent UI)
+- `prompt=login` (always show the login form; see [Let users sign in with a different account](#sign-in-with-a-different-account))
 
 **Environment bases**
 
@@ -219,30 +222,6 @@ English.
 ```js
 params.set("ui_locales", "fr-CA fr en");
 ```
-
-### Let users sign in with a different account {#sign-in-with-a-different-account}
-
-Quran ID remembers who is signed in on the browser. When that user starts your
-sign-in again, Quran ID signs them in automatically with the same account and
-skips the login form. Quran.com and every other app that uses Quran ID share
-this session.
-
-Add `prompt=login` to the authorization URL when the user needs to see the
-login form, for example:
-
-- they choose "Sign in with a different account" in your app, or
-- they just signed out of your app and are signing in again.
-
-```js
-params.set("prompt", "login");
-```
-
-The user can then enter any account. `prompt=login` is the only supported
-value; `select_account` is not supported.
-
-Signing out of your app only ends your app's session. The user stays signed in
-to Quran ID and Quran.com, which is why the next sign-in is automatic unless you
-send `prompt=login`.
 
 <details>
 <summary><b>PKCE helpers (Node)</b></summary>
@@ -335,6 +314,35 @@ module.exports = { buildAuthorizationUrl };
 
 
 
+
+### Let users sign in with a different account {#sign-in-with-a-different-account}
+
+Quran ID remembers who is signed in in the browser. Quran.com and every other
+app that uses Quran ID share that session. When the same user starts your
+sign-in again, Quran ID signs them in automatically with that account and skips
+the login form.
+
+Add `prompt=login` to the authorization URL when the user needs to see the
+login form, for example when they choose "Sign in with a different account" in
+your app:
+
+```js
+params.set("prompt", "login");
+```
+
+The user can then enter any account. `login` is the only supported value;
+`select_account` is not supported.
+
+How your app signs the user out decides what the next sign-in does:
+
+- **Your app only clears its own session.** The user stays signed in to Quran ID
+  and Quran.com, so the next sign-in is automatic. Send `prompt=login` on that
+  sign-in if the user should be able to choose another account.
+- **Your app uses [OpenID Connect logout](/docs/oauth2_apis_versioned/1.0.0/revoke-oidc-session)**
+  (`/oauth2/sessions/logout`, as in the
+  [example integration](/docs/tutorials/oidc/example-integration#4-logout-with-redirect)).
+  This also signs the user out of Quran ID and Quran.com, so the next sign-in
+  shows the login form.
 
 ---
 
@@ -742,7 +750,7 @@ def refresh_access_token(refresh_token: str):
 - Token storage: Store `refresh_token` securely; rotate if compromised.
 - Browser-origin policy: Direct browser calls to User APIs require the calling origin to be allowlisted by the target service. If your origin is not allowlisted, call the API from your backend instead.
 - Clock skew: Ensure system time is correct (e.g., via NTP) to avoid `invalid_grant` due to time drift.
-- Account switching: Signing out of your app does not sign the user out of Quran ID. Send `prompt=login` on the next sign-in so the user can choose an account. See [Let users sign in with a different account](#sign-in-with-a-different-account).
+- Account switching: Clearing only your app's session leaves the user signed in to Quran ID, so the next sign-in is automatic. Send `prompt=login` when the user should choose an account, or use OpenID Connect logout. See [Let users sign in with a different account](#sign-in-with-a-different-account).
 
 > Do not mix tokens across environments. A token from Pre-Production will not work on Production, and vice versa.
 
@@ -814,7 +822,7 @@ This usually means you're using some variant of the **public client** token exch
 
 ### Why does sign-in skip the login form and use the same account?
 
-The user is still signed in to Quran ID in that browser, so Quran ID signs them in again automatically. To show the login form so they can use a different account, add `prompt=login` to the authorization URL. See [Let users sign in with a different account](#sign-in-with-a-different-account).
+The user is still signed in to Quran ID in that browser (for example, your app cleared only its own session on sign-out), so Quran ID signs them in again automatically. To show the login form so they can use a different account, add `prompt=login` to the authorization URL. See [Let users sign in with a different account](#sign-in-with-a-different-account).
 
 ### How do I link Quran Foundation users to my own app's data?
 

@@ -144,6 +144,16 @@ test('OAuth2 tutorial documents hosted authorization UI localization', () => {
   assert.doesNotMatch(tutorial, /localhost|quran-oauth2-client-example/);
 });
 
+test('OAuth2 tutorial documents prompt=login for account switching', () => {
+  const tutorial = readDoc('tutorials/oidc/getting-started-with-oauth2.mdx');
+
+  assert.match(tutorial, /### Let users sign in with a different account \{#sign-in-with-a-different-account\}/);
+  assert.match(tutorial, /`prompt=login` \(always show the login form/);
+  assert.match(tutorial, /`select_account` is not supported/);
+  assert.match(tutorial, /\/oauth2\/sessions\/logout/);
+  assert.equal((tutorial.match(/\]\(#sign-in-with-a-different-account\)/g) || []).length, 3);
+});
+
 test('preserves Client Credentials as the required token path for all Content APIs', () => {
   const appShapes = readDoc('sdk/javascript/app-shapes.mdx');
   const authMatrix = readDoc('sdk/javascript/auth-matrix.mdx');
