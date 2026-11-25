@@ -47,6 +47,7 @@ and techniques used on Quran.com. You'll learn how to:
 | **South Asian script**     | IndoPak Nastaleeq | `text_indopak_nastaleeq` (`fields` or `word_fields`) |
 | **Pixel-perfect Mushaf**   | QCF V2        | `code_v2` + `page_number` |
 | **Tajweed color rules**    | QCF V4        | `code_v2` + `page_number` |
+| **Tajweed colors with Unicode text** | Your own CSS | `text_uthmani_tajweed` ([classes](#tajweed-markup-classes)) |
 
 ## Quick Start
 
@@ -1731,9 +1732,76 @@ class _QuranChapterWidgetState extends State<QuranChapterWidget> {
 
 ---
 
+## Tajweed Markup Classes
+
+The `text_uthmani_tajweed` field marks each Tajweed rule with a class name you can style in your own CSS. Use it when you render Unicode text and want rule colors without the QCF V4 Tajweed fonts.
+
+- **Verse level** ([`/quran/verses/uthmani_tajweed`](/docs/content_apis_versioned/4.0.0/quran-verses-uthmani-tajweed)): rules are wrapped in `<tajweed class=...>`, and the verse number is wrapped in `<span class=end>`.
+- **Word level** (`word_fields=text_uthmani_tajweed`, and `quran_core` word rows in [Content Sync](/docs/tutorials/content-sync/getting-started)): rules are wrapped in `<rule class=...>`.
+
+At both levels, one rule can be nested inside another, so parse the markup as HTML rather than with a flat regular expression.
+
+The two levels use different Unicode characters. Word-level text uses U+06E1 for sukun and U+0670 for the dagger alif. Verse-level text uses U+0652 for sukun, U+0672 for some madd alifs, and U+06DF. Test your font with the level you use, because a font that renders one level correctly may show wrong letter shapes for the other.
+
+```html
+<!-- Word 2 of 1:6, word level -->
+<rule class=ham_wasl>ٱ</rule><rule class=laam_shamsiyah>ل</rule>صِّر<rule class=madda_normal><rule class=custom-alef-maksora>ٰ</rule></rule>طَ
+```
+
+| Class | Rule | Suggested color |
+| --- | --- | --- |
+| `ham_wasl` | Hamzat al-wasl | `#AAAAAA` |
+| `slnt` | Silent letter | `#AAAAAA` |
+| `laam_shamsiyah` | Lam shamsiyyah | `#AAAAAA` |
+| `madda_normal` | Normal madd | `#537FFF` |
+| `madda_permissible` | Permissible madd | `#4050FF` |
+| `madda_necessary` | Necessary madd | `#000EBC` |
+| `madda_obligatory` | Obligatory madd (verse level) | `#2144C1` |
+| `madda_obligatory_mottasel` | Connected obligatory madd (word level) | `#2144C1` |
+| `madda_obligatory_monfasel` | Separated obligatory madd (word level) | `#2144C1` |
+| `qalaqah` | Qalqalah | `#DD0008` |
+| `ikhafa_shafawi` | Ikhfa shafawi | `#D500B7` |
+| `ikhafa` | Ikhfa | `#9400A8` |
+| `iqlab` | Iqlab | `#26BFFD` |
+| `idgham_shafawi` | Idgham shafawi | `#58B800` |
+| `idgham_ghunnah` | Idgham with ghunnah | `#169200` |
+| `idgham_wo_ghunnah` | Idgham without ghunnah | `#169200` |
+| `idgham_mutajanisayn` | Idgham mutajanisayn | `#A1A1A1` |
+| `idgham_mutaqaribayn` | Idgham mutaqaribayn | `#A1A1A1` |
+| `ghunnah` | Ghunnah | `#FF7E1E` |
+
+`custom-alef-maksora` is not a Tajweed rule. It marks a dagger alif (ٰ) at word level and usually appears inside a madd rule. Leave it unstyled so that any outer rule's color applies. `end` is the verse-end number, not a rule.
+
+```css
+rule.madda_normal, tajweed.madda_normal { color: #537FFF; }
+rule.ghunnah, tajweed.ghunnah { color: #FF7E1E; }
+/* ...one selector per class in the table */
+```
+
+The colors are suggestions. You may choose your own palette, including for dark mode, as long as the Quran text itself is not changed.
+
+---
+
 ## Tajweed Color Themes
 
 Tajweed V4 fonts include colored glyphs for Tajweed rules. You need to handle themes.
+
+### Color Key
+
+To explain the colors to readers, you can show the key Quran.com uses with the QCF V4 Tajweed Mushaf. It groups the colors into eight rules, with one color per theme:
+
+| Rule | Light | Dark | Sepia |
+| --- | --- | --- | --- |
+| Silent letter | `#A5A5A5` | `#999999` | `#ABABAB` |
+| Normal madd (2) | `#CE9E00` | `#FFC1E0` | `#C09725` |
+| Separated madd (2/4/6) | `#FF7B00` | `#FF8E3B` | `#E67B00` |
+| Connected madd (4/5) | `#F40000` | `#FF5E8E` | `#FF0000` |
+| Necessary madd (6) | `#B50000` | `#E30000` | `#B7001C` |
+| Ghunna/ikhfa' | `#09B000` | `#26B55D` | `#09B000` |
+| Qalqala (echo) | `#2FADFF` | `#00DEFF` | `#00B4E0` |
+| Tafkhim (heavy) | `#3F48E6` | `#3C84D5` | `#134FE1` |
+
+This key is for the QCF V4 fonts, whose colors are built into the glyphs. If you render `text_uthmani_tajweed` with your own CSS instead, use the [Tajweed Markup Classes](#tajweed-markup-classes), where you choose the colors.
 
 ### Browser Support
 
@@ -2239,3 +2307,4 @@ if (needsSpacingFix) {
 1. For non-Firefox: Check `font-palette` CSS is applied
 2. For Firefox dark mode: Use OT-SVG font files
 3. Verify V4 font files are loaded (not V2)
+4. If you render `text_uthmani_tajweed` instead of V4 fonts, check that your CSS has a selector for each [Tajweed markup class](#tajweed-markup-classes)

@@ -14,10 +14,24 @@ juzs = client.list_juzs()
 juz = client.get_juz(1)
 ```
 
+`list_juzs()` returns one record per juz, 30 in total.
+
+The `mushaf` keyword argument (`quran-foundation-api` 0.14.0 or later) selects the verse mapping
+set. The IndoPak mushafs, `6`, `7`, `14` and `15`, use the IndoPak set, where 13 juzs start or end
+at different verses. A mushaf with its own juz set, such as `19`, gets that set, with its own record
+`id`s. Other mushafs, and calls without `mushaf`, use the default set.
+
+```python
+indopak_juzs = client.list_juzs(mushaf=6)
+indopak_juz = client.get_juz(1, mushaf=6)
+```
+
+`get_juz()` takes a `juz_number` from 1 to 30, not a listed record's `id`.
+
 Supported helpers:
 
-- `list_juzs()`
-- `get_juz(juz_id)`
+- `list_juzs(*, mushaf=None, params=None)`
+- `get_juz(juz_id, *, mushaf=None, params=None)`
 
 Read next:
 
