@@ -68,7 +68,7 @@ For web apps, the recommended pattern is to store the user session in your backe
 
 ### What are the best practices for refresh tokens?
 
-Store refresh tokens securely and reuse them until they expire. Refresh tokens allow you to obtain new access tokens without asking the user to re-authorize. A refresh token is valid for **30 days**, and each refresh returns a new one: store it in place of the old one. See [Step 5: Refresh the Access Token](/docs/tutorials/oidc/getting-started-with-oauth2#step-5-refresh-the-access-token-offline-access-scope).
+Store refresh tokens securely and use each one only once. Refresh tokens allow you to obtain new access tokens without asking the user to re-authorize. Each refresh token is valid for **30 days** from when it is issued, and each refresh returns a new one: store it in place of the old one. See [Step 5: Refresh the Access Token](/docs/tutorials/oidc/getting-started-with-oauth2#step-5-refresh-the-access-token-offline-access-scope).
 
 ### Can I use the demo credentials `quran-demo`/`secret` in production?
 
