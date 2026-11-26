@@ -635,6 +635,8 @@ Handle User API failures at this layer as well: refresh once and retry once on `
 
 When `expires_in` elapses, exchange the `refresh_token` for a new `access_token`.
 
+A refresh token is valid for **30 days**. Each refresh returns a new `refresh_token`: store it in place of the old one and use it for the next refresh. If a refresh token has expired or been revoked, `/oauth2/token` returns `invalid_grant`; send the user through sign-in again.
+
 The same [client type rules](#client-types) apply during refresh. Backend/server apps are confidential and refresh on the backend with client authentication; browser/mobile apps are public and refresh with `client_id` and no client secret.
 
 <details>
@@ -790,7 +792,7 @@ Request the exact scopes approved for your client. If your client is approved fo
 
 ### How long do Quran Foundation access tokens last?
 
-Access tokens expire after **1 hour** (3,600 seconds). Use the `refresh_token` (granted via the `offline_access` scope) to obtain a new access token without requiring the user to log in again. See [Step 5: Refresh the Access Token](#step-5-refresh-the-access-token-offline-access-scope) for implementation details.
+Access tokens expire after **1 hour** (3,600 seconds). Use the `refresh_token` (granted via the `offline_access` scope) to obtain a new access token without requiring the user to log in again. Refresh tokens are valid for **30 days**, and each refresh returns a new one to store. See [Step 5: Refresh the Access Token](#step-5-refresh-the-access-token-offline-access-scope) for implementation details.
 
 ### Can I use the same tokens across pre-production and production?
 
