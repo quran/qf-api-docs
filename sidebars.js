@@ -700,39 +700,6 @@ const buildTutorialsSidebarItems = () => [
     ],
   },
   {
-    type: "category",
-    label: "Quran ID",
-    link: {
-      type: "doc",
-      id: "quran-id",
-    },
-    collapsible: true,
-    collapsed: false,
-    items: [
-      "tutorials/oidc/getting-started-with-oauth2",
-      "tutorials/oidc/starter-with-npx",
-      "tutorials/oidc/openid-connect",
-      "tutorials/oidc/example-integration",
-      "tutorials/oidc/client-setup",
-      "tutorials/oidc/branding",
-      {
-        type: "category",
-        label: "Mobile Apps",
-        link: {
-          type: "doc",
-          id: "tutorials/oidc/mobile-apps/index",
-        },
-        collapsible: true,
-        collapsed: false,
-        items: [
-          "tutorials/oidc/mobile-apps/react-native",
-          "tutorials/oidc/mobile-apps/android",
-          "tutorials/oidc/mobile-apps/iOS",
-        ],
-      },
-    ],
-  },
-  {
     type: "doc",
     id: "tutorials/webhooks",
     label: "Webhooks",
@@ -774,6 +741,40 @@ const makeSharedDocsSidebar = (apiFamilies) => [
     id: "connected-apps",
     label: "Connected Apps",
     className: "qf-nav--apps",
+  },
+  {
+    type: "category",
+    label: "Quran ID",
+    className: "qf-nav--quran-id",
+    link: {
+      type: "doc",
+      id: "quran-id",
+    },
+    collapsible: true,
+    collapsed: true,
+    items: [
+      "tutorials/oidc/getting-started-with-oauth2",
+      "tutorials/oidc/starter-with-npx",
+      "tutorials/oidc/openid-connect",
+      "tutorials/oidc/example-integration",
+      "tutorials/oidc/client-setup",
+      "tutorials/oidc/branding",
+      {
+        type: "category",
+        label: "Mobile App Sign-in",
+        link: {
+          type: "doc",
+          id: "tutorials/oidc/mobile-apps/index",
+        },
+        collapsible: true,
+        collapsed: false,
+        items: [
+          "tutorials/oidc/mobile-apps/react-native",
+          "tutorials/oidc/mobile-apps/android",
+          "tutorials/oidc/mobile-apps/iOS",
+        ],
+      },
+    ],
   },
   {
     type: "doc",
