@@ -175,15 +175,17 @@ Use these docs:
 - `ui_locales=LANGUAGE_TAGS` (OIDC preference for the hosted login and consent UI)
 - `prompt=login` (always show the login form; see [Let users sign in with a different account](#sign-in-with-a-different-account))
 
-**Environment bases**
+**Sign-in page (authorization endpoint)**
 
-- Pre-Production: `https://prelive-oauth2.quran.foundation`
-- Production: `https://oauth2.quran.foundation`
+- Pre-Production: `https://prelive-oauth2.quran.com/oauth2/auth`
+- Production: `https://oauth2.quran.com/oauth2/auth`
+
+The sign-in page is on a `quran.com` host, while token, userinfo, JWKS, revoke and logout stay on `oauth2.quran.foundation`. Prefer reading `authorization_endpoint` from the [discovery document](/docs/tutorials/oidc/openid-connect#oidc-discovery--jwks). If your app restricts navigation or network hosts (WebView, CSP, firewall), allow the `quran.com` sign-in host too.
 
 **Example URL (Pre-Production with PKCE):**
 
 ```
-https://prelive-oauth2.quran.foundation/oauth2/auth?response_type=code
+https://prelive-oauth2.quran.com/oauth2/auth?response_type=code
 &client_id=YOUR_CLIENT_ID
 &redirect_uri=https%3A%2F%2Fyour-app.com%2Foauth%2Fcallback
 &scope=openid%20offline_access%20user%20collection
@@ -301,7 +303,14 @@ function buildAuthorizationUrl({
   params.set("code_challenge", codeChallenge);
   params.set("code_challenge_method", "S256");
 
-  const url = `${authBaseUrl}/oauth2/auth?${params.toString()}`;
+  // The sign-in page is on a quran.com host that matches your environment.
+  // You can also read `authorization_endpoint` from the discovery document.
+  const signInHostByIssuer = {
+    "https://prelive-oauth2.quran.foundation": "https://prelive-oauth2.quran.com",
+    "https://oauth2.quran.foundation": "https://oauth2.quran.com",
+  };
+  const signInHost = signInHostByIssuer[authBaseUrl] ?? authBaseUrl;
+  const url = `${signInHost}/oauth2/auth?${params.toString()}`;
 
   return {
     url,
