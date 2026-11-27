@@ -631,6 +631,11 @@ a.navbar__item--request-access:hover {
   -webkit-mask-image: url("/icons/link-03.svg"); mask-image: url("/icons/link-03.svg");   /* Connected Apps */
 }
 
+.theme-doc-sidebar-container .qf-nav--quran-id > .menu__link::before,
+.theme-doc-sidebar-container .qf-nav--quran-id > .menu__list-item-collapsible > .menu__link::before {
+  -webkit-mask-image: url("/icons/log-in-04.svg"); mask-image: url("/icons/log-in-04.svg");   /* Quran ID */
+}
+
 .theme-doc-sidebar-container .qf-nav--ai > .menu__link::before,
 .theme-doc-sidebar-container .qf-nav--ai > .menu__list-item-collapsible > .menu__link::before {
   -webkit-mask-image: url("/icons/stars-01.svg"); mask-image: url("/icons/stars-01.svg");   /* AI Agent Prompts */
